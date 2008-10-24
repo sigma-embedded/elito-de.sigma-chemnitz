@@ -1,0 +1,4 @@
+#! /bin/sh
+
+. @abs_top_builddir@/set-env
+exec @BITBAKE@ "$@"

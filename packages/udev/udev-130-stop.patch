@@ -1,0 +1,44 @@
+--- !srv!oe!base!build!tmp!work!iwmmxt-linux-gnueabi!udev-130-r0!udev-130!udev!udevd.c.~1~	2008-10-04 13:52:21.000000000 +0200
++++ /srv/oe/base/build/tmp/work/iwmmxt-linux-gnueabi/udev-130-r0/udev-130/udev/udevd.c	2008-10-16 10:21:02.000000000 +0200
+@@ -782,9 +782,10 @@
+ 	struct sigaction act;
+ 	fd_set readfds;
+ 	const char *value;
+-	int daemonize = 0;
++	enum { DAEMON_FG, DAEMON_BG, DAEMON_STOP } daemonize = DAEMON_FG;
+ 	static const struct option options[] = {
+ 		{ "daemon", no_argument, NULL, 'd' },
++		{ "daemon-stop", no_argument, NULL, 'S' },
+ 		{ "debug-trace", no_argument, NULL, 't' },
+ 		{ "debug", no_argument, NULL, 'D' },
+ 		{ "help", no_argument, NULL, 'h' },
+@@ -806,13 +807,16 @@
+ 	while (1) {
+ 		int option;
+ 
+-		option = getopt_long(argc, argv, "dDthV", options, NULL);
++		option = getopt_long(argc, argv, "dDthVS", options, NULL);
+ 		if (option == -1)
+ 			break;
+ 
+ 		switch (option) {
+ 		case 'd':
+-			daemonize = 1;
++			daemonize = DAEMON_BG;
++			break;
++		case 'S':
++			daemonize = DAEMON_STOP;
+ 			break;
+ 		case 't':
+ 			debug_trace = 1;
+@@ -909,7 +913,9 @@
+ 
+ 	export_initial_seqnum(udev);
+ 
+-	if (daemonize) {
++	if (daemonize == DAEMON_STOP)
++		raise(SIGSTOP);
++	else if (daemonize == DAEMON_BG) {
+ 		pid_t pid;
+ 
+ 		pid = fork();

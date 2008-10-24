@@ -1,0 +1,49 @@
+SED :=			sed
+abs_top_srcdir :=	$(abspath @abs_top_srcdir@)
+abs_top_builddir :=	$(abspath @abs_top_builddir@)
+
+ELITO_ROOTDIR :=	$(abspath $(abs_top_srcdir)/..)
+CACHE_DIR :=		$(abspath @_CACHE_DIR@)
+
+VPATH ?=		$(abs_top_srcdir)
+
+SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
+		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'
+
+
+AUTOCONF_FILES =	Makefile		\
+			set-env.in		\
+			conf/local.conf.in	\
+			bitbake
+
+CFG_FILES =		Makefile		\
+			set-env			\
+			conf/local.conf		\
+			bitbake
+
+TEMPLATE_FILES =	conf/project.conf
+
+config:			$(CFG_FILES) $(TEMPLATE_FILES) .gitignore
+
+.gitignore:
+			echo "${CFG_FILES}" | xargs -n1 echo > $@
+
+$(TEMPLATE_FILES):
+			cp --preserve=mode,timestamps ${abs_top_srcdir}/$@ $@
+
+%:			%.in
+			@-rm -f $@.tmp $@
+			$(SED) $(SED_EXPR) $< > $@.tmp
+			mv $@.tmp $@
+
+clean:
+			rm -f set-env.in conf/local.conf bitbake
+
+$(AUTOCONF_FILES): %:	config.status %.in
+			$(abspath $<)
+
+config.status:		$(abs_top_srcdir)/configure
+			$(abspath $@) --recheck
+
+@ENABLE_MAINTAINER_MODE_TRUE@$(abs_top_srcdir)/configure:	$(abs_top_srcdir)/configure.ac
+@ENABLE_MAINTAINER_MODE_TRUE@					cd $(abs_top_srcdir) && autoreconf -i -f

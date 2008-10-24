@@ -1,0 +1,37 @@
+DISTRO_TYPE	 = "@DISTRO_TYPE@"
+ELITO_ROOTDIR	 = "@ELITO_ROOTDIR@"
+DL_DIR		 = "@CACHE_DIR@/sources"
+
+ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz.elito"
+OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.dev"
+
+BBFILES    := "${ELITO_TOPDIR}/packages/*/*.bb"
+BBFILES    += "${OEDEV_TOPDIR}/packages/*/*.bb"
+@EXTRA_BBFILES_TRUE@BBFILES += " @EXTRA_BBFILES@"
+BBMASK      = ""
+
+ASSUME_PROVIDED += " @elito_assumed@"
+
+ELITO_KERNEL_REPO     	 = "@kernel_repo@"
+ELITO_KERNEL_REF_REPO	 = "@kernel_ref_repo@"
+
+MACHINE      = "@MACHINE@"
+DISTRO       = "elito"
+
+DISABLE_QEMU = true
+
+PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc-initial:gcc-cross-initial"
+PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc-intermediate:gcc-cross-intermediate"
+PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc:gcc-cross"
+PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}g++:gcc-cross"
+
+@IPKG_TRUE@INHERIT +=	"package_ipk"
+@TAR_TRUE@INHERIT +=	"package_tar"
+
+@IPKG_TRUE@@NFSROOT_TRUE@INHERIT    += "rootfs_ipk"
+@TAR_TRUE@@NFSROOT_TRUE@INHERIT     += "rootfs_tar"
+@NFSROOT_TRUE@IMAGE_ROOTFS = "@nfs_rootdir@"
+
+DISTRO_INIT_MANAGER = "upstart"
+
+require conf/project.conf
