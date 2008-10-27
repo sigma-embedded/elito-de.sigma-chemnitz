@@ -24,6 +24,26 @@ do_fetch() {
 }
 
 do_configure_prepend() {
+	gc=`type -p ${CROSS_COMPILE}gcc`
+	gc=${gc%%gcc}
+	dn=`dirname "$gc"`
+	gc=`basename "$gc"`
+	ccache=`type -p ccache`
+	cat << EOF > x
+%:
+	env PATH=\$\$PATH:$dn CCACHE_DIR=${CCACHE_DIR} \$(MAKE) -e CC='ccache ${CROSS_COMPILE}gcc' LD=${CROSS_COMPILE}ld $@
+EOF
+
+	sed -i	\
+		-e 's!^\(CROSS_COMPILE[[:space:]]*?\?=[[:space:]]*\).*!\1'"$gc!" 	\
+		-e 's!^x\(\(HOST\)\?CC[[:space:]]*?\?=[[:space:]]*\)\([^/]\)!\1'"$ccache \3!"	\
+		-e '/^CROSS_COMPILE/a\'							\
+		-e 'export CCACHE_DIR = ${CCACHE_DIR}\'					\
+		-e 'PATH := $(PATH):'"$dn\\"						\
+		-e 'export PATH'							\
+		Makefile
+	git commit -m 'LOCAL: buildsystem customizations' Makefile
+
 	if ! test -e .config; then
 		oe_runmake "${KERNEL_DEFCONFIG}"
 	fi
