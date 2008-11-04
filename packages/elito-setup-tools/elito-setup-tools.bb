@@ -1,7 +1,8 @@
 SECTION     	 = "base"
 DESCRIPTION 	 = "ELiTo Base utilities"
 LICENSE     	 = "GPLv3"
-PR          	 = "r2"
+PV		 = "0.8.3"
+PR          	 = "r0"
 
 bindir      	 = "/bin"
 sbindir     	 = "/sbin"
@@ -36,11 +37,11 @@ FILES_${PN}-dbg	 = "	\
 "
 
 do_compile() {
-	oe_runmake -f ${WORKDIR}/GNUmakefile VPATH=${WORKDIR}
+	oe_runmake
 }
 
 do_install() {
-	oe_runmake -f ${WORKDIR}/GNUmakefile VPATH=${WORKDIR} DESTDIR=${D} install
+	oe_runmake DESTDIR=${D} install
 	${@base_contains('MACHINE_FEATURES','modules',':','rm -f ${D}${sbindir}/elito-load-modules',d)}
 }
 
