@@ -4,7 +4,7 @@ the hotplug package and requires a kernel not older than 2.6.12."
 RPROVIDES_${PN} = "hotplug"
 
 PV	= "130"
-PR 	= "r1"
+PR 	= "r5"
 
 pd = "file:///srv/elito/toolchain/devel/elito-udev/"
 
@@ -12,9 +12,12 @@ sbindir = "/sbin"
 libdir  = "/lib"
 exec_prefix = ""
 
+rules_dir = "${libdir}/udev/rules.d"
+
 inherit autotools pkgconfig
 
-PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-extra"
+PACKAGES =+ "${PN}-rules-extra"
+PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi"
 PACKAGES += "${PN}-lib ${PN}-libvolume ${PN}-fstab-import \
 	     ${PN}-firmware ${PN}-rulegen ${PN}-extra"
 
@@ -37,7 +40,15 @@ python __anonymous() {
 }
 
 do_install_append() {
-	touch ${D}${libdir}/udev/rules.d/.empty
+	install -p -m0644 rules/packages/40-alsa.rules ${D}${rules_dir}/
+	install -p -m0644 ${WORKDIR}/60-ubi.rules      ${D}${rules_dir}/
+	touch ${D}${rules_dir}/.empty
+}
+
+do_stage() {
+	set -x
+	autotools_stage_all
+	oe_libinstall -C extras/volume_id/lib -so libvolume_id ${STAGING_LIBDIR}
 }
 
 FILES_${PN} = "\
@@ -45,7 +56,7 @@ FILES_${PN} = "\
 	${sysconfdir}/udev/rules.d	\
 	${sbindir}/udevd		\
 	${sbindir}/udevadm		\
-	${libdir}/udev/rules.d/.empty	\
+	${rules_dir}/.empty		\
 "
 RRECOMMENDS_${PN} = "${PN}-rules-base"
 
@@ -58,7 +69,7 @@ FILES_${PN}-scsi-id += "/etc/scsi_id.config"
 
 FILES_${PN}-fstab-import = "\
 	${libdir}/udev/fstab_import			\
-	${libdir}/udev/rules.d/*fstab_import.rules	\
+	${rules_dir}/*fstab_import.rules	\
 "
 
 FILES_${PN}-lib       = "${libdir}/libudev.so.*"
@@ -70,14 +81,19 @@ FILES_${PN}-rulegen   = "	\
 "
 
 FILES_${PN}-rules-base = "	\
-	${libdir}/udev/rules.d/*udev-default.rules	\
-	${libdir}/udev/rules.d/*udev-late.rules		\
+	${rules_dir}/*udev-default.rules	\
+	${rules_dir}/*udev-late.rules		\
 "
 
-FILES_${PN}-rules-modules    = "${libdir}/udev/rules.d/*-drivers.rules"
+FILES_${PN}-rules-alsa       = "${rules_dir}/*alsa.rules"
+RPROVIDES_${PN}-rules-alsa   = "virtual/snd-dev"
+
+FILES_${PN}-rules-modules    = "${rules_dir}/*-drivers.rules"
 RDEPENDS_${PN}-rules-modules = "module-init-tools"
 
-FILES_${PN}-rules-extra      = "${libdir}/udev/rules.d/*.rules"
+FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
+
+FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
 FILES_${PN}-dev		    += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
 
 
@@ -85,4 +101,5 @@ SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
 	${pd}udev-130-settlerace.patch;patch=1	\
 	${pd}udev-130-stop.patch;patch=1	\
+	file://60-ubi.rules			\
 "
