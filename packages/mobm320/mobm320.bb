@@ -4,8 +4,8 @@ PRIORITY	 = "optional"
 LICENSE		 = "GPLv3"
 PROVIDES	 = "virtual/bootloader-ibl"
 PACKAGE_ARCH	 = "${MACHINE_ARCH}"
-PV		 = "0.1.1"
-PR		 = "r1"
+PV		 = "0.3"
+PR		 = "r0"
 
 DEPENDS		 = "linux-libc-headers mtd-utils mobm320-native"
 S		 = ${WORKDIR}/elito-${PN}-${PV}
@@ -15,8 +15,9 @@ SRC_URI = "\
 	file:///home/ensc/src/mobm/elito-${PN}-${PV}.tar.bz2	\
 "
 
-PACKAGES	 = "${PN}"
-FILES_${PN}	 = "/boot/*"
+PACKAGES	 += "${PN}-tools"
+FILES_${PN}	  = "/boot/*"
+FILES_${PN}-tools = "/sbin/create-boot-env"
 
 MOBM320_IMAGE	?=
 MOBM320_ARGS	?=
@@ -40,7 +41,9 @@ do_install() {
 	oe_runmake PREFIX=${prefix} DESTDIR=${D} install	\
 		_host_all= _host_programs= bin_PROGRAMS=
 
-	mkdir -p ${D}/boot
+	mkdir -p ${D}/boot ${D}/sbin
+	install -p -m0755 bin/create-env ${D}/sbin/create-boot-env
+
 	mv ${D}${datadir}/elito-mobm320/${MOBM320_IMAGE} ${D}/boot/
 	rm -f ${D}${datadir}/elito-mobm320/*.img
 }
