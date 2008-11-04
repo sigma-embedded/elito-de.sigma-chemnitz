@@ -45,28 +45,24 @@ SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
 	"
 S = "${WORKDIR}/ncurses-${PV}"
 
-EXTRA_OECONF = " \
-	--without-normal						\
-	--without-debug							\
-	--without-ada							\
-	--with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap'	\
-	--with-terminfo-dirs=${sysconfdir}/terminfo:${datadir}/terminfo \
-	--with-shared							\
-	--disable-big-core						\
-	--program-prefix=						\
-	--with-termlib=tinfo 						\
-	--enable-widec							\
-	--enable-sigwinch						\
-	\
-"
-
 do_configure_prepend() {
 	rm -rf tack
 }
 
 do_configure() {
 	oe_runconf		\
-		--with-build-cflags=""				\
+		--without-normal						\
+		--without-debug							\
+		--without-ada							\
+		--with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap'	\
+		--with-terminfo-dirs=${sysconfdir}/terminfo:${datadir}/terminfo \
+		--with-shared							\
+		--disable-big-core						\
+		--program-prefix=						\
+		--with-termlib=tinfo 						\
+		--disable-widec							\
+		--enable-sigwinch						\
+		--with-build-cflags=""						\
 		--with-build-cppflags='-D__need_wint_t'
 }
 
