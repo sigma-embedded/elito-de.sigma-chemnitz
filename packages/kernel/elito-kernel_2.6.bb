@@ -1,13 +1,15 @@
 DESCRIPTION	 = "ELiTo Linux kernel"
 SECTION		 = "kernel"
 LICENSE		 = "GPL"
-PR		 = "r0"
+PR		 = "r1"
 
 DEPENDS		+= '${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
-KERNEL_REPO	?= "${ELITO_GIT_BASE}/kernel.git"
+KERNEL_REPO	?= "${ELITO_GIT_MIRROR}/kernel.git"
 
 S		 = "${WORKDIR}/linux-elito"
 SRC_URI		 = "file://git.repo"
+
+_branch          = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 
 do_fetch() {
 	set -x
@@ -15,7 +17,10 @@ do_fetch() {
 	if ! test -d ${S}/.git; then
 		git clone -nqls -o origin-elito "${KERNEL_REPO}" "${S}"
 		cd ${S}
-		git checkout -q --track -b master "remotes/origin-elito/${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
+		git branch --track "${_branch}" "remotes/origin-elito/${_branch}"
+		git reset -q --hard "${_branch}"
+		git checkout "${_branch}"
+		git branch -D master || :
 	else
 		cd ${S}
 		git fetch origin-elito
@@ -29,24 +34,19 @@ do_configure_prepend() {
 	dn=`dirname "$gc"`
 	gc=`basename "$gc"`
 	ccache=`type -p ccache`
-	cat << EOF > x
-%:
-	env PATH=\$\$PATH:$dn CCACHE_DIR=${CCACHE_DIR} \$(MAKE) -e CC='ccache ${CROSS_COMPILE}gcc' LD=${CROSS_COMPILE}ld $@
-EOF
 
-	sed -i	\
-		-e 's!^\(CROSS_COMPILE[[:space:]]*?\?=[[:space:]]*\).*!\1'"$gc!" 	\
-		-e 's!^x\(\(HOST\)\?CC[[:space:]]*?\?=[[:space:]]*\)\([^/]\)!\1'"$ccache \3!"	\
-		-e '/^CROSS_COMPILE/a\'							\
-		-e 'export CCACHE_DIR = ${CCACHE_DIR}\'					\
-		-e 'PATH := $(PATH):'"$dn\\"						\
-		-e 'export PATH'							\
-		Makefile
-	git commit -m 'LOCAL: buildsystem customizations' Makefile
+	cat << EOF > mf
+%:
+	env PATH=\$\$PATH:$dn CCACHE_DIR=${CCACHE_DIR} \$(MAKE) CC='ccache ${CROSS_COMPILE}gcc' LD=${CROSS_COMPILE}ld CROSS_COMPILE=${CROSS_COMPILE} MAKELEVEL=0 \$@
+
+unexport MAKEFILES
+unexport MAKELEVEL
+.DEFAULT_GOAL := all
+EOF
 
 	if ! test -e .config; then
 		oe_runmake "${KERNEL_DEFCONFIG}"
 	fi
-}	
+}
 
 inherit kernel
