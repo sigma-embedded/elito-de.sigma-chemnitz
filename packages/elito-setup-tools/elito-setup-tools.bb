@@ -7,21 +7,11 @@ PR          	 = "r0"
 bindir      	 = "/bin"
 sbindir     	 = "/sbin"
 
-base_uri    	 = "file:///srv/elito/toolchain/devel/elito-setup/"
-
 PACKAGE_ARCH	 = "${MACHINE_ARCH}"
 PACKAGES	 =  "${PN}-dbg ${PN}"
 
-SRC_URI     	 = "		\
-	${base_uri}GNUmakefile			\
-	${base_uri}elito-genfiles.c		\
-	${base_uri}elito-load-modules		\
-	${base_uri}elito-wait-for-file.c	\
-	${base_uri}init.wrapper.c		\
-	${base_uri}redir-outerr.c		\
-	${base_uri}sysctl.minit.c		\
-	${base_uri}00-varfs.txt			\
-"
+SRC_URI     	 = "${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2"
+S                = "${WORKDIR}/elito-setup-${PV}"
 
 RCONFLICTS_${PN} = "sysvinit"
 
