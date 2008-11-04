@@ -23,13 +23,16 @@ CFG_FILES =		Makefile		\
 
 TEMPLATE_FILES =	conf/project.conf
 
-config:			$(CFG_FILES) $(TEMPLATE_FILES) .gitignore
+_template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
+
+config:			$(CFG_FILES) $(_template_files) .gitignore
 
 .gitignore:
 			echo "${CFG_FILES}" | xargs -n1 echo > $@
 
-$(TEMPLATE_FILES):
-			cp --preserve=mode,timestamps ${abs_top_srcdir}/$@ $@
+$(_template_files):$(abs_top_builddir)/%:
+			test ! -e $@
+			cp --preserve=mode,timestamps ${abs_top_srcdir}/$* $@
 
 %:			%.in
 			@-rm -f $@.tmp $@
