@@ -3,7 +3,7 @@ SECTION		 = "bootloaders"
 PRIORITY	 = "optional"
 LICENSE		 = "GPLv3"
 PACKAGE_ARCH	 = "${MACHINE_ARCH}"
-PV		 = "0.1.1"
+PV		 = "0.1.2"
 PR		 = "r0"
 S		 = ${WORKDIR}/elito-mobm320-${PV}
 
