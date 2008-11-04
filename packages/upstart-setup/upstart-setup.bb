@@ -1,16 +1,14 @@
 SECTION  	 = "base"
 DESCRIPTION	 = "upstart base setup"
 LICENSE    	 = "GPLv3"
-PV		 = "0.3"
-PR         	 = "r3"
+PV		 = "0.3.1"
+PR         	 = "r0"
 PACKAGE_ARCH	 =  "all"
 
 file_base	 =  "file:///srv/elito/toolchain/devel/elito-upstart-setup"
 
 SRC_URI    	 = "		\
-#	git://localhost/elito-upstart-setup;protocol=git		\
-	${file_base}/${PN}-${PV}.tar.bz2			\
-	${file_base}/fix-paths					\
+	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2			\
 	file://paths						\
 "
 SRCREV		 = "${AUTOREV}"
@@ -112,5 +110,5 @@ do_install() {
 	install -p -m0644 [0-9][0-9]-*.rules            ${D}/lib/udev/rules.d/
 	install -p -m0644 [0-9][0-9]-*.txt              ${D}${sysconfdir}/files.d/
 
-	find ${D} -type f -print0 | xargs -0r ${WORKDIR}/fix-paths ${WORKDIR}/paths
+	find ${D} -type f -print0 | xargs -0r ${S}/fix-paths ${WORKDIR}/paths
 }

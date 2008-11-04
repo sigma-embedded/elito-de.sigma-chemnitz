@@ -8,7 +8,7 @@ PR		= "r1"
 SRCREV  = "${AUTOREV}"
 SRC_URI = "	\
 	git://git.infradead.org/mtd-utils.git;protocol=git;branch=master	\
-	file:///srv/elito/toolchain/devel/elito-mtd/mtd-utils-1.2.0-flags.patch;patch=1	\
+	${ELITO_MIRROR}/mtd-utils-1.2.0-flags.patch;patch=1			\
 "
 S = "${WORKDIR}/git"
 

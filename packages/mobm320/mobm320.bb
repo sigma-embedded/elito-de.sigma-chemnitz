@@ -1,19 +1,16 @@
-DESCRIPTION	 = "Initial bootloader for PXA320"
-SECTION		 = "bootloaders"
-PRIORITY	 = "optional"
-LICENSE		 = "GPLv3"
-PROVIDES	 = "virtual/bootloader-ibl"
-PACKAGE_ARCH	 = "${MACHINE_ARCH}"
-PV		 = "0.3"
-PR		 = "r0"
+DESCRIPTION	  = "Initial bootloader for PXA320"
+SECTION		  = "bootloaders"
+PRIORITY	  = "optional"
+LICENSE		  = "GPLv3"
+PROVIDES	  = "virtual/bootloader-ibl"
+PACKAGE_ARCH	  = "${MACHINE_ARCH}"
+PV		  = "0.3"
+PR		  = "r1"
 
-DEPENDS		 = "linux-libc-headers mtd-utils mobm320-native"
-S		 = ${WORKDIR}/elito-${PN}-${PV}
+DEPENDS		  = "linux-libc-headers mtd-utils mobm320-native"
+S		  = ${WORKDIR}/elito-${PN}-${PV}
 
-SRC_URI = "\
-#	${ELITO_MIRROR}/mobm320/${PN}-${PV}.tar.bz2	\
-	file:///home/ensc/src/mobm/elito-${PN}-${PV}.tar.bz2	\
-"
+SRC_URI		  = "${ELITO_MIRROR}/elito-${PN}-${PV}.tar.bz2"
 
 PACKAGES	 += "${PN}-tools"
 FILES_${PN}	  = "/boot/*"
