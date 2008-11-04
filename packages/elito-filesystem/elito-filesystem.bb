@@ -1,7 +1,7 @@
 DESCRIPTION	= "Base file system structure."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r5"
+PR		= "r6"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "all"
 
@@ -11,7 +11,7 @@ do_install() {
 		install -d -m0755 ${D}/${i}
 	done
 
-	for i in files.d modules.d; do
+	for i in files.d modules.d pki pki/elito; do
 		install -d -m0755 ${D}/etc/$i
 	done
 
