@@ -5,13 +5,13 @@ LICENSE		 = "GPL"
 PROVIDES	 = "virtual/bootloader"
 PACKAGE_ARCH	 = "${MACHINE_ARCH}"
 PV		 = "2008.10"
-PR		 = "r0"
+PR		 = "r1"
 
 EXTRA_OEMAKE	 = "CROSS_COMPILE=${TARGET_PREFIX}"
 
 UBOOT_MACHINE	?= "${MACHINE}_config"
 UBOOT_SYMLINK	?= "u-boot-${MACHINE}.bin"
-UBOOT_REPO	?= "${ELITO_GIT_BASE}/u-boot.git"
+UBOOT_REPO	?= "${ELITO_GIT_MIRROR}/u-boot.git"
 
 
 S		 = "${WORKDIR}/git"
@@ -24,6 +24,8 @@ FILES_${PN}-bin  = "/boot/u-boot.bin"
 DEPENDS		+= "git-native"
 DEFAULT_PREFERENCE = "99"
 
+_branch = "${PV}/${UBOOT_BRANCH}"
+
 do_fetch() {
 	set -x
 	echo ${S}, ${WORKDIR}
@@ -31,10 +33,14 @@ do_fetch() {
 	if ! test -d ${S}/.git; then
 		git clone -nqls -o origin-elito "${UBOOT_REPO}" "${S}"
 		cd ${S}
-		git checkout -q --track -b master "remotes/origin-elito/${PV}/${UBOOT_BRANCH}"
+		git branch --track "${_branch}" "remotes/origin-elito/${_branch}"
+		git reset -q --hard "${_branch}"
+		git checkout "${_branch}"
+		git branch -D master || :
 	else
 		cd ${S}
 		git fetch origin-elito
+		git pull
 	fi
 }
 
