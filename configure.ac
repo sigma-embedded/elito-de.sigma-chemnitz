@@ -45,12 +45,6 @@ AC_ARG_ENABLE(ccache,
 	[],
 	[enable_ccache=auto]))
 
-AC_ARG_WITH(kernel-repo,
-	AS_HELP_STRING([--with-kernel-repo=<dir>],
-			[Specify location of the upstream ELiTo kernel git repository. Default: git://www.sigma-chemnitz.de/elito/kernel]),
-	[kernel_repo=$withval], [kernel_repo=git://www.sigma-chemnitz.de/elito/kernel])
-AC_SUBST([kernel_repo])
-
 AC_ARG_WITH(kernel-reference-repo,
 	AS_HELP_STRING([--with-kernel-reference-repo=<dir>],
 			[Specify location of a local reference git repository which holds kernel sources]),

@@ -12,8 +12,7 @@ BBMASK      = ""
 
 ASSUME_PROVIDED += " @elito_assumed@"
 
-ELITO_KERNEL_REPO     	 = "@kernel_repo@"
-ELITO_KERNEL_REF_REPO	 = "@kernel_ref_repo@"
+ELITO_KERNEL_REF_REPO = "@kernel_ref_repo@"
 
 MACHINE      = "@MACHINE@"
 DISTRO       = "elito"
