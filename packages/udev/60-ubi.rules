@@ -1,0 +1,1 @@
+SUBSYSTEM=="ubi", DEVPATH=="*/ubi*_*", SYMLINK+="ubi/$attr{name}"
