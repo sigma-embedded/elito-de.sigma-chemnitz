@@ -1,24 +1,25 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r2"
+PR		= "r3"
 LICENSE		= "GPLv3"
+PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
 FILESDIR	= "${OEDEV_TOPDIR}/packages/base-files/base-files"
 
 SRC_URI = "	\
 	file://fstab			\
 	file://hosts			\
-	file://issues			\
 	file://nsswitch.conf		\
 	file://sysctl.conf		\
 	file://licenses/*		\
 "
 
-PACKAGE_ARCH    = "${MACHINE_ARCH}"
-RPROVIDES_${PN} = "virtual/base-files"
-TMPFS_SIZE     ?= 8m
-PTS_GID        ?= 5
+RPROVIDES_${PN}   = "virtual/base-files"
+RRECOMMENDS_${PN} = "virtual/release-files"
+
+TMPFS_SIZE       ?= 8m
+PTS_GID          ?= 5
 
 do_install() {
 	set -x
@@ -34,10 +35,6 @@ do_install() {
 	done
 
 	echo ${MACHINE} > ${D}${sysconfdir}/hostname
-	sed	\
-		-e 's!@DISTRO_NAME@!${DISTRO_NAME}!g'		\
-		-e 's!@DISTRO_VERSION@!${DISTRO_VERSION}!g'	\
-		issues > ${D}${sysconfdir}/issues
 
 	c0='-e /[[:space:]]usbfs[[:space:]]/d'
 	c1='-e /[[:space:]]debugfs[[:space:]]/d'
