@@ -98,19 +98,16 @@ AC_DEFUN([ELITO_ASSUME],[
 	AC_ARG_ENABLE(pkg-$1,
 		AS_HELP_STRING([--enable-pkg-$1=<mode>],
 			[Set type for package $1. Possible values are 'auto', 'system' or 'builtin'. Default is 'auto']),
-		[], [enable_pkg_$1=auto])
+		[], [enable_pkg_[]translit($1,-,_)=auto])
 
 	force=$2
-	case $enable_pkg_$1 in
+	case $enable_pkg_[]translit($1,-,_) in
 	(auto)	;;
 	(no)	force=false;;
 	(yes)	force=true;;
 	esac
 	$force && elito_assumed="$elito_assumed ifelse($3,,$1-native,$3)"
 ])
-
-
-	
 
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	AC_PATH_PROGS($1, $2)
@@ -136,6 +133,8 @@ ELITO_CHECK_PROGRAM(XML2CONFIG, xml2-config, libxml2)
 ELITO_CHECK_PROGRAM(ZIP,        zip)
 dnl ELITO_CHECK_PROGRAM(CURL,       curl)
 ELITO_CHECK_PROGRAM(GIT,        git)
+ELITO_CHECK_PROGRAM(PERL,       perl)
+ELITO_CHECK_PROGRAM(SHARED_MIME_INFO, update-mime-database, shared-mime-info)
 dnl ELITO_CHECK_PROGRAM(AUTOCONF,   autoconf)
 dnl ELITO_CHECK_PROGRAM(AUTOMAKE,   automake)
 dnl ELITO_CHECK_PROGRAM(LIBTOOL,    libtoolize,  libtool)
