@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r3"
+PR		= "r4"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
@@ -52,7 +52,7 @@ do_install() {
 	cp -a licenses ${D}${datadir}/doc/
 
 	ln -s /proc/mounts ${D}${sysconfdir}/mtab
-
+	ln -s /var/run/ld.so.cache ${D}/etc/ld.so.cache
 }
 
 PACKAGES        = "${PN}"
