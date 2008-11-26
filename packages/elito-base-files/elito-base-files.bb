@@ -27,7 +27,7 @@ do_install() {
 	mkdir -p ${D}${sysconfdir} ${D}${datadir}/doc/
 
 	for i in hosts nsswitch.conf sysctl.conf; do
-		install -D -p -m0644 $i ${D}${sysconfdir}/$i
+		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
 
 	for i in resolv.conf ntpd.conf; do

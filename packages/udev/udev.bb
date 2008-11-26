@@ -40,8 +40,8 @@ python __anonymous() {
 }
 
 do_install_append() {
-	install -p -m0644 rules/packages/40-alsa.rules ${D}${rules_dir}/
-	install -p -m0644 ${WORKDIR}/60-ubi.rules      ${D}${rules_dir}/
+	install -p -m 0644 rules/packages/40-alsa.rules ${D}${rules_dir}/
+	install -p -m 0644 ${WORKDIR}/60-ubi.rules      ${D}${rules_dir}/
 	touch ${D}${rules_dir}/.empty
 }
 

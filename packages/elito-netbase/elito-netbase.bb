@@ -14,9 +14,9 @@ SRC_URI_OVERRIDES_PACKAGE_ARCH = "1"
 S = "${WORKDIR}/netbase-${PV}"
 do_install () {
 	install -d ${D}${sysconfdir}
-	install -p -m0644 etc-rpc       ${D}${sysconfdir}/rpc
-	install -p -m0644 etc-protocols ${D}${sysconfdir}/protocols
-	install -p -m0644 etc-services  ${D}${sysconfdir}/services
+	install -p -m 0644 etc-rpc       ${D}${sysconfdir}/rpc
+	install -p -m 0644 etc-protocols ${D}${sysconfdir}/protocols
+	install -p -m 0644 etc-services  ${D}${sysconfdir}/services
 }
 
 PACKAGES        = "${PN}"

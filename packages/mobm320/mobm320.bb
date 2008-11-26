@@ -39,7 +39,7 @@ do_install() {
 		_host_all= _host_programs= bin_PROGRAMS=
 
 	mkdir -p ${D}/boot ${D}/sbin
-	install -p -m0755 bin/create-env ${D}/sbin/create-boot-env
+	install -p -m 0755 bin/create-env ${D}/sbin/create-boot-env
 
 	mv ${D}${datadir}/elito-mobm320/${MOBM320_IMAGE} ${D}/boot/
 	rm -f ${D}${datadir}/elito-mobm320/*.img
@@ -50,7 +50,7 @@ do_deploy() {
 	cd ${D}/boot
 
 	rm -f ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.img
-	install -p -m0644 ${MOBM320_IMAGE} ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.img
+	install -p -m 0644 ${MOBM320_IMAGE} ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.img
 	rm -f ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}
 	ln -s ${MOBM320_IMAGE_BASE_NAME}.img ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}
 }

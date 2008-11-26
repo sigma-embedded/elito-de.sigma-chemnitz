@@ -103,12 +103,12 @@ do_install() {
 	mkdir -p ${D}${sysconfdir}/init ${D}/sbin ${D}/share/udhcpc ${D}/lib/udev/rules.d ${D}${sysconfdir}/files.d
 	cp -a jobs.d ${D}${sysconfdir}/init/
 
-	install -p -m0755 upstart-if-down upstart-if-up ${D}/sbin/
-	install -p -m0755 upstart-ntpd-up               ${D}/sbin/
-	install -p -m0755 upstart.script                ${D}/share/udhcpc/
+	install -p -m 0755 upstart-if-down upstart-if-up ${D}/sbin/
+	install -p -m 0755 upstart-ntpd-up               ${D}/sbin/
+	install -p -m 0755 upstart.script                ${D}/share/udhcpc/
 
-	install -p -m0644 [0-9][0-9]-*.rules            ${D}/lib/udev/rules.d/
-	install -p -m0644 [0-9][0-9]-*.txt              ${D}${sysconfdir}/files.d/
+	install -p -m 0644 [0-9][0-9]-*.rules            ${D}/lib/udev/rules.d/
+	install -p -m 0644 [0-9][0-9]-*.txt              ${D}${sysconfdir}/files.d/
 
 	find ${D} -type f -print0 | xargs -0r ${S}/fix-paths ${WORKDIR}/paths
 }
