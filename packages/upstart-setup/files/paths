@@ -12,6 +12,8 @@ s!@MOUNT@!/bin/mount!g
 s!@UMOUNT@!/bin/umount!g
 s!@LDCONFIG@!/sbin/ldconfig!g
 
+s!@SETUIDGID@!/usr/bin/setuidgid!g
+
 s!@INITCTL@!/sbin/initctl!g
 s!@REBOOT@!/sbin/reboot!g
 s!@HALT@!/sbin/halt!g
@@ -40,3 +42,7 @@ s!@SYSCTL_MINIT@!/sbin/sysctl.minit!g
 s!@UPSTART_IF_DOWN@!/sbin/upstart-if-down!g
 s!@UPSTART_IF_UP@!/sbin/upstart-if-up!g
 s!@ELITO_WAIT_FOR_FILE@!/bin/elito-wait-for-file!g
+
+s!@DBUS_UUIDGEN@!/usr/bin/dbus-uuidgen!g
+s!@DBUS_DAEMON@!/usr/bin/dbus-daemon!g
+s!@DBUS_USER@!messagebus!g
