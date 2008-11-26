@@ -1,4 +1,6 @@
+PYTHON :=		python
 SED :=			sed
+SVN :=			svn
 abs_top_srcdir :=	$(abspath @abs_top_srcdir@)
 abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
@@ -10,6 +12,8 @@ VPATH ?=		$(abs_top_srcdir)
 SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'
 
+BITBAKE_REV =		1118
+BITBAKE_URI =		http://svn.berlios.de/svnroot/repos/bitbake/branches/bitbake-1.8
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -26,6 +30,23 @@ TEMPLATE_FILES =	conf/project.conf
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
 
 config:			$(CFG_FILES) $(_template_files) .gitignore
+
+_bitbake_root =		$(abs_top_builddir)/tmp/staging/.bitbake
+
+bitbake-fetch:		tmp/stamps/.bitbake.stamp
+bitbake-clean:
+			rm -rf tmp/bitbake $(_bitbake_root)
+			rm -f tmp/stamps/.bitbake.*
+
+tmp/stamps/.bitbake.fetch.stamp:
+			@mkdir -p $(dir $@)
+			$(SVN) co -r$(BITBAKE_REV) ${BITBAKE_URI}@$(BITBAKE_REV) tmp/bitbake
+			sed -i -e 's!sys\.prefix, !!g' tmp/bitbake/setup.py
+			@touch $@
+
+tmp/stamps/.bitbake.stamp:	tmp/stamps/.bitbake.fetch.stamp
+			cd tmp/bitbake && $(PYTHON) setup.py build
+			cd tmp/bitbake && $(PYTHON) setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
 
 .gitignore:
 			echo "${CFG_FILES}" | xargs -n1 echo > $@

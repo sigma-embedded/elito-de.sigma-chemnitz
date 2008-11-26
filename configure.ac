@@ -112,7 +112,10 @@ AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	fi
 ])
 
-AC_PATH_PROGS(BITBAKE, bitbake)
+dnl AC_PATH_PROGS(BITBAKE, bitbake)
+BITBAKE=\${abs_top_builddir}/tmp/staging/.bitbake/bin/bitbake
+AC_SUBST(BITBAKE)
+
 ELITO_CHECK_PROGRAM(QUILT,      quilt)
 ELITO_CHECK_PROGRAM(M4,         m4)
 ELITO_CHECK_PROGRAM(BISON,      bison)
