@@ -59,6 +59,7 @@ FILES_${PN} = "\
 	${rules_dir}/.empty		\
 "
 RRECOMMENDS_${PN} = "${PN}-rules-base"
+RPROVIDES_${PN}  += "udev-utils"
 
 FILES_${PN}-extra = "\
 	${libdir}/udev/create_floppy_devices	\
