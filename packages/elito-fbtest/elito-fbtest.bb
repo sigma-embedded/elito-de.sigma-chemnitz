@@ -1,0 +1,16 @@
+DESCRIPTION	=  "Framebuffer testutility"
+
+DEPENDS		=  ""
+SRC_URI		=  "${ELITO_GIT_BASE}/fbtest.git;protocol=git"
+SRCREV		=  "${AUTOREV}"
+S		=  "${WORKDIR}/git"
+
+do_compile() {
+	oe_runmake
+}
+
+do_install() {
+	set -x
+	install -d ${D}${bindir}
+	install -p -m 0755 fbtest ${D}${bindir}/elito-fbtest
+}
