@@ -1,7 +1,7 @@
 SECTION     	 = "base"
 DESCRIPTION 	 = "ELiTo Base utilities"
 LICENSE     	 = "GPLv3"
-PV		 = "0.8.3"
+PV		 = "0.8.6"
 PR          	 = "r0"
 
 bindir      	 = "/bin"
@@ -19,11 +19,6 @@ FILES_${PN} 	 = "	\
 	${sbindir}/*			\
 	${bindir}/*			\
 	/etc/files.d			\
-"
-
-FILES_${PN}-dbg	 = "	\
-	${sbindir}/.debug		\
-	${bindir}/.debug		\
 "
 
 do_compile() {
