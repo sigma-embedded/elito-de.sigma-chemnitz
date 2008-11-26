@@ -1,0 +1,27 @@
+Use LDFLAGS, not CFLAGS for linking
+
+Index: git/ubi-utils/new-utils/Makefile
+===================================================================
+--- git.orig/ubi-utils/new-utils/Makefile
++++ git/ubi-utils/new-utils/Makefile
+@@ -30,16 +30,16 @@ all: $(UTILS)
+ 
+ # And the below is the rule to get final executable from its .o and common.o
+ %: libubi.a %.o common.o
+-	$(CC) $(CFLAGS) $(filter %.o, $^) -L. -lubi -o $@
++	$(CC) $(LDFLAGS) $(filter %.o, $^) -L. -lubi -o $@
+ 
+ ubicrc32: ubicrc32.o crc32.o
+-	$(CC) $(CFLAGS) -o $@ $^
++	$(CC) $(LDFLAGS) -o $@ $^
+ 
+ ubinize: ubinize.o common.o crc32.o libiniparser.a libubigen.a
+-	$(CC) $(CFLAGS) $(filter %.o, $^) -L. -liniparser -lubigen -o $@
++	$(CC) $(LDFLAGS) $(filter %.o, $^) -L. -liniparser -lubigen -o $@
+ 
+ ubiformat: ubiformat.o common.o crc32.o libmtd.a libscan.a libubi.a libubigen.a
+-	$(CC) $(CFLAGS) $(filter %.o, $^) -L. -lmtd -lscan -lubi -lubigen -o $@
++	$(CC) $(LDFLAGS) $(filter %.o, $^) -L. -lmtd -lscan -lubi -lubigen -o $@
+ 
+ libubi.a: libubi.o
+ 	$(AR) crv $@ $^
