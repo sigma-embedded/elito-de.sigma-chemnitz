@@ -7,9 +7,13 @@ def ubi_get_nand_leb_size(d):
 def ubi_gen_ini_data(info_name,d):
 	import bb
 	import os.path
+
 	deploy_dir = bb.data.getVar('DEPLOY_DIR', d, 1)
 	space 	   = bb.data.getVar('FLASH_SIZE', d, 1)
 	info 	   = bb.data.getVar(info_name, d, 1)
+
+	if not info:
+		return ""
 
 	vols = [v.split() for v in info.split(',')]
 	pos  = 0
