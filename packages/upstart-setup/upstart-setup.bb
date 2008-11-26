@@ -1,11 +1,9 @@
 SECTION  	 = "base"
 DESCRIPTION	 = "upstart base setup"
 LICENSE    	 = "GPLv3"
-PV		 = "0.3.1"
+PV		 = "0.3.3"
 PR         	 = "r0"
 PACKAGE_ARCH	 =  "all"
-
-file_base	 =  "file:///srv/elito/toolchain/devel/elito-upstart-setup"
 
 SRC_URI    	 = "		\
 	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2			\
@@ -15,7 +13,8 @@ SRCREV		 = "${AUTOREV}"
 #S     		 = "${WORKDIR}/git"
 
 PACKAGES   	 = "${PN}-base ${PN}-udev ${PN}-net ${PN}-net-dhcp	\
-	${PN}-openntpd ${PN}-dropbear ${PN}-tty-plain ${PN}-syslogd ${PN}-klogd	\
+	${PN}-openntpd ${PN}-dropbear ${PN}-dbus 	\
+	${PN}-tty-plain ${PN}-syslogd ${PN}-klogd	\
 	${PN}-sound ${PN}-rtc-sync\
 	${PN}-net-dhcp-eth0	\
 	${PN}-net-dhcp-eth1	\
@@ -95,6 +94,9 @@ FILES_${PN}-sound = "${j}init/sound"
 RPROVIDES_${PN}-sound = "virtual/sound-init"
 RDEPENDS_${PN}-sound = "alsa-utils-alsactl"
 
+FILES_${PN}-dbus = "${j}services/dbus-daemon ${j}init/dbus-uuidgen ${sysconfdir}/files.d/*-dbus.txt"
+RPROVIDES_${PN}-dbus = "virtual/dbus-init"
+RDEPENDS_${PN}-dbus = "dbus"
 
 do_compile() {
 }
