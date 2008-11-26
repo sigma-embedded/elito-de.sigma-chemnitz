@@ -4,8 +4,8 @@ PRIORITY	  = "optional"
 LICENSE		  = "GPLv3"
 PROVIDES	  = "virtual/bootloader-ibl"
 PACKAGE_ARCH	  = "${MACHINE_ARCH}"
-PV		  = "0.3"
-PR		  = "r1"
+PV		  = "0.3.1"
+PR		  = "r0"
 
 DEPENDS		  = "linux-libc-headers mtd-utils mobm320-native"
 S		  = ${WORKDIR}/elito-${PN}-${PV}
