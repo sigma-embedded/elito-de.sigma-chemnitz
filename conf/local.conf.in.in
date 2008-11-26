@@ -2,10 +2,12 @@ DISTRO_TYPE	 = "@DISTRO_TYPE@"
 ELITO_ROOTDIR	 = "@ELITO_ROOTDIR@"
 DL_DIR		 = "@CACHE_DIR@/sources"
 
+PROJECT_TOPDIR	:= "@abs_top_builddir@"
 ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz.elito"
 OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.dev"
 
-BBFILES    := "${ELITO_TOPDIR}/packages/*/*.bb"
+BBFILES    := "${PROJECT_TOPDIR}/packages/*/*.bb"
+BBFILES    += "${ELITO_TOPDIR}/packages/*/*.bb"
 BBFILES    += "${OEDEV_TOPDIR}/packages/*/*.bb"
 @EXTRA_BBFILES_TRUE@BBFILES += " @EXTRA_BBFILES@"
 BBMASK      = ""
