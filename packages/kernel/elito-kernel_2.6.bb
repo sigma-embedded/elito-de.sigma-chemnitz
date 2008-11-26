@@ -5,6 +5,7 @@ PR		 = "r1"
 
 DEPENDS		+= '${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
 KERNEL_REPO	?= "${ELITO_GIT_MIRROR}/kernel.git"
+KERNEL_TFTP_IMAGE ?= ""
 
 S		 = "${WORKDIR}/linux-elito"
 SRC_URI		 = "file://git.repo"
@@ -47,6 +48,11 @@ EOF
 	if ! test -e .config; then
 		oe_runmake "${KERNEL_DEFCONFIG}"
 	fi
+}
+
+do_stage_prepend() {
+	test -z "${KERNEL_TFTP_IMAGE}" || \
+		cat "${KERNEL_OUTPUT}" > "${KERNEL_TFTP_IMAGE}"
 }
 
 inherit kernel
