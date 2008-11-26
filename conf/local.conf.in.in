@@ -31,6 +31,4 @@ PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}g++:gcc-cross"
 @TAR_TRUE@@NFSROOT_TRUE@INHERIT     += "rootfs_tar"
 @NFSROOT_TRUE@IMAGE_ROOTFS = "@nfs_rootdir@"
 
-DISTRO_INIT_MANAGER = "upstart"
-
 require conf/project.conf
