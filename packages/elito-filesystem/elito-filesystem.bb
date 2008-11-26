@@ -1,7 +1,7 @@
 DESCRIPTION	= "Base file system structure."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r6"
+PR		= "r7"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "all"
 
