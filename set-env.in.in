@@ -5,4 +5,3 @@ CCACHE_DIR=@CACHE_DIR@/ccache
 BBPATH=@abs_top_builddir@:@ELITO_ROOTDIR@/de.sigma-chemnitz.elito:@ELITO_ROOTDIR@/org.openembedded.dev
 
 export CCACHE_DIR BBPATH
-

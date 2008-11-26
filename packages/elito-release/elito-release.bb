@@ -48,4 +48,3 @@ do_install() {
 		-e 's!@DISTRO_VERSION@!${DISTRO_VERSION}!g'	\
 		issues > ${D}${sysconfdir}/issues
 }
-
