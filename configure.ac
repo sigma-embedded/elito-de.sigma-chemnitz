@@ -92,13 +92,13 @@ AC_DEFUN([ELITO_ASSUME],[
 	AC_ARG_ENABLE(pkg-$1,
 		AS_HELP_STRING([--enable-pkg-$1=<mode>],
 			[Set type for package $1. Possible values are 'auto', 'system' or 'builtin'. Default is 'auto']),
-		[], [enable_pkg_[]translit($1,-,_)=auto])
+		[], [enableval=auto])
 
-	force=$2
-	case $enable_pkg_[]translit($1,-,_) in
-	(auto)	;;
-	(no)	force=false;;
-	(yes)	force=true;;
+	enable_pkg_[]translit($1,-,_)=$enableval
+	case $enableval in
+	(auto)		force=$2;;
+	(no|builtin)	force=false;;
+	(yes|system)	force=true;;
 	esac
 	$force && elito_assumed="$elito_assumed ifelse($3,,$1-native,$3)"
 ])
