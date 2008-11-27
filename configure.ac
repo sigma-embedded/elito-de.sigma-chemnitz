@@ -84,31 +84,47 @@ dnl -----------------
 AC_DEFUN([ELITO_INIT_VARS],[
 	elito_assumed=
 	AC_SUBST(elito_assumed)
+
+	: ${NATIVE_LEVEL:=11}
+	AC_ARG_VAR([NATIVE_LEVEL], [Level for which tools are staged from scratch for -native components])
 ])
 
 AC_DEFUN([ELITO_ASSUME],[
 	AC_REQUIRE([ELITO_INIT_VARS])
 
-	AC_ARG_ENABLE(pkg-$1,
-		AS_HELP_STRING([--enable-pkg-$1=<mode>],
-			[Set type for package $1. Possible values are 'auto', 'system' or 'builtin'. Default is 'auto']),
-		[], [enableval=auto])
+	AC_MSG_CHECKING([whether to enable system version for $2])
+	AC_ARG_ENABLE(pkg-$2,
+		AS_HELP_STRING([--enable-pkg-$2=<mode>],
+			[Set type for package $2. Possible values are 'auto', 'system' or 'builtin'. Default is 'auto']),
+		[],[
+		if test "$1" -lt "$NATIVE_LEVEL"; then
+			enableval=auto;
+		else
+			enableval=no;
+		fi])
 
-	enable_pkg_[]translit($1,-,_)=$enableval
+	enable_pkg_[]translit($2,-,_)=$enableval
 	case $enableval in
-	(auto)		force=$2;;
+	(auto)		force=$3;;
 	(no|builtin)	force=false;;
 	(yes|system)	force=true;;
 	esac
-	$force && elito_assumed="$elito_assumed ifelse($3,,$1-native,$3)"
+
+	$force && elito_assumed="$elito_assumed ifelse($4,,$2-native,$4)"
+
+	if $force; then
+		AC_MSG_RESULT([yes])
+	else
+		AC_MSG_RESULT([no])
+	fi
 ])
 
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
-	AC_PATH_PROGS($1, $2)
-	if test -x "${$1}"; then
-		ELITO_ASSUME(ifelse($3,,$2,$3),true)
+	AC_PATH_PROGS($2, $3)
+	if test -x "${$2}"; then
+		ELITO_ASSUME($1,ifelse($4,,$3,$4),true)
 	else
-		ELITO_ASSUME(ifelse($3,,$2,$3),false)
+		ELITO_ASSUME($1,ifelse($4,,$3,$4),false)
 	fi
 ])
 
@@ -116,41 +132,41 @@ dnl AC_PATH_PROGS(BITBAKE, bitbake)
 BITBAKE=\${abs_top_builddir}/tmp/staging/.bitbake/bin/bitbake
 AC_SUBST(BITBAKE)
 
-ELITO_CHECK_PROGRAM(QUILT,      quilt)
-ELITO_CHECK_PROGRAM(M4,         m4)
-ELITO_CHECK_PROGRAM(BISON,      bison)
-ELITO_CHECK_PROGRAM(FLEX,       flex)
-dnl ELITO_CHECK_PROGRAM(GETTEXT,    gettext)
-ELITO_CHECK_PROGRAM(FILE,       file)
-ELITO_CHECK_PROGRAM(QEMU,       qemu)
-ELITO_CHECK_PROGRAM(FAKEROOT,   fakeroot)
-dnl ELITO_CHECK_PROGRAM(PKGCONFIG,  pkg-config,  pkgconfig)
-ELITO_CHECK_PROGRAM(PYTHON,     python)
-ELITO_CHECK_PROGRAM(XML2CONFIG, xml2-config, libxml2)
-ELITO_CHECK_PROGRAM(ZIP,        zip)
-dnl ELITO_CHECK_PROGRAM(CURL,       curl)
-ELITO_CHECK_PROGRAM(GIT,        git)
-ELITO_CHECK_PROGRAM(INSTALL,    install)
-ELITO_CHECK_PROGRAM(COREUTILS,  basename, coreutils)
-dnl ELITO_CHECK_PROGRAM(PERL,       perl)
-ELITO_CHECK_PROGRAM(SHARED_MIME_INFO, update-mime-database, shared-mime-info)
-dnl ELITO_CHECK_PROGRAM(AUTOCONF,   autoconf)
-dnl ELITO_CHECK_PROGRAM(AUTOMAKE,   automake)
-dnl ELITO_CHECK_PROGRAM(LIBTOOL,    libtoolize,  libtool)
+ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
+ELITO_CHECK_PROGRAM( 0, M4,         m4)
+ELITO_CHECK_PROGRAM( 0, BISON,      bison)
+ELITO_CHECK_PROGRAM( 5, FLEX,       flex)
+ELITO_CHECK_PROGRAM(90, GETTEXT,    gettext)
+ELITO_CHECK_PROGRAM( 0, FILE,       file)
+ELITO_CHECK_PROGRAM( 0, QEMU,       qemu)
+ELITO_CHECK_PROGRAM( 0, FAKEROOT,   fakeroot)
+ELITO_CHECK_PROGRAM(90, PKGCONFIG,  pkg-config,  pkgconfig)
+ELITO_CHECK_PROGRAM(10, PYTHON,     python)
+ELITO_CHECK_PROGRAM(20, XML2CONFIG, xml2-config, libxml2)
+ELITO_CHECK_PROGRAM( 0, ZIP,        zip)
+ELITO_CHECK_PROGRAM(80, CURL,       curl)
+ELITO_CHECK_PROGRAM( 0, GIT,        git)
+ELITO_CHECK_PROGRAM( 0, INSTALL,    install)
+ELITO_CHECK_PROGRAM( 0, COREUTILS,  basename, coreutils)
+ELITO_CHECK_PROGRAM(60, PERL,       perl)
+ELITO_CHECK_PROGRAM( 5, SHARED_MIME_INFO, update-mime-database, shared-mime-info)
+ELITO_CHECK_PROGRAM(90, AUTOCONF,   autoconf)
+ELITO_CHECK_PROGRAM(90, AUTOMAKE,   automake)
+ELITO_CHECK_PROGRAM(90, LIBTOOL,    libtoolize,  libtool)
 
-AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(gmp,true)])
-AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(zlib,true)])
-AC_CHECK_HEADER(mpfr.h,      [ELITO_ASSUME(mpfr,true)])
-AC_CHECK_HEADER(ncurses.h,   [ELITO_ASSUME(ncurses,true)])
-AC_CHECK_HEADER(expat.h,     [ELITO_ASSUME(expat,true)])
-AC_CHECK_HEADER(popt.h,      [ELITO_ASSUME(popt,true)])
-AC_CHECK_HEADER(db.h,        [ELITO_ASSUME(db,true)])
-AC_CHECK_HEADER(lzo/lzo2a.h, [ELITO_ASSUME(lzo,true)])
+AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
+AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
+AC_CHECK_HEADER(mpfr.h,      [ELITO_ASSUME(20, mpfr,true)])
+AC_CHECK_HEADER(ncurses.h,   [ELITO_ASSUME(10, ncurses,true)])
+AC_CHECK_HEADER(expat.h,     [ELITO_ASSUME(10, expat,true)])
+AC_CHECK_HEADER(popt.h,      [ELITO_ASSUME(10, popt,true)])
+AC_CHECK_HEADER(db.h,        [ELITO_ASSUME(10, db,true)])
+AC_CHECK_HEADER(lzo/lzo2a.h, [ELITO_ASSUME(10, lzo,true)])
 
-dnl PKG_CHECK_MODULES(GLIB20,    [glib-2.0],    [ELITO_ASSUME(glib20,    true, glib-2.0-native)],  [true])
-dnl PKG_CHECK_MODULES(DBUS,      [dbus-1],      [ELITO_ASSUME(dbus,      true)],      [true])
-dnl PKG_CHECK_MODULES(DBUS_GLIB, [dbus-glib-1], [ELITO_ASSUME(dbus_glib, true, dbus-glib-native)], [true])
-dnl PKG_CHECK_MODULES(ORBIT2,    [ORBit-2.0],   [ELITO_ASSUME(orbit2,    true)], [true])
+PKG_CHECK_MODULES(GLIB20,    [glib-2.0],    [ELITO_ASSUME(70, glib20,    true, glib-2.0-native)],  [true])
+PKG_CHECK_MODULES(DBUS,      [dbus-1],      [ELITO_ASSUME(70, dbus,      true)],      [true])
+PKG_CHECK_MODULES(DBUS_GLIB, [dbus-glib-1], [ELITO_ASSUME(70, dbus_glib, true, dbus-glib-native)], [true])
+PKG_CHECK_MODULES(ORBIT2,    [ORBit-2.0],   [ELITO_ASSUME(70, orbit2,    true)], [true])
 
 AC_CONFIG_FILES([Makefile
 		set-env.in
