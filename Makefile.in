@@ -25,7 +25,9 @@ CFG_FILES =		Makefile		\
 			conf/local.conf		\
 			bitbake
 
-TEMPLATE_FILES =	conf/project.conf
+TEMPLATE_FILES =	conf/project.conf	\
+			.gitignore		\
+			packages/helloworld/helloworld.bb
 
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
 
