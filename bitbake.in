@@ -3,7 +3,7 @@
 abs_top_builddir='@abs_top_builddir@'
 . ${abs_top_builddir}/set-env
 
-BB_ENV_EXTRAWHITE='HOME ftp_proxy http_proxy https_proxy no_proxy'
+BB_ENV_EXTRAWHITE='CCACHE_DIR HOME ftp_proxy http_proxy https_proxy no_proxy'
 export BB_ENV_EXTRAWHITE
 
 exec @BITBAKE@ "$@"
