@@ -35,7 +35,7 @@ AC_SUBST(MACHINE)
 AC_ARG_WITH(cache-dir,
 	AS_HELP_STRING([--with-cache-dir=<dir>],
 		       [Directory where to place e.g. downloaded sources or ccache data.
-		        This can be shared between multiple projects. Default: ../cache]),
+			This can be shared between multiple projects. Default: ../cache]),
 	[CACHE_DIR=$withval], [CACHE_DIR=\${abs_top_builddir}/../cache])
 AC_SUBST(_CACHE_DIR, [$CACHE_DIR])
 
