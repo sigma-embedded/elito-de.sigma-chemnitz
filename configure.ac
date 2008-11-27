@@ -153,8 +153,9 @@ dnl PKG_CHECK_MODULES(ORBIT2,    [ORBit-2.0],   [ELITO_ASSUME(orbit2,    true)],
 AC_CONFIG_FILES([Makefile
 		set-env.in
 		conf/local.conf.in])
-AC_CONFIG_FILES(bitbake, [chmod +x bitbake])
+AC_CONFIG_FILES(bitbake, [chmod a+x bitbake])
 
 AC_CONFIG_COMMANDS([config], [make -s config])
+AC_CONFIG_COMMANDS([fixperm], [chmod a-w $CONFIG_FILES])
 
 AC_OUTPUT()

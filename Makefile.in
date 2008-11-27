@@ -65,6 +65,7 @@ $(_template_files):$(abs_top_builddir)/%:
 			@-rm -f $@.tmp $@
 			$(SED) $(SED_EXPR) $< > $@.tmp
 			mv $@.tmp $@
+			chmod a-w $@
 
 clean:
 			rm -f set-env.in conf/local.conf bitbake
