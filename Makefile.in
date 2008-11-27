@@ -56,7 +56,8 @@ tmp/stamps/.bitbake.stamp:	tmp/stamps/.bitbake.patch.stamp
 
 $(_template_files):$(abs_top_builddir)/%:
 			test ! -e $@
-			cp --preserve=mode,timestamps ${abs_top_srcdir}/$* $@
+			mkdir -p $(dir $@)
+			cp --preserve=mode,timestamps ${abs_top_srcdir}/$*.sample $@
 
 %:			%.in
 			@-rm -f $@.tmp $@
