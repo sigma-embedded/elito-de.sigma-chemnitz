@@ -10,7 +10,6 @@ BBFILES    := "${PROJECT_TOPDIR}/packages/*/*.bb"
 BBFILES    += "${ELITO_TOPDIR}/packages/*/*.bb"
 BBFILES    += "${OEDEV_TOPDIR}/packages/*/*.bb"
 @EXTRA_BBFILES_TRUE@BBFILES += " @EXTRA_BBFILES@"
-BBMASK      = ""
 
 ASSUME_PROVIDED += " @elito_assumed@"
 
