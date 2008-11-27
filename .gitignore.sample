@@ -1,0 +1,9 @@
+tmp
+Makefile
+bitbake
+config.log
+config.status
+set-env
+set-env.in
+conf/local.conf
+conf/local.conf.in
