@@ -1,6 +1,8 @@
 DESCRIPTION	 = "ELiTo Linux kernel"
 SECTION		 = "kernel"
 LICENSE		 = "GPL"
+
+PV		 = "${MACHINE_KERNEL_VERSION}"
 PR		 = "r1"
 
 DEPENDS		+= '${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
