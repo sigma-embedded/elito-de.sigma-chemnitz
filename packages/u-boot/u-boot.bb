@@ -5,7 +5,7 @@ LICENSE		 = "GPL"
 PROVIDES	 = "virtual/bootloader"
 PACKAGE_ARCH	 = "${MACHINE_ARCH}"
 PV		 = "2008.10"
-PR		 = "r1.1"
+PR		 = "r2"
 
 EXTRA_OEMAKE	 = "CROSS_COMPILE=${TARGET_PREFIX}"
 
