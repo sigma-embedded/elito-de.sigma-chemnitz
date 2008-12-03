@@ -14,13 +14,18 @@ _branch          = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 
 do_fetch() {
 	set -x
+	install -d ${S}
+	cd ${S}
 
 	if ! test -d ${S}/.git; then
+		git init
+		git remote add origin-elito "${KERNEL_REPO}"
 		git clone -nqls -o origin-elito "${KERNEL_REPO}" "${S}"
-		cd ${S}
-		git branch --track "${_branch}" "remotes/origin-elito/${_branch}"
-		git reset -q --hard "${_branch}"
-		git checkout "${_branch}"
+		git config remote.origin-elito.fetch 'refs/heads/${_branch}:refs/remotes/origin-elito/${_branch}'
+		git config remote.origin-elito.tagopt --no-tags
+
+		git fetch origin-elito
+		git checkout --track -b "${_branch}" "remotes/origin-elito/${_branch}"
 		git branch -D master || :
 	else
 		cd ${S}
