@@ -20,7 +20,6 @@ do_fetch() {
 	if ! test -d ${S}/.git; then
 		git init
 		git remote add origin-elito "${KERNEL_REPO}"
-		git clone -nqls -o origin-elito "${KERNEL_REPO}" "${S}"
 		git config remote.origin-elito.fetch 'refs/heads/${_branch}:refs/remotes/origin-elito/${_branch}'
 		git config remote.origin-elito.tagopt --no-tags
 
