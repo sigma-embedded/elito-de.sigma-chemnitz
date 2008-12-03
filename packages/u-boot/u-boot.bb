@@ -5,7 +5,7 @@ LICENSE		 = "GPL"
 PROVIDES	 = "virtual/bootloader"
 PACKAGE_ARCH	 = "${MACHINE_ARCH}"
 PV		 = "2008.10"
-PR		 = "r1"
+PR		 = "r1.1"
 
 EXTRA_OEMAKE	 = "CROSS_COMPILE=${TARGET_PREFIX}"
 
@@ -27,14 +27,17 @@ _branch = "${PV}/${UBOOT_BRANCH}"
 
 do_fetch() {
 	set -x
-	echo ${S}, ${WORKDIR}
+	install -d ${S}
+	cd ${S}
 
 	if ! test -d ${S}/.git; then
-		git clone -nqls -o origin-elito "${UBOOT_REPO}" "${S}"
-		cd ${S}
-		git branch --track "${_branch}" "remotes/origin-elito/${_branch}"
-		git reset -q --hard "${_branch}"
-		git checkout "${_branch}"
+		git init
+		git remote add origin-elito "${UBOOT_REPO}"
+		git config remote.origin-elito.fetch 'refs/heads/${_branch}:refs/remotes/origin-elito/${_branch}'
+		git config remote.origin-elito.tagopt --no-tags
+
+		git fetch origin-elito
+		git checkout --track -b "${_branch}" "remotes/origin-elito/${_branch}"
 		git branch -D master || :
 	else
 		cd ${S}
@@ -46,6 +49,7 @@ do_fetch() {
 do_configure() {
 	oe_runmake ${UBOOT_MACHINE}
 	oe_runmake include/autoconf.mk
+	oe_runmake clean
 }
 
 do_compile() {
