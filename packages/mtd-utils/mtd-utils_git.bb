@@ -9,7 +9,6 @@ SRCREV  = "${AUTOREV}"
 SRC_URI = " \
 	git://git.infradead.org/mtd-utils.git;protocol=git;branch=master \
 	file://mtd-utils-1.2.0-flags.patch;patch=1 \
-	file://install-m.patch;patch=1 \
 "
 S = "${WORKDIR}/git"
 
