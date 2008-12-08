@@ -13,6 +13,12 @@ AC_DEFUN([ELITO_TRUE_FALSE],
 	fi
 ])
 
+AC_ARG_WITH([project-name],
+	[AS_HELP_STRING([--with-project-name=<name>],
+		[project name (default: directory basename)])],
+	[PROJECT_NAME=$withval],[PROJECT_NAME=$(basename "`pwd`")])
+AC_SUBST(PROJECT_NAME)
+
 AC_ARG_ENABLE(maintainer-mode,
 	AS_HELP_STRING([--enable-maintainer-mode],
 		       [Recreate buildsystem automatically]),

@@ -2,6 +2,7 @@ DISTRO_TYPE	 = "@DISTRO_TYPE@"
 ELITO_ROOTDIR	 = "@ELITO_ROOTDIR@"
 DL_DIR		 = "@CACHE_DIR@/sources"
 
+PROJECT_NAME	:= "@PROJECT_NAME@"
 PROJECT_TOPDIR	:= "@abs_top_builddir@"
 ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz.elito"
 OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.dev"
