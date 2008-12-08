@@ -41,9 +41,9 @@ AC_SUBST(_CACHE_DIR, [$CACHE_DIR])
 
 AC_ARG_ENABLE(ccache,
 	AS_HELP_STRING([--enable-ccache],
-		       [Enable ccache support (default:detected)],
+		       [Enable ccache support (default:detected)]),
 	[],
-	[enable_ccache=auto]))
+	[enable_ccache=auto])
 
 AC_ARG_WITH(kernel-reference-repo,
 	AS_HELP_STRING([--with-kernel-reference-repo=<dir>],
@@ -141,7 +141,7 @@ ELITO_CHECK_PROGRAM( 0, FILE,       file)
 ELITO_CHECK_PROGRAM( 0, QEMU,       qemu)
 ELITO_CHECK_PROGRAM( 0, FAKEROOT,   fakeroot)
 ELITO_CHECK_PROGRAM(90, PKGCONFIG,  pkg-config,  pkgconfig)
-ELITO_CHECK_PROGRAM(10, PYTHON,     python)
+ELITO_CHECK_PROGRAM(95, PYTHON,     python)
 ELITO_CHECK_PROGRAM(20, XML2CONFIG, xml2-config, libxml2)
 ELITO_CHECK_PROGRAM( 0, ZIP,        zip)
 ELITO_CHECK_PROGRAM(80, CURL,       curl)
