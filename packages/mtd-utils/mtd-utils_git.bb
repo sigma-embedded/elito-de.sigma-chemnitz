@@ -3,11 +3,14 @@ SECTION		= "base"
 DEPENDS		= "zlib lzo e2fsprogs-libs"
 HOMEPAGE	= "http://www.linux-mtd.infradead.org/"
 LICENSE		= "GPLv2"
-PR		= "r1"
+PV		= "1.2.0"
+PR		= "r1.${SRCREV}"
+
+GIT_COMMIT	?= "branch=master"
 
 SRCREV  = "${AUTOREV}"
 SRC_URI = " \
-	git://git.infradead.org/mtd-utils.git;protocol=git;branch=master \
+	git://git.infradead.org/mtd-utils.git;protocol=git;${GIT_COMMIT} \
 	file://mtd-utils-1.2.0-flags.patch;patch=1 \
 "
 S = "${WORKDIR}/git"
