@@ -43,8 +43,18 @@ do_configure_prepend() {
 	ccache=`type -p ccache`
 
 	cat << EOF > mf
+export PATH = ${PATH}
+export CCACHE_DIR = ${CCACHE_DIR}
+export CC = ${KERNEL_CC}
+export LD = ${KERNEL_LD}
+export CROSS_COMPILE = ${CROSS_COMPILE}
+export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
+
+_flash_filename = ${KERNEL_TFTP_IMAGE}
+_bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+
 %:
-	env PATH=\$\$PATH:$dn CCACHE_DIR=${CCACHE_DIR} \$(MAKE) CC='ccache ${CROSS_COMPILE}gcc' LD=${CROSS_COMPILE}ld CROSS_COMPILE=${CROSS_COMPILE} MAKELEVEL=0 \$@
+	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(CC)' LD='\$(LD)' ${@base_conditional("KERNEL_TFTP_IMAGE","","","FLASH_FILENAME='\$(_flash_filename)'",d)} MAKELEVEL=0 \$@
 
 unexport MAKEFILES
 unexport MAKELEVEL
