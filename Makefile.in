@@ -12,7 +12,7 @@ VPATH ?=		$(abs_top_srcdir)
 SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'
 
-BITBAKE_REV =		1118
+BITBAKE_REV =		1145
 BITBAKE_URI =		http://svn.berlios.de/svnroot/repos/bitbake/branches/bitbake-1.8
 
 AUTOCONF_FILES =	Makefile		\
