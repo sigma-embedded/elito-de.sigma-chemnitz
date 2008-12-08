@@ -26,6 +26,7 @@ do_fetch() {
 		git init
 		git remote add origin-elito "${KERNEL_REPO}"
 		git config remote.origin-elito.fetch 'refs/heads/${_branch}:refs/remotes/origin-elito/${_branch}'
+		git config remote origin-elito.push  'refs/heads/${_branch}:refs/heads/merge-${PROJECT_NAME}/${_branch}'
 		git config remote.origin-elito.tagopt --no-tags
 
 		git fetch origin-elito
