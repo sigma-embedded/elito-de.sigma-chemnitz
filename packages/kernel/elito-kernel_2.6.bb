@@ -4,6 +4,8 @@ LICENSE		 = "GPL"
 
 PV		 = "${MACHINE_KERNEL_VERSION}"
 PR		 = "r1"
+#PV_PKG		 = "${KERNEL_RELEASE}"
+PR_PKG		 = "${PR}${@base_conditional('METADATA_REVISION','','','+${METADATA_REVISION}',d)}"
 
 DEPENDS		+= '${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
 KERNEL_REPO	?= "${ELITO_GIT_MIRROR}/kernel.git"
