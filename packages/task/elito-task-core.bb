@@ -1,5 +1,5 @@
 DESCRIPTION = "Basic task to get a device booting with core functionality"
-PR = "r0"
+PR = "r0.${PROJECT_FILE_DATE}"
 
 inherit task
 

@@ -1,5 +1,5 @@
 DESCRIPTION = "Basic task to get a device booting to a prompt"
-PR          = "r9"
+PR          = "r9.${PROJECT_FILE_DATE}"
 
 inherit task
 
