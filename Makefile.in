@@ -7,6 +7,7 @@ abs_top_builddir :=	$(abspath @abs_top_builddir@)
 ELITO_ROOTDIR :=	$(abspath $(abs_top_srcdir)/..)
 CACHE_DIR :=		$(abspath @_CACHE_DIR@)
 PROJECT_NAME :=		@PROJECT_NAME@
+QUILT :=		@QUILT@
 
 VPATH ?=		$(abs_top_srcdir)
 
@@ -48,7 +49,15 @@ tmp/stamps/.bitbake.fetch.stamp:
 			@touch $@
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
+ifeq ($(QUILT),)
 			cd tmp/bitbake && cat $(abs_top_srcdir)/packages/bitbake/*.patch | patch -p0
+else
+			cd tmp/bitbake && $(QUILT) pop -a || :
+			rm -rf tmp/bitbake/patches tmp/bitbake/.pc
+			mkdir -p tmp/bitbake/patches
+			cd tmp/bitbake && $(QUILT) import -p0 $(abs_top_srcdir)/packages/bitbake/*.patch
+			cd tmp/bitbake && $(QUILT) push -a
+endif
 			@touch $@
 
 tmp/stamps/.bitbake.stamp:	tmp/stamps/.bitbake.patch.stamp
