@@ -35,6 +35,7 @@ TEMPLATE_FILES =	conf/project.conf	\
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
 
 config:			$(CFG_FILES) $(_template_files) .gitignore
+init:			bitbake-fetch
 
 _bitbake_root =		$(abs_top_builddir)/tmp/staging/.bitbake
 
