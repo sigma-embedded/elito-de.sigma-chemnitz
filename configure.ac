@@ -159,6 +159,7 @@ ELITO_CHECK_PROGRAM( 5, SHARED_MIME_INFO, update-mime-database, shared-mime-info
 ELITO_CHECK_PROGRAM(90, AUTOCONF,   autoconf)
 ELITO_CHECK_PROGRAM(90, AUTOMAKE,   automake)
 ELITO_CHECK_PROGRAM(90, LIBTOOL,    libtoolize,  libtool)
+ELITO_CHECK_PROGRAM(60, UIC_QT4,    uic-qt4,     uicmoc4)
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
 AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
