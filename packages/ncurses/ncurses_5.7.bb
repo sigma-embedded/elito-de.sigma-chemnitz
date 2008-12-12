@@ -5,9 +5,14 @@ HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
 LICENSE = "MIT"
 SECTION = "libs"
 DEPENDS = "ncurses-native"
-PACKAGES_prepend = "ncurses-tools "
-PACKAGES_append = " ncurses-terminfo"
-PACKAGES_append = " ncurses-libtinfo"
+PACKAGES =+ " \
+	ncurses-tools \
+	ncurses-libtinfo \
+	ncurses-libpanel \
+	ncurses-libform \
+	ncurses-libmenu \
+"
+PACKAGES += "ncurses-terminfo"
 RSUGGESTS_${PN} = "ncurses-terminfo"
 RPROVIDES = "libncurses5"
 
@@ -19,6 +24,9 @@ FILES_ncurses_append   = " ${datadir}/tabset"
 FILES_ncurses-tools    = "${bindir}/tic ${bindir}/toe ${bindir}/infotocap ${bindir}/captoinfo ${bindir}/infocmp ${bindir}/clear.${PN} ${bindir}/reset.${PN} ${bindir}/tack "
 FILES_ncurses-terminfo = "${datadir}/terminfo"
 FILES_ncurses-libtinfo = "${libdir}/libtinfo.so.*"
+FILES_ncurses-libpanel = "${libdir}/libpanel.so.*"
+FILES_ncurses-libform  = "${libdir}/libform.so.*"
+FILES_ncurses-libmenu  = "${libdir}/libmenu.so.*"
 FILES_${PN} = "${bindir}/tput ${bindir}/tset ${libdir}/lib*.so.* usr/share/tabset etc/terminfo"
 
 
