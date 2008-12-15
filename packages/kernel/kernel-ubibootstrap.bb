@@ -32,6 +32,7 @@ KERNEL_BOOTSTRAP_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-bootstrap-${MACHINE}
 
 KERNEL_BOOTSTRAP_LIBS = "ld-linux.so.* lib[cm].so.* libgcc_s.so.*"
 #KERNEL_BOOTSTRAP_LIBS += "libdl.so.* libpthread.so.* libutil.so.*"
+KERNEL_BOOTSTRAP_RAMFS_EXTRA ?= ":"
 
 DEPENDS += " \
 	busybox \
@@ -76,6 +77,8 @@ do_prepramfs() {
 			fi
 		done
 	) >> ramfs.txt
+
+	${KERNEL_BOOTSTRAP_RAMFS_EXTRA}
 
 	rm -f usr/initramfs_*cpio*
 }
