@@ -1,20 +1,23 @@
-PR = "r0"
+PR = "r0.20081206"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
 LICENSE = "MIT"
 SECTION = "libs"
 DEPENDS = "ncurses-native"
-PACKAGES =+ " \
+PACKAGES = " \
+	ncurses-dbg \
+	ncurses-dev \
+	ncurses-doc \
 	ncurses-tools \
 	ncurses-libtinfo \
 	ncurses-libpanel \
 	ncurses-libform \
 	ncurses-libmenu \
+	ncurses \
+	ncurses-terminfo \
 "
-PACKAGES += "ncurses-terminfo"
 RSUGGESTS_${PN} = "ncurses-terminfo"
-RPROVIDES = "libncurses5"
 
 inherit autotools
 
@@ -29,7 +32,6 @@ FILES_ncurses-libform  = "${libdir}/libform.so.*"
 FILES_ncurses-libmenu  = "${libdir}/libmenu.so.*"
 FILES_${PN} = "${bindir}/tput ${bindir}/tset ${libdir}/lib*.so.* usr/share/tabset etc/terminfo"
 
-
 SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081115.patch.gz;patch=1		\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081122.patch.gz;patch=1		\
@@ -37,7 +39,6 @@ SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081206.patch.gz;patch=1		\
 	file://tic-hang.patch;patch=1	\
 "
-S = "${WORKDIR}/ncurses-${PV}"
 
 do_configure_prepend() {
 	rm -rf tack
