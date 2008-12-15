@@ -47,9 +47,9 @@ do_prepramfs() {
 		${WORKDIR}/ramfs.template > ramfs.txt
 
 	for i in ash basename cat cp dd df dmesg echo false find free grep \
-		gunzip gzip hostname ip kill \
-		ln ls mkdir mknod mktemp more mount mv ping ps pwd readlink \
-		rm rmdir sed sh \
+		gunzip gzip hostname ip kill less ln ls mkdir mknod mktemp \
+		more \
+		mount mv nc ping ps pwd readlink rm rmdir sed sh sha1sum \
 		sleep sync tar touch true umount uname vi zcat; do
 		echo slink /bin/$i busybox 777 0 0
 	done >> ramfs.txt
