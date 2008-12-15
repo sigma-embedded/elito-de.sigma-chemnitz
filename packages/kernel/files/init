@@ -9,4 +9,7 @@ mount -n -t usbfs   none /proc/bus/usb 2>/dev/null || :
 
 /sbin/scan-dev mem mtd misc
 
+_f=/sbin/init.platform
+! test -x $_f || $_f
+
 exec /bin/sh
