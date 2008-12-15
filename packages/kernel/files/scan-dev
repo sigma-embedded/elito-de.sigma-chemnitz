@@ -1,0 +1,32 @@
+#! /bin/sh
+
+create_dev() {
+    name=$1
+    dev=$(cat "$2/dev")
+    class=$3
+    maj=${dev%%:*}
+    min=${dev##*:}
+
+    rm -f /dev/$name
+    mknod /dev/$name c "$maj" "$min"
+
+    ! test -s "$2/name" -a -n "$class" || {
+	fname=$(cat "$2/name")
+	mkdir -p "/dev/_$class"
+	ln -s ../$name "/dev/_$class/$fname"
+    }
+}
+
+for c; do
+    if cd /sys/devices/virtual/$c; then
+        class=$(readlink subsystem 2>/dev/null)
+	class=$(basename "$class")
+
+	for i in *; do
+	    test -e "$i"/dev || continue
+	    create_dev $i $i $class
+	done
+
+	cd - >/dev/null
+    fi
+done

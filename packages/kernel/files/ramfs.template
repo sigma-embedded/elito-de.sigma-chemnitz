@@ -1,0 +1,42 @@
+dir /dev	 755 0 0
+dir /dev/pts	 755 0 0
+nod /dev/console 644 0 0 c 5 1
+nod /dev/null    666 0 0 c 1 3
+nod /dev/zero    666 0 0 c 1 5
+nod /dev/full    666 0 0 c 1 7
+nod /dev/random  666 0 0 c 1 8
+nod /dev/urandom 666 0 0 c 1 9
+
+dir /bin	755 0 0
+dir /sbin	755 0 0
+dir /proc	755 0 0
+dir /sys	755 0 0
+dir /lib	755 0 0
+dir /mnt	755 0 0
+dir /var	755 0 0
+dir /etc	755 0 0
+dir /usr	755 0 0
+dir /tmp	755 0 0
+
+slink /usr/sbin /sbin 755 0 0
+slink /usr/bin  /bin  755 0 0
+
+file  /bin/busybox @R@/bin/busybox 755 0 0
+file  /sbin/init @R@/sbin/init.wrapper 755 0 0
+slink /init /sbin/init 777 0 0
+file  /sbin/init.wrapped @W@/init     755 0 0
+file  /sbin/scan-dev     @W@/scan-dev 755 0 0
+
+#file /bin/strace @R@/usr/bin/strace 755 0 0
+
+file /sbin/ubiformat    @R@/usr/sbin/ubiformat     755 0 0
+file /sbin/ubiattach    @R@/usr/sbin/ubiattach     755 0 0
+file /sbin/ubidetach    @R@/usr/sbin/ubidetach     755 0 0
+file /sbin/ubimkvol     @R@/usr/sbin/ubimkvol      755 0 0
+file /sbin/ubirmvol     @R@/usr/sbin/ubirmvol      755 0 0
+file /sbin/ubiupdatevol @R@/usr/sbin/ubiupdatevol  755 0 0
+file /sbin/ubinfo       @R@/usr/sbin/ubinfo        755 0 0
+
+file /sbin/flash_erase    @R@/usr/sbin/flash_erase    755 0 0
+file /sbin/flash_eraseall @R@/usr/sbin/flash_eraseall 755 0 0
+file /sbin/flash_info     @R@/usr/sbin/flash_info     755 0 0
