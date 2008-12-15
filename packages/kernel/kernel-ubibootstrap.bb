@@ -18,6 +18,11 @@ _tftp_image	 = "${KERNEL_BOOTSTRAP_TFTP_IMAGE}"
 _defconfig	 = "${KERNEL_BOOTSTRAP_DEFCONFIG}"
 _kernel_output 	 = "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
 
+TARGET_CC_KERNEL_ARCH ?= ""
+HOST_CC_KERNEL_ARCH ?= "${TARGET_CC_KERNEL_ARCH}"
+TARGET_LD_KERNEL_ARCH ?= ""
+HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+
 KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} ${HOST_CC_KERNEL_ARCH}"
 KERNEL_LD = "${LD}${KERNEL_LDSUFFIX} ${HOST_LD_KERNEL_ARCH}"
 export CROSS_COMPILE = "${TARGET_PREFIX}"
@@ -76,7 +81,6 @@ do_prepramfs() {
 }
 
 do_configure() {
-
 	echo 'CONFIG_INITRAMFS_SOURCE="ramfs.txt"' >> .config
 	oe_runmake -f mf oldconfig
 
