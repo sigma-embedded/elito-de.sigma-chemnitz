@@ -40,10 +40,13 @@ do_configure_prepend() {
 	ccache=`type -p ccache`
 
 	cat << EOF > mf
+_cc = ${KERNEL_CC}
+_ld = ${KERNEL_LD}
+
 export PATH = ${PATH}
 export CCACHE_DIR = ${CCACHE_DIR}
-export CC = ${KERNEL_CC}
-export LD = ${KERNEL_LD}
+export CC = \$(_cc)
+export LD = \$(_ld)
 export CROSS_COMPILE = ${CROSS_COMPILE}
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 
@@ -51,7 +54,7 @@ _flash_filename = ${_tftp_image}
 _bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 
 %:
-	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(CC)' LD='\$(LD)' ${@base_conditional("_tftp_image","","","FLASH_FILENAME='\$(_flash_filename)'",d)} MAKELEVEL=0 \$@
+	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(_cc)' LD='\$(_ld)' ${@base_conditional("_tftp_image","","","FLASH_FILENAME='\$(_flash_filename)'",d)} MAKELEVEL=0 \$@
 
 unexport MAKEFILES
 unexport MAKELEVEL
