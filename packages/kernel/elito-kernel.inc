@@ -8,29 +8,10 @@ PR_PKG	= "${PR}${@base_conditional('METADATA_REVISION','','','+${METADATA_REVISI
 S	 = "${WORKDIR}/linux-${PV}"
 SRC_URI ?= "file://git.repo"
 
+GIT_REPO   = "${KERNEL_REPO}"
+GIT_BRANCH = "${_branch}"
 
-do_fetchgit() {
-	set -x
-	install -d ${S}
-	cd ${S}
-
-	if ! test -d ${S}/.git; then
-		git init
-		git remote add origin-elito "${KERNEL_REPO}"
-		git config remote.origin-elito.fetch 'refs/heads/${_branch}:refs/remotes/origin-elito/${_branch}'
-		git config remote.origin-elito.push  'refs/heads/${_branch}:refs/heads/merge-${PROJECT_NAME}/${_branch}'
-		git config remote.origin-elito.tagopt --no-tags
-
-		git fetch origin-elito
-		git checkout --track -b "${_branch}" "remotes/origin-elito/${_branch}"
-		git branch -D master || :
-	else
-		cd ${S}
-		git fetch origin-elito
-		git pull
-	fi
-}
-addtask fetchgit after do_fetch before do_unpack
+inherit gitdevel
 
 do_configure_prepend() {
 	gc=`type -p ${CROSS_COMPILE}gcc`

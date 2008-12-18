@@ -23,29 +23,10 @@ FILES_${PN}-bin  = "/boot/u-boot.bin"
 DEPENDS		+= "git-native"
 DEFAULT_PREFERENCE = "99"
 
-_branch = "${PV}/${UBOOT_BRANCH}"
+GIT_REPO   = "${UBOOT_REPO}"
+GIT_BRANCH = "${PV}/${UBOOT_BRANCH}"
 
-do_fetch() {
-	set -x
-	install -d ${S}
-	cd ${S}
-
-	if ! test -d ${S}/.git; then
-		git init
-		git remote add origin-elito "${UBOOT_REPO}"
-		git config remote.origin-elito.fetch 'refs/heads/${_branch}:refs/remotes/origin-elito/${_branch}'
-		git config remote.origin-elito.push  'refs/heads/${_branch}:refs/heads/merge-${PROJECT_NAME}/heads/${_branch}'
-		git config remote.origin-elito.tagopt --no-tags
-
-		git fetch origin-elito
-		git checkout --track -b "${_branch}" "remotes/origin-elito/${_branch}"
-		git branch -D master || :
-	else
-		cd ${S}
-		git fetch origin-elito
-		git pull
-	fi
-}
+inherit gitdevel
 
 do_configure() {
 	oe_runmake ${UBOOT_MACHINE}
