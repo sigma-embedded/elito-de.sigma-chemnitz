@@ -48,7 +48,7 @@ EOF
 }
 
 do_stage_prepend() {
+	set -x
 	test -z "${_tftp_image}" || \
-		cat "${_tftp_image}" > "${_tftp_image}"
+		cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
 }
-
