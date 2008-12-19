@@ -2,7 +2,8 @@ DESCRIPTION	= "ELiTo release files"
 SECTION		= "base"
 LICENSE		= "GPL"
 PV		= "${DISTRO_VERSION}"
-PR		= "r1${@base_conditional('METADATA_REVISION','','','.${METADATA_REVISION}',d)}"
+PR		= "r1"
+#PR		= "r1${@base_conditional('METADATA_REVISION','','','.${METADATA_REVISION}',d)}"
 
 PACKAGE_ARCH    = "${MACHINE_ARCH}"
 FEED_PREFIX    ?= 'elito-'
