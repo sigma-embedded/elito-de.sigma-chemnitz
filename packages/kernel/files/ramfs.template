@@ -40,3 +40,6 @@ file /sbin/ubinfo       @R@/usr/sbin/ubinfo        755 0 0
 file /sbin/flash_erase    @R@/usr/sbin/flash_erase    755 0 0
 file /sbin/flash_eraseall @R@/usr/sbin/flash_eraseall 755 0 0
 file /sbin/flash_info     @R@/usr/sbin/flash_info     755 0 0
+
+file /sbin/nanddump       @R@/usr/sbin/nanddump       755 0 0
+file /sbin/nandwrite      @R@/usr/sbin/nandwrite      755 0 0
