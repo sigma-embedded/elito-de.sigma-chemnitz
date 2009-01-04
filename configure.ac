@@ -13,6 +13,30 @@ AC_DEFUN([ELITO_TRUE_FALSE],
 	fi
 ])
 
+_f=$HOME/.bitbake.elito.conf
+
+AC_ARG_WITH([global-bitbake-conf],
+	[AS_HELP_STRING([--with-global-bitbake-conf=<file>],
+		[global bitbake configuration file (default: ~/.bitbake.elito.conf (when exists))])],
+	[case $withval in
+		(yes)	withval=yes;;
+		(no)	withval=no;;
+		(*)	_f=$withval; withval=yes;;
+	 esac],
+	[ withval=auto ])
+
+case $withval in
+	(yes)	if ! test -r "$_f"; then
+			AC_MSG_ERROR([can not find global bitbake.conf file '$_f'])
+		fi
+		;;
+	(no)	_f=;;
+	(auto)	test -r "$_f" || _f=;;
+esac
+
+AC_SUBST([GLOBAL_BITBAKE_CONF],[$_f])
+ELITO_TRUE_FALSE([HAVE_GLOBAL_BITBAKE_CONF], [test -n "$_f"])
+
 AC_ARG_WITH([project-name],
 	[AS_HELP_STRING([--with-project-name=<name>],
 		[project name (default: directory basename)])],
