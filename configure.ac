@@ -104,6 +104,25 @@ AC_ARG_ENABLE(nfs-root,
 AC_SUBST(nfs_rootdir)
 ELITO_TRUE_FALSE(NFSROOT, test x"${nfs_rootdir}" != x)
 
+
+AC_CACHE_VAL([ensc_cv_PROG_WHICH],[
+	for i in 'type -p' 'which'; do
+		AC_MSG_CHECKING([whether '$i' works])
+		tmp=`$i sh`
+		if test -x "$tmp"; then
+			ensc_cv_PROG_WHICH=$i
+			AC_MSG_RESULT([yes])
+			break
+		fi
+		AC_MSG_RESULT([no])
+	done
+
+	if ! test -n "$ensc_cv_PROG_WHICH"; then
+		AC_MSG_ERROR([could not find working 'which' program])
+	fi
+])
+AC_SUBST([WHICH],[$ensc_cv_PROG_WHICH])
+
 dnl -----------------
 
 AC_ARG_VAR(EXTRA_BBFILES, [Extra bitbake files])
