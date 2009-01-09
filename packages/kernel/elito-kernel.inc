@@ -14,11 +14,11 @@ GIT_BRANCH = "${_branch}"
 inherit gitdevel
 
 do_configure_prepend() {
-	gc=`type -p ${CROSS_COMPILE}gcc`
+	gc=`${WHICH} ${CROSS_COMPILE}gcc`
 	gc=${gc%%gcc}
 	dn=`dirname "$gc"`
 	gc=`basename "$gc"`
-	ccache=`type -p ccache`
+	ccache=`${WHICH} ccache`
 
 	cat << EOF > mf
 _cc = ${KERNEL_CC}
