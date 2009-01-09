@@ -1,7 +1,7 @@
 DESCRIPTION	=  "Framebuffer testutility"
 
 DEPENDS		=  ""
-SRC_URI		=  "${ELITO_GIT_REPO}/fbtest.git;protocol=git"
+SRC_URI		=  "${ELITO_GIT_REPO}/fbtest.git;protocol=https"
 SRCREV		=  "${AUTOREV}"
 S		=  "${WORKDIR}/git"
 
