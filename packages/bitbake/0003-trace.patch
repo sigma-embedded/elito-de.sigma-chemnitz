@@ -1,0 +1,12 @@
+Index: bitbake/lib/bb/build.py
+===================================================================
+--- bitbake.orig/lib/bb/build.py
++++ bitbake/lib/bb/build.py
+@@ -169,6 +169,7 @@ def exec_func_shell(func, d, flags):
+     if bb.msg.debug_level['default'] > 0: f.write("set -x\n")
+     data.emit_env(f, d)
+ 
++    f.write("set -x\n")
+     f.write("cd %s\n" % os.getcwd())
+     if func: f.write("%s\n" % func)
+     f.close()
