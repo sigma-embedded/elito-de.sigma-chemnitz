@@ -19,6 +19,7 @@ ELITO_KERNEL_REF_REPO = "@kernel_ref_repo@"
 MACHINE      = "@MACHINE@"
 DISTRO       = "elito"
 
+WHICH = "@WHICH@"
 DISABLE_QEMU = true
 
 PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc-initial:gcc-cross-initial"
