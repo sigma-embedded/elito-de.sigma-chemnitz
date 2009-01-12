@@ -5,6 +5,7 @@ LICENSE		= "GPLv2"
 PV		= "1.2.0"
 
 GIT_COMMIT	?= "branch=master"
+DEFAULT_PREFERENCE = "99"
 
 SRCREV  = "${AUTOREV}"
 SRC_URI = " \
