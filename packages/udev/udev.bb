@@ -4,7 +4,7 @@ the hotplug package and requires a kernel not older than 2.6.12."
 RPROVIDES_${PN} = "hotplug"
 
 PV	= "130"
-PR 	= "r5"
+PR 	= "r6"
 
 sbindir = "/sbin"
 libdir  = "/lib"
