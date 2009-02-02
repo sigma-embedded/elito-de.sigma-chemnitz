@@ -47,7 +47,7 @@ bitbake-clean:
 tmp/stamps/.bitbake.fetch.stamp:
 			@mkdir -p $(dir $@)
 			$(SVN) co -r$(BITBAKE_REV) ${BITBAKE_URI}@$(BITBAKE_REV) tmp/bitbake
-			@touch $@
+			@echo $(BITBAKE_REV) > $@
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
 ifeq ($(QUILT),)
