@@ -1,0 +1,10 @@
+Index: git/Makefile
+===================================================================
+--- git.orig/Makefile
++++ git/Makefile
+@@ -62,5 +62,3 @@ $(BUILDDIR)/fectest: $(BUILDDIR)/fectest
+ install:: ${TARGETS}
+ 	mkdir -p ${DESTDIR}/${SBINDIR}
+ 	install -m 0755 ${TARGETS} ${DESTDIR}/${SBINDIR}/
+-	mkdir -p ${DESTDIR}/${MANDIR}/man1
+-	gzip -9c mkfs.jffs2.1 > ${DESTDIR}/${MANDIR}/man1/mkfs.jffs2.1.gz

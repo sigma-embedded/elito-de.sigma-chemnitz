@@ -70,8 +70,8 @@ IMAGE_CMD_ubifs	 = "${mkfs.ubifs}	\
 IMAGE_CMD_ubinize = "ubi_gen_ini; ${UBI_GEN_ENV};			\
 	${ubinize}							\
 	--output ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubinize	\
-	${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubi.ini			\
-	${EXTRA_IMAGECMD}"
+	${EXTRA_IMAGECMD}						\
+	${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubi.ini"
 
 EXTRA_IMAGECMD_ubifs ?=	"	\
 	--min-io-size ${NAND_PAGESIZE}	\

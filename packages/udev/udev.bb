@@ -4,9 +4,7 @@ the hotplug package and requires a kernel not older than 2.6.12."
 RPROVIDES_${PN} = "hotplug"
 
 PV	= "130"
-PR 	= "r5"
-
-pd = "file:///srv/elito/toolchain/devel/elito-udev/"
+PR 	= "r6"
 
 sbindir = "/sbin"
 libdir  = "/lib"
@@ -100,7 +98,7 @@ FILES_${PN}-dev		    += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-	${pd}udev-130-settlerace.patch;patch=1	\
-	${pd}udev-130-stop.patch;patch=1	\
+	file://udev-130-settlerace.patch;patch=1	\
+	file://udev-130-stop.patch;patch=1		\
 	file://60-ubi.rules			\
 "

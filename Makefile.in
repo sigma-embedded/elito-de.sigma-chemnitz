@@ -15,7 +15,7 @@ SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'			\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'
 
-BITBAKE_REV =		1145
+BITBAKE_REV =		1150
 BITBAKE_URI =		http://svn.berlios.de/svnroot/repos/bitbake/branches/bitbake-1.8
 
 AUTOCONF_FILES =	Makefile		\
@@ -34,7 +34,7 @@ TEMPLATE_FILES =	conf/project.conf	\
 
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
 
-config:			$(CFG_FILES) $(_template_files) .gitignore
+config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
 init:			bitbake-fetch
 
 _bitbake_root =		$(abs_top_builddir)/tmp/staging/.bitbake
@@ -44,10 +44,21 @@ bitbake-clean:
 			rm -rf tmp/bitbake $(_bitbake_root)
 			rm -f tmp/stamps/.bitbake.*
 
+bitbake-validate:
+			@f=tmp/stamps/.bitbake.fetch.stamp; \
+			test ! -e "$$f" || { \
+			v=$$(cat $$f); test x"$$v" = x${BITBAKE_REV}; } || { \
+			echo "****"; \
+			echo "**** BITBAKE revision mismatch; you have $$v but ${BITBAKE_REV} is expected"; \
+			echo "**** please run 'make bitbake-clean && make init'"; \
+			echo "****"; \
+			exit 1; \
+			} >&2
+
 tmp/stamps/.bitbake.fetch.stamp:
 			@mkdir -p $(dir $@)
 			$(SVN) co -r$(BITBAKE_REV) ${BITBAKE_URI}@$(BITBAKE_REV) tmp/bitbake
-			@touch $@
+			@echo $(BITBAKE_REV) > $@
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
 ifeq ($(QUILT),)

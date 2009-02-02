@@ -1,0 +1,19 @@
+diff -up upstart-0.5.0/init/job_process.c.~1~ upstart-0.5.0/init/job_process.c
+--- upstart-0.5.0/init/job_process.c.~1~	2008-07-25 15:31:32.000000000 +0200
++++ upstart-0.5.0/init/job_process.c	2008-08-13 16:12:15.000000000 +0200
+@@ -502,6 +502,7 @@ job_process_spawn (JobClass     *class,
+ 					 JOB_PROCESS_ERROR_PRIORITY, 0);
+ 	}
+ 
++	if (class->oom_adj != -17) {
+ 	/* Adjust the process OOM killer priority.
+ 	 */
+ 	snprintf (filename, sizeof (filename), "/proc/%d/oom_adj", getpid ());
+@@ -518,6 +519,7 @@ job_process_spawn (JobClass     *class,
+ 		nih_error_raise_system ();
+ 		job_process_error_abort (fds[1], JOB_PROCESS_ERROR_OOM_ADJ, 0);
+ 	}
++	}
+ 
+ 	/* Change the root directory, confining path resolution within it;
+ 	 * we do this before the working directory call so that is always

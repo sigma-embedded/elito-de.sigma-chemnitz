@@ -1,0 +1,35 @@
+Index: udev-130/udev/udevadm-trigger.c
+===================================================================
+--- udev-130.orig/udev/udevadm-trigger.c
++++ udev-130/udev/udevadm-trigger.c
+@@ -33,6 +33,7 @@
+ 
+ #include "udev.h"
+ 
++static char queuedir[UTIL_PATH_SIZE];	/* will be <udev-root>/queue */
+ static int verbose;
+ static int dry_run;
+ 
+@@ -56,6 +57,12 @@ static void exec_list(struct udev_enumer
+ 			dbg(udev, "error on opening %s: %m\n", filename);
+ 			continue;
+ 		}
++
++		/* pre-create the queue directory to prevent a race between
++		 * 'udevtrigger && udevsettle' calls when udevd did not
++		 * started processing the queue yet. */
++		mkdir(queuedir, 0755);
++
+ 		if (write(fd, action, strlen(action)) < 0)
+ 			info(udev, "error writing '%s' to '%s': %m\n", action, filename);
+ 		close(fd);
+@@ -188,6 +195,9 @@ int udevadm_trigger(struct udev *udev, i
+ 		}
+ 	}
+ 
++	util_strlcpy(queuedir, udev_get_dev_path(udev), sizeof queuedir);
++	util_strlcat(queuedir, "/.udev/queue", sizeof queuedir);
++
+ 	switch (device_type) {
+ 	case TYPE_FAILED:
+ 		scan_failed(udev_enumerate);

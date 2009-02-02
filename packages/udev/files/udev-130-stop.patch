@@ -1,5 +1,5 @@
---- !srv!oe!base!build!tmp!work!iwmmxt-linux-gnueabi!udev-130-r0!udev-130!udev!udevd.c.~1~	2008-10-04 13:52:21.000000000 +0200
-+++ /srv/oe/base/build/tmp/work/iwmmxt-linux-gnueabi/udev-130-r0/udev-130/udev/udevd.c	2008-10-16 10:21:02.000000000 +0200
+--- udev-130/udev/udevd.c.~1~	2008-10-04 13:52:21.000000000 +0200
++++ udev-130/udev/udevd.c	2008-10-16 10:21:02.000000000 +0200
 @@ -782,9 +782,10 @@
  	struct sigaction act;
  	fd_set readfds;
