@@ -1,0 +1,75 @@
+This patch displays the package license in 'opkg info' output.  An
+'opkg update' operation is required because this information is not
+stored in the local package database.
+
+Index: trunk/libopkg/pkg.h
+===================================================================
+--- trunk.orig/libopkg/pkg.h
++++ trunk/libopkg/pkg.h
+@@ -125,6 +125,7 @@ struct pkg
+      char *maintainer;
+      char *description;
+      char *tags;
++     char *license;
+      pkg_state_want_t state_want;
+      pkg_state_flag_t state_flag;
+      pkg_state_status_t state_status;
+Index: trunk/libopkg/pkg_parse.c
+===================================================================
+--- trunk.orig/libopkg/pkg_parse.c
++++ trunk/libopkg/pkg_parse.c
+@@ -345,6 +345,12 @@ int pkg_parse_raw(pkg_t *pkg, char ***ra
+ 	    
+ 	    break;
+ 
++	case 'L':
++	    if(isGenericFieldType("License", *lines))
++	        pkg->license = parseGenericFieldType("License", *lines);
++	    
++	    break;
++
+ 	case ' ':
+ 	    if(reading_description) {
+ 		/* we already know it's not blank, so the rest of description */      
+Index: trunk/libopkg/pkg.c
+===================================================================
+--- trunk.orig/libopkg/pkg.c
++++ trunk/libopkg/pkg.c
+@@ -606,6 +606,11 @@ char * pkg_formatted_info(pkg_t *pkg )
+      strncat(buff ,line, strlen(line));
+      free(line);
+ 
++     line = pkg_formatted_field(pkg, "License");
++     CHECK_BUFF_SIZE(buff, line, buff_size, page_size);
++     strncat(buff ,line, strlen(line));
++     free(line);
++
+      line = pkg_formatted_field(pkg, "Installed-Time");
+      CHECK_BUFF_SIZE(buff, line, buff_size, page_size);
+      strncat(buff ,line, strlen(line));
+@@ -811,6 +816,25 @@ char * pkg_formatted_field(pkg_t *pkg, c
+ 	  }
+      }
+ 	  break;
++     case 'l':
++     case 'L': {
++	  /* License */
++	  if (strcasecmp(field, "License") == 0) {
++	       /* License */
++	       if (pkg->license) {
++                   temp = (char *)realloc(temp,strlen(pkg->license)+11);
++                   if ( temp == NULL ){
++	              fprintf(stderr, "%s: out of memory\n", __FUNCTION__);
++	              return NULL;
++                   }
++                   temp[0]='\0';
++                   snprintf(temp, (strlen(pkg->license)+11), "License: %s\n", pkg->license);
++	       }
++	  } else {
++	       goto UNKNOWN_FMT_FIELD;
++	  }
++     }
++	  break;
+      case 'm':
+      case 'M': {
+ 	  /* Maintainer | MD5sum */
