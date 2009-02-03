@@ -1,18 +1,21 @@
---- udev-130/udev/udevd.c.~1~	2008-10-04 13:52:21.000000000 +0200
-+++ udev-130/udev/udevd.c	2008-10-16 10:21:02.000000000 +0200
-@@ -782,9 +782,10 @@
+Index: udev-137/udev/udevd.c
+===================================================================
+--- udev-137.orig/udev/udevd.c
++++ udev-137/udev/udevd.c
+@@ -644,10 +644,11 @@ int main(int argc, char *argv[])
+ 	int fd;
  	struct sigaction act;
- 	fd_set readfds;
  	const char *value;
 -	int daemonize = 0;
 +	enum { DAEMON_FG, DAEMON_BG, DAEMON_STOP } daemonize = DAEMON_FG;
+ 	int resolve_names = 1;
  	static const struct option options[] = {
  		{ "daemon", no_argument, NULL, 'd' },
 +		{ "daemon-stop", no_argument, NULL, 'S' },
  		{ "debug-trace", no_argument, NULL, 't' },
  		{ "debug", no_argument, NULL, 'D' },
  		{ "help", no_argument, NULL, 'h' },
-@@ -806,13 +807,16 @@
+@@ -669,13 +670,16 @@ int main(int argc, char *argv[])
  	while (1) {
  		int option;
  
@@ -31,8 +34,8 @@
  			break;
  		case 't':
  			debug_trace = 1;
-@@ -909,7 +913,9 @@
- 
+@@ -761,7 +765,9 @@ int main(int argc, char *argv[])
+ 	cleanup_queue_dir(udev);
  	export_initial_seqnum(udev);
  
 -	if (daemonize) {
