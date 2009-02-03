@@ -1,5 +1,5 @@
-PV = 0.5.0
-PR = "r9"
+PV = 0.5.1
+PR = "r0"
 
 
 ## dynamic libnih0 support is broken; resulting upstart dies with
@@ -12,9 +12,9 @@ require upstart.inc
 
 
 SRC_URI = "	\
-	http://upstart.ubuntu.com/download/0.5/upstart-${PV}.tar.gz				\
+	http://upstart.ubuntu.com/download/0.5/upstart-${PV}.tar.bz2				\
 	file://upstart-0.5-oomadj.patch;patch=1							\
-	file://upstart-0.5.0-dynlink.patch;patch=1						\
+	file://upstart-0.5.1-dynlink.patch;patch=1						\
 "
 
 xtra          =

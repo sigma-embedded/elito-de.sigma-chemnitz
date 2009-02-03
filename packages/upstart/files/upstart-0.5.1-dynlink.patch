@@ -1,0 +1,25 @@
+Index: upstart-0.5.1/nih-dbus/Makefile.am
+===================================================================
+--- upstart-0.5.1.orig/nih-dbus/Makefile.am
++++ upstart-0.5.1/nih-dbus/Makefile.am
+@@ -25,7 +25,7 @@ libnih_dbus_la_SOURCES = \
+ 	dbus_util.c
+ 
+ libnih_dbus_la_CFLAGS = $(DBUS_CFLAGS)
+-libnih_dbus_la_LIBS = $(DBUS_LIBS)
++libnih_dbus_la_LIBADD = $(DBUS_LIBS) ../nih/libnih.la
+ 
+ if INSTALL_NIH
+ libnih_dbus_la_LDFLAGS = \
+Index: upstart-0.5.1/nih/libnih.ver
+===================================================================
+--- upstart-0.5.1.orig/nih/libnih.ver
++++ upstart-0.5.1/nih/libnih.ver
+@@ -1,6 +1,7 @@
+ LIBNIH_0 {
+ 	global:
+ 		nih_*;
++		_nih_discard_local;
+ 	local:
+ 		*;
+ };
