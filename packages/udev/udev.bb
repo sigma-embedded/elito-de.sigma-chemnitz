@@ -5,7 +5,7 @@ RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
 
 PV	= "137"
-PR 	= "r0"
+PR 	= "r1"
 
 sbindir = "/sbin"
 libdir  = "/lib"
@@ -16,9 +16,10 @@ rules_dir = "${libdir}/udev/rules.d"
 inherit autotools pkgconfig
 
 PACKAGES =+ "${PN}-rules-extra"
-PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi"
+PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
+             ${PN}-firmware"
 PACKAGES += "${PN}-lib ${PN}-libvolume ${PN}-fstab-import \
-	     ${PN}-firmware ${PN}-rulegen ${PN}-extra"
+	     ${PN}-rulegen ${PN}-extra"
 
 python __anonymous() {
 	import bb
@@ -74,7 +75,9 @@ FILES_${PN}-fstab-import = "\
 
 FILES_${PN}-lib       = "${libdir}/libudev.so.*"
 FILES_${PN}-libvolume = "${libdir}/libvolume_id.so.*"
-FILES_${PN}-firmware  = "${libdir}/udev/firmware.sh"
+FILES_${PN}-firmware  = " \
+	${libdir}/udev/firmware.sh \
+	${rules_dir}/*firmware.rules"
 FILES_${PN}-rulegen   = "	\
 	${libdir}/udev/write_*_rules		\
 	${libdir}/udev/rule_generator.functions	\
