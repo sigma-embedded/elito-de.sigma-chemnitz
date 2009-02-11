@@ -2,7 +2,7 @@ SECTION  	 = "base"
 DESCRIPTION	 = "upstart base setup"
 LICENSE    	 = "GPLv3"
 PV		 = "0.3.3"
-PR         	 = "r0"
+PR         	 = "r1"
 PACKAGE_ARCH	 =  "all"
 
 SRC_URI    	 = "		\
@@ -18,6 +18,7 @@ PACKAGES   	 = "${PN}-base ${PN}-udev ${PN}-net ${PN}-net-dhcp	\
 	${PN}-sound ${PN}-rtc-sync\
 	${PN}-net-dhcp-eth0	\
 	${PN}-net-dhcp-eth1	\
+	${PN}-empty \
 "
 
 j		 = "${sysconfdir}/init/jobs.d/"
@@ -97,6 +98,8 @@ RDEPENDS_${PN}-sound = "alsa-utils-alsactl"
 FILES_${PN}-dbus = "${j}services/dbus-daemon ${j}init/dbus-uuidgen ${sysconfdir}/files.d/*-dbus.txt"
 RPROVIDES_${PN}-dbus = "virtual/dbus-init"
 RDEPENDS_${PN}-dbus = "dbus"
+
+RPROVIDES_${PN}-empty = "virtual/tinylogin-init"
 
 do_compile() {
 }
