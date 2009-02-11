@@ -50,7 +50,8 @@ bitbake-validate:
 			v=$$(cat $$f); test x"$$v" = x${BITBAKE_REV}; } || { \
 			echo "****"; \
 			echo "**** BITBAKE revision mismatch; you have $$v but ${BITBAKE_REV} is expected"; \
-			echo "**** please run 'make bitbake-clean && make init'"; \
+			echo "**** please run"; \
+			echo "**** cd '$(abspath .)' && make bitbake-clean && make init"; \
 			echo "****"; \
 			exit 1; \
 			} >&2
