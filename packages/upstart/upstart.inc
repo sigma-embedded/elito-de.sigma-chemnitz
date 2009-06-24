@@ -7,11 +7,24 @@ inherit autotools
 
 libdir		 = "/lib"
 sbindir		 = "/sbin"
-DEPENDS		 = "dbus bison-native pkgconfig-native python-native"
+DEPENDS		 = "dbus expat bison-native pkgconfig-native upstart-native"
+
 
 do_configure_prepend_dyn() {
 	set -x
 	export nih_install=yes
+}
+
+do_configure_prepend() {
+	NIH_DBUS_TOOL=`which nih-dbus-tool`
+        sed -i \
+	    -e 's!\$(builddir)/nih-dbus-tool!${NIH_DBUS_TOOL}!g' \
+	    -e "s!\$(top_builddir)/nih-dbus-tool/nih-dbus-tool!${NIH_DBUS_TOOL}!g" \
+	    */Makefile.am
+}
+
+do_compile() {
+	oe_runmake check_PROGRAMS=
 }
 	
 do_configure() {

@@ -1,4 +1,4 @@
-PV = 0.5.1
+PV = 0.5.3
 PR = "r0"
 
 
@@ -6,7 +6,7 @@ PR = "r0"
 ##   initctl:list.c:141: Assertion failed in nih_list_add: list != NULL
 ##   Aborted
 ##   initctl:list.c:141: Assertion failed in nih_list_add: list != NULL
-#OVERRIDES .= ':dyn'
+OVERRIDES .= ':dyn'
 
 require upstart.inc
 
@@ -14,7 +14,7 @@ require upstart.inc
 SRC_URI = "	\
 	http://upstart.ubuntu.com/download/0.5/upstart-${PV}.tar.bz2				\
 	file://upstart-0.5-oomadj.patch;patch=1							\
-	file://upstart-0.5.1-dynlink.patch;patch=1						\
+	file://upstart-0.5.2-dynlink.patch;patch=1						\
 "
 
 xtra          =
