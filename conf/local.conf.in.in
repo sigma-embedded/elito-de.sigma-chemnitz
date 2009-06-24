@@ -9,7 +9,9 @@ OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.dev"
 
 BBFILES    := "${PROJECT_TOPDIR}/packages/*/*.bb"
 BBFILES    += "${ELITO_TOPDIR}/packages/*/*.bb"
+BBFILES    += "${ELITO_TOPDIR}/recipes/*/*.bb"
 BBFILES    += "${OEDEV_TOPDIR}/packages/*/*.bb"
+BBFILES    += "${OEDEV_TOPDIR}/recipes/*/*.bb"
 @EXTRA_BBFILES_TRUE@BBFILES += " @EXTRA_BBFILES@"
 
 ASSUME_PROVIDED += " @elito_assumed@"
