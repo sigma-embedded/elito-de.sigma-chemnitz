@@ -42,11 +42,11 @@ RDEPENDS_${PN} += "\
     ${@base_contains("MACHINE_FEATURES", "ubifs", "mtd-utils-ubi-tools", "", d)} \
     ${@base_contains("MACHINE_FEATURES", "keyboard", "keymaps", "", d)} \
     ${@base_contains("MACHINE_FEATURES", "modules",  "virtual/modutils-initscripts", "", d)} \
-    virtual/initscripts 		\
+    virtual/initscripts		\
     ${EXTRA_DEV_RULES}			\
-    ${DISTRO_DEV_MANAGER} 		\
-    ${DISTRO_INIT_MANAGER} 		\
-    ${DISTRO_LOGIN_MANAGER} 		\
+    ${DISTRO_DEV_MANAGER}		\
+    ${DISTRO_INIT_MANAGER}		\
+    ${DISTRO_LOGIN_MANAGER}		\
     ${PROJECT_EXTRA_RDEPENDS}		\
     "
 
