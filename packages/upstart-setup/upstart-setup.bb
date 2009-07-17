@@ -1,19 +1,19 @@
-SECTION  	 = "base"
-DESCRIPTION	 = "upstart base setup"
-LICENSE    	 = "GPLv3"
-PV		 = "0.3.3"
-PR         	 = "r1"
-PACKAGE_ARCH	 =  "all"
+SECTION		= "base"
+DESCRIPTION	= "upstart base setup"
+LICENSE		= "GPLv3"
+PV		= "0.3.3"
+PR		= "r1"
+PACKAGE_ARCH	=  "all"
 
-SRC_URI    	 = "		\
+SRC_URI		= "		\
 	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2			\
 	file://paths						\
 "
 SRCREV		 = "${AUTOREV}"
-#S     		 = "${WORKDIR}/git"
+#S		 = "${WORKDIR}/git"
 
-PACKAGES   	 = "${PN}-base ${PN}-udev ${PN}-net ${PN}-net-dhcp	\
-	${PN}-openntpd ${PN}-dropbear ${PN}-dbus 	\
+PACKAGES	 = "${PN}-base ${PN}-udev ${PN}-net ${PN}-net-dhcp	\
+	${PN}-openntpd ${PN}-dropbear ${PN}-dbus	\
 	${PN}-tty-plain ${PN}-syslogd ${PN}-klogd	\
 	${PN}-sound ${PN}-rtc-sync\
 	${PN}-net-dhcp-eth0	\
