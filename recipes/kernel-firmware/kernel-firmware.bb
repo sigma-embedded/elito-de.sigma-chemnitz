@@ -1,7 +1,8 @@
-PV = "0.1+gitr${SRCPV}"
+PV		= "0.1+gitr${SRCPV}"
+LICENSE		= "unknown"
+PACKAGE_ARCH	= "all"
+
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git"
-PACKAGE_ARCH = "all"
-LICENSE = "unknown"
 
 INHIBIT_DEFAULT_DEPS = "1"
 
