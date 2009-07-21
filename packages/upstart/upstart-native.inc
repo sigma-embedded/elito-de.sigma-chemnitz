@@ -1,7 +1,8 @@
+# --*- python -*--
 SECTION		 = "base"
 PRIORITY	 = "optional"
 DESCRIPTION	 = "Event driven system init"
-LICENSE		 = "GPL"
+LICENSE		 = "GPLv2"
 
 inherit autotools native
 

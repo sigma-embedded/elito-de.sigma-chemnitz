@@ -1,4 +1,4 @@
-PV = 0.5.3
+PV = 0.6.1
 PR = "r0"
 
 
@@ -8,23 +8,13 @@ PR = "r0"
 ##   initctl:list.c:141: Assertion failed in nih_list_add: list != NULL
 OVERRIDES .= ':dyn'
 
-require upstart.inc
+require upstart-native.inc
 
 
 SRC_URI = "	\
-	http://upstart.ubuntu.com/download/0.5/upstart-${PV}.tar.bz2				\
+	http://upstart.ubuntu.com/download/0.6/upstart-${PV}.tar.bz2				\
 	file://upstart-0.5-oomadj.patch;patch=1							\
-	file://upstart-0.5.2-dynlink.patch;patch=1						\
 "
-
-xtra          =
-xtra_dyn      = "${PN}-lib ${PN}-tools"
-PACKAGES     += "${PN}-sysv-tools ${PN}-compat ${xtra}"
-
-
-FILES_${PN}-tools	 = "${bindir}/*"
-FILES_${PN}-lib		 = "${libdir}/*.so.*"
-LEAD_SONAME		 = "libnih.so"
 
 FILES_${PN} = "	\
 	/etc/dbus-*		\
