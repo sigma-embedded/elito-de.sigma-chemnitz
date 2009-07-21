@@ -5,7 +5,7 @@ RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
 
 PV	= "137"
-PR 	= "r1"
+PR	= "r1"
 
 sbindir = "/sbin"
 libdir  = "/lib"
@@ -17,7 +17,7 @@ inherit autotools pkgconfig
 
 PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
-             ${PN}-firmware"
+	     ${PN}-firmware"
 PACKAGES += "${PN}-lib ${PN}-libvolume ${PN}-fstab-import \
 	     ${PN}-rulegen ${PN}-extra"
 
