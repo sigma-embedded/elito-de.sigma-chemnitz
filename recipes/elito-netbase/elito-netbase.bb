@@ -2,10 +2,10 @@ DESCRIPTION	= "This package provides the necessary \
 infrastructure for basic TCP/IP based networking."
 SECTION		= "base"
 LICENSE		= "GPL"
-PR		= "r1"
+PR		= "r2"
 PV		= 4.21
 
-FILESDIR	= "${OEDEV_TOPDIR}/packages/netbase/netbase"
+FILESDIR	= "${OEDEV_TOPDIR}/recipes/netbase/netbase"
 DEFAULT_PREFERENCE = 10
 
 SRC_URI		= "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz"
