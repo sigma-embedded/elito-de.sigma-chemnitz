@@ -3,6 +3,12 @@
 abs_top_builddir='@abs_top_builddir@'
 . ${abs_top_builddir}/set-env
 
+if ! test -x "@BITBAKE@"; then
+    echo "***** Could not found bitbake binary. Make sure that it was"
+    echo "***** checkout by 'make init' in your project directory"
+    exit 1
+fi >&2
+
 BB_ENV_EXTRAWHITE='CCACHE_DIR HOME GIT_SSL_CAINFO '\
 'ftp_proxy http_proxy https_proxy no_proxy'
 export BB_ENV_EXTRAWHITE POSIXLY_CORRECT

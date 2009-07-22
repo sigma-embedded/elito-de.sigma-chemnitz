@@ -1,0 +1,24 @@
+Add information about package license to Packages. This field is
+similar to Description and it is sometimes required to determine
+license of installed packages.
+
+Index: ipkg-utils/ipkg.py
+===================================================================
+--- ipkg-utils.orig/ipkg.py
++++ ipkg-utils/ipkg.py
+@@ -143,6 +143,7 @@ class Package:
+         self.oe = None
+         self.priority = None
+         self.fn = fn
++        self.license = None
+ 
+ 	if fn:
+             # see if it is deb format
+@@ -420,6 +421,7 @@ class Package:
+         if self.oe: out = out + "OE: %s\n" % (self.oe)
+         if self.homepage: out = out + "HomePage: %s\n" % (self.homepage)
+         if self.priority: out = out + "Priority: %s\n" % (self.priority)
++        if self.license: out = out + "License: %s\n" % (self.license)
+ 	out = out + "\n"
+ 
+ 	return out

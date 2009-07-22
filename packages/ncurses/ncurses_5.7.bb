@@ -1,4 +1,4 @@
-PR = "r0.20081206"
+PR = "r0.20090124"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
@@ -37,6 +37,15 @@ SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081122.patch.gz;patch=1		\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081129.patch.gz;patch=1		\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081206.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081213.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081220.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081227.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090103.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090104.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090105.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090110.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090117.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090124.patch.gz;patch=1		\
 	file://tic-hang.patch;patch=1	\
 "
 

@@ -2,9 +2,10 @@ DESCRIPTION = "udev is a daemon which dynamically creates and removes device nod
 /dev/, handles hotplug events and loads drivers at boot time. It replaces \
 the hotplug package and requires a kernel not older than 2.6.12."
 RPROVIDES_${PN} = "hotplug"
+LICENSE = "GPLv2"
 
-PV	= "130"
-PR 	= "r6"
+PV	= "137"
+PR	= "r1"
 
 sbindir = "/sbin"
 libdir  = "/lib"
@@ -15,9 +16,10 @@ rules_dir = "${libdir}/udev/rules.d"
 inherit autotools pkgconfig
 
 PACKAGES =+ "${PN}-rules-extra"
-PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi"
+PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
+	     ${PN}-firmware"
 PACKAGES += "${PN}-lib ${PN}-libvolume ${PN}-fstab-import \
-	     ${PN}-firmware ${PN}-rulegen ${PN}-extra"
+	     ${PN}-rulegen ${PN}-extra"
 
 python __anonymous() {
 	import bb
@@ -73,7 +75,9 @@ FILES_${PN}-fstab-import = "\
 
 FILES_${PN}-lib       = "${libdir}/libudev.so.*"
 FILES_${PN}-libvolume = "${libdir}/libvolume_id.so.*"
-FILES_${PN}-firmware  = "${libdir}/udev/firmware.sh"
+FILES_${PN}-firmware  = " \
+	${libdir}/udev/firmware.sh \
+	${rules_dir}/*firmware.rules"
 FILES_${PN}-rulegen   = "	\
 	${libdir}/udev/write_*_rules		\
 	${libdir}/udev/rule_generator.functions	\
@@ -99,6 +103,6 @@ FILES_${PN}-dev		    += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
 	file://udev-130-settlerace.patch;patch=1	\
-	file://udev-130-stop.patch;patch=1		\
+	file://udev-137-stop.patch;patch=1		\
 	file://60-ubi.rules			\
 "

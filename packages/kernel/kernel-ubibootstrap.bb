@@ -16,7 +16,7 @@ SRC_URI += "file://ramfs.template \
 _branch          = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 _tftp_image	 = "${KERNEL_BOOTSTRAP_TFTP_IMAGE}"
 _defconfig	 = "${KERNEL_BOOTSTRAP_DEFCONFIG}"
-_kernel_output 	 = "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
+_kernel_output	 = "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
 
 TARGET_CC_KERNEL_ARCH ?= ""
 HOST_CC_KERNEL_ARCH ?= "${TARGET_CC_KERNEL_ARCH}"

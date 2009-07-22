@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT(elito, 0.8, [ELiTo Support <elito@sigma-chemnitz.de>])
+AC_INIT(elito, 0.8.1, [ELiTo Support <elito@sigma-chemnitz.de>])
 
 AC_DEFUN([ELITO_TRUE_FALSE],
 [

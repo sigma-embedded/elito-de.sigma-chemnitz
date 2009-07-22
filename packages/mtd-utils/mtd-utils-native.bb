@@ -14,5 +14,5 @@ do_stage () {
                 install -m 0644 $f ${STAGING_INCDIR}/mtd/
         done
 
-	oe_runmake install SBINDIR=${sbindir}
+	oe_runmake install SBINDIR=${sbindir} DESTDIR=
 }

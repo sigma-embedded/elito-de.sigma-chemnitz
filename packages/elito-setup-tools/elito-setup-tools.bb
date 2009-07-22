@@ -1,21 +1,21 @@
-SECTION     	 = "base"
-DESCRIPTION 	 = "ELiTo Base utilities"
-LICENSE     	 = "GPLv3"
-PV		 = "0.8.6"
-PR          	 = "r0"
+SECTION		= "base"
+DESCRIPTION	= "ELiTo Base utilities"
+LICENSE		= "GPLv3"
+PV		= "0.8.6"
+PR		= "r0"
 
-bindir      	 = "/bin"
-sbindir     	 = "/sbin"
+bindir		= "/bin"
+sbindir		= "/sbin"
 
-PACKAGE_ARCH	 = "${MACHINE_ARCH}"
-PACKAGES	 =  "${PN}-dbg ${PN}"
+PACKAGE_ARCH	= "${MACHINE_ARCH}"
+PACKAGES	=  "${PN}-dbg ${PN}"
 
-SRC_URI     	 = "${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2"
-S                = "${WORKDIR}/elito-setup-${PV}"
+SRC_URI		= "${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2"
+S               = "${WORKDIR}/elito-setup-${PV}"
 
 RCONFLICTS_${PN} = "sysvinit"
 
-FILES_${PN} 	 = "	\
+FILES_${PN}	= "	\
 	${sbindir}/*			\
 	${bindir}/*			\
 	/etc/files.d			\
