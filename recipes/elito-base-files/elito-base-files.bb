@@ -1,11 +1,11 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r4"
+PR		= "r5"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
-FILESDIR	= "${OEDEV_TOPDIR}/packages/base-files/base-files"
+FILESDIR	= "${OEDEV_TOPDIR}/recipes/base-files/base-files"
 
 SRC_URI = "	\
 	file://fstab			\
