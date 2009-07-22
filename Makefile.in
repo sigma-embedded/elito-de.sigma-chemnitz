@@ -30,7 +30,7 @@ CFG_FILES =		Makefile		\
 
 TEMPLATE_FILES =	conf/project.conf	\
 			.gitignore		\
-			packages/helloworld/helloworld.bb
+			recipes/helloworld/helloworld.bb
 
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
 
@@ -63,12 +63,12 @@ tmp/stamps/.bitbake.fetch.stamp:
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
 ifeq ($(QUILT),)
-			cd tmp/bitbake && cat $(abs_top_srcdir)/packages/bitbake/*.patch | patch -p0
+			cd tmp/bitbake && cat $(abs_top_srcdir)/recipes/bitbake/*.patch | patch -p0
 else
 			cd tmp/bitbake && $(QUILT) pop -a || :
 			rm -rf tmp/bitbake/patches tmp/bitbake/.pc
 			mkdir -p tmp/bitbake/patches
-			cd tmp/bitbake && $(QUILT) import -p0 $(abs_top_srcdir)/packages/bitbake/*.patch
+			cd tmp/bitbake && $(QUILT) import -p0 $(abs_top_srcdir)/recipes/bitbake/*.patch
 			cd tmp/bitbake && $(QUILT) push -a
 endif
 			@touch $@
