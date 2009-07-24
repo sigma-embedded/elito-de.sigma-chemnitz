@@ -4,15 +4,22 @@ DL_DIR		 = "@CACHE_DIR@/sources"
 
 PROJECT_NAME	:= "@PROJECT_NAME@"
 PROJECT_TOPDIR	:= "@abs_top_builddir@"
-ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz.elito"
-OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.dev"
+ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz"
+OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded"
 
-BBFILES    := "${PROJECT_TOPDIR}/packages/*/*.bb"
-BBFILES    += "${ELITO_TOPDIR}/packages/*/*.bb"
+BBFILES    := "${OEDEV_TOPDIR}/recipes/*/*.bb"
 BBFILES    += "${ELITO_TOPDIR}/recipes/*/*.bb"
-BBFILES    += "${OEDEV_TOPDIR}/packages/*/*.bb"
-BBFILES    += "${OEDEV_TOPDIR}/recipes/*/*.bb"
+BBFILES    += "${PROJECT_TOPDIR}/recipes/*/*.bb"
+
 @EXTRA_BBFILES_TRUE@BBFILES += " @EXTRA_BBFILES@"
+
+BBFILE_COLLECTIONS     += "elito"
+BBFILE_PATTERN_elito    = "${ELITO_TOPDIR}"
+BBFILE_PRIORITY_elito   =  100
+
+BBFILE_COLLECTIONS     += "project"
+BBFILE_PATTERN_project  = "${PROJECT_TOPDIR}"
+BBFILE_PRIORITY_project =  200
 
 ASSUME_PROVIDED += " @elito_assumed@"
 
