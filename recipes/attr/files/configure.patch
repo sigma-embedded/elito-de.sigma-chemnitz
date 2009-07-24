@@ -1,0 +1,213 @@
+Index: attr-2.4.43/configure.in
+===================================================================
+--- attr-2.4.43.orig/configure.in
++++ attr-2.4.43/configure.in
+@@ -1,6 +1,8 @@
+ AC_INIT(include/attributes.h)
++AC_CONFIG_MACRO_DIR([m4])
+ AC_CONFIG_HEADER(include/config.h)
+ AC_PREFIX_DEFAULT(/usr)
++AC_PROG_LIBTOOL
+ 
+ AC_ARG_ENABLE(shared,
+ [ --enable-shared=[yes/no] Enable use of shared libraries [default=yes]],,
+Index: attr-2.4.43/attr/Makefile
+===================================================================
+--- attr-2.4.43.orig/attr/Makefile
++++ attr-2.4.43/attr/Makefile
+@@ -15,6 +15,6 @@ default: $(LTCOMMAND)
+ include $(BUILDRULES)
+ 
+ install: default
+-	$(INSTALL) -m 755 -d $(PKG_BIN_DIR)
+-	$(LTINSTALL) -m 755 $(LTCOMMAND) $(PKG_BIN_DIR)
++	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_BIN_DIR)
++	$(LTINSTALL) -m 755 $(LTCOMMAND) $(DESTDIR)$(PKG_BIN_DIR)
+ install-dev install-lib:
+Index: attr-2.4.43/getfattr/Makefile
+===================================================================
+--- attr-2.4.43.orig/getfattr/Makefile
++++ attr-2.4.43/getfattr/Makefile
+@@ -16,6 +16,6 @@ default: $(LTCOMMAND)
+ include $(BUILDRULES)
+ 
+ install: default
+-	$(INSTALL) -m 755 -d $(PKG_BIN_DIR)
+-	$(LTINSTALL) -m 755 $(LTCOMMAND) $(PKG_BIN_DIR)
++	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_BIN_DIR)
++	$(LTINSTALL) -m 755 $(LTCOMMAND) $(DESTDIR)$(PKG_BIN_DIR)
+ install-dev install-lib:
+Index: attr-2.4.43/include/Makefile
+===================================================================
+--- attr-2.4.43.orig/include/Makefile
++++ attr-2.4.43/include/Makefile
+@@ -18,6 +18,6 @@ default:
+ include $(BUILDRULES)
+ 
+ install-dev: default
+-	$(INSTALL) -m 755 -d $(PKG_INC_DIR)
+-	$(INSTALL) -m 644 $(INST_HFILES) $(PKG_INC_DIR)
++	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_INC_DIR)
++	$(INSTALL) -m 644 $(INST_HFILES) $(DESTDIR)$(PKG_INC_DIR)
+ install install-lib:
+Index: attr-2.4.43/man/man1/Makefile
+===================================================================
+--- attr-2.4.43.orig/man/man1/Makefile
++++ attr-2.4.43/man/man1/Makefile
+@@ -8,7 +8,7 @@ include $(TOPDIR)/include/builddefs
+ MAN_SECTION	= 1
+ 
+ MAN_PAGES	= $(shell echo *.$(MAN_SECTION))
+-MAN_DEST	= $(PKG_MAN_DIR)/man$(MAN_SECTION)
++MAN_DEST	= $(DESTDIR)$(PKG_MAN_DIR)/man$(MAN_SECTION)
+ LSRCFILES	= $(MAN_PAGES)
+ 
+ default : $(MAN_PAGES)
+Index: attr-2.4.43/man/man2/Makefile
+===================================================================
+--- attr-2.4.43.orig/man/man2/Makefile
++++ attr-2.4.43/man/man2/Makefile
+@@ -8,7 +8,7 @@ include $(TOPDIR)/include/builddefs
+ MAN_SECTION	= 2
+ 
+ MAN_PAGES	= $(shell echo *.$(MAN_SECTION))
+-MAN_DEST	= $(PKG_MAN_DIR)/man$(MAN_SECTION)
++MAN_DEST	= $(DESTDIR)$(PKG_MAN_DIR)/man$(MAN_SECTION)
+ LSRCFILES	= $(MAN_PAGES)
+ 
+ default install : $(MAN_PAGES)
+Index: attr-2.4.43/man/man3/Makefile
+===================================================================
+--- attr-2.4.43.orig/man/man3/Makefile
++++ attr-2.4.43/man/man3/Makefile
+@@ -8,7 +8,7 @@ include $(TOPDIR)/include/builddefs
+ MAN_SECTION	= 3
+ 
+ MAN_PAGES	= $(shell echo *.$(MAN_SECTION))
+-MAN_DEST	= $(PKG_MAN_DIR)/man$(MAN_SECTION)
++MAN_DEST	= $(DESTDIR)$(PKG_MAN_DIR)/man$(MAN_SECTION)
+ LSRCFILES	= $(MAN_PAGES)
+ 
+ default install : $(MAN_PAGES)
+Index: attr-2.4.43/man/man5/Makefile
+===================================================================
+--- attr-2.4.43.orig/man/man5/Makefile
++++ attr-2.4.43/man/man5/Makefile
+@@ -8,7 +8,7 @@ include $(TOPDIR)/include/builddefs
+ MAN_SECTION	= 5
+ 
+ MAN_PAGES	= $(shell echo *.$(MAN_SECTION))
+-MAN_DEST	= $(PKG_MAN_DIR)/man$(MAN_SECTION)
++MAN_DEST	= $(DESTDIR)$(PKG_MAN_DIR)/man$(MAN_SECTION)
+ LSRCFILES	= $(MAN_PAGES)
+ 
+ default : $(MAN_PAGES)
+Index: attr-2.4.43/setfattr/Makefile
+===================================================================
+--- attr-2.4.43.orig/setfattr/Makefile
++++ attr-2.4.43/setfattr/Makefile
+@@ -16,6 +16,6 @@ default: $(LTCOMMAND)
+ include $(BUILDRULES)
+ 
+ install: default
+-	$(INSTALL) -m 755 -d $(PKG_BIN_DIR)
+-	$(LTINSTALL) -m 755 $(LTCOMMAND) $(PKG_BIN_DIR)
++	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_BIN_DIR)
++	$(LTINSTALL) -m 755 $(LTCOMMAND) $(DESTDIR)$(PKG_BIN_DIR)
+ install-dev install-lib:
+Index: attr-2.4.43/Makefile
+===================================================================
+--- attr-2.4.43.orig/Makefile
++++ attr-2.4.43/Makefile
+@@ -51,10 +51,12 @@ $(CONFIGURE):
+ aclocal.m4::
+ 	aclocal --acdir=`pwd`/m4 --output=$@
+ 
+-install: default
++install: install-doc install-dev install-lib
+ 	$(SUBDIRS_MAKERULE)
+-	$(INSTALL) -m 755 -d $(PKG_DOC_DIR)
+-	$(INSTALL) -m 644 README $(PKG_DOC_DIR)
++
++install-doc: default
++	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_DOC_DIR)
++	$(INSTALL) -m 644 README $(DESTDIR)$(PKG_DOC_DIR)
+ 
+ install-dev install-lib: default
+ 	$(SUBDIRS_MAKERULE)
+Index: attr-2.4.43/doc/Makefile
+===================================================================
+--- attr-2.4.43.orig/doc/Makefile
++++ attr-2.4.43/doc/Makefile
+@@ -18,12 +18,12 @@ CHANGES.gz:
+ 
+ install: default
+ 	$(SUBDIRS_MAKERULE)
+-	$(INSTALL) -m 755 -d $(PKG_DOC_DIR)
+-	$(INSTALL) -m 644 PORTING CHANGES.gz $(PKG_DOC_DIR)
++	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_DOC_DIR)
++	$(INSTALL) -m 644 PORTING CHANGES.gz $(DESTDIR)$(PKG_DOC_DIR)
+ ifeq ($(PKG_DISTRIBUTION), debian)
+-	$(INSTALL) -S CHANGES.gz $(PKG_DOC_DIR)/changelog.gz
++	$(INSTALL) -S CHANGES.gz $(DESTDIR)$(PKG_DOC_DIR)/changelog.gz
+ else
+-	$(INSTALL) -m 644 COPYING $(PKG_DOC_DIR)
++	$(INSTALL) -m 644 COPYING $(DESTDIR)$(PKG_DOC_DIR)
+ endif
+ 
+ install-dev install-lib: $(SUBDIRS)
+Index: attr-2.4.43/include/buildmacros
+===================================================================
+--- attr-2.4.43.orig/include/buildmacros
++++ attr-2.4.43/include/buildmacros
+@@ -55,9 +55,9 @@ endif
+ ifeq ($(ENABLE_SHARED),yes)
+ INSTALL_LTLIB = \
+ 	cd $(TOPDIR)/$(LIBNAME)/.libs; \
+-	../$(INSTALL) -m 755 -d $(PKG_LIB_DIR); \
+-	../$(INSTALL) -m 644 -T so_dot_version $(LIBNAME).lai $(PKG_LIB_DIR); \
+-	../$(INSTALL) -T so_dot_current $(LIBNAME).lai $(PKG_LIB_DIR)
++	../$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_LIB_DIR); \
++	../$(INSTALL) -m 644 -T so_dot_version $(LIBNAME).lai $(DESTDIR)$(PKG_LIB_DIR); \
++	../$(INSTALL) -T so_dot_current $(LIBNAME).lai $(DESTDIR)$(PKG_LIB_DIR)
+ endif
+ 
+ # Libtool thinks the static and shared libs should be in the same dir, so
+@@ -68,23 +68,17 @@ endif
+ # /usr/lib.
+ ifeq ($(ENABLE_SHARED),yes)
+ INSTALL_LTLIB_DEV = \
+-	cd $(TOPDIR)/$(LIBNAME)/.libs; \
+-	../$(INSTALL) -m 755 -d $(PKG_DEVLIB_DIR); \
+-	../$(INSTALL) -m 644 -T old_lib $(LIBNAME).lai $(PKG_DEVLIB_DIR); \
+-	../$(INSTALL) -m 644 $(LIBNAME).lai $(PKG_DEVLIB_DIR)/$(LIBNAME).la ; \
+-	../$(INSTALL) -m 755 -d $(PKG_LIB_DIR); \
+-	../$(INSTALL) -T so_base $(LIBNAME).lai $(PKG_LIB_DIR); \
+-	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
+-	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
+-	../$(INSTALL) -S $(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so
++	cd $(TOPDIR)/$(LIBNAME)/.libs && \
++	../$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_LIB_DIR) && \
++	../$(INSTALL) -T so_base $(LIBNAME).lai $(DESTDIR)$(PKG_LIB_DIR); 
+ else
+ INSTALL_LTLIB_DEV = $(INSTALL_LTLIB_STATIC)
+ endif
+ 
+ INSTALL_LTLIB_STATIC = \
+ 	cd $(TOPDIR)/$(LIBNAME)/.libs; \
+-	../$(INSTALL) -m 755 -d $(PKG_DEVLIB_DIR); \
+-	../$(INSTALL) -m 644 -T old_lib $(LIBNAME).lai $(PKG_DEVLIB_DIR)
++	../$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_DEVLIB_DIR); \
++	../$(INSTALL) -m 644 -T old_lib $(LIBNAME).lai $(DESTDIR)$(PKG_DEVLIB_DIR)
+ 
+ INSTALL_MAN = \
+ 	@for d in $(MAN_PAGES); do \
+@@ -116,7 +110,7 @@ ifeq ($(ENABLE_GETTEXT),yes)
+ INSTALL_LINGUAS = \
+ 	@for l in $(LINGUAS) ""; do \
+ 		if test -f "$$l.mo" ; then \
+-			ldir=$(PKG_LOCALE_DIR)/$$l/LC_MESSAGES; \
++			ldir=$(DESTDIR)$(PKG_LOCALE_DIR)/$$l/LC_MESSAGES; \
+ 			$(INSTALL) -m 755 -d $$ldir; \
+ 			$(INSTALL) -m 644 $$l.mo $$ldir/$(PKG_NAME).mo; \
+ 		fi; \
