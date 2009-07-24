@@ -3,15 +3,24 @@ DESCRIPTION = "udev is a daemon which dynamically creates and removes device nod
 the hotplug package and requires a kernel not older than 2.6.12."
 RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
+DEPENDS = "acl virtual/libusb0 usbutils glib-2.0"
 
-PV	= "137"
+PV	= "145"
 PR	= "r1"
 
-sbindir = "/sbin"
-libdir  = "/lib"
-exec_prefix = ""
+SRC_URI = "	\
+	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+	file://udev-145-settlerace.patch;patch=1	\
+	file://udev-145-stop.patch;patch=1		\
+	file://udev-145-cross.patch;patch=1		\
+	file://60-ubi.rules			\
+"
 
-rules_dir = "${libdir}/udev/rules.d"
+sbindir    = "/sbin"
+libexecdir = "/lib/udev"
+rules_dir  = "${libexecdir}"
+
+EXTRA_OECONF = "--with-pci-ids-path=/usr/share/pci.ids --with-rootlibdir=/lib"
 
 inherit autotools pkgconfig
 
@@ -26,7 +35,7 @@ python __anonymous() {
 	pn      = bb.data.getVar('PN', d, 1)
 	libdir  = bb.data.getVar('libdir', d, 1)
 
-	id_progs=("ata", "cdrom", "edd", "path", "scsi", "usb", "vol")
+	id_progs=("ata", "cdrom", "edd", "path", "scsi", "usb", "v4l")
 	id_pkgs = map(lambda x: '%s-%s-id' % (pn,x), id_progs)
 
 	bb.data.setVar('PACKAGES',
@@ -48,7 +57,6 @@ do_install_append() {
 do_stage() {
 	set -x
 	autotools_stage_all
-	oe_libinstall -C extras/volume_id/lib -so libvolume_id ${STAGING_LIBDIR}
 }
 
 FILES_${PN} = "\
@@ -98,11 +106,3 @@ FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
 
 FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
 FILES_${PN}-dev		    += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
-
-
-SRC_URI = "	\
-	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-	file://udev-130-settlerace.patch;patch=1	\
-	file://udev-137-stop.patch;patch=1		\
-	file://60-ubi.rules			\
-"

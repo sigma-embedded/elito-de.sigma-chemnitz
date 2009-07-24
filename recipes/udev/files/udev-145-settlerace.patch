@@ -27,8 +27,8 @@ Index: udev-130/udev/udevadm-trigger.c
  		}
  	}
  
-+	util_strlcpy(queuedir, udev_get_dev_path(udev), sizeof queuedir);
-+	util_strlcat(queuedir, "/.udev/queue", sizeof queuedir);
++	util_strscpyl(queuedir, sizeof queuedir, 
++		      udev_get_dev_path(udev),  "/.udev/queue");
 +
  	switch (device_type) {
  	case TYPE_FAILED:

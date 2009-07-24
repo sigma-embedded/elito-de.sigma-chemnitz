@@ -1,12 +1,12 @@
-Index: udev-137/udev/udevd.c
+Index: udev-145/udev/udevd.c
 ===================================================================
---- udev-137.orig/udev/udevd.c
-+++ udev-137/udev/udevd.c
-@@ -644,10 +644,11 @@ int main(int argc, char *argv[])
+--- udev-145.orig/udev/udevd.c
++++ udev-145/udev/udevd.c
+@@ -776,10 +776,11 @@ int main(int argc, char *argv[])
  	int fd;
- 	struct sigaction act;
+ 	sigset_t mask;
  	const char *value;
--	int daemonize = 0;
+-	int daemonize = false;
 +	enum { DAEMON_FG, DAEMON_BG, DAEMON_STOP } daemonize = DAEMON_FG;
  	int resolve_names = 1;
  	static const struct option options[] = {
@@ -15,7 +15,7 @@ Index: udev-137/udev/udevd.c
  		{ "debug-trace", no_argument, NULL, 't' },
  		{ "debug", no_argument, NULL, 'D' },
  		{ "help", no_argument, NULL, 'h' },
-@@ -669,13 +670,16 @@ int main(int argc, char *argv[])
+@@ -801,13 +802,16 @@ int main(int argc, char *argv[])
  	while (1) {
  		int option;
  
@@ -26,17 +26,17 @@ Index: udev-137/udev/udevd.c
  
  		switch (option) {
  		case 'd':
--			daemonize = 1;
+-			daemonize = true;
 +			daemonize = DAEMON_BG;
 +			break;
 +		case 'S':
 +			daemonize = DAEMON_STOP;
  			break;
  		case 't':
- 			debug_trace = 1;
-@@ -761,7 +765,9 @@ int main(int argc, char *argv[])
- 	cleanup_queue_dir(udev);
- 	export_initial_seqnum(udev);
+ 			debug_trace = true;
+@@ -944,7 +948,9 @@ int main(int argc, char *argv[])
+ 		goto exit;
+ 	}
  
 -	if (daemonize) {
 +	if (daemonize == DAEMON_STOP)
