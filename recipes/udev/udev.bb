@@ -3,7 +3,7 @@ DESCRIPTION = "udev is a daemon which dynamically creates and removes device nod
 the hotplug package and requires a kernel not older than 2.6.12."
 RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
-DEPENDS = "acl virtual/libusb0 usbutils glib-2.0"
+DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "145"
 PR	= "r1"
