@@ -15,7 +15,7 @@ SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'			\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'
 
-BITBAKE_REV =		1179
+BITBAKE_REV =		1180
 BITBAKE_URI =		http://svn.berlios.de/svnroot/repos/bitbake/branches/bitbake-1.8
 
 AUTOCONF_FILES =	Makefile		\
