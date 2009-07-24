@@ -37,6 +37,7 @@ KERNEL_BOOTSTRAP_RAMFS_EXTRA ?= ":"
 DEPENDS += " \
 	busybox \
 	mtd-utils \
+	virtual/${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} \
 "
 
 include elito-kernel.inc
