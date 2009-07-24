@@ -4,7 +4,7 @@ LICENSE = "LGPLv2+"
 DEPENDS = "attr"
 
 PV = "2.2.47"
-PR = "r0"
+PR = "r1"
 
 SRC_URI = "\
 	ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_${PV}-1.tar.gz \

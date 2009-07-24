@@ -113,14 +113,7 @@ Index: acl-2.2.47/include/buildmacros
 ===================================================================
 --- acl-2.2.47.orig/include/buildmacros
 +++ acl-2.2.47/include/buildmacros
-@@ -48,16 +48,15 @@ LTINSTALL = $(LIBTOOL) --mode=install $(
- LTCOMPILE = $(LIBTOOL) --mode=compile $(CCF)
- 
- ifeq ($(ENABLE_SHARED),yes)
--LTLDFLAGS += -rpath $(PKG_LIB_DIR)
- LTLDFLAGS += -version-info $(LTVERSION)
- endif
- 
+@@ -55,9 +55,9 @@ endif
  ifeq ($(ENABLE_SHARED),yes)
  INSTALL_LTLIB = \
  	cd $(TOPDIR)/$(LIBNAME)/.libs; \
@@ -133,7 +126,7 @@ Index: acl-2.2.47/include/buildmacros
  endif
  
  # Libtool thinks the static and shared libs should be in the same dir, so
-@@ -68,23 +67,17 @@ endif
+@@ -68,23 +68,17 @@ endif
  # /usr/lib.
  ifeq ($(ENABLE_SHARED),yes)
  INSTALL_LTLIB_DEV = \
@@ -162,7 +155,7 @@ Index: acl-2.2.47/include/buildmacros
  
  INSTALL_MAN = \
  	@for d in $(MAN_PAGES); do \
-@@ -96,7 +89,7 @@ INSTALL_MAN = \
+@@ -96,7 +90,7 @@ INSTALL_MAN = \
  				-e 's/\\\f[0-9]//g' -e 's/  / /g;q'`; \
  		do \
  			[ -z "$$m" -o "$$m" = "\\" ] && continue; \
@@ -171,7 +164,7 @@ Index: acl-2.2.47/include/buildmacros
  			if $$first; then \
  				if $(HAVE_ZIPPED_MANPAGES); then \
  					$(ZIP) -9 -c $$d > $$d.gz; _sfx=.gz; \
-@@ -116,7 +109,7 @@ ifeq ($(ENABLE_GETTEXT),yes)
+@@ -116,7 +110,7 @@ ifeq ($(ENABLE_GETTEXT),yes)
  INSTALL_LINGUAS = \
  	@for l in $(LINGUAS) ""; do \
  		if test -f "$$l.mo" ; then \
