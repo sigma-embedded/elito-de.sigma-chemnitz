@@ -1,5 +1,7 @@
 DEPENDS		= "zlib-native lzo-native e2fsprogs-libs-native"
-PR		= "r1.${SRCREV}"
+
+PV		= "1.2.0+gitr${SRCPV}"
+PR		= "r1"
 
 GIT_COMMIT	?= ${GIT_COMMIT_pn-mtd-utils}
 
