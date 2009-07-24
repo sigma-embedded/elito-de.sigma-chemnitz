@@ -205,6 +205,7 @@ ELITO_CHECK_PROGRAM(90, LIBTOOL,    libtoolize,  libtool)
 ELITO_CHECK_PROGRAM(60, UIC_QT4,    uic-qt4,     uicmoc4)
 ELITO_CHECK_PROGRAM( 0, MTD_UTILS,  mkfs.ubifs,  mtd-utils)
 ELITO_CHECK_PROGRAM( 0, UNIFDEF,    unifdef)
+ELITO_CHECK_PROGRAM( 0, GPERF,      gperf)
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
 AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
