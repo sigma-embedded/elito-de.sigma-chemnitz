@@ -49,6 +49,11 @@ EOF
 
 do_stage_prepend() {
 	set -x
-	test -z "${_tftp_image}" || \
-		cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
+	if test -n "${_tftp_image}"; then
+		if ! test -w "${_tftp_image}"; then
+			oewarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
+		else
+			cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
+		fi
+	fi
 }
