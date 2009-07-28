@@ -4,7 +4,7 @@ PRIORITY	 = "optional"
 DESCRIPTION	 = "Event driven system init"
 LICENSE		 = "GPLv2"
 
-inherit autotools native
+inherit autotools autotools_stage native
 
 libdir		 = "/lib"
 sbindir		 = "/sbin"
@@ -12,14 +12,9 @@ DEPENDS		 = "dbus-native-upstart expat-native bison-native pkgconfig-native"
 
 sbindir		 = "${base_prefix}/sbin"
 
-do_configure() {
-	oe_runconf --disable-static
-}
+EXTRA_OECONF	 = "--disable-static"
 
-do_stage() {
-	oe_runmake install
-	autotools_stage_all
-
+do_stage_append() {
 	mkdir -p ${STAGING_BINDIR}
 	libtool --mode=install install -p -m 0755 nih-dbus-tool/nih-dbus-tool ${STAGING_BINDIR}/
 }

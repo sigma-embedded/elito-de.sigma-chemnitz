@@ -1,0 +1,76 @@
+Index: upstart-0.6.2/util/Makefile.am
+===================================================================
+--- upstart-0.6.2.orig/util/Makefile.am
++++ upstart-0.6.2/util/Makefile.am
+@@ -32,7 +32,6 @@ nodist_initctl_SOURCES = \
+ 	$(com_ubuntu_Upstart_OUTPUTS) \
+ 	$(com_ubuntu_Upstart_Job_OUTPUTS) \
+ 	$(com_ubuntu_Upstart_Instance_OUTPUTS)
+-initctl_LDFLAGS = -static
+ initctl_LDADD = \
+ 	../nih/libnih.la \
+ 	../nih-dbus/libnih-dbus.la \
+@@ -42,7 +41,6 @@ initctl_LDADD = \
+ reboot_SOURCES = \
+ 	reboot.c \
+ 	utmp.c utmp.h
+-reboot_LDFLAGS = -static
+ reboot_LDADD = \
+ 	../nih/libnih.la \
+ 	$(LTLIBINTL)
+@@ -50,7 +48,6 @@ reboot_LDADD = \
+ runlevel_SOURCES = \
+ 	runlevel.c \
+ 	utmp.c utmp.h
+-runlevel_LDFLAGS = -static
+ runlevel_LDADD = \
+ 	../nih/libnih.la \
+ 	$(LTLIBINTL)
+@@ -61,7 +58,6 @@ shutdown_SOURCES = \
+ 	sysv.c sysv.h
+ nodist_shutdown_SOURCES = \
+ 	$(com_ubuntu_Upstart_OUTPUTS)
+-shutdown_LDFLAGS = -static
+ shutdown_LDADD = \
+ 	../nih/libnih.la \
+ 	../nih-dbus/libnih-dbus.la \
+@@ -74,7 +70,6 @@ telinit_SOURCES = \
+ 	sysv.c sysv.h
+ nodist_telinit_SOURCES = \
+ 	$(com_ubuntu_Upstart_OUTPUTS)
+-telinit_LDFLAGS = -static
+ telinit_LDADD = \
+ 	../nih/libnih.la \
+ 	../nih-dbus/libnih-dbus.la \
+@@ -178,7 +173,6 @@ check_PROGRAMS = $(TESTS)
+ 
+ test_initctl_SOURCES = tests/test_initctl.c initctl.c
+ test_initctl_CFLAGS = $(AM_CFLAGS) -DTEST
+-test_initctl_LDFLAGS = -static
+ test_initctl_LDADD = \
+ 	com.ubuntu.Upstart.o \
+ 	com.ubuntu.Upstart.Job.o com.ubuntu.Upstart.Instance.o \
+@@ -187,7 +181,6 @@ test_initctl_LDADD = \
+ 	$(DBUS_LIBS)
+ 
+ test_utmp_SOURCES = tests/test_utmp.c
+-test_utmp_LDFLAGS = -static
+ test_utmp_LDADD = \
+ 	utmp.o \
+ 	../nih/libnih.la
+@@ -195,7 +188,6 @@ test_utmp_LDADD = \
+ test_sysv_SOURCES = tests/test_sysv.c
+ nodist_test_sysv_SOURCES = \
+ 	$(com_ubuntu_Upstart_OUTPUTS)
+-test_sysv_LDFLAGS = -static
+ test_sysv_LDADD = \
+ 	sysv.o utmp.o \
+ 	../nih/libnih.la \
+@@ -205,7 +197,6 @@ test_sysv_LDADD = \
+ 
+ test_telinit_SOURCES = tests/test_telinit.c telinit.c
+ test_telinit_CFLAGS = $(AM_CFLAGS) -DTEST
+-test_telinit_LDFLAGS = -static
+ test_telinit_LDADD = \
+ 	sysv.o utmp.o \
+ 	com.ubuntu.Upstart.o \

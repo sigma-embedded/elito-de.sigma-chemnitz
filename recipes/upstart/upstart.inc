@@ -10,7 +10,8 @@ libdir		 = "/lib"
 sbindir		 = "/sbin"
 DEPENDS		 = "dbus expat bison-native pkgconfig-native upstart-native"
 
-EXTRA_OECONF	 = "--disable-static"
+EXTRA_OECONF	 = "--disable-static --disable-rpath"
+EXTRA_AUTORECONF = "--force"
 
 do_configure_prepend_dyn() {
 	set -x
@@ -27,10 +28,6 @@ do_configure_prepend() {
 
 do_compile() {
 	oe_runmake check_PROGRAMS=
-}
-
-do_configure() {
-	oe_runconf --disable-static
 }
 
 do_install_append() {
