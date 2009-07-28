@@ -11,7 +11,7 @@ EXTRA_OEMAKE	 = "CROSS_COMPILE=${TARGET_PREFIX}"
 
 UBOOT_MACHINE	?= "${MACHINE}_config"
 UBOOT_SYMLINK	?= "u-boot-${MACHINE}.bin"
-UBOOT_REPO	?= "${ELITO_GIT_MIRROR}/u-boot.git"
+UBOOT_REPO	?= "${ELITO_GIT_WS}/u-boot.git"
 
 S		 = "${WORKDIR}/git"
 PACKAGES	 = "${PN}-dbg ${PN}-bin ${PN}"
