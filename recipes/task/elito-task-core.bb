@@ -10,9 +10,9 @@ PACKAGE_ARCH	 = "${MACHINE_ARCH}"
 #
 # udev, devfsd, mdev (from busybox) or none
 #
-DISTRO_DEV_MANAGER ?= "${@base_contains("MACHINE_FEATURES", "kernel26",  "udev","",d)} "
+IMAGE_DEV_MANAGER ?= "${@base_contains("MACHINE_FEATURES", "kernel26",  "udev","",d)} "
 
-OVERRIDES .= "${@base_contains("DISTRO_DEV_MANAGER", "udev", ":udev", "", d)}"
+OVERRIDES .= "${@base_contains("IMAGE_DEV_MANAGER", "udev", ":udev", "", d)}"
 
 EXTRA_DEV_RULES ?=
 EXTRA_DEV_RULES_append_udev = " ${@base_contains("MACHINE_FEATURES","firmware","udev-firmware","",d)}"
@@ -21,12 +21,12 @@ EXTRA_DEV_RULES_append_udev = " ${@base_contains("MACHINE_FEATURES","modules","u
 #
 # sysvinit, upstart
 #
-DISTRO_INIT_MANAGER ?= "sysvinit"
+IMAGE_INIT_MANAGER ?= "sysvinit"
 
 #
 # tinylogin, getty
 #
-DISTRO_LOGIN_MANAGER ?= "tinylogin"
+IMAGE_LOGIN_MANAGER ?= "tinylogin"
 
 PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
@@ -44,9 +44,9 @@ RDEPENDS_${PN} += "\
     ${@base_contains("MACHINE_FEATURES", "modules",  "virtual/modutils-initscripts", "", d)} \
     virtual/initscripts		\
     ${EXTRA_DEV_RULES}			\
-    ${DISTRO_DEV_MANAGER}		\
-    ${DISTRO_INIT_MANAGER}		\
-    ${DISTRO_LOGIN_MANAGER}		\
+    ${IMAGE_DEV_MANAGER}		\
+    ${IMAGE_INIT_MANAGER}		\
+    ${IMAGE_LOGIN_MANAGER}		\
     ${PROJECT_EXTRA_RDEPENDS}		\
     "
 
