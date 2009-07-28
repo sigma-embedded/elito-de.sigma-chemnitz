@@ -1,17 +1,20 @@
-KERNEL_REPO ?= "${ELITO_GIT_MIRROR}/kernel.git"
-DEPENDS     += '${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
+KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
+DEPENDS     += '\
+	${KERNEL_DEPENDS} \
+	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
 
-PV	=  "${MACHINE_KERNEL_VERSION}"
+PV	= "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
 #PV_PKG	= "${KERNEL_RELEASE}"
 PR_PKG	= "${PR}${@base_conditional('METADATA_REVISION','','','+${METADATA_REVISION}',d)}"
 
-S	 = "${WORKDIR}/linux-${PV}"
-SRC_URI ?= "file://git.repo"
+S	 = "${WORKDIR}/git"
 
-GIT_REPO   = "${KERNEL_REPO}"
-GIT_BRANCH = "${_branch}"
+GIT_REPO = "${KERNEL_REPO}"
+SRCREV   = "${AUTOREV}"
 
-inherit gitdevel
+SRC_URI  = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
+
+_genmf   = "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
 
 do_configure_prepend() {
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
@@ -20,7 +23,8 @@ do_configure_prepend() {
 	gc=`basename "$gc"`
 	ccache=`${WHICH} ccache`
 
-	cat << EOF > mf
+	rm -f "${_genmf}"
+	cat << EOF > "${_genmf}"
 _cc = ${KERNEL_CC}
 _ld = ${KERNEL_LD}
 
@@ -30,6 +34,7 @@ export CC = \$(_cc)
 export LD = \$(_ld)
 export CROSS_COMPILE = ${CROSS_COMPILE}
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
+export ARCH = ${ARCH}
 
 _flash_filename = ${_tftp_image}
 _bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
@@ -37,13 +42,16 @@ _bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 %:
 	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(_cc)' LD='\$(_ld)' ${@base_conditional("_tftp_image","","","FLASH_FILENAME='\$(_flash_filename)'",d)} MAKELEVEL=0 \$@
 
+exec:
+	\$(P)
+
 unexport MAKEFILES
 unexport MAKELEVEL
 .DEFAULT_GOAL := all
 EOF
 
 	if ! test -e .config; then
-		oe_runmake -f mf "${_defconfig}"
+		oe_runmake -f "${_genmf}" "${_defconfig}"
 	fi
 }
 
