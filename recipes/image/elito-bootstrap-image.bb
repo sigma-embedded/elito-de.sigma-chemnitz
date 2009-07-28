@@ -9,7 +9,7 @@ DEPENDS = "	\
 IMAGE_LINGUAS = ""
 IMAGE_INSTALL = "${MACHINE_TASK_PROVIDER}"
 
-IMAGE_FSTYPES_append_mobm320 	 = " bootenv"
+IMAGE_FSTYPES_append_mobm320	 = " bootenv"
 IMAGE_DEPENDS_append_u-boot	 = " u-boot"
 
 export OVERRIDES
