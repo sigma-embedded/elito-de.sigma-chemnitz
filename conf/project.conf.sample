@@ -9,21 +9,17 @@ PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}g++:gcc-cross"
 PREFERRED_PROVIDER_gtk   = gtk+-fastscaling
 PREFERRED_PROVIDER_gconf = gconf-dbus
 
-OLDEST_KERNEL            = "2.6.22"
-BBMASK                   = "(sysvinit)"
+BBMASK			?= "${BBMASK_DISTRO}"
 
 KERNEL_BRANCH		 = "vendor/project"
 KERNEL_DEFCONFIG	 = "project_defconfig"
 
 TERMCMD			 = ${XTERM_TERMCMD}
 
-PROJECT_EXTRA_RDEPENDS += "\
-	strace \
-"
+#PROJECT_EXTRA_RDEPENDS	+= "task-${PROJECT_NAME}"
+#PROJECT_EXTRA_RRECOMMENDS += ""
 
-PROJECT_EXTRA_RRECOMMENDS += "\
-	mc	\
-"
+IMAGE_KEEPROOTFS	 = 1
 
 # So far, angstrom.conf sets ENABLE_BINARY_LOCALE_GENERATION
 # to generate binary locale packages at build time using qemu-native and
