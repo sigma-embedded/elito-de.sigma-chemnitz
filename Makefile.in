@@ -33,8 +33,11 @@ TEMPLATE_FILES =	conf/project.conf	\
 			recipes/helloworld/helloworld.bb
 
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
+_project_task_file =	$(abs_top_builddir)/recipes/$(PROJECT_NAME)/task-$(PROJECT_NAME).bb
 
 config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
+config:			$(_project_task_file)
+
 init:			bitbake-fetch
 
 _bitbake_root =		$(abs_top_builddir)/tmp/staging/.bitbake
@@ -84,6 +87,11 @@ $(_template_files):$(abs_top_builddir)/%:
 			test ! -e $@
 			mkdir -p $(dir $@)
 			cp --preserve=mode,timestamps ${abs_top_srcdir}/$*.sample $@
+
+$(_project_task_file):
+			test ! -e $@
+			mkdir -p '$(dir $@)'
+			sed -e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g' $(abs_top_srcdir)/task-project.bb.sample > '$@'
 
 %:			%.in
 			@-rm -f $@.tmp $@
