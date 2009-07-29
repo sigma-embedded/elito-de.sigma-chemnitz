@@ -4,8 +4,6 @@ DEPENDS     += '\
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
 
 PV	= "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
-#PV_PKG	= "${KERNEL_RELEASE}"
-PR_PKG	= "${PR}${@base_conditional('METADATA_REVISION','','','+${METADATA_REVISION}',d)}"
 
 S	 = "${WORKDIR}/git"
 
