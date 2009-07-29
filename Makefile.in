@@ -1,6 +1,7 @@
 PYTHON :=		python
 SED :=			sed
 SVN :=			svn
+GIT :=			git
 abs_top_srcdir :=	$(abspath @abs_top_srcdir@)
 abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
@@ -15,8 +16,9 @@ SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'			\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'
 
-BITBAKE_REV =		1180
-BITBAKE_URI =		http://svn.berlios.de/svnroot/repos/bitbake/branches/bitbake-1.8
+BITBAKE_BRANCH =	1.8
+BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
+BITBAKE_REV =		c16eeb1bc5a00ad036f56c97a339c775798abce5
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -59,10 +61,21 @@ bitbake-validate:
 			exit 1; \
 			} >&2
 
-tmp/stamps/.bitbake.fetch.stamp:
-			@mkdir -p $(dir $@)
-			$(SVN) co -r$(BITBAKE_REV) ${BITBAKE_URI}@$(BITBAKE_REV) tmp/bitbake
+tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.gitinit.stamp
+			cd tmp/bitbake && $(GIT) remote update
+			cd tmp/bitbake && $(GIT) merge ${BITBAKE_REV}
 			@echo $(BITBAKE_REV) > $@
+
+tmp/stamps/.bitbake.gitinit.stamp:
+			@mkdir -p $(dir $@)
+			mkdir -p tmp/bitbake
+			cd tmp/bitbake && $(GIT) init
+			cd tmp/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
+			cd tmp/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
+			cd tmp/bitbake && $(GIT) config remote.origin.tagopt --no-tags
+			cd tmp/bitbake && $(GIT) remote update
+			cd tmp/bitbake && $(GIT) checkout -b master --track origin/${BITBAKE_BRANCH}
+			@touch $@
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
 ifeq ($(QUILT),)
