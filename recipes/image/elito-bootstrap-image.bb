@@ -16,4 +16,4 @@ export OVERRIDES
 export DEPENDS
 export IMAGE_DEPENDS
 
-inherit image ubi
+inherit image ubi elito-final
