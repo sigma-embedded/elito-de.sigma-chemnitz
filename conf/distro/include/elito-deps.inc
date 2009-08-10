@@ -1,5 +1,5 @@
 # --*- python -*--
-RRECOMMENDS_append_libasound	= " virtual/snd-dev"
+RRECOMMENDS_append_libasound	= " virtual/snd-device"
 RRECOMMENDS_append_dropbear	= " virtual/dropbear-init"
 RRECOMMENDS_append_tinylogin	= " virtual/tinylogin-init"
 RRECOMMENDS_append_dbus		= " virtual/dbus-init elito-dbus-base"

@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "145"
-PR	= "r6"
+PR	= "r7"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -109,7 +109,7 @@ FILES_${PN}-rules-base = "	\
 "
 
 FILES_${PN}-rules-alsa       = "${rules_dir}/*alsa.rules"
-RPROVIDES_${PN}-rules-alsa   = "virtual/snd-dev"
+RPROVIDES_${PN}-rules-alsa   = "virtual/snd-device"
 
 FILES_${PN}-rules-modules    = "${rules_dir}/*-drivers.rules"
 RDEPENDS_${PN}-rules-modules = "module-init-tools"
