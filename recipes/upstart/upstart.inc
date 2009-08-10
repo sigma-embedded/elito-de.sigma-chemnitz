@@ -3,18 +3,17 @@ SECTION		 = "base"
 PRIORITY	 = "optional"
 DESCRIPTION	 = "Event driven system init"
 LICENSE		 = "GPLv2"
+DEPENDS		 = "dbus expat bison-native pkgconfig-native upstart-native"
 
 inherit autotools
 
 libdir		 = "/lib"
 sbindir		 = "/sbin"
-DEPENDS		 = "dbus expat bison-native pkgconfig-native upstart-native"
 
 EXTRA_OECONF	 = "--disable-static --disable-rpath"
 EXTRA_AUTORECONF = "--force"
 
 do_configure_prepend_dyn() {
-	set -x
 	export nih_install=yes
 }
 

@@ -3,13 +3,11 @@ SECTION		 = "base"
 PRIORITY	 = "optional"
 DESCRIPTION	 = "Event driven system init"
 LICENSE		 = "GPLv2"
+DEPENDS		 = "dbus-native-upstart expat-native bison-native pkgconfig-native"
 
 inherit autotools autotools_stage native
 
 libdir		 = "/lib"
-sbindir		 = "/sbin"
-DEPENDS		 = "dbus-native-upstart expat-native bison-native pkgconfig-native"
-
 sbindir		 = "${base_prefix}/sbin"
 
 EXTRA_OECONF	 = "--disable-static"
