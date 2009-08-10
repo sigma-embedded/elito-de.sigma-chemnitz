@@ -20,7 +20,7 @@ PACKAGES = " \
 "
 RSUGGESTS_${PN} = "ncurses-terminfo"
 
-inherit autotools
+inherit autotools_stage
 
 # This keeps only tput/tset in ncurses
 # clear/reset are in already busybox
@@ -102,10 +102,6 @@ do_configure() {
 		--enable-sigwinch						\
 		--with-build-cflags=""						\
 		--with-build-cppflags='-D__need_wint_t'
-}
-
-do_stage() {
-	autotools_stage_all
 }
 
 do_install() {
