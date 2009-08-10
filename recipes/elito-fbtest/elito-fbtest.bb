@@ -1,6 +1,9 @@
 DESCRIPTION	=  "Framebuffer testutility"
+LICENSE		=  "GPLv3"
 
-DEPENDS		=  ""
+PV = "0.1+gitr${SRCPV}"
+PR = "r0"
+
 SRC_URI		=  "${ELITO_GIT_REPO}/fbtest.git;protocol=https"
 SRCREV		=  "${AUTOREV}"
 S		=  "${WORKDIR}/git"
