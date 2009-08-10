@@ -1,4 +1,4 @@
-PATCHDATE = "20090718"
+PATCHDATE = "20090808"
 PR = "r0.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
@@ -72,6 +72,11 @@ SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090627.patch.gz;patch=1		\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090704.patch.gz;patch=1		\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090711.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090718.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090725.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090728.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090801.patch.gz;patch=1		\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090803.patch.gz;patch=1		\
 \
 \
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-${PATCHDATE}.patch.gz;patch=1	\
