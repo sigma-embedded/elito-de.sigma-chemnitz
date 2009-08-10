@@ -16,6 +16,9 @@ SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'			\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'
 
+CHECKSUM_SORTER =	$(PYTHON) $(ELITO_ROOTDIR)/org.openembedded/contrib/source-checker/oe-checksums-sorter.py
+CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksum.ini
+
 BITBAKE_BRANCH =	1.8
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
 BITBAKE_REV =		c16eeb1bc5a00ad036f56c97a339c775798abce5
@@ -60,6 +63,16 @@ bitbake-validate:
 			echo "****"; \
 			exit 1; \
 			} >&2
+
+update-checksum:
+			test -e tmp/checksums.ini
+			t=$$(mktemp -t elito-crc.XXXXXX) && trap "rm -f $$t" EXIT && $(MAKE) .update-checksum _tmpfile=$$t
+
+.update-checksum:
+			cat tmp/checksums.ini >> $(CHECKSUM_FILE)
+			$(CHECKSUM_SORTER) $(CHECKSUM_FILE) > $(_tmpfile)
+			cat $(_tmpfile) >$(CHECKSUM_FILE)
+			rm -f tmp/checksums.ini
 
 tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.gitinit.stamp
 			cd tmp/bitbake && $(GIT) remote update
