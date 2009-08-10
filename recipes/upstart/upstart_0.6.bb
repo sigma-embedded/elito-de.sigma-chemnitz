@@ -1,5 +1,5 @@
-PV = "0.6.2"
-PR = "r1"
+PV = "0.6.3"
+PR = "r0"
 
 
 ## dynamic libnih0 support is broken; resulting upstart dies with
