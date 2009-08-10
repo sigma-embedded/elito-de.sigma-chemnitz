@@ -83,7 +83,7 @@ do_configure_prepend() {
 
 EXTRA_AUTORECONF="-I m4"
 do_configure() {
-	oe_runconf \ 
+	oe_runconf \
 		--without-normal						\
 		--without-debug							\
 		--without-ada							\
