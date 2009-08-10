@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "145"
-PR	= "r1"
+PR	= "r6"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -22,10 +22,11 @@ libexecdir = "${rootlibdir}/udev"
 rules_dir  = "${libexecdir}/rules.d"
 
 EXTRA_OECONF = "\
+	--enable-static \
 	--with-pci-ids-path=/usr/share/pci.ids \
 	--with-rootlibdir=${rootlibdir}"
 
-inherit autotools autotools_stage pkgconfig
+inherit autotools_stage pkgconfig
 
 PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
@@ -55,7 +56,12 @@ python populate_packages_prepend() {
 do_install_append() {
 	install -p -m 0644 rules/packages/40-alsa.rules ${D}${rules_dir}/
 	install -p -m 0644 ${WORKDIR}/60-ubi.rules      ${D}${rules_dir}/
+
 	touch ${D}${rules_dir}/.empty
+}
+
+do_stage_append() {
+        rm ${STAGING_LIBDIR}/libudev.la ${STAGING_LIBDIR}/libgudev-1.0.la
 }
 
 FILES_${PN} = "\
