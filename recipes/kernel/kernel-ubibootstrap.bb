@@ -13,7 +13,6 @@ SRC_URI += "file://ramfs.template \
 	file://scan-dev \
 "
 
-_branch          = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 _tftp_image	 = "${KERNEL_BOOTSTRAP_TFTP_IMAGE}"
 _defconfig	 = "${KERNEL_BOOTSTRAP_DEFCONFIG}"
 _kernel_output	 = "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"

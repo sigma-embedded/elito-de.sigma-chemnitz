@@ -1,19 +1,19 @@
-KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
-DEPENDS     += '\
-	${KERNEL_DEPENDS} \
-	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
-
-PV	= "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
-
-S	 = "${WORKDIR}/git"
+PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
 
 GIT_REPO = "${KERNEL_REPO}"
 SRCREV   = "${AUTOREV}"
 
-SRC_URI  = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
+KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
+_branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
+
+SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
+S            = "${WORKDIR}/git"
+
+DEPENDS += '\
+	${KERNEL_DEPENDS} \
+	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
 
 _genmf   = "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
-
 do_configure_prepend() {
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
 	gc=${gc%%gcc}
@@ -23,6 +23,7 @@ do_configure_prepend() {
 
 	rm -f "${_genmf}"
 	cat << EOF > "${_genmf}"
+## --*- makefile -*--
 _cc = ${KERNEL_CC}
 _ld = ${KERNEL_LD}
 
