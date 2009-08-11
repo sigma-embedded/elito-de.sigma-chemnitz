@@ -1,5 +1,5 @@
 PV = "0.6.3"
-PR = "r0"
+PR = "r1"
 
 
 ## dynamic libnih0 support is broken; resulting upstart dies with
@@ -15,6 +15,7 @@ SRC_URI = "	\
 	http://upstart.ubuntu.com/download/0.6/upstart-${PV}.tar.bz2	\
 	file://upstart-0.5-oomadj.patch;patch=1				\
 	file://no-static.patch;patch=1					\
+	file://old-glibc.patch;patch=1					\
 "
 
 xtra          =
