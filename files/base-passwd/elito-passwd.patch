@@ -1,0 +1,26 @@
+Index: base-passwd/group.master
+===================================================================
+--- base-passwd.orig/group.master
++++ base-passwd/group.master
+@@ -35,6 +35,9 @@ sasl:*:45:
+ plugdev:*:46:
+ staff:*:50:
+ games:*:60:
++haldaemon:x:68:
++messagebus:x:81:
++ntpd:x:82:
+ users:*:100:
+ mysql:*:64001:
+ nogroup:*:65534:
+Index: base-passwd/passwd.master
+===================================================================
+--- base-passwd.orig/passwd.master
++++ base-passwd/passwd.master
+@@ -15,4 +15,7 @@ backup:*:34:34:backup:/var/backups:/bin/
+ list:*:38:38:Mailing List Manager:/var/list:/bin/sh
+ irc:*:39:39:ircd:/var/run/ircd:/bin/sh
+ gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
++haldaemon:x:68:68:HAL daemon:/:/sbin/nologin
++messagebus:x:81:81:System message bus:/var/run/dbus:/sbin/nologin
++ntpd:x:82:82::/var/lib/ntp:/sbin/nologin
+ nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
