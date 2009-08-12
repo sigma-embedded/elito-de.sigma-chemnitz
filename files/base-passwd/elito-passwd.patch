@@ -2,10 +2,12 @@ Index: base-passwd/group.master
 ===================================================================
 --- base-passwd.orig/group.master
 +++ base-passwd/group.master
-@@ -35,6 +35,9 @@ sasl:*:45:
+@@ -35,6 +35,11 @@ sasl:*:45:
  plugdev:*:46:
  staff:*:50:
  games:*:60:
++wheel:*:66:
++x11:*:67:
 +haldaemon:x:68:
 +messagebus:x:81:
 +ntpd:x:82:
