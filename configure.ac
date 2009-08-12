@@ -83,12 +83,13 @@ AC_SUBST([kernel_ref_repo])
 
 dnl -----------------
 
+AC_MSG_CHECKING([for development components])
 AC_ARG_ENABLE([devel],
-	AS_HELP_STRING([--enable-devel=<component0>,<component1>],
+	AS_HELP_STRING([--enable-devel=comp0,comp1,...],
 		[enable development versions of components within the ../workspace/ directory (default:auto)]),
 	[enable_devel_components=$enableval],[enable_devel_components=auto])
+AC_MSG_RESULT([$enable_devel_components])
 
-AC_MSG_CHECKING([for development components])
 AC_CACHE_VAL([ensc_cv_DEVEL_COMPONENTS],[
 	old_IFS=$IFS
 	IFS=\ ,
@@ -113,7 +114,6 @@ AC_CACHE_VAL([ensc_cv_DEVEL_COMPONENTS],[
 	    esac
 	done
 	IFS=$old_IFS])
-AC_MSG_RESULT([finished])
 
 for i in $ensc_cv_DEVEL_COMPONENTS; do
     AC_MSG_NOTICE([  enabling component '$i'])
