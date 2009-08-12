@@ -9,7 +9,7 @@ DEFAULT_PREFERENCE = "99"
 
 SRCREV  = "${AUTOREV}"
 SRC_URI = "\
-        git://git.infradead.org/mtd-utils.git;protocol=git"	\
+        git://git.infradead.org/mtd-utils.git;protocol=git	\
 "
 S = "${WORKDIR}/git"
 
