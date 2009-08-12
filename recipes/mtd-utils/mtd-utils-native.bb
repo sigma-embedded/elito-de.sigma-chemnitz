@@ -1,7 +1,5 @@
 DEPENDS		= "zlib-native lzo-native e2fsprogs-libs-native"
 
-GIT_COMMIT	?= ${GIT_COMMIT_pn-mtd-utils}
-
 inherit native
 require mtd-utils.inc
 
