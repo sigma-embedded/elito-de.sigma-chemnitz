@@ -1,7 +1,7 @@
 SECTION		= "base"
 DESCRIPTION	= "ELiTo Base utilities"
 LICENSE		= "GPLv3"
-PV		= "0.8.6"
+PV		= "0.8.7"
 PR		= "r0"
 
 bindir		= "/bin"
