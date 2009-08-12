@@ -15,6 +15,8 @@ SRCREV		 = "${AUTOREV}"
 PACKAGES	 = "${PN}-base ${PN}-udev ${PN}-net ${PN}-net-dhcp	\
 	${PN}-openntpd ${PN}-dropbear ${PN}-dbus	\
 	${PN}-tty-plain ${PN}-syslogd ${PN}-klogd	\
+	${PN}-hald \
+	${PN}-tty-tinylogin \
 	${PN}-sound ${PN}-rtc-sync\
 	${PN}-net-dhcp-eth0	\
 	${PN}-net-dhcp-eth1	\
@@ -88,6 +90,10 @@ FILES_${PN}-rtc-sync = " \
 FILES_${PN}-tty-plain     = "${j}tty/plain.conf"
 RPROVIDES_${PN}-tty-plain = "virtual/upstart-tty"
 
+FILES_${PN}-tty-tinylogin     = "${j}tty/tinylogin.conf"
+RPROVIDES_${PN}-tty-tinylogin = "virtual/upstart-tty"
+
+
 FILES_${PN}-syslogd = "${j}services/syslogd.conf"
 RPROVIDES_${PN}-syslogd = "virtual/syslogd-init"
 RDEPENDS_${PN}-syslogd = "busybox"
@@ -106,6 +112,12 @@ FILES_${PN}-dbus = "\
 	${sysconfdir}/files.d/*-dbus.txt"
 RPROVIDES_${PN}-dbus = "virtual/dbus-init"
 RDEPENDS_${PN}-dbus = "dbus"
+
+FILES_${PN}-hald = "\
+	${j}services/hald.conf	\
+	${sysconfdir}/files.d/*-hald.txt"
+RPROVIDES_${PN}-hald = "virtual/hald-init"
+RDEPENDS_${PN}-hald = "hal upstart-setup-dbus"
 
 RPROVIDES_${PN}-empty = "virtual/tinylogin-init"
 
