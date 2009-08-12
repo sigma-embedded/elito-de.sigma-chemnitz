@@ -23,7 +23,8 @@ BBFILE_PRIORITY_project =  200
 
 ASSUME_PROVIDED += " @elito_assumed@"
 
-ELITO_KERNEL_REF_REPO = "@kernel_ref_repo@"
+ELITO_KERNEL_REF_REPO  = "@kernel_ref_repo@"
+ELITO_DEVEL_COMPONENTS = "@devel_components@"
 
 MACHINE      = "@MACHINE@"
 DISTRO       = "elito"
