@@ -13,9 +13,9 @@ SRC_URI += "file://ramfs.template \
 	file://scan-dev \
 "
 
-_tftp_image	 = "${KERNEL_BOOTSTRAP_TFTP_IMAGE}"
-_defconfig	 = "${KERNEL_BOOTSTRAP_DEFCONFIG}"
-_kernel_output	 = "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
+_tftp_image      = "${KERNEL_BOOTSTRAP_TFTP_IMAGE}"
+_defconfig       = "${KERNEL_BOOTSTRAP_DEFCONFIG}"
+_kernel_output   = "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
 
 TARGET_CC_KERNEL_ARCH ?= ""
 HOST_CC_KERNEL_ARCH ?= "${TARGET_CC_KERNEL_ARCH}"
@@ -46,10 +46,10 @@ do_prepramfs() {
 	set -x
 
 	sed -e 's!@S@!${STAGING_DIR}!g' \
-	    -e 's!@SH@!${STAGING_DIR}/${HOST_SYS}!g' \
-	    -e 's!@H@!${HOST_SYS}!g' \
-	    -e 's!@W@!${WORKDIR}!g' \
-	    -e 's!@R@!${IMAGE_ROOTFS}!g' \
+            -e 's!@SH@!${STAGING_DIR}/${HOST_SYS}!g' \
+            -e 's!@H@!${HOST_SYS}!g' \
+            -e 's!@W@!${WORKDIR}!g' \
+            -e 's!@R@!${IMAGE_ROOTFS}!g' \
 		${WORKDIR}/ramfs.template > ramfs.txt
 
 	for i in ash basename cat cp dd df dmesg echo false find free grep \

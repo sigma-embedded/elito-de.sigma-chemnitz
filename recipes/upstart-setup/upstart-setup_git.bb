@@ -2,7 +2,7 @@ require upstart-setup.bb
 
 _gitrepo           = "${ELITO_GIT_WS}/upstart-setup.git"
 
-OVERRIDES         .= ":${@base_contains('ELITO_DEVEL_COMPONENTS','upstart-setup','devel','nondevel',d)}" 
+OVERRIDES         .= ":${@base_contains('ELITO_DEVEL_COMPONENTS','upstart-setup','devel','nondevel',d)}"
 
 DEFAULT_PREFERENCE       = -1
 DEFAULT_PREFERENCE_devel = ""

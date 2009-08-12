@@ -1,15 +1,15 @@
-DESCRIPTION	  = "Initial bootloader for PXA320"
-SECTION		  = "bootloaders"
-PRIORITY	  = "optional"
-LICENSE		  = "GPLv3"
-PROVIDES	  = "virtual/bootloader-ibl"
-PACKAGE_ARCH	  = "${MACHINE_ARCH}"
+DESCRIPTION       = "Initial bootloader for PXA320"
+SECTION           = "bootloaders"
+PRIORITY          = "optional"
+LICENSE           = "GPLv3"
+PROVIDES          = "virtual/bootloader-ibl"
+PACKAGE_ARCH      = "${MACHINE_ARCH}"
 
-DEPENDS		  = "linux-libc-headers mtd-utils mobm320-native"
-S		  = "${WORKDIR}/elito-${PN}-${PV}"
+DEPENDS           = "linux-libc-headers mtd-utils mobm320-native"
+S                 = "${WORKDIR}/elito-${PN}-${PV}"
 
-PACKAGES	 += "${PN}-tools"
-FILES_${PN}	  = "/boot/*"
+PACKAGES         += "${PN}-tools"
+FILES_${PN}       = "/boot/*"
 FILES_${PN}-tools = "/sbin/create-boot-env"
 
 MOBM320_IMAGE	?=

@@ -27,12 +27,12 @@ RRECOMMENDS_${PN} = "\
 	alsa-utils-amixer		\
 	alsa-utils-aplay		\
 	alsa-utils-alsactl		\
-	elito-fbtest 			\
-	strace 				\
-	minicom 			\
-	i2c-tools 			\
-	tcpdump 			\
-	fbset 				\
+	elito-fbtest			\
+	strace				\
+	minicom				\
+	i2c-tools			\
+	tcpdump				\
+	fbset				\
 	dropbear			\
 	opkg				\
 	usbutils			\

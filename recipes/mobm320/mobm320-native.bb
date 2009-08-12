@@ -1,15 +1,15 @@
-DESCRIPTION	 = "Initial bootloader for PXA320"
-SECTION		 = "bootloaders"
-PRIORITY	 = "optional"
-LICENSE		 = "GPLv3"
-PACKAGE_ARCH	 = "${MACHINE_ARCH}"
-PV		 = "0.3.4"
-PR		 = "r0"
-SRC_URI		 = "${ELITO_MIRROR}/elito-mobm320-${PV}.tar.bz2"
-S		 = ${WORKDIR}/elito-mobm320-${PV}
+DESCRIPTION      = "Initial bootloader for PXA320"
+SECTION          = "bootloaders"
+PRIORITY         = "optional"
+LICENSE          = "GPLv3"
+PACKAGE_ARCH     = "${MACHINE_ARCH}"
+PV               = "0.3.4"
+PR               = "r0"
+SRC_URI          = "${ELITO_MIRROR}/elito-mobm320-${PV}.tar.bz2"
+S                = ${WORKDIR}/elito-mobm320-${PV}
 
-PACKAGES	 = "${PN}-dbg ${PN}"
-FILES_${PN}	 = ${bindir}/mobm320-create-env
+PACKAGES         = "${PN}-dbg ${PN}"
+FILES_${PN}      = ${bindir}/mobm320-create-env
 
 inherit native
 

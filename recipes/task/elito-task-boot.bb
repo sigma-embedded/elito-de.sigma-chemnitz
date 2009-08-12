@@ -5,7 +5,7 @@ inherit task
 
 # packages which content depend on MACHINE_FEATURES need to be MACHINE_ARCH
 #
-PACKAGE_ARCH	 = "${MACHINE_ARCH}"
+PACKAGE_ARCH     = "${MACHINE_ARCH}"
 
 #
 # those ones can be set in machine config to supply packages needed to get machine booting

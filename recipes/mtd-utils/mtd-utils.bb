@@ -43,7 +43,7 @@ FILES_${PN}-ubi-core   = "${sbindir}/ubiattach ${sbindir}/ubidetach"
 RRECOMMENDS_${PN}-ubi-core = "${PN}-ubi-core"
 FILES_${PN}-ubi-tools  = "\
 	${sbindir}/ubiformat ${sbindir}/ubimirror	\
-	${sbindir}/ubimkvol ${sbindir}/ubirmvol 	\
+	${sbindir}/ubimkvol ${sbindir}/ubirmvol         \
 	${sbindir}/ubiupdatevol ${sbindir}/ubinfo"
 FILES_${PN}-ubi-build  = "${sbindir}/ubigen ${sbindir}/ubinize \
 	${sbindir}/unubi ${sbindir}/ubicrc32"

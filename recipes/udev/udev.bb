@@ -30,9 +30,9 @@ inherit autotools_stage pkgconfig
 
 PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
-	     ${PN}-firmware ${PN}-keymaps"
+             ${PN}-firmware ${PN}-keymaps"
 PACKAGES += "${PN}-lib ${PN}-libgudev ${PN}-fstab-import \
-	     ${PN}-rulegen ${PN}-extra"
+             ${PN}-rulegen ${PN}-extra"
 
 PACKAGES_DYNAMIC += "$PN-*-id"
 
@@ -74,7 +74,7 @@ FILES_${PN} = "\
 RRECOMMENDS_${PN} = "${PN}-rules-base"
 RPROVIDES_${PN}  += "udev-utils"
 
-FILES_${PN}-keymaps = "\ 
+FILES_${PN}-keymaps = "\
 	${libexecdir}/keymap \
 	${libexecdir}/keymaps"
 
@@ -117,4 +117,4 @@ RDEPENDS_${PN}-rules-modules = "module-init-tools"
 FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
 
 FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
-FILES_${PN}-dev		    += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
+FILES_${PN}-dev             += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"

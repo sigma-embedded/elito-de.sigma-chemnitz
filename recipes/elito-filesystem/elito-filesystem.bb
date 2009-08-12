@@ -7,7 +7,7 @@ PACKAGE_ARCH	= "all"
 
 do_install() {
 	for i in bin dev etc home ${lib-name} libexec media mnt \
-		 opt proc root sbin selinux share srv sys usr var; do
+                 opt proc root sbin selinux share srv sys usr var; do
 		install -d -m0755 ${D}/${i}
 	done
 

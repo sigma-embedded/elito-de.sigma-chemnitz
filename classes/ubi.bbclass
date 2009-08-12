@@ -9,8 +9,8 @@ def ubi_gen_ini_data(info_name,d):
 	import os.path
 
 	deploy_dir = bb.data.getVar('DEPLOY_DIR', d, 1)
-	space 	   = bb.data.getVar('FLASH_SIZE', d, 1)
-	info 	   = bb.data.getVar(info_name, d, 1)
+	space	   = bb.data.getVar('FLASH_SIZE', d, 1)
+	info	   = bb.data.getVar(info_name, d, 1)
 
 	if not info:
 		return ""
@@ -18,7 +18,7 @@ def ubi_gen_ini_data(info_name,d):
 	vols = [v.split() for v in info.split(',')]
 	pos  = 0
 	res  = []
-	
+
 	for (name, type, image, size) in vols:
 		res.extend((
 			'[%s-volume]' % name,
@@ -52,8 +52,8 @@ ubi_gen_env_mobm320() {
 	mobm320-create-env ${MOBM320_ENV_ARGS} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.bootenv
 }
 
-NAND_PAGESIZE  	?= 2048
-NAND_BLOCKSIZE 	?= 65536
+NAND_PAGESIZE	?= 2048
+NAND_BLOCKSIZE	?= 65536
 FLASH_SIZE	?= 134217728
 
 IMAGE_DEPENDS_append_ubifs = " mtd-utils-native"

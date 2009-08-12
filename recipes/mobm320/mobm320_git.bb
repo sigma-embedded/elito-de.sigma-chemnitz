@@ -1,5 +1,5 @@
-PV		  = "0.3.2+git"
-PR		  = "r0"
+PV                = "0.3.2+git"
+PR                = "r0"
 
 DEFAULT_PREFERENCE = -1
 

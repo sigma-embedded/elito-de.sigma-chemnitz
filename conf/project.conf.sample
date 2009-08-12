@@ -23,7 +23,7 @@ IMAGE_KEEPROOTFS	 = 1
 
 # So far, angstrom.conf sets ENABLE_BINARY_LOCALE_GENERATION
 # to generate binary locale packages at build time using qemu-native and
-# thereby guarantee i18n support on all devices. If your build breaks on 
+# thereby guarantee i18n support on all devices. If your build breaks on
 # qemu-native consider disabling ENABLE_BINARY_LOCALE_GENERATION (note that
 # this breaks i18n on devices with less than 128MB RAM) or installing
 # a working third-party qemu (e.g. provided by your distribution) and
@@ -37,12 +37,12 @@ IMAGE_KEEPROOTFS	 = 1
 # with spaces as separators.
 # GLIBC_GENERATE_LOCALES = "en_GB.UTF-8 de_DE.UTF-8"
 
-# Add the required image file system types below. Valid are 
+# Add the required image file system types below. Valid are
 # jffs2, tar(.gz|bz2), cpio(.gz), cramfs, ext2(.gz), ext3(.gz)
 # squashfs, squashfs-lzma
 # IMAGE_FSTYPES = "jffs2 tar"
 
-# Uncomment these two if you want BitBake to build images useful for debugging. 
+# Uncomment these two if you want BitBake to build images useful for debugging.
 # Note that INHIBIT_PACKAGE_STRIP needs a package format to be defined.
 # Also note that OE now produces -dbg packages which contain debugging symbols.
 # DEBUG_BUILD = "1"
@@ -59,7 +59,7 @@ IMAGE_KEEPROOTFS	 = 1
 # LDFLAGS =+ "-pg"
 
 # Uncomment this to enable parallel make.
-# This allows make to spawn mutliple processes to take advantage of multiple 
+# This allows make to spawn mutliple processes to take advantage of multiple
 # processors. Useful on SMP machines. This may break some packages - we're
 # in the process of marking these so let us know if you find any.
 # PARALLEL_MAKE = "-j 4"

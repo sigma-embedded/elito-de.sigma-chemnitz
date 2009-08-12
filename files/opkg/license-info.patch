@@ -25,7 +25,7 @@ Index: trunk/libopkg/pkg_parse.c
 +	case 'L':
 +	    if(isGenericFieldType("License", *lines))
 +	        pkg->license = parseGenericFieldType("License", *lines);
-+	    
++
 +	    break;
 +
  	case ' ':

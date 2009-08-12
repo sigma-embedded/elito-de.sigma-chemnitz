@@ -5,7 +5,7 @@ inherit task
 
 # packages which content depend on MACHINE_FEATURES need to be MACHINE_ARCH
 #
-PACKAGE_ARCH	 = "${MACHINE_ARCH}"
+PACKAGE_ARCH     = "${MACHINE_ARCH}"
 
 #
 # udev, devfsd, mdev (from busybox) or none
