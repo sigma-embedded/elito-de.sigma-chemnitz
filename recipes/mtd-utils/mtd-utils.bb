@@ -1,7 +1,7 @@
 DEPENDS		= "zlib lzo e2fsprogs-libs"
-PR		= "r1.${SRCREV}"
 
 require mtd-utils.inc
+PR		=  "${INC_PR}.0"
 
 do_stage () {
 	install -d ${STAGING_INCDIR}/mtd

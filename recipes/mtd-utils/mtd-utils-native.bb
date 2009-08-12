@@ -1,13 +1,11 @@
 DEPENDS		= "zlib-native lzo-native e2fsprogs-libs-native"
 
-PV		= "1.2.0+gitr${SRCPV}"
-PR		= "r1"
-
 GIT_COMMIT	?= ${GIT_COMMIT_pn-mtd-utils}
 
 inherit native
 require mtd-utils.inc
 
+PR		=  "${INC_PR}.0"
 SRC_URI		+= "file://no-man-install.patch;patch=1"
 
 do_stage () {
