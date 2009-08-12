@@ -1,7 +1,7 @@
 SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
-PV		= "0.4.2"
+PV		= "0.4.3"
 PR		= "r1"
 PACKAGE_ARCH	=  "all"
 
