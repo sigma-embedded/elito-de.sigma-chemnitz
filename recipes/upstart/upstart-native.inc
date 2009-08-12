@@ -3,7 +3,8 @@ SECTION		 = "base"
 PRIORITY	 = "optional"
 DESCRIPTION	 = "Event driven system init"
 LICENSE		 = "GPLv2"
-DEPENDS		 = "dbus-native-upstart expat-native bison-native pkgconfig-native"
+DEPENDS		 = "dbus-native (>=1.2.16) expat-native \
+                    bison-native pkgconfig-native"
 
 inherit autotools autotools_stage native
 
