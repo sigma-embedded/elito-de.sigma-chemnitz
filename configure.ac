@@ -85,8 +85,8 @@ dnl -----------------
 
 AC_MSG_CHECKING([for development components])
 AC_ARG_ENABLE([devel],
-	AS_HELP_STRING([--enable-devel=comp0,comp1,...],
-		[enable development versions of components within the ../workspace/ directory (default:auto)]),
+	AS_HELP_STRING([--enable-devel=<comp0>...],
+		[enable development versions of components within the ../workspace/ directory (default:auto). The list of components  is comma separated.]),
 	[enable_devel_components=$enableval],[enable_devel_components=auto])
 AC_MSG_RESULT([$enable_devel_components])
 
