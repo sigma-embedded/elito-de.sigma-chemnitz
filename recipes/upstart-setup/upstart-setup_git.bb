@@ -2,11 +2,17 @@ require upstart-setup.bb
 
 _gitrepo           = "${ELITO_GIT_WS}/upstart-setup.git"
 
-DEFAULT_PREFERENCE = "${@base_contains('ELITO_DEVEL_COMPONENTS','upstart-setup','','-1',d)}"
-SRCREV   = "${AUTOREV}"
+OVERRIDES         .= ":${@base_contains('ELITO_DEVEL_COMPONENTS','upstart-setup','devel','nondevel',d)}" 
+
+DEFAULT_PREFERENCE       = -1
+DEFAULT_PREFERENCE_devel = ""
+SRCREV                   = "0"
+SRCREV_devel             = "${AUTOREV}"
+
 PV      .= "+gitr${SRCREV}"
 
-SRC_URI		= "		\
+SRC_URI			= ""
+SRC_URI_devel		= "		\
 	git://${_gitrepo};protocol=file	\
 	file://paths						\
 "
