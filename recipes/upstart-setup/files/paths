@@ -46,3 +46,6 @@ s!@ELITO_WAIT_FOR_FILE@!/bin/elito-wait-for-file!g
 s!@DBUS_UUIDGEN@!/usr/bin/dbus-uuidgen!g
 s!@DBUS_DAEMON@!/usr/bin/dbus-daemon!g
 s!@DBUS_USER@!messagebus!g
+
+s!@HALD@!/usr/sbin/hald!g
+s!@TINYLOGIN@!/bin/tinylogin!g
