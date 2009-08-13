@@ -7,8 +7,7 @@ DEFAULT_PREFERENCE_devel    = ""
 SRCREV_nondevel          = "0"
 SRCREV_devel             = "${AUTOREV}"
 
-SRC_URI_nondevel	 = ""
-SRC_URI_devel		 = "git://${ELITO_GIT_WS}/${COMPONENT}.git;protocol=file"
+SRC_URI_prepend_devel	 = " git://${ELITO_GIT_WS}/${COMPONENT}.git;protocol=file "
 
 _pvextra_nondevel	 = ""
 _pvextra_devel		 = "+gitr${SRCREV}"
