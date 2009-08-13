@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.3"
-PR		= "r1"
+PR		= "r3"
 PACKAGE_ARCH	=  "all"
 
 SRC_URI		= "		\
