@@ -3,8 +3,6 @@ require upstart-setup.bb
 COMPONENT  = "upstart-setup"
 inherit elito-develcomp
 
-SRC_URI    = "file://paths"
-
 do_patch_late() {
     cd ${WORKDIR}
     mkdir -p common
