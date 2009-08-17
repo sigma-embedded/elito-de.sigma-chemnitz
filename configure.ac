@@ -104,7 +104,7 @@ AC_CACHE_VAL([ensc_cv_DEVEL_COMPONENTS],[
 		    p=${p##*/}
 
 		    # ignore components of other projects
-		    test x"$p" = x"${p##*:}" || continue
+		    test x"$p" = x"${p##*,}" || continue
 		    ensc_cv_DEVEL_COMPONENTS="$ensc_cv_DEVEL_COMPONENTS $p"
 		done
 		;;
