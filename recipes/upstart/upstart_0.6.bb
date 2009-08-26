@@ -24,9 +24,9 @@ PACKAGES     += "${PN}-sysv-tools ${PN}-compat ${xtra}"
 PACKAGES     =+ "${PN}-samples"
 
 
-FILES_${PN}-tools	 = "${bindir}/*"
-FILES_${PN}-lib		 = "${libdir}/*.so.*"
-LEAD_SONAME		 = "libnih.so"
+FILES_${PN}-tools        = "${bindir}/*"
+FILES_${PN}-lib          = "${libdir}/*.so.*"
+LEAD_SONAME              = "libnih.so"
 
 FILES_${PN}-samples = "	\
 	/etc/init/*"

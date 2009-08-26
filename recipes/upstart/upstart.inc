@@ -1,16 +1,16 @@
 # --*- python -*--
-SECTION		 = "base"
-PRIORITY	 = "optional"
-DESCRIPTION	 = "Event driven system init"
-LICENSE		 = "GPLv2"
-DEPENDS		 = "dbus expat bison-native pkgconfig-native upstart-native"
+SECTION          = "base"
+PRIORITY         = "optional"
+DESCRIPTION      = "Event driven system init"
+LICENSE          = "GPLv2"
+DEPENDS          = "dbus expat bison-native pkgconfig-native upstart-native"
 
 inherit autotools
 
-libdir		 = "/lib"
-sbindir		 = "/sbin"
+libdir           = "/lib"
+sbindir          = "/sbin"
 
-EXTRA_OECONF	 = "--disable-static --disable-rpath"
+EXTRA_OECONF     = "--disable-static --disable-rpath"
 EXTRA_AUTORECONF = "--force"
 
 do_configure_prepend_dyn() {
@@ -20,9 +20,9 @@ do_configure_prepend_dyn() {
 do_configure_prepend() {
 	NIH_DBUS_TOOL=`which nih-dbus-tool`
 	sed -i \
-	    -e "s!\$(builddir)/nih-dbus-tool!${NIH_DBUS_TOOL}!g" \
-	    -e "s!\$(top_builddir)/nih-dbus-tool/nih-dbus-tool!${NIH_DBUS_TOOL}!g" \
-	    */Makefile.*
+            -e "s!\$(builddir)/nih-dbus-tool!${NIH_DBUS_TOOL}!g" \
+            -e "s!\$(top_builddir)/nih-dbus-tool/nih-dbus-tool!${NIH_DBUS_TOOL}!g" \
+            */Makefile.*
 }
 
 do_compile() {
