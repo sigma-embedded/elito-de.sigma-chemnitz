@@ -1,11 +1,12 @@
-DESCRIPTION = "Basic task to get a device booting to a prompt"
-PR          = "r9.${PROJECT_FILE_DATE}"
+DESCRIPTION  = "Basic task to get a device booting to a prompt"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+LICENSE      = "GPLv3"
+PR           = "r10.${PROJECT_FILE_DATE}"
+
+do_distribute_sources() {
+}
 
 inherit task
-
-# packages which content depend on MACHINE_FEATURES need to be MACHINE_ARCH
-#
-PACKAGE_ARCH     = "${MACHINE_ARCH}"
 
 #
 # those ones can be set in machine config to supply packages needed to get machine booting

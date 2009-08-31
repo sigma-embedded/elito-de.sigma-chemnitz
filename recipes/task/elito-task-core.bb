@@ -1,11 +1,12 @@
-DESCRIPTION = "Basic task to get a device booting with core functionality"
-PR = "r1.${PROJECT_FILE_DATE}"
+DESCRIPTION  = "Basic task to get a device booting with core functionality"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+LICENSE      = "GPLv3"
+PR           = "r2.${PROJECT_FILE_DATE}"
+
+do_distribute_sources() {
+}
 
 inherit task
-
-# packages which content depend on MACHINE_FEATURES need to be MACHINE_ARCH
-#
-PACKAGE_ARCH     = "${MACHINE_ARCH}"
 
 #
 # udev, devfsd, mdev (from busybox) or none
