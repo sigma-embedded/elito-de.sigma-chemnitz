@@ -13,6 +13,9 @@ do_fetch() {
 do_unpack() {
 }
 
+do_distribute_sources() {
+}
+
 inherit task
 
 # !! DO NOT MOVE IT TO TOP !!

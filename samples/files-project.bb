@@ -14,6 +14,9 @@ do_fetch() {
 do_unpack() {
 }
 
+do_distribute_sources() {
+}
+
 do_compile() {
         make -C ${FILE_DIRNAME} dist TARBALL=`pwd`/base-files.tar.bz2
 }
