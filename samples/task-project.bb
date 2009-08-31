@@ -18,6 +18,10 @@ inherit task
 
 DEPENDS += "upstart-setup alsa-utils"
 
+RDEPENDS_${PN} = "\
+	files-@PROJECT@			\
+"
+
 RRECOMMENDS_${PN} = "\
 	upstart-setup-syslogd		\
 	upstart-setup-klogd		\
