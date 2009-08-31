@@ -6,6 +6,14 @@ SRCREV       = "${PROJECT_REVISION}"
 PV = "0.1+gitr${SRCPV}"
 PR = "r0"
 
+SRC_URI = "git://${PROJECT_TOPDIR};protocol=file"
+
+do_fetch() {
+}
+
+do_unpack() {
+}
+
 do_compile() {
         make -C ${FILE_DIRNAME} dist TARBALL=`pwd`/base-files.tar.bz2
 }
