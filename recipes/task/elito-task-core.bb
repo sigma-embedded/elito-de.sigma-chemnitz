@@ -1,5 +1,4 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
-PACKAGE_ARCH = "${MACHINE_ARCH}"
 LICENSE      = "GPLv3"
 PR           = "r2.${PROJECT_FILE_DATE}"
 
@@ -7,6 +6,11 @@ do_distribute_sources() {
 }
 
 inherit task
+
+# !! DO NOT MOVE IT TO TOP !!
+# Else, the task class sets PACKAGE_ARCH to all which will override
+# value here.
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 #
 # udev, devfsd, mdev (from busybox) or none
