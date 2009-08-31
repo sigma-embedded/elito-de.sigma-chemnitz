@@ -88,7 +88,9 @@ do_configure_prepend() {
 	rm -rf tack
 }
 
+PARALLEL_MAKE = ""
 EXTRA_AUTORECONF="-I m4"
+
 do_configure() {
 	oe_runconf \
 		--without-normal						\
