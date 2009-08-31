@@ -1,3 +1,6 @@
+DISTRO		 = "elito"
+MACHINE		 = "@MACHINE@"
+
 DISTRO_TYPE	 = "@DISTRO_TYPE@"
 ELITO_ROOTDIR	 = "@ELITO_ROOTDIR@"
 DL_DIR		 = "@CACHE_DIR@/sources"
@@ -26,16 +29,7 @@ ASSUME_PROVIDED += " @elito_assumed@"
 ELITO_KERNEL_REF_REPO  = "@kernel_ref_repo@"
 ELITO_DEVEL_COMPONENTS = "@devel_components@"
 
-MACHINE      = "@MACHINE@"
-DISTRO       = "elito"
-
 WHICH = "@WHICH@"
-DISABLE_QEMU = true
-
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc-initial:gcc-cross-initial"
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc-intermediate:gcc-cross-intermediate"
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc:gcc-cross"
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}g++:gcc-cross"
 
 @IPKG_TRUE@INHERIT +=	"package_ipk"
 @TAR_TRUE@INHERIT +=	"package_tar"
