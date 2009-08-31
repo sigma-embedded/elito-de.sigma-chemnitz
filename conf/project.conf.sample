@@ -11,6 +11,9 @@ TERMCMD			 = "${XTERM_TERMCMD}"
 
 IMAGE_KEEPROOTFS	 = 1
 
+#IMAGE_LOGIN_MANAGER	 = "tinylogin"
+#IMAGE_LOGIN_MANAGER	 = ""
+
 # Uncomment this to reduce disk space
 #INHERIT			+= "rm_work"
 
