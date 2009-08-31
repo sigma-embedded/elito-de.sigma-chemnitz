@@ -5,8 +5,8 @@ RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
-PV	= "145"
-PR	= "r7"
+PV	= "146"
+PR	= "r0"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
