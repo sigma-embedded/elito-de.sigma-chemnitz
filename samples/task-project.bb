@@ -1,6 +1,5 @@
 DESCRIPTION  = "@PROJECT_NAME@ tasks"
 LICENSE      = "proprietary"
-PACKAGE_ARCH = "${MACHINE_ARCH}"
 SRCREV       = "${PROJECT_REVISION}"
 
 PV = "0.1+gitr${SRCPV}"
@@ -15,6 +14,11 @@ do_unpack() {
 }
 
 inherit task
+
+# !! DO NOT MOVE IT TO TOP !!
+# Else, the task class sets PACKAGE_ARCH to all which will override
+# value here.
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 DEPENDS += "upstart-setup alsa-utils"
 
