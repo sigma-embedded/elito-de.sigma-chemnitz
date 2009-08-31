@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.3"
-PR		= "r5"
+PR		= "r6"
 PACKAGE_ARCH	=  "all"
 
 SRC_URI		= "		\
@@ -41,7 +41,7 @@ FILES_${PN}-base = "				\
 	/lib/udev/rules.d/*-upstart.rules					\
 "
 FILES_${PN}-base_append_arm += "${j}init/cpu-align.conf"
-RDEPENDS_${PN}-base         += "upstart elito-setup-tools virtual/upstart-tty"
+RDEPENDS_${PN}-base         += "upstart elito-setup-tools"
 RPROVIDES_${PN}-base         = "virtual/initscripts"
 
 FILES_${PN}-udev         = "		\
