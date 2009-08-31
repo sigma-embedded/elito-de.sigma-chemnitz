@@ -1,5 +1,5 @@
 DESCRIPTION = "Basic task to get a device booting with core functionality"
-PR = "r0.${PROJECT_FILE_DATE}"
+PR = "r1.${PROJECT_FILE_DATE}"
 
 inherit task
 
@@ -21,7 +21,7 @@ EXTRA_DEV_RULES_append_udev = " ${@base_contains("MACHINE_FEATURES","modules","u
 #
 # sysvinit, upstart
 #
-IMAGE_INIT_MANAGER ?= "sysvinit"
+IMAGE_INIT_MANAGER ?= "upstart"
 
 #
 # tinylogin, getty
