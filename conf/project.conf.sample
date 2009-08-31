@@ -1,25 +1,18 @@
 # Select between multiple alternative providers, if more than one is eligible.
-PREFERRED_PROVIDERS  = "virtual/qte:qte virtual/libqpe:libqpe-opie"
-PREFERRED_PROVIDERS += " virtual/libsdl:libsdl-x11"
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc-initial:gcc-cross-initial"
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc-intermediate:gcc-cross-intermediate"
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}gcc:gcc-cross"
-PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}g++:gcc-cross"
-
-PREFERRED_PROVIDER_gtk   = gtk+-fastscaling
-PREFERRED_PROVIDER_gconf = gconf-dbus
-
-BBMASK			?= "${BBMASK_DISTRO}"
+BBMASK			 = "${BBMASK_DISTRO}"
 
 KERNEL_BRANCH		 = "vendor/project"
 KERNEL_DEFCONFIG	 = "project_defconfig"
 
-TERMCMD			 = ${XTERM_TERMCMD}
+TERMCMD			 = "${XTERM_TERMCMD}"
 
 #PROJECT_EXTRA_RDEPENDS	+= "task-${PROJECT_NAME}"
 #PROJECT_EXTRA_RRECOMMENDS += ""
 
 IMAGE_KEEPROOTFS	 = 1
+
+# Uncomment this to reduce disk space
+#INHERIT			+= "rm_work"
 
 # So far, angstrom.conf sets ENABLE_BINARY_LOCALE_GENERATION
 # to generate binary locale packages at build time using qemu-native and
