@@ -5,7 +5,7 @@ PREFERRED_VERSION_gcc-cross-sdk          ?= "${PREFERRED_VERSION_gcc}"
 PREFERRED_VERSION_gcc-cross-initial      ?= "${PREFERRED_VERSION_gcc}"
 PREFERRED_VERSION_gcc-cross-intermediate ?= "${PREFERRED_VERSION_gcc}"
 
-PREFERRED_VERSION_linux-libc-headers     ?= "2.6.29"
+PREFERRED_VERSION_linux-libc-headers     ?= "2.6.30"
 
 PREFERRED_VERSION_glibc                  ?= "2.9"
 PREFERRED_VERSION_glibc-initial          ?= "2.9"
