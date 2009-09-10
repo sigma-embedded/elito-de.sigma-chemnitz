@@ -26,7 +26,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 DEPENDS += "upstart-setup alsa-utils"
 
 RDEPENDS_${PN} = "\
-	files-@PROJECT@			\
+	files-@PROJECT_NAME@		\
 "
 
 RRECOMMENDS_${PN} = "\
