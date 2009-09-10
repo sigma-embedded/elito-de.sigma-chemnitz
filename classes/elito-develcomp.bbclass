@@ -5,6 +5,8 @@ OVERRIDES .= ":${@base_contains('ELITO_DEVEL_COMPONENTS',\
 DEFAULT_PREFERENCE_nondevel = -1
 DEFAULT_PREFERENCE_devel    = ""
 
+DEPENDS += "elito-develcomp"
+
 python () {
     import bb, os.path
 
