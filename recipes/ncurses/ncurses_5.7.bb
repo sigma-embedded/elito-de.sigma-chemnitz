@@ -1,5 +1,5 @@
 PATCHDATE = "20090906"
-PR = "r0.${PATCHDATE}"
+PR = "r1.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
@@ -34,7 +34,6 @@ FILES_ncurses-libmenu  = "${libdir}/libmenu.so.*"
 FILES_${PN} = "${bindir}/tput ${bindir}/tset ${libdir}/lib*.so.* usr/share/tabset etc/terminfo"
 
 SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
-	http://invisible-island.net/datafiles/release/my-autoconf.tar.gz			\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081115.patch.gz;patch=1		\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081122.patch.gz;patch=1		\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081129.patch.gz;patch=1		\
