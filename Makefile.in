@@ -132,6 +132,11 @@ $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 			test -e '$@' || \
 			sed -e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g' $(abs_top_srcdir)/samples/$(patsubst %-$(PROJECT_NAME).bb,%-project.bb,$(notdir $@)) > '$@'
 
+# make timestamp older to prevent endless runs of this rules; it will
+# not be good to do 'touch $@' here because this file is going to be
+# edited by the user
+			-@test "$<" -ot "$@" || touch --reference "$@" "$<"
+
 %:			%.in
 			@-rm -f $@.tmp $@
 			$(SED) $(SED_EXPR) $< > $@.tmp
