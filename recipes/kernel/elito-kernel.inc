@@ -9,6 +9,8 @@ _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
 S            = "${WORKDIR}/git"
 
+KERNEL_DEPENDS ?= ""
+
 DEPENDS += '\
 	${KERNEL_DEPENDS} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
