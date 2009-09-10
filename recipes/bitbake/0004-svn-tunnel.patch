@@ -32,9 +32,9 @@ Date:   Wed Aug 26 16:05:33 2009 +0200
       |
       | exec /usr/bin/nc -X connect -x www-cache:3128 "$host" "$port"
 
-diff --git a/lib/bb/fetch/svn.py b/lib/bb/fetch/svn.py
-index aead162..861e06a 100644
---- lib/bb/fetch/svn.py
+Index: lib/bb/fetch/svn.py
+===================================================================
+--- lib/bb/fetch/svn.py.orig
 +++ lib/bb/fetch/svn.py
 @@ -91,11 +91,15 @@ class Svn(Fetch):
          """

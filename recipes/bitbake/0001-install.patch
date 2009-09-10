@@ -1,7 +1,7 @@
 Index: setup.py
 ===================================================================
---- setup.py	(Revision 1118)
-+++ setup.py	(Arbeitskopie)
+--- setup.py.orig
++++ setup.py
 @@ -21,8 +21,8 @@
  from distutils.core import setup
  import os, sys

@@ -1,8 +1,8 @@
 Index: lib/bb/cooker.py
 ===================================================================
---- lib/bb/cooker.py
+--- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
-@@ -596,9 +596,6 @@ class BBCooker:
+@@ -592,9 +592,6 @@ class BBCooker:
          build.
          """
  
