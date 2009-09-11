@@ -100,7 +100,7 @@ AC_CACHE_VAL([ensc_cv_DEVEL_COMPONENTS],[
 		for p in ../workspace/*; do
 		    test -d "$p" || continue
 		    p=${p%%.git}
-		    p=${p%%:$PROJECT_NAME}
+		    p=${p%%,$PROJECT_NAME}
 		    p=${p##*/}
 
 		    # ignore components of other projects
