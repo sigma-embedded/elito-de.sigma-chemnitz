@@ -6,12 +6,18 @@ PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
 PV               = "2008.10"
 PR               = "r2"
+SRCREV           = "${AUTOREV}"
 
-EXTRA_OEMAKE     = "CROSS_COMPILE=${TARGET_PREFIX}"
+DEFAULT_PREFERENCE = "99"
 
 UBOOT_MACHINE	?= "${MACHINE}_config"
 UBOOT_SYMLINK	?= "u-boot-${MACHINE}.bin"
-UBOOT_REPO	?= "${ELITO_GIT_WS}/u-boot.git"
+
+SRCURI_SPEC_append	=  ";branch=${UBOOT_BRANCH}"
+COMPONENT		=  u-boot
+
+inherit elito-develcomp
+
 
 S                = "${WORKDIR}/git"
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
@@ -20,13 +26,8 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
-DEPENDS		+= "git-native"
-DEFAULT_PREFERENCE = "99"
+EXTRA_OEMAKE     = "CROSS_COMPILE=${TARGET_PREFIX}"
 
-GIT_REPO   = "${UBOOT_REPO}"
-GIT_BRANCH = "${PV}/${UBOOT_BRANCH}"
-
-inherit gitdevel
 
 do_configure() {
 	oe_runmake ${UBOOT_MACHINE}
