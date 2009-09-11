@@ -29,12 +29,14 @@ BITBAKE_REV =		c16eeb1bc5a00ad036f56c97a339c775798abce5
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
 			conf/local.conf.in	\
-			bitbake
+			bitbake			\
+			bg-bitbake
 
 CFG_FILES =		Makefile		\
 			set-env			\
 			conf/local.conf		\
-			bitbake
+			bitbake			\
+			bg-bitbake
 
 TEMPLATE_FILES =	conf/project.conf	\
 			.gitignore		\
