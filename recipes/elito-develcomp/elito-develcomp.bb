@@ -1,5 +1,5 @@
 DESCRIPTION = "Generates makefile in workspace directory"
-PV = "0.0.1"
+PV = "0.0.2"
 PR = "r0"
 LICENSE = "GPLv3"
 
@@ -18,7 +18,7 @@ do_configure() {
 	ccache=`${WHICH} ccache`
 
 	rm -f "${DEVELCOMP_MAKEFILE}"
-	cat << EOF > "${DEVELCOMP_MAKEFILE}"
+	cat << EOF | sed -e 's![[:space:]]*$!!' > "${DEVELCOMP_MAKEFILE}"
 ## --*- makefile -*--
 export PATH = ${PATH}
 export CCACHE_DIR = ${CCACHE_DIR}

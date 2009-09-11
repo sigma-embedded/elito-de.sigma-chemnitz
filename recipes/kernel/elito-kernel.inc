@@ -24,7 +24,7 @@ do_configure_prepend() {
 	ccache=`${WHICH} ccache`
 
 	rm -f "${_genmf}"
-	cat << EOF > "${_genmf}"
+	cat << EOF | sed -e 's![[:space:]]*$!!' > "${_genmf}"
 ## --*- makefile -*--
 _cc = ${KERNEL_CC}
 _ld = ${KERNEL_LD}
