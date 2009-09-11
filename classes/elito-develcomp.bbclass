@@ -5,7 +5,8 @@ OVERRIDES .= ":${@base_contains('ELITO_DEVEL_COMPONENTS',\
 DEFAULT_PREFERENCE_nondevel = -1
 DEFAULT_PREFERENCE_devel    = ""
 
-DEPENDS += "elito-develcomp"
+DEPENDS		+= "elito-develcomp"
+SRCURI_SPEC     ?= "protocol=file"
 
 python () {
     import bb, os.path
@@ -33,7 +34,7 @@ python () {
 
     uri = bb.data.getVar('SRC_URI', d, 0).split()
     bb.debug("Original SRC_URI: %s" % uri)
-    uri[0] = "git://%s;protocol=file" % path
+    uri[0] = "git://%s;${SRCURI_SPEC}" % path
     bb.debug("Modified SRC_URI: %s" % uri)
 
 
