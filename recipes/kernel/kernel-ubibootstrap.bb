@@ -8,7 +8,8 @@ PACKAGE_ARCH	=  "${MACHINE_ARCH}"
 KERNEL_BOOTSTRAP_TFTP_IMAGE ?= ""
 KERNEL_BOOTSTRAP_DEFCONFIG ?= "${@'${KERNEL_DEFCONFIG}'.replace('_defconfig','_bootstrap_defconfig')}"
 
-SRC_URI += "file://ramfs.template \
+SRC_URI_append = " \
+	file://ramfs.template \
 	file://init \
 	file://scan-dev \
 "
@@ -22,6 +23,7 @@ HOST_CC_KERNEL_ARCH ?= "${TARGET_CC_KERNEL_ARCH}"
 TARGET_LD_KERNEL_ARCH ?= ""
 HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
 
+KERNEL_CCSUFFIX ?= ""
 KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} ${HOST_CC_KERNEL_ARCH}"
 KERNEL_LD = "${LD}${KERNEL_LDSUFFIX} ${HOST_LD_KERNEL_ARCH}"
 export CROSS_COMPILE = "${TARGET_PREFIX}"
@@ -38,6 +40,8 @@ DEPENDS += " \
 	mtd-utils \
 	virtual/${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} \
 "
+
+_gen_mf = "${S}/mf"
 
 include elito-kernel.inc
 inherit kernel-arch
@@ -85,7 +89,7 @@ do_prepramfs() {
 
 do_configure() {
 	echo 'CONFIG_INITRAMFS_SOURCE="ramfs.txt"' >> .config
-	oe_runmake -f mf oldconfig
+	oe_runmake -f ${_gen_mf} oldconfig
 
 	! grep -q -i -e '^CONFIG_MODULES=y$' .config || {
 		oefatal "CONFIG_MODULE not possible for bootstrap kernels"
@@ -94,8 +98,8 @@ do_configure() {
 }
 
 do_compile() {
-	oe_runmake -f mf
-	oe_runmake -f mf ${KERNEL_IMAGETYPE}
+	oe_runmake -f ${_gen_mf}
+	oe_runmake -f ${_gen_mf} ${KERNEL_IMAGETYPE}
 }
 
 do_deploy() {

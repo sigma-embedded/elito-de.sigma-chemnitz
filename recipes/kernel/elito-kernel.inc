@@ -15,16 +15,22 @@ DEPENDS += '\
 	${KERNEL_DEPENDS} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
 
-_genmf   = "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
-do_configure_prepend() {
+## Use this indirect assignment to allow recipes which are including
+## this rules to define and use their own _gen_mf makefile.
+##
+## When _gen_mf is not set yet, use the public KERNEL_MAKEFILE variable.
+KERNEL_MAKEFILE ?= "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
+_gen_mf         ?= "${KERNEL_MAKEFILE}"
+
+do_generate_makefile() {
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
 	gc=${gc%%gcc}
 	dn=`dirname "$gc"`
 	gc=`basename "$gc"`
 	ccache=`${WHICH} ccache`
 
-	rm -f "${_genmf}"
-	cat << EOF | sed -e 's![[:space:]]*$!!' > "${_genmf}"
+	rm -f "${_gen_mf}"
+	cat << EOF | sed -e 's![[:space:]]*$!!' > "${_gen_mf}"
 ## --*- makefile -*--
 _cc = ${KERNEL_CC}
 _ld = ${KERNEL_LD}
@@ -50,9 +56,11 @@ unexport MAKEFILES
 unexport MAKELEVEL
 .DEFAULT_GOAL := all
 EOF
+}
 
+do_configure_prepend() {
 	if ! test -e .config; then
-		oe_runmake -f "${_genmf}" "${_defconfig}"
+		oe_runmake -f "${_gen_mf}" "${_defconfig}"
 	fi
 }
 
@@ -66,3 +74,6 @@ do_stage_prepend() {
 		fi
 	fi
 }
+
+do_generate_makefile[dirs] = "${ELITO_GIT_WS}"
+addtask generate_makefile before do_configure after do_setscene
