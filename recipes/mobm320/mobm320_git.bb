@@ -1,10 +1,8 @@
-PV                = "0.3.2+git"
-PR                = "r0"
+require mobm320.bb
 
-DEFAULT_PREFERENCE = -1
+S          = "${WORKDIR}/git"
 
-GIT_REPO  ?= "/home/ensc/src/mobm"
-GIT_BRANCH = "devel"
-
-include mobm320.inc
-inherit gitdevel
+SRCREV     = "${AUTOREV}"
+COMPONENT  = "mobm320"
+SRCURI_SPEC_append = ";branch=bgp210"
+inherit elito-develcomp
