@@ -1,5 +1,4 @@
 DEPENDS		= "zlib lzo e2fsprogs-libs"
-PARALLEL_MAKE   = ""
 
 require mtd-utils.inc
 PR		=  "${INC_PR}.0"

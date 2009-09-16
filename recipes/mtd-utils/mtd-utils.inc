@@ -13,4 +13,5 @@ SRC_URI = "\
 "
 S = "${WORKDIR}/git"
 
-EXTRA_OEMAKE = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR'"
+EXTRA_OEMAKE  = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR'"
+PARALLEL_MAKE = ""
