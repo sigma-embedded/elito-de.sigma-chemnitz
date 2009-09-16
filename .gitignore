@@ -1,4 +1,6 @@
-configure
+/config.guess
+/config.sub
 aclocal.m4
-autoscan.log
 autom4te.cache
+autoscan.log
+configure
