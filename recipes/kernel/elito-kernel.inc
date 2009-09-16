@@ -75,5 +75,9 @@ do_stage_prepend() {
 	fi
 }
 
+do_uboot_mkimage() {
+    true
+}
+
 do_generate_makefile[dirs] = "${ELITO_GIT_WS}"
 addtask generate_makefile before do_configure after do_setscene
