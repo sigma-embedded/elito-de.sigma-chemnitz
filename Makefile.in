@@ -2,6 +2,7 @@ PYTHON :=		python
 SED :=			sed
 SVN :=			svn
 GIT :=			git
+WGET :=			wget
 abs_top_srcdir :=	$(abspath @abs_top_srcdir@)
 abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
@@ -25,6 +26,7 @@ CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksums.ini
 BITBAKE_BRANCH =	1.8
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
 BITBAKE_REV =		c16eeb1bc5a00ad036f56c97a339c775798abce5
+BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-snapshot.pack
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -94,8 +96,10 @@ tmp/stamps/.bitbake.gitinit.stamp:
 			cd tmp/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
 			cd tmp/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
 			cd tmp/bitbake && $(GIT) config remote.origin.tagopt --no-tags
+			-cd tmp/bitbake && $(WGET) $(BITBAKE_SNAPSHOT) -O - | $(GIT) unpack-objects -q
 			cd tmp/bitbake && $(GIT) remote update
 			cd tmp/bitbake && $(GIT) checkout -b master --track origin/${BITBAKE_BRANCH}
+			cd tmp/bitbake && $(GIT) gc
 			@touch $@
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
