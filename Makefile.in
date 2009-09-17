@@ -73,11 +73,11 @@ bitbake-validate:
 			} >&2
 
 update-checksum:
-			test -e tmp/checksums.ini
+			$(if $(FORCE),-)test -e tmp/checksums.ini
 			t=$$(mktemp -t elito-crc.XXXXXX) && trap "rm -f $$t" EXIT && $(MAKE) .update-checksum _tmpfile=$$t
 
 .update-checksum:
-			cat tmp/checksums.ini >> $(CHECKSUM_FILE)
+			$(if $(FORCE),-)cat tmp/checksums.ini >> $(CHECKSUM_FILE)
 			$(CHECKSUM_SORTER) $(CHECKSUM_FILE) > $(_tmpfile)
 			cat $(_tmpfile) >$(CHECKSUM_FILE)
 			rm -f tmp/checksums.ini
