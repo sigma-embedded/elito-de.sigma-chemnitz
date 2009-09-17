@@ -14,8 +14,9 @@ IMAGE_INSTALL = "${MACHINE_TASK_PROVIDER}"
 
 IMAGE_FSTYPES_append_fs-mobm320 = " bootenv"
 
-IMAGE_DEPENDS_append_fs-u-boot	= " u-boot"
+IMAGE_DEPENDS_append_fs-u-boot     = " u-boot"
 IMAGE_DEPENDS_append_fs-arnoldboot = " arnoldboot-native"
+IMAGE_DEPENDS_append_fs-mobm320    = " mobm320 mobm320-native"
 
 export OVERRIDES
 export DEPENDS
