@@ -42,42 +42,31 @@ ${@ubi_gen_ini_data('UBI_VOLUMES', d)}
 EOF
 }
 
-UBI_GEN_ENV      = :
+UBI_GEN_ENV = ":"
+UBI_GEN_ENV_fs-mobm320 = "ubi_gen_env_mobm320"
 
-DEPENDS_append_mobm320	 = " mobm320 mobm320-native"
-UBI_GEN_ENV_mobm320	 =  ubi_gen_env_mobm320
-
-ubi_gen_env_mobm320() {
-	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.bootenv
-	mobm320-create-env ${MOBM320_ENV_ARGS} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.bootenv
+ubi_gen_env_fs-mobm320() {
+	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.bootenv
+	mobm320-create-env ${MOBM320_ENV_ARGS} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.bootenv
 }
 
 NAND_PAGESIZE	?= 2048
 NAND_BLOCKSIZE	?= 65536
 FLASH_SIZE	?= 134217728
 
-IMAGE_DEPENDS_append_ubifs = " mtd-utils-native"
-
-mkfs.ubifs	?= "PATH=$PATH:/sbin:/usr/sbin; mkfs.ubifs"
-ubinize		?= "PATH=$PATH:/sbin:/usr/sbin; ubinize"
-
 NAND_LEB_SIZE	?= "${@ubi_get_nand_leb_size(d)}"
-IMAGE_CMD_ubifs	 = "${mkfs.ubifs}	\
-	--output ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs		\
-	--root ${IMAGE_ROOTFS}						\
-	${EXTRA_IMAGECMD}"
 
-IMAGE_CMD_ubinize = "ubi_gen_ini; ${UBI_GEN_ENV};			\
-	${ubinize}							\
-	--output ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubinize	\
-	${EXTRA_IMAGECMD}						\
+IMAGE_CMD_ubi    = "ubi_gen_ini; ${UBI_GEN_ENV};		\
+	ubinize							\
+	--output ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi	\
+	${EXTRA_IMAGECMD}					\
 	${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubi.ini"
 
-EXTRA_IMAGECMD_ubifs ?=	"	\
+EXTRA_IMAGECMD_ubifs  ?= "	\
 	--min-io-size ${NAND_PAGESIZE}	\
 	--leb-size ${NAND_LEB_SIZE}	\
 	--max-leb-cnt ${@ubi_byte_to_leb('ROOTFS_SIZE',d)}"
 
-EXTRA_IMAGECMD_ubinize	?= "	\
+EXTRA_IMAGECMD_ubi    ?= "	\
 	--peb-size ${NAND_BLOCKSIZE}	\
 	--min-io-size ${NAND_PAGESIZE}"
