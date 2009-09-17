@@ -8,5 +8,6 @@ KERNEL_TFTP_IMAGE ?= ""
 _tftp_image      = "${KERNEL_TFTP_IMAGE}"
 _defconfig       = "${KERNEL_DEFCONFIG}"
 
-include elito-kernel.inc
 inherit kernel
+
+include elito-kernel.inc

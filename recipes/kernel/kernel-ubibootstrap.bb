@@ -43,8 +43,8 @@ DEPENDS += " \
 
 _gen_mf = "${S}/mf"
 
-include elito-kernel.inc
 inherit kernel-arch
+include elito-kernel.inc
 
 do_prepramfs() {
 	set -x
