@@ -3,11 +3,12 @@ DESCRIPTION = "Access control list utilities"
 LICENSE = "LGPLv2+"
 
 PV = "2.4.43"
-PR = "r0"
+PR = "r1"
 
 SRC_URI = "\
 	ftp://oss.sgi.com/projects/xfs/cmd_tars/attr_${PV}-1.tar.gz \
-	file://configure.patch;patch=1"
+	file://configure.patch;patch=1 \
+	file://configure-paths.patch;patch=1"
 
 inherit autotools autotools_stage
 
