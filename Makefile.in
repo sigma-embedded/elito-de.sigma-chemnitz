@@ -93,9 +93,9 @@ tmp/stamps/.bitbake.gitinit.stamp:
 			@mkdir -p $(dir $@)
 			mkdir -p tmp/bitbake
 			cd tmp/bitbake && $(GIT) init
-			cd tmp/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
-			cd tmp/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
-			cd tmp/bitbake && $(GIT) config remote.origin.tagopt --no-tags
+			-cd tmp/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
+			-cd tmp/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
+			-cd tmp/bitbake && $(GIT) config remote.origin.tagopt --no-tags
 			-cd tmp/bitbake && $(WGET) $(BITBAKE_SNAPSHOT) -O - | $(GIT) unpack-objects -q
 			cd tmp/bitbake && $(GIT) remote update
 			cd tmp/bitbake && $(GIT) checkout -b master --track origin/${BITBAKE_BRANCH}
