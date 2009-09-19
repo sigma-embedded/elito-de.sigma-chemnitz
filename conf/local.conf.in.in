@@ -34,8 +34,6 @@ WHICH = "@WHICH@"
 @IPKG_TRUE@INHERIT +=	"package_ipk"
 @TAR_TRUE@INHERIT +=	"package_tar"
 
-@IPKG_TRUE@@NFSROOT_TRUE@INHERIT    += "rootfs_ipk"
-@TAR_TRUE@@NFSROOT_TRUE@INHERIT     += "rootfs_tar"
 @NFSROOT_TRUE@IMAGE_ROOTFS = "@nfs_rootdir@"
 
 @HAVE_GLOBAL_BITBAKE_CONF_TRUE@require @GLOBAL_BITBAKE_CONF@
