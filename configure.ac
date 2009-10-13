@@ -64,8 +64,9 @@ AC_SUBST(MACHINE)
 
 AC_ARG_WITH(cache-dir,
 	AS_HELP_STRING([--with-cache-dir=<dir>],
-		       [Directory where to place e.g. downloaded sources or ccache data.
-			This can be shared between multiple projects. Default: ../cache]),
+		       [Directory where to place downloaded sources. This
+		       can be shared between multiple projects. Default:
+		       ../cache]),
 	[CACHE_DIR=$withval], [CACHE_DIR=\${abs_top_builddir}/../cache])
 AC_SUBST(_CACHE_DIR, [$CACHE_DIR])
 
@@ -74,6 +75,12 @@ AC_ARG_ENABLE(ccache,
 		       [Enable ccache support (default:detected)]),
 	[],
 	[enable_ccache=auto])
+
+AC_ARG_WITH(ccache-dir,
+	AS_HELP_STRING([--with-ccache-dir=<dir>],
+		       [Directory where to place ccache data. Default: PROJECTDIR/tmp/cache/ccache]),
+	[_CCACHE_DIR=$withval], [_CCACHE_DIR=\${abs_top_builddir}/tmp/cache/ccache])
+AC_SUBST(_CCACHE_DIR, [$_CCACHE_DIR])
 
 AC_ARG_WITH(kernel-reference-repo,
 	AS_HELP_STRING([--with-kernel-reference-repo=<dir>],
@@ -273,7 +280,7 @@ AC_CONFIG_FILES([Makefile
 AC_CONFIG_FILES(bitbake,    [chmod a+x bitbake])
 AC_CONFIG_FILES(bg-bitbake, [chmod a+x,a-w bg-bitbake])
 
-AC_CONFIG_COMMANDS([config], [make -s config])
+AC_CONFIG_COMMANDS([config],  [make -s config])
 AC_CONFIG_COMMANDS([fixperm], [chmod a-w $CONFIG_FILES])
 
 AC_OUTPUT()
