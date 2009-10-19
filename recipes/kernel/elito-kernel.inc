@@ -13,6 +13,7 @@ KERNEL_DEPENDS ?= ""
 
 DEPENDS += '\
 	${KERNEL_DEPENDS} \
+	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
 
 ## Use this indirect assignment to allow recipes which are including
