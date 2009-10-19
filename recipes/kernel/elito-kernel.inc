@@ -64,9 +64,13 @@ do_configure_prepend() {
 	fi
 }
 
-do_stage_prepend() {
+do_uboot_mkimage() {
 	set -x
-	if test -n "${_tftp_image}"; then
+        if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
+                for i in sdram gdb flash; do
+                        oe_runmake -f "${_gen_mf}" arnoldboot-$i _flash_filename=${KERNEL_OUTPUT}-$i
+                done
+        elif test -n "${_tftp_image}"; then
 		if ! test -w "${_tftp_image}"; then
 			oewarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
 		else
@@ -75,8 +79,20 @@ do_stage_prepend() {
 	fi
 }
 
-do_uboot_mkimage() {
-    true
+do_deploy_append() {
+        if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
+                for i in sdram gdb flash; do
+                        cd "${S}"
+                        install -m 0644 ${KERNEL_OUTPUT}-$i \
+				${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-$i.bin
+                        package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-$i.bin
+
+			cd "${DEPLOY_DIR_IMAGE}"
+			rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
+			ln -sf ${KERNEL_IMAGE_BASE_NAME}-$i.bin ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
+			package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
+		done
+	fi
 }
 
 do_generate_makefile[dirs] = "${ELITO_GIT_WS}"
