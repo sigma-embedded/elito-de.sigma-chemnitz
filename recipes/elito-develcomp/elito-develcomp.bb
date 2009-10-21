@@ -1,5 +1,5 @@
 DESCRIPTION = "Generates makefile in workspace directory"
-PV = "0.1"
+PV = "0.2"
 PR = "r0"
 LICENSE = "GPLv3"
 
@@ -72,7 +72,6 @@ do_configure() {
 	gc=${gc%%gcc}
 	dn=`dirname "$gc"`
 	gc=`basename "$gc"`
-	ccache=`${WHICH} ccache`
 
 	rm -f "${DEVELCOMP_MAKEFILE}"
         cat << EOF | sed -e 's![[:space:]]*$!!' > "${DEVELCOMP_MAKEFILE}"
@@ -80,20 +79,44 @@ do_configure() {
 
 ${_export_vars_gen}
 
+export _CCACHE	= `${WHICH} ccache 2>/dev/null
+export _CROSS	= ${TARGET_PREFIX}
+export _ARCH	= ${TARGET_ARCH}
+
 SH     ?= /bin/bash
+PS1     = [\\033[1;34m${PROJECT_NAME}\\033[0;39m|\\u@\\h \\W]\\044$
 _start	= env -u MAKELEVEL
 
+_project_cfg = ${PROJECT_TOPDIR}/mk/\$(CFG).mk
+_elito_cfg =   ${ELITO_TOPDIR}/mk/\$(CFG).mk
+
+ifneq (\$(wildcard ${PROJECT_TOPDIR}/mk/common.mk),)
+include ${PROJECT_TOPDIR}/mk/common.mk
+endif
+
+ifneq (\$(wildcard ${PROJECT_TOPDIR}/mk/\$(CFG).mk),)
+include ${PROJECT_TOPDIR}/mk/\$(CFG).mk
+else ifneq (\$(wildcard ${ELITO_TOPDIR}/mk/\$(CFG).mk),)
+include ${ELITO_TOPDIR}/mk/\$(CFG).mk
+else
+OPTS ?=
+ENV  ?=
+endif
+
 %:
-	\$(MAKE) -e MAKELEVEL=0 \$@
+	env \$(ENV) \$(MAKE) -e MAKELEVEL:=0 MAKEFILES:= \$(OPTS) \$@
+
+_all_:
+	env \$(ENV) \$(MAKE) -e MAKELEVEL:=0 MAKEFILES:= \$(OPTS)
 
 exec:
 	\$(_start) \$(P)
 
 shell:
-	\$(_start) \$(SH) -
+	@\$(_start) env PS1='\$(PS1) ' \$(SH) -
 
 unexport MAKEFILES
 unexport MAKELEVEL
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := _all_
 EOF
 }
