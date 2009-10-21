@@ -4,8 +4,8 @@ PRIORITY         = "optional"
 LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
-PV               = "2008.10"
-PR               = "r2"
+PV               = "2009.08"
+PR               = "r0"
 SRCREV           = "${AUTOREV}"
 
 DEFAULT_PREFERENCE = "99"
@@ -26,17 +26,24 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
-EXTRA_OEMAKE     = "CROSS_COMPILE=${TARGET_PREFIX}"
+EXTRA_OEMAKE     = "\
+	CROSS_COMPILE='${TARGET_PREFIX}' \
+	AR='${AR}' AS='{AS}' CC='${CC}' CPP='${CPP}' \
+	LD='${LD}' NM='${NM}' STRIP='${STRIP}' \
+	OBJCOPY='${OBJCOPY}' OBJDUMP='${OBJDUMP}' \
+	RANLIB='${RANLIB}' HOSTCC='${BUILD_CC}' \
+	HOSTCFLAGS='${BUILD_CFLAGS}'"
 
 
 do_configure() {
+        unset LDFLAGS CPPFLAGS CFLAGS
 	oe_runmake ${UBOOT_MACHINE}
 	oe_runmake include/autoconf.mk
 	oe_runmake clean
 }
 
 do_compile() {
-	unset LDFLAGS
+	unset LDFLAGS CPPFLAGS CFLAGS
 	set -x
 	oe_runmake
 }
