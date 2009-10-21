@@ -79,7 +79,7 @@ do_configure() {
 
 ${_export_vars_gen}
 
-export _CCACHE	= `${WHICH} ccache 2>/dev/null
+export _CCACHE	= `${WHICH} ccache 2>/dev/null`
 export _CROSS	= ${TARGET_PREFIX}
 export _ARCH	= ${TARGET_ARCH}
 
