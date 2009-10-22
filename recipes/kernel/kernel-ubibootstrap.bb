@@ -4,6 +4,7 @@ LICENSE		=  "GPL"
 
 PR		=  "r0"
 PACKAGE_ARCH	=  "${MACHINE_ARCH}"
+BOOTSTRAP_TARGET ?= "elito-image"
 
 KERNEL_BOOTSTRAP_TFTP_IMAGE ?= ""
 KERNEL_BOOTSTRAP_DEFCONFIG ?= "${@'${KERNEL_DEFCONFIG}'.replace('_defconfig','_bootstrap_defconfig')}"
@@ -113,6 +114,7 @@ do_deploy() {
 	ln -sf ${KERNEL_BOOTSTRAP_IMAGE_BASE_NAME}.img ${KERNEL_BOOTSTRAP_IMAGE_SYMLINK_NAME}.img
 }
 
+do_prepramfs[depends] = "${BOOTSTRAP_TARGET}:do_rootfs"
 do_prepramfs[dirs] = "${S}"
 do_deploy[dirs] = "${S}"
 addtask prepramfs before do_configure after do_patch
