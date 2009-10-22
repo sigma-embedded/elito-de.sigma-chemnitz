@@ -4,16 +4,23 @@ PRIORITY         = "optional"
 LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
-PV               = "2009.08"
+PV               = "${UBOOT_VERSION}"
 PR               = "r0"
-SRCREV           = "${AUTOREV}"
 
 DEFAULT_PREFERENCE = "99"
 
+python __anonymous () {
+    elito_skip(d, 'u-boot')
+}
+
+SRCREV           = "${AUTOREV}"
+
+UBOOT_BRANCH	?= "${KERNEL_BRANCH}"
 UBOOT_MACHINE	?= "${MACHINE}_config"
+UBOOT_REV       ?= "branch=${UBOOT_VERSION}/${UBOOT_BRANCH}"
 UBOOT_SYMLINK	?= "u-boot-${MACHINE}.bin"
 
-SRCURI_SPEC_append	=  ";branch=${UBOOT_BRANCH}"
+SRCURI_SPEC_append	=  ";${UBOOT_REV}"
 COMPONENT		=  u-boot
 
 inherit elito-develcomp
@@ -33,7 +40,6 @@ EXTRA_OEMAKE     = "\
 	OBJCOPY='${OBJCOPY}' OBJDUMP='${OBJDUMP}' \
 	RANLIB='${RANLIB}' HOSTCC='${BUILD_CC}' \
 	HOSTCFLAGS='${BUILD_CFLAGS}'"
-
 
 do_configure() {
         unset LDFLAGS CPPFLAGS CFLAGS

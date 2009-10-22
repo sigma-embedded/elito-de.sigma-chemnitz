@@ -8,6 +8,10 @@ PACKAGE_ARCH      = "${MACHINE_ARCH}"
 DEPENDS           = "linux-libc-headers mtd-utils mobm320-native"
 S                 = "${WORKDIR}/elito-${PN}-${PV}"
 
+python __anonymous () {
+    elito_skip(d, 'mobm320')
+}
+
 PACKAGES         += "${PN}-tools"
 FILES_${PN}       = "/boot/*"
 FILES_${PN}-tools = "/sbin/create-boot-env"
