@@ -4,6 +4,8 @@ OVERRIDES .= ${@base_contains('MACHINE_FEATURES','ubifs',':fs-ubifs','',d)}
 OVERRIDES .= ${@base_contains('MACHINE_FEATURES','jffs2',':fs-jffs2','',d)}
 OVERRIDES .= ${@base_contains('MACHINE_FEATURES','arnoldboot',':fs-arnoldboot','',d)}
 
+PROVIDES   = "virtual/elito-image"
+
 DEPENDS = "	\
 	${MACHINE_TASK_PROVIDER}	\
 	${IMAGE_DEPENDS}		\
