@@ -46,8 +46,8 @@ UBI_GEN_ENV = ":"
 UBI_GEN_ENV_fs-mobm320 = "ubi_gen_env_mobm320"
 
 ubi_gen_env_mobm320() {
-	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.bootenv
-	mobm320-create-env ${MOBM320_ENV_ARGS} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.bootenv
+	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.bootenv
+	mobm320-create-env ${MOBM320_ENV_ARGS} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.bootenv
 }
 
 NAND_PAGESIZE	?= 2048
