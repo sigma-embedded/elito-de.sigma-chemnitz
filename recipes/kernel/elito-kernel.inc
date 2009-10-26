@@ -1,3 +1,7 @@
+python __anonymous () {
+    elito_skip(d, None, 'nokernel')
+}
+
 PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
 
 GIT_REPO = "${KERNEL_REPO}"
