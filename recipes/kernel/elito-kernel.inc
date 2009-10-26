@@ -102,4 +102,4 @@ do_deploy_append() {
 }
 
 do_generate_makefile[dirs] = "${ELITO_GIT_WS}"
-addtask generate_makefile before do_configure after do_setscene
+addtask generate_makefile before do_configure after do_unpack
