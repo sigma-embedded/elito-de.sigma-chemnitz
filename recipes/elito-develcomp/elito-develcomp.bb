@@ -1,6 +1,6 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 PV = "0.2"
-PR = "r0"
+PR = "r1"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -119,4 +119,7 @@ unexport MAKEFILES
 unexport MAKELEVEL
 .DEFAULT_GOAL := _all_
 EOF
+
+        # make it read-only
+	chmod a-w "${DEVELCOMP_MAKEFILE}"
 }

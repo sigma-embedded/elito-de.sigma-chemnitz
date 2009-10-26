@@ -57,6 +57,9 @@ unexport MAKEFILES
 unexport MAKELEVEL
 .DEFAULT_GOAL := all
 EOF
+
+        # make it read-only
+        chmod a-w "${_gen_mf}"
 }
 
 do_configure_prepend() {
