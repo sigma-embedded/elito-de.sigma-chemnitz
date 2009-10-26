@@ -78,12 +78,10 @@ do_uboot_mkimage() {
                 for i in sdram gdb flash; do
                         oe_runmake -f "${_gen_mf}" arnoldboot-$i _flash_filename=${KERNEL_OUTPUT}-$i
                 done
-        elif test -n "${_tftp_image}"; then
-		if ! test -w "${_tftp_image}"; then
-			oewarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
-		else
-			cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
-		fi
+        elif test -w "${_tftp_image}"; then
+                cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
+        elif ! test -w "${_tftp_image}"; then
+		oewarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
 	fi
 }
 
