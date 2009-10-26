@@ -5,7 +5,7 @@ LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
 PV               = "${UBOOT_VERSION}"
-PR               = "r0"
+PR               = "r1"
 
 DEFAULT_PREFERENCE = "99"
 
@@ -43,7 +43,7 @@ EXTRA_OEMAKE     = "\
 	OBJCOPY='${OBJCOPY}' OBJDUMP='${OBJDUMP}' \
 	RANLIB='${RANLIB}' HOSTCC='${BUILD_CC}' \
 	HOSTCFLAGS='${BUILD_CFLAGS}'	\
-	${@base_conditional('KERNEL_TFTP_IMAGE','','','CFG_BOOTFILE=${KERNEL_TFTP_IMAGE}',d)}	\
+	${@base_conditional('KERNEL_TFTP_IMAGE','','','CFG_BOOTFILE=$(basename ${KERNEL_TFTP_IMAGE})',d)}	\
 	${@base_conditional('TFTP_SERVER','','','CFG_SERVERIP=${TFTP_SERVER}',d)} \
 	CFG_NFSROOT='MK_STR(CONFIG_SERVERIP) ":${IMAGE_ROOTFS}"' \
 "
