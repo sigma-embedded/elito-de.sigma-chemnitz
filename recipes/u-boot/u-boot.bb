@@ -33,13 +33,20 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
+TFTP_SERVER	?= ''
+KERNEL_TFTP_IMAGE ?= ''
+
 EXTRA_OEMAKE     = "\
 	CROSS_COMPILE='${TARGET_PREFIX}' \
 	AR='${AR}' AS='{AS}' CC='${CC}' CPP='${CPP}' \
 	LD='${LD}' NM='${NM}' STRIP='${STRIP}' \
 	OBJCOPY='${OBJCOPY}' OBJDUMP='${OBJDUMP}' \
 	RANLIB='${RANLIB}' HOSTCC='${BUILD_CC}' \
-	HOSTCFLAGS='${BUILD_CFLAGS}'"
+	HOSTCFLAGS='${BUILD_CFLAGS}'	\
+	${@base_conditional('KERNEL_TFTP_IMAGE','','','CFG_BOOTFILE=${KERNEL_TFTP_IMAGE}',d)}	\
+	${@base_conditional('TFTP_SERVER','','','CFG_SERVERIP=${TFTP_SERVER}',d)} \
+	CFG_NFSROOT='MK_STR(CONFIG_SERVERIP) ":${IMAGE_ROOTFS}"' \
+"
 
 do_configure() {
         unset LDFLAGS CPPFLAGS CFLAGS
