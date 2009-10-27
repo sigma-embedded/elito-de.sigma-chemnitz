@@ -1,7 +1,7 @@
 Index: bitbake/lib/bb/fetch/__init__.py
 ===================================================================
---- bitbake.orig/lib/bb/fetch/__init__.py
-+++ bitbake/lib/bb/fetch/__init__.py
+--- lib/bb/fetch/__init__.py
++++ lib/bb/fetch/__init__.py
 @@ -275,7 +275,7 @@ def runfetchcmd(cmd, d, quiet = False):
      # rather than host provided
      # Also include some other variables.
