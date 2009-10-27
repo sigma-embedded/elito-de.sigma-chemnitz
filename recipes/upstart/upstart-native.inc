@@ -15,7 +15,7 @@ EXTRA_OECONF     = "--disable-static"
 
 do_stage_append() {
 	mkdir -p ${STAGING_BINDIR}
-	libtool --mode=install install -p -m 0755 nih-dbus-tool/nih-dbus-tool ${STAGING_BINDIR}/
+	./${BUILD_SYS}-libtool --mode=install install -p -m 0755 nih-dbus-tool/nih-dbus-tool ${STAGING_BINDIR}/
 }
 
 do_install() {
