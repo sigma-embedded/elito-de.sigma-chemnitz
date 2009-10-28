@@ -1,20 +1,7 @@
-Index: acl-2.2.47/configure.in
+Index: acl-2.2.48/include/builddefs.in
 ===================================================================
---- acl-2.2.47.orig/configure.in
-+++ acl-2.2.47/configure.in
-@@ -1,6 +1,8 @@
- AC_INIT(include/acl.h)
-+AC_CONFIG_MACRO_DIR([m4])
- AC_CONFIG_HEADER(include/config.h)
- AC_PREFIX_DEFAULT(/usr)
-+AC_PROG_LIBTOOL
- 
- AC_ARG_ENABLE(shared,
- [ --enable-shared=[yes/no] Enable use of shared libraries [default=yes]],,
-Index: acl-2.2.47/include/builddefs.in
-===================================================================
---- acl-2.2.47.orig/include/builddefs.in
-+++ acl-2.2.47/include/builddefs.in
+--- acl-2.2.48.orig/include/builddefs.in
++++ acl-2.2.48/include/builddefs.in
 @@ -16,6 +16,7 @@ LIBACL = $(TOPDIR)/libacl/libacl.la
  LIBATTR = @libattr@
  LIBMISC = $(TOPDIR)/libmisc/libmisc.la
@@ -22,32 +9,33 @@ Index: acl-2.2.47/include/builddefs.in
 +top_builddir = @abs_top_builddir@
  prefix = @prefix@
  exec_prefix = @exec_prefix@
- datarootdir = @datarootdir@
-Index: acl-2.2.47/Makefile
+ top_builddir = @top_builddir@
+Index: acl-2.2.48/Makefile
 ===================================================================
---- acl-2.2.47.orig/Makefile
-+++ acl-2.2.47/Makefile
-@@ -51,10 +51,12 @@ $(CONFIGURE):
- aclocal.m4::
- 	aclocal --acdir=`pwd`/m4 --output=$@
+--- acl-2.2.48.orig/Makefile
++++ acl-2.2.48/Makefile
+@@ -88,9 +88,13 @@ include/config.h: include/builddefs
+ 		$(MAKE) $(AM_MAKEFLAGS) include/builddefs; \
+ 	fi
  
--install: default
-+install: install-doc install-dev install-lib
- 	$(SUBDIRS_MAKERULE)
+-install: default $(addsuffix -install,$(SUBDIRS))
 -	$(INSTALL) -m 755 -d $(PKG_DOC_DIR)
 -	$(INSTALL) -m 644 README $(PKG_DOC_DIR)
++install: install-dev install-lib install-doc install-common
 +
 +install-doc: default
 +	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_DOC_DIR)
 +	$(INSTALL) -m 644 README $(DESTDIR)$(PKG_DOC_DIR)
++
++install-common: default $(addsuffix -install,$(SUBDIRS))
  
- install-dev: default
- 	$(SUBDIRS_MAKERULE)
-Index: acl-2.2.47/chacl/Makefile
+ install-dev: default $(addsuffix -install-dev,$(SUBDIRS))
+ 
+Index: acl-2.2.48/chacl/Makefile
 ===================================================================
---- acl-2.2.47.orig/chacl/Makefile
-+++ acl-2.2.47/chacl/Makefile
-@@ -16,6 +16,6 @@ default: $(LTCOMMAND)
+--- acl-2.2.48.orig/chacl/Makefile
++++ acl-2.2.48/chacl/Makefile
+@@ -30,6 +30,6 @@ default: $(LTCOMMAND)
  include $(BUILDRULES)
  
  install: default
@@ -56,11 +44,11 @@ Index: acl-2.2.47/chacl/Makefile
 +	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_BIN_DIR)
 +	$(LTINSTALL) -m 755 $(LTCOMMAND) $(DESTDIR)$(PKG_BIN_DIR)
  install-dev install-lib:
-Index: acl-2.2.47/doc/Makefile
+Index: acl-2.2.48/doc/Makefile
 ===================================================================
---- acl-2.2.47.orig/doc/Makefile
-+++ acl-2.2.47/doc/Makefile
-@@ -17,12 +17,12 @@ CHANGES.gz:
+--- acl-2.2.48.orig/doc/Makefile
++++ acl-2.2.48/doc/Makefile
+@@ -31,12 +31,12 @@ CHANGES.gz:
  	$(ZIP) --best -c < CHANGES > $@
  
  install: default
@@ -72,16 +60,16 @@ Index: acl-2.2.47/doc/Makefile
 -	$(INSTALL) -S CHANGES.gz $(PKG_DOC_DIR)/changelog.gz
 +	$(INSTALL) -S CHANGES.gz $(DESTDIR)$(PKG_DOC_DIR)/changelog.gz
  else
--	$(INSTALL) -m 644 COPYING $(PKG_DOC_DIR)
-+	$(INSTALL) -m 644 COPYING $(DESTDIR)$(PKG_DOC_DIR)
+-	$(INSTALL) -m 644 COPYING COPYING.LGPL $(PKG_DOC_DIR)
++	$(INSTALL) -m 644 COPYING COPYING.LGPL $(DESTDIR)$(PKG_DOC_DIR)
  endif
  
  install-dev install-lib:
-Index: acl-2.2.47/getfacl/Makefile
+Index: acl-2.2.48/getfacl/Makefile
 ===================================================================
---- acl-2.2.47.orig/getfacl/Makefile
-+++ acl-2.2.47/getfacl/Makefile
-@@ -17,6 +17,6 @@ default: $(LTCOMMAND)
+--- acl-2.2.48.orig/getfacl/Makefile
++++ acl-2.2.48/getfacl/Makefile
+@@ -31,6 +31,6 @@ default: $(LTCOMMAND)
  include $(BUILDRULES)
  
  install: default
@@ -90,11 +78,11 @@ Index: acl-2.2.47/getfacl/Makefile
 +	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_BIN_DIR)
 +	$(LTINSTALL) -m 755 $(LTCOMMAND) $(DESTDIR)$(PKG_BIN_DIR)
  install-dev install-lib:
-Index: acl-2.2.47/include/Makefile
+Index: acl-2.2.48/include/Makefile
 ===================================================================
---- acl-2.2.47.orig/include/Makefile
-+++ acl-2.2.47/include/Makefile
-@@ -17,9 +17,9 @@ default:
+--- acl-2.2.48.orig/include/Makefile
++++ acl-2.2.48/include/Makefile
+@@ -31,10 +31,10 @@ sys acl:
  include $(BUILDRULES)
  
  install-dev: default
@@ -108,12 +96,13 @@ Index: acl-2.2.47/include/Makefile
 +	$(INSTALL) -m 644 acl.h $(DESTDIR)$(PKG_INC_DIR)/sys/acl.h
 +	$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_INC_DIR)/acl
 +	$(INSTALL) -m 644 libacl.h $(DESTDIR)$(PKG_INC_DIR)/acl/libacl.h
+ 
  install install-lib:
-Index: acl-2.2.47/include/buildmacros
+Index: acl-2.2.48/include/buildmacros
 ===================================================================
---- acl-2.2.47.orig/include/buildmacros
-+++ acl-2.2.47/include/buildmacros
-@@ -55,9 +55,9 @@ endif
+--- acl-2.2.48.orig/include/buildmacros
++++ acl-2.2.48/include/buildmacros
+@@ -68,9 +68,9 @@ endif
  ifeq ($(ENABLE_SHARED),yes)
  INSTALL_LTLIB = \
  	cd $(TOPDIR)/$(LIBNAME)/.libs; \
@@ -126,7 +115,7 @@ Index: acl-2.2.47/include/buildmacros
  endif
  
  # Libtool thinks the static and shared libs should be in the same dir, so
-@@ -68,23 +68,17 @@ endif
+@@ -81,25 +81,17 @@ endif
  # /usr/lib.
  ifeq ($(ENABLE_SHARED),yes)
  INSTALL_LTLIB_DEV = \
@@ -136,12 +125,14 @@ Index: acl-2.2.47/include/buildmacros
 -	../$(INSTALL) -m 644 $(LIBNAME).lai $(PKG_DEVLIB_DIR)/$(LIBNAME).la ; \
 -	../$(INSTALL) -m 755 -d $(PKG_LIB_DIR); \
 -	../$(INSTALL) -T so_base $(LIBNAME).lai $(PKG_LIB_DIR); \
+-	if test "x$(PKG_DEVLIB_DIR)" != "x$(PKG_LIB_DIR)" ; then \
 -	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
 -	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
--	../$(INSTALL) -S $(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so
+-	../$(INSTALL) -S $(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
+-	fi
 +	cd $(TOPDIR)/$(LIBNAME)/.libs && \
 +	../$(INSTALL) -m 755 -d $(DESTDIR)$(PKG_LIB_DIR) && \
-+	../$(INSTALL) -T so_base $(LIBNAME).lai $(DESTDIR)$(PKG_LIB_DIR);
++	../$(INSTALL) -T so_base $(LIBNAME).lai $(DESTDIR)$(PKG_LIB_DIR)
  else
  INSTALL_LTLIB_DEV = $(INSTALL_LTLIB_STATIC)
  endif
@@ -155,7 +146,7 @@ Index: acl-2.2.47/include/buildmacros
  
  INSTALL_MAN = \
  	@for d in $(MAN_PAGES); do \
-@@ -96,7 +90,7 @@ INSTALL_MAN = \
+@@ -111,7 +103,7 @@ INSTALL_MAN = \
  				-e 's/\\\f[0-9]//g' -e 's/  / /g;q'`; \
  		do \
  			[ -z "$$m" -o "$$m" = "\\" ] && continue; \
@@ -164,7 +155,7 @@ Index: acl-2.2.47/include/buildmacros
  			if $$first; then \
  				if $(HAVE_ZIPPED_MANPAGES); then \
  					$(ZIP) -9 -c $$d > $$d.gz; _sfx=.gz; \
-@@ -116,7 +110,7 @@ ifeq ($(ENABLE_GETTEXT),yes)
+@@ -131,7 +123,7 @@ ifeq ($(ENABLE_GETTEXT),yes)
  INSTALL_LINGUAS = \
  	@for l in $(LINGUAS) ""; do \
  		if test -f "$$l.mo" ; then \
@@ -173,11 +164,11 @@ Index: acl-2.2.47/include/buildmacros
  			$(INSTALL) -m 755 -d $$ldir; \
  			$(INSTALL) -m 644 $$l.mo $$ldir/$(PKG_NAME).mo; \
  		fi; \
-Index: acl-2.2.47/man/man1/Makefile
+Index: acl-2.2.48/man/man1/Makefile
 ===================================================================
---- acl-2.2.47.orig/man/man1/Makefile
-+++ acl-2.2.47/man/man1/Makefile
-@@ -16,6 +16,6 @@ default : $(MAN_PAGES)
+--- acl-2.2.48.orig/man/man1/Makefile
++++ acl-2.2.48/man/man1/Makefile
+@@ -30,6 +30,6 @@ default : $(MAN_PAGES)
  include $(BUILDRULES)
  
  install : default
@@ -185,11 +176,11 @@ Index: acl-2.2.47/man/man1/Makefile
 +	$(INSTALL) -m 755 -d $(DESTDIR)$(MAN_DEST)
  	$(INSTALL_MAN)
  install-dev install-lib:
-Index: acl-2.2.47/man/man3/Makefile
+Index: acl-2.2.48/man/man3/Makefile
 ===================================================================
---- acl-2.2.47.orig/man/man3/Makefile
-+++ acl-2.2.47/man/man3/Makefile
-@@ -16,6 +16,6 @@ default : $(MAN_PAGES)
+--- acl-2.2.48.orig/man/man3/Makefile
++++ acl-2.2.48/man/man3/Makefile
+@@ -30,6 +30,6 @@ default : $(MAN_PAGES)
  include $(BUILDRULES)
  
  install-dev : default
@@ -197,11 +188,11 @@ Index: acl-2.2.47/man/man3/Makefile
 +	$(INSTALL) -m 755 -d $(DESTDIR)$(MAN_DEST)
  	$(INSTALL_MAN)
  install install-lib:
-Index: acl-2.2.47/man/man5/Makefile
+Index: acl-2.2.48/man/man5/Makefile
 ===================================================================
---- acl-2.2.47.orig/man/man5/Makefile
-+++ acl-2.2.47/man/man5/Makefile
-@@ -16,6 +16,6 @@ default : $(MAN_PAGES)
+--- acl-2.2.48.orig/man/man5/Makefile
++++ acl-2.2.48/man/man5/Makefile
+@@ -30,6 +30,6 @@ default : $(MAN_PAGES)
  include $(BUILDRULES)
  
  install : default
@@ -209,11 +200,11 @@ Index: acl-2.2.47/man/man5/Makefile
 +	$(INSTALL) -m 755 -d $(DESTDIR)$(MAN_DEST)
  	$(INSTALL_MAN)
  install-dev install-lib:
-Index: acl-2.2.47/setfacl/Makefile
+Index: acl-2.2.48/setfacl/Makefile
 ===================================================================
---- acl-2.2.47.orig/setfacl/Makefile
-+++ acl-2.2.47/setfacl/Makefile
-@@ -17,6 +17,6 @@ default: $(LTCOMMAND)
+--- acl-2.2.48.orig/setfacl/Makefile
++++ acl-2.2.48/setfacl/Makefile
+@@ -31,6 +31,6 @@ default: $(LTCOMMAND)
  include $(BUILDRULES)
  
  install: default
