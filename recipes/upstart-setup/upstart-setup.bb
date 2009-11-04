@@ -32,6 +32,8 @@ RRECOMMENDS_${PN}      += " \
 	${DEVFS_INIT_PROVIDER}	\
 "
 
+DEPENDS += "elito-setup-tools upstart"
+
 # TODO: move udev rules and files.d into own package
 FILES_${PN}-base = "				\
 	${j}ctrl-alt-del.conf			\
@@ -47,6 +49,7 @@ FILES_${PN}-base = "				\
 "
 FILES_${PN}-base_append_arm += "${j}init/cpu-align.conf"
 RDEPENDS_${PN}-base         += "upstart elito-setup-tools"
+
 
 FILES_${PN}-udev         = "		\
 	/lib/udev/rules.d/*-upstart.rules	\
