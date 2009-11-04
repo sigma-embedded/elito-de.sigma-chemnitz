@@ -12,7 +12,8 @@ SRC_URI		= "		\
 SRCREV           = "${AUTOREV}"
 #S               = "${WORKDIR}/git"
 
-PACKAGES         = "${PN}-base ${PN}-udev ${PN}-net ${PN}-net-dhcp	\
+PACKAGES         = "${PN}-base ${PN}-net ${PN}-net-dhcp	\
+	${PN}-udev ${PN}-mdev				\
 	${PN}-openntpd ${PN}-dropbear ${PN}-dbus	\
 	${PN}-tty-plain ${PN}-syslogd ${PN}-klogd	\
 	${PN}-hald \
@@ -20,11 +21,17 @@ PACKAGES         = "${PN}-base ${PN}-udev ${PN}-net ${PN}-net-dhcp	\
 	${PN}-sound ${PN}-rtc-sync\
 	${PN}-net-dhcp-eth0	\
 	${PN}-net-dhcp-eth1	\
-	${PN}-empty \
+	${PN}-empty ${PN} \
 "
 
 j                = "${sysconfdir}/init/"
 
+ALLOW_EMPTY_${PN}       = "1"
+RRECOMMENDS_${PN}      += " \
+	${PN}-base		\
+	virtual/devfs-init	\
+"
+RPROVIDES_${PN}         = "virtual/initscripts"
 
 # TODO: move udev rules and files.d into own package
 FILES_${PN}-base = "				\
@@ -38,18 +45,23 @@ FILES_${PN}-base = "				\
 	${j}shutdown/bind-mounts.conf		\
 	${j}shutdown/shutdown.conf		\
 	${sysconfdir}/files.d/*-log.txt		\
-	/lib/udev/rules.d/*-upstart.rules					\
 "
 FILES_${PN}-base_append_arm += "${j}init/cpu-align.conf"
 RDEPENDS_${PN}-base         += "upstart elito-setup-tools"
-RPROVIDES_${PN}-base         = "virtual/initscripts"
 
 FILES_${PN}-udev         = "		\
+	/lib/udev/rules.d/*-upstart.rules	\
 	${j}init/udev-fill.conf		\
 	${j}init/udev-early.conf	\
 	${j}services/udevd.conf"
-RDEPENDS_${PN}-udev = "udev"
-RPROVIDES_${PN}-udev = "virtual/modutils-initscripts"
+RDEPENDS_${PN}-udev  = "udev"
+RPROVIDES_${PN}-udev = "virtual/devfs-init"
+
+FILES_${PN}-mdev         = "		\
+	${j}init/mdev.conf		\
+"
+RDEPENDS_${PN}-mdev  = "busybox-mdev"
+RPROVIDES_${PN}-mdev = "virtual/devfs-init"
 
 
 FILES_${PN}-net          = "	\
