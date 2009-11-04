@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r5"
+PR		= "r6"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
@@ -15,8 +15,8 @@ SRC_URI = "	\
 	file://licenses/*		\
 "
 
-RPROVIDES_${PN}   = "virtual/base-files"
-RRECOMMENDS_${PN} = "virtual/release-files"
+RELEASE_FILES_PROVIDER ?= "elito-release"
+RRECOMMENDS_${PN} = "${RELEASE_FILES_PROVIDER}"
 
 TMPFS_SIZE       ?= 8m
 PTS_GID          ?= 5

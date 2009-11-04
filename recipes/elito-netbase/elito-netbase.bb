@@ -2,7 +2,7 @@ DESCRIPTION	= "This package provides the necessary \
 infrastructure for basic TCP/IP based networking."
 SECTION		= "base"
 LICENSE		= "GPL"
-PR		= "r2"
+PR		= "r3"
 PV		= 4.21
 
 FILESDIR	= "${OEDEV_TOPDIR}/recipes/netbase/netbase"
@@ -22,5 +22,5 @@ do_install () {
 PACKAGES        = "${PN}"
 CONFFILES_${PN} = "${sysconfdir}/rpc ${sysconfdir}/protocols \
 	${sysconfdir}/services"
-RPROVIDES_${PN} = "netbase virtual/netbase"
+RPROVIDES_${PN} = "netbase"
 RCONFLICTS	= "netbase"

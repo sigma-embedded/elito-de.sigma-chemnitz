@@ -1,5 +1,5 @@
 PV		= "0.1+gitr${SRCPV}"
-PR		= "r1"
+PR		= "r2"
 LICENSE		= "unknown"
 PACKAGE_ARCH	= "all"
 
@@ -22,5 +22,5 @@ PACKAGES = " \
 FILES_libertas-sd8686-v9 = "/lib/firmware/sd8686_v9*"
 FILES_libertas-sd8686-v8 = "/lib/firmware/sd8686_v8*"
 
-RRECOMMENDS_libertas-sd8686-v9 = "virtual/firmware-loader"
-RRECOMMENDS_libertas-sd8686-v8 = "virtual/firmware-loader"
+RRECOMMENDS_libertas-sd8686-v9 = "${FIRMWARE_LOADER_PROVIDER}"
+RRECOMMENDS_libertas-sd8686-v8 = "${FIRMWARE_LOADER_PROVIDER}"

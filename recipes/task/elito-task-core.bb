@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r3.${PROJECT_FILE_DATE}"
+PR           = "r4.${PROJECT_FILE_DATE}"
 
 do_distribute_sources() {
 }
@@ -21,7 +21,8 @@ OVERRIDES .= "${@base_contains("IMAGE_DEV_MANAGER", "udev", ":udev", "", d)}"
 OVERRIDES .= "${@base_contains("IMAGE_DEV_MANAGER", "busybox-mdev", ":mdev", "", d)}"
 
 EXTRA_DEV_RULES ?=
-EXTRA_DEV_RULES_append = " ${@base_contains("MACHINE_FEATURES","firmware","virtual/firmware-loader","",d)}"
+EXTRA_DEV_RULES_append = " ${DEVFS_INIT_PROVIDER}"
+EXTRA_DEV_RULES_append = " ${@base_contains('MACHINE_FEATURES','firmware','${FIRMWARE_LOADER_PROVIDER}','',d)}"
 EXTRA_DEV_RULES_append_udev = " ${@base_contains("MACHINE_FEATURES","modules","udev-rules-modules","",d)}"
 
 #
@@ -47,7 +48,7 @@ RDEPENDS_${PN} += "\
     elito-task-boot			\
     ${@base_contains("MACHINE_FEATURES", "ubifs", "mtd-utils-ubi-tools", "", d)} \
     ${@base_contains("MACHINE_FEATURES", "keyboard", "keymaps", "", d)} \
-    virtual/initscripts		\
+    ${IMAGE_INITSCRIPTS}		\
     ${EXTRA_DEV_RULES}			\
     ${IMAGE_DEV_MANAGER}		\
     ${IMAGE_INIT_MANAGER}		\

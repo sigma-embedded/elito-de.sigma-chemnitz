@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting to a prompt"
 LICENSE      = "GPLv3"
-PR           = "r11.${PROJECT_FILE_DATE}"
+PR           = "r12.${PROJECT_FILE_DATE}"
 
 do_distribute_sources() {
 }
@@ -25,6 +25,9 @@ DISTRO_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
 PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
 
+BASE_FILES_PROVIDER ?= "elito-base-files"
+NETBASE_PROVIDER    ?= "elito-netbase"
+
 # Make sure we build the kernel
 DEPENDS = "virtual/kernel"
 
@@ -32,13 +35,13 @@ DEPENDS = "virtual/kernel"
 # minimal set of packages - needed to boot
 #
 RDEPENDS_${PN} += "\
-    virtual/base-files \
+    ${BASE_FILES_PROVIDER} \
     base-passwd \
     busybox \
     ${@base_contains("MACHINE_FEATURES", "ubifs",   "mtd-utils-ubi-core", "", d)} \
     ${@base_contains("MACHINE_FEATURES", "modules", "module-init-tools",  "", d)} \
     update-alternatives \
-    virtual/netbase	\
+    ${NETBASE_PROVIDER}	\
     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS} \
     ${DISTRO_ESSENTIAL_EXTRA_RDEPENDS}	\
     "

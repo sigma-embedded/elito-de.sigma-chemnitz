@@ -2,7 +2,7 @@ DESCRIPTION	= "ELiTo release files"
 SECTION		= "base"
 LICENSE		= "GPL"
 PV		= "${DISTRO_VERSION}"
-PR		= "r1"
+PR		= "r2"
 
 PACKAGE_ARCH    = "${MACHINE_ARCH}"
 FEED_PREFIX    ?= 'elito-'
@@ -15,13 +15,13 @@ SRC_URI         = "\
 
 PACKAGES        = "${PN} ${PN}-feeds"
 
+OPKG_FEEDS_PROVIDER  ?= "${PN}-feeds"
+
 FILES_${PN}           = "/etc/pki/elito/* /etc/issues"
 RDEPENDS_${PN}        = "elito-filesystem"
-RRECOMMENDS_${PN}     = "virtual/opkg-feeds"
-RPROVIDES_${PN}       = "virtual/release-files"
+RRECOMMENDS_${PN}     = "${OPKG_FEEDS_PROVIDER}"
 
 FILES_${PN}-feeds     = "/etc/opkg/*.conf"
-RPROVIDES_${PN}-feeds = "virtual/opkg-feeds"
 
 do_compile() {
 	set -x

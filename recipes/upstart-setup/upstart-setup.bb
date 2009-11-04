@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.3"
-PR		= "r7"
+PR		= "r9"
 PACKAGE_ARCH	=  "all"
 
 SRC_URI		= "		\
@@ -29,9 +29,8 @@ j                = "${sysconfdir}/init/"
 ALLOW_EMPTY_${PN}       = "1"
 RRECOMMENDS_${PN}      += " \
 	${PN}-base		\
-	virtual/devfs-init	\
+	${DEVFS_INIT_PROVIDER}	\
 "
-RPROVIDES_${PN}         = "virtual/initscripts"
 
 # TODO: move udev rules and files.d into own package
 FILES_${PN}-base = "				\
@@ -55,13 +54,11 @@ FILES_${PN}-udev         = "		\
 	${j}init/udev-early.conf	\
 	${j}services/udevd.conf"
 RDEPENDS_${PN}-udev  = "udev"
-RPROVIDES_${PN}-udev = "virtual/devfs-init"
 
 FILES_${PN}-mdev         = "		\
 	${j}init/mdev.conf		\
 "
 RDEPENDS_${PN}-mdev  = "busybox-mdev"
-RPROVIDES_${PN}-mdev = "virtual/devfs-init"
 
 
 FILES_${PN}-net          = "	\
@@ -92,7 +89,6 @@ FILES_${PN}-dropbear = " \
 	${j}init/dropbear.conf		\
 	${j}services/dropbear.conf"
 RDEPENDS_${PN}-dropbear   = "dropbear"
-RPROVIDES_${PN}-dropbear  = "virtual/dropbear-init"
 
 FILES_${PN}-rtc-sync = " \
 	${j}init/rtc-sync.conf		\
@@ -100,38 +96,28 @@ FILES_${PN}-rtc-sync = " \
 "
 
 FILES_${PN}-tty-plain     = "${j}tty/plain.conf"
-RPROVIDES_${PN}-tty-plain = "virtual/upstart-tty"
-
-FILES_${PN}-tty-tinylogin     = "${j}tty/tinylogin.conf"
-RPROVIDES_${PN}-tty-tinylogin = "virtual/upstart-tty"
+FILES_${PN}-tty-tinylogin = "${j}tty/tinylogin.conf"
 
 
 FILES_${PN}-syslogd = "${j}services/syslogd.conf"
-RPROVIDES_${PN}-syslogd = "virtual/syslogd-init"
 RDEPENDS_${PN}-syslogd = "busybox"
 
 FILES_${PN}-klogd = "${j}services/klogd.conf"
-RPROVIDES_${PN}-klogd = "virtual/klogd-init"
 RDEPENDS_${PN}-klogd = "busybox"
 
 FILES_${PN}-sound = "${j}init/sound.conf"
-RPROVIDES_${PN}-sound = "virtual/sound-init"
 RDEPENDS_${PN}-sound = "alsa-utils-alsactl"
 
 FILES_${PN}-dbus = "\
 	${j}services/dbus-daemon.conf	\
 	${j}init/dbus-uuidgen.conf	\
 	${sysconfdir}/files.d/*-dbus.txt"
-RPROVIDES_${PN}-dbus = "virtual/dbus-init"
 RDEPENDS_${PN}-dbus = "dbus"
 
 FILES_${PN}-hald = "\
 	${j}services/hald.conf	\
 	${sysconfdir}/files.d/*-hald.txt"
-RPROVIDES_${PN}-hald = "virtual/hald-init"
 RDEPENDS_${PN}-hald = "hal upstart-setup-dbus"
-
-RPROVIDES_${PN}-empty = "virtual/tinylogin-init"
 
 do_compile() {
 }
