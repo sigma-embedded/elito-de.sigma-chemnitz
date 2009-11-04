@@ -1,0 +1,62 @@
+Index: bitbake/lib/bb/build.py
+===================================================================
+--- lib/bb/build.py
++++ lib/bb/build.py
+@@ -208,17 +208,28 @@ def exec_func_shell(func, d, flags):
+         os.dup2(se.fileno(), ose[1])
+ 
+     # execute function
+-    prevdir = os.getcwd()
+-    if flags['fakeroot']:
+-        maybe_fakeroot = "PATH=\"%s\" fakeroot " % bb.data.getVar("PATH", d, 1)
++    pid = os.fork()
++    if pid == 0:
++        cmd=[]
++        os.environ['LC_ALL'] = 'C'
++        if flags['fakeroot']:
++            os.environ['PATH'] = bb.data.getVar("PATH", d, 1)
++            cmd.append('fakeroot')
++
++        cmd.append(runfile)
++        try:
++            os.execvp(cmd[0], cmd)
++        except Exception, e:
++            bb.msg.error(bb.msg.domain.Build, "failed to execute %s: %s" % (cmd, e))
++            os._exit(1)
+     else:
+-        maybe_fakeroot = ''
+-    lang_environment = "LC_ALL=C "
+-    ret = os.system('%s%ssh -e %s' % (lang_environment, maybe_fakeroot, runfile))
+-    try:
+-        os.chdir(prevdir)
+-    except:
+-        pass
++        (p,status,rusage) = os.wait4(pid, 0)
++        data.setVar('_STAT_RUSAGE', rusage, d)
++
++        if os.WIFEXITED(status):
++            ret = os.WEXITSTATUS(status)
++        else:
++            ret = status
+ 
+     if not interact:
+         # restore the backups
+@@ -237,6 +248,10 @@ def exec_func_shell(func, d, flags):
+         os.close(ose[0])
+ 
+     if ret==0:
++        rusage = data.getVar('_STAT_RUSAGE', d, 0)
++        if rusage:
++            bb.msg.debug(2, bb.msg.domain.Build, "task rusage: %s" % (rusage))
++
+         if bb.msg.debug_level['default'] > 0:
+             os.remove(runfile)
+ #            os.remove(logfile)
+@@ -281,6 +296,7 @@ def exec_task(task, d):
+         data.update_data(localdata)
+         data.expandKeys(localdata)
+         event.fire(TaskStarted(task, localdata))
++        data.setVar('_STAT_RUSAGE', None, localdata)
+         exec_func(task, localdata)
+         event.fire(TaskSucceeded(task, localdata))
+     except FuncFailed, reason:
