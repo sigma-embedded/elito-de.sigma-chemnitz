@@ -3,6 +3,7 @@ SED :=			sed
 SVN :=			svn
 GIT :=			git
 WGET :=			wget
+TAR :=			tar
 abs_top_srcdir :=	$(abspath @abs_top_srcdir@)
 abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
@@ -27,8 +28,8 @@ CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksums.ini
 
 BITBAKE_BRANCH =	1.8
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
-BITBAKE_REV =		c16eeb1bc5a00ad036f56c97a339c775798abce5
-BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-snapshot.pack
+BITBAKE_REV =		53f097ed9f47426dc945c821ae2d6fa162659256
+BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -103,7 +104,11 @@ tmp/stamps/.bitbake.gitinit.stamp:
 			-cd tmp/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
 			-cd tmp/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
 			-cd tmp/bitbake && $(GIT) config remote.origin.tagopt --no-tags
-			-cd tmp/bitbake && $(WGET) $(BITBAKE_SNAPSHOT) -O - | $(GIT) unpack-objects -q
+			-cd tmp/bitbake/.git && $(WGET) $(BITBAKE_SNAPSHOT) -O - | $(TAR) -xf -
+			-cd tmp/bitbake/.git/objects/pack && for i in *-elito.pack; do \
+				test -e $$i || continue;	\
+				echo P $$i >> ../info/packs;	\
+			done
 			cd tmp/bitbake && { $(GIT) remote update || $(GIT) remote update; }
 			cd tmp/bitbake && $(GIT) checkout -b master --track origin/${BITBAKE_BRANCH}
 			cd tmp/bitbake && $(GIT) gc
