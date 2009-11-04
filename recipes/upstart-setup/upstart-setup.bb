@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.3"
-PR		= "r9"
+PR		= "r11"
 PACKAGE_ARCH	=  "all"
 
 SRC_URI		= "		\
@@ -58,7 +58,7 @@ RDEPENDS_${PN}-udev  = "udev"
 FILES_${PN}-mdev         = "		\
 	${j}init/mdev.conf		\
 "
-RDEPENDS_${PN}-mdev  = "busybox-mdev"
+RDEPENDS_${PN}-mdev  = "busybox"
 
 
 FILES_${PN}-net          = "	\
@@ -118,6 +118,14 @@ FILES_${PN}-hald = "\
 	${j}services/hald.conf	\
 	${sysconfdir}/files.d/*-hald.txt"
 RDEPENDS_${PN}-hald = "hal upstart-setup-dbus"
+
+python __anonymous () {
+    import bb
+    pkgs = bb.data.getVar("PACKAGES", d, True).split()
+    for p in pkgs:
+        bb.data.setVar("WEAK_RUNTIME_DEPENDENCIES_%s" % p, "True", d)
+}
+
 
 do_compile() {
 }
