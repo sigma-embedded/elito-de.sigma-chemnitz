@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "146"
-PR	= "r0"
+PR	= "r1"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -98,6 +98,8 @@ FILES_${PN}-libgudev  = "${libdir}/libgudev-*.so.*"
 FILES_${PN}-firmware  = " \
 	${libexecdir}/firmware.sh \
 	${rules_dir}/*firmware.rules"
+RPROVIDES_${PN}-firmware = "virtual/firmware-loader"
+
 FILES_${PN}-rulegen   = "	\
 	${libexecdir}/write_*_rules		\
 	${libexecdir}/rule_generator.functions	\
