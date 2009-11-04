@@ -1,14 +1,14 @@
 # --*- python -*--
 
 RRECOMMENDS_libasound_append = " ${@elito_base_switch(d, 'IMAGE_DEV_MANAGER', \
-'udev','udev-rules-alsa','')}"
+	'udev','udev-rules-alsa','')}"
 
 RRECOMMENDS_dropbear_append  = " ${@elito_base_switch(d, 'IMAGE_INIT_MANAGER', \
-'upstart', 'upstart-setup-dropbear', '')}"
+	'upstart', 'upstart-setup-dropbear', '')}"
 
-RRECOMMENDS_dbus_append = " ${elito_base_switch(d, 'IMAGE_INIT_MANAGER', \
-'upstart', 'upstart-setup-dbus', '')} \
-elito-dbus-base"
+RRECOMMENDS_dbus_append = " ${@elito_base_switch(d, 'IMAGE_INIT_MANAGER', \
+	'upstart', 'upstart-setup-dbus', '')} \
+	elito-dbus-base"
 
 RRECOMMENDS_kernel-module-rt73usb_append = " \
         wireless-tools rt73-firmware	\
