@@ -23,7 +23,14 @@ inherit task
 # value here.
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-DEPENDS += "upstart-setup alsa-utils"
+# add recipes which are not catched by normal dep resolving and which
+# would result into
+#
+# |  Collected errors:
+# |    * ERROR: Cannot satisfy the following dependencies for elito-task-core:
+#
+# like errors during rootfs creation.
+DEPENDS += "upstart-setup alsa-utils openntpd"
 
 RDEPENDS_${PN} = "\
 	files-@PROJECT_NAME@		\
