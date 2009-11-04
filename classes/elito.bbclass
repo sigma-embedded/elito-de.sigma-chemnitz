@@ -26,3 +26,16 @@ def elito_skip(d, feature_pos, feature_neg = None, var_name = "MACHINE_FEATURES"
 		raise bb.parse.SkipPackage('Package %s not available for this machine' % pn)
 	if (feature_pos == None and feature_neg == None):
 		raise bb.parse.ParseError('No feature given in package %s' % pn)
+
+def elito_base_switch(d, var_name, *args):
+	import bb
+
+	v = bb.data.getVar(var_name, d, 1)
+	if len(args) % 2 == 0:
+		raise bb.parse.ParseError('elito_base_switch called with odd number of parms: %s' % (args,))
+
+	for i in xrange(0, len(args)-1, 2):
+		if v == args[i]:
+			return args[i+1]
+
+	return args[-1]
