@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r5.${PROJECT_FILE_DATE}"
+PR           = "r6.${PROJECT_FILE_DATE}"
 
 do_distribute_sources() {
 }
@@ -50,11 +50,13 @@ RDEPENDS_${PN} += "\
     ${@base_contains("MACHINE_FEATURES", "keyboard", "keymaps", "", d)} \
     ${IMAGE_INITSCRIPTS}		\
     ${EXTRA_DEV_RULES}			\
-    ${IMAGE_DEV_MANAGER}		\
     ${IMAGE_INIT_MANAGER}		\
     ${IMAGE_LOGIN_MANAGER}		\
     ${PROJECT_EXTRA_RDEPENDS}		\
     "
+
+RDEPENDS_${PN}_udev += "udev"
+RDEPENDS_${PN}_mdev += "busybox"
 
 RRECOMMENDS_${PN} += "\
     ${PROJECT_EXTRA_RRECOMMENDS}	\
