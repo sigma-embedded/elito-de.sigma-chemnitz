@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r4.${PROJECT_FILE_DATE}"
+PR           = "r5.${PROJECT_FILE_DATE}"
 
 do_distribute_sources() {
 }
