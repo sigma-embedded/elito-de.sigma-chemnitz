@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r6.${PROJECT_FILE_DATE}"
+PR           = "r7.${PROJECT_FILE_DATE}"
 
 do_distribute_sources() {
 }
@@ -17,8 +17,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 #
 IMAGE_DEV_MANAGER ?= "${@base_contains("MACHINE_FEATURES", "kernel26",  "udev","",d)} "
 
-OVERRIDES .= "${@base_contains("IMAGE_DEV_MANAGER", "udev", ":udev", "", d)}"
-OVERRIDES .= "${@base_contains("IMAGE_DEV_MANAGER", "busybox-mdev", ":mdev", "", d)}"
+OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'udev', ':udev', '', d)}"
+OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '', d)}"
 
 EXTRA_DEV_RULES ?=
 EXTRA_DEV_RULES_append = " ${DEVFS_INIT_PROVIDER}"
@@ -41,6 +41,9 @@ PROJECT_EXTRA_RRECOMMENDS ?= ""
 # Make sure we build the kernel
 DEPENDS = "elito-task-boot"
 
+_DEV_MANAGER_DEPS_udev += "udev"
+_DEV_MANAGER_DEPS_mdev += "busybox"
+
 #
 # minimal set of packages - needed to boot
 #
@@ -53,10 +56,8 @@ RDEPENDS_${PN} += "\
     ${IMAGE_INIT_MANAGER}		\
     ${IMAGE_LOGIN_MANAGER}		\
     ${PROJECT_EXTRA_RDEPENDS}		\
+    ${_DEV_MANAGER_DEPS}		\
     "
-
-RDEPENDS_${PN}_udev += "udev"
-RDEPENDS_${PN}_mdev += "busybox"
 
 RRECOMMENDS_${PN} += "\
     ${PROJECT_EXTRA_RRECOMMENDS}	\
