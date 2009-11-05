@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.4"
-PR		= "r0"
+PR		= "r1"
 PACKAGE_ARCH	=  "all"
 
 SRC_URI		= "		\
@@ -45,6 +45,7 @@ FILES_${PN}-base = "				\
 	${j}init/ldconfig.conf			\
 	${j}shutdown/bind-mounts.conf		\
 	${j}shutdown/shutdown.conf		\
+	${j}wait/dev-urandom.conf               \
 	${sysconfdir}/files.d/*-log.txt		\
 "
 FILES_${PN}-base_append_arm += "${j}init/cpu-align.conf"
@@ -59,7 +60,7 @@ FILES_${PN}-udev         = "		\
 RDEPENDS_${PN}-udev  = "udev"
 
 FILES_${PN}-mdev         = "		\
-	${j}init/mdev.conf		\
+	${j}init/mdev*.conf		\
 "
 RDEPENDS_${PN}-mdev  = "busybox"
 
