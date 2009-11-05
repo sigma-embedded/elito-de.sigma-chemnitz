@@ -13,6 +13,7 @@ DEPENDS = "	\
 
 IMAGE_LINGUAS = ""
 IMAGE_INSTALL = "${MACHINE_TASK_PROVIDER}"
+IMAGE_BOOT    = ""
 
 IMAGE_FSTYPES_append_fs-mobm320 = " bootenv"
 
