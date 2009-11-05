@@ -36,6 +36,7 @@ s!@NTPD@!/usr/sbin/ntpd!g
 s!@HWCLOCK@!/sbin/hwclock!g
 s!@ALSACTL@!/usr/sbin/alsactl!g
 s!@SYSLOGD@!/sbin/syslogd!g
+s!@KLOGD@!/sbin/klogd!g
 s!@ELITO_LOAD_MODULES@!/sbin/elito-load-modules!g
 s!@ELITO_GENFILES@!/bin/elito-genfiles!g
 s!@SYSCTL_MINIT@!/sbin/sysctl.minit!g
