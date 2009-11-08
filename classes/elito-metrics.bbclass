@@ -3,7 +3,7 @@ addhandler elito_metrics_eventhandler
 
 def elito_metrics_write(d, str):
     import fcntl, bb
-    fname = bb.data.getVar('METRICS_FILE', d, False)
+    fname = bb.data.getVar('METRICS_FILE', d, True)
     assert(fname != None)
 
     f = open(fname + ".tmp", "a")
@@ -85,6 +85,7 @@ python elito_metrics_eventhandler() {
                                     elito_metrics_to_xml(now, res))) +
                         "  </metrics>\n")
             f_out.write('</build>\n')
+            os.unlink(fname + ".tmp")
         finally:
             f_in.close()
             f_out.close()
