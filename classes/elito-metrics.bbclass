@@ -43,7 +43,6 @@ python elito_metrics_eventhandler() {
 
 
     name = getName(e)
-    print name
     if name == "PkgStarted":
         assert data.getVar('_PKG_RESOURCES_SELF', e.data, False) == None
         assert data.getVar('_PKG_RESOURCES_CHLD', e.data, False) == None
