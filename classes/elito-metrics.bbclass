@@ -43,6 +43,7 @@ python elito_metrics_eventhandler() {
 
 
     name = getName(e)
+    print name
     if name == "PkgStarted":
         assert data.getVar('_PKG_RESOURCES_SELF', e.data, False) == None
         assert data.getVar('_PKG_RESOURCES_CHLD', e.data, False) == None
@@ -129,6 +130,7 @@ python elito_metrics_eventhandler() {
         'PR'  : data.getVar('PR', e.data, True),
         'PN'  : data.getVar('PN', e.data, True),
         'PF'  : data.getVar('PF', e.data, True),
+        'start_tm'     : data.getVar('_PKG_TIME', e.data, False),
         'start_tm_str' : time.strftime('%c', time.gmtime(data.getVar('_PKG_TIME', e.data, False))),
         'end_tm_str'   : time.strftime('%c', time.gmtime(now_tm)),
         'total_time' : now_tm - data.getVar('_PKG_TIME', e.data, False),
@@ -137,8 +139,8 @@ python elito_metrics_eventhandler() {
 
         x = \
         '  <!-- %(task)s(%(PF)s) | %(start_tm_str)s - %(end_tm_str)s -->\n' \
-        '  <task name="%(task)s" result="%(result)s" ' \
-        'time="%(now)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" duration="%(total_time)f">\n' % info
+        '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
+        'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f">\n' % info
 
         elito_metrics_write(e.data, x +
                             '    <!-- RUSAGE_CHILDREN -->\n' +
