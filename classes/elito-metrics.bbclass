@@ -118,6 +118,8 @@ python elito_metrics_eventhandler() {
         now_chld = resource.getrusage(resource.RUSAGE_CHILDREN)
         now_self = resource.getrusage(resource.RUSAGE_SELF)
 
+        now_tm   = time.time()
+
         assert(res_chld != None)
         assert(res_self != None)
 
@@ -128,8 +130,8 @@ python elito_metrics_eventhandler() {
         'PN'  : data.getVar('PN', e.data, True),
         'PF'  : data.getVar('PF', e.data, True),
         'start_tm_str' : time.strftime('%c', time.gmtime(data.getVar('_PKG_TIME', e.data, False))),
-        'end_tm_str'   : time.strftime('%c', time.gmtime(time.time())),
-        'total_time' : time.clock() - data.getVar('_PKG_CLOCK', e.data, False),
+        'end_tm_str'   : time.strftime('%c', time.gmtime(now_tm)),
+        'total_time' : now_tm - data.getVar('_PKG_TIME', e.data, False),
         'result' : ['FAIL','OK'][name == "TaskSucceeded"],
         'task' : e.task }
 
