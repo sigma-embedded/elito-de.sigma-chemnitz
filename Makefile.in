@@ -109,6 +109,7 @@ tmp/stamps/.bitbake.gitinit.stamp:
 				test -e $$i || continue;	\
 				echo P $$i >> ../info/packs;	\
 			done
+			-cd tmp/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV}
 			cd tmp/bitbake && { $(GIT) remote update || $(GIT) remote update; }
 			cd tmp/bitbake && $(GIT) checkout -b master --track origin/${BITBAKE_BRANCH}
 			cd tmp/bitbake && $(GIT) gc
