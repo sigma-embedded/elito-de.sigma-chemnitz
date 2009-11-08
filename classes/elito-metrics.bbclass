@@ -15,15 +15,17 @@ def elito_metrics_write(d, str):
 
 def elito_metrics_to_xml(res_a, res_b):
     res = []
-    for i in ('ru_utime', 'ru_stime',
-              'ru_maxrss', 'ru_majflt', 'ru_nswap', 'ru_inblock', 'ru_oublock'):
+    for i in filter(lambda x: x.startswith('ru_'), dir(res_a)):
         try:
             a = res_a.__getattribute__(i)
             b = res_b.__getattribute__(i)
+
+            if 0 and a == 0 and b == 0:
+                continue
         except:
             continue
 
-        res.append('<info name="%s">%f</info>' % (i, a-b))
+        res.append('<resource id="%s">%s</resource>' % (i[3:], a-b))
 
     return res
 
@@ -41,18 +43,18 @@ python elito_metrics_eventhandler() {
 
 
     name = getName(e)
-    if name == "TaskStarted":
-        assert data.getVar('_TASK_RESOURCES', e.data, False) == None
-        assert data.getVar('_TASK_TIME', e.data, False) == None
-        data.setVar('_TASK_RESOURCES', resource.getrusage(resource.RUSAGE_CHILDREN), e.data)
-        data.setVar('_TASK_TIME',      time.clock(), e.data)
+    if name == "PkgStarted":
+        assert data.getVar('_PKG_RESOURCES', e.data, False) == None
+        assert data.getVar('_PKG_TIME', e.data, False) == None
+
+        data.setVar('_PKG_RESOURCES', resource.getrusage(resource.RUSAGE_CHILDREN), e.data)
+        data.setVar('_PKG_TIME',      time.clock(), e.data)
     elif name == "BuildStarted":
         data.setVar('_BUILD_START_CLOCK', time.clock(), e.data)
         data.setVar('_BUILD_START_TIME', time.time(), e.data)
         data.setVar('_BUILD_RESOURCES', resource.getrusage(resource.RUSAGE_CHILDREN), e.data)
 
         dst_fname = data.getVar("METRICS_FILE", e.data, True)
-        fname     = os.tempnam(None, dst_fname)
         try:
             os.unlink(dst_fname + ".tmp")
         except:
@@ -91,26 +93,23 @@ python elito_metrics_eventhandler() {
             f_out.close()
 
     if name == "TaskSucceeded" or name == "TaskFailed":
-        res = data.getVar('_TASK_RESOURCES', e.data, False)
+        res = data.getVar('_PKG_RESOURCES', e.data, False)
         now = resource.getrusage(resource.RUSAGE_CHILDREN)
 
+        assert(res != None)
+
         info = {
-        'now' : time.strftime('%Y%m%dT%H%M%S'),
+        'now' : time.time(),
         'PV'  : data.getVar('PV', e.data, True),
         'PR'  : data.getVar('PR', e.data, True),
         'PN'  : data.getVar('PN', e.data, True),
         'PF'  : data.getVar('PF', e.data, True),
-        'total_time' : time.clock() - data.getVar('_TASK_TIME', e.data, False),
+        'total_time' : time.clock() - data.getVar('_PKG_TIME', e.data, False),
         'result' : ['FAIL','OK'][name == "TaskSucceeded"],
         'task' : e.task }
 
         x = '  <task name="%(task)s" result="%(result)s" ' \
-            'time="%(now)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" duration="%(total_time)f"\n' % info
-
-        for i in ('total_time', 'ru_utime', 'ru_stime',
-                  'ru_maxrss', 'ru_majflt', 'ru_nswap', 'ru_inblock', 'ru_oublock'):
-            if not info.has_key(i):
-                continue
+            'time="%(now)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" duration="%(total_time)f">\n' % info
 
         elito_metrics_write(e.data,
                             x + ''.join(map(lambda x: '    ' + x + '\n', elito_metrics_to_xml(now, res))) +
