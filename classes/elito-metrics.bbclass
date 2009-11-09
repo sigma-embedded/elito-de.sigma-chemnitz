@@ -86,10 +86,34 @@ python elito_metrics_eventhandler() {
                         (time.strftime('%c', time.gmtime(start_tm)),
                          time.strftime('%c', time.gmtime(now))))
 
-            f_out.write('<build started="%f" finished="%f" duration="%f">\n' %
-                        (data.getVar('_BUILD_START_TIME', e.data, False),
+            f_out.write('<build project="%s" started="%f" finished="%f"' \
+                        ' duration="%f">\n' %
+                        (data.getVar('PROJECT_NAME', e.data, True),
+                         data.getVar('_BUILD_START_TIME', e.data, False),
                          now,
                          now - data.getVar('_BUILD_START_TIME', e.data, False)))
+
+            f_out.write('  <sysinfo>\n')
+
+            uname = os.uname()
+            f_out.write('    <hostname>%s</hostname>\n' \
+                        '    <release>%s</release>\n' \
+                        '    <machine>%s</machine>\n' % \
+                        (uname[1], uname[2], uname[4]))
+
+            try:
+                total_mem = os.sysconf("SC_PHYS_PAGES") * os.sysconf("SC_PAGE_SIZE")
+                f_out.write('    <memory>%s</memory>\n' % total_mem)
+            except:
+                pass
+
+            try:
+                f_out.write('    <cpus>%s</cpus>\n' %
+                            os.sysconf("SC_NPROCESSORS_ONLN"))
+            except:
+                pass
+
+            f_out.write('  </sysinfo>\n')
 
             while True:
                buf = f_in.read(8192)
