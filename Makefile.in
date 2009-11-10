@@ -28,7 +28,8 @@ CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksums.ini
 
 BITBAKE_BRANCH =	1.8
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
-BITBAKE_REV =		53f097ed9f47426dc945c821ae2d6fa162659256
+BITBAKE_REV =		ffdba52362372efc5f18fd5d42697483c0109b4f
+BITBAKE_REV_S =		53f097ed9f47426dc945c821ae2d6fa162659256
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
 
 AUTOCONF_FILES =	Makefile		\
@@ -109,9 +110,9 @@ tmp/stamps/.bitbake.gitinit.stamp:
 				test -e $$i || continue;	\
 				echo P $$i >> ../info/packs;	\
 			done
-			-cd tmp/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV}
+			-cd tmp/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV_S}
 			cd tmp/bitbake && { $(GIT) remote update || $(GIT) remote update; }
-			cd tmp/bitbake && $(GIT) checkout -b master --track origin/${BITBAKE_BRANCH}
+			cd tmp/bitbake && $(GIT) checkout -b master ${BITBAKE_REV}
 			cd tmp/bitbake && $(GIT) gc
 			@touch $@
 
