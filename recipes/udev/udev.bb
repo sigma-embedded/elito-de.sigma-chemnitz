@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "146"
-PR	= "r2"
+PR	= "r3"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -16,15 +16,17 @@ SRC_URI = "	\
 	file://60-ubi.rules			\
 "
 
-sbindir    = "/sbin"
-rootlibdir = "/lib"
-libexecdir = "${rootlibdir}/udev"
-rules_dir  = "${libexecdir}/rules.d"
+_sbindir    = "/sbin"
+rootlibdir  = "/lib"
+_libexecdir = "${rootlibdir}/udev"
+rules_dir   = "${_libexecdir}/rules.d"
 
 EXTRA_OECONF = "\
 	--enable-static \
 	--with-pci-ids-path=/usr/share/pci.ids \
-	--with-rootlibdir=${rootlibdir}"
+	--with-rootlibdir=${rootlibdir} \
+	--libexecdir=${_libexecdir} \
+	--sbindir=${_sbindir}"
 
 inherit autotools_stage pkgconfig
 
@@ -39,7 +41,7 @@ PACKAGES_DYNAMIC += "$PN-*-id"
 python populate_packages_prepend() {
 	import bb
 	pn      = bb.data.getVar('PN', d, 1)
-	libdir  = bb.data.getVar('libexecdir', d, 1)
+	libdir  = bb.data.getVar('_libexecdir', d, 1)
 	pkgs    = bb.data.getVar('PACKAGES', d, 1).split()
 
 	id_progs=("ata", "cdrom", "edd", "path", "scsi", "usb", "v4l")
@@ -67,41 +69,41 @@ do_stage_append() {
 FILES_${PN} = "\
 	${sysconfdir}/udev/udev.conf	\
 	${sysconfdir}/udev/rules.d	\
-	${sbindir}/udevd		\
-	${sbindir}/udevadm		\
+	${_sbindir}/udevd		\
+	${_sbindir}/udevadm		\
 	${rules_dir}/.empty		\
 "
 RRECOMMENDS_${PN} = "${PN}-rules-base"
 RPROVIDES_${PN}  += "udev-utils"
 
 FILES_${PN}-keymaps = "\
-	${libexecdir}/keymap \
-	${libexecdir}/keymaps"
+	${_libexecdir}/keymap \
+	${_libexecdir}/keymaps"
 
 FILES_${PN}-extra = "\
-	${libexecdir}/create_floppy_devices	\
-	${libexecdir}/collect			\
+	${_libexecdir}/create_floppy_devices	\
+	${_libexecdir}/collect			\
 "
 
 FILES_${PN}-scsi-id += "/etc/scsi_id.config"
 
 FILES_${PN}-fstab-import = "\
-	${libexecdir}/fstab_import			\
+	${_libexecdir}/fstab_import			\
 	${rules_dir}/*fstab_import.rules	\
 "
 
-FILES_${PN}-usb-id   += "${libexecdir}/usb-db"
+FILES_${PN}-usb-id   += "${_libexecdir}/usb-db"
 
 FILES_${PN}-lib       = "${rootlibdir}/libudev.so.*"
 FILES_${PN}-libgudev  = "${libdir}/libgudev-*.so.*"
 
 FILES_${PN}-firmware  = " \
-	${libexecdir}/firmware.sh \
+	${_libexecdir}/firmware.sh \
 	${rules_dir}/*firmware.rules"
 
 FILES_${PN}-rulegen   = "	\
-	${libexecdir}/write_*_rules		\
-	${libexecdir}/rule_generator.functions	\
+	${_libexecdir}/write_*_rules		\
+	${_libexecdir}/rule_generator.functions	\
 "
 
 FILES_${PN}-rules-base = "	\
