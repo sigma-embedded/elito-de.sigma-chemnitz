@@ -28,6 +28,7 @@ do_compile() {
 
 do_install_append() {
 	mv ${D}/sbin/init ${D}/sbin/init.upstart
+        rm -f ${D}${datadir}/aclocal/*.m4
 }
 
 RDEPENDS_${PN}	+= "update-alternatives"
