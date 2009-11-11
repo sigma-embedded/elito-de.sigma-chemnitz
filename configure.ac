@@ -257,6 +257,7 @@ ELITO_CHECK_PROGRAM( 0, UNIFDEF,    unifdef)
 ELITO_CHECK_PROGRAM( 0, GPERF,      gperf)
 ELITO_CHECK_PROGRAM( 5, SHARED_MIME_INFO,   update-mime-database, shared-mime-info)
 ELITO_CHECK_PROGRAM( 0, DESKTOP_FILE_UTILS, desktop-file-install, desktop-file-utils)ELITO_CHECK_PROGRAM( 0, MKFONTSCALE, mkfontscale)
+ELITO_CHECK_PROGRAM( 0, DOCBOOK_UTILS, docbook2man, docbook-utils)
 
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
