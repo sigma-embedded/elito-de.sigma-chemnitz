@@ -2,7 +2,7 @@ DESCRIPTION	=  "UBI bootstrap kernel"
 SECTION		=  "kernel"
 LICENSE		=  "GPL"
 
-PR		=  "r1"
+PR		=  "r2"
 PACKAGE_ARCH	=  "${MACHINE_ARCH}"
 
 KERNEL_BOOTSTRAP_TFTP_IMAGE ?= ""
