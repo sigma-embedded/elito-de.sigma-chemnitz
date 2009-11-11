@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "146"
-PR	= "r3"
+PR	= "r4"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -120,3 +120,5 @@ FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
 
 FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
 FILES_${PN}-dev             += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
+
+FILES_${PN}-dbg		    += "/lib/udev/.debug"
