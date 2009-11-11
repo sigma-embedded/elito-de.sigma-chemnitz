@@ -1,5 +1,5 @@
 PV = "0.6.3"
-PR = "r1"
+PR = "r2"
 
 ## dynamic libnih0 support is broken; resulting upstart dies with
 ##   initctl:list.c:141: Assertion failed in nih_list_add: list != NULL

@@ -8,10 +8,7 @@ DEPENDS          = "dbus-native (>=1.2.16) expat-native \
 
 inherit autotools autotools_stage native
 
-libdir           = "/lib"
-sbindir          = "${base_prefix}/sbin"
-
-EXTRA_OECONF     = "--disable-static"
+EXTRA_OECONF     = "--disable-static --libdir=/lib --sbindir=${base_prefix}/sbin"
 
 do_stage_append() {
 	mkdir -p ${STAGING_BINDIR}

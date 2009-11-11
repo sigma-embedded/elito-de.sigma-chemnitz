@@ -7,10 +7,7 @@ DEPENDS          = "dbus expat bison-native pkgconfig-native upstart-native"
 
 inherit autotools
 
-libdir           = "/lib"
-sbindir          = "/sbin"
-
-EXTRA_OECONF     = "--disable-static --disable-rpath"
+EXTRA_OECONF     = "--disable-static --disable-rpath --libdir=/lib --sbindir=/sbin"
 EXTRA_AUTORECONF = "--force"
 
 do_configure_prepend_dyn() {

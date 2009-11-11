@@ -1,5 +1,5 @@
 PV = "0.6.3"
-PR = "r1"
+PR = "r2"
 
 
 ## dynamic libnih0 support is broken; resulting upstart dies with
@@ -25,7 +25,7 @@ PACKAGES     =+ "${PN}-samples"
 
 
 FILES_${PN}-tools        = "${bindir}/*"
-FILES_${PN}-lib          = "${libdir}/*.so.*"
+FILES_${PN}-lib          = "/lib/*.so.*"
 LEAD_SONAME              = "libnih.so"
 
 FILES_${PN}-samples = "	\
