@@ -1322,3 +1322,18 @@ zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
 "
+
+PKGDUP_IGNORES = " \
+abiword_0:2.4.6-r2 \
+abiword_0:2.5.2-r1 \
+abiword_0:2.6.8-r0 \
+abiword-embedded_2.4.6 \
+abiword-embedded_2.5.2 \
+abiword-plugins_2.4.6 \
+abiword-plugins_2.5.2 \
+aircrack-ng_1.0-svn \
+altboot_1.1.1+wip-SVNR83 \
+appweb_1.2.0 \
+apr_0.9.12 \
+apr_1.2.12 \
+"
