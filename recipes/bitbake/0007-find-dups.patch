@@ -1,0 +1,69 @@
+Index: lib/bb/cooker.py
+===================================================================
+--- lib/bb/cooker.py.orig
++++ lib/bb/cooker.py
+@@ -556,6 +556,54 @@ class BBCooker:
+ 
+         sys.exit(0)
+ 
++    def findDups(self):
++        ignores = bb.data.getVar("PKGDUP_IGNORES", self.configuration.data, 1) or ""
++        ignores = dict(map(lambda x: (x,0), ignores.split()))
++
++        dupes   = {}
++        scm_suf = re.compile('.*[-_](svn|cvs|git|hg)\\.bb$')
++
++        for (pn,fns) in self.status.pkg_pn.items():
++            if len(fns) <= 1:
++                continue
++
++            tmp = []
++            for f in fns:
++                if scm_suf.match(f):
++                    continue
++
++                pepvpr = self.status.pkg_pepvpr[f]
++                label  = "%s:%s-%s" % pepvpr
++                bname  = os.path.basename(f).rstrip('.bb')
++
++                if ignores.has_key(bname):
++                    ignores[bname] = 1
++                    continue
++
++                tmp.append([pepvpr, label, f])
++
++            if len(tmp) <= 1:
++                continue
++
++            assert not dupes.has_key(pn)
++            dupes[pn] = tmp
++
++        dmap = dupes.items()
++        dmap.sort(cmp = (lambda x,y: cmp(x[0], y[0])))
++
++        for (pn, entries) in dmap:
++            entries.sort(cmp = (lambda x,y: utils.vercmp(x[0], y[0])))
++
++            print pn, '(' + (", ".join(map(lambda x: x[1], entries))) + ')'
++
++            for e in entries:
++                print "    ", e[2]
++
++        eignores = filter(lambda (x,y): y == 0, ignores.items())
++        for i in eignores:
++            bb.msg.warn(bb.msg.domain.Collection,
++                        "unused '%s' pkgdup ignore" % i[0])
++
+     def updateCache(self):
+         # Import Psyco if available and not disabled
+         import platform
+@@ -583,6 +631,9 @@ class BBCooker:
+         self.parse_bbfiles(filelist, masked, self.myProgressCallback)
+         bb.msg.debug(1, bb.msg.domain.Collection, "parsing complete")
+ 
++        if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++            self.findDups()
++
+         self.buildDepgraph()
+ 
+     def cook(self):
