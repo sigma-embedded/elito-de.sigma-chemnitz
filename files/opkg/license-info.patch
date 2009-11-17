@@ -18,38 +18,33 @@ Index: trunk/libopkg/pkg_parse.c
 ===================================================================
 --- trunk.orig/libopkg/pkg_parse.c
 +++ trunk/libopkg/pkg_parse.c
-@@ -345,6 +345,12 @@ int pkg_parse_raw(pkg_t *pkg, char ***ra
- 	    
- 	    break;
+@@ -267,6 +267,11 @@ pkg_parse_line(pkg_t *pkg, const char *l
+ 			parse_version(pkg, line);
+ 		break;
  
 +	case 'L':
-+	    if(isGenericFieldType("License", *lines))
-+	        pkg->license = parseGenericFieldType("License", *lines);
-+
-+	    break;
++		if((mask & PFM_LICENSE) && is_field("License", line))
++			pkg->license = parse_simple("License", line);
++		break;
 +
  	case ' ':
- 	    if(reading_description) {
- 		/* we already know it's not blank, so the rest of description */      
+ 		if ((mask & PFM_DESCRIPTION) && reading_description) {
+ 			pkg->description = xrealloc(pkg->description,
 Index: trunk/libopkg/pkg.c
 ===================================================================
 --- trunk.orig/libopkg/pkg.c
 +++ trunk/libopkg/pkg.c
-@@ -606,6 +606,11 @@ char * pkg_formatted_info(pkg_t *pkg )
-      strncat(buff ,line, strlen(line));
-      free(line);
- 
-+     line = pkg_formatted_field(pkg, "License");
-+     CHECK_BUFF_SIZE(buff, line, buff_size, page_size);
-+     strncat(buff ,line, strlen(line));
-+     free(line);
-+
-      line = pkg_formatted_field(pkg, "Installed-Time");
-      CHECK_BUFF_SIZE(buff, line, buff_size, page_size);
-      strncat(buff ,line, strlen(line));
-@@ -811,6 +816,25 @@ char * pkg_formatted_field(pkg_t *pkg, c
+@@ -97,6 +97,7 @@ int pkg_init(pkg_t *pkg)
+      pkg->maintainer = NULL;
+      pkg->section = NULL;
+      pkg->description = NULL;
++     pkg->license = NULL;
+      pkg->state_want = SW_UNKNOWN;
+      pkg->state_flag = SF_OK;
+      pkg->state_status = SS_NOT_INSTALLED;
+@@ -613,6 +614,19 @@ void pkg_formatted_field(FILE *fp, pkg_t
+                fprintf(fp, "Installed-Time: %lu\n", pkg->installed_time);
  	  }
-      }
  	  break;
 +     case 'l':
 +     case 'L': {
@@ -57,13 +52,7 @@ Index: trunk/libopkg/pkg.c
 +	  if (strcasecmp(field, "License") == 0) {
 +	       /* License */
 +	       if (pkg->license) {
-+                   temp = (char *)realloc(temp,strlen(pkg->license)+11);
-+                   if ( temp == NULL ){
-+	              fprintf(stderr, "%s: out of memory\n", __FUNCTION__);
-+	              return NULL;
-+                   }
-+                   temp[0]='\0';
-+                   snprintf(temp, (strlen(pkg->license)+11), "License: %s\n", pkg->license);
++                   fprintf(fp, "License: %s\n", pkg->license);
 +	       }
 +	  } else {
 +	       goto UNKNOWN_FMT_FIELD;
@@ -71,5 +60,26 @@ Index: trunk/libopkg/pkg.c
 +     }
 +	  break;
       case 'm':
-      case 'M': {
- 	  /* Maintainer | MD5sum */
+      case 'M':
+ 	  if (strcasecmp(field, "Maintainer") == 0) {
+@@ -761,6 +775,7 @@ void pkg_formatted_info(FILE *fp, pkg_t 
+ 	pkg_formatted_field(fp, pkg, "Conffiles");
+ 	pkg_formatted_field(fp, pkg, "Source");
+ 	pkg_formatted_field(fp, pkg, "Description");
++	pkg_formatted_field(fp, pkg, "License");
+ 	pkg_formatted_field(fp, pkg, "Installed-Time");
+ 	pkg_formatted_field(fp, pkg, "Tags");
+ 	fputs("\n", fp);
+Index: trunk/libopkg/pkg_parse.h
+===================================================================
+--- trunk.orig/libopkg/pkg_parse.h
++++ trunk/libopkg/pkg_parse.h
+@@ -53,6 +53,8 @@ int pkg_parse_from_stream_nomalloc(pkg_t
+ #define PFM_TAGS		(1 << 25)
+ #define PFM_VERSION		(1 << 26)
+ 
++#define PFM_LICENSE		(1u << 31)
++
+ #define PFM_ALL	(~(uint)0)
+ 
+ #endif
