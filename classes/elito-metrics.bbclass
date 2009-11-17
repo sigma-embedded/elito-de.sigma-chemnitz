@@ -158,12 +158,13 @@ python elito_metrics_eventhandler() {
         'end_tm_str'   : time.strftime('%c', time.gmtime(now_tm)),
         'total_time' : now_tm - data.getVar('_PKG_TIME', e.data, False),
         'result' : ['FAIL','OK'][name == "TaskSucceeded"],
+        'preference' : data.getVar('DEFAULT_PREFERENCE', e.data, True) or '0',
         'task' : e.task }
 
         x = \
         '  <!-- %(task)s(%(PF)s) | %(start_tm_str)s - %(end_tm_str)s -->\n' \
         '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
-        'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f">\n' % info
+        'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s">\n' % info
 
         elito_metrics_write(e.data, x +
                             '    <!-- RUSAGE_CHILDREN -->\n' +
