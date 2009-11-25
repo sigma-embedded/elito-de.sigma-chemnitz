@@ -1,5 +1,5 @@
 DESCRIPTION = "Generates makefile in workspace directory"
-PV = "0.2"
+PV = "0.3"
 PR = "r1"
 LICENSE = "GPLv3"
 
@@ -78,6 +78,8 @@ do_configure() {
 ## --*- makefile -*--
 
 ${_export_vars_gen}
+
+export DESTDIR  = ${IMAGE_ROOTFS}
 
 export _CCACHE	= `${WHICH} ccache 2>/dev/null`
 export _CROSS	= ${TARGET_PREFIX}
