@@ -6,13 +6,14 @@ LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "146"
-PR	= "r4"
+PR	= "r5"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
 	file://udev-145-settlerace.patch;patch=1	\
 	file://udev-145-stop.patch;patch=1		\
 	file://udev-145-cross.patch;patch=1		\
+	file://udev-145-target-input.patch;patch=1	\
 	file://60-ubi.rules			\
 "
 
