@@ -1,4 +1,5 @@
 ## -*- python -*-
+COMPONENT ?= "${PN}"
 OVERRIDES .= ":${@base_contains('ELITO_DEVEL_COMPONENTS',\
                  bb.data.getVar('COMPONENT', d, 1),'devel','nondevel',d)}"
 
