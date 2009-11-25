@@ -104,6 +104,7 @@ bison-native_2.0 \
 bison_2.0 \
 bitmap_1.0.2 \
 bitmap_1.0.2 \
+blueman_1.10 \
 bluez-cups-backend_3.33 \
 bluez-cups-backend_3.33 \
 bluez-gstreamer-plugin_3.33 \
@@ -188,6 +189,7 @@ cups_1.1.23 \
 cups_1.2.12 \
 cups_1.2.7 \
 curl_7.18.2 \
+curl_7.19.6 \
 cvs_1.12.8 \
 cyrus-imapd_2.2.5 \
 cyrus-sasl_2.1.17 \
@@ -641,7 +643,9 @@ gtksourceview2_2.6.0 \
 gtksourceview2_2.7.3 \
 guile-native_1.8.2 \
 guile-native_1.8.5 \
+guile-native_1.8.6 \
 guile_1.8.5 \
+guile_1.8.6 \
 gupnp-av_0.2 \
 gupnp_0.12.4 \
 gvfs_0.0.2 \
@@ -775,6 +779,7 @@ libgles-omap3_3.00.00.01 \
 libgles-omap3_3.00.00.05 \
 libgles-omap3_3.00.00.06 \
 libgles-omap3_3.00.00.08 \
+libgles-omap3_3.00.00.09 \
 libgmime_2.1.7 \
 libgnome_2.10.1 \
 libgnome_2.12.0.1 \
@@ -790,6 +795,8 @@ libgnomecanvas_2.20.0 \
 libgnomecanvas_2.6.1.1 \
 libgnomecups_0.2.2 \
 libgnomekbd_2.24.0 \
+libgnomeprint_2.6.2 \
+libgnomeprint_2.8.2 \
 libgnomeprintui_2.6.2 \
 libgnomeprintui_2.8.2 \
 libgnomeui_2.12.0 \
@@ -837,6 +844,7 @@ libgweather_2.26.0 \
 libgweather_2.26.2.1 \
 libhtml-parser-perl-native_3.60 \
 libhtml-parser-perl_3.60 \
+libical_0.27 \
 libiconv_1.11 \
 libidn_0.5.19 \
 libintl-perl-native_1.11 \
@@ -874,6 +882,7 @@ libopietooth1_1.2.2 \
 libopietooth1_1.2.3 \
 libosip2_2.2.2 \
 libpam_0.79 \
+libpam_1.0.2 \
 libpcap_0.9.3 \
 libpcap_0.9.5 \
 libpcap_0.9.8 \
@@ -895,6 +904,7 @@ libschedule_0.16 \
 libsdl-directfb_1.2.9 \
 libsdl-gfx_2.0.11 \
 libsdl-image_1.2.3 \
+libsdl-mixer_1.2.10 \
 libsdl-mixer_1.2.6 \
 libsdl-mixer_1.2.8 \
 libsdl-mixer_1.2.9 \
@@ -916,6 +926,7 @@ libsoup_2.2.93 \
 libsoup_2.2.96 \
 libsvg-cairo_0.1.5 \
 libsyncml_0.4.0 \
+libsyncml_0.4.6 \
 libtelepathy_0.0.53 \
 libtelepathy_0.2.0 \
 libtinymail_0.0.1 \
@@ -959,6 +970,7 @@ lighttpd_1.4.18 \
 linphone_0.12.2 \
 linphone_1.3.99.8 \
 linphone_1.5.0 \
+linphone_1.6.0 \
 linux-davinci_2.6.25 \
 linux-davinci_2.6.27 \
 linux-davinci_2.6.28 \
@@ -1264,6 +1276,7 @@ olsrd_0.4.9 \
 olsrd_0.5.3 \
 omap3-sgx-modules_1.2.12.838 \
 omap3-sgx-modules_1.3.13.1397 \
+omap3-sgx-modules_1.3.13.1607 \
 opal_3.4.4 \
 opal_3.5.2 \
 opal_3.6.1 \
@@ -1465,6 +1478,7 @@ pwc_10.0.7a \
 pwc_10.0.9-rc1 \
 pwlib_1.5.2 \
 python-gst_0.10.10 \
+python-pybluez_0.15 \
 python-pycairo_1.4.0 \
 python-pygobject-native_2.14.2 \
 python-pygobject-native_2.16.0 \
@@ -1498,6 +1512,7 @@ quilt-native_0.46 \
 quilt_0.39 \
 quilt_0.45 \
 quilt_0.46 \
+qwo_0.4 \
 radvd_0.7.2 \
 rdesktop_1.3.1 \
 rdesktop_1.4.1 \
@@ -1531,6 +1546,7 @@ sablevm_1.1.9 \
 sablevm_1.11.3 \
 samba_3.0.23c \
 samba_3.3.0 \
+sane-backends_1.0.19 \
 schroedinger_0.2.0.0 \
 screen_4.0.2 \
 scummvm_0.6.0 \
@@ -1547,6 +1563,7 @@ sed_4.1.1 \
 sessreg_1.0.2 \
 sessreg_1.0.3 \
 setxkbmap_1.0.3 \
+shadow_4.1.4 \
 shared-mime-info_0.20 \
 shared-mime-info_0.22 \
 showfont_1.0.1 \
@@ -1608,6 +1625,7 @@ syslog-ng_1.6.8 \
 sysstat_8.1.5 \
 taglib_1.4 \
 tango-icon-theme_0.7.2 \
+tangogps_0.9.6 \
 tar_1.13.93 \
 tar_1.18 \
 tar_1.20 \
@@ -1640,6 +1658,7 @@ tzcode-native_2007k \
 tzdata_2007k \
 tzdata_2009m \
 tzdata_2009o \
+tzdata_2009p \
 u-boot-omap2430sdp_1.1.4 \
 u-boot-omap3beagleboard_1.1.4 \
 u-boot_1.1.2 \
@@ -1706,6 +1725,7 @@ vte_0.16.14 \
 watchdog_5.2.6 \
 watchdog_5.3.1 \
 watchdog_5.4 \
+wbxml2_0.9.2 \
 wget_1.9.1 \
 wireshark_0.99.4 \
 wlan-ng-utils_0.2.7 \
@@ -1891,6 +1911,7 @@ xorg-sgml-doctools_1.1.1 \
 xournal_0.3.3 \
 xournal_0.4 \
 xournal_0.4.0.1 \
+xournal_0.4.1 \
 xpr_1.0.1 \
 xprop_1.0.2 \
 xrandr_1.2.0 \
