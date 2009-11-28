@@ -10,6 +10,8 @@ S		= "${WORKDIR}/git"
 
 inherit elito-develcomp
 
+PV_nondevel_append = "+gitr${SRCPV}"
+
 do_compile() {
 	oe_runmake
 }
