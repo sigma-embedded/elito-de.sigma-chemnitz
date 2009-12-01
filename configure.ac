@@ -289,6 +289,8 @@ PKG_CHECK_MODULES(GLIB20,    [glib-2.0],    [ELITO_ASSUME(70, glib20,    true, g
 PKG_CHECK_MODULES(DBUS,      [dbus-1],      [ELITO_ASSUME(70, dbus,      true)],      [true])
 PKG_CHECK_MODULES(DBUS_GLIB, [dbus-glib-1], [ELITO_ASSUME(70, dbus_glib, true, dbus-glib-native)], [true])
 PKG_CHECK_MODULES(ORBIT2,    [ORBit-2.0],   [ELITO_ASSUME(70, orbit2,    true)], [true])
+PKG_CHECK_MODULES(OPENSSL,   [openssl libssl libcrypto],
+		  [ELITO_ASSUME(0, openssl, true)], [true])
 
 AC_CONFIG_FILES([Makefile
 		set-env.in
