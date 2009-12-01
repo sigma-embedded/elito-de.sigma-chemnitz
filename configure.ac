@@ -170,6 +170,21 @@ AC_SUBST([WHICH],[$ensc_cv_PROG_WHICH])
 
 dnl -----------------
 
+PKG_PROG_PKG_CONFIG()
+AC_MSG_CHECKING([for native pkg-config path])
+AC_CACHE_VAL([ensc_cv_PKGCONFIG_PATHS],[
+	paths=$(env LANG=C ${PKG_CONFIG} --debug 2>&1 | \
+                sed "/^Scanning directory/s|.*'\([[^']]*\)'|\1|p;d")
+	ensc_cv_PKGCONFIG_PATHS=
+	for i in $paths; do
+	    ensc_cv_PKGCONFIG_PATHS=$ensc_cv_PKGCONFIG_PATHS:$i
+	done
+])
+AC_MSG_RESULT([$ensc_cv_PKGCONFIG_PATHS])
+AC_SUBST([EXTRA_NATIVE_PKGCONFIG_PATH],[$ensc_cv_PKGCONFIG_PATHS])
+
+dnl -----------------
+
 AC_ARG_VAR(EXTRA_BBFILES, [Extra bitbake files])
 ELITO_TRUE_FALSE(EXTRA_BBFILES, test x"${EXTRA_BBFILES}" != x)
 
