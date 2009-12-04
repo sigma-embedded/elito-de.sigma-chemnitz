@@ -89,6 +89,9 @@ update-checksum:
 			cat $(_tmpfile) >$(CHECKSUM_FILE)
 			rm -f tmp/checksums.ini
 
+find-dups:
+			./bitbake -l Collection -d
+
 tmp/stamps/.filesystem.stamp:
 			mkdir -p ${_CCACHE_DIR}
 			@touch $@
