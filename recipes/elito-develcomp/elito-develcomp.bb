@@ -1,6 +1,6 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 PV = "0.3"
-PR = "r1"
+PR = "r2"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -86,7 +86,7 @@ export _CROSS	= ${TARGET_PREFIX}
 export _ARCH	= ${TARGET_ARCH}
 
 SH     ?= /bin/bash
-PS1     = [\\033[1;34m${PROJECT_NAME}\\033[0;39m|\\u@\\h \\W]\\044$
+PS1     = [\\[\\033[1;34m\\]${PROJECT_NAME}\\[\\033[0;39m\\]|\\u@\\h \\W]\\044$
 _start	= env -u MAKELEVEL
 
 _project_cfg = ${PROJECT_TOPDIR}/mk/\$(CFG).mk
