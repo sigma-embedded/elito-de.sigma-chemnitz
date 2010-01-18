@@ -1,5 +1,5 @@
 PV = "0.6.3"
-PR = "r3"
+PR = "r4"
 
 
 ## dynamic libnih0 support is broken; resulting upstart dies with
@@ -28,6 +28,8 @@ FILES_${PN}-tools        = "${bindir}/*"
 FILES_${PN}-lib          = "/lib/*.so.*"
 LEAD_SONAME              = "libnih.so"
 
+FILES_${PN}-dev += "/lib/*.so"
+
 FILES_${PN}-samples = "	\
 	/etc/init/*"
 
@@ -49,6 +51,7 @@ FILES_${PN}-sysv-tools = " \
 RDEPENDS_${PN}-sysv-tools = "${PN}"
 
 FILES_${PN}-compat = " \
+	/sbin/restart		\
 	/sbin/start		\
 	/sbin/status		\
 	/sbin/stop		\

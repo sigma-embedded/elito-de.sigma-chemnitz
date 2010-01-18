@@ -1,5 +1,5 @@
 PV = "0.6.3"
-PR = "r3"
+PR = "r4"
 
 ## dynamic libnih0 support is broken; resulting upstart dies with
 ##   initctl:list.c:141: Assertion failed in nih_list_add: list != NULL
@@ -24,6 +24,8 @@ FILES_${PN} = "	\
 	/sbin/initctl		\
 "
 
+FILES_${PN}-dev += "/lib/*.so"
+
 FILES_${PN}-sysv-tools = " \
 	/sbin/halt		\
 	/sbin/reboot		\
@@ -35,6 +37,7 @@ FILES_${PN}-sysv-tools = " \
 RDEPENDS_${PN}-sysv-tools = "${PN}"
 
 FILES_${PN}-compat = " \
+	/sbin/restart		\
 	/sbin/start		\
 	/sbin/status		\
 	/sbin/stop		\
