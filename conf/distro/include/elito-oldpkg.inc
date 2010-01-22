@@ -1,3 +1,5 @@
+#######################################
+
 ELITO_OLD_CRUFT = "\
 0xffff-native_0.1	\
 0xffff_0.1	\
@@ -2277,9 +2279,56 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
+xvidtune_1.0.1 \
+xserver-xorg_1.7.3 \
+xf86-video-vmware_10.16.8 \
+wxwidgets_2.8.10 \
+wpa-gui_0.6.4 \
+whois_4.5.25 \
+vagalume_0.7.1 \
+util-macros-native_1.4.1 \
+util-macros_1.4.1 \
+transmission_1.76+1.80b3 \
+totem_2.28.1 \
+tgt_0.9.10 \
+telepathy-glib_0.7.29 \
+sysstat_8.1.6 \
+resolvconf_1.43 \
+packagekit_0.4.8 \
+obexd_0.19 \
+libx11-native_1.3.2 \
+libx11_1.3.2 \
+libgdata_0.4.0 \
+libdrm_2.4.12 \
+hamlib_1.2.9 \
+gupnp-vala_0.4 \
+gupnp-tools_0.7 \
+gupnp-av_0.3 \
+gupnp_0.12.5 \
+gst-rtsp_0.10.4 \
+gssdp_0.6.3 \
+gnome-doc-utils_0.12.0 \
+glproto_1.4.10 \
+gimp_2.6.3 \
+fltk_1.1.9 \
+empathy_2.26.1 \
+e2fsprogs-native_1.41.5 \
+e2fsprogs_1.41.5 \
+dri2proto_2.1 \
+cbrpager_0.9.14 \
+bzip2_1.0.2 \
+automake-native_1.11 \
+automake_1.11 \
+at91bootstrap_2.11 \
 "
 
+############################################
+
 PKGDUP_IGNORES = " \
+transmission_1.76+1.80b4 \
+xf86-video-intel_2.9.1 \
+xf86-video-vesa_2.2.1 \
+xserver-xorg_1.6.1 \
 altboot_1.1.1+wip-SVNR83 \
 bash_3.0 \
 binutils-cross-sdk_2.19.51.0.14 \
