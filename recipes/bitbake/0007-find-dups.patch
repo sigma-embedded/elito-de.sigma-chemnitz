@@ -11,7 +11,7 @@ Index: lib/bb/cooker.py
 +        ignores = dict(map(lambda x: (x,0), ignores.split()))
 +
 +        dupes   = {}
-+        scm_suf = re.compile('.*[-_](svn|cvs|git|hg)\\.bb$')
++        scm_suf = re.compile('.*[-+_](svn|cvs|git|hg)\\.bb$')
 +
 +        for (pn,fns) in self.status.pkg_pn.items():
 +            if len(fns) <= 1:
