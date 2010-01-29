@@ -1,7 +1,7 @@
 SECTION		= "base"
 DESCRIPTION	= "ELiTo Base utilities"
 LICENSE		= "GPLv3"
-PV		= "0.8.8"
+PV		= "0.8.10"
 PR		= "r0"
 
 bindir		= "/bin"
@@ -11,15 +11,17 @@ PACKAGE_ARCH	= "${MACHINE_ARCH}"
 PACKAGES	=  "${PN}-dbg ${PN}"
 RCONFLICTS_${PN} = "sysvinit"
 
+S               = "${WORKDIR}/elito-setup-${PV}"
 SRC_URI		= " \
-	${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2 \
+	${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2;name=tarball \
 	file://mdev.dbg"
 
-S               = "${WORKDIR}/elito-setup-${PV}"
+SRC_URI[tarball.md5sum]    = "7dd0ba7f011c8f795770af0a93ef9cd6"
+SRC_URI[tarball.sha256sum] = "bed00807ee2ae62b0ef07d2fe62dff03fd78c3f510000c3259065262c7be26f5"
 
-OVERRIDES	.= "${@base_conditional('IMAGE_DEV_MANAGER','busybox-mdev',':mdev','',d)}"
-OVERRIDES	.= "${@base_contains('MACHINE_FEATURES','modules','',':nomodules',d)}"
 
+OVERRIDES .= "${@base_conditional('IMAGE_DEV_MANAGER','busybox-mdev',':mdev','',d)}"
+OVERRIDES .= "${@base_contains('MACHINE_FEATURES','modules','',':nomodules',d)}"
 
 FILES_${PN}	= "	\
 	${sbindir}/*			\
