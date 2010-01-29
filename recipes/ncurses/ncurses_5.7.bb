@@ -1,5 +1,5 @@
-PATCHDATE = "20091024"
-PR = "r1.${PATCHDATE}"
+PATCHDATE = "20100123"
+PR = "r2.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
@@ -34,62 +34,21 @@ FILES_ncurses-libmenu  = "${libdir}/libmenu.so.*"
 FILES_${PN} = "${bindir}/tput ${bindir}/tset ${libdir}/lib*.so.* usr/share/tabset etc/terminfo"
 
 SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081115.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081122.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081129.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081206.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081213.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081220.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20081227.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090103.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090104.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090105.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090110.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090117.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090124.patch.gz;patch=1		\
-	file://tic-hang.patch;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090207.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090214.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090221.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090228.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090314.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090321.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090328.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090404.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090411.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090418.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090419.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090425.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090502.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090510.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090516.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090523.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090530.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090606.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090607.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090613.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090627.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090704.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090711.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090718.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090725.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090728.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090801.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090803.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090808.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090815.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090822.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090829.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090905.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090906.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090912.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090919.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20090927.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091003.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091010.patch.gz;patch=1		\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091017.patch.gz;patch=1		\
-\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091107-patch.sh.bz2;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091114.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091121.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091128.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091205.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091212.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091219.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091226.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091227.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100102.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100109.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100116.patch.gz;patch=1	\
+	\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-${PATCHDATE}.patch.gz;patch=1	\
+	file://tic-hang.patch;patch=1 \
 "
 
 do_configure_prepend() {
