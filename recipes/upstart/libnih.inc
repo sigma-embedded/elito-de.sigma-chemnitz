@@ -6,7 +6,7 @@ LICENSE          = "GPLv2"
 DEPENDS          = "dbus expat pkgconfig-native bison-native"
 
 PV = "1.0.1"
-PR = "r0"
+PR = "r1"
 
 SRC_URI = " \
 	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz;name=tarball"
@@ -23,5 +23,5 @@ EXTRA_OECONF     = "--disable-static --disable-rpath --libdir=${_libdir}"
 EXTRA_AUTORECONF = "--force"
 
 do_install_append() {
-    rm -f ${D}/lib/*.la
+    rm -f ${D}${_libdir}/*.la
 }

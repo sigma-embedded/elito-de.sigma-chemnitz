@@ -1,37 +1,33 @@
-PR = "r0"
-
 require upstart.inc
 
-PACKAGES     += "${PN}-sysv-tools ${PN}-compat ${xtra}"
+PACKAGES     += "${PN}-sysv-tools ${PN}-compat"
 PACKAGES     =+ "${PN}-samples"
 
-FILES_${PN}-dev += "/lib/*.so"
-
 FILES_${PN}-samples = "	\
-	/etc/init/*"
+	${sysconfdir}/init/*"
 
 FILES_${PN} = "	\
-	/etc/dbus-*		\
-	/etc/init		\
-	/sbin/init.upstart	\
-	/sbin/initctl		\
+	${sysconfdir}/dbus-*		\
+	${sysconfdir}/init		\
+	${base_sbindir}/init.upstart	\
+	${base_sbindir}/initctl		\
 "
 
 FILES_${PN}-sysv-tools = " \
-	/sbin/halt		\
-	/sbin/reboot		\
-	/sbin/poweroff		\
-	/sbin/runlevel		\
-	/sbin/shutdown		\
-	/sbin/telinit		\
+	${base_sbindir}/halt		\
+	${base_sbindir}/reboot		\
+	${base_sbindir}/poweroff		\
+	${base_sbindir}/runlevel		\
+	${base_sbindir}/shutdown		\
+	${base_sbindir}/telinit		\
 "
 RDEPENDS_${PN}-sysv-tools = "${PN}"
 
 FILES_${PN}-compat = " \
-	/sbin/reload		\
-	/sbin/restart		\
-	/sbin/start		\
-	/sbin/status		\
-	/sbin/stop		\
+	${base_sbindir}/reload		\
+	${base_sbindir}/restart		\
+	${base_sbindir}/start		\
+	${base_sbindir}/status		\
+	${base_sbindir}/stop		\
 "
 RDEPENDS_${PN}-compat = "${PN}"
