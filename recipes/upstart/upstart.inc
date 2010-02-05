@@ -3,7 +3,18 @@ SECTION          = "base"
 PRIORITY         = "optional"
 DESCRIPTION      = "Event driven system init"
 LICENSE          = "GPLv2"
-DEPENDS          = "dbus expat bison-native pkgconfig-native upstart-native"
+DEPENDS          = "dbus expat bison-native pkgconfig-native libnih libnih-native"
+
+PV = "0.6.5"
+
+SRC_URI = "	\
+	http://upstart.ubuntu.com/download/0.6/upstart-${PV}.tar.gz;name=tarball \
+	file://upstart-0.5-oomadj.patch;patch=1				\
+	file://old-glibc.patch;patch=1					\
+"
+
+SRC_URI[tarball.md5sum] = ""
+SRC_URI[tarball.sha256sum] = ""
 
 inherit autotools
 

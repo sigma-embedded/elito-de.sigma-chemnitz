@@ -1,32 +1,9 @@
-PV = "0.6.3"
-PR = "r4"
-
-
-## dynamic libnih0 support is broken; resulting upstart dies with
-##   initctl:list.c:141: Assertion failed in nih_list_add: list != NULL
-##   Aborted
-##   initctl:list.c:141: Assertion failed in nih_list_add: list != NULL
-OVERRIDES .= ':dyn'
+PR = "r0"
 
 require upstart.inc
 
-
-SRC_URI = "	\
-	http://upstart.ubuntu.com/download/0.6/upstart-${PV}.tar.bz2	\
-	file://upstart-0.5-oomadj.patch;patch=1				\
-	file://no-static.patch;patch=1					\
-	file://old-glibc.patch;patch=1					\
-"
-
-xtra          =
-xtra_dyn      = "${PN}-lib ${PN}-tools"
 PACKAGES     += "${PN}-sysv-tools ${PN}-compat ${xtra}"
 PACKAGES     =+ "${PN}-samples"
-
-
-FILES_${PN}-tools        = "${bindir}/*"
-FILES_${PN}-lib          = "/lib/*.so.*"
-LEAD_SONAME              = "libnih.so"
 
 FILES_${PN}-dev += "/lib/*.so"
 
@@ -51,6 +28,7 @@ FILES_${PN}-sysv-tools = " \
 RDEPENDS_${PN}-sysv-tools = "${PN}"
 
 FILES_${PN}-compat = " \
+	/sbin/reload		\
 	/sbin/restart		\
 	/sbin/start		\
 	/sbin/status		\
