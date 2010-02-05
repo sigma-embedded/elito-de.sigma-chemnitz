@@ -22,6 +22,8 @@ _libdir_pn-libnih-native = "${libdir}"
 EXTRA_OECONF     = "--disable-static --disable-rpath --libdir=${_libdir}"
 EXTRA_AUTORECONF = "--force"
 
+LEAD_SONAME = "libnih.so"
+
 do_install_append() {
     rm -f ${D}${_libdir}/*.la
 }
