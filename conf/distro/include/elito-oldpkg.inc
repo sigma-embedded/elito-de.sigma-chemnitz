@@ -2755,6 +2755,23 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
+gcc_4.4.2 \
+gcc-cross_4.4.2 \
+gcc-cross-intermediate_4.4.2 \
+gcc-cross-sdk_4.4.2 \
+gnome-python-desktop_2.26.0 \
+libpng_1.2.41 \
+libpng-native_1.2.41 \
+python_2.6.2 \
+python-cython_0.10.3 \
+python-cython_0.12 \
+python-cython-native_0.10.3 \
+python-cython-native_0.12 \
+python-native_2.6.1 \
+python-pygtk_2.10.4 \
+transmission_1.82 \
+vala_0.7.9.7 \
+vala-native_0.7.9.7 \
 "
 
 ############################################
