@@ -230,7 +230,7 @@ AC_DEFUN([ELITO_ASSUME],[
 
 AC_DEFUN([_flex_check_version],[
 	AC_MSG_CHECKING([for flex version >= 2.5.31])
-	v=`${$1} --version | awk '{ print [$]2 }'` 2>/dev/null
+	v=`${$1} --version | sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'` 2>/dev/null
 
 	changequote(<<, >>)dnl
 	_flex_badver='^2\.5\.([[0-9]]|[[12]][[0-9]]|30)$'
