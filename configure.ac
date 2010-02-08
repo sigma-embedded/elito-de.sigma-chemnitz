@@ -228,9 +228,31 @@ AC_DEFUN([ELITO_ASSUME],[
 	fi
 ])
 
+AC_DEFUN([_flex_check_version],[
+	AC_MSG_CHECKING([for flex version >= 2.5.31])
+	v=`${$1} --version | awk '{ print [$]2 }'` 2>/dev/null
+
+	changequote(<<, >>)dnl
+	_flex_badver='^2\.5\.([[0-9]]|[[12]][[0-9]]|30)$'
+	changequote([, ])dnl
+
+	if echo "$v" | ${EGREP} -q "${_flex_badver}"; then
+	   AC_MSG_RESULT([too old ($v)])
+	   _elito_bad_ver=true
+	else
+	   AC_MSG_RESULT([ok ($v)])
+	fi
+])
+
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	AC_PATH_PROGS($2, $3)
+
+	_elito_bad_ver=false
 	if test -x "${$2}"; then
+		ifelse($5,,:,$5($2))
+	fi
+
+	if ! $_elito_bad_ver && test -x "${$2}"; then
 		ELITO_ASSUME($1,ifelse($4,,$3,$4),true)
 	else
 		ELITO_ASSUME($1,ifelse($4,,$3,$4),false)
@@ -240,11 +262,12 @@ AC_DEFUN([ELITO_CHECK_PROGRAM],[
 dnl AC_PATH_PROGS(BITBAKE, bitbake)
 BITBAKE=\${abs_top_builddir}/tmp/staging/.bitbake/bin/bitbake
 AC_SUBST(BITBAKE)
+AC_PROG_EGREP
 
 ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
 ELITO_CHECK_PROGRAM( 0, M4,         m4)
 ELITO_CHECK_PROGRAM( 0, BISON,      bison)
-ELITO_CHECK_PROGRAM( 5, FLEX,       flex)
+ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version])
 ELITO_CHECK_PROGRAM(90, GETTEXT,    gettext)
 ELITO_CHECK_PROGRAM( 0, FILE,       file)
 ELITO_CHECK_PROGRAM( 0, TAR,        tar)
