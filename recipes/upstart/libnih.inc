@@ -6,7 +6,7 @@ LICENSE          = "GPLv2"
 DEPENDS          = "dbus expat pkgconfig-native bison-native"
 
 PV = "1.0.1"
-PR = "r1"
+PR = "r2"
 
 SRC_URI = " \
 	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz;name=tarball"
@@ -26,4 +26,5 @@ LEAD_SONAME = "libnih.so"
 
 do_install_append() {
     rm -f ${D}${_libdir}/*.la
+    rm -f ${D}${_datadir}/aclocal/*
 }
