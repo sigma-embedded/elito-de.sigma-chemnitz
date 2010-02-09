@@ -16,6 +16,9 @@ INSTALL :=		@INSTALL@
 
 INSTALL_DATA =		$(INSTALL) -p -m 0644
 
+_FQDN =			$(shell hostname -f)
+_DOMAIN =		$(shell hostname -d)
+
 VPATH ?=		$(abs_top_srcdir)
 
 SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'		\
@@ -55,14 +58,28 @@ _project_task_file =	$(_project_task_dir)/task-$(PROJECT_NAME).bb
 _project_files_file =	$(_project_task_dir)/files-$(PROJECT_NAME).bb
 _samples_dir =		$(abs_top_srcdir)/samples
 
+TARGETS =		elito-image
+BITBAKE :=		$(abs_top_builddir)/bitbake
+BO ?=
+RECIPE ?=
+
 .DEFAULT_GOAL :=	config
 
+-include $(abs_top_builddir)/Makefile.local.$(_FQDN)
+-include $(abs_top_builddir)/Makefile.local.$(_DOMAIN)
 -include $(abs_top_builddir)/Makefile.local
 
 config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
 config:			$(_project_task_file) $(_project_files_file)
 
 init:			bitbake-fetch filesystem-init
+
+image:
+			$(BITBAKE) $(TARGETS) $(BO)
+
+build:
+			$(BITBAKE) -b "$(RECIPE)" $(BO)
+
 
 _bitbake_root =		$(abs_top_builddir)/tmp/staging/.bitbake
 
