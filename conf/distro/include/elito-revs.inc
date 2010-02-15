@@ -1,5 +1,12 @@
 # --*- python -*--
-PREFERRED_VERSION_gcc                    ?= "4.3.4"
+_elito-gcc-version                        = "4.4.3"
+_elito-gcc-version_arm                    = \
+    "${@elito_base_switch(d, 'TARGET_CPU',   \
+                          'iwmmxt', '4.3.4', \
+                          '4.4.3')}"
+
+PREFERRED_VERSION_gcc                    ?= "${_elito-gcc-version}"
+
 PREFERRED_VERSION_gcc-cross              ?= "${PREFERRED_VERSION_gcc}"
 PREFERRED_VERSION_gcc-cross-sdk          ?= "${PREFERRED_VERSION_gcc}"
 PREFERRED_VERSION_gcc-cross-initial      ?= "${PREFERRED_VERSION_gcc}"
