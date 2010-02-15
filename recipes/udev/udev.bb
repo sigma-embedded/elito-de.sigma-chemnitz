@@ -122,4 +122,4 @@ FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
 FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
 FILES_${PN}-dev             += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
 
-FILES_${PN}-dbg		    += "/lib/udev/.debug"
+FILES_${PN}-dbg             += "/lib/udev/.debug"
