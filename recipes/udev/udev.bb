@@ -38,7 +38,7 @@ PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-u
 PACKAGES += "${PN}-lib ${PN}-libgudev ${PN}-fstab-import \
              ${PN}-rulegen ${PN}-extra"
 
-PACKAGES_DYNAMIC += "$PN-*-id"
+PACKAGES_DYNAMIC += "udev-.*-id"
 
 python populate_packages_prepend() {
 	import bb
