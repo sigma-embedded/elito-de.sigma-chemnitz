@@ -195,6 +195,9 @@ $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 clean:
 			rm -f set-env.in conf/local.conf bitbake
 
+mrproper:		clean
+			rm -rf tmp
+
 $(AUTOCONF_FILES): %:	config.status %.in
 			$(abspath $<)
 
