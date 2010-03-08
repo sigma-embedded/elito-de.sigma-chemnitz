@@ -1,5 +1,5 @@
 PATCHDATE = "20100123"
-PR = "r2.${PATCHDATE}"
+PR = "r3.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
@@ -59,10 +59,15 @@ PARALLEL_MAKE = ""
 EXTRA_AUTORECONF="-I m4"
 
 do_configure() {
+        sed -i -s 's!^\(PKG_CONFIG_LIBDIR.*=\).*!\1 /usr/lib/pkgconfig!g' misc/Makefile.in
+
 	oe_runconf \
 		--without-normal						\
 		--without-debug							\
 		--without-ada							\
+		--with-ospeed=unsigned						\
+		--enable-hard-tabs --enable-xmc-glitch --enable-colorfgbg	\
+		--with-chtype=long						\
 		--with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap'	\
 		--with-terminfo-dirs=${sysconfdir}/terminfo:${datadir}/terminfo \
 		--with-shared							\
@@ -71,6 +76,7 @@ do_configure() {
 		--with-termlib=tinfo						\
 		--disable-widec							\
 		--enable-sigwinch						\
+		--enable-pc-files						\
 		--with-build-cflags=""						\
 		--with-build-cppflags='-D__need_wint_t'
 }
