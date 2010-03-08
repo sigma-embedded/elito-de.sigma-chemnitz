@@ -1,3 +1,5 @@
+_elito_skip := "${@elito_skip(d, 'fb')}"
+
 DESCRIPTION	=  "Framebuffer testutility"
 LICENSE		=  "GPLv3"
 

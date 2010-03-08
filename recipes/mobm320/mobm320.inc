@@ -1,3 +1,5 @@
+_elito_skip := "${@elito_skip(d, 'mobm320')}"
+
 DESCRIPTION       = "Initial bootloader for PXA320"
 SECTION           = "bootloaders"
 PRIORITY          = "optional"
@@ -7,10 +9,6 @@ PACKAGE_ARCH      = "${MACHINE_ARCH}"
 
 DEPENDS           = "linux-libc-headers mtd-utils mobm320-native"
 S                 = "${WORKDIR}/elito-${PN}-${PV}"
-
-python __anonymous () {
-    elito_skip(d, 'mobm320')
-}
 
 PACKAGES         += "${PN}-tools"
 FILES_${PN}       = "/boot/*"

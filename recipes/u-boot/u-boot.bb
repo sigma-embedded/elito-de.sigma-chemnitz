@@ -1,3 +1,5 @@
+_elito_skip := "${@elito_skip(d, 'u-boot')}"
+
 DESCRIPTION      = "The U-Boot bootloader"
 SECTION          = "bootloaders"
 PRIORITY         = "optional"
@@ -8,11 +10,6 @@ PV               = "${UBOOT_VERSION}"
 PR               = "r1"
 
 DEFAULT_PREFERENCE = "99"
-
-python __anonymous () {
-    elito_skip(d, 'u-boot')
-}
-
 SRCREV           = "${AUTOREV}"
 
 UBOOT_BRANCH	?= "${KERNEL_BRANCH}"

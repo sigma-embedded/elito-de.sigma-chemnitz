@@ -1,6 +1,4 @@
-python __anonymous () {
-    elito_skip(d, None, 'nokernel')
-}
+_elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 
 PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
 
