@@ -36,6 +36,7 @@ WHICH = "@WHICH@"
 @TAR_TRUE@INHERIT +=	"package_tar"
 
 @NFSROOT_TRUE@IMAGE_ROOTFS = "@nfs_rootdir@"
+TFTPBOOT_DIR = "@tftpbootdir@"
 
 @HAVE_GLOBAL_BITBAKE_CONF_TRUE@require @GLOBAL_BITBAKE_CONF@
 require conf/project.conf

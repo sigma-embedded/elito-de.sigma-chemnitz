@@ -150,6 +150,18 @@ AC_SUBST(nfs_rootdir)
 ELITO_TRUE_FALSE(NFSROOT, test x"${nfs_rootdir}" != x)
 
 
+AC_MSG_CHECKING([for tftp root directory])
+AC_ARG_WITH(tftpboot-dir,
+	AS_HELP_STRING([--with-tftpboot-dir=<dir>],
+		[use <dir> as the tftp root dir]),
+	[tftpbootdir=$withval], [
+	tftpbootdir=/var/lib/tftpboot
+	test -d "$tftpbootdir" || tftpbootdir=/tftpboot
+	])
+AC_MSG_RESULT([$tftpbootdir])
+AC_SUBST(tftpbootdir)
+
+
 AC_CACHE_VAL([ensc_cv_PROG_WHICH],[
 	for i in 'type -p' 'which'; do
 		AC_MSG_CHECKING([whether '$i' works])
