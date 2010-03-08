@@ -73,8 +73,8 @@ config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
 config:			$(_project_task_file) $(_project_files_file)
 
 init:			bitbake-fetch filesystem-init
-
-image:
+prep:			tmp/stamps/.prep.stamp
+image:			prep
 			$(BITBAKE) $(TARGETS) $(BO)
 
 build:
@@ -113,6 +113,10 @@ update-checksum:
 
 find-dups:
 			./bitbake -l Collection -d
+
+tmp/stamps/.prep.stamp:	tmp/stamps/.bitbake.stamp tmp/stamps/.filesystem.stamp
+			$(BITBAKE) stagemanager-native ipkg-utils
+			@touch $@
 
 tmp/stamps/.filesystem.stamp:
 			mkdir -p ${_CCACHE_DIR}
