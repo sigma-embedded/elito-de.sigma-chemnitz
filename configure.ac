@@ -141,11 +141,14 @@ AC_ARG_ENABLE(tar,
 ELITO_TRUE_FALSE(TAR, test x"$enable_tar" != xno)
 
 
-
+AC_MSG_CHECKING([whether to enable an NFS root directory])
 AC_ARG_ENABLE(nfs-root,
 	AS_HELP_STRING([--enable-nfs-root=<dir>],
 		[install built packages into <dir> which becomes suitable for exporting it as an NFS root filesystem]),
-	[nfs_rootdir=$enableval], [nfs_rootdir=])
+	[nfs_rootdir=$enableval
+	AC_MSG_RESULT([yes (${nfs_rootdir})])],
+	[nfs_rootdir=,
+	AC_MSG_RESULT([no])])
 AC_SUBST(nfs_rootdir)
 ELITO_TRUE_FALSE(NFSROOT, test x"${nfs_rootdir}" != x)
 
