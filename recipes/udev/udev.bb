@@ -5,15 +5,15 @@ RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
-PV	= "146"
-PR	= "r5"
+PV	= "151"
+PR	= "r1"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
 	file://udev-145-settlerace.patch;patch=1	\
 	file://udev-145-stop.patch;patch=1		\
 	file://udev-145-cross.patch;patch=1		\
-	file://udev-145-target-input.patch;patch=1	\
+	file://udev-151-target-input.patch;patch=1	\
 	file://60-ubi.rules			\
 "
 
@@ -24,6 +24,7 @@ rules_dir   = "${_libexecdir}/rules.d"
 
 EXTRA_OECONF = "\
 	--enable-static \
+	--disable-introspection \
 	--with-pci-ids-path=/usr/share/pci.ids \
 	--with-rootlibdir=${rootlibdir} \
 	--libexecdir=${_libexecdir} \
@@ -57,7 +58,6 @@ python populate_packages_prepend() {
 }
 
 do_install_append() {
-	install -p -m 0644 rules/packages/40-alsa.rules ${D}${rules_dir}/
 	install -p -m 0644 ${WORKDIR}/60-ubi.rules      ${D}${rules_dir}/
 
 	touch ${D}${rules_dir}/.empty
@@ -99,7 +99,7 @@ FILES_${PN}-lib       = "${rootlibdir}/libudev.so.*"
 FILES_${PN}-libgudev  = "${libdir}/libgudev-*.so.*"
 
 FILES_${PN}-firmware  = " \
-	${_libexecdir}/firmware.sh \
+	${_libexecdir}/firmware \
 	${rules_dir}/*firmware.rules"
 
 FILES_${PN}-rulegen   = "	\
