@@ -80,6 +80,15 @@ image:			prep
 build:
 			$(BITBAKE) -b "$(RECIPE)" $(BO)
 
+pkg-update pkg-upgrade pkg-install pkg-remove: \
+			$(ELITO_ROOTDIR)/workspace/Makefile.$(PROJECT_NAME)
+			$(MAKE) -f $< CFG=pkg $@
+
+$(ELITO_ROOTDIR)/workspace/Makefile.$(PROJECT_NAME):
+			@echo "*************" >&2
+			@echo "*** Development Makefile not found; please build the 'elito-develcomp' package" >&2
+			@echo "*************" >&2
+			@false
 
 _bitbake_root =		$(abs_top_builddir)/tmp/staging/.bitbake
 
