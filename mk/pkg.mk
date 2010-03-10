@@ -21,7 +21,7 @@ pkg-install:	${STAGING_ETCDIR_NATIVE}/opkg.conf
 	$(FAKEROOT) $(IPKG) -o $(DESTDIR) -f '$<' install ${P}
 
 .PHONY:		pkg-remove
-pkg-remove:
+pkg-remove:	${STAGING_ETCDIR_NATIVE}/opkg.conf
 	$(FAKEROOT) $(IPKG) -o $(DESTDIR) -f '$<' remove ${P}
 
 ${_pkgs}:${DEPLOY_DIR_IPK}/%/Packages:	${DEPLOY_DIR_IPK}/%
