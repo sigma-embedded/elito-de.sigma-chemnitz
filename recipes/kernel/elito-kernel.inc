@@ -25,6 +25,7 @@ DEPENDS += '\
 KERNEL_MAKEFILE ?= "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
 _gen_mf         ?= "${KERNEL_MAKEFILE}"
 
+do_generate_makefile[depends] = "gcc ccache-native"
 do_generate_makefile() {
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
 	gc=${gc%%gcc}

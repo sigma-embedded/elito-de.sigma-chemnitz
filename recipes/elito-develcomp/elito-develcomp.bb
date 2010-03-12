@@ -74,6 +74,7 @@ python __anonymous () {
     bb.data.setVar('_export_vars_gen', '\n'.join(res), d)
 }
 
+do_configure[depends] = "gcc ccache-native"
 do_configure() {
         set >&2
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
