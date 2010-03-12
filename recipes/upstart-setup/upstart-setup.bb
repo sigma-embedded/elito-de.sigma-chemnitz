@@ -9,8 +9,6 @@ SRC_URI		= "		\
 	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2			\
 	file://paths						\
 "
-SRCREV           = "${AUTOREV}"
-#S               = "${WORKDIR}/git"
 
 PACKAGES         = "${PN}-base ${PN}-net ${PN}-net-dhcp	\
 	${PN}-udev ${PN}-mdev				\

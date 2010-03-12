@@ -1,3 +1,5 @@
+SRCREV           = "${AUTOREV}"
+
 require upstart-setup.bb
 
 COMPONENT  = "upstart-setup"
