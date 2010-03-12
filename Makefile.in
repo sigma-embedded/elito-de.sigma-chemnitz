@@ -73,14 +73,14 @@ config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
 config:			$(_project_task_file) $(_project_files_file)
 
 init:			bitbake-fetch filesystem-init
-prep:			tmp/stamps/.prep.stamp
+prep:			tmp/stamps/.prep.stamp Makefile
 image:			prep
 			$(BITBAKE) $(TARGETS) $(BO)
 
 build:
 			$(BITBAKE) -b "$(RECIPE)" $(BO)
 
-pkg-update pkg-upgrade pkg-install pkg-remove: \
+pkg-update pkg-upgrade pkg-install pkg-remove shell: \
 			$(ELITO_ROOTDIR)/workspace/Makefile.$(PROJECT_NAME)
 			$(MAKE) -f $< CFG=pkg $@
 
