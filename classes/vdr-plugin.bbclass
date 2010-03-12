@@ -13,6 +13,10 @@ vdr_runmake() {
 	STRIP=/bin/true "$@"
 }
 
+do_compile() {
+    vdr_runmake
+}
+
 do_install() {
     install -d -m 0755 ${D}${VDR_PLUGINDIR}
     install -p -m 0755 ${PLUGINS} ${D}${VDR_PLUGINDIR}/
@@ -23,5 +27,3 @@ do_install() {
 RPROVIDES_${PN}	       = "vdr-plugin-${PLUGINNAME}"
 FILES_${PN}            = "${VDR_PLUGINDIR}/libvdr-*.so*"
 FILES_${PN}-dbg       .= " ${VDR_PLUGINDIR}/.debug/*"
-
-CONFFILES_${PN}       += "${VDR_CONFIGDIR}/conf.d/${PLUGINNAME}.plugin"
