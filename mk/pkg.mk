@@ -17,7 +17,7 @@ pkg-upgrade:	${STAGING_ETCDIR_NATIVE}/opkg.conf pkg-regen
 	$(FAKEROOT) $(IPKG) -o $(DESTDIR) -f '$<' upgrade
 
 .PHONY:		pkg-install
-pkg-install:	${STAGING_ETCDIR_NATIVE}/opkg.conf
+pkg-install:	${STAGING_ETCDIR_NATIVE}/opkg.conf pkg-update
 	$(FAKEROOT) $(IPKG) -o $(DESTDIR) -f '$<' install ${P}
 
 .PHONY:		pkg-remove
