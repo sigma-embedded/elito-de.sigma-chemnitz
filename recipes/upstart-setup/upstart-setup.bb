@@ -1,15 +1,17 @@
 SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
-PV		= "0.4.4"
+PV		= "0.4.5"
 PR		= "r1"
 PACKAGE_ARCH	=  "all"
 
 SRC_URI		= "		\
-	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2			\
+	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2;name=tarball	\
 	file://paths						\
 "
 
+SRC_URI[tarball.md5sum] = "50920b2a35d4b0913ca950ad6943c3c8"
+SRC_URI[tarball.sha256sum] = "32656ff1f60715edb8fbc9ee0793e88da78fb22fbffadc4b958c2f35e83da093"
 PACKAGES         = "${PN}-base ${PN}-net ${PN}-net-dhcp	\
 	${PN}-udev ${PN}-mdev				\
 	${PN}-openntpd ${PN}-dropbear ${PN}-dbus	\
