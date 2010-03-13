@@ -169,6 +169,7 @@ endif
 tmp/stamps/.bitbake.stamp:	tmp/stamps/.bitbake.patch.stamp
 			cd tmp/bitbake && $(PYTHON) setup.py build
 			cd tmp/bitbake && $(PYTHON) setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
+			$(MAKE) bitbake
 			@touch $@
 
 .gitignore:
