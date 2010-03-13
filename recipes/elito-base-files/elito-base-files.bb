@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r6"
+PR		= "r7"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
@@ -12,7 +12,7 @@ SRC_URI = "	\
 	file://hosts			\
 	file://nsswitch.conf		\
 	file://sysctl.conf		\
-	file://licenses/*		\
+	file://licenses			\
 "
 
 RELEASE_FILES_PROVIDER ?= "elito-release"
@@ -39,12 +39,14 @@ do_install() {
 	c0='-e /[[:space:]]usbfs[[:space:]]/d'
 	c1='-e /[[:space:]]debugfs[[:space:]]/d'
 	c2='-e /[[:space:]]selinuxfs[[:space:]]/d'
+	c3='-e /[[:space:]]unionfs[[:space:]]/d'
 
 	${@base_contains("MACHINE_FEATURES","usb","c0=",':',d)}
 	${@base_contains("MACHINE_FEATURES","kdebug","c1=",':',d)}
 	${@base_contains("MACHINE_FEATURES","selinux","c2=",':',d)}
+	${@base_contains("MACHINE_FEATURES","unionfs","c3=",':',d)}
 
-	sed $c0 $c1 $c2	\
+	sed $c0 $c1 $c2 $3	\
 		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
 		-e 's!@PTS_GID@!${PTS_GID}!g'		\
 		fstab > ${D}${sysconfdir}/fstab
