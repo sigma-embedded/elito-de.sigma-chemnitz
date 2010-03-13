@@ -39,3 +39,13 @@ def elito_base_switch(d, var_name, *args):
 			return args[i+1]
 
 	return args[-1]
+
+def elito_join_locale(pkgs, langs):
+        suffix = map(lambda x: 'locale-%s' % x, langs.split())
+        res    = []
+        for p in pkgs.split():
+		res.append(p)
+                res.extend(map(lambda x: '%s-%s' % (p,x), suffix))
+
+	print res
+        return ' '.join(res)
