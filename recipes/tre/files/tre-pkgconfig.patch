@@ -1,0 +1,12 @@
+Index: tre-0.8.0/tre.pc.in
+===================================================================
+--- tre-0.8.0.orig/tre.pc.in
++++ tre-0.8.0/tre.pc.in
+@@ -6,5 +6,5 @@ includedir=@includedir@
+ Name: TRE
+ Description: TRE regexp matching library
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -ltre @LDFLAGS@ @LIBINTL@ @LIBS@
+-Cflags: -I${includedir} @CPPFLAGS@
++Libs: -L${libdir} -ltre @LIBINTL@
++Cflags: -I${includedir}
