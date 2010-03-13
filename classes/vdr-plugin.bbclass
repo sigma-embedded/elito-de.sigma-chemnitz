@@ -27,3 +27,5 @@ do_install() {
 RPROVIDES_${PN}	       = "vdr-plugin-${PLUGINNAME}"
 FILES_${PN}            = "${VDR_PLUGINDIR}/libvdr-*.so*"
 FILES_${PN}-dbg       .= " ${VDR_PLUGINDIR}/.debug/*"
+
+inherit gettext
