@@ -1,4 +1,4 @@
-PATCHDATE = "20100123"
+PATCHDATE = "20100306"
 PR = "r3.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
@@ -11,11 +11,8 @@ PACKAGES = " \
 	ncurses-dev \
 	ncurses-doc \
 	ncurses-tools \
-	ncurses-libtinfo \
-	ncurses-libpanel \
-	ncurses-libform \
-	ncurses-libmenu \
 	ncurses \
+	ncurses-static \
 	ncurses-terminfo \
 "
 RSUGGESTS_${PN} = "ncurses-terminfo"
@@ -24,14 +21,9 @@ inherit autotools_stage
 
 # This keeps only tput/tset in ncurses
 # clear/reset are in already busybox
-FILES_ncurses_append   = " ${datadir}/tabset"
-FILES_ncurses-tools    = "${bindir}/tic ${bindir}/toe ${bindir}/infotocap ${bindir}/captoinfo ${bindir}/infocmp ${bindir}/clear.${PN} ${bindir}/reset.${PN} ${bindir}/tack "
+FILES_ncurses-tools    = "${bindir}/tic ${bindir}/toe ${bindir}/infotocap ${bindir}/captoinfo ${bindir}/infocmp ${bindir}/clear.${PN} ${bindir}/reset.${PN} ${bindir}/tack ${bindir}/tabs"
 FILES_ncurses-terminfo = "${datadir}/terminfo"
-FILES_ncurses-libtinfo = "${libdir}/libtinfo.so.*"
-FILES_ncurses-libpanel = "${libdir}/libpanel.so.*"
-FILES_ncurses-libform  = "${libdir}/libform.so.*"
-FILES_ncurses-libmenu  = "${libdir}/libmenu.so.*"
-FILES_${PN} = "${bindir}/tput ${bindir}/tset ${libdir}/lib*.so.* usr/share/tabset etc/terminfo"
+FILES_${PN} = "${bindir}/tput ${bindir}/tset ${datadir}/tabset ${sysconfdir}/terminfo"
 
 SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091107-patch.sh.bz2;patch=1	\
@@ -46,6 +38,12 @@ SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100102.patch.gz;patch=1	\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100109.patch.gz;patch=1	\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100116.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100123.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100130.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100206.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100213.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100220.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100227.patch.gz;patch=1	\
 	\
 	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-${PATCHDATE}.patch.gz;patch=1	\
 	file://tic-hang.patch;patch=1 \
@@ -61,28 +59,52 @@ EXTRA_AUTORECONF="-I m4"
 do_configure() {
         sed -i -s 's!^\(PKG_CONFIG_LIBDIR.*=\).*!\1 /usr/lib/pkgconfig!g' misc/Makefile.in
 
-	oe_runconf \
-		--without-normal						\
-		--without-debug							\
-		--without-ada							\
-		--with-ospeed=unsigned						\
-		--enable-hard-tabs --enable-xmc-glitch --enable-colorfgbg	\
-		--with-chtype=long						\
-		--with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap'	\
-		--with-terminfo-dirs=${sysconfdir}/terminfo:${datadir}/terminfo \
-		--with-shared							\
-		--disable-big-core						\
-		--program-prefix=						\
-		--with-termlib=tinfo						\
-		--disable-widec							\
-		--enable-sigwinch						\
-		--enable-pc-files						\
-		--with-build-cflags=""						\
-		--with-build-cppflags='-D__need_wint_t'
+        for i in \
+	'narrowc --with-ticlib' \
+	'widec   --enable-widec --without-progs'; do
+                set -- $i
+		mkdir -p $1
+		cd $1
+                shift
+		oe_runconf \
+			--disable-static \
+			--without-debug							\
+			--without-ada							\
+			--enable-hard-tabs \
+			--enable-xmc-glitch \
+			--enable-colorfgbg \
+			--with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap'	\
+			--with-terminfo-dirs=${sysconfdir}/terminfo:${datadir}/terminfo \
+			--with-shared							\
+			--disable-big-core						\
+			--program-prefix=						\
+			--with-termlib=tinfo						\
+			--enable-sigwinch						\
+			--enable-pc-files						\
+			--with-build-cc="${BUILD_CC}" \
+			--with-build-cpp="${BUILD_CPP}" \
+			--with-build-ld="${BUILD_LD}" \
+			--with-build-cflags="${BUILD_CFLAGS}" \
+			--with-build-cppflags='${BUILD_CPPFLAGS} -D_GNU_SOURCE' \
+			--with-build-ldflags='${BUILD_LDFLAGS}' \
+			"$@"
+                cd ..
+	done
+}
+
+do_compile() {
+	oe_runmake -C narrowc libs
+	oe_runmake -C narrowc/progs
+
+	oe_runmake -C widec libs
 }
 
 do_install() {
-	autotools_do_install
+	cd widec
+        oe_runmake 'DESTDIR=${D}' install.libs install.includes install.man
+
+        cd ../narrowc
+        oe_runmake 'DESTDIR=${D}' install.libs install.progs install.data
 
 	# include some basic terminfo files
 	# stolen ;) from gentoo and modified a bit
@@ -111,6 +133,10 @@ do_install() {
 	fi
 }
 
+python populate_packages_prepend () {
+	libdir = bb.data.expand("${libdir}", d)
+        do_split_packages(d, libdir, '^lib(.*)\.so\..*', 'ncurses-lib%s', 'ncurses %s library', prepend=True, extra_depends = '', allow_links=True)
+}
 
 pkg_postinst_ncurses-tools () {
 	if [ "${PN}" = "ncurses" ]; then
