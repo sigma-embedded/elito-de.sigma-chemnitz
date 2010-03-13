@@ -47,5 +47,4 @@ def elito_join_locale(pkgs, langs):
 		res.append(p)
                 res.extend(map(lambda x: '%s-%s' % (p,x), suffix))
 
-	print res
         return ' '.join(res)
