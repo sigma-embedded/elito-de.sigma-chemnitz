@@ -49,7 +49,10 @@ s!@DBUS_DAEMON@!/usr/bin/dbus-daemon!g
 s!@DBUS_USER@!messagebus!g
 
 s!@HALD@!/usr/sbin/hald!g
+s!@ACPID@!/usr/sbin/acpid!g
 
 s!@TINYLOGIN@!/bin/tinylogin!g
 s!@SYSCTL@!/sbin/sysctl!g
 s!@MDEV@!/sbin/mdev!g
+
+s!@MCELOG@!/usr/sbin/mcelog!g
