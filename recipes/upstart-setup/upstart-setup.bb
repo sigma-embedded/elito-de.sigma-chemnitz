@@ -12,17 +12,7 @@ SRC_URI		= "		\
 
 SRC_URI[tarball.md5sum] = "50920b2a35d4b0913ca950ad6943c3c8"
 SRC_URI[tarball.sha256sum] = "32656ff1f60715edb8fbc9ee0793e88da78fb22fbffadc4b958c2f35e83da093"
-PACKAGES         = "${PN}-base ${PN}-net ${PN}-net-dhcp	\
-	${PN}-udev ${PN}-mdev				\
-	${PN}-openntpd ${PN}-dropbear ${PN}-dbus	\
-	${PN}-tty-plain ${PN}-syslogd ${PN}-klogd	\
-	${PN}-hald \
-	${PN}-tty-tinylogin \
-	${PN}-sound ${PN}-rtc-sync\
-	${PN}-net-dhcp-eth0	\
-	${PN}-net-dhcp-eth1	\
-	${PN}-empty ${PN} \
-"
+PACKAGES        = "${PN} ${PN}-base"
 
 j                = "${sysconfdir}/init/"
 
@@ -33,6 +23,8 @@ RRECOMMENDS_${PN}      += " \
 "
 
 DEPENDS += "elito-setup-tools upstart"
+
+FILES_${PN} = ""
 
 # TODO: move udev rules and files.d into own package
 FILES_${PN}-base = "				\
@@ -51,85 +43,78 @@ FILES_${PN}-base = "				\
 FILES_${PN}-base_append_arm += "${j}init/cpu-align.conf"
 RDEPENDS_${PN}-base         += "upstart elito-setup-tools"
 
+PACKAGES_DYNAMIC = "${PN}-.*"
 
-FILES_${PN}-udev         = "		\
-	/lib/udev/rules.d/*-upstart.rules	\
-	${j}init/udev-fill.conf		\
-	${j}init/udev-early.conf	\
-	${j}services/udevd.conf"
-RDEPENDS_${PN}-udev  = "udev"
+python populate_packages_prepend () {
+        class P:
+                def __init__(self, job_files, rdepends = None, extra_files = [],
+                             rrecommends = None):
+			self.job_files   = job_files
+                        self.rdepends    = (rdepends,'')[rdepends == None]
+                        self.extra_files = extra_files
+                        self.rrecommends = rrecommends
 
-FILES_${PN}-mdev         = "		\
-	${j}init/mdev*.conf		\
-"
-RDEPENDS_${PN}-mdev  = "busybox"
+	pkg_info = {
+        'fsck'		: P('init/fsck-all.conf', None, '/sbin/fsck-eval-result'),
+        'udev'		: P(('init/udev-fill.conf',
+                             'init/udev-early.conf',
+                             'services/udevd.conf'),
+                            'udev',
+                            '/lib/udev/rules.d/*-upstart.rules'),
+        'mdev'		: P('init/mdev*.conf', 'busybox'),
+        'net'		: P('network/add-lo.conf', None,
+                            ('/sbin/upstart-if-down',
+                             '/sbin/upstart-if-up')),
+        'net-dhcp'      : P(('network/net-dhcp-deconfig.conf',
+                             'network/net-dhcp-renew.conf',
+                             'network/dhcp-up.conf'),
+                            '${PN}-net busybox',
+                            '/share/udhcpc/upstart.script'),
+        'net-eth0'	: P('network/add-eth0-dhcp.conf', '${PN}-net-dhcp'),
+        'net-eth1'	: P('network/add-eth1-dhcp.conf', '${PN}-net-dhcp'),
 
+        'openntpd'	: P(('services/openntpd.conf',
+                             'network/net-dhcp-ntp-renew.conf'),
+                            '${PN}-net openntpd',
+                            '/sbin/upstart-ntpd-up'),
+        'dropbear'	: P(('init/dropbear.conf', 'services/dropbear.conf'),
+                            'dropbear'),
 
-FILES_${PN}-net          = "	\
-	/sbin/upstart-if-down	\
-	/sbin/upstart-if-up	\
-	${j}network/add-lo.conf"
+        'rtc-sync'	: P(('init/rtc-sync.conf', 'shutdown/rtc-sync.conf')),
 
-FILES_${PN}-net-dhcp     = " \
-	${j}network/net-dhcp-deconfig.conf	\
-	${j}network/net-dhcp-renew.conf		\
-	${j}network/dhcp-up.conf		\
-	/share/udhcpc/upstart.script"
-RDEPENDS_${PN}-net-dhcp = "${PN}-net busybox"
+        'tty-plain'	: P('tty/plain.conf'),
+        'tty-tinylogin'	: P('tty/tinylogin.conf'),
 
-FILES_${PN}-net-dhcp-eth0 = "${j}network/add-eth0-dhcp.conf"
-RDEPENDS_${PN}-net-dhcp-eth0 = "${PN}-net-dhcp"
+        'syslogd'	: P('services/syslogd.conf'),
+        'klogd'		: P('services/klogd.conf'),
 
-FILES_${PN}-net-dhcp-eth1 = "${j}network/add-eth1-dhcp.conf"
-RDEPENDS_${PN}-net-dhcp-eth1 = "${PN}-net-dhcp"
+        'sound'		: P('init/sound.conf', 'alsa-utils-alsactl'),
 
-FILES_${PN}-openntpd = " \
-	/sbin/upstart-ntpd-up			\
-	${j}services/openntpd.conf		\
-	${j}network/net-dhcp-ntp-renew.conf"
-RDEPENDS_${PN}-openntpd = "${PN}-net openntpd"
+        'dbus'		: P(('services/dbus-daemon.conf', 'init/dbus-uuidgen.conf'),
+                            'dbus',
+                            '${sysconfdir}/files.d/*-dbus.txt'),
 
-FILES_${PN}-dropbear = " \
-	${j}init/dropbear.conf		\
-	${j}services/dropbear.conf"
-RDEPENDS_${PN}-dropbear   = "dropbear"
+        'hald'		: P(('services/hald.conf',),
+                            'hal ${PN}-dbus',
+                            '${sysconfdir}/files.d/*-hald.txt'),
 
-FILES_${PN}-rtc-sync = " \
-	${j}init/rtc-sync.conf		\
-	${j}shutdown/rtc-sync.conf	\
-"
+        'acpid'		: P('services/acpid.conf', 'acpid'),
+        'mcelog'	: P('services/mcelog.conf', 'mcelog'),
 
-FILES_${PN}-tty-plain     = "${j}tty/plain.conf"
-FILES_${PN}-tty-tinylogin = "${j}tty/tinylogin.conf"
+        'hald-acpid'	: P(('wait/hald-wait.conf',),
+                            '${PN}-acpid ${PN}-hald'),
+        }
 
-
-FILES_${PN}-syslogd = "${j}services/syslogd.conf"
-RDEPENDS_${PN}-syslogd = "busybox"
-
-FILES_${PN}-klogd = "${j}services/klogd.conf"
-RDEPENDS_${PN}-klogd = "busybox"
-
-FILES_${PN}-sound = "${j}init/sound.conf"
-RDEPENDS_${PN}-sound = "alsa-utils-alsactl"
-
-FILES_${PN}-dbus = "\
-	${j}services/dbus-daemon.conf	\
-	${j}init/dbus-uuidgen.conf	\
-	${sysconfdir}/files.d/*-dbus.txt"
-RDEPENDS_${PN}-dbus = "dbus"
-
-FILES_${PN}-hald = "\
-	${j}services/hald.conf	\
-	${sysconfdir}/files.d/*-hald.txt"
-RDEPENDS_${PN}-hald = "hal upstart-setup-dbus"
-
-python __anonymous () {
-    import bb
-    pkgs = bb.data.getVar("PACKAGES", d, True).split()
-    for p in pkgs:
-        bb.data.setVar("WEAK_RUNTIME_DEPENDENCIES_%s" % p, "True", d)
+        for (p,i) in pkg_info.items():
+		elito_upstart_job(d, '${PN}-%s' % p,
+                                  job_files   = i.job_files,
+                                  rdepends    = i.rdepends + ' ${PN} (= ${PV}-${PR})',
+                                  extra_files = i.extra_files)
 }
 
+do_configure_prepend() {
+    sed -i -s 's!^include !#\0!g' Makefile
+}
 
 do_compile() {
 }
@@ -138,12 +123,7 @@ do_install() {
 	mkdir -p ${D}${sysconfdir} ${D}/sbin ${D}/share/udhcpc ${D}/lib/udev/rules.d ${D}${sysconfdir}/files.d
 	cp -a jobs.d ${D}${sysconfdir}/init
 
-	install -p -m 0755 upstart-if-down upstart-if-up ${D}/sbin/
-	install -p -m 0755 upstart-ntpd-up               ${D}/sbin/
-	install -p -m 0755 upstart.script                ${D}/share/udhcpc/
-
-	install -p -m 0644 [0-9][0-9]-*.rules            ${D}/lib/udev/rules.d/
-	install -p -m 0644 [0-9][0-9]-*.txt              ${D}${sysconfdir}/files.d/
+        oe_runmake install-extras DESTDIR=${D}
 
 	find ${D} -type f -print0 | xargs -0r ${S}/fix-paths ${WORKDIR}/paths
 }
