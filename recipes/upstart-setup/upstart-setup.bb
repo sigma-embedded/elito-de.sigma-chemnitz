@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.5"
-PR		= "r1"
+PR		= "r0"
 PACKAGE_ARCH	=  "all"
 
 SRC_URI		= "		\
@@ -33,6 +33,7 @@ FILES_${PN}-base = "				\
 	${j}init/boot.conf			\
 	${j}init/dmesg.conf			\
 	${j}init/mount-all.conf			\
+	${j}init/mount-nonfs.conf		\
 	${j}init/mount-tmpfs.conf		\
 	${j}init/ldconfig.conf			\
 	${j}shutdown/bind-mounts.conf		\
@@ -56,12 +57,14 @@ python populate_packages_prepend () {
 
 	pkg_info = {
         'fsck'		: P('init/fsck-all.conf', None, '/sbin/fsck-eval-result'),
+
         'udev'		: P(('init/udev-fill.conf',
                              'init/udev-early.conf',
                              'services/udevd.conf'),
                             'udev',
                             '/lib/udev/rules.d/*-upstart.rules'),
         'mdev'		: P('init/mdev*.conf', 'busybox'),
+
         'net'		: P('network/add-lo.conf', None,
                             ('/sbin/upstart-if-down',
                              '/sbin/upstart-if-up')),
