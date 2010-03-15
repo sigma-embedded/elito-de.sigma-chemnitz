@@ -1,0 +1,49 @@
+Fixed '-b' when BBCLASSEXTEND
+
+When BBCLASSEXTEND is set, '-b' builds usually failed with messages
+like
+
+| ERROR: Parsing error data_fn virtual:native:<recipe>.bb and fn <recipe>.bb don't match
+| 
+|   File ".../bb/providers.py", line 47, in sortPriorities
+|     priority = dataCache.bbfile_priority[f]
+| KeyError: 'virtual:native:<recipe>.bb'
+
+
+This patch fixes it and allows to specify the alternative class in a
+way like
+
+| ./bitbake -b virtual:native:<recipe>.bb
+
+Index: bitbake/lib/bb/cooker.py
+===================================================================
+--- lib/bb/cooker.py
++++ lib/bb/cooker.py
+@@ -469,15 +469,23 @@ class BBCooker:
+         Build the file matching regexp buildfile
+         """
+ 
++        self.bb_cache = bb.cache.init(self)
++        (fn, cls) = self.bb_cache.virtualfn2realfn(buildfile)
++
+         # Make sure our target is a fully qualified filename
+-        fn = self.matchFile(buildfile)
+-        if not fn:
++        buildfile = self.matchFile(fn)
++        if not buildfile:
+             return False
+ 
++        fn = self.bb_cache.realfn2virtual(buildfile, cls)
++        print fn, cls, buildfile
++
+         # Load data into the cache for fn and parse the loaded cache data
+-        self.bb_cache = bb.cache.init(self)
++        the_data = self.bb_cache.loadDataFull(fn, self.configuration.data)
+         self.status = bb.cache.CacheData()
+-        self.bb_cache.loadData(fn, self.configuration.data, self.status)
++
++        self.bb_cache.setData(fn, buildfile, the_data)
++        self.bb_cache.handle_data(fn, self.status)
+ 
+         # Tweak some variables
+         item = self.bb_cache.getVar('PN', fn, True)
