@@ -8,7 +8,7 @@ DEPENDS          = "${base_deps} libnih-native"
 DEPENDS_virtclass-native = "${base_deps}"
 
 PV = "1.0.1"
-PR = "r6"
+PR = "r7"
 
 SRC_URI = " \
 	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz;name=tarball \
@@ -27,7 +27,7 @@ EXTRA_AUTORECONF = "--force"
 
 LEAD_SONAME = "libnih.so"
 
-FILES_${PN} += "${_libdir}/*.so.*"
+FILES_${PN} = "${_libdir}/*.so.*"
 FILES_${PN}-dev  += "${bindir}/nih-dbus-tool ${_libdir}/*.so"
 
 do_install_append() {
