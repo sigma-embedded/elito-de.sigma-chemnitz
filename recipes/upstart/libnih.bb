@@ -1,12 +1,14 @@
-# --*- python -*--
 SECTION          = "base"
 PRIORITY         = "optional"
 DESCRIPTION      = "Upstart base library"
 LICENSE          = "GPLv2"
-DEPENDS          = "dbus expat pkgconfig-native bison-native"
+
+base_deps        = "dbus expat pkgconfig-native bison-native"
+DEPENDS          = "${base_deps} libnih-native"
+DEPENDS_virtclass-native = "${base_deps}"
 
 PV = "1.0.1"
-PR = "r5"
+PR = "r6"
 
 SRC_URI = " \
 	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz;name=tarball \
@@ -18,13 +20,18 @@ SRC_URI[tarball.sha256sum] = "ba1d0dcdbc5e2eefa47d1e84cafcccc0e0ab0f5967a9b508da
 inherit autotools autotools_stage
 
 _libdir                  = "${base_libdir}"
-_libdir_pn-libnih-native = "${libdir}"
+_libdir_virtclass-native = "${libdir}"
 
 EXTRA_OECONF     = "--disable-static --disable-rpath --libdir=${_libdir}"
 EXTRA_AUTORECONF = "--force"
 
 LEAD_SONAME = "libnih.so"
 
+FILES_${PN} += "${_libdir}/*.so.*"
+FILES_${PN}-dev  += "${bindir}/nih-dbus-tool ${_libdir}/*.so"
+
 do_install_append() {
     rm -f ${D}${_libdir}/*.la
 }
+
+BBCLASSEXTEND = "native"
