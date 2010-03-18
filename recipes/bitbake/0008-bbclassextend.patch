@@ -1,4 +1,4 @@
-Fixed '-b' when BBCLASSEXTEND
+Fixed '-b' with BBCLASSEXTEND
 
 When BBCLASSEXTEND is set, '-b' builds usually failed with messages
 like
