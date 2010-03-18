@@ -88,6 +88,12 @@ AC_ARG_WITH(kernel-reference-repo,
 	[kernel_ref_repo=$withval], [kernel_ref_repo=/usr/share/elito/kernel])
 AC_SUBST([kernel_ref_repo])
 
+AC_ARG_WITH(secwrap,
+	AS_HELP_STRING([--with-secwrap=<dir>],
+		       [Wrapper command around 'bitbake' which changes e.g. user or SELinux context. Default: none]),
+	[SECWRAP_CMD=$withval], [SECWRAP_CMD=])
+AC_SUBST(SECWRAP_CMD, [$SECWRAP_CMD])
+
 dnl -----------------
 
 AC_MSG_CHECKING([for development components])

@@ -11,6 +11,8 @@ _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
 S            = "${WORKDIR}/git"
 
+EXTRA_OEMAKE_append = " _secwrap="
+
 KERNEL_DEPENDS ?= ""
 
 DEPENDS += '\
@@ -38,6 +40,7 @@ do_generate_makefile() {
 ## --*- makefile -*--
 _cc = ${KERNEL_CC}
 _ld = ${KERNEL_LD}
+_secwrap = $(SECWRAP_CMD)
 
 export PATH = ${PATH}
 export CCACHE_DIR = ${CCACHE_DIR}
@@ -51,11 +54,12 @@ _flash_filename = ${_tftp_image}
 _bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 
 %:
-	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(_cc)' LD='\$(_ld)' ${@base_conditional("_tftp_image","","","FLASH_FILENAME='\$(_flash_filename)'",d)} MAKELEVEL=0 \$@
+	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(_cc)' LD='\$(_ld)' ${@base_conditional("_tftp_image","","","FLASH_FILENAME='\$(_flash_filename)'",d)} MAKELEVEL=0 $(_secwrap) \$@
 
 exec:
-	\$(P)
+	$(_secwrap) \$(P)
 
+unexport _secwrap
 unexport MAKEFILES
 unexport MAKELEVEL
 .DEFAULT_GOAL := all
