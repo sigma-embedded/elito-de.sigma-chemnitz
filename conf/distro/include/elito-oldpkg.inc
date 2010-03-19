@@ -60,6 +60,7 @@ apr-util_1.2.7 \
 apr_0.9.12 \
 apr_1.2.12 \
 apr_1.2.7 \
+apr_1.3.3 \
 apt-native_0.6.46.2 \
 apt-native_0.7.14 \
 apt-native_0.7.19 \
@@ -90,15 +91,18 @@ atk_1.20.0 \
 atk_1.26.0 \
 autoconf-native_2.59 \
 autoconf-native_2.61 \
+autoconf213-native_2.13 \
 autoconf_2.57 \
 autoconf_2.59 \
 autoconf_2.61 \
+autoconf_2.63 \
 autofs_3.1.7 \
 autofs_4.0.0 \
 automake-native_1.10.2 \
 automake-native_1.11 \
 automake-native_1.9.6 \
 automake_1.10.2 \
+automake_1.10.3 \
 automake_1.11 \
 automake_1.9.6 \
 avahi-python_0.6.21 \
@@ -150,6 +154,7 @@ binutils-cross_2.19 \
 binutils-cross_2.19.1 \
 binutils-cross_2.19.51 \
 binutils-cross_2.19.51.0.3 \
+binutils-cross_2.20 \
 binutils-cross_csl-arm-20050416 \
 binutils-cross_csl-arm-20050603 \
 binutils_2.14.90.0.6 \
@@ -170,6 +175,7 @@ binutils_2.19 \
 binutils_2.19.1 \
 binutils_2.19.51 \
 binutils_2.19.51.0.3 \
+binutils_2.20 \
 binutils_csl-arm-20050416 \
 binutils_csl-arm-20050603 \
 bison-native_2.0 \
@@ -193,6 +199,7 @@ bluez4_4.53 \
 bluez4_4.56 \
 bonnie++_1.03a \
 boost-jam-native_3.1.11 \
+boost_1.37.0 \
 boost_1.40.0 \
 bootmenu_0.6 \
 bridge-utils_1.2 \
@@ -224,6 +231,7 @@ cairo_1.4.8 \
 cairo_1.6.4 \
 cairo_1.7.6 \
 cairo_1.8.0 \
+cairo_1.8.8 \
 cairomm_1.2.4 \
 cbrpager_0.9.14 \
 cdparanoia_9.8alpha \
@@ -234,8 +242,10 @@ cherokee_0.4.29 \
 cherokee_0.5.3 \
 cherokee_0.98.0 \
 chicken-cross_4.2.0 \
+chicken-cross_4.2.10 \
 chicken_3.3.0 \
 chicken_4.2.0 \
+chicken_4.2.10 \
 clamav_0.90.2 \
 clamav_0.90.3 \
 clamav_0.91.1 \
@@ -259,6 +269,7 @@ connman_0.19 \
 connman_0.8 \
 connman_0.9 \
 conserver_8.1.2 \
+consolekit_0.3.0 \
 constype_1.0.1 \
 coreutils-native_6.0 \
 coreutils-native_7.1 \
@@ -289,15 +300,19 @@ dbus-native_1.0.3 \
 dbus-native_1.2.1 \
 dbus_1.0.3 \
 dbus_1.2.1 \
+dbus_1.2.20 \
 dbus_1.2.3 \
 debianutils_2.17.3 \
 debianutils_2.19 \
+desktop-file-utils-native_0.14 \
+desktop-file-utils_0.15 \
 desktop-file-utils_0.3 \
 desktop-file-utils_0.6 \
 detect-stylus_0.10 \
 device-mapper_1.01.04 \
 device-mapper_1.01.05 \
 devicekit-disks_004 \
+devicekit-power_009 \
 devio-native_1.0 \
 devio-native_1.1 \
 devio-native_r1 \
@@ -348,6 +363,7 @@ dpkg_1.14.23 \
 dri2proto_1.1 \
 dri2proto_2.0 \
 dri2proto_2.1 \
+dri2proto_2.2 \
 dropbear_0.49 \
 dropbear_0.51 \
 e2fsprogs-libs-native_1.35 \
@@ -413,6 +429,7 @@ evince_2.24.1 \
 evince_2.26.2 \
 expat_1.95.6 \
 expat_1.95.7 \
+faad2_2.0 \
 fakeroot-native_1.9.6 \
 fakeroot_1.9.6 \
 fam_2.6.10 \
@@ -433,6 +450,7 @@ fftwl_3.1.2 \
 file-native_4.18 \
 file-roller_2.6.1 \
 file_4.18 \
+file_4.21 \
 findutils-native_4.2.29 \
 findutils_4.2.29 \
 firefox_1.0.7 \
@@ -443,11 +461,14 @@ firefox_3.1b1 \
 firefox_3.1b2 \
 firefox_3.5.2 \
 firefox_3.5.4 \
+firefox_3.5.5 \
 firefox_3.5b4 \
 fixesproto-native_4.0 \
 fixesproto_4.0 \
 flac_1.1.0 \
 flac_1.1.2 \
+flex-native_2.5.31 \
+flex_2.5.31 \
 flite-alsa_1.2 \
 flite_1.2 \
 flnx_0.17 \
@@ -562,6 +583,7 @@ gcc-cross-intermediate_4.3.1 \
 gcc-cross-intermediate_4.3.2 \
 gcc-cross-intermediate_4.3.3 \
 gcc-cross-intermediate_4.4.1 \
+gcc-cross-intermediate_4.4.2 \
 gcc-cross-intermediate_csl-arm-2005q3 \
 gcc-cross-intermediate_csl-arm-2006q1 \
 gcc-cross-intermediate_csl-arm-2007q3 \
@@ -578,6 +600,7 @@ gcc-cross-sdk_4.3.1 \
 gcc-cross-sdk_4.3.2 \
 gcc-cross-sdk_4.3.3 \
 gcc-cross-sdk_4.4.1 \
+gcc-cross-sdk_4.4.2 \
 gcc-cross-sdk_csl-arm-2007q3 \
 gcc-cross_3.3.3 \
 gcc-cross_3.4.3 \
@@ -592,6 +615,7 @@ gcc-cross_4.3.1 \
 gcc-cross_4.3.2 \
 gcc-cross_4.3.3 \
 gcc-cross_4.4.1 \
+gcc-cross_4.4.2 \
 gcc-cross_csl-arm-2005q3 \
 gcc-cross_csl-arm-2006q1 \
 gcc-cross_csl-arm-2007q3 \
@@ -611,12 +635,15 @@ gcc_4.3.1 \
 gcc_4.3.2 \
 gcc_4.3.3 \
 gcc_4.4.1 \
+gcc_4.4.2 \
 gcc_csl-arm-2005q3 \
 gcc_csl-arm-2006q1 \
 gcc_csl-arm-2007q3 \
 gcc_csl-arm-2008q1 \
 gconf-editor_2.22.0 \
 gconf-editor_2.24.0 \
+gconf-editor_2.26.0 \
+gconf_2.26.2 \
 gd_2.0.21 \
 gd_2.0.22 \
 gdal_1.3.2 \
@@ -664,6 +691,7 @@ glib-2.0-native_2.18.0 \
 glib-2.0-native_2.18.3 \
 glib-2.0-native_2.2.3 \
 glib-2.0-native_2.20.4 \
+glib-2.0-native_2.22.1 \
 glib-2.0-native_2.4.6 \
 glib-2.0-native_2.6.5 \
 glib-2.0-native_2.6.6 \
@@ -685,6 +713,7 @@ glib-2.0_2.18.0 \
 glib-2.0_2.18.1 \
 glib-2.0_2.18.3 \
 glib-2.0_2.2.3 \
+glib-2.0_2.20.3 \
 glib-2.0_2.20.4 \
 glib-2.0_2.22.1 \
 glib-2.0_2.4.6 \
@@ -774,6 +803,7 @@ gnome-mime-data_2.4.1 \
 gnome-mime-data_2.4.2 \
 gnome-mplayer_0.5.3 \
 gnome-mplayer_0.9.5 \
+gnome-mplayer_0.9.8 \
 gnome-panel_2.10.1 \
 gnome-panel_2.12.1 \
 gnome-panel_2.18.1 \
@@ -781,7 +811,9 @@ gnome-panel_2.22.2 \
 gnome-panel_2.24.0 \
 gnome-panel_2.26.0 \
 gnome-power-manager_2.18.3 \
+gnome-power-manager_2.24.2 \
 gnome-python-desktop_2.23.0 \
+gnome-python-desktop_2.26.0 \
 gnome-python-extras_2.19.1 \
 gnome-python_2.22.1 \
 gnome-python_2.26.1 \
@@ -789,6 +821,7 @@ gnome-session_2.24.1 \
 gnome-settings-daemon_2.24.0 \
 gnome-system-monitor_2.23.6 \
 gnome-system-monitor_2.24.0 \
+gnome-system-tools_2.27.1 \
 gnome-terminal_2.26.2 \
 gnome-vfs_2.22.0 \
 gnuchess_5.05 \
@@ -913,6 +946,8 @@ gphoto2_2.4.0 \
 gphoto2_2.4.2 \
 gphoto2_2.4.4 \
 gpsbabel_1.2.5 \
+gpsd_2.38 \
+gpsd_2.39 \
 gpsdrive_2.10pre2 \
 grep_2.5 \
 groff_1.19.1 \
@@ -928,20 +963,26 @@ gst-ffmpeg_0.10.2 \
 gst-ffmpeg_0.10.4 \
 gst-ffmpeg_0.10.6 \
 gst-ffmpeg_0.10.7 \
+gst-ffmpeg_0.10.8 \
 gst-plugins-bad_0.10.11 \
+gst-plugins-bad_0.10.12 \
 gst-plugins-bad_0.10.6 \
 gst-plugins-bad_0.10.9 \
 gst-plugins-base_0.10.17 \
 gst-plugins-base_0.10.22 \
 gst-plugins-base_0.10.23 \
+gst-plugins-base_0.10.25 \
 gst-plugins-good_0.10.13 \
 gst-plugins-good_0.10.14 \
 gst-plugins-good_0.10.15 \
+gst-plugins-good_0.10.17 \
 gst-plugins-ugly_0.10.10 \
+gst-plugins-ugly_0.10.11 \
 gst-rtsp_0.10.4 \
 gstreamer_0.10.17 \
 gstreamer_0.10.22 \
 gstreamer_0.10.23 \
+gstreamer_0.10.25 \
 gthumb_2.6.9 \
 gtk+-native_2.12.11 \
 gtk+_2.10.14 \
@@ -1013,6 +1054,7 @@ i2c-tools_3.0.1 \
 ica-bin_8.0 \
 iceauth_1.0.2 \
 icon-naming-utils-native_0.8.2 \
+iksemel_1.2 \
 imagemagick_6.3.5-10 \
 inetutils_1.4.2 \
 inkscape_0.38.1 \
@@ -1050,11 +1092,13 @@ iproute2_2.6.20 \
 iproute2_2.6.22 \
 iproute2_2.6.29 \
 ipsec-tools_0.6.6 \
+ipsec-tools_0.6.7 \
 iptables_1.3.8 \
 iputils_20020927 \
 ipython_0.9.1 \
 irda-utils_0.9.15 \
 irssi_0.8.10 \
+iscsi-target_0.4.17 \
 ixp4xx-kernel_2.6.18 \
 ixp4xx-kernel_2.6.19 \
 ixp4xx-kernel_2.6.20 \
@@ -1077,7 +1121,9 @@ kexec-tools_1.101 \
 kismet_2007-01-R1b \
 kismet_2007-10-R1 \
 klibc-utils-static_1.5 \
+klibc-utils-static_1.5.15 \
 klibc_1.5 \
+klibc_1.5.15 \
 konqueror-embedded_20030705 \
 konqueror-embedded_20060404 \
 lame_3.96.1 \
@@ -1092,6 +1138,7 @@ libapplewm_1.0.0 \
 libart-lgpl_2.3.16 \
 libart-lgpl_2.3.19 \
 libassuan_0.6.7 \
+libassuan_0.9.3 \
 libbonobo_2.10.0 \
 libbonobo_2.22.0 \
 libbonobo_2.6.0 \
@@ -1115,6 +1162,7 @@ libdrm_2.3.0 \
 libdrm_2.3.1 \
 libdrm_2.4.11 \
 libdrm_2.4.12 \
+libdrm_2.4.17 \
 libdvdread_0.9.6 \
 libecj-bootstrap_3.3 \
 libecj-bootstrap_3.3.2 \
@@ -1288,8 +1336,12 @@ libpciaccess_0.10.9 \
 libpixman_0.1.5 \
 libpixman_0.1.6 \
 libpixman_0.9.6 \
+libpng-native_1.2.37 \
 libpng-native_1.2.40 \
+libpng-native_1.2.41 \
+libpng_1.2.37 \
 libpng_1.2.40 \
+libpng_1.2.41 \
 libpthread-stubs_0.1 \
 libqpe-opie_1.2.2 \
 libqpe-opie_1.2.3 \
@@ -1369,6 +1421,7 @@ libtorrent_0.12.0 \
 libtorrent_0.12.3 \
 libunique_1.0.8 \
 libupnp_1.3.1 \
+libusb-compat_0.1.2 \
 libusb1_1.0.2 \
 libvisual_0.1.3 \
 libvncserver_0.9 \
@@ -1442,6 +1495,8 @@ libxkbfile_1.0.5 \
 libxklavier_3.7 \
 libxml-parser-perl-native_2.34 \
 libxml-parser-perl_2.34 \
+libxml2_2.7.3 \
+libxml2_2.7.6 \
 libxmu_1.0.3 \
 libxmu_1.0.4 \
 libxpm_3.5.6 \
@@ -1465,8 +1520,10 @@ libxslt-native_1.1.17 \
 libxslt_1.1.17 \
 libxslt_1.1.21 \
 libxt-native_1.0.5 \
+libxt-native_1.0.7 \
 libxt_1.0.4 \
 libxt_1.0.5 \
+libxt_1.0.7 \
 libxtst_1.0.2 \
 libxtst_1.0.3 \
 libxv_1.0.3 \
@@ -1477,6 +1534,7 @@ libxxf86dga_1.0.2 \
 libxxf86misc_1.0.1 \
 libxxf86vm_1.0.1 \
 libxxf86vm_1.0.2 \
+libyaml_0.1.2 \
 libzvbi_0.2.22 \
 lighttpd_1.4.18 \
 linphone_0.12.2 \
@@ -1629,12 +1687,15 @@ ltp_20080229 \
 ltrace_0.4 \
 luit_1.0.2 \
 luit_1.0.3 \
+luit_1.0.4 \
 lvm2_2.01.09 \
 lyx_1.6.1 \
 m4-native_1.4.11 \
+m4-native_1.4.12 \
 m4-native_1.4.4 \
 m4-native_1.4.8 \
 m4_1.4.11 \
+m4_1.4.12 \
 m4_1.4.4 \
 m4_1.4.8 \
 madwifi-ng_r2826-20071105 \
@@ -1704,6 +1765,8 @@ midori_0.1.7 \
 midori_0.1.8 \
 midori_0.2.0 \
 midori_0.2.1 \
+midori_0.2.2 \
+midori_0.2.3 \
 mime-support_3.28 \
 mingw-binutils-canadian-cross_2.17.50-20060824-1 \
 mingw-binutils-canadian-cross_2.19.1 \
@@ -1785,10 +1848,14 @@ net-snmp_5.4.1 \
 net6_1.2.2 \
 netperf_2.3 \
 network-manager-applet_0.6.5 \
+network-manager-applet_0.7.1 \
+networkmanager-openvpn_0.7.1 \
 networkmanager_0.6.4 \
 networkmanager_0.6.5 \
 networkmanager_0.6.6 \
 networkmanager_0.7 \
+networkmanager_0.7.1 \
+networkmanager_0.7.999 \
 networkmanager_0.7olpc \
 nfs-utils_1.0.6 \
 notecase_1.2.6 \
@@ -1813,11 +1880,14 @@ olsrd_0.5.3 \
 omap3-sgx-modules_1.2.12.838 \
 omap3-sgx-modules_1.3.13.1397 \
 omap3-sgx-modules_1.3.13.1607 \
+omniorb-native_4.0.7 \
+omniorb_4.0.7 \
 opal_3.4.4 \
 opal_3.5.2 \
 opal_3.6.1 \
 opal_3.6.2 \
 opal_3.6.4 \
+opal_3.6.6 \
 openbmap-logger_0.2.0 \
 openldap_2.2.29 \
 openldap_2.3.11 \
@@ -1975,9 +2045,11 @@ perl-native_5.8.7 \
 perl_5.8.4 \
 perl_5.8.7 \
 php-native_5.2.6 \
+php-native_5.3.0 \
 php_5.2.6 \
 picocom_1.3 \
 pidgin_2.5.8 \
+pidgin_2.6.5 \
 pixman_0.10.0 \
 pixman_0.11.4 \
 pixman_0.11.8 \
@@ -1986,6 +2058,8 @@ pixman_0.13.2 \
 pixman_0.15.18 \
 pixman_0.15.6 \
 pixman_0.16.2 \
+pixman_0.17.4 \
+pixman_0.17.4 \
 pixman_0.9.4 \
 pixman_0.9.5 \
 pixman_0.9.6 \
@@ -1993,6 +2067,8 @@ pmount_0.9.17 \
 pmount_0.9.18 \
 pmount_0.9.4 \
 pocketsphinx_0.2.1 \
+policykit-gnome_0.9.2 \
+policykit_0.9 \
 poppler-data_0.1 \
 poppler_0.11.3 \
 poppler_0.12.1 \
@@ -2034,6 +2110,7 @@ ptlib_2.5.2 \
 ptlib_2.6.1 \
 ptlib_2.6.2 \
 ptlib_2.6.4 \
+ptlib_2.6.5 \
 pulseaudio_0.9.10 \
 pulseaudio_0.9.11 \
 pulseaudio_0.9.15 \
@@ -2049,7 +2126,12 @@ pwc_10.0.7a \
 pwc_10.0.9-rc1 \
 pwlib_1.5.2 \
 python-coherence_0.6.2 \
+python-cython-native_0.10.3 \
+python-cython-native_0.12 \
+python-cython_0.10.3 \
+python-cython_0.12 \
 python-gst_0.10.10 \
+python-native_2.6.1 \
 python-pybluez_0.15 \
 python-pycairo_1.4.0 \
 python-pycurl_7.18.2 \
@@ -2057,11 +2139,13 @@ python-pygobject-native_2.14.2 \
 python-pygobject-native_2.16.0 \
 python-pygobject_2.14.2 \
 python-pygobject_2.16.0 \
+python-pygtk_2.10.4 \
 python-pygtk_2.6.3 \
 python-pygtk_2.8.6 \
 python-sip_4.7.9 \
 python-twisted_2.5.0 \
 python_2.6.1 \
+python_2.6.2 \
 qc-usb-messenger_0.8 \
 qemu-native_0.9.1 \
 qemu-native_20070613 \
@@ -2135,7 +2219,9 @@ sablevm-classpath_1.1.9 \
 sablevm-classpath_1.11.3 \
 sablevm_1.1.9 \
 sablevm_1.11.3 \
+samba-ads_3.2.15 \
 samba_3.0.23c \
+samba_3.2.15 \
 samba_3.3.0 \
 sane-backends_1.0.19 \
 schroedinger_0.2.0.0 \
@@ -2170,9 +2256,11 @@ slugos-init_0.10 \
 slugos-init_4.8 \
 smartmontools_5.33 \
 smartmontools_5.37 \
+smartmontools_5.38 \
 smproxy_1.0.2 \
 sms_1.0 \
 sofia-sip_1.11.7 \
+sofia-sip_1.12.7 \
 sox_12.17.5 \
 sphinxbase_0.1 \
 sqlite3-native_3.6.2 \
@@ -2188,6 +2276,7 @@ strace_4.5.11 \
 strace_4.5.12 \
 strace_4.5.14 \
 strace_4.5.15 \
+strace_4.5.18 \
 streamripper_1.61.3 \
 subversion_1.4.3 \
 sudo_1.6.8p12 \
@@ -2223,10 +2312,12 @@ syslog-ng_1.6.11 \
 syslog-ng_1.6.8 \
 sysstat_8.1.5 \
 sysstat_8.1.6 \
+system-tools-backends_2.8.1 \
 taglib_1.4 \
 tango-icon-theme_0.7.2 \
 tangogps_0.9.6 \
 tangogps_0.99.1 \
+tangogps_0.99.2 \
 tar_1.13.93 \
 tar_1.18 \
 tar_1.20 \
@@ -2258,6 +2349,8 @@ transmission_1.73 \
 transmission_1.75 \
 transmission_1.76 \
 transmission_1.76+1.80b3 \
+transmission_1.82 \
+transmission_1.83 \
 tsclient_0.132 \
 twm_1.0.3 \
 tzcode-native_2007k \
@@ -2265,6 +2358,7 @@ tzdata_2007k \
 tzdata_2009m \
 tzdata_2009o \
 tzdata_2009p \
+tzdata_2009s \
 u-boot-omap2430sdp_1.1.4 \
 u-boot-omap3beagleboard_1.1.4 \
 u-boot_1.1.2 \
@@ -2307,6 +2401,7 @@ usbutils_0.82 \
 util-linux-ng_2.13.1 \
 util-linux-ng_2.14 \
 util-linux-ng_2.15 \
+util-linux-ng_2.16 \
 util-linux_2.12 \
 util-linux_2.12o \
 util-linux_2.12q \
@@ -2320,13 +2415,17 @@ util-macros_1.1.6 \
 util-macros_1.2.1 \
 util-macros_1.3.0 \
 util-macros_1.4.1 \
+util-macros_1.5.0 \
+util-macros_1.6.0 \
 vagalume_0.5.1 \
 vagalume_0.7.1 \
 vala-native_0.7.7+fso5 \
 vala-native_0.7.8.2 \
+vala-native_0.7.9.7 \
 vala_0.7.6-fso2 \
 vala_0.7.7+fso5 \
 vala_0.7.8.2 \
+vala_0.7.9.7 \
 valgrind_3.2.1 \
 valgrind_3.2.3 \
 videoproto_2.2.2 \
@@ -2366,6 +2465,7 @@ wpa-supplicant_0.6.3 \
 wpa-supplicant_0.6.7 \
 wscan_20080720 \
 wt3_2.99.0 \
+wt3_3.0.0 \
 wt_2.2.0 \
 wvdial_1.56 \
 wxwidgets_2.8.10 \
@@ -2474,6 +2574,7 @@ xf86-input-palmax_1.1.0 \
 xf86-input-penmount_1.2.0 \
 xf86-input-penmount_1.2.1 \
 xf86-input-penmount_1.3.0 \
+xf86-input-penmount_1.4.0 \
 xf86-input-spaceorb_1.1.0 \
 xf86-input-summa_1.1.0 \
 xf86-input-synaptics_0.15.0 \
@@ -2527,6 +2628,7 @@ xf86-video-newport_0.2.1 \
 xf86-video-nsc_2.8.2 \
 xf86-video-nv_2.1.12 \
 xf86-video-nv_2.1.15 \
+xf86-video-nv_2.1.16 \
 xf86-video-nv_2.1.3 \
 xf86-video-nv_2.1.7 \
 xf86-video-nv_2.1.8 \
@@ -2577,6 +2679,7 @@ xf86-video-vmware_10.15.2 \
 xf86-video-vmware_10.16.1 \
 xf86-video-vmware_10.16.5 \
 xf86-video-vmware_10.16.8 \
+xf86-video-vmware_10.16.9 \
 xf86-video-voodoo_1.1.1 \
 xf86-video-voodoo_1.2.0 \
 xf86-video-wsfb_0.2.1 \
@@ -2612,6 +2715,7 @@ xfs_1.0.5 \
 xfs_1.0.6 \
 xfs_1.0.8 \
 xfsinfo_1.0.1 \
+xfsprogs_2.8.16 \
 xfwm4-themes_4.4.2 \
 xfwm4_4.4.2 \
 xgamma_1.0.1 \
@@ -2627,8 +2731,11 @@ xinit_1.0.8 \
 xinit_1.0.9 \
 xinit_1.1.0 \
 xinit_1.1.1 \
+xinit_1.2.0 \
+xinput-calibrator_0.5.0 \
 xinput_1.3.0 \
 xinput_1.4.2 \
+xinput_1.5.0 \
 xkbcomp-native_1.0.3 \
 xkbcomp-native_1.0.5 \
 xkbcomp_1.0.3 \
@@ -2651,6 +2758,7 @@ xmame_0.95 \
 xman_1.0.2 \
 xman_1.0.3 \
 xmessage_1.0.1 \
+xmessage_1.0.2 \
 xmodmap_1.0.2 \
 xmodmap_1.0.3 \
 xmonobut_0.4 \
@@ -2755,29 +2863,12 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
-gcc_4.4.2 \
-gcc-cross_4.4.2 \
-gcc-cross-intermediate_4.4.2 \
-gcc-cross-sdk_4.4.2 \
-gnome-python-desktop_2.26.0 \
-libpng_1.2.41 \
-libpng-native_1.2.41 \
-python_2.6.2 \
-python-cython_0.10.3 \
-python-cython_0.12 \
-python-cython-native_0.10.3 \
-python-cython-native_0.12 \
-python-native_2.6.1 \
-python-pygtk_2.10.4 \
-transmission_1.82 \
-vala_0.7.9.7 \
-vala-native_0.7.9.7 \
 "
 
 ############################################
 
 PKGDUP_IGNORES = " \
-altboot_1.1.1+wip-SVNR83 \
+libsoup-2.4_2.29.91 \
 bash_3.0 \
 bluez-libs_3.36 \
 boost_1.33.1 \
@@ -2893,9 +2984,7 @@ pyorbit_2.14.3 \
 qt4-embedded_4.5.2 \
 qt4-tools-native_4.5.2 \
 qt4-x11-free_4.5.2 \
-samba-ads_3.2.8 \
 samba_3.0.34 \
-samba_3.2.8 \
 shorewall_2.0.9-monolithic \
 spandsp_0.0.4-pre16 \
 sysfsutils_1.3.0 \
@@ -2931,7 +3020,6 @@ xscreensaver_4.22 \
 xserver-kdrive_1.4.2 \
 xserver-xorg_1.4.2 \
 xserver-xorg_1.5.3 \
-xserver-xorg_1.6.1 \
 xvidcap_1.1.7rc1 \
 ztappy_0.9.3ern \
 "
