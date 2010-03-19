@@ -94,7 +94,7 @@ export _CCACHE	= `${WHICH} ccache 2>/dev/null`
 export _CROSS	= ${TARGET_PREFIX}
 export _ARCH	= ${TARGET_ARCH}
 
-_secwrap        = $(SECWRAP_CMD)
+_secwrap        = ${SECWRAP_CMD}
 
 SH     ?= /bin/bash
 PS1     = [\\[\\033[1;34m\\]${PROJECT_NAME}\\[\\033[0;39m\\]|\\u@\\h \\W]\\044$

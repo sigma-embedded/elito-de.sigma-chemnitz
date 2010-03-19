@@ -40,7 +40,7 @@ do_generate_makefile() {
 ## --*- makefile -*--
 _cc = ${KERNEL_CC}
 _ld = ${KERNEL_LD}
-_secwrap = $(SECWRAP_CMD)
+_secwrap = ${SECWRAP_CMD}
 
 export PATH = ${PATH}
 export CCACHE_DIR = ${CCACHE_DIR}
