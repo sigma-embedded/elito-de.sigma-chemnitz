@@ -116,7 +116,7 @@ OPTS ?=
 ENV  ?=
 endif
 
-_make =	\$(_secwrap) \$(MAKE)
+ifeq (\$(_SKIP_DEVELCOMP_RULES),)
 
 %:
 	\$(_start) \$(MAKE) -e MAKELEVEL:=0 MAKEFILES:= \$(OPTS) \$@
@@ -129,6 +129,8 @@ exec:
 
 shell:
 	@env PS1='\$(PS1) ' \$(_start) \$(SH) -
+
+endif
 
 unexport MAKEFILES
 unexport MAKELEVEL
