@@ -35,8 +35,13 @@ CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksums.ini
 
 BITBAKE_BRANCH =	1.8
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
+ifeq ($(BITBAKE_BRANCH),1.8)
 BITBAKE_REV =		ffdba52362372efc5f18fd5d42697483c0109b4f
 BITBAKE_REV_S =		53f097ed9f47426dc945c821ae2d6fa162659256
+else
+BITBAKE_REV =		060ef3d957615b7eb1209dc0d01ebeb53f8c4edc
+BITBAKE_REV_S =		53f097ed9f47426dc945c821ae2d6fa162659256
+endif
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
 
 AUTOCONF_FILES =	Makefile		\
@@ -159,19 +164,21 @@ tmp/stamps/.bitbake.gitinit.stamp:
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
 ifeq ($(QUILT),)
-			cd tmp/bitbake && cat $(abs_top_srcdir)/recipes/bitbake/*.patch | patch -p0
+			cd tmp/bitbake && cat $(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)/*.patch | patch -p0
 else
 			cd tmp/bitbake && $(QUILT) pop -a || :
 			rm -rf tmp/bitbake/patches tmp/bitbake/.pc
 			mkdir -p tmp/bitbake/patches
-			cd tmp/bitbake && $(QUILT) import -p0 $(abs_top_srcdir)/recipes/bitbake/*.patch
+			cd tmp/bitbake && $(QUILT) import -p0 $(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)/*.patch
 			cd tmp/bitbake && $(QUILT) push -a
 endif
 			@touch $@
 
 tmp/stamps/.bitbake.stamp:	tmp/stamps/.bitbake.patch.stamp
 			cd tmp/bitbake && $(PYTHON) setup.py build
-			cd tmp/bitbake && $(PYTHON) setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
+			mkdir -p $(_bitbake_root)/lib
+			cd tmp/bitbake && \
+			env PYTHONPATH=${PYTHONPATH}:$(if ${PYTHONPATH},:,)$(_bitbake_root)/lib python setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
 			$(MAKE) bitbake
 			@touch $@
 

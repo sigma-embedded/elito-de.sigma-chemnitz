@@ -1,0 +1,54 @@
+commit 5a377509987620aad53b217e52afd3f492022179
+Author: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date:   Wed Aug 26 16:05:33 2009 +0200
+
+    Added BB_SVN_TUNNEL support
+    
+    This patch rewrites svn:// like URIs to svn${BB_SVN_TUNNEL}:// which can
+    be used to connect through HTTP proxies.
+    
+    To use it, you have to apply steps like:
+    
+    * add to your bitbake.conf
+    
+      | BB_SVN_TUNNEL = "+proxy"
+    
+    * add the following lines to to ~/.subversion/config
+    
+      | [tunnels]
+      | proxy = svn-tunnel
+    
+      (the key name ('proxy') can be changed but has to match the value
+       of BB_SVN_TUNNEL)
+    
+    * create an executable script 'svn-tunnel' with
+    
+      | #! /bin/sh
+      |
+      | host=${1%%:*}
+      | port=${1##$host}
+      | port=${port##:}
+      | : ${port:=3690}
+      |
+      | exec /usr/bin/nc -X connect -x www-cache:3128 "$host" "$port"
+
+Index: lib/bb/fetch/svn.py
+===================================================================
+--- lib/bb/fetch/svn.py.orig
++++ lib/bb/fetch/svn.py
+@@ -91,11 +91,15 @@ class Svn(Fetch):
+         """
+ 
+         basecmd = data.expand('${FETCHCMD_svn}', d)
++        tunnel  = data.getVar('BB_SVN_TUNNEL', d, True) or ""
+ 
+         proto = "svn"
+         if "proto" in ud.parm:
+             proto = ud.parm["proto"]
+ 
++        if proto == "svn":
++            proto = proto + tunnel
++
+         svn_rsh = None
+         if proto == "svn+ssh" and "rsh" in ud.parm:
+             svn_rsh = ud.parm["rsh"]
