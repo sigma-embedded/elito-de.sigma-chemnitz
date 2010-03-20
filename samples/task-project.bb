@@ -7,6 +7,10 @@ PR = "r0"
 
 SRC_URI = "git://${PROJECT_TOPDIR};protocol=file"
 
+# for PROJECT_REVISION
+inherit elito-utils
+inherit task
+
 do_fetch() {
 }
 
@@ -15,8 +19,6 @@ do_unpack() {
 
 do_distribute_sources() {
 }
-
-inherit task
 
 # !! DO NOT MOVE IT TO TOP !!
 # Else, the task class sets PACKAGE_ARCH to all which will override

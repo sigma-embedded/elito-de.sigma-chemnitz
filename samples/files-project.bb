@@ -8,6 +8,11 @@ PR = "r0"
 
 SRC_URI = "git://${PROJECT_TOPDIR};protocol=file"
 
+FILES_${PN} = "/"
+
+# for PROJECT_REVISION
+inherit elito-utils
+
 do_fetch() {
 }
 
@@ -20,8 +25,6 @@ do_distribute_sources() {
 do_compile() {
         make -C ${FILE_DIRNAME} dist TARBALL=`pwd`/base-files.tar.bz2
 }
-
-FILES_${PN} = "/"
 
 do_install() {
         install -d ${D}
