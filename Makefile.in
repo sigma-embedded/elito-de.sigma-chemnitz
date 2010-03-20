@@ -158,7 +158,7 @@ tmp/stamps/.bitbake.gitinit.stamp:
 			done
 			-cd tmp/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV_S}
 			cd tmp/bitbake && { $(GIT) remote update || $(GIT) remote update; }
-			cd tmp/bitbake && $(GIT) checkout -b master ${BITBAKE_REV}
+			cd tmp/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
 			cd tmp/bitbake && $(GIT) gc
 			@touch $@
 
@@ -170,7 +170,7 @@ else
 			rm -rf tmp/bitbake/patches tmp/bitbake/.pc
 			mkdir -p tmp/bitbake/patches
 			cd tmp/bitbake && $(QUILT) import -p0 $(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)/*.patch
-			cd tmp/bitbake && $(QUILT) push -a
+			cd tmp/bitbake && $(QUILT) push -a -f
 endif
 			@touch $@
 
