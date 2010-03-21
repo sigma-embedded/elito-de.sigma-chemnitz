@@ -9,10 +9,8 @@ if ! test -x "@BITBAKE@"; then
     exit 1
 fi >&2
 
-test -z "$PYTHONPATH" || _d=:
-PYTHONPATH=@BITBAKE_PATH@$_d$PYTHONPATH
 BB_ENV_EXTRAWHITE='CCACHE_DIR HOME GIT_SSL_CAINFO '\
 'ftp_proxy http_proxy https_proxy no_proxy'
-export BB_ENV_EXTRAWHITE POSIXLY_CORRECT PYTHONPATH
+export BB_ENV_EXTRAWHITE
 
 exec @SECWRAP_CMD@ @PYTHON@ @BITBAKE@ "$@"
