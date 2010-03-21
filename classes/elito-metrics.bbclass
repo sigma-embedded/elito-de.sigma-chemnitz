@@ -117,6 +117,7 @@ def _elito_metrics_write_task_complete(start_info, end_info, e, data):
         'PR'  : data['PR'],
         'PN'  : data['PN'],
         'PF'  : data['PF'],
+        'pid' : start_info['pid'],
         'start_tm'     : start_info['time'],
         'start_tm_str' : time.strftime('%c', time.gmtime(start_info['time'])),
         'end_tm_str'   : time.strftime('%c', time.gmtime(end_info['time'])),
@@ -126,9 +127,9 @@ def _elito_metrics_write_task_complete(start_info, end_info, e, data):
         'task' : e.task }
 
     x = \
-    '  <!-- %(task)s(%(PF)s) | %(start_tm_str)s - %(end_tm_str)s -->\n' \
+    '  <!-- %(task)s(%(PF)s) | %(start_tm_str)s - %(end_tm_str)s (PID %(pid)s) -->\n' \
     '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
-    'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s">\n' % info
+    'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s" pid="%(pid)s">\n' % info
 
     elito_metrics_write(e.data, x +
                         '    <!-- RUSAGE_CHILDREN -->\n' +
