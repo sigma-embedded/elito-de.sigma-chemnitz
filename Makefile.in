@@ -35,13 +35,10 @@ CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksums.ini
 
 BITBAKE_BRANCH =	1.8
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
-ifeq ($(BITBAKE_BRANCH),1.8)
-BITBAKE_REV =		ffdba52362372efc5f18fd5d42697483c0109b4f
-BITBAKE_REV_S =		53f097ed9f47426dc945c821ae2d6fa162659256
-else
-BITBAKE_REV =		060ef3d957615b7eb1209dc0d01ebeb53f8c4edc
-BITBAKE_REV_S =		53f097ed9f47426dc945c821ae2d6fa162659256
-endif
+
+_bitbake_srcdir =	$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
+BITBAKE_REV =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '1p;d')
+BITBAKE_REV_S =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
 
 AUTOCONF_FILES =	Makefile		\
@@ -129,7 +126,7 @@ update-checksum:
 			rm -f tmp/checksums.ini
 
 find-dups:
-			./bitbake -l Collection -d
+			./bitbake -l Collection -d ${TARGETS}
 
 tmp/stamps/.prep.stamp:	tmp/stamps/.bitbake.stamp tmp/stamps/.filesystem.stamp
 			$(BITBAKE) stagemanager-native ipkg-utils-native
@@ -164,12 +161,12 @@ tmp/stamps/.bitbake.gitinit.stamp:
 
 tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
 ifeq ($(QUILT),)
-			cd tmp/bitbake && cat $(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)/*.patch | patch -p0
+			cd tmp/bitbake && cat $(_bitbake_srcdir)/*.patch | patch -p0
 else
 			cd tmp/bitbake && $(QUILT) pop -a || :
 			rm -rf tmp/bitbake/patches tmp/bitbake/.pc
 			mkdir -p tmp/bitbake/patches
-			cd tmp/bitbake && $(QUILT) import -p0 $(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)/*.patch
+			cd tmp/bitbake && $(QUILT) import -p0 $(_bitbake_srcdir)/*.patch
 			cd tmp/bitbake && $(QUILT) push -a -f
 endif
 			@touch $@
@@ -179,6 +176,7 @@ tmp/stamps/.bitbake.stamp:	tmp/stamps/.bitbake.patch.stamp
 			mkdir -p $(_bitbake_root)/lib
 			cd tmp/bitbake && \
 			env PYTHONPATH=${PYTHONPATH}:$(if ${PYTHONPATH},:,)$(_bitbake_root)/lib python setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
+			$(SED) -i -e '/EASY-INSTALL-SCRIPT/aimport os, site; site.addsitedir("$(_bitbake_root)/lib")' $(_bitbake_root)/bin/bitbake
 			$(MAKE) bitbake
 			@touch $@
 
@@ -199,7 +197,7 @@ $(_project_task_dir)/.stamp:
 
 $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 			test -e '$@' || \
-			sed -e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g' $(abs_top_srcdir)/samples/$(patsubst %-$(PROJECT_NAME).bb,%-project.bb,$(notdir $@)) > '$@'
+			$(SED) -e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g' $(abs_top_srcdir)/samples/$(patsubst %-$(PROJECT_NAME).bb,%-project.bb,$(notdir $@)) > '$@'
 
 # make timestamp older to prevent endless runs of this rules; it will
 # not be good to do 'touch $@' here because this file is going to be
