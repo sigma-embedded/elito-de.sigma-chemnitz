@@ -1,4 +1,13 @@
 # --*- python -*--
+
+python elito_metrics_eventhandler () {
+    import bb
+
+    if bb.__version__.startswith("1.8."):
+        return _elito_metrics_eventhandler_18(e)
+    else:
+        return _elito_metrics_eventhandler(e)
+}
 addhandler elito_metrics_eventhandler
 
 def elito_metrics_write(d, str):
@@ -29,8 +38,153 @@ def elito_metrics_to_xml(who, res_a, res_b):
 
     return res
 
+def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
+    import time, fcntl
+    from bb import data
 
-python elito_metrics_eventhandler() {
+    f_out = open(fname, 'a')
+    f_in  = open(fname + ".tmp", 'r')
+
+    try:
+        fcntl.flock(f_out.fileno(), fcntl.LOCK_EX)
+        fcntl.fcntl(f_in.fileno(),  fcntl.LOCK_SH)
+
+        f_out.write('<!-- Started: %s   Ended: %s -->\n' %
+                    (time.strftime('%c', time.gmtime(start_info['time'])),
+                     time.strftime('%c', time.gmtime(end_info['time']))))
+
+        f_out.write('<build project="%s" started="%f" finished="%f"' \
+                    ' duration="%f">\n' %
+                    (data.getVar('PROJECT_NAME', e.data, True),
+                     start_info['time'], end_info['time'],
+                     end_info['time'] - start_info['time']))
+
+        f_out.write('  <sysinfo>\n')
+
+        uname = os.uname()
+        f_out.write('    <hostname>%s</hostname>\n' \
+                    '    <release>%s</release>\n' \
+                    '    <machine>%s</machine>\n' % \
+                    (uname[1], uname[2], uname[4]))
+
+        try:
+            total_mem = os.sysconf("SC_PHYS_PAGES") * os.sysconf("SC_PAGE_SIZE")
+            f_out.write('    <memory>%s</memory>\n' % total_mem)
+        except:
+            pass
+
+        try:
+            f_out.write('    <cpus>%u</cpus>\n' %
+                        os.sysconf("SC_NPROCESSORS_ONLN"))
+        except:
+            pass
+
+        f_out.write('  </sysinfo>\n')
+
+        while True:
+           buf = f_in.read(8192)
+           if len(buf) == 0:
+               break
+           f_out.write(buf)
+
+        f_out.write('  <metrics>\n' +
+                    '    <!-- RUSAGE_CHILDREN -->\n' +
+                    ''.join(map(lambda x: '    ' + x + '\n',
+                                elito_metrics_to_xml("children",
+                                                     end_info['res_chld'],
+                                                     start_info['res_chld']))) +
+                    '    <!-- RUSAGE_SELF -->\n' +
+                    ''.join(map(lambda x: '    ' + x + '\n',
+                                elito_metrics_to_xml("self",
+                                                     end_info['res_self'],
+                                                     start_info['res_self']))) +
+                    "  </metrics>\n")
+        f_out.write('</build>\n')
+        os.unlink(fname + ".tmp")
+    finally:
+        f_in.close()
+        f_out.close()
+
+def _elito_metrics_write_task_complete(start_info, end_info, e, data):
+    from bb.event import getName
+    import bb
+
+    import time
+
+    info = {
+        'now' : end_info['time'],
+        'PV'  : data['PV'],
+        'PR'  : data['PR'],
+        'PN'  : data['PN'],
+        'PF'  : data['PF'],
+        'start_tm'     : start_info['time'],
+        'start_tm_str' : time.strftime('%c', time.gmtime(start_info['time'])),
+        'end_tm_str'   : time.strftime('%c', time.gmtime(end_info['time'])),
+        'total_time' : end_info['time'] - start_info['time'],
+        'result' : ['FAIL','OK'][getName(e) == "TaskSucceeded"],
+        'preference' : data['DEFAULT_PREFERENCE'] or '0',
+        'task' : e.task }
+
+    x = \
+    '  <!-- %(task)s(%(PF)s) | %(start_tm_str)s - %(end_tm_str)s -->\n' \
+    '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
+    'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s">\n' % info
+
+    elito_metrics_write(e.data, x +
+                        '    <!-- RUSAGE_CHILDREN -->\n' +
+                        ''.join(map(lambda x: '    ' + x + '\n',
+                                    elito_metrics_to_xml("children",
+                                                         end_info['res_chld'],
+                                                         start_info['res_chld']))) +
+                        '    <!-- RUSAGE_SELF -->\n' +
+                        ''.join(map(lambda x: '    ' + x + '\n',
+                                    elito_metrics_to_xml("self",
+                                                         end_info['res_self'],
+                                                         start_info['res_self']))) +
+
+                        '  </task>\n')
+
+def _elito_metrics_eventhandler (e):
+    from bb import note, error, data
+    from bb.event import NotHandled, getName
+
+    if e.data is None or getName(e) in ("MsgNote", "ParseProgress", "RecipeParsed", "ConfigParsed"):
+        return NotHandled
+
+    name = getName(e)
+    info = e.info
+
+    if name == "BuildStarted":
+        dst_fname = data.getVar("METRICS_FILE", e.data, True)
+
+        try:
+            os.unlink(dst_fname + ".tmp")
+        except:
+            pass
+        elito_metrics_write(e.data, '')
+    elif name == "BuildCompleted":
+        res_start = info['resources']['build_start']
+        res_end   = info['resources']['build_end']
+
+        if res_start['pid'] != res_end['pid']:
+            bb.warn("PID mismatch in BuildCompleted (%u vs %u)" %
+                    (res_start['pid'], res_end['pid']))
+
+        _elito_metrics_write_build_complete(data.getVar('METRICS_FILE', e.data, True),
+                                            res_start, res_end, e)
+    elif name == "TaskSucceeded" or name == "TaskFailed":
+        res_start = info['resources']['task_start']
+        res_end   = info['resources']['task_end']
+
+        if res_start['pid'] != res_end['pid']:
+            bb.warn("PID mismatch in BuildCompleted (%u vs %u)" %
+                    (res_start['pid'], res_end['pid']))
+
+        _elito_metrics_write_task_complete(res_start, res_end, e, e._data)
+
+    return NotHandled
+
+def _elito_metrics_eventhandler_18 (e):
     import resource, time, fcntl
     from bb import note, error, data
     from bb.event import NotHandled, getName
@@ -177,4 +331,3 @@ python elito_metrics_eventhandler() {
                             '  </task>\n')
 
     return NotHandled
-}
