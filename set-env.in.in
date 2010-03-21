@@ -5,4 +5,5 @@ PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=@CCACHE_DIR@
 BBPATH=@abs_top_builddir@:@ELITO_ROOTDIR@/de.sigma-chemnitz:@ELITO_ROOTDIR@/org.openembedded
 
+unset POSIXLY_CORRECT
 export CCACHE_DIR BBPATH
