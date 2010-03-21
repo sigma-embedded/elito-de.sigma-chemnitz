@@ -19,7 +19,7 @@ Index: lib/bb/cooker.py
 ===================================================================
 --- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
-@@ -624,13 +624,18 @@ class BBCooker:
+@@ -624,13 +624,19 @@ class BBCooker:
          if (task == None):
              task = self.configuration.cmd
  
@@ -28,8 +28,9 @@ Index: lib/bb/cooker.py
 +        self.status = bb.cache.CacheData()
 +
 +        (fn, cls) = self.bb_cache.virtualfn2realfn(buildfile)
-+
 +        buildfile = self.matchFile(fn)
++        fn = self.bb_cache.realfn2virtual(buildfile, cls)
++
          self.buildSetVars()
  
          # Load data into the cache for fn and parse the loaded cache data

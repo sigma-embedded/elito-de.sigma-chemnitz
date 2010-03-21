@@ -1,0 +1,164 @@
+Index: lib/bb/build.py
+===================================================================
+--- lib/bb/build.py.orig
++++ lib/bb/build.py
+@@ -54,6 +54,11 @@ class TaskBase(event.Event):
+ 
+     def __init__(self, t, d ):
+         self._task = t
++        self._data = {}
++
++        for i in ('PV' ,'PR', 'PN', 'PF', 'DEFAULT_PREFERENCE'):
++            self._data[i] = bb.data.getVar(i, d, True)
++
+         self._package = bb.data.getVar("PF", d, 1)
+         event.Event.__init__(self)
+         self._message = "package %s: task %s: %s" % (bb.data.getVar("PF", d, 1), t, bb.event.getName(self)[4:])
+@@ -278,15 +283,20 @@ def exec_task(task, d):
+     if not data.getVarFlag(task, 'task', d):
+         raise EventException("No such task", InvalidTask(task, d))
+ 
++    localdata = data.createCopy(d)
++
+     try:
+         bb.msg.debug(1, bb.msg.domain.Build, "Executing task %s" % task)
+-        old_overrides = data.getVar('OVERRIDES', d, 0)
+-        localdata = data.createCopy(d)
++        old_overrides = data.getVar('OVERRIDES', localdata, 0)
+         data.setVar('OVERRIDES', 'task-%s:%s' % (task[3:], old_overrides), localdata)
+         data.update_data(localdata)
+         data.expandKeys(localdata)
++        utils.record_resources('task_start', localdata)
+         event.fire(TaskStarted(task, localdata), localdata)
+-        exec_func(task, localdata)
++        try:
++            exec_func(task, localdata)
++        finally:
++            utils.record_resources('task_end', localdata)
+         event.fire(TaskSucceeded(task, localdata), localdata)
+     except FuncFailed, message:
+         # Try to extract the optional logfile
+@@ -296,8 +306,8 @@ def exec_task(task, d):
+             logfile = None
+             msg = message
+         bb.msg.note(1, bb.msg.domain.Build, "Task failed: %s" % message )
+-        failedevent = TaskFailed(msg, logfile, task, d)
+-        event.fire(failedevent, d)
++        failedevent = TaskFailed(msg, logfile, task, localdata)
++        event.fire(failedevent, localdata)
+         raise EventException("Function failed in task: %s" % message, failedevent)
+ 
+     # make stamp, or cause event and raise exception
+Index: lib/bb/cooker.py
+===================================================================
+--- lib/bb/cooker.py.orig
++++ lib/bb/cooker.py
+@@ -659,6 +659,7 @@ class BBCooker:
+         taskdata.add_provider(self.configuration.data, self.status, item)
+ 
+         buildname = bb.data.getVar("BUILDNAME", self.configuration.data)
++        utils.record_resources('build_start', self.configuration.event_data)
+         bb.event.fire(bb.event.BuildStarted(buildname, [item]), self.configuration.event_data)
+ 
+         # Execute the runqueue
+@@ -682,6 +683,7 @@ class BBCooker:
+                 retval = False
+             if not retval:
+                 self.command.finishAsyncCommand()
++                utils.record_resources('build_end', self.configuration.event_data)
+                 bb.event.fire(bb.event.BuildCompleted(buildname, item, failures), self.configuration.event_data)
+                 return False
+             return 0.5
+@@ -718,6 +720,7 @@ class BBCooker:
+                 retval = False
+             if not retval:
+                 self.command.finishAsyncCommand()
++                utils.record_resources('build_end', self.configuration.event_data)
+                 bb.event.fire(bb.event.BuildCompleted(buildname, targets, failures), self.configuration.event_data)
+                 return None
+             return 0.5
+@@ -725,6 +728,7 @@ class BBCooker:
+         self.buildSetVars()
+ 
+         buildname = bb.data.getVar("BUILDNAME", self.configuration.data)
++        utils.record_resources('build_start', self.configuration.event_data)
+         bb.event.fire(bb.event.BuildStarted(buildname, targets), self.configuration.event_data)
+ 
+         localdata = data.createCopy(self.configuration.data)
+Index: lib/bb/utils.py
+===================================================================
+--- lib/bb/utils.py.orig
++++ lib/bb/utils.py
+@@ -1188,3 +1188,14 @@ def dep_opconvert(mysplit, myuse):
+             mypos += 1
+     return newsplit
+ 
++def record_resources(prop, d):
++    import resource, time, os
++
++    ev_data = (bb.data.getVarFlag('_event_info', 'resources', d) or {})
++    ev_data[prop] = { 'res_chld' : resource.getrusage(resource.RUSAGE_CHILDREN),
++                      'res_self' : resource.getrusage(resource.RUSAGE_SELF),
++                      'clock'    : time.clock(),
++                      'time'     : time.time(),
++                      'pid'      : os.getpid() }
++
++    bb.data.setVarFlag('_event_info', 'resources', ev_data, d)
+Index: lib/bb/event.py
+===================================================================
+--- lib/bb/event.py.orig
++++ lib/bb/event.py
+@@ -48,16 +48,12 @@ _handlers = {}
+ _ui_handlers = {}
+ _ui_handler_seq = 0
+ 
+-def fire(event, d):
+-    """Fire off an Event"""
+-
+-    if worker_pid != 0:
+-        worker_fire(event, d)
+-        return
+-
++def _fire(event, info, d):
+     for handler in _handlers:
+         h = _handlers[handler]
+         event.data = d
++        event.info = info
++
+         if type(h).__name__ == "code":
+             exec(h)
+             tmpHandler(event)
+@@ -78,8 +74,21 @@ def fire(event, d):
+     for h in errors:
+         del _ui_handlers[h]
+ 
++def fire(event, d, *args):
++    """Fire off an Event"""
++
++    if worker_pid != 0:
++        worker_fire(event, d)
++    else:
++        _fire(event, d != None and bb.data.getVarFlags('_event_info', d), d)
++
+ def worker_fire(event, d):
+-    data = "<event>" + pickle.dumps(event) + "</event>"
++    if d != None:
++        info = bb.data.getVarFlags('_event_info', d)
++    else:
++        info = None
++
++    data = "<event>" + pickle.dumps([event, info]) + "</event>"
+     try:
+         if os.write(worker_pipe, data) != len (data):
+             print "Error sending event to server (short write)"
+@@ -90,8 +99,8 @@ def fire_from_worker(event, d):
+     if not event.startswith("<event>") or not event.endswith("</event>"):
+         print "Error, not an event"
+         return
+-    event = pickle.loads(event[7:-8])
+-    bb.event.fire(event, d)
++    info = pickle.loads(event[7:-8])
++    _fire(info[0], info[1], d)
+ 
+ def register(name, handler):
+     """Register an Event handler"""
