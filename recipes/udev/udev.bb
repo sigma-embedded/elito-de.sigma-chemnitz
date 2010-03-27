@@ -35,7 +35,7 @@ inherit autotools_stage pkgconfig
 PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
              ${PN}-firmware ${PN}-keymaps"
-PACKAGES += "${PN}-lib ${PN}-libgudev ${PN}-fstab-import \
+PACKAGES += "${PN}-consolekit ${PN}-lib ${PN}-libgudev ${PN}-fstab-import \
              ${PN}-rulegen ${PN}-extra"
 
 PACKAGES_DYNAMIC += "udev-.*-id"
@@ -60,11 +60,8 @@ python populate_packages_prepend() {
 do_install_append() {
 	install -p -m 0644 ${WORKDIR}/60-ubi.rules      ${D}${rules_dir}/
 
+        rm -f ${D}${libdir}/*.la
 	touch ${D}${rules_dir}/.empty
-}
-
-do_stage_append() {
-        rm ${STAGING_LIBDIR}/libudev.la ${STAGING_LIBDIR}/libgudev-1.0.la
 }
 
 FILES_${PN} = "\
@@ -121,5 +118,6 @@ FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
 
 FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
 FILES_${PN}-dev             += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
+FILES_${PN}-consolekit       = "/usr/lib/ConsoleKit"
 
 FILES_${PN}-dbg             += "/lib/udev/.debug"
