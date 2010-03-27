@@ -105,7 +105,7 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
         f_in.close()
         f_out.close()
 
-def _elito_metrics_write_task_complete(start_info, end_info, e, data):
+def _elito_metrics_write_task_complete(start_info, end_info, e):
     from bb.event import getName
     import bb
 
@@ -113,17 +113,17 @@ def _elito_metrics_write_task_complete(start_info, end_info, e, data):
 
     info = {
         'now' : end_info['time'],
-        'PV'  : data['PV'],
-        'PR'  : data['PR'],
-        'PN'  : data['PN'],
-        'PF'  : data['PF'],
+        'PV'  : bb.data.getVar('PV', e.data, True),
+        'PR'  : bb.data.getVar('PR', e.data, True),
+        'PN'  : bb.data.getVar('PN', e.data, True),
+        'PF'  : bb.data.getVar('PF', e.data, True),
         'pid' : start_info['pid'],
         'start_tm'     : start_info['time'],
         'start_tm_str' : time.strftime('%c', time.gmtime(start_info['time'])),
         'end_tm_str'   : time.strftime('%c', time.gmtime(end_info['time'])),
         'total_time' : end_info['time'] - start_info['time'],
         'result' : ['FAIL','OK'][getName(e) == "TaskSucceeded"],
-        'preference' : data['DEFAULT_PREFERENCE'] or '0',
+        'preference' : bb.data.getVar('DEFAULT_PREFERENCE', e.data, True) or '0',
         'task' : e.task }
 
     x = \
@@ -149,13 +149,26 @@ def _elito_metrics_eventhandler (e):
     from bb import note, error, data
     from bb.event import NotHandled, getName
 
+    def record_resources(prop, d):
+        import resource, time, os
+
+        ev_data = (bb.data.getVarFlag('_event_info', 'resources', d) or {})
+        ev_data[prop] = { 'res_chld' : resource.getrusage(resource.RUSAGE_CHILDREN),
+                          'res_self' : resource.getrusage(resource.RUSAGE_SELF),
+                          'clock'    : time.clock(),
+                          'time'     : time.time(),
+                          'pid'      : os.getpid() }
+
+        bb.data.setVarFlag('_event_info', 'resources', ev_data, d)
+
+
     if e.data is None or getName(e) in ("MsgNote", "ParseProgress", "RecipeParsed", "ConfigParsed"):
         return NotHandled
 
     name = getName(e)
-    info = e.info
 
     if name == "BuildStarted":
+        record_resources('build_start', e.data)
         dst_fname = data.getVar("METRICS_FILE", e.data, True)
 
         try:
@@ -164,6 +177,9 @@ def _elito_metrics_eventhandler (e):
             pass
         elito_metrics_write(e.data, '')
     elif name == "BuildCompleted":
+        record_resources('build_end', e.data)
+        info = bb.data.getVarFlags('_event_info', e.data)
+
         res_start = info['resources']['build_start']
         res_end   = info['resources']['build_end']
 
@@ -173,7 +189,12 @@ def _elito_metrics_eventhandler (e):
 
         _elito_metrics_write_build_complete(data.getVar('METRICS_FILE', e.data, True),
                                             res_start, res_end, e)
+    elif name == "TaskStarted":
+        record_resources('task_start', e.data)
     elif name == "TaskSucceeded" or name == "TaskFailed":
+        record_resources('task_end', e.data)
+        info = bb.data.getVarFlags('_event_info', e.data)
+
         res_start = info['resources']['task_start']
         res_end   = info['resources']['task_end']
 
@@ -181,7 +202,7 @@ def _elito_metrics_eventhandler (e):
             bb.warn("PID mismatch in BuildCompleted (%u vs %u)" %
                     (res_start['pid'], res_end['pid']))
 
-        _elito_metrics_write_task_complete(res_start, res_end, e, e._data)
+        _elito_metrics_write_task_complete(res_start, res_end, e)
 
     return NotHandled
 
