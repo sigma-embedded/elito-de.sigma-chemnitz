@@ -1,4 +1,4 @@
-DEPENDS		= "zlib lzo e2fsprogs-libs"
+DEPENDS		= "zlib lzo util-linux-ng"
 
 require mtd-utils.inc
 PR		=  "${INC_PR}.0"

@@ -1,4 +1,4 @@
-DEPENDS		= "zlib-native lzo-native e2fsprogs-libs-native"
+DEPENDS		= "zlib-native lzo-native util-linux-ng-native"
 
 inherit native
 require mtd-utils.inc
