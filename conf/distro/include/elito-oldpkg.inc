@@ -2863,11 +2863,40 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
+xf86-video-geode_2.11.6 \
+xf86-video-geode_2.11.4.1 \
+xf86-input-vmmouse_12.6.5 \
+xf86-input-vmmouse_12.5.1 \
+xf86-input-vmmouse_12.4.3 \
+squid-native_2.6.STABLE14 \
+squid_2.6.STABLE14 \
+pixman_0.17.8 \
+perl-native_5.8.9 \
+perl_5.8.9 \
+libxslt_1.1.22 \
+libversion-perl_0.80 \
+libv4l_0.5.8 \
+libnfnetlink_0.0.39 \
+libio-zlib-perl_1.04 \
+libgpod_0.6.0 \
+liberror-perl_0.17004 \
+iptstate_2.2.1 \
+iptables_1.4.6 \
+gvfs_1.3.3 \
+grip_3.2.0 \
+gnome-mplayer_0.9.9 \
+glib-2.0_2.22.4 \
+firefox_3.6 \
+estardict_0.1 \
+dnsmasq-dbus_2.47 \
+dnsmasq_2.47 \
 "
 
 ############################################
 
 PKGDUP_IGNORES = " \
+glibc-initial_2.4 \
+glibc_2.4 \
 libsoup-2.4_2.29.91 \
 bash_3.0 \
 bluez-libs_3.36 \
