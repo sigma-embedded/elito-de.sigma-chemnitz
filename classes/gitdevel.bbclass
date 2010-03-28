@@ -15,7 +15,7 @@ do_fetchgit() {
 	fi
 
 	if ! test -d ${S}/.git; then
-		git init
+		git init --shared=group
 		touch ${S}/.git/.dirty
 
 		git remote add ${GIT_ORIGIN_NAME} "${GIT_REPO}"
