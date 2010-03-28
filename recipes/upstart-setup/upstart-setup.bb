@@ -2,8 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.5"
-PR		= "r0"
-PACKAGE_ARCH	=  "all"
+PR		= "r1"
 
 SRC_URI		= "		\
 	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2;name=tarball	\
@@ -46,6 +45,13 @@ RDEPENDS_${PN}-base         += "upstart elito-setup-tools"
 
 PACKAGES_DYNAMIC = "${PN}-.*"
 
+RCONFLICTS_${PN}-fsck-blockdev += "${PN}-fsck-dummy"
+RCONFLICTS_${PN}-fsck-dummy    += "${PN}-fsck-blockdev"
+
+RPROVIDES_${PN}-fsck-blockdev  += "${PN}-fsck"
+RPROVIDES_${PN}-fsck-dummy     += "${PN}-fsck"
+
+
 python populate_packages_prepend () {
         class P:
                 def __init__(self, job_files, rdepends = None, extra_files = [],
@@ -56,10 +62,11 @@ python populate_packages_prepend () {
                         self.rrecommends = rrecommends
 
 	pkg_info = {
-        'fsck'		: P('init/fsck-all.conf', None, '/sbin/fsck-eval-result'),
+        'fsck-blockdev'	: P('init/fsck-all.conf', None, '/sbin/fsck-eval-result'),
+        'fsck-dummy'	: P('init/fsck-dummy.conf', None),
 
         'udev'		: P(('init/udev-fill.conf',
-                             'init/udev-early.conf',
+                             'init/udev-modules.conf',
                              'services/udevd.conf'),
                             'udev',
                             '/lib/udev/rules.d/*-upstart.rules'),
