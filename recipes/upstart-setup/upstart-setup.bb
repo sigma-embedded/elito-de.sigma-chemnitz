@@ -48,8 +48,8 @@ PACKAGES_DYNAMIC = "${PN}-.*"
 RCONFLICTS_${PN}-fsck-blockdev += "${PN}-fsck-dummy"
 RCONFLICTS_${PN}-fsck-dummy    += "${PN}-fsck-blockdev"
 
-RPROVIDES_${PN}-fsck-blockdev  += "${PN}-fsck"
-RPROVIDES_${PN}-fsck-dummy     += "${PN}-fsck"
+RPROVIDES_${PN}-fsck-blockdev  += "virtual/${PN}-fsck"
+RPROVIDES_${PN}-fsck-dummy     += "virtual/${PN}-fsck"
 
 
 python populate_packages_prepend () {
@@ -68,9 +68,9 @@ python populate_packages_prepend () {
         'udev'		: P(('init/udev-fill.conf',
                              'init/udev-modules.conf',
                              'services/udevd.conf'),
-                            'udev',
+                            'udev virtual/${PN}-fsck',
                             '/lib/udev/rules.d/*-upstart.rules'),
-        'mdev'		: P('init/mdev*.conf', 'busybox'),
+        'mdev'		: P('init/mdev*.conf', 'busybox virtual/${PN}-fsck'),
 
         'net'		: P('network/add-lo.conf', None,
                             ('/sbin/upstart-if-down',
