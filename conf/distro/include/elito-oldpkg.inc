@@ -73,6 +73,8 @@ apt_0.7.14 \
 apt_0.7.19 \
 apt_0.7.2 \
 apt_0.7.3 \
+arora-e_0.10.1 \
+arora_0.10.1 \
 asio_1.1.1 \
 aspell_0.60.5 \
 asterisk_1.2.24 \
@@ -258,6 +260,7 @@ clutter-gtk-0.6_git \
 clutter_0.4svn \
 cmake-native_2.6.0 \
 cmake-native_2.6.3 \
+cmake_2.4.8 \
 compositeproto_0.4 \
 comprec_0.01 \
 connman_0.10 \
@@ -282,6 +285,7 @@ curl-native_7.18.2 \
 curl_7.18.2 \
 curl_7.19.5 \
 curl_7.19.6 \
+curl_7.19.7 \
 cvs_1.12.8 \
 cyrus-imapd_2.2.5 \
 cyrus-sasl_2.1.17 \
@@ -296,6 +300,7 @@ dbus-glib-native_0.74 \
 dbus-glib_0.74 \
 dbus-glib_0.76 \
 dbus-glib_0.78 \
+dbus-glib_0.82 \
 dbus-native_1.0.3 \
 dbus-native_1.2.1 \
 dbus_1.0.3 \
@@ -345,9 +350,11 @@ distcc_2.18.3 \
 djvulibre_3.5.20 \
 dmidecode_2.9 \
 dmxproto_2.2.2 \
+dnsmasq-dbus_2.47 \
 dnsmasq_2.11 \
 dnsmasq_2.15 \
 dnsmasq_2.22 \
+dnsmasq_2.47 \
 docbook-sgml-dtd-4.1-native \
 dosbox_0.63 \
 dosbox_0.70 \
@@ -414,6 +421,7 @@ epiphany_2.28.0 \
 erlang-native_R11B.1 \
 erlang_R11B.1 \
 espgs_7.07.1 \
+estardict_0.1 \
 ethtool_3 \
 ethtool_4 \
 ethtool_5 \
@@ -463,6 +471,7 @@ firefox_3.5.2 \
 firefox_3.5.4 \
 firefox_3.5.5 \
 firefox_3.5b4 \
+firefox_3.6 \
 fixesproto-native_4.0 \
 fixesproto_4.0 \
 flac_1.1.0 \
@@ -520,6 +529,7 @@ fontconfig_2.2.95 \
 fontconfig_2.3.91 \
 fontconfig_2.3.95 \
 fontconfig_2.4.1 \
+fontconfig_2.6.0 \
 fontsproto-native_2.0.2 \
 fontsproto_2.0.2 \
 fonttosfnt_1.0.3 \
@@ -529,6 +539,7 @@ freetype-native_2.1.10 \
 freetype-native_2.1.8 \
 freetype-native_2.2.1 \
 freetype-native_2.3.5 \
+freetype-native_2.3.6 \
 freetype_2.1.10 \
 freetype_2.1.8 \
 freetype_2.2.1 \
@@ -536,6 +547,7 @@ freetype_2.3.0 \
 freetype_2.3.1 \
 freetype_2.3.4 \
 freetype_2.3.5 \
+freetype_2.3.6 \
 frodo_4.1b \
 frotz_2.42 \
 frozen-bubble_1.0.0 \
@@ -716,6 +728,7 @@ glib-2.0_2.2.3 \
 glib-2.0_2.20.3 \
 glib-2.0_2.20.4 \
 glib-2.0_2.22.1 \
+glib-2.0_2.22.4 \
 glib-2.0_2.4.6 \
 glib-2.0_2.6.4 \
 glib-2.0_2.6.6 \
@@ -804,6 +817,7 @@ gnome-mime-data_2.4.2 \
 gnome-mplayer_0.5.3 \
 gnome-mplayer_0.9.5 \
 gnome-mplayer_0.9.8 \
+gnome-mplayer_0.9.9 \
 gnome-panel_2.10.1 \
 gnome-panel_2.12.1 \
 gnome-panel_2.18.1 \
@@ -950,6 +964,7 @@ gpsd_2.38 \
 gpsd_2.39 \
 gpsdrive_2.10pre2 \
 grep_2.5 \
+grip_3.2.0 \
 groff_1.19.1 \
 gs_8.16 \
 gsl_1.10 \
@@ -1024,6 +1039,7 @@ gvfs_0.0.2 \
 gvfs_1.0.1 \
 gvfs_1.0.3 \
 gvfs_1.2.1 \
+gvfs_1.3.3 \
 hal-info_20070618 \
 hal-info_20070831 \
 hal-info_20080313 \
@@ -1039,7 +1055,6 @@ havp_0.82 \
 hdparm_6.3 \
 hdparm_6.6 \
 hdparm_6.9 \
-helloworld \
 helloworld_1.0.0 \
 hicolor-icon-theme_0.10 \
 hiker_0.9 \
@@ -1094,6 +1109,8 @@ iproute2_2.6.29 \
 ipsec-tools_0.6.6 \
 ipsec-tools_0.6.7 \
 iptables_1.3.8 \
+iptables_1.4.6 \
+iptstate_2.2.1 \
 iputils_20020927 \
 ipython_0.9.1 \
 irda-utils_0.9.15 \
@@ -1170,6 +1187,7 @@ libecj-bootstrap_3.4 \
 libecj-bootstrap_3.4.1 \
 libeina_0.96.5 \
 libelf_0.8.3 \
+liberror-perl_0.17004 \
 libetpan_0.46 \
 libetpan_0.48 \
 libeventdb_0.17 \
@@ -1254,6 +1272,7 @@ libgphoto2_2.1.6 \
 libgphoto2_2.4.0 \
 libgphoto2_2.4.2 \
 libgphoto2_2.4.4 \
+libgpod_0.6.0 \
 libgsf_1.10.0 \
 libgsf_1.12.0 \
 libgsf_1.12.1 \
@@ -1284,6 +1303,7 @@ libidn_0.5.19 \
 libintl-perl-native_1.11 \
 libintl-perl_1.11 \
 libintl-perl_1.16 \
+libio-zlib-perl_1.04 \
 liblbxutil_1.0.1 \
 liblinebreak_0.9.6 \
 libmad_0.15.0b \
@@ -1301,6 +1321,7 @@ libnet-dbus-perl_0.33.5 \
 libnet_1.0.2a \
 libnetfilter-queue_0.0.13 \
 libnfnetlink_0.0.30 \
+libnfnetlink_0.0.39 \
 libnotify_0.4.4 \
 libnss-mdns_0.9 \
 libnxml_0.16 \
@@ -1423,6 +1444,8 @@ libunique_1.0.8 \
 libupnp_1.3.1 \
 libusb-compat_0.1.2 \
 libusb1_1.0.2 \
+libv4l_0.5.8 \
+libversion-perl_0.80 \
 libvisual_0.1.3 \
 libvncserver_0.9 \
 libvorbis_1.0.1 \
@@ -1519,6 +1542,7 @@ libxsettings-client_0.16 \
 libxslt-native_1.1.17 \
 libxslt_1.1.17 \
 libxslt_1.1.21 \
+libxslt_1.1.22 \
 libxt-native_1.0.5 \
 libxt-native_1.0.7 \
 libxt_1.0.4 \
@@ -1812,6 +1836,7 @@ monotone-6_0.34 \
 mousepad_0.2.13 \
 mp3blaster_3.1.3 \
 mp3blaster_3.2.0 \
+mp3blaster_3.2.3 \
 mpd-alsa_0.11.5 \
 mpd_0.14.2 \
 mpfr-native_2.1.1 \
@@ -1869,6 +1894,7 @@ obexd_0.10 \
 obexd_0.13 \
 obexd_0.15 \
 obexd_0.19 \
+obexd_0.21 \
 obexftp_0.20 \
 obexftp_0.22 \
 octave_2.1.73 \
@@ -2042,8 +2068,10 @@ pcmciautils_014 \
 pcsc-lite_1.4.102 \
 perl-native_5.8.4 \
 perl-native_5.8.7 \
+perl-native_5.8.9 \
 perl_5.8.4 \
 perl_5.8.7 \
+perl_5.8.9 \
 php-native_5.2.6 \
 php-native_5.3.0 \
 php_5.2.6 \
@@ -2060,6 +2088,7 @@ pixman_0.15.6 \
 pixman_0.16.2 \
 pixman_0.17.4 \
 pixman_0.17.4 \
+pixman_0.17.8 \
 pixman_0.9.4 \
 pixman_0.9.5 \
 pixman_0.9.6 \
@@ -2142,6 +2171,8 @@ python-pygobject_2.16.0 \
 python-pygtk_2.10.4 \
 python-pygtk_2.6.3 \
 python-pygtk_2.8.6 \
+python-scons-native_1.2.0 \
+python-scons_1.2.0 \
 python-sip_4.7.9 \
 python-twisted_2.5.0 \
 python_2.6.1 \
@@ -2168,6 +2199,7 @@ qt4-x11-free-gles_4.5.2 \
 qt4-x11-free-gles_4.6.0 \
 qt4-x11-free_4.4.3 \
 qt4-x11-free_4.6.0 \
+quagga_0.99.14 \
 quagga_0.99.6 \
 quagga_0.99.7 \
 quagga_0.99.8 \
@@ -2269,6 +2301,8 @@ sqlite3_3.6.2 \
 sqlite3_3.6.5 \
 squashfs-tools-native_3.3 \
 squashfs-tools_3.3 \
+squid-native_2.6.STABLE14 \
+squid_2.6.STABLE14 \
 sshfs-fuse_1.8 \
 startup-notification_0.5 \
 startup-notification_0.8 \
@@ -2354,11 +2388,13 @@ transmission_1.83 \
 tsclient_0.132 \
 twm_1.0.3 \
 tzcode-native_2007k \
+tzcode-native_2009k \
 tzdata_2007k \
 tzdata_2009m \
 tzdata_2009o \
 tzdata_2009p \
 tzdata_2009s \
+tzdata_2010b \
 u-boot-omap2430sdp_1.1.4 \
 u-boot-omap3beagleboard_1.1.4 \
 u-boot_1.1.2 \
@@ -2582,6 +2618,9 @@ xf86-input-synaptics_1.2.0 \
 xf86-input-tek4957_1.1.0 \
 xf86-input-tslib_0.0.5 \
 xf86-input-vmmouse_12.4.0 \
+xf86-input-vmmouse_12.4.3 \
+xf86-input-vmmouse_12.5.1 \
+xf86-input-vmmouse_12.6.5 \
 xf86-input-void_1.1.0 \
 xf86-input-void_1.1.1 \
 xf86-video-apm_1.1.1 \
@@ -2605,6 +2644,8 @@ xf86-video-fbdev_0.3.1 \
 xf86-video-fbdev_0.4.0 \
 xf86-video-geode_2.10.1 \
 xf86-video-geode_2.11.0 \
+xf86-video-geode_2.11.4.1 \
+xf86-video-geode_2.11.6 \
 xf86-video-geode_2.8.0 \
 xf86-video-geode_2.9.0 \
 xf86-video-glint_1.1.1 \
@@ -2733,6 +2774,7 @@ xinit_1.1.0 \
 xinit_1.1.1 \
 xinit_1.2.0 \
 xinput-calibrator_0.5.0 \
+xinput-calibrator_0.6.0 \
 xinput_1.3.0 \
 xinput_1.4.2 \
 xinput_1.5.0 \
@@ -2863,33 +2905,6 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
-xf86-video-geode_2.11.6 \
-xf86-video-geode_2.11.4.1 \
-xf86-input-vmmouse_12.6.5 \
-xf86-input-vmmouse_12.5.1 \
-xf86-input-vmmouse_12.4.3 \
-squid-native_2.6.STABLE14 \
-squid_2.6.STABLE14 \
-pixman_0.17.8 \
-perl-native_5.8.9 \
-perl_5.8.9 \
-libxslt_1.1.22 \
-libversion-perl_0.80 \
-libv4l_0.5.8 \
-libnfnetlink_0.0.39 \
-libio-zlib-perl_1.04 \
-libgpod_0.6.0 \
-liberror-perl_0.17004 \
-iptstate_2.2.1 \
-iptables_1.4.6 \
-gvfs_1.3.3 \
-grip_3.2.0 \
-gnome-mplayer_0.9.9 \
-glib-2.0_2.22.4 \
-firefox_3.6 \
-estardict_0.1 \
-dnsmasq-dbus_2.47 \
-dnsmasq_2.47 \
 "
 
 ############################################
