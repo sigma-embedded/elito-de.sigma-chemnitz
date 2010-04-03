@@ -80,11 +80,3 @@ def elito_upstart_job(d, pkg, job_files, rdepends = None, extra_files = [], \
 		bb.data.setVar("RRECOMMENDS_%s" % p, rdepends, d)
 
 	return p
-
-
-do_fetchall (){
-    :
-}
-
-do_fetchall[recdeptask] = "fetch"
-addtask fetchall
