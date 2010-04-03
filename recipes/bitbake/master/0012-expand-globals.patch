@@ -1,12 +1,12 @@
-Index: bitbake/lib/bb/data_smart.py
+Index: lib/bb/utils.py
 ===================================================================
---- lib/bb/data_smart.py
-+++ lib/bb/data_smart.py
-@@ -40,6 +40,7 @@ __setvar_regexp__ = re.compile('(?P<base
- __expand_var_regexp__ = re.compile(r"\${[^{}]+}")
- __expand_python_regexp__ = re.compile(r"\${@.+?}")
- _expand_globals = {
-+    "re": re,
+--- lib/bb/utils.py.orig
++++ lib/bb/utils.py
+@@ -29,6 +29,7 @@ _context = {
      "os": os,
      "bb": bb,
      "time": time,
++    "re": re,
+ }
+ 
+ def explode_version(s):
