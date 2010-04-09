@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "upstart base setup"
 LICENSE		= "GPLv3"
 PV		= "0.4.5"
-PR		= "r1"
+PR		= "r0"
 
 SRC_URI		= "		\
 	${ELITO_MIRROR}/${PN}-${PV}.tar.bz2;name=tarball	\
@@ -51,7 +51,6 @@ RCONFLICTS_${PN}-fsck-dummy    += "${PN}-fsck-blockdev"
 RPROVIDES_${PN}-fsck-blockdev  += "virtual/${PN}-fsck"
 RPROVIDES_${PN}-fsck-dummy     += "virtual/${PN}-fsck"
 
-
 python populate_packages_prepend () {
         class P:
                 def __init__(self, job_files, rdepends = None, extra_files = [],
@@ -72,7 +71,7 @@ python populate_packages_prepend () {
                             '/lib/udev/rules.d/*-upstart.rules'),
         'mdev'		: P('init/mdev*.conf', 'busybox virtual/${PN}-fsck'),
 
-        'net'		: P('network/add-lo.conf', None,
+        'net'		: P('', None,
                             ('/sbin/upstart-if-down',
                              '/sbin/upstart-if-up')),
         'net-dhcp'      : P(('network/net-dhcp-deconfig.conf',
@@ -80,8 +79,6 @@ python populate_packages_prepend () {
                              'network/dhcp-up.conf'),
                             '${PN}-net busybox',
                             '/share/udhcpc/upstart.script'),
-        'net-eth0'	: P('network/add-eth0-dhcp.conf', '${PN}-net-dhcp'),
-        'net-eth1'	: P('network/add-eth1-dhcp.conf', '${PN}-net-dhcp'),
 
         'openntpd'	: P(('services/openntpd.conf',
                              'network/net-dhcp-ntp-renew.conf'),
@@ -119,7 +116,8 @@ python populate_packages_prepend () {
 		elito_upstart_job(d, '${PN}-%s' % p,
                                   job_files   = i.job_files,
                                   rdepends    = i.rdepends + ' ${PN} (= ${PV}-${PR})',
-                                  extra_files = i.extra_files)
+                                  extra_files = i.extra_files,
+                                  rrecommends = i.rrecommends)
 }
 
 do_configure_prepend() {
