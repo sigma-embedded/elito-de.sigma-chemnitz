@@ -23,6 +23,8 @@ s!@UDEVD@!/sbin/udevd!g
 
 s!@IFCONFIG@!/sbin/ifconfig!g
 s!@ROUTE@!/sbin/route!g
+s!@IFUP@!/sbin/ifup!g
+s!@IFDOWN@!/sbin/ifdown!g
 
 s!@DROPBEARKEY@!/usr/sbin/dropbearkey!g
 s!@DROPBEAR@!/usr/sbin/dropbear!g

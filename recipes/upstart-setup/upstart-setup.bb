@@ -71,7 +71,8 @@ python populate_packages_prepend () {
                             '/lib/udev/rules.d/*-upstart.rules'),
         'mdev'		: P('init/mdev*.conf', 'busybox virtual/${PN}-fsck'),
 
-        'net'		: P('', None,
+        'net'		: P(('net/ifup.conf', 'net/ifdown.conf'),
+                            None,
                             ('/sbin/upstart-if-down',
                              '/sbin/upstart-if-up')),
         'net-dhcp'      : P(('network/net-dhcp-deconfig.conf',
