@@ -1,0 +1,201 @@
+Index: busybox-1.15.3/networking/ifupdown.c
+===================================================================
+--- busybox-1.15.3.orig/networking/ifupdown.c
++++ busybox-1.15.3/networking/ifupdown.c
+@@ -309,6 +309,29 @@ static char *parse(const char *command, 
+ 	return result;
+ }
+ 
++static int kernel_autoconf(char const *iface)
++{
++	int	fd;
++	char	buf[1024];
++	ssize_t	l;
++
++	if (strcmp(iface, "eth0") != 0)
++		return 0;
++
++	fd = open("/proc/cmdline", O_RDONLY);
++	if (fd < 0)
++		return 0;
++
++	l = read(fd, buf, sizeof buf - 1);
++	close(fd);
++	if (l < 0)
++		return 0;
++
++	buf[l] = '\0';
++	return (strncmp(buf, "ip=", 3) == 0 ||
++		strstr(buf, " ip=") != NULL);
++}
++
+ /* execute() returns 1 for success and 0 for failure */
+ static int execute(const char *command, struct interface_defn_t *ifd, execfn *exec)
+ {
+@@ -474,38 +497,9 @@ static int FAST_FUNC static_down(struct 
+ 	return ((result == 2) ? 2 : 0);
+ }
+ 
+-#if ENABLE_FEATURE_IFUPDOWN_EXTERNAL_DHCP
+-struct dhcp_client_t {
+-	const char *name;
+-	const char *startcmd;
+-	const char *stopcmd;
+-};
+-
+-static const struct dhcp_client_t ext_dhcp_clients[] = {
+-	{ "dhcpcd",
+-		"dhcpcd[[ -h %hostname%]][[ -i %vendor%]][[ -I %clientid%]][[ -l %leasetime%]] %iface%",
+-		"dhcpcd -k %iface%",
+-	},
+-	{ "dhclient",
+-		"dhclient -pf /var/run/dhclient.%iface%.pid %iface%",
+-		"kill -9 `cat /var/run/dhclient.%iface%.pid` 2>/dev/null",
+-	},
+-	{ "pump",
+-		"pump -i %iface%[[ -h %hostname%]][[ -l %leasehours%]]",
+-		"pump -i %iface% -k",
+-	},
+-	{ "udhcpc",
+-		"udhcpc " UDHCPC_CMD_OPTIONS " -p /var/run/udhcpc.%iface%.pid -i %iface%[[ -H %hostname%]][[ -c %clientid%]]"
+-				"[[ -s %script%]][[ %udhcpc_opts%]]",
+-		"kill `cat /var/run/udhcpc.%iface%.pid` 2>/dev/null",
+-	},
+-};
+-#endif /* ENABLE_FEATURE_IFUPDOWN_EXTERNAL_DHCPC */
+-
+-#if ENABLE_FEATURE_IFUPDOWN_EXTERNAL_DHCP
+ static int FAST_FUNC dhcp_up(struct interface_defn_t *ifd, execfn *exec)
+ {
+-	unsigned i;
++	if (!kernel_autoconf(ifd->iface)) {
+ #if ENABLE_FEATURE_IFUPDOWN_IP
+ 	/* ip doesn't up iface when it configures it (unlike ifconfig) */
+ 	if (!execute("ip link set[[ addr %hwaddress%]] %iface% up", ifd, exec))
+@@ -515,66 +509,21 @@ static int FAST_FUNC dhcp_up(struct inte
+ 	if (!execute("ifconfig %iface%[[ hw %hwaddress%]] up", ifd, exec))
+ 		return 0;
+ #endif
+-	for (i = 0; i < ARRAY_SIZE(ext_dhcp_clients); i++) {
+-		if (exists_execable(ext_dhcp_clients[i].name))
+-			return execute(ext_dhcp_clients[i].startcmd, ifd, exec);
+ 	}
+-	bb_error_msg("no dhcp clients found");
+-	return 0;
+-}
+-#elif ENABLE_APP_UDHCPC
+-static int FAST_FUNC dhcp_up(struct interface_defn_t *ifd, execfn *exec)
+-{
+-#if ENABLE_FEATURE_IFUPDOWN_IP
+-	/* ip doesn't up iface when it configures it (unlike ifconfig) */
+-	if (!execute("ip link set[[ addr %hwaddress%]] %iface% up", ifd, exec))
+-		return 0;
+-#else
+-	/* needed if we have hwaddress on dhcp iface */
+-	if (!execute("ifconfig %iface%[[ hw %hwaddress%]] up", ifd, exec))
+-		return 0;
+-#endif
+-	return execute("udhcpc " UDHCPC_CMD_OPTIONS " -p /var/run/udhcpc.%iface%.pid "
+-			"-i %iface%[[ -H %hostname%]][[ -c %clientid%]][[ -s %script%]][[ %udhcpc_opts%]]",
+-			ifd, exec);
++	return execute("/sbin/initctl emit -q start-dhcp INTERFACE=%iface%"
++		       "[[ HOSTNAME=%hostname%]][[ CLIENT=%clientid%]]"
++		       "[[ LEASEHOURS=%leasehours%]][[ LEASETIME=%leasetime%]]"
++		       "[[ VENDOR=%vendor%]][[ HWADDRESS=%hwaddress%]]"
++		       "[[ UDHCPC_OPTIONS='%udhcpc_opts%']]",
++		       ifd, exec);
+ }
+-#else
+-static int FAST_FUNC dhcp_up(struct interface_defn_t *ifd UNUSED_PARAM,
+-		execfn *exec UNUSED_PARAM)
+-{
+-	return 0; /* no dhcp support */
+-}
+-#endif
+ 
+-#if ENABLE_FEATURE_IFUPDOWN_EXTERNAL_DHCP
+-static int FAST_FUNC dhcp_down(struct interface_defn_t *ifd, execfn *exec)
+-{
+-	int result = 0;
+-	unsigned i;
+-
+-	for (i = 0; i < ARRAY_SIZE(ext_dhcp_clients); i++) {
+-		if (exists_execable(ext_dhcp_clients[i].name)) {
+-			result = execute(ext_dhcp_clients[i].stopcmd, ifd, exec);
+-			if (result)
+-				break;
+-		}
+-	}
+-
+-	if (!result)
+-		bb_error_msg("warning: no dhcp clients found and stopped");
+-
+-	/* Sleep a bit, otherwise static_down tries to bring down interface too soon,
+-	   and it may come back up because udhcpc is still shutting down */
+-	usleep(100000);
+-	result += static_down(ifd, exec);
+-	return ((result == 3) ? 3 : 0);
+-}
+-#elif ENABLE_APP_UDHCPC
+ static int FAST_FUNC dhcp_down(struct interface_defn_t *ifd, execfn *exec)
+ {
+ 	int result;
+-	result = execute("kill "
+-	               "`cat /var/run/udhcpc.%iface%.pid` 2>/dev/null", ifd, exec);
++	result = execute("/sbin/initctl emit -q stop-dhcp INTERFACE=%stop%", ifd, exec);
++
++	if (!kernel_autoconf(ifd->iface)) {
+ 	/* Also bring the hardware interface down since
+ 	   killing the dhcp client alone doesn't do it.
+ 	   This enables consecutive ifup->ifdown->ifup */
+@@ -582,15 +531,10 @@ static int FAST_FUNC dhcp_down(struct in
+ 	   and it may come back up because udhcpc is still shutting down */
+ 	usleep(100000);
+ 	result += static_down(ifd, exec);
++	}
++
+ 	return ((result == 3) ? 3 : 0);
+ }
+-#else
+-static int FAST_FUNC dhcp_down(struct interface_defn_t *ifd UNUSED_PARAM,
+-		execfn *exec UNUSED_PARAM)
+-{
+-	return 0; /* no dhcp support */
+-}
+-#endif
+ 
+ static int FAST_FUNC manual_up_down(struct interface_defn_t *ifd UNUSED_PARAM, execfn *exec UNUSED_PARAM)
+ {
+@@ -606,24 +550,26 @@ static int FAST_FUNC bootp_up(struct int
+ 
+ static int FAST_FUNC ppp_up(struct interface_defn_t *ifd, execfn *exec)
+ {
+-	return execute("pon[[ %provider%]]", ifd, exec);
++	return execute("/sbin/initctl emit -q start-ppp INTERFACE=%iface%"
++		       "[[ PROVIDER=%provider%]]", ifd, exec);
+ }
+ 
+ static int FAST_FUNC ppp_down(struct interface_defn_t *ifd, execfn *exec)
+ {
+-	return execute("poff[[ %provider%]]", ifd, exec);
++	return execute("/sbin/initctl emit -q stop-ppp INTERFACE=%iface%",
++		       ifd, exec);
+ }
+ 
+ static int FAST_FUNC wvdial_up(struct interface_defn_t *ifd, execfn *exec)
+ {
+-	return execute("start-stop-daemon --start -x wvdial "
+-		"-p /var/run/wvdial.%iface% -b -m --[[ %provider%]]", ifd, exec);
++	return execute("/sbin/initctl emit -q start-wvdial INTERFACE=%iface%"
++		       "[[ PROVIDER=%provider%]]", ifd, exec);
+ }
+ 
+ static int FAST_FUNC wvdial_down(struct interface_defn_t *ifd, execfn *exec)
+ {
+-	return execute("start-stop-daemon --stop -x wvdial "
+-			"-p /var/run/wvdial.%iface% -s 2", ifd, exec);
++	return execute("/sbin/initctl emit -q stop-wvdial INTERFACE=%iface%",
++		       ifd, exec);
+ }
+ 
+ static const struct method_t methods[] = {

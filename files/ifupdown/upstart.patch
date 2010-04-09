@@ -1,0 +1,130 @@
+Index: ifupdown-0.6.10/archlinux.c
+===================================================================
+--- ifupdown-0.6.10.orig/archlinux.c
++++ ifupdown-0.6.10/archlinux.c
+@@ -3,6 +3,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
++#include <fcntl.h>
+ #include <sys/utsname.h>
+ #include <sys/stat.h>
+ 
+@@ -41,3 +42,26 @@ int execable(char *program) {
+ 	}
+ 	return 0;
+ }
++
++int kernel_autoconf(char const *iface)
++{
++	int	fd;
++	char	buf[1024];
++	ssize_t	l;
++
++	if (strcmp(iface, "eth0") != 0)
++		return 0;
++
++	fd = open("/proc/cmdline", O_RDONLY);
++	if (fd < 0)
++		return 0;
++
++	l = read(fd, buf, sizeof buf - 1);
++	close(fd);
++	if (l < 0)
++		return 0;
++
++	buf[l] = '\0';
++	return (strncmp(buf, "ip=", 3) == 0 ||
++		strstr(buf, " ip=") != NULL);
++}
+Index: ifupdown-0.6.10/archlinux.h
+===================================================================
+--- ifupdown-0.6.10.orig/archlinux.h
++++ ifupdown-0.6.10/archlinux.h
+@@ -1,4 +1,5 @@
+ #line 3817 "ifupdown.nw"
+ unsigned int mylinuxver();
+ unsigned int mylinux(int,int,int);
++int kernel_autoconf(char const *iface);
+ int execable(char *);
+Index: ifupdown-0.6.10/inet.defn
+===================================================================
+--- ifupdown-0.6.10.orig/inet.defn
++++ ifupdown-0.6.10/inet.defn
+@@ -74,33 +74,16 @@ method dhcp
+                                 /address/ is dependent on this choice.
+ 
+   up
+-    [[ifconfig %iface% hw %hwaddress%]]
+-    dhclient3 -pf /var/run/dhclient.%iface%.pid -lf /var/lib/dhcp3/dhclient.%iface%.leases %iface% \
+-        if (execable("/sbin/dhclient3"))
+-    dhclient -v -pf /var/run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases %iface% \
+-        elsif (execable("/sbin/dhclient"))
+-    pump -i %iface% [[-h %hostname%]] [[-l %leasehours%]] \
+-        elsif (execable("/sbin/pump") && mylinuxver() >= mylinux(2,1,100))
+-    udhcpc -n -p /var/run/udhcpc.%iface%.pid -i %iface% [[-H %hostname%]] \
+-           [[-c %client%]] \
+-        elsif (execable("/sbin/udhcpc") && mylinuxver() >= mylinux(2,2,0))
+-    dhcpcd [[-h %hostname%]] [[-i %vendor%]] [[-I %client%]] \
+-           [[-l %leasetime%]] %iface% \
+-        elsif (execable("/sbin/dhcpcd"))
++    [[ifconfig %iface% hw %hwaddress%]] if ( !kernel_autoconf(ifd->real_iface) )
++    /sbin/initctl emit -q start-dhcp INTERFACE=%iface% \
++	[[ HOSTNAME=%hostname% ]] [[ CLIENT=%client% ]] \
++	[[ LEASEHOURS=%leasehours% ]] [[ LEASETIME=%leasetime% ]] \
++	[[ VENDOR=%vendor% ]] [[ HWADDRESS=%hwaddress% ]]
+ 
+   down
+-    dhclient3 -r -pf /var/run/dhclient.%iface%.pid -lf /var/lib/dhcp3/dhclient.%iface%.leases %iface% \
+-        if (execable("/sbin/dhclient3"))
+-    dhclient -v -r -pf /var/run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases %iface% \
+-        elsif (execable("/sbin/dhclient"))
+-    pump -i %iface% -r \
+-        elsif (execable("/sbin/pump") && mylinuxver() >= mylinux(2,1,100))
+-    cat /var/run/udhcpc.%iface%.pid | xargs -i kill -TERM {} \
+-        elsif (execable("/sbin/udhcpc"))
+-    dhcpcd -k %iface% \
+-        elsif (execable("/sbin/dhcpcd"))
++    /sbin/initctl emit -q stop-dhcp INTERFACE=%iface%
++    ifconfig %iface% down if ( !kernel_autoconf(ifd->real_iface) )
+ 
+-    ifconfig %iface% down
+ method bootp
+   description
+     This method may be used to obtain an address via bootp.
+@@ -125,9 +108,10 @@ method ppp
+   options
+     provider name  -- Use /name/ as the provider (from /etc/ppp/peers).
+   up
+-    pon [[%provider%]]
++    /sbin/initctl emit -q start-ppp INTERFACE=%iface% PROVIDER=%provider%
+   down
+-    poff [[%provider%]]
++    /sbin/initctl emit -q stop-ppp INTERFACE=%iface%
++
+ method wvdial
+   description
+     This method uses wvdial to configure a PPP interface. See that command
+@@ -135,18 +119,15 @@ method wvdial
+   options
+     provider name  -- Use /name/ as the provider (from /etc/ppp/peers).
+   up
+-    /sbin/start-stop-daemon -S -x /usr/bin/wvdial \
+-                      -p /var/run/wvdial.%iface% -- [[ %provider% ]]
++    /sbin/initctl emit -q start-wvdial INTERFACE=%iface% PROVIDER=%provider%
+   down
+-    /sbin/start-stop-daemon -X -x /usr/bin/wvdial \
+-                      -p /var/run/wvdial.%iface%
++    /sbin/initctl emit -q stop-wvdial INTERFACE=%iface%
+ 
+ method zeroconf
+   description
+     This method uses zeroconf to configure an interface.  See the man page
+     for zcip for details.
+   up
+-    /sbin/start-stop-daemon -S -x /usr/sbin/zcip -p /var/run/zcip.%iface% \
+-    		      -- -s -i %iface%
++    /sbin/initctl emit -q start-zeroconf INTERFACE=%iface%
+   down
+-    /sbin/start-stop-daemon -X -x /usr/sbin/zcip -p /var/run/zcip.%iface%
++    /sbin/initctl emit -q stop-zeroconf INTERFACE=%iface%
