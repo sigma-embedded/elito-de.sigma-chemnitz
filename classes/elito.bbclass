@@ -77,6 +77,6 @@ def elito_upstart_job(d, pkg, job_files, rdepends = None, extra_files = [], \
 		bb.data.setVar("RDEPENDS_%s" % p, rdepends, d)
 
 	if rrecommends:
-		bb.data.setVar("RRECOMMENDS_%s" % p, rdepends, d)
+		bb.data.setVar("RRECOMMENDS_%s" % p, rrecommends, d)
 
 	return p
