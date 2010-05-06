@@ -27,7 +27,7 @@ DEPENDS += '\
 KERNEL_MAKEFILE ?= "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
 _gen_mf         ?= "${KERNEL_MAKEFILE}"
 
-do_generate_makefile[depends] = "gcc-cross:do_populate_staging"
+do_generate_makefile[depends] = "gcc-cross:do_populate_sysroot"
 do_generate_makefile() {
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
 	gc=${gc%%gcc}

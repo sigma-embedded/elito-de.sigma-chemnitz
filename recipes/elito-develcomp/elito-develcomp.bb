@@ -74,7 +74,7 @@ python __anonymous () {
     bb.data.setVar('_export_vars_gen', '\n'.join(res), d)
 }
 
-do_configure[depends] = "gcc-cross:do_populate_staging"
+do_configure[depends] = "gcc-cross:do_populate_sysroot"
 do_configure() {
         set >&2
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
