@@ -5,7 +5,7 @@ RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
-PV	= "151"
+PV	= "153"
 PR	= "r1"
 
 SRC_URI = "	\
@@ -16,6 +16,9 @@ SRC_URI = "	\
 	file://udev-151-target-input.patch;patch=1	\
 	file://60-ubi.rules			\
 "
+
+SRC_URI[md5sum] = "9c0303a31bd26b75aecc3d86fafae9e4"
+SRC_URI[sha256sum] = "6f7cad8affc5b0288eec862828a6758bc1107451e606ac5f488abe1f430391a2"
 
 _sbindir    = "/sbin"
 rootlibdir  = "/lib"
