@@ -1,4 +1,4 @@
-PATCHDATE = "20100306"
+PATCHDATE = "20100501"
 PR = "r3.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
@@ -25,29 +25,20 @@ FILES_ncurses-tools    = "${bindir}/tic ${bindir}/toe ${bindir}/infotocap ${bind
 FILES_ncurses-terminfo = "${datadir}/terminfo"
 FILES_${PN} = "${bindir}/tput ${bindir}/tset ${datadir}/tabset ${sysconfdir}/terminfo"
 
-SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz \
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091107-patch.sh.bz2;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091114.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091121.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091128.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091205.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091212.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091219.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091226.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20091227.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100102.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100109.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100116.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100123.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100130.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100206.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100213.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100220.patch.gz;patch=1	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100227.patch.gz;patch=1	\
+SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz;name=tarball \
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100424-patch.sh.bz2;patch=1;name=p20100424sh	\
 	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-${PATCHDATE}.patch.gz;patch=1	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-${PATCHDATE}.patch.gz;patch=1;name=p20100501	\
 	file://tic-hang.patch;patch=1 \
 "
+
+SRC_URI[tarball.md5sum] = "cce05daf61a64501ef6cd8da1f727ec6"
+SRC_URI[tarball.sha256sum] = "0a9bdea5c7de8ded5c9327ed642915f2cc380753f12d4ad120ef7da3ea3498f4"
+SRC_URI[p20100424sh.md5sum] = "3a5f76613f0f7ec3e0e73b835bc24864"
+SRC_URI[p20100424sh.sha256sum] = "1e9d70d2d1fe1fea471868832c52f1b9cc6065132102e49e2a3755f2f4f5be53"
+SRC_URI[p20100501.md5sum] = "6518cfa5d45e9069a1e042468161448b"
+SRC_URI[p20100501.sha256sum] = "a97ccc30e4bd6fbb89564f3058db0fe84bd35cfefee831556c500793b477abde"
+
 
 do_configure_prepend() {
 	rm -rf tack
