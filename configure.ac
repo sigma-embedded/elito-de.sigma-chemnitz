@@ -249,34 +249,65 @@ AC_DEFUN([ELITO_ASSUME],[
 	fi
 ])
 
-AC_DEFUN([_flex_check_version],[
-	AC_MSG_CHECKING([for flex version >= 2.5.31])
-	v=`${$1} --version | sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'` 2>/dev/null
+AC_DEFUN([ELITO_NUMERIC_VERSION],[
+	verinfo=`$3` 2>/dev/null
 
-	changequote(<<, >>)dnl
-	_flex_badver='^2\.5\.([[0-9]]|[[12]][[0-9]]|30)$'
-	changequote([, ])dnl
+	old_IFS=$IFS
+	IFS=.
+	set -- ${verinfo}
+	IFS=$old_IFS
 
-	if echo "$v" | ${EGREP} -q "${_flex_badver}"; then
-	   AC_MSG_RESULT([too old ($v)])
-	   _elito_bad_ver=true
+	$1=$(( m4_for([pos],1,$2,,dnl
+               [(${pos} * m4_eval(1 << (8 * ($2-pos)))) + ]) 0 )) dnl
+           2>/dev/null || [$1]=
+])
+
+AC_DEFUN([ELITO_VERSION_TO_STRING],[dnl
+m4_for([pos],1,ifelse([$2],,3,[$2]),,[dnl
+ifelse(pos,1,,.)[]m4_eval(([$1] >> ((ifelse([$2],,3,[$2]) - pos) * 8)) & 0xff)dnl
+])])
+
+AC_DEFUN([ELITO_VERSION_CHECK],[
+	ELITO_NUMERIC_VERSION([_cver],$2,[$3])
+	test -n "$_cver" || _elito_bad_ver=true
+
+	if ${_elito_bad_ver}; then
+	   AC_MSG_RESULT([unknown ($verinfo)])
+	elif test "$_cver" -ge m4_eval([$1]); then
+	   AC_MSG_RESULT([ok ($verinfo)])
 	else
-	   AC_MSG_RESULT([ok ($v)])
+	   AC_MSG_RESULT([too old ($verinfo)])
+	   _elito_bad_ver=true
 	fi
 ])
 
+AC_DEFUN([_flex_check_version],[
+	AC_MSG_CHECKING([for flex version >= ELITO_VERSION_TO_STRING($2)])
+
+	ELITO_VERSION_CHECK([$2],3,
+			    [${$1} --version | sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'])
+])
+
+AC_DEFUN([_cmake_check_version],[
+	AC_MSG_CHECKING([for cmake version >= ELITO_VERSION_TO_STRING($2)])
+
+	ELITO_VERSION_CHECK([$2],3,
+			    [${$1} --version |
+                             sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'])
+])
+
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
-	AC_PATH_PROGS($2, $3)
+	AC_PATH_PROGS([$2], [$3])
 
 	_elito_bad_ver=false
 	if test -x "${$2}"; then
-		ifelse($5,,:,$5($2))
+		ifelse([$5],,:,$5([$2],$6))
 	fi
 
 	if ! $_elito_bad_ver && test -x "${$2}"; then
-		ELITO_ASSUME($1,ifelse($4,,$3,$4),true)
+		ELITO_ASSUME([$1],ifelse([$4],,$3,$4),true)
 	else
-		ELITO_ASSUME($1,ifelse($4,,$3,$4),false)
+		ELITO_ASSUME([$1],ifelse([$4],,$3,$4),false)
 	fi
 ])
 
@@ -290,7 +321,7 @@ AC_PROG_EGREP
 ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
 ELITO_CHECK_PROGRAM( 0, M4,         m4)
 ELITO_CHECK_PROGRAM( 0, BISON,      bison)
-ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version])
+ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version], 0x02051f)
 ELITO_CHECK_PROGRAM(90, GETTEXT,    gettext)
 ELITO_CHECK_PROGRAM( 0, FILE,       file)
 ELITO_CHECK_PROGRAM( 0, TAR,        tar)
@@ -319,6 +350,7 @@ ELITO_CHECK_PROGRAM( 0, GPERF,      gperf)
 ELITO_CHECK_PROGRAM( 5, SHARED_MIME_INFO,   update-mime-database, shared-mime-info)
 ELITO_CHECK_PROGRAM( 0, DESKTOP_FILE_UTILS, desktop-file-install, desktop-file-utils)ELITO_CHECK_PROGRAM( 0, MKFONTSCALE, mkfontscale)
 ELITO_CHECK_PROGRAM( 0, DOCBOOK_UTILS, docbook2man, docbook-utils)
+ELITO_CHECK_PROGRAM( 0, CMAKE,      cmake, [], [_cmake_check_version], [0x020600])
 
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
