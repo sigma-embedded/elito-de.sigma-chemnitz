@@ -1,0 +1,69 @@
+#! /bin/sh
+
+: ${SOCAT:=@SOCAT@}
+: ${ELITO_CRT:=@ELITO_CRT@}
+: ${ELITO_KEY:=$ELITO_CRT}
+: ${ELITO_USE_LIBPROXY:=@HAVE_LIBPROXY@}
+: ${ELITO_PROG_PROXY:=@PROXY@}
+: ${ELITO_PROG_SSL_CLIENT:=@SIGMA_SSL_CLIENT@}
+
+SOCAT_SSLFLAGS="method=TLS,cert=$ELITO_CRT,key=$ELITO_KEY"
+
+_find_proxy() {
+    if ${ELITO_USE_LIBPROXY}; then
+	${ELITO_PROG_PROXY} "https://$1:$2"
+    else
+	echo "direct://"
+    fi
+}
+
+find_proxy() {
+    _varname=$1
+    _dsthost=$2
+    _dstport=$3
+
+    shift
+
+    _p=`_find_proxy "$@"`
+    old_IFS=$IFS
+    IFS=/
+    set -- $_p
+    proto=$1
+    # skip // from proto://...
+    shift 2
+
+    IFS=:
+    set -- $*
+    IFS=$old_IFS
+
+
+    _res=
+    case $proto in
+      direct:)	_res=TCP:$_dsthost:$_dstport;;
+      http:)	_res=PROXY:$1:$_dsthost:$_dstport,proxyport=$2${socat_proxyauth:+,proxyauth="$socat_proxyauth"};;
+    esac
+
+    eval $_varname=\$_res
+}
+
+socat_listen=-
+socat_proxyauth=
+
+while true; do
+    case $1 in
+      #--listen)	socat_listen=TCP-LISTEN:$2,reuseaddr,fork; shift 2;;
+      --proxyauth)
+	    echo -n "Proxy authentication (<username>:<password>): "
+	    read socat_proxyauth
+	    ! tty -s || clear
+	    shift
+	    ;;
+      --)	shift; break;;
+      --*)	echo "Unknown option '$1'" >&2; exit 1;;
+      *)	break;;
+    esac
+done
+
+find_proxy socat_proxy "$@"
+
+${ELITO_PROG_SSL_CLIENT} --keyfile ${ELITO_KEY} --crtfile ${ELITO_CRT} -- ${SOCAT} - ${socat_proxy:+${socat_proxy}}

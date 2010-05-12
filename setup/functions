@@ -1,0 +1,130 @@
+#! /bin/bash
+
+I=''
+
+panic() {
+    echo "$COL_FAILURE$@$COL_NORMAL" >&2
+    exit 1
+}
+
+msg_success() {
+    local m=$1
+    shift
+    echo "$COL_SUCCESS$m$COL_NOTE""$@""$COL_NORMAL"
+}
+
+msg_warning() {
+    local m=$1
+    shift
+    echo "$COL_WARNING$m$COL_NOTE""$@""$COL_NORMAL"
+    return 1
+}
+
+msg_failure() {
+    local m=$1
+    shift
+    echo "$COL_FAILURE$m$COL_NOTE""$@""$COL_NORMAL"
+    return 1
+}
+
+_msg_fmt() {
+    _m=$1
+    _i=$I
+
+    if test "x${_m##+}" != "x${_m}"; then
+	_i="$_i  "
+	_m=${_m##+}
+    fi
+}
+
+msg_checking() {
+    local _m
+    local _i
+
+    _msg_fmt "$@"
+    shift
+    echo -n "${_i}checking $_m""$@"
+}
+
+msg_action() {
+    local _m
+    local _i
+
+    _msg_fmt "$@"
+    shift
+    echo -n "${_i}$_m""$@"
+}
+
+section_start() {
+    local m=$1
+    shift
+    echo "${I}$COL_BOLD$m$COL_NORMAL""$@"
+    I="$I  "
+}
+
+section_end() {
+    I=${I%%  }
+    echo
+}
+
+subsection_start() {
+    local _m
+    local _i
+
+    if test $# -ne 0; then
+	_msg_fmt "$@"
+	shift
+	echo "${_i}$_m""$@"
+    fi
+    I="$I  "
+}
+
+subsection_end() {
+    I=${I%%  }
+}
+
+test_prog() {
+    msg_checking "for program $2..."
+    if eval test x\${$1+set} = xset; then
+	eval _p=\${$1}
+	msg_success "$_p" " (cached)"
+	return
+    fi
+
+    _p=`type -Pp "$2" 2>/dev/null` || \
+	test "x${3+set}" = xset || panic "Can not find '$1' program"
+
+    if test -n "$_p"; then
+	msg_success " $_p"
+    elif test -n "$3"; then
+	_p=$3
+	msg_success " $_p" " (fallback)"
+    else
+	_p=
+	msg_warning " no"
+    fi
+
+    eval $1=\$_p
+    eval export $1
+}
+
+test_pkg() {
+    msg_checking "for package $1..."
+    _v=`$PKG_CONFIG --modversion "$1"` || \
+	panic "Can not find package $1"
+
+    msg_success "yes" " ($_v)"
+}
+
+ask_user() {
+    msg_action "$2" " [$3]? "
+    if eval test x\${$1:+set} = xet; then
+	eval _a=\${$1}
+	msg_success "$a" " (cached)"
+	return
+    fi
+
+    read
+    test -n "$REPLY" || REPLY=$3
+    eval $1=\$REPLY
+}

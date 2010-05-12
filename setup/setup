@@ -1,0 +1,160 @@
+#! /bin/bash
+
+declare -r srcdir=$1
+. ${srcdir}functions
+
+: ${ELITO_GITHOST:=git.sigma-chemnitz.de:4815}
+
+if tty >/dev/null; then
+    COL_SUCCESS=`echo -en '\\033[0;32m'`
+    COL_FAILURE=`echo -en '\\033[0;31m'`
+    COL_WARNING=`echo -en '\\033[0;33m'`
+    COL_NORMAL=`echo -en '\\033[0;39m'`
+    COL_BOLD=`echo -en '\\033[1m'`
+    COL_NOTE=`echo -en '\\033[0;36m'`
+else
+    COL_SUCCESS=
+    COL_FAILURE=
+    COL_WARNING=
+    COL_NORMAL=
+fi
+
+build_sigma_ssl_client() {
+    set -ex
+    export LANG=C
+
+    cd ${srcdir}
+    ${TAR} xjf packages/sigma-ssl-*.tar.bz2
+    cd sigma-ssl-*
+    ${MAKE} -e ssl-client CC=${GCC}
+    ${INSTALL} -D -p -m 0755 ssl-client "${SIGMA_SSL_CLIENT}"
+}
+
+section_start "Core programs:"
+test_prog TAR tar
+test_prog GZIP gzip
+test_prog SED sed
+test_prog GREP grep
+test_prog GCC gcc
+test_prog MAKE make
+test_prog INSTALL install
+test_prog LDCONFIG ldconfig
+test_prog PKG_CONFIG pkg-config
+test_prog SOCAT socat
+test_prog GIT git
+test_prog CVS cvs
+test_prog SVN svn
+test_prog AUTOCONF autoconf
+test_prog PYTHON python
+test_prog NC nc false
+if test x"$NC" != xfalse; then
+    msg_checking '+whether this is the BSD version of nc...'
+    if $NC -h 2>&1 | grep -q -- '-X proxy'; then
+	msg_success " yes"
+    else
+	msg_warning " no"
+	NC=false
+    fi
+fi
+test_prog WGET wget false
+section_end
+
+############################
+
+section_start "Libraries:"
+
+HAVE_LIBPROXY=false
+msg_checking "for libproxy..."
+if ! ${LDCONFIG} -p 2>/dev/null | grep -q '\<libproxy\.so'; then
+    msg_warning " no"
+else
+    msg_success " yes"
+
+    subsection_start
+    test_prog PROXY proxy ''
+    if test -n "$PROXY"; then
+	msg_checking "whether $PROXY is usable..."
+	case `${PROXY} -- 2>/dev/null </dev/null` in
+	  direct:*|http:*)  HAVE_LIBPROXY=true;;
+	  *) ;;
+	esac
+	$HAVE_LIBPROXY && msg_success " yes" || msg_warning " no"
+    fi
+    subsection_end
+fi
+
+section_end
+
+####
+
+section_start "General questions:"
+ask_user ELITO_TOPDIR "Where to install ELiTo" "$2"
+
+if ! test -d "$ELITO_TOPDIR"; then
+    panic "directory '$ELITO_TOPDIR' does not exist"
+fi
+
+PATH=$PATH:$ELITO_TOPDIR/bin
+section_end
+
+####
+
+section_start "Proxy traversal/remote setup:"
+test_prog SIGMA_SSL_CLIENT sigma-ssl-client ''
+if test -z "$SIGMA_SSL_CLIENT"; then
+    SIGMA_SSL_CLIENT=${ELITO_TOPDIR}/bin/sigma-ssl-client
+
+    subsection_start "Building sigma-ssl-client:"
+    test_pkg gnutls
+    msg_action "building sigma-ssl-client..."
+    if ! ( build_sigma_ssl_client 2> .build.log >&2); then
+	msg_warning " failed"
+	${SED} "s!^!${I}  **** !" < .build.log
+	exit 1
+    else
+	msg_success " ok"
+    fi
+    subsection_end
+fi
+
+ask_user ELITO_CRT "location of ELiTo certificate" "\${HOME}/.elito.pem"
+
+test_prog ELITO_PROXY elito-proxy ''
+if test -z "$ELITO_PROXY"; then
+    ELITO_PROXY=$ELITO_TOPDIR/bin/elito-proxy
+    msg_action "+creating ${ELITO_PROXY}..."
+
+    rm -f ${ELITO_PROXY}
+    ${SED} \
+	-e "s!@SOCAT@!${SOCAT}!g" \
+	-e "s!@ELITO_CRT@!${ELITO_CRT}!g" \
+	-e "s!@PROXY@!${PROXY}!g" \
+	-e "s!@HAVE_LIBPROXY@!${HAVE_LIBPROXY}!g" \
+	-e "s!@SIGMA_SSL_CLIENT@!${SIGMA_SSL_CLIENT}!g" \
+	< ${srcdir}elito-proxy.tmpl \
+	> "${ELITO_PROXY}"
+    chmod 0755 "${ELITO_PROXY}"
+    msg_success " done"
+fi
+
+msg_action "registering elito-proxy in git... "
+if ${GIT} config --global --get-all core.gitProxy "for $ELITO_GITHOST" | \
+    ${GREP} -q 'for '; then
+    msg_success "skipping" " (already registered)"
+else
+    ${GIT} config --global --add 'core.gitProxy' "$ELITO_PROXY for $ELITO_GITHOST"
+    msg_success "done"
+fi
+
+ask_user ELITO_PROJECT_ID "project repository" "base"
+
+section_end
+
+######
+
+rm -f "${ELITO_TOPDIR}"/.config
+cat >"${ELITO_TOPDIR}"/.config <<EOF
+ELITO_CRT = ${ELITO_CRT}
+EOF
+
+#${GIT}
