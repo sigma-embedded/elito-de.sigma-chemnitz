@@ -62,6 +62,24 @@ AC_ARG_ENABLE(machine,
 	[MACHINE=$enableval], [AC_MSG_ERROR([No machine specified])])
 AC_SUBST(MACHINE)
 
+AC_MSG_CHECKING([whether to enable offline mode])
+AC_ARG_ENABLE(offline-mode,
+	AS_HELP_STRING([--enable-offline-mode],
+		[offline mode; use locally cached sources instead of fetching them from network]),
+	[case $enableval in
+	      yes)	ELITO_OFFLINE=true;;
+	      no)	;;
+	      *)	AC_MSG_ERROR([invalid value for --enable-offline-mode]);;
+         esac],[
+	ELITO_OFFLINE=])
+
+if test -n "$ELITO_OFFLINE"; then
+   AC_MSG_RESULT([yes])
+else
+   AC_MSG_RESULT([no])
+fi
+AC_SUBST([ELITO_OFFLINE])
+
 AC_ARG_WITH(cache-dir,
 	AS_HELP_STRING([--with-cache-dir=<dir>],
 		       [Directory where to place downloaded sources. This
