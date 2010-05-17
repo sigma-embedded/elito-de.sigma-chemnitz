@@ -3000,11 +3000,55 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
+zlib_1.2.3 \
+xserver-xorg_1.8.0 \
+xserver-nodm-init_1.0 \
+xserver-common_1.32 \
+xfce4-settings_4.6.1 \
+xfce4-panel_4.6.2 \
+xdm_1.1.9 \
+vlc_1.0.2 \
+rsyslog_5.4.0 \
+qemu_0.12.3 \
+openvpn_2.0.9 \
+nano_2.0.9 \
+mesa-xlib_7.8 \
+mesa-dri_7.8 \
+mesa_7.7 \
+menu-cache_0.2.2 \
+memtester_4.0.6 \
+lxpanel_0.3.8.1 \
+lxmenu-data_0.1 \
+lxde-common_0.3.2.1 \
+linux-libc-headers_2.6.24 \
+liblauncher_0.3.6 \
+klibc-utils-static_1.5.17 \
+klibc_1.5.17 \
+iw_0.9.18 \
+imake_1.0.2 \
+ibrdtn_0.1.1 \
+ibrdtn_0.1.2 \
+gpicview_0.1.5 \
+gnash_0.8.5 \
+gdbserver_7.0 \
+gdb-cross-sdk_7.0 \
+gdb-cross_7.0 \
+gdb-canadian-sdk_7.0 \
+gdb_7.0 \
+freetype_2.3.11 \
+freetype_2.3.11 \
+firefox_3.6.2 \
+alsa-lib_1.0.20 \
 "
 
 ############################################
 
 PKGDUP_IGNORES = " \
+gcc-cross-sdk_4.4.4 \
+gcc-cross-intermediate_4.4.4 \
+gcc-cross-initial_4.4.4 \
+gcc-cross_4.4.4 \
+gcc_4.4.4 \
 glibc-initial_2.4 \
 glibc_2.4 \
 libsoup-2.4_2.29.91 \
