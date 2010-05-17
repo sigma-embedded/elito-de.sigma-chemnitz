@@ -9,6 +9,7 @@ abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
 ELITO_ROOTDIR :=	$(abspath $(abs_top_srcdir)/..)
 ELITO_OFFLINE :=	@ELITO_OFFLINE@
+ELITO_WORKSPACE_DIR :=	$(abspath $(abs_top_builddir)/../workspace)
 CACHE_DIR :=		$(abspath @_CACHE_DIR@)
 _CCACHE_DIR :=		$(abspath @_CCACHE_DIR@)
 PROJECT_NAME =		@PROJECT_NAME@
@@ -24,6 +25,7 @@ _DOMAIN =		$(shell hostname -d)
 VPATH ?=		$(abs_top_srcdir)
 
 SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
+		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'		\
 		-e 's!@'PYTHON'@!$(PYTHON)!g'			\
 		-e 's!@'CCACHE_DIR'@!$(_CCACHE_DIR)!g'		\
@@ -87,10 +89,10 @@ build:
 			$(BITBAKE) -b "$(RECIPE)" $(BO)
 
 pkg-update pkg-upgrade pkg-install pkg-remove shell: \
-			$(ELITO_ROOTDIR)/workspace/Makefile.$(PROJECT_NAME)
+			$(ELITO_WORKSPACE_DIR)/Makefile.$(PROJECT_NAME)
 			$(SECWRAP_CMD) $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
-$(ELITO_ROOTDIR)/workspace/Makefile.$(PROJECT_NAME):
+$(ELITO_WORKSPACE_DIR)/Makefile.$(PROJECT_NAME):
 			@echo "*************" >&2
 			@echo "*** Development Makefile not found; please build the 'elito-develcomp' package" >&2
 			@echo "*************" >&2
