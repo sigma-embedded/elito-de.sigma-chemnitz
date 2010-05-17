@@ -1,9 +1,10 @@
-SRCREV           = "${AUTOREV}"
+PV		= "0.4.99+git${SRCPV}"
+PR		= "r1"
+SRCREV		= "${AUTOREV}"
 
-require upstart-setup.bb
+SRC_URI		= "${ELITO_GIT_REPO}/pub/upstart-setup.git;protocol=git"
 
-COMPONENT  = "upstart-setup"
-inherit elito-develcomp
+require upstart-setup.inc
 
 do_patch_late() {
     cd ${WORKDIR}
@@ -13,3 +14,4 @@ do_patch_late() {
     oe_runmake -C git dist R=${PV}
     tar xjf git/upstart-setup-${PV}.tar.bz2
 }
+addtask patch_late after do_unpack before do_patch do_install
