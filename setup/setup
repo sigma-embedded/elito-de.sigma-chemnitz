@@ -124,6 +124,7 @@ if test -z "$ELITO_PROXY"; then
     ELITO_PROXY=$ELITO_TOPDIR/bin/elito-proxy
     msg_action "+creating ${ELITO_PROXY}..."
 
+    mkdir -p "`dirname ${ELITO_PROXY}`"
     rm -f ${ELITO_PROXY}
     ${SED} \
 	-e "s!@SOCAT@!${SOCAT}!g" \
