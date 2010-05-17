@@ -37,6 +37,40 @@ esac
 AC_SUBST([GLOBAL_BITBAKE_CONF],[$_f])
 ELITO_TRUE_FALSE([HAVE_GLOBAL_BITBAKE_CONF], [test -n "$_f"])
 
+AC_ARG_WITH([local-bitbake-conf],
+	[AS_HELP_STRING([--with-local-bitbake-conf=<file>],
+		[local bitbake configuration file (default: conf/local-<domain>.conf (when exists))])],
+	[case $withval in
+		(yes)	withval=yes;;
+		(no)	withval=no;;
+		(*)	_f=$withval; withval=yes;;
+	 esac],
+	[ withval=auto ])
+
+case $withval in
+	(yes)	if ! test -r "$_f"; then
+			AC_MSG_ERROR([can not find local bitbake.conf file '$_f'])
+		fi
+		;;
+	(no)	_f=;;
+	(auto)	_d=`hostname -f`
+		_f=
+		while test -n "$_d"; do
+		      _f=conf/local-"$_d".conf
+		      ! test -r "$_f" || break
+		      if test x"$_d" = x"${_d#*.}"; then
+			 _d=
+			 _f=
+		      else
+			 _d=${_d#*.}
+		      fi
+		done
+		;;
+esac
+
+AC_SUBST([LOCAL_BITBAKE_CONF],[$_f])
+ELITO_TRUE_FALSE([HAVE_LOCAL_BITBAKE_CONF], [test -n "$_f"])
+
 AC_ARG_WITH([project-name],
 	[AS_HELP_STRING([--with-project-name=<name>],
 		[project name (default: directory basename)])],
