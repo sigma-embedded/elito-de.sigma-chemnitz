@@ -9,7 +9,7 @@ STATIC_CONTENT = \
 	elito-proxy.tmpl
 
 DOWNLOAD = \
-	http://www.sigma-chemnitz.de/dl/elito/sources/sigma-ssl-0.4.tar.bz2
+	http://www.sigma-chemnitz.de/dl/elito/sources/sigma-ssl-0.5.tar.bz2
 
 _downloads =	$(addprefix packages/,$(notdir $(DOWNLOAD)))
 
