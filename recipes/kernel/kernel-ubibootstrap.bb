@@ -1,3 +1,5 @@
+_elito_skip := "${@elito_skip(d, 'ubifs')}"
+
 DESCRIPTION	=  "UBI bootstrap kernel"
 SECTION		=  "kernel"
 LICENSE		=  "GPL"
