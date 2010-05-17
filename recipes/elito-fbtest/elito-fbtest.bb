@@ -6,7 +6,7 @@ LICENSE		=  "GPLv3"
 PV = "0.1+gitr${SRCPV}"
 PR = "r0"
 
-SRC_URI		=  "${ELITO_GIT_REPO}/fbtest.git;protocol=https"
+SRC_URI		=  "${ELITO_GIT_REPO}/pub/fbtest.git;protocol=git"
 SRCREV		=  "${AUTOREV}"
 S		=  "${WORKDIR}/git"
 

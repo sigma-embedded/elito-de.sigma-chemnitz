@@ -7,7 +7,7 @@ SRCREV = "${AUTOREV}"
 PV = "0.0+gitr${SRCPV}"
 PR = "r1"
 
-SRC_URI = "git://www.sigma-chemnitz.de/dl/elito/git/arnoldboot.git;protocol=https"
+SRC_URI = "${ELITO_GIT_REPO}/pub/arnoldboot.git;protocol=git"
 S = "${WORKDIR}/git"
 
 inherit native
