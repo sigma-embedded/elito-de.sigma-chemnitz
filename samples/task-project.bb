@@ -42,7 +42,7 @@ RRECOMMENDS_${PN} = "\
 	upstart-setup-syslogd		\
 	upstart-setup-klogd		\
 	upstart-setup-openntpd		\
-	upstart-setup-net-dhcp-eth0	\
+	upstart-setup-net-dhcp		\
 	alsa-utils-alsamixer		\
 	alsa-utils-amixer		\
 	alsa-utils-aplay		\
