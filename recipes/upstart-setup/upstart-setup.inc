@@ -42,6 +42,9 @@ PACKAGES_DYNAMIC = "${PN}-.*"
 RCONFLICTS_${PN}-fsck-blockdev += "${PN}-fsck-dummy"
 RCONFLICTS_${PN}-fsck-dummy    += "${PN}-fsck-blockdev"
 
+RCONFLICTS_${PN}-mdev          += "${PN}-udev"
+RCONFLICTS_${PN}-udev          += "${PN}-mdev"
+
 RPROVIDES_${PN}-fsck-blockdev  += "virtual/${PN}-fsck"
 RPROVIDES_${PN}-fsck-dummy     += "virtual/${PN}-fsck"
 
