@@ -90,7 +90,7 @@ build:
 
 pkg-update pkg-upgrade pkg-install pkg-remove shell: \
 			$(ELITO_WORKSPACE_DIR)/Makefile.$(PROJECT_NAME)
-			$(SECWRAP_CMD) $(MAKE) -f $< CFG=pkg $@ _secwrap=
+			$(SECWRAP_CMD) env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
 $(ELITO_WORKSPACE_DIR)/Makefile.$(PROJECT_NAME):
 			@echo "*************" >&2
