@@ -211,6 +211,7 @@ Project has been downloaded; now go to ${ELITO_TOPDIR}, set parameters
 in .config-<domain> or .config-<hostname> and execute
 
   make configure M=<project>
+  make build M=<project>
 
  there.
 *******************************************
