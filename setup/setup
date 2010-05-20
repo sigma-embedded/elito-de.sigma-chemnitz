@@ -1,6 +1,8 @@
 #! /bin/bash
 
 declare -r srcdir=$1
+declare -r instdir=$2
+declare -r module=${3:-demo}
 . ${srcdir}functions
 
 : ${ELITO_GITHOST:=git.sigma-chemnitz.de:4815}
@@ -30,6 +32,29 @@ build_sigma_ssl_client() {
     ${INSTALL} -D -p -m 0755 ssl-client "${SIGMA_SSL_CLIENT}"
 }
 
+fetch_repository() {
+    set -ex
+    cd ${ELITO_TOPDIR}
+    . .config
+    export ELITO_CRT
+
+    ${GIT} init || :
+    ${GIT} remote add sigma git://${ELITO_GITHOST}/${ELITO_PROJECT_ID}.git || :
+    ${GIT} remote update sigma || return 1
+    ${GIT} checkout --track -b master sigma/master || :
+}
+
+do_it() {
+  rm -f .build.log
+  if ! ( "$@" 2> .build.log >&2 ); then
+      msg_warning " failed"
+      ${SED} "s!^!${I}  **** !" < .build.log
+      return 1
+  else
+      msg_success " ok"
+  fi
+}
+
 section_start "Core programs:"
 test_prog TAR tar
 test_prog GZIP gzip
@@ -45,6 +70,8 @@ test_prog GIT git
 test_prog CVS cvs
 test_prog SVN svn
 test_prog AUTOCONF autoconf
+test_prog LIBTOOLIZE libtoolize
+test_prog AUTORECONF autoreconf
 test_prog PYTHON python
 test_prog NC nc false
 if test x"$NC" != xfalse; then
@@ -88,13 +115,13 @@ section_end
 ####
 
 section_start "General questions:"
-ask_user ELITO_TOPDIR "Where to install ELiTo" "$2"
+ask_user ELITO_TOPDIR "Where to install ELiTo" "$instdir"
 
 if ! test -d "$ELITO_TOPDIR"; then
     panic "directory '$ELITO_TOPDIR' does not exist"
 fi
 
-PATH=$PATH:$ELITO_TOPDIR/bin
+PATH=$PATH:$ELITO_TOPDIR/.bin
 section_end
 
 ####
@@ -102,18 +129,12 @@ section_end
 section_start "Proxy traversal/remote setup:"
 test_prog SIGMA_SSL_CLIENT sigma-ssl-client ''
 if test -z "$SIGMA_SSL_CLIENT"; then
-    SIGMA_SSL_CLIENT=${ELITO_TOPDIR}/bin/sigma-ssl-client
+    SIGMA_SSL_CLIENT=${ELITO_TOPDIR}/.bin/sigma-ssl-client
 
     subsection_start "Building sigma-ssl-client:"
     test_pkg gnutls
     msg_action "building sigma-ssl-client..."
-    if ! ( build_sigma_ssl_client 2> .build.log >&2); then
-	msg_warning " failed"
-	${SED} "s!^!${I}  **** !" < .build.log
-	exit 1
-    else
-	msg_success " ok"
-    fi
+    do_it build_sigma_ssl_client
     subsection_end
 fi
 
@@ -121,7 +142,7 @@ ask_user ELITO_CRT "location of ELiTo certificate" "\${HOME}/.elito.pem"
 
 test_prog ELITO_PROXY elito-proxy ''
 if test -z "$ELITO_PROXY"; then
-    ELITO_PROXY=$ELITO_TOPDIR/bin/elito-proxy
+    ELITO_PROXY=$ELITO_TOPDIR/.bin/elito-proxy
     msg_action "+creating ${ELITO_PROXY}..."
 
     mkdir -p "`dirname ${ELITO_PROXY}`"
@@ -147,7 +168,7 @@ else
     msg_success "done"
 fi
 
-ask_user ELITO_PROJECT_ID "project repository" "base"
+ask_user ELITO_PROJECT_ID "project repository" "$module"
 
 section_end
 
@@ -155,7 +176,51 @@ section_end
 
 rm -f "${ELITO_TOPDIR}"/.config
 cat >"${ELITO_TOPDIR}"/.config <<EOF
-ELITO_CRT = ${ELITO_CRT}
+ELITO_CRT=${ELITO_CRT}
+ELITO_PROG_SSL_CLIENT=${SIGMA_SSL_CLIENT}
+ELITO_GITHOST=${ELITO_GITHOST}
+ELITO_PROG_PROXY=${PROXY}
+ELITO_USE_LIBPROXY=${HAVE_LIBPROXY}
+export ELITO_CRT
+export ELITO_USE_LIBPROXY ELITO_PROG_PROXY
+export ELITO_PROG_SSL_CLIENT
+export ELITO_GITHOST
+
+AUTORECONF=${AUTORECONF}
 EOF
 
-#${GIT}
+msg_action "checking out project repository... "
+do_it fetch_repository
+
+msg_action "registering elito-proxy in local git repository... "
+(
+  # DOES NOT work as expected :( local configuration is overridden by
+  # global one which points to global proxy command
+  cd $ELITO_TOPDIR
+  ${GIT} config --unset 'core.gitProxy' " for $ELITO_GITHOST"
+  ${GIT} config --add 'core.gitProxy' "$ELITO_PROXY for $ELITO_GITHOST"
+)
+msg_success " done"
+
+msg_action "downloading project data (this will take some time)... "
+msg_success ""
+if ${MAKE} -s -e -C ${ELITO_TOPDIR} prepare; then
+    cat <<EOF
+*******************************************
+Project has been downloaded; now go to ${ELITO_TOPDIR}, set parameters
+in .config-<domain> or .config-<hostname> and execute
+
+  make configure M=<project>
+
+ there.
+*******************************************
+EOF
+else
+    cat <<EOF | ${SED} "s!^!${I}  **** !" >&2
+automatic download failed; please execute
+
+  ${MAKE} -C ${ELITO_TOPDIR} prepare
+
+after fixing the problems.
+EOF
+fi
