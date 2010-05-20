@@ -13,6 +13,9 @@ to file, creating a JPEG image."
 
 SRC_URI = "http://staticwave.ca/source/uvccapture/uvccapture-${PV}.tar.bz2"
 
+SRC_URI[md5sum] = "2ac901069a35b8954c11b11f6e036989"
+SRC_URI[sha256sum] = "b7c262d2428f23a4c64feddd2c37c43fb39ce4c92a5a6ae0dddf28e3adc5b60e"
+
 DEPENDS = "jpeg"
 
 do_compile() {
