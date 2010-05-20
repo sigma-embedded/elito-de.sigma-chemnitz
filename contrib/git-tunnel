@@ -1,0 +1,3 @@
+#! /bin/sh
+
+exec nc -x www-cache:3128 -Xconnect "$1" "$2"

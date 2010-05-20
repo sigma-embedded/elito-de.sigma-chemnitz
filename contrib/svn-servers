@@ -1,0 +1,4 @@
+[global]
+http-proxy-exceptions = *.<your-domain>, localhost
+http-proxy-host = www-cache
+http-proxy-port = 3128
