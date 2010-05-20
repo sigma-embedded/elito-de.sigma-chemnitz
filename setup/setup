@@ -40,7 +40,7 @@ fetch_repository() {
 
     ${GIT} init || :
     ${GIT} remote add sigma git://${ELITO_GITHOST}/${ELITO_PROJECT_ID}.git || :
-    ${GIT} remote update sigma || return 1
+    ${GIT} remote update || return 1
     ${GIT} checkout --track -b master sigma/master || :
 }
 
