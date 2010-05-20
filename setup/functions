@@ -118,9 +118,9 @@ test_pkg() {
 
 ask_user() {
     msg_action "$2" " [$3]? "
-    if eval test x\${$1:+set} = xet; then
+    if eval test x\${$1:+set} = xset; then
 	eval _a=\${$1}
-	msg_success "$a" " (cached)"
+	msg_success "$_a" " (cached)"
 	return
     fi
 
