@@ -1,0 +1,9 @@
+## SVN setup to tunnel communication through an http proxy server
+##
+## Usage:
+##  * add the content of this file to $HOME/.subversion/config
+##  * place the 'svn-tunnel' tool into your $PATH
+##  * add "BB_SVN_TUNNEL = '+proxy'" to your bitbake configuration
+
+[tunnels]
+proxy = svn-tunnel

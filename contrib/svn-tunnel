@@ -1,0 +1,31 @@
+#! /bin/sh
+# Copyright (C) 2010 Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+## Tunnel program to pipe SVN communication through an HTTP proxy
+##
+##  * place this tool into your $PATH and adopt the PROXY_* vars
+##  * add the content of the 'svn-config' file to $HOME/.subversion/config
+##  * add "BB_SVN_TUNNEL = '+proxy'" to your bitbake configuration
+
+: ${PROXY_HOST:=www-cache}
+: ${PROXY_PORT:=3128}
+
+host=${1%%:*}
+port=${1##$host}
+port=${port##:}
+: ${port:=3690}
+
+PATH=/usr/local/bin:/usr/bin:/bin
+exec nc -X connect -x $PROXY_HOST:$PROXY_PORT "$host" "$port"

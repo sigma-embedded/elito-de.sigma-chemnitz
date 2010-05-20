@@ -1,0 +1,69 @@
+#! /bin/bash
+# Copyright (C) 2010 Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+## Wrapper around 'cvs' to communicate through http proxy servers.
+##
+## Usage:
+##  * copy this file into your $PATH and adopt PROXY_HOST + PROXY_PORT
+##    and set $http_proxy
+##  * set FETCHCOMMAND_cvs + UPDATECOMMAND_cvs in your bitbake
+##    configuration accordingly the example
+##
+## TODO:
+##  * use libproxy to calculate the proxy
+##  * calculate PROXY_* vars from $http_proxy resp. the libproxy
+##    response
+
+
+: ${PROXY_HOST:=www-cache}
+: ${PROXY_PORT:=3128}
+
+test -z "$NO_CVS_WRAP" || exec /usr/bin/cvs "$@"
+
+ver=$(/usr/bin/cvs --version 2>/dev/null | sed '2s/.* \([0-9.]\+\) .*/\1/p;d')
+
+shift $[ OPTIND - 1 ]
+set -- "${args[@]}" "$@"
+
+case $ver in
+  (1.11.*)
+  export CVS_PROXY=$http_proxy
+  #exec tconn /usr/bin/cvs "$@"
+  exec /usr/bin/cvs "$@"
+  ;;
+
+  (*)
+  args=()
+
+  state=0
+  _cvs_root=
+
+  while getopts ":+HQqrwntvb:T:e:d:fz:xa46s:" opt "$@"; do
+      case $opt in
+	(d)		_cvs_root=$OPTARG; do_add=false;;
+	(*)		do_add=true;;
+      esac
+
+      $do_add || continue
+
+      args=( "${args[@]}" "-$opt" )
+      test "${OPTARG:+set}" = set || args=( "${args[@]}" "$OPTARG" )
+  done
+
+  CVSROOT=${CVSROOT/:pserver:/:pserver;proxy=${PROXY_HOST};proxyport=${PROXY_PORT}:}
+  exec /usr/bin/cvs "$@"
+  ;;
+esac
