@@ -1,5 +1,5 @@
 PV		= "0.4.99+git${SRCPV}"
-PR		= "r1"
+PR		= "r2"
 SRCREV		= "${AUTOREV}"
 
 SRC_URI		= "${ELITO_GIT_REPO}/pub/upstart-setup.git;protocol=git"
