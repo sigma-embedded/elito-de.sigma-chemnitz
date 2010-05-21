@@ -84,6 +84,8 @@ subsection_end() {
 }
 
 test_prog() {
+    local old_PATH
+
     msg_checking "for program $2..."
     if eval test x\${$1+set} = xset; then
 	eval _p=\${$1}
@@ -91,8 +93,11 @@ test_prog() {
 	return
     fi
 
+    old_PATH=$PATH
+    PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
     _p=`type -Pp "$2" 2>/dev/null` || \
 	test "x${3+set}" = xset || panic "Can not find '$1' program"
+    PATH=$old_PATH
 
     if test -n "$_p"; then
 	msg_success " $_p"
