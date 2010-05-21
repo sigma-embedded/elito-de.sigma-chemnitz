@@ -1,6 +1,7 @@
 GZIP =		gzip
 TAR =		tar
 WGET =		wget
+GIT =		git
 
 STATIC_CONTENT = \
 	Makefile		\
@@ -11,10 +12,15 @@ STATIC_CONTENT = \
 DOWNLOAD = \
 	http://www.sigma-chemnitz.de/dl/elito/sources/sigma-ssl-0.5.tar.bz2
 
+GITREV = $(shell set -x; ${GIT} describe --long --abbrev=40 HEAD 2>/dev/null | tr / _)
+SED_CMD = \
+	-e 's!@'GITREV'@!$(GITREV)!g'
+
 _downloads =	$(addprefix packages/,$(notdir $(DOWNLOAD)))
 
 elito-setup:	elito-setup.skel elito-setup.tar.gz
-	cat $^ > $@
+	cat $(filter %.skel,$^) | sed ${SED_CMD} > $@
+	cat $(filter-out %.skel,$^) >> $@
 	chmod 0755 $@
 
 elito-setup.tar:	$(STATIC_CONTENT) $(_downloads)

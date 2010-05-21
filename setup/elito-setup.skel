@@ -18,9 +18,9 @@ test_prog tar
 d=$(mktemp -d /var/tmp/elito-setup.XXXXXX) || panic "Could not create temporary directory"
 trap "rm -rf $d" EXIT
 
-sed '1,/^############ ELITO-SETUP f827432e-4a63-4e6e-a63e-1e12b3391f6c #############$/d' "${BASH_SOURCE[0]}" | gunzip | ( cd $d && tar xf - )
+sed '1,/^############ ELITO-SETUP f827432e-4a63-4e6e-a63e-1e12b3391f6c @GITREV@ #############$/d' "${BASH_SOURCE[0]}" | gunzip | ( cd $d && tar xf - )
 
 $d/setup "$d/" "$@"
 exit 0
 
-############ ELITO-SETUP f827432e-4a63-4e6e-a63e-1e12b3391f6c #############
+############ ELITO-SETUP f827432e-4a63-4e6e-a63e-1e12b3391f6c @GITREV@ #############
