@@ -206,6 +206,18 @@ def _elito_metrics_eventhandler (e):
 
     return NotHandled
 
+def _elito_metrics_get_davail(e):
+    from bb import data
+    import os
+
+    try:
+        df = os.statvfs(data.getVar("TMPDIR", e.data, True))
+        davail = df.f_bsize * df.f_bavail
+    except:
+        davail = -1
+
+    return davail
+
 def _elito_metrics_eventhandler_18 (e):
     import resource, time, fcntl
     from bb import note, error, data
@@ -234,6 +246,7 @@ def _elito_metrics_eventhandler_18 (e):
         data.setVar('_BUILD_START_TIME',  time.time(), e.data)
         data.setVar('_BUILD_RESOURCES_CHLD', resource.getrusage(resource.RUSAGE_CHILDREN), e.data)
         data.setVar('_BUILD_RESOURCES_SELF', resource.getrusage(resource.RUSAGE_SELF), e.data)
+        data.setVar('_BUILD_DAVAIL', _elito_metrics_get_davail(e), e.data)
 
         dst_fname = data.getVar("METRICS_FILE", e.data, True)
         try:
@@ -247,6 +260,7 @@ def _elito_metrics_eventhandler_18 (e):
         now_self = resource.getrusage(resource.RUSAGE_SELF)
         res_chld = data.getVar('_BUILD_RESOURCES_CHLD', e.data, False)
         res_self = data.getVar('_BUILD_RESOURCES_SELF', e.data, False)
+        old_davail = data.getVar('_BUILD_DAVAIL', e.data, False)
 
         start_tm = data.getVar('_BUILD_START_TIME', e.data, False)
         now      = time.time()
@@ -289,6 +303,11 @@ def _elito_metrics_eventhandler_18 (e):
             except:
                 pass
 
+            now_davail = _elito_metrics_get_davail(e)
+            if now_davail != -1 and old_davail != -1:
+                f_out.write('    <diskusage start="%u" end="%u">%d</diskusage>\n' %
+                            (old_davail, now_davail,
+                             now_davail - old_davail))
             f_out.write('  </sysinfo>\n')
 
             while True:
@@ -341,6 +360,10 @@ def _elito_metrics_eventhandler_18 (e):
         '  <!-- %(task)s(%(PF)s) | %(start_tm_str)s - %(end_tm_str)s -->\n' \
         '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
         'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s">\n' % info
+
+        davail = _elito_metrics_get_davail(e)
+        if davail != -1:
+            x = x + '    <info type="diskfree">%u</info>\n' % davail
 
         elito_metrics_write(e.data, x +
                             '    <!-- RUSAGE_CHILDREN -->\n' +
