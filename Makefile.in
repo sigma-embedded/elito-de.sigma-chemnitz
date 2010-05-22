@@ -147,7 +147,7 @@ tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.gitinit.stamp
 			cd tmp/bitbake && $(GIT) merge ${BITBAKE_REV}
 			@echo $(BITBAKE_REV) > $@
 
-_bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar.gz
+_bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
 
 ifeq ($(ELITO_OFFLINE),)
 $(_bitbake-tarball):
