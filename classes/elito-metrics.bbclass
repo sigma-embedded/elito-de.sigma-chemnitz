@@ -291,7 +291,7 @@ def _elito_metrics_eventhandler_18 (e):
         start_tm = data.getVar('_BUILD_START_TIME', e.data, False)
         now      = time.time()
 
-        f_in_name = _elito_metrics_tmpname(e)
+        f_in_name = _elito_metrics_tmpname(e.data)
 
         fname = data.getVar('METRICS_FILE', e.data, True)
         f_out = open(fname, 'a')
