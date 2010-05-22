@@ -107,7 +107,7 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
         if start_info['duse'] != None and end_info['duse'] != None:
             f_out.write('    <diskusage start="%u" end="%u">%d</diskusage>\n' %
                         (start_info['duse'], end_info['duse'],
-                         start_info['duse'] - end_info['duse']))
+                         end_info['duse'] - start_info['duse']))
 
         f_out.write('    <!-- RUSAGE_CHILDREN -->\n' +
                     ''.join(map(lambda x: '    ' + x + '\n',
@@ -205,11 +205,10 @@ def _elito_metrics_eventhandler (e):
 
     if name == "BuildStarted":
         record_resources('build_start', e.data)
-        dst_fname = _elito_metrics_tmpname(e.data)
-        dst_fname = data.getVar("METRICS_FILE", e.data, True)
+        tmp_fname = _elito_metrics_tmpname(e.data)
 
         try:
-            os.unlink(dst_fname)
+            os.unlink(tmp_fname)
         except OSError:
             pass
 
@@ -274,9 +273,9 @@ def _elito_metrics_eventhandler_18 (e):
         data.setVar('_BUILD_RESOURCES_SELF', resource.getrusage(resource.RUSAGE_SELF), e.data)
         data.setVar('_BUILD_DUSE', _elito_metrics_get_duse(e), e.data)
 
-        dst_fname = data.getVar("METRICS_FILE", e.data, True)
+        tmp_fname = _elito_metrics_tmpname(e.data)
         try:
-            os.unlink(dst_fname)
+            os.unlink(tmp_fname)
         except:
             pass
         elito_metrics_write(e.data, '')
