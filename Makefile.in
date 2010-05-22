@@ -153,7 +153,8 @@ ifeq ($(ELITO_OFFLINE),)
 $(_bitbake-tarball):
 			mkdir -p $(@D)
 			@rm -f $(_bitbake-tarball).tmp
-			$(WGET) $(BITBAKE_SNAPSHOT) -O $(_bitbake-tarball).tmp && mv -f $(_bitbake-tarball).tmp $(_bitbake-tarball)
+			$(WGET) $(BITBAKE_SNAPSHOT) -O $(_bitbake-tarball).tmp
+			mv -f $(_bitbake-tarball).tmp $(_bitbake-tarball)
 endif
 
 tmp/stamps/.bitbake.gitinit.stamp:	$(_bitbake-tarball)
