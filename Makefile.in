@@ -36,7 +36,7 @@ SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 CHECKSUM_SORTER =	env LC_COLLATE=C $(PYTHON) $(ELITO_ROOTDIR)/org.openembedded/contrib/source-checker/oe-checksums-sorter.py
 CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksums.ini
 
-BITBAKE_BRANCH =	1.8
+BITBAKE_BRANCH =	1.10
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
 
 _bitbake_srcdir =	$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
