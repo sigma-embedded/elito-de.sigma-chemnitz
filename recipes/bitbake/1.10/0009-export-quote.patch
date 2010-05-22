@@ -1,0 +1,13 @@
+Index: bitbake/lib/bb/fetch/__init__.py
+===================================================================
+--- lib/bb/fetch/__init__.py
++++ lib/bb/fetch/__init__.py
+@@ -281,7 +281,7 @@ def runfetchcmd(cmd, d, quiet = False):
+     for var in exportvars:
+         val = data.getVar(var, d, True)
+         if val:
+-            cmd = 'export ' + var + '=%s; %s' % (val, cmd)
++            cmd = 'export ' + var + "='%s'; %s" % (val, cmd)
+ 
+     bb.msg.debug(1, bb.msg.domain.Fetcher, "Running %s" % cmd)
+ 
