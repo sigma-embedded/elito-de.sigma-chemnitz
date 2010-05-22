@@ -10,12 +10,23 @@ python elito_metrics_eventhandler () {
 }
 addhandler elito_metrics_eventhandler
 
+def _elito_metrics_id(d):
+    import os
+    return bb.data.getVar('METRICS_ID', d, True) or os.environ.get("ELITO_METRICS_ID")
+
+def _elito_metrics_tmpname(d):
+    fname = bb.data.getVar('METRICS_FILE', d, True)
+    mid   = _elito_metrics_id(d)
+    assert(fname != None)
+    if mid == None:
+        return None
+
+    return fname + ".tmp.%s" % mid
+
 def elito_metrics_write(d, str):
     import fcntl, bb
-    fname = bb.data.getVar('METRICS_FILE', d, True)
-    assert(fname != None)
 
-    f = open(fname + ".tmp", "a")
+    f = open(_elito_metrics_tmpname(d), "a")
     try:
         fcntl.flock(f.fileno(), fcntl.LOCK_EX)
         f.write(str)
@@ -42,8 +53,11 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
     import time, fcntl
     from bb import data
 
+    f_in_name = _elito_metrics_tmpname(e.data)
+
     f_out = open(fname, 'a')
-    f_in  = open(fname + ".tmp", 'r')
+    f_in  = open(f_in_name, 'r')
+    os.unlink(f_in_name)
 
     try:
         fcntl.flock(f_out.fileno(), fcntl.LOCK_EX)
@@ -54,10 +68,11 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
                      time.strftime('%c', time.gmtime(end_info['time']))))
 
         f_out.write('<build project="%s" started="%f" finished="%f"' \
-                    ' duration="%f">\n' %
+                    ' duration="%f" id="%s">\n' %
                     (data.getVar('PROJECT_NAME', e.data, True),
                      start_info['time'], end_info['time'],
-                     end_info['time'] - start_info['time']))
+                     end_info['time'] - start_info['time'],
+                     _elito_metrics_id(e.data)))
 
         f_out.write('  <sysinfo>\n')
 
@@ -87,8 +102,14 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
                break
            f_out.write(buf)
 
-        f_out.write('  <metrics>\n' +
-                    '    <!-- RUSAGE_CHILDREN -->\n' +
+        f_out.write('  <metrics>\n')
+
+        if start_info['duse'] != None and end_info['duse'] != None:
+            f_out.write('    <diskusage start="%u" end="%u">%d</diskusage>\n' %
+                        (start_info['duse'], end_info['duse'],
+                         start_info['duse'] - end_info['duse']))
+
+        f_out.write('    <!-- RUSAGE_CHILDREN -->\n' +
                     ''.join(map(lambda x: '    ' + x + '\n',
                                 elito_metrics_to_xml("children",
                                                      end_info['res_chld'],
@@ -100,7 +121,6 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
                                                      start_info['res_self']))) +
                     "  </metrics>\n")
         f_out.write('</build>\n')
-        os.unlink(fname + ".tmp")
     finally:
         f_in.close()
         f_out.close()
@@ -131,6 +151,9 @@ def _elito_metrics_write_task_complete(start_info, end_info, e):
     '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
     'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s" pid="%(pid)s">\n' % info
 
+    if end_info['duse'] != None:
+        x = x + '    <info type="diskusage">%u</info>\n' % end_info['duse']
+
     elito_metrics_write(e.data, x +
                         '    <!-- RUSAGE_CHILDREN -->\n' +
                         ''.join(map(lambda x: '    ' + x + '\n',
@@ -145,6 +168,18 @@ def _elito_metrics_write_task_complete(start_info, end_info, e):
 
                         '  </task>\n')
 
+def _elito_metrics_get_duse(e):
+    from bb import data
+    import os
+
+    try:
+        df = os.statvfs(data.getVar("TMPDIR", e.data, True))
+        duse = df.f_bsize * (df.f_blocks - df.f_bavail)
+    except OSError:
+        duse = None
+
+    return duse
+
 def _elito_metrics_eventhandler (e):
     from bb import note, error, data
     from bb.event import NotHandled, getName
@@ -157,7 +192,8 @@ def _elito_metrics_eventhandler (e):
                           'res_self' : resource.getrusage(resource.RUSAGE_SELF),
                           'clock'    : time.clock(),
                           'time'     : time.time(),
-                          'pid'      : os.getpid() }
+                          'pid'      : os.getpid(),
+                          'duse'   : _elito_metrics_get_duse(e) }
 
         bb.data.setVarFlag('_event_info', 'resources', ev_data, d)
 
@@ -169,12 +205,14 @@ def _elito_metrics_eventhandler (e):
 
     if name == "BuildStarted":
         record_resources('build_start', e.data)
+        dst_fname = _elito_metrics_tmpname(e.data)
         dst_fname = data.getVar("METRICS_FILE", e.data, True)
 
         try:
-            os.unlink(dst_fname + ".tmp")
-        except:
+            os.unlink(dst_fname)
+        except OSError:
             pass
+
         elito_metrics_write(e.data, '')
     elif name == "BuildCompleted":
         record_resources('build_end', e.data)
@@ -206,18 +244,6 @@ def _elito_metrics_eventhandler (e):
 
     return NotHandled
 
-def _elito_metrics_get_davail(e):
-    from bb import data
-    import os
-
-    try:
-        df = os.statvfs(data.getVar("TMPDIR", e.data, True))
-        davail = df.f_bsize * df.f_bavail
-    except:
-        davail = -1
-
-    return davail
-
 def _elito_metrics_eventhandler_18 (e):
     import resource, time, fcntl
     from bb import note, error, data
@@ -246,11 +272,11 @@ def _elito_metrics_eventhandler_18 (e):
         data.setVar('_BUILD_START_TIME',  time.time(), e.data)
         data.setVar('_BUILD_RESOURCES_CHLD', resource.getrusage(resource.RUSAGE_CHILDREN), e.data)
         data.setVar('_BUILD_RESOURCES_SELF', resource.getrusage(resource.RUSAGE_SELF), e.data)
-        data.setVar('_BUILD_DAVAIL', _elito_metrics_get_davail(e), e.data)
+        data.setVar('_BUILD_DUSE', _elito_metrics_get_duse(e), e.data)
 
         dst_fname = data.getVar("METRICS_FILE", e.data, True)
         try:
-            os.unlink(dst_fname + ".tmp")
+            os.unlink(dst_fname)
         except:
             pass
         elito_metrics_write(e.data, '')
@@ -260,14 +286,19 @@ def _elito_metrics_eventhandler_18 (e):
         now_self = resource.getrusage(resource.RUSAGE_SELF)
         res_chld = data.getVar('_BUILD_RESOURCES_CHLD', e.data, False)
         res_self = data.getVar('_BUILD_RESOURCES_SELF', e.data, False)
-        old_davail = data.getVar('_BUILD_DAVAIL', e.data, False)
+        old_duse = data.getVar('_BUILD_DUSE', e.data, False)
 
         start_tm = data.getVar('_BUILD_START_TIME', e.data, False)
         now      = time.time()
 
+        f_in_name = _elito_metrics_tmpname(e)
+
         fname = data.getVar('METRICS_FILE', e.data, True)
         f_out = open(fname, 'a')
-        f_in  = open(fname + ".tmp", 'r')
+        f_in  = open(f_in_name, 'r')
+
+        os.unlink(f_in_name)
+
         try:
             fcntl.flock(f_out.fileno(), fcntl.LOCK_EX)
             fcntl.fcntl(f_in.fileno(),  fcntl.LOCK_SH)
@@ -303,11 +334,11 @@ def _elito_metrics_eventhandler_18 (e):
             except:
                 pass
 
-            now_davail = _elito_metrics_get_davail(e)
-            if now_davail != -1 and old_davail != -1:
+            now_duse = _elito_metrics_get_duse(e)
+            if now_duse != None and old_duse != None:
                 f_out.write('    <diskusage start="%u" end="%u">%d</diskusage>\n' %
-                            (old_davail, now_davail,
-                             now_davail - old_davail))
+                            (old_duse, now_duse,
+                             now_duse - old_duse))
             f_out.write('  </sysinfo>\n')
 
             while True:
@@ -325,7 +356,6 @@ def _elito_metrics_eventhandler_18 (e):
                                     elito_metrics_to_xml("self", now_self, res_self))) +
                         "  </metrics>\n")
             f_out.write('</build>\n')
-            os.unlink(fname + ".tmp")
         finally:
             f_in.close()
             f_out.close()
@@ -361,9 +391,9 @@ def _elito_metrics_eventhandler_18 (e):
         '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
         'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s">\n' % info
 
-        davail = _elito_metrics_get_davail(e)
-        if davail != -1:
-            x = x + '    <info type="diskfree">%u</info>\n' % davail
+        duse = _elito_metrics_get_duse(e)
+        if duse != None:
+            x = x + '    <info type="diskusage">%u</info>\n' % duse
 
         elito_metrics_write(e.data, x +
                             '    <!-- RUSAGE_CHILDREN -->\n' +
