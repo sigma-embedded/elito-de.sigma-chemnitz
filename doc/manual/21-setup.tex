@@ -1,0 +1,114 @@
+\chapter{Build system setup}
+\label{chap:setup}
+
+\section{Services}
+\label{sec:setup_services}
+
+\subsection{dnsmasq}
+\label{sec:setup_services_dnsmasq}
+
+TBD
+
+\subsection{DHCP Server}
+\label{sec:setup_services_dhcp-server}
+
+TBD
+
+\subsection{TFTP Server}
+\label{sec:setup_services_tftp-server}
+
+TBD
+
+\subsection{NFS Server}
+\label{sec:setup_services_nfs-server}
+
+Using an NFS rootfilesystem speeds up developing because files built
+and installed on the developing machine are immediately visible in the
+target system.  To use such an NFS rootfilesystem follow these steps:
+
+\begin{enumerate}
+\item Enable \texttt{IMAGE\_KEEPROOTFS} in the project configuration
+\item Call \texttt{./configure} with an
+  \texttt{-\mbox{}-enable-nfs-root=<dir>} option. The ELiTo buildsystem hides
+  this call behind a global \texttt{NFSROOT} configuration variable
+  and a project dependent subdirectory.  This subdirectory is usually
+  set in the \texttt{build-setup} configuration file in the project
+  directory; e.g.
+\begin{lstlisting}[language=make]
+CONFIGURE_OPTIONS += \
+	--enable-machine=toradex-colibri320 \
+	--enable-nfs-root=${NFSROOT}/my-project \
+	...
+\end{lstlisting}
+  \texttt{NFSROOT} is either given on the make commandline
+\begin{lstlisting}[language=bash]
+$ make configure M=$project NFSROOT=/srv/sysroots
+\end{lstlisting} or set in global configuration files\footnote{\texttt{.config} files with domain and hostname suffixes are read in the toplevel directory}.
+\item Build the project. This will populate the directory above with
+  the final filesystem.
+\end{enumerate}
+
+The previous steps can resp. should be done under a non-privileged
+user account.  Installation and configuration of the NFS server
+requires superuser permissions.
+
+\begin{enumerate}[resume]
+\item Install the NFS server package of your distribution which must
+  provide an NFSv3 server. NFSv4 is \textbf{not} supported.
+\item Start the NFS server;
+
+  \begin{description}
+  \item[Red Hat/Fedora/CentOS:] \lstinline[language=sh]{/sbin/service nfs start}
+  \item[Ubuntu/Debian:] \lstinline[language=sh]{TBD}
+  \end{description}
+\item Add to \texttt{/etc/exports} an entry like
+\begin{verbatim}
+/srv/sysroots   *(ro,async,no_root_squash)
+\end{verbatim} and reload it by
+\begin{lstlisting}[language=sh]
+# exportfs -ra
+\end{lstlisting}
+
+  Although later only the \texttt{/srv/sysroots/my-project} directory
+  is mounted, it is recommended to export the whole \texttt{NFSROOT}
+  hierarchy.
+
+\end{enumerate}
+
+The installation can be checked by
+\begin{lstlisting}[language=sh]
+# mount -tnfs -oro,v3,nolock,tcp \
+  `hostname`:/srv/sysroots/my-project /mnt
+$ ls -l /mnt
+\end{lstlisting}%
+  which will mount the rootfilesytem on the development machine in a
+  way how it will be done later on the device.
+
+  \begin{enumerate}[resume]
+  \item Configure the target device to use this location.  The exact
+    procedure depends on the used bootloader but basically,
+\begin{verbatim}
+root=nfs ro nfsroot=<ip>:/srv/sysroots/my-project,v3,tcp,nolock
+\end{verbatim}
+    parameters must be added to the kernel cmdline:
+
+    \begin{description}
+    \item[direct kernel configuration:] Modify
+      \texttt{CONFIG\_CMDLINE} in the kernel configuration.  Please
+      note that this should be done only for development purposes; the
+      final image should not need a special bootloader configuration
+      of the kernel cmdline but should boot with the configured
+      \texttt{CONFIG\_CMDLINE}.
+    \item[U-Boot:] TBD
+    \item[Keith\,\&\,Koep arnoldboot:] The Keith\,\&\,Koep bootloader
+      does not allow modification of the kernel cmdline so it must be
+      set directly in the kernel configuration as stated above.
+    \item[mobm320:] TBD
+    \end{description}
+  \end{enumerate}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

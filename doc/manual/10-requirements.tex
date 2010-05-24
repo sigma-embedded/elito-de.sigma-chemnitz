@@ -1,0 +1,40 @@
+
+\chapter{Requirements}
+\label{chap:reqs}
+
+\begin{description}
+\item[Diskspace:] 10\,GB\footnote{when using \texttt{rm\_work} class}
+  or 25\,GB per typical project.
+\item[Network access:] Sources will be downloaded from HTTP/FTP
+  servers and from CVS, Subversion (SVN), Mercuri (HG) and GIT version
+  control systems. Hence it must be possible to reach services in the
+  internet which are listening on
+  \begin{itemize}
+  \item port 80/tcp + 443/tcp  (HTTP + HTTPS, HG, SVN)
+  \item port 2401/tcp (CVS pserver)
+  \item port 3690/tcp (SVN)
+  \item port 9418/tcp (git)
+  \item port 4815/tcp (ELiTo download server)
+  \end{itemize}
+  from the development machine.
+
+  There are provided tools to tunnel these protocols through HTTP
+  proxy servers which allow the \texttt{CONNECT} method to the ports
+  above.
+
+  There will be downloaded 1--2\,GB of sources while building a
+  typical project.
+\item[Operating system:] Although every recent GNU/Linux distribution
+  should be supported, the toolchain has been tested only on
+  \begin{itemize}
+  \item Fedora 13
+  \item \href{http://centos.org}{CentOS 5} + \href{https://fedoraproject.org/wiki/EPEL}{EPEL}
+  \item Ubuntu 9.10
+  \end{itemize}
+\item[Software:] ELiTo is self containing and ships all programs which
+  are not part of a recent GNU/Linux distribution.
+\end{description}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

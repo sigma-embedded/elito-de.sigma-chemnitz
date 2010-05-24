@@ -1,0 +1,123 @@
+\chapter{Quickstart}
+\label{chap:quickstart}
+
+\section{Step-by-step}
+\label{sec:quickstart_step-by-step}
+
+These steps will download the base build environment from the ELiTo
+server and will populate:
+
+\begin{itemize}
+\item a toplevel directory with configuration data and a makefile with
+  some helper targets
+\item a directory with a clone of the
+  \href{http://www.openembedded.org}{OpenEmbedded} environment plus
+  some ELiTo specific changes
+\item a directory with the core ELiTo data
+\item one or more project directories which contain the setup for your
+  platform and which will hold the area where packages will be built
+\item directories with clones of (big) foreign projects which need
+  usually local modifications. The Linux kernel and the U-Boot
+  bootloader are examples of such projects.
+\end{itemize}
+
+After download of these data, there can be built the projects which
+results in a filesystem exportable by NFS, various binary images
+(e.g. for kernel, bootloader and rootfs) and packages which can be
+installed manually on the system.
+
+
+
+\subsection{ELiTo metadata download}
+\label{subsec:quickstart_elito-download}
+
+\begin{enumerate}
+\item Verify that requirements are met; especially make sure that
+  network access is possible.
+\item Create a directory with sufficient free space (25\,GB) and make
+  it writable for your user account.  This step might require
+  \texttt{root} permissions.  Due to performance reasons it is not
+  recommended to have this directory on an NFS share.
+
+  The following steps will call this place ``toplevel directory''
+  and assume that it is located at \texttt{/srv/elito}.
+\item\label{step:quickstart_elito-registration} After your
+  registration\footnote{see
+    \url{http://www.sigma-chemnitz.de/emb/Linux_Embedded_ELiTo_en.php}}
+  for ELiTo you will receive a message with an X.509 certificate and
+  the name of project (which is used in
+  \autoref{step:quickstart_elito-setup-call}).  Install the X.509
+  certificate in your home directory as \texttt{\$HOME/.elito.pem}
+\item Download the setup
+  tool\footnote{\url{http://www.sigma-chemnitz.de/dl/elito/sources/elito-setup}}
+  and store it at a temporary place (e.g. as
+  \texttt{/tmp/elito-setup}).  This file is basically a
+  self-extracting tarball which contains an installation script and
+  the sources of an SSL tunnel program.
+\item\label{step:quickstart_elito-setup-call} Execute
+\begin{lstlisting}[language=bash]
+bash /tmp/elito-setup /srv/elito-setup $project
+\end{lstlisting}
+  with \texttt{\$project} being the name told in
+  \autoref{step:quickstart_elito-registration}. See
+  \autoref{app:log:quickstart_elito-setup} for a sample log.
+
+  This command will take some time because large git repositories
+  (kernel\footnote{kernel repository has a size of $\sim$500\,MiB} and
+  OpenEmbedded\footnote{OpenEmbedded repository has a size of
+    $\sim$150\,MiB} clones) will be created by downloading their data
+  from the internet.
+
+  \paragraph{Note:} Warnings or error messages are not always fatal for
+  this command.  There will be tried fast mirrors first which might
+  fail sometimes.
+\end{enumerate}
+
+\subsection{Project build}
+\label{subsec:quickstart_project-build}
+
+\begin{enumerate}[resume]
+\item Choose and create directories for
+  \begin{itemize}
+  \item the NFS exportable rootfilesystem (e.g. \texttt{/srv/sysroots})
+  \item downloaded sources (e.g. \texttt{/srv/elito/.cache}).
+  \end{itemize}
+
+  These directories can be shared between different projects.
+
+\item Go into the toplevel directory and configure\footnote{the
+    \texttt{NFSROOT} and \texttt{CACHEROOT} variables can be put into
+    \texttt{.config} files in the toplevel directory; see
+    \autoref{sec:XXX}} the project % TODO
+\begin{lstlisting}[language=bash]
+cd /srv/elito
+make M=$project configure \
+  NFSROOT=/srv/sysroots CACHEROOT=/srv/elito/.cache
+make M=$project init
+\end{lstlisting}
+
+  See \autoref{app:log:quickstart_elito-configure} for a sample log.
+
+\item (optional) Fetch all sources
+\begin{lstlisting}[language=bash]
+cd /srv/elito/$project
+./bitbake elito-image -c fetchall
+\end{lstlisting}
+
+  The normal build process in the next step will download sources
+  automatically but the \texttt{fetchall} task allows to detect and
+  workaround broken URLs or temporarily unavailable servers.  When a
+  broken URL will be reported, the file can be searched in the
+  internet and placed into the \texttt{\$CACHEROOT}.
+\item Build the project
+\begin{lstlisting}[language=bash]
+cd /srv/elito
+make M=$project build
+\end{lstlisting}
+
+\end{enumerate}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

@@ -1,0 +1,54 @@
+\documentclass[a4paper,12pt,english]{scrreprt}
+
+\newif\ifpdf
+        \ifx\pdfoutput\undefined
+        \pdffalse                       % we are not running pdflatex
+\else
+        \pdfoutput=1                    % we are running pdflatex
+        \pdftrue
+\fi
+
+\usepackage{babel}
+\selectlanguage{english}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage{xspace}
+\usepackage{ifthen}
+\ifpdf
+        \usepackage{thumbpdf}
+        \usepackage[pdftex, colorlinks=true]{hyperref}   % !! keine Links im  draft-Modus !!
+        \usepackage[pdftex]{graphicx}
+        \pdfcompresslevel=9             % compression level for text and image;
+\else
+        \usepackage[dvips]{graphicx}
+        \usepackage[dvips, colorlinks=false, pdfborder=0]{hyperref}             % die hyperref-Erweiterung
+\fi
+\usepackage{color,epsfig}
+\usepackage{epic,eepic}
+\usepackage{scrpage2,scrtime,scrdate}
+\usepackage{times}
+\usepackage{listings}
+
+\lstloadlanguages{python,C}
+\lstset{language=python,basicstyle=\ttfamily\small}
+
+\begin{document}
+\tableofcontents
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\input{10-requirements}
+\input{20-quickstart}
+\input{21-setup}
+\input{22-project-customization}
+
+\appendix
+
+\input{A0-logs}
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
