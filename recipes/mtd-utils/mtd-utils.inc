@@ -2,7 +2,7 @@ DESCRIPTION	= "Tools for managing memory technology devices."
 SECTION		= "base"
 HOMEPAGE	= "http://www.linux-mtd.infradead.org/"
 LICENSE		= "GPLv2"
-PV		= "1.2.0+gitr${SRCPV}"
+PV		= "1.3.1+gitr${SRCPV}"
 INC_PR		= "r0"
 
 DEFAULT_PREFERENCE = "99"
