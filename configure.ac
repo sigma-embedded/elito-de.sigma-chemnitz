@@ -185,6 +185,28 @@ for i in $ensc_cv_DEVEL_COMPONENTS; do
 done
 AC_SUBST([devel_components],[${ensc_cv_DEVEL_COMPONENTS## }])
 
+AC_PATH_PROGS([PYTHON], python)
+
+AC_MSG_CHECKING([for bitbake version])
+AC_ARG_WITH([bitbake-version],
+	AS_HELP_STRING([--with-bitbake-version],
+		[bitbake version which shall be used; valid values are 1.8 and 1.10 (default: auto)]),
+	[], [with_bitbake_version=auto])
+
+case $with_bitbake_version in
+    (auto)
+	AC_CACHE_VAL([ensc_cv_BITBAKE_VERSION],[
+		$PYTHON -c 'import sys; sys.exit(sys.hexversion >= 0x2060000)'
+		case $? in
+		     (0)	ensc_cv_BITBAKE_VERSION=1.8;;
+		     (*)	ensc_cv_BITBAKE_VERSION=1.10;;
+		esac
+		])
+	with_bitbake_version=$ensc_cv_BITBAKE_VERSION
+	;;
+esac
+AC_MSG_RESULT([$with_bitbake_version])
+AC_SUBST([BITBAKE_BRANCH],[$with_bitbake_version])
 
 AC_ARG_ENABLE(ipkg,
 	AS_HELP_STRING([--disable-ipkg],
