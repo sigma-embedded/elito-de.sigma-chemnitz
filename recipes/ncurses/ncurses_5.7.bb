@@ -1,5 +1,5 @@
 PATCHDATE = "20100501"
-PR = "r3.${PATCHDATE}"
+PR = "r4.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
@@ -26,10 +26,10 @@ FILES_ncurses-terminfo = "${datadir}/terminfo"
 FILES_${PN} = "${bindir}/tput ${bindir}/tset ${datadir}/tabset ${sysconfdir}/terminfo"
 
 SRC_URI = "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz;name=tarball \
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100424-patch.sh.bz2;patch=1;name=p20100424sh	\
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-20100424-patch.sh.bz2;apply=yes;name=p20100424sh	\
 	\
-	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-${PATCHDATE}.patch.gz;patch=1;name=p20100501	\
-	file://tic-hang.patch;patch=1 \
+	ftp://invisible-island.net/ncurses/5.7/ncurses-5.7-${PATCHDATE}.patch.gz;name=p20100501	\
+	file://tic-hang.patch \
 "
 
 SRC_URI[tarball.md5sum] = "cce05daf61a64501ef6cd8da1f727ec6"
