@@ -1,6 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
+HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3"
-PR = "r2"
+PR = "r4"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -12,6 +13,7 @@ DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
 
 _export_vars = " \
 	AR		\
+	AS		\
 	BUILD_AR	\
 	BUILD_CC	\
 	BUILD_CCLD	\
@@ -93,6 +95,12 @@ export DESTDIR  = ${IMAGE_ROOTFS}
 export _CCACHE	= `${WHICH} ccache 2>/dev/null`
 export _CROSS	= ${TARGET_PREFIX}
 export _ARCH	= ${TARGET_ARCH}
+
+_kernel_tftp_image ?= ${KERNEL_TFTP_IMAGE}
+_tftp_server	?= ${TFTP_SERVER}
+
+_nfs_root	?= ${DESTDIR}
+_nfs_server	?= ${_tftp_server}
 
 _secwrap        = ${SECWRAP_CMD}
 
