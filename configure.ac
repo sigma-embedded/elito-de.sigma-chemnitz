@@ -233,6 +233,16 @@ AC_SUBST(nfs_rootdir)
 ELITO_TRUE_FALSE(NFSROOT, test x"${nfs_rootdir}" != x)
 
 
+AC_MSG_CHECKING([for tftp server])
+AC_ARG_WITH(tftp-server,
+	AS_HELP_STRING([--with-tftp-server=<ip>],
+		[use <ip> as the tftp server (default:`hostname`)]),
+	[tftpserver=$withval], [
+	tftpserver=`hostname -i`
+	])
+AC_MSG_RESULT([$tftpserver])
+AC_SUBST([TFTP_SERVER],[$tftpserver])
+
 AC_MSG_CHECKING([for tftp root directory])
 AC_ARG_WITH(tftpboot-dir,
 	AS_HELP_STRING([--with-tftpboot-dir=<dir>],
