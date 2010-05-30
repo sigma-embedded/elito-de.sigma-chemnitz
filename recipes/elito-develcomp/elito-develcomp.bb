@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3"
-PR = "r5"
+PR = "r6"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -99,8 +99,8 @@ export _ARCH	= ${TARGET_ARCH}
 _kernel_tftp_image ?= ${KERNEL_TFTP_IMAGE}
 _tftp_server	?= ${TFTP_SERVER}
 
-_nfs_root	?= ${DESTDIR}
-_nfs_server	?= ${_tftp_server}
+_nfs_root	?= \$(DESTDIR)
+_nfs_server	?= \$(_tftp_server)
 
 _secwrap        = ${SECWRAP_CMD}
 
