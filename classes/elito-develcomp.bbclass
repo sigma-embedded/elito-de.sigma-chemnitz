@@ -6,7 +6,7 @@ OVERRIDES .= ":${@base_contains('ELITO_DEVEL_COMPONENTS',\
 DEFAULT_PREFERENCE_nondevel = -1
 DEFAULT_PREFERENCE_devel    = ""
 
-DEPENDS		+= "elito-develcomp"
+DEPENDS_append	 = " elito-develcomp"
 SRCURI_SPEC     ?= "protocol=file"
 
 python () {
