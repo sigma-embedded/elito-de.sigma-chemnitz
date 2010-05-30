@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3"
-PR = "r4"
+PR = "r5"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
