@@ -7,7 +7,7 @@ LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
 PV               = "${UBOOT_VERSION}"
-PR               = "r1"
+PR               = "r2"
 
 DEFAULT_PREFERENCE = "99"
 SRCREV           = "${AUTOREV}"
@@ -30,32 +30,18 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
-TFTP_SERVER	?= ''
-KERNEL_TFTP_IMAGE ?= ''
+DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
 
-EXTRA_OEMAKE     = "\
-	CROSS_COMPILE='${TARGET_PREFIX}' \
-	AR='${AR}' AS='{AS}' CC='${CC}' CPP='${CPP}' \
-	LD='${LD}' NM='${NM}' STRIP='${STRIP}' \
-	OBJCOPY='${OBJCOPY}' OBJDUMP='${OBJDUMP}' \
-	RANLIB='${RANLIB}' HOSTCC='${BUILD_CC}' \
-	HOSTCFLAGS='${BUILD_CFLAGS}'	\
-	${@base_conditional('KERNEL_TFTP_IMAGE','','','CFG_BOOTFILE=$(basename ${KERNEL_TFTP_IMAGE})',d)}	\
-	${@base_conditional('TFTP_SERVER','','','CFG_SERVERIP=${TFTP_SERVER}',d)} \
-	CFG_NFSROOT='MK_STR(CONFIG_SERVERIP) ":${IMAGE_ROOTFS}"' \
-"
+_make = ${MAKE} -e -f ${DEVELCOMP_MAKEFILE} CFG=u-boot _secwrap=
 
 do_configure() {
-        unset LDFLAGS CPPFLAGS CFLAGS
-	oe_runmake ${UBOOT_MACHINE}
-	oe_runmake include/autoconf.mk
-	oe_runmake clean
+	${_make} ${UBOOT_MACHINE}
+	${_make} include/autoconf.mk
+	${_make} clean
 }
 
 do_compile() {
-	unset LDFLAGS CPPFLAGS CFLAGS
-	set -x
-	oe_runmake
+	${_make}
 }
 
 do_install() {
