@@ -7,7 +7,7 @@ LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
 PV               = "${UBOOT_VERSION}"
-PR               = "r2"
+PR               = "r3"
 
 DEFAULT_PREFERENCE = "99"
 SRCREV           = "${AUTOREV}"
