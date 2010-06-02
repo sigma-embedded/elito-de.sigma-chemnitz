@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3"
-PR = "r6"
+PR = "r7"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -27,6 +27,7 @@ _export_vars = " \
 	BUILD_LDFLAGS	\
 	BUILD_RANLIB	\
 	BUILD_STRIP	\
+	BUILD_SYS	\
 	CC		\
 	CCACHE_DIR	\
 	CCLD		\
@@ -58,11 +59,13 @@ _export_vars = " \
 	TARGET_CPPFLAGS	\
 	TARGET_CXXFLAGS	\
 	TARGET_LDFLAGS	\
+	TARGET_SYS	\
 \
 	STAGING_ETCDIR_NATIVE	\
 	TARGET_ARCH	\
 	BUILD_ARCH	\
 	HOST_ARCH	\
+	HOST_SYS	\
 	PACKAGE_ARCHS	\
 	DEPLOY_DIR_IPK	\
 	STAGING_DIR	\
@@ -119,6 +122,8 @@ ifneq (\$(wildcard ${PROJECT_TOPDIR}/mk/\$(CFG).mk),)
 include ${PROJECT_TOPDIR}/mk/\$(CFG).mk
 else ifneq (\$(wildcard ${ELITO_TOPDIR}/mk/\$(CFG).mk),)
 include ${ELITO_TOPDIR}/mk/\$(CFG).mk
+else ifneq (\$(CFG),)
+\$(error "no setup for CFG=\$(CFG) found")
 else
 OPTS ?=
 ENV  ?=
