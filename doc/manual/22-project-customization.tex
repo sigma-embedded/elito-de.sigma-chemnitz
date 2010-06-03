@@ -42,7 +42,7 @@ back into the main repository:
 cd /srv/elito/workspace
 git clone -l -s kernel.git kernel-my.git
 cd kernel-my.git
-git checkout --track -b 2.6.31/my-branch 2.6.31/vendor/platform
+git checkout --track -b 2.6.31/my-branch origin/2.6.31/vendor/platform
 make -f ../Makefile.kernel.$project platform_defconfig
 
 # select other options + drivers
