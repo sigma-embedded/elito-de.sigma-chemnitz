@@ -3039,6 +3039,27 @@ freetype_2.3.11 \
 freetype_2.3.11 \
 firefox_3.6.2 \
 alsa-lib_1.0.20 \
+busybox_1.15.3 \
+cheese_2.30.0 \
+eglibc_2.11 \
+eglibc-initial_2.11 \
+epiphany_2.30.0 \
+gnome-dvb-daemon_0.1.17 \
+gpsd_2.91 \
+gst-plugins-bad_0.10.18 \
+gst-plugins-base_0.10.28 \
+gst-plugins-good_0.10.21 \
+gst-plugins-ugly_0.10.14 \
+gstreamer_0.10.28 \
+jamvm_1.5.2 \
+libmicrohttpd_0.4.2 \
+live555_20090602 \
+live555_20100409 \
+orc_0.4.3 \
+pixman_0.18.0 \
+tcl_8.4.19 \
+tk_8.4.19 \
+vala_0.8.1.1 \
 "
 
 ############################################
@@ -3199,4 +3220,5 @@ xscreensaver_4.22 \
 xserver-kdrive_1.4.2 \
 xvidcap_1.1.7rc1 \
 ztappy_0.9.3ern \
+upstart-setup_devel \
 "
