@@ -73,6 +73,15 @@ do_configure_prepend() {
 	if ! test -e .config; then
 		oe_runmake -f "${_gen_mf}" "${_defconfig}"
 	fi
+
+        if test -n "${OVERRIDE_KERNEL_CMDLINE}" -a -n "${KERNEL_CMDLINE}"; then
+		sed -i -e '/^CONFIG_CMDLINE/d' .config
+		cat <<EOF >> .config
+CONFIG_CMDLINE="${KERNEL_CMDLINE}"
+EOF
+
+		oe_runmake -f "${_gen_mf}" oldconfig
+        fi
 }
 
 do_uboot_mkimage() {
