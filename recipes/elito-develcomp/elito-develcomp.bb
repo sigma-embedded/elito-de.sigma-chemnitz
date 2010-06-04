@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3+${PROJECT_CONF_DATE}"
-PR = "r0"
+PR = "r1"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -89,9 +89,9 @@ do_configure() {
 
 	rm -f "${DEVELCOMP_MAKEFILE}"
         cat << EOF | sed -e 's![[:space:]]*$!!' > "${DEVELCOMP_MAKEFILE}"
-## --*- makefile -*--
+## --*- makefile -*--    ${PV}-${PR}
 ## This file was created by the 'elito-develcomp' recipe.  Any manual
-## will get lost on next rebuild of this package.
+## changes will get lost on next rebuild of this package.
 
 ${_export_vars_gen}
 
