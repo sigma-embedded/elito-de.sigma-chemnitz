@@ -233,15 +233,32 @@ AC_SUBST(nfs_rootdir)
 ELITO_TRUE_FALSE(NFSROOT, test x"${nfs_rootdir}" != x)
 
 
+_tftpserver_auto=false
 AC_MSG_CHECKING([for tftp server])
 AC_ARG_WITH(tftp-server,
 	AS_HELP_STRING([--with-tftp-server=<ip>],
 		[use <ip> as the tftp server (default:`hostname`)]),
 	[tftpserver=$withval], [
 	tftpserver=`hostname -i`
+	_tftpserver_auto=true
 	])
 AC_MSG_RESULT([$tftpserver])
+
+if $_tftpserver_auto && test "127.0.0.1" = "$tftpserver"; then
+   AC_MSG_ERROR([
+******************************
+A non public IP has been detected for the TFTP which is usually
+unwanted.
+
+Please add a '--with-tftp-server' option in global .config or project
+specific build-setup configuration.  Alternatively, edit /etc/hosts so
+that your hostname will not be assigned to the 127.0.0.1 ip.
+******************************
+])
+fi
+
 AC_SUBST([TFTP_SERVER],[$tftpserver])
+
 
 AC_MSG_CHECKING([for tftp root directory])
 AC_ARG_WITH(tftpboot-dir,
