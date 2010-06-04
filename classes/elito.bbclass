@@ -78,3 +78,7 @@ def elito_upstart_job(d, pkg, job_files, rdepends = None, extra_files = [], \
 		bb.data.setVar("RRECOMMENDS_%s" % p, rrecommends, d)
 
 	return p
+
+def elito_glob(pathname):
+	import glob
+	return glob.glob(pathname)
