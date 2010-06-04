@@ -1,11 +1,9 @@
 # --*- python -*--
-def get_filedate(base_var, file, d):
-	import bb, os, time
-	base = bb.data.getVar(base_var,d)
-	full = os.path.join(base, file)
+def get_filedate(filename):
+	import os, time
 
 	try:
-		st = os.stat(full)
+		st = os.stat(filename)
 	except:
 		st = None
 
