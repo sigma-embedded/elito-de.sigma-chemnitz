@@ -113,23 +113,26 @@ SH     ?= /bin/bash
 PS1     = [\\[\\033[1;34m\\]${PROJECT_NAME}\\[\\033[0;39m\\]|\\u@\\h \\W]\\044$
 _start	= env -u MAKELEVEL \$(ENV) \$(_secwrap)
 
-_project_cfg = ${PROJECT_TOPDIR}/mk/\$(CFG).mk
-_elito_cfg =   ${ELITO_TOPDIR}/mk/\$(CFG).mk
-
-ifneq (\$(wildcard ${PROJECT_TOPDIR}/mk/common.mk),)
+define __include_cfg
+ifneq (\$\$(wildcard ${PROJECT_TOPDIR}/mk/common.mk),)
 include ${PROJECT_TOPDIR}/mk/common.mk
 endif
 
-ifneq (\$(wildcard ${PROJECT_TOPDIR}/mk/\$(CFG).mk),)
-include ${PROJECT_TOPDIR}/mk/\$(CFG).mk
-else ifneq (\$(wildcard ${ELITO_TOPDIR}/mk/\$(CFG).mk),)
-include ${ELITO_TOPDIR}/mk/\$(CFG).mk
-else ifneq (\$(CFG),)
-\$(error "no setup for CFG=\$(CFG) found")
+ifneq (\$\$(wildcard ${PROJECT_TOPDIR}/mk/\$1.mk),)
+include ${PROJECT_TOPDIR}/mk/\$1.mk
+else ifneq (\$\$(wildcard ${ELITO_TOPDIR}/mk/\$1.mk),)
+include ${ELITO_TOPDIR}/mk/\$1.mk
+else ifneq (\$1,)
+\$\$(error "no setup for CFG=\$1 found")
 else
 OPTS ?=
 ENV  ?=
 endif
+
+endef
+
+\$(foreach c,\${CFG},\$(eval \$(call __include_cfg,\$c)))
+
 
 ifeq (\$(_SKIP_DEVELCOMP_RULES),)
 
