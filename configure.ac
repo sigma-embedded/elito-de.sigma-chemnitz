@@ -452,6 +452,8 @@ ELITO_CHECK_PROGRAM( 5, SHARED_MIME_INFO,   update-mime-database, shared-mime-in
 ELITO_CHECK_PROGRAM( 0, DESKTOP_FILE_UTILS, desktop-file-install, desktop-file-utils)ELITO_CHECK_PROGRAM( 0, MKFONTSCALE, mkfontscale)
 ELITO_CHECK_PROGRAM( 0, DOCBOOK_UTILS, docbook2man, docbook-utils)
 ELITO_CHECK_PROGRAM( 0, CMAKE,      cmake, [], [_cmake_check_version], [0x020600])
+ELITO_CHECK_PROGRAM( 0, TCL,        tclsh, tcl)
+ELITO_CHECK_PROGRAM( 0, TK,         witch, tk)
 
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
