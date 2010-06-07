@@ -139,6 +139,12 @@ if test -z "$SIGMA_SSL_CLIENT"; then
 fi
 
 ask_user ELITO_CRT "location of ELiTo certificate" "\${HOME}/.elito.pem"
+if ! eval test -e "$ELITO_CRT"; then
+    cat <<EOF | ${SED} "s!^!${I}  **** !" >&2
+Can not find ELiTo certificate '$ELITO_CRT'.
+It is very likely that downloading git repositories will fail.
+EOF
+fi
 
 test_prog ELITO_PROXY elito-proxy ''
 if test -z "$ELITO_PROXY"; then
