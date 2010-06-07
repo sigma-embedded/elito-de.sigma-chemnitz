@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3+${PROJECT_CONF_DATE}"
-PR = "r1"
+PR = "r2"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -12,56 +12,59 @@ INHIBIT_DEFAULT_DEPS = "1"
 DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
 
 _export_vars = " \
-	AR		\
-	AS		\
-	BUILD_AR	\
-	BUILD_CC	\
-	BUILD_CCLD	\
-	BUILD_CFLAGS	\
-	BUILD_CPP	\
-	BUILD_CPPFLAGS	\
-	BUILD_CXX	\
-	BUILD_CXXFLAGS	\
-	BUILD_F77	\
-	BUILD_LD	\
-	BUILD_LDFLAGS	\
-	BUILD_RANLIB	\
-	BUILD_STRIP	\
+	+AR		\
+	+AS		\
+	+BUILD_AR	\
+	+BUILD_CC	\
+	+BUILD_CCLD	\
+	+BUILD_CFLAGS	\
+	+BUILD_CPP	\
+	+BUILD_CPPFLAGS	\
+	+BUILD_CXX	\
+	+BUILD_CXXFLAGS	\
+	+BUILD_F77	\
+	+BUILD_LD	\
+	+BUILD_LDFLAGS	\
+	+BUILD_RANLIB	\
+	+BUILD_STRIP	\
 	BUILD_SYS	\
-	CC		\
-	CCACHE_DIR	\
-	CCLD		\
-	CFLAGS		\
-	CPP		\
-	CPPFLAGS	\
-	CXX		\
-	CXXFLAGS	\
-	F77		\
-	LD		\
-	LDFLAGS		\
-	NM		\
-	OBJCOPY		\
-	OBJDUMP		\
-	PATH		\
-	PKG_CONFIG_DIR	\
-	PKG_CONFIG_DISABLE_UNINSTALLED \
-	PKG_CONFIG_PATH	\
-	PKG_CONFIG_SYSROOT_DIR	\
+	+CC		\
+	+CCACHE_DIR	\
+	+CCLD		\
+	+CFLAGS		\
+	+CPP		\
+	+CPPFLAGS	\
+	+CXX		\
+	+CXXFLAGS	\
+	+F77		\
+	+LD		\
+	+LDFLAGS	\
+	+NM		\
+	+OBJCOPY	\
+	+OBJDUMP	\
+	+PATH		\
+	+PKG_CONFIG_DIR	\
+	+PKG_CONFIG_DISABLE_UNINSTALLED \
+	+PKG_CONFIG_PATH	\
+	+PKG_CONFIG_SYSROOT_DIR	\
 	QPEDIR		\
-	QTDIR		\
-	RANLIB		\
+	+QTDIR		\
+	+RANLIB		\
 	SDK_CFLAGS	\
 	SDK_CPPFLAGS	\
 	SDK_CXXFLAGS	\
 	SDK_LDFLAGS	\
-	STRIP		\
-	TARGET_CFLAGS	\
-	TARGET_CPPFLAGS	\
-	TARGET_CXXFLAGS	\
-	TARGET_LDFLAGS	\
+	+STRIP		\
+	+TARGET_CFLAGS	\
+	+TARGET_CPPFLAGS	\
+	+TARGET_CXXFLAGS	\
+	+TARGET_LDFLAGS	\
 	TARGET_SYS	\
 \
 	STAGING_ETCDIR_NATIVE	\
+	STAGING_DIR_HOST \
+	STAGING_DIR_NATIVE \
+	STAGING_DIR_TARGET \
 	TARGET_ARCH	\
 	BUILD_ARCH	\
 	HOST_ARCH	\
@@ -73,8 +76,14 @@ _export_vars = " \
 
 python __anonymous () {
     vars = bb.data.getVar('_export_vars', d, 1).split()
-    res  = map(lambda v: 'export %s = %s' % (v, bb.data.getVar(v, d, 1)),
-               filter(lambda k: bb.data.getVar(k, d, 0) != None, vars))
+    res  = map(lambda v:
+               (lambda k,v: '%s%s = %s' % (['','export '][k[0] == '+'],
+                                           [k, k[1:]][k[0] == '+'],
+                                           v))(v,
+                                               bb.data.getVar(v.lstrip('+'),
+                                                              d, 1)),
+               filter(lambda k: bb.data.getVar(k.lstrip('+'), d, 0)
+                      != None, vars))
 
     bb.data.setVar('_export_vars_gen', '\n'.join(res), d)
 }
@@ -100,6 +109,8 @@ export DESTDIR  = ${IMAGE_ROOTFS}
 export _CCACHE	= `${WHICH} ccache 2>/dev/null`
 export _CROSS	= ${TARGET_PREFIX}
 export _ARCH	= ${TARGET_ARCH}
+
+_tmpdir		= ${TMPDIR}
 
 _kernel_tftp_image ?= ${KERNEL_TFTP_IMAGE}
 _tftp_server	?= ${TFTP_SERVER}
