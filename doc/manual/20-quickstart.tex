@@ -57,7 +57,7 @@ installed manually on the system.
 \item\label{step:quickstart_elito-setup-call} Execute
 \begin{lstlisting}[language=bash]
 bash /tmp/elito-setup /srv/elito-setup $project
-\end{lstlisting}
+\end{lstlisting}%$
   with \texttt{\$project} being the name told in
   \autoref{step:quickstart_elito-registration}. See
   \autoref{app:log:quickstart_elito-setup} for a sample log.
@@ -102,19 +102,46 @@ make M=$project init
 \begin{lstlisting}[language=bash]
 cd /srv/elito/$project
 ./bitbake elito-image -c fetchall
-\end{lstlisting}
+\end{lstlisting}%$
 
   The normal build process in the next step will download sources
   automatically but the \texttt{fetchall} task allows to detect and
   workaround broken URLs or temporarily unavailable servers.  When a
   broken URL will be reported, the file can be searched in the
   internet and placed into the \texttt{\$CACHEROOT}.
-\item Build the project
+\item (optional) Build an existing project
 \begin{lstlisting}[language=bash]
 cd /srv/elito
 make M=$project build
-\end{lstlisting}
+\end{lstlisting}%$
 
+\end{enumerate}
+
+\subsection{Creating a new project}
+\label{sec:quickstart_new-project}
+
+\begin{enumerate}
+\item Create a project directory
+  \begin{lstlisting}[language=bash]
+mkdir $new_project
+  \end{lstlisting}%$
+\item Create a \texttt{build-setup} file in the new project
+  directory. There must be set the \texttt{CONFIGURE\_OPTIONS}
+  variable which is used to pass several options to
+  \texttt{configure}.  See sample projects for a template.
+  \begin{lstlisting}[language=bash]
+cat > $new_project/build-setup <<EOF
+CONFIGURE_OPTIONS += \
+	--enable-machine=<machine> \
+        --enable-nfs-root=${NFSROOT}/<project> \
+        --with-project-name=<project-name>
+EOF
+  \end{lstlisting}
+\item Build the project from the toplevel directory
+  \begin{lstlisting}[language=bash]
+cd /srv/elito
+make M=<path-to-new-project> build
+  \end{lstlisting}
 \end{enumerate}
 
 %%% Local Variables:
