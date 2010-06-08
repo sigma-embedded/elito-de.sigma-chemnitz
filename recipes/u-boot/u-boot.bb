@@ -7,7 +7,7 @@ LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
 PV               = "${UBOOT_VERSION}"
-PR               = "r3"
+PR               = "r4"
 
 DEFAULT_PREFERENCE = "99"
 SRCREV           = "${AUTOREV}"
@@ -30,9 +30,7 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
-DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
-
-_make = ${MAKE} -e -f ${DEVELCOMP_MAKEFILE} CFG=u-boot _secwrap=
+_make = ${MAKE} -e -f "${TMPDIR}/Makefile.develcomp" CFG=u-boot _secwrap=
 
 do_configure() {
 	${_make} ${UBOOT_MACHINE}
