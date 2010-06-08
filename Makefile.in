@@ -43,6 +43,7 @@ _bitbake_srcdir =	$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
 BITBAKE_REV =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '1p;d')
 BITBAKE_REV_S =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
+BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -148,12 +149,13 @@ tmp/stamps/.filesystem.stamp:
 			mkdir -p ${_CCACHE_DIR}
 			@touch $@
 
+_bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
+_bitbake_setuptools =	$(CACHE_DIR)/setuptools-0.6c9-py2.6.egg
+
 tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.gitinit.stamp
 			cd tmp/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
 			cd tmp/bitbake && $(GIT) merge ${BITBAKE_REV}
 			@echo $(BITBAKE_REV) > $@
-
-_bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
 
 ifeq ($(ELITO_OFFLINE),)
 $(_bitbake-tarball):
@@ -161,7 +163,21 @@ $(_bitbake-tarball):
 			@rm -f $(_bitbake-tarball).tmp
 			$(WGET) $(BITBAKE_SNAPSHOT) -O $(_bitbake-tarball).tmp
 			mv -f $(_bitbake-tarball).tmp $(_bitbake-tarball)
+
+$(_bitbake_setuptools):
+			mkdir -p $(@D)
+			@rm -f $@.tmp
+			$(WGET) $(BITBAKE_SETUPTOOLS) -O $@.tmp
+			mv -f $@.tmp $@
+
+else
+tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.setuptools.stamp
 endif
+
+tmp/stamps/.bitbake.setuptools.stamp:	$(_bitbake_setuptools)
+			@mkdir -p $(dir $@)
+			install -p -m 0644 $< tmp/bitbake/
+			@touch $@
 
 tmp/stamps/.bitbake.gitinit.stamp:	$(_bitbake-tarball)
 			@mkdir -p $(dir $@)
