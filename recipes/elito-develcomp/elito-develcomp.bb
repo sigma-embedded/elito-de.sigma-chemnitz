@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3+${PROJECT_CONF_DATE}"
-PR = "r2"
+PR = "r4"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -65,6 +65,7 @@ _export_vars = " \
 	STAGING_DIR_HOST \
 	STAGING_DIR_NATIVE \
 	STAGING_DIR_TARGET \
+	TOOLCHAIN_PATH	\
 	TARGET_ARCH	\
 	BUILD_ARCH	\
 	HOST_ARCH	\
@@ -96,8 +97,8 @@ do_configure() {
 	dn=`dirname "$gc"`
 	gc=`basename "$gc"`
 
-	rm -f "${DEVELCOMP_MAKEFILE}"
-        cat << EOF | sed -e 's![[:space:]]*$!!' > "${DEVELCOMP_MAKEFILE}"
+	rm -f "${DEVELCOMP_MAKEFILE}" "${TMPDIR}/Makefile.develcomp"
+        cat << EOF | sed -e 's![[:space:]]*$!!' > "${TMPDIR}/Makefile.develcomp"
 ## --*- makefile -*--    ${PV}-${PR}
 ## This file was created by the 'elito-develcomp' recipe.  Any manual
 ## changes will get lost on next rebuild of this package.
@@ -167,5 +168,6 @@ unexport MAKELEVEL
 EOF
 
         # make it read-only
-	chmod a-w "${DEVELCOMP_MAKEFILE}"
+	chmod a-w "${TMPDIR}/Makefile.develcomp"
+        ln -sf "${TMPDIR}/Makefile.develcomp" "${DEVELCOMP_MAKEFILE}"
 }
