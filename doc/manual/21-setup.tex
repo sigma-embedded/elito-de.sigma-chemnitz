@@ -39,11 +39,14 @@ CONFIGURE_OPTIONS += \
 	--enable-machine=toradex-colibri320 \
 	--enable-nfs-root=${NFSROOT}/my-project \
 	...
-\end{lstlisting}
+\end{lstlisting}%$
   \texttt{NFSROOT} is either given on the make commandline
 \begin{lstlisting}[language=bash]
 $ make configure M=$project NFSROOT=/srv/sysroots
-\end{lstlisting} or set in global configuration files\footnote{\texttt{.config} files with domain and hostname suffixes are read in the toplevel directory}.
+\end{lstlisting}
+or set in global configuration files\footnote{\texttt{.config} files
+  with domain and hostname suffixes are read in the toplevel
+  directory}.
 \item Build the project. This will populate the directory above with
   the final filesystem.
 \end{enumerate}
@@ -80,7 +83,7 @@ The installation can be checked by
 # mount -tnfs -oro,v3,nolock,tcp \
   `hostname`:/srv/sysroots/my-project /mnt
 $ ls -l /mnt
-\end{lstlisting}%
+\end{lstlisting}%$
   which will mount the rootfilesytem on the development machine in a
   way how it will be done later on the device.
 
