@@ -71,6 +71,12 @@ BITBAKE :=		$(abs_top_builddir)/bitbake
 BO ?=
 RECIPE ?=
 
+ifeq ($(ELITO_OFFLINE),)
+_GITR	=		$(GIT)
+else
+_GITR	=		:
+endif
+
 .DEFAULT_GOAL :=	config
 
 -include $(abs_top_builddir)/Makefile.local.$(_FQDN)
@@ -143,7 +149,7 @@ tmp/stamps/.filesystem.stamp:
 			@touch $@
 
 tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.gitinit.stamp
-			cd tmp/bitbake && { $(GIT) remote update || $(GIT) remote update; }
+			cd tmp/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
 			cd tmp/bitbake && $(GIT) merge ${BITBAKE_REV}
 			@echo $(BITBAKE_REV) > $@
 
@@ -170,7 +176,7 @@ tmp/stamps/.bitbake.gitinit.stamp:	$(_bitbake-tarball)
 				echo P $$i >> ../info/packs;	\
 			done
 			-cd tmp/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV_S}
-			cd tmp/bitbake && { $(GIT) remote update || $(GIT) remote update || :; }
+			cd tmp/bitbake && { $(_GITR) remote update || $(_GITR) remote update || :; }
 			cd tmp/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
 			cd tmp/bitbake && $(GIT) gc
 			@touch $@
