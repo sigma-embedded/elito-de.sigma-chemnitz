@@ -2,7 +2,7 @@ DESCRIPTION	= "ELiTo release files"
 SECTION		= "base"
 LICENSE		= "GPL"
 PV		= "${DISTRO_VERSION}"
-PR		= "r2"
+PR		= "r3"
 
 PACKAGE_ARCH    = "${MACHINE_ARCH}"
 FEED_PREFIX    ?= 'elito-'
@@ -38,7 +38,10 @@ do_install() {
 	set -x
 	mkdir -p ${D}/etc/opkg/ ${D}/etc/pki/elito
 
-	install -p -m 0644 feeds/* ${D}/etc/opkg/
+        for f in feeds/*; do
+		test -e "$f" || continue
+		install -p -m 0644 "$f"  ${D}/etc/opkg/
+        done
 
 	cd ${WORKDIR}
 	install -p -m 0444 RPM-GPG-KEY* ${D}/etc/pki/elito/
