@@ -146,6 +146,18 @@ AC_ARG_WITH(secwrap,
 	[SECWRAP_CMD=$withval], [SECWRAP_CMD=])
 AC_SUBST(SECWRAP_CMD, [$SECWRAP_CMD])
 
+AC_MSG_CHECKING([whether security wrapper works])
+if test -n "$SECWRAP_CMD" && ! eval $SECWRAP_CMD true </dev/null >/dev/null; then
+   AC_MSG_RESULT([no])
+   AC_MSG_ERROR([
+******************************
+Security wrapper '$SECWRAP_CMD' seems to be non functional.
+******************************])
+else
+  AC_MSG_RESULT([yes])
+fi
+
+
 dnl -----------------
 
 AC_MSG_CHECKING([for development components])
