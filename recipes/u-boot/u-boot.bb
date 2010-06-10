@@ -34,7 +34,7 @@ _make = ${MAKE} -e -f "${TMPDIR}/Makefile.develcomp" CFG=u-boot _secwrap=
 
 do_configure() {
 	${_make} ${UBOOT_MACHINE}
-	${_make} include/autoconf.mk
+	${_make} include/autoconf.mk || :
 	${_make} clean
 }
 
