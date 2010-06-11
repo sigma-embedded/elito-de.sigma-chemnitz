@@ -1,5 +1,5 @@
 PATCHDATE = "20100501"
-PR = "r5.${PATCHDATE}"
+PR = "r6.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
@@ -50,6 +50,9 @@ do_configure_prepend() {
 PARALLEL_MAKE = ""
 EXTRA_AUTORECONF="-I m4"
 
+ENABLE_WIDEC = true
+ENABLE_WIDEC_virtclass-native = false
+
 do_configure() {
         sed -i -s 's!^\(PKG_CONFIG_LIBDIR.*=\).*!\1 /usr/lib/pkgconfig!g' misc/Makefile.in
 
@@ -90,15 +93,18 @@ do_compile() {
 	oe_runmake -C narrowc libs
 	oe_runmake -C narrowc/progs
 
-	oe_runmake -C widec libs
+        ! ${ENABLE_WIDEC} || \
+            oe_runmake -C widec libs
 }
 
 do_install() {
-	cd widec
-        oe_runmake 'DESTDIR=${D}' install.libs install.includes install.man
+        ! ${ENABLE_WIDEC} || \
+               oe_runmake -C widec 'DESTDIR=${D}' \
+               install.libs install.includes install.man
 
-        cd ../narrowc
-        oe_runmake 'DESTDIR=${D}' install.libs install.progs install.data
+        oe_runmake -C narrowc 'DESTDIR=${D}' install.libs install.progs install.data
+
+        cd narrowc
 
 	# include some basic terminfo files
 	# stolen ;) from gentoo and modified a bit
