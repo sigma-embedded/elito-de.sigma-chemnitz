@@ -20,5 +20,5 @@ PREFERRED_VERSION_glibc-initial          ?= "${PREFERRED_VERSION_glibc}"
 PREFERRED_VERSION_eglibc                 ?= "2.12"
 PREFERRED_VERSION_eglibc-initial         ?= "${PREFERRED_VERSION_eglibc}"
 
-SRCREV_pn-opkg        ?= 527
+SRCREV_pn-opkg        ?= 533
 SRCREV_pn-opkg-native ?= ${SRCREV_pn-opkg}
