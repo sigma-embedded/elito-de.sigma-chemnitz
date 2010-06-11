@@ -5,10 +5,11 @@ LICENSE		= "GPLv3"
 
 SRCREV		= "${AUTOREV}"
 PV		= "0.2"
-PR		= "r0"
+PR		= "r1"
 
 SRC_URI		= "${ELITO_GIT_REPO}/pub/can-test.git;protocol=git"
 S		= "${WORKDIR}/git"
+RDEPENDS_${PN}	= "iproute2"
 
 inherit elito-develcomp
 
