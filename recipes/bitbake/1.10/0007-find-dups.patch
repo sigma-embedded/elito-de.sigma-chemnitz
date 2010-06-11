@@ -44,10 +44,10 @@ Index: lib/bb/cooker.py
 +        for (pn, entries) in dmap:
 +            entries.sort(cmp = (lambda x,y: utils.vercmp(x[0], y[0])))
 +
-+            print(pn, '(' + (", ".join(map(lambda x: x[1], entries))) + ')')
++            print(pn + '(' + (", ".join(map(lambda x: x[1], entries))) + ')')
 +
 +            for e in entries:
-+                print("    ", e[2])
++                print("    " + e[2])
 +
 +        eignores = filter(lambda (x,y): y == 0, ignores.items())
 +        for i in eignores:
