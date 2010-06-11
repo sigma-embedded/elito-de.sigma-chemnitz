@@ -82,3 +82,7 @@ def elito_upstart_job(d, pkg, job_files, rdepends = None, extra_files = [], \
 def elito_glob(pathname):
 	import glob
 	return glob.glob(pathname)
+
+do_compile_prepend() {
+	export HOME=${WORKDIR}/.home
+}
