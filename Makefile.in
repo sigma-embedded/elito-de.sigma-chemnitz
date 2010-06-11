@@ -138,8 +138,8 @@ update-checksum:
 			cat $(_tmpfile) >$(CHECKSUM_FILE)
 			rm -f tmp/checksums.ini
 
-find-dups:
-			./bitbake -l Collection -d ${TARGETS}
+find-dups:		init
+			./bitbake -l Collection -d $(TARGETS) -c find_dups
 
 tmp/stamps/.prep.stamp:	tmp/stamps/.bitbake.stamp tmp/stamps/.filesystem.stamp
 			$(BITBAKE) stagemanager-native ipkg-utils-native
