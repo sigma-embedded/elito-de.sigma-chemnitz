@@ -1,11 +1,12 @@
 PATCHDATE = "20100501"
-PR = "r4.${PATCHDATE}"
+PR = "r5.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
 LICENSE = "MIT"
 SECTION = "libs"
 DEPENDS = "ncurses-native"
+DEPENDS_virtclass-native = ""
 PACKAGES = " \
 	ncurses-dbg \
 	ncurses-dev \
@@ -18,6 +19,8 @@ PACKAGES = " \
 RSUGGESTS_${PN} = "ncurses-terminfo"
 
 inherit autotools_stage
+
+BBCLASSEXTEND = "native sdk"
 
 # This keeps only tput/tset in ncurses
 # clear/reset are in already busybox
