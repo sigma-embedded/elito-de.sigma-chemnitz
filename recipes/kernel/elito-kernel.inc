@@ -74,14 +74,26 @@ do_configure_prepend() {
 		oe_runmake -f "${_gen_mf}" "${_defconfig}"
 	fi
 
+        changed=false
         if test -n "${OVERRIDE_KERNEL_CMDLINE}" -a -n "${KERNEL_CMDLINE}"; then
 		sed -i -e '/^CONFIG_CMDLINE/d' .config
 		cat <<EOF >> .config
 CONFIG_CMDLINE="${KERNEL_CMDLINE}"
 EOF
 
-		oe_runmake -f "${_gen_mf}" oldconfig
+		changed=true
         fi
+
+        if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d); then
+		sed -i -e '/^CONFIG_DANGEROUS/d' .config
+		cat <<EOF >> .config
+# CONFIG_DANGEROUS is not set
+EOF
+
+		changed=true
+        fi
+
+	! $changed || oe_runmake -f "${_gen_mf}" oldconfig < /dev/null
 }
 
 do_uboot_mkimage() {
