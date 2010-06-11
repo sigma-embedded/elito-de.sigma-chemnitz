@@ -1,0 +1,39 @@
+Index: lib/bb/cooker.py
+===================================================================
+--- lib/bb/cooker.py.orig
++++ lib/bb/cooker.py
+@@ -933,13 +933,20 @@ class BBCooker:
+             bb.msg.fatal(bb.msg.domain.Collection, "BBMASK is not a valid regular expression.")
+ 
+         finalfiles = []
++        maskedfiles = []
+         for f in newfiles:
+             if bbmask_compiled.search(f):
+-                bb.msg.debug(1, bb.msg.domain.Collection, "skipping masked file %s" % f)
++                bb.msg.debug(2, bb.msg.domain.Collection, "skipping masked file %s" % f)
++                if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++                    maskedfiles.append(f)
+                 masked += 1
+                 continue
+             finalfiles.append(f)
+ 
++        if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++            bb.data.setVar("_BBMASKED", maskedfiles, self.configuration.data)
++            bb.event.fire(CookerNewFiles(finalfiles, maskedfiles), self.configuration.data)
++
+         return (finalfiles, masked)
+ 
+     def serve(self):
+@@ -980,6 +987,12 @@ class CookerExit(bb.event.Event):
+     def __init__(self):
+         bb.event.Event.__init__(self)
+ 
++class CookerNewFiles(bb.event.Event):
++    def __init__(self, finalfiles, maskedfiles):
++        bb.event.Event.__init__(self)
++        self.finalfiles = finalfiles
++        self.maskedfiles = maskedfiles
++
+ class CookerParser:
+     def __init__(self, cooker, filelist, masked):
+         # Internal data
