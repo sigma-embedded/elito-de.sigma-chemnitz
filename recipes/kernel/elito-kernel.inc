@@ -84,7 +84,7 @@ EOF
 		changed=true
         fi
 
-        if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d); then
+        if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d)}; then
 		sed -i -e '/^CONFIG_DANGEROUS=/d' .config
 		cat <<EOF >> .config
 # CONFIG_DANGEROUS is not set
