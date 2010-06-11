@@ -2960,7 +2960,6 @@ gcc_4.3.4 \
 gcc_4.4.4 \
 gconf_2.6.1 \
 gedit_2.26.2 \
-glibc_2.4 \
 gxine_0.4.1enhanced \
 htmldoc-gui_1.9.x-r1571 \
 htmldoc-native_1.9.x-r1571 \
