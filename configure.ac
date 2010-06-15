@@ -467,6 +467,7 @@ ELITO_CHECK_PROGRAM( 0, CMAKE,      cmake, [], [_cmake_check_version], [0x020600
 ELITO_CHECK_PROGRAM( 0, TCL,        tclsh, tcl)
 ELITO_CHECK_PROGRAM( 0, TK,         witch, tk)
 ELITO_CHECK_PROGRAM( 0, ANT,        ant, ant)
+ELITO_CHECK_PROGRAM( 0, JAVAC,      javac)
 
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
