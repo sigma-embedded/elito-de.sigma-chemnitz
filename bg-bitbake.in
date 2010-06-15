@@ -1,3 +1,0 @@
-#! /bin/sh
-
-exec ionice -c 3 -t nice -n 19 "@abs_top_builddir@/bitbake" "$@"

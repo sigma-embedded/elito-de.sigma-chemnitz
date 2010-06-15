@@ -490,7 +490,6 @@ AC_CONFIG_FILES([Makefile
 		set-env.in
 		conf/local.conf.in])
 AC_CONFIG_FILES(bitbake,    [chmod a+x bitbake])
-AC_CONFIG_FILES(bg-bitbake, [chmod a+x,a-w bg-bitbake])
 
 AC_CONFIG_COMMANDS([config],  [make -s config])
 AC_CONFIG_COMMANDS([fixperm], [chmod a-w $CONFIG_FILES])
