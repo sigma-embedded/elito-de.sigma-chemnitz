@@ -15,6 +15,9 @@ SRC_URI_append_pn-busybox     = " \
         file://busybox-mbus-env.patch;apply=yes \
         file://ifup-upstart.patch;apply=yes"
 
+# Due to the elito-directory.patch above
+ALTERNATIVE_LINK_pn-iproute2 = "${base_sbindir}/ip"
+
 SRC_URI_append_pn-base-passwd = " \
         file://elito-passwd.patch;apply=yes \
         ${PROJECT_PASSWD_PATCH}"
