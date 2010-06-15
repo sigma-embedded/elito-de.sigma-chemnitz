@@ -48,14 +48,12 @@ BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
 			conf/local.conf.in	\
-			bitbake			\
-			bg-bitbake
+			bitbake
 
 CFG_FILES =		Makefile		\
 			set-env			\
 			conf/local.conf		\
-			bitbake			\
-			bg-bitbake
+			bitbake
 
 TEMPLATE_FILES =	conf/project.conf	\
 			.gitignore		\
