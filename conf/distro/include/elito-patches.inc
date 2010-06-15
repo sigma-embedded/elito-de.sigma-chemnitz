@@ -20,3 +20,6 @@ SRC_URI_append_pn-base-passwd = " \
 
 SRC_URI_append_pn-ifupdown = " \
 	file://upstart.patch;apply=yes"
+
+SRC_URI_append_pn-bootchart-lite = " \
+	file://elito.patch;apply=yes"

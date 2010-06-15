@@ -1,0 +1,41 @@
+Index: trunk/src/bootchart-lite.c
+===================================================================
+--- trunk.orig/src/bootchart-lite.c
++++ trunk/src/bootchart-lite.c
+@@ -19,7 +19,9 @@
+ #include <stdio.h>
+ #include <unistd.h>
+ #include <fcntl.h>
++#include <stdlib.h>
+ #include <sys/stat.h>
++#include <sys/mount.h>
+ #include <sys/types.h>
+ #include <dirent.h>
+ #include <signal.h>
+@@ -182,7 +184,7 @@ fetch_data_ps(int fd_dest)
+ 		while((count=read(fd_src, buffer, BUFSIZE-1))>0) {
+ 			buffer[count] = '\0';
+ 
+-			running = running ? check_exitproc(&buffer) : 0;
++			running = running ? check_exitproc(buffer) : 0;
+ 
+ 			write(fd_dest, buffer, count);
+ 		}
+@@ -200,6 +202,8 @@ main(int argc, char **argv)
+ {
+ 	pid_t pid;
+ 
++	mount("none", LOGTMP, "tmpfs", 0, "size=8192k");
++
+ 	/* Run daemon in the background */
+     pid = fork();
+     if (pid>0) {
+@@ -257,7 +261,7 @@ main(int argc, char **argv)
+ 	close(stat_fd);
+ 
+ 	/* create header file */
+-	if ((header_fd=open(LOGTMP "/header", O_WRONLY | O_TRUNC | O_CREAT))==-1) {
++	if ((header_fd=open(LOGTMP "/header", O_WRONLY | O_TRUNC | O_CREAT, 0644))==-1) {
+ 		printf("fbootchart: cannot create %s\n", LOGTMP "/header");
+ 		exit(1);
+ 	}
