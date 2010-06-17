@@ -78,9 +78,21 @@ endif
 
 .DEFAULT_GOAL :=	config
 
+XTERM_INFO =		_xterm_info
+
 -include $(abs_top_builddir)/Makefile.local.$(_FQDN)
 -include $(abs_top_builddir)/Makefile.local.$(_DOMAIN)
 -include $(abs_top_builddir)/Makefile.local
+
+define _xterm_info
+! tty -s || echo -ne "\033]0;OE Build $*@$${HOSTNAME%%.*}:$${PWD/#$$HOME/~} - `date`$(if $1, - $1)\007"
+endef
+
+define _call_cmd
+@$(call ${XTERM_INFO},$2)
+@${_ECHO} $1
+@$1 && ( $(call ${XTERM_INFO},!DONE!); : ) || ( $(call ${XTERM_INFO},!FAILED!); false )
+endef
 
 config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
 config:			$(_project_task_file) $(_project_files_file)
@@ -88,10 +100,10 @@ config:			$(_project_task_file) $(_project_files_file)
 init:			bitbake-fetch filesystem-init
 prep:			tmp/stamps/.prep.stamp Makefile
 image:			prep
-			$(BITBAKE) $(TARGETS) $(BO)
+			$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
 
 build:
-			$(BITBAKE) -b "$(RECIPE)" $(BO)
+			$(call _call_cmd,$(BITBAKE) -b $(R) $(BO),>$(R)<)
 
 pkg-update pkg-upgrade pkg-install pkg-remove shell: \
 			$(ELITO_WORKSPACE_DIR)/Makefile.$(PROJECT_NAME)
@@ -263,3 +275,10 @@ config.status:		$(abs_top_srcdir)/configure
 
 @ENABLE_MAINTAINER_MODE_TRUE@$(abs_top_srcdir)/configure:	$(abs_top_srcdir)/configure.ac
 @ENABLE_MAINTAINER_MODE_TRUE@					cd $(abs_top_srcdir) && autoreconf -i -f
+
+
+ifeq ($(filter $(MAKEFLAGS),s),)
+_ECHO := echo
+else
+_ECHO := :
+endif
