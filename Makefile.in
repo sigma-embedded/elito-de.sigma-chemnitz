@@ -184,12 +184,14 @@ else
 tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.setuptools.stamp
 endif
 
-tmp/stamps/.bitbake.setuptools.stamp:	$(_bitbake_setuptools)
+tmp/stamps/.bitbake.setuptools.stamp:
+			$(MAKE) $(_bitbake_setuptools)
 			@mkdir -p $(dir $@)
 			install -p -m 0644 $< tmp/bitbake/
 			@touch $@
 
-tmp/stamps/.bitbake.gitinit.stamp:	$(_bitbake-tarball)
+tmp/stamps/.bitbake.gitinit.stamp:
+			$(MAKE) $(_bitbake-tarball)
 			@mkdir -p $(dir $@)
 			mkdir -p tmp/bitbake
 			cd tmp/bitbake && $(GIT) init
