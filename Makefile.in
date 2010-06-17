@@ -191,7 +191,10 @@ tmp/stamps/.bitbake.gitinit.stamp:	$(_bitbake-tarball)
 			done
 			-cd tmp/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV_S}
 			cd tmp/bitbake && { $(_GITR) remote update || $(_GITR) remote update || :; }
+			cd tmp/bitbake && $(GIT) branch -M elito elito.old || :
 			cd tmp/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
+			cd tmp/bitbake && $(GIT) reset --hard elito
+			cd tmp/bitbake && $(GIT) branch -D elito.old || :
 			cd tmp/bitbake && $(GIT) gc
 			@touch $@
 
