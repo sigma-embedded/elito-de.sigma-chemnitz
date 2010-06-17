@@ -2,7 +2,7 @@ Index: lib/bb/cooker.py
 ===================================================================
 --- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
-@@ -869,11 +869,6 @@ class BBCooker:
+@@ -919,11 +919,6 @@ class BBCooker:
          return (finalfiles, masked)
  
      def serve(self):

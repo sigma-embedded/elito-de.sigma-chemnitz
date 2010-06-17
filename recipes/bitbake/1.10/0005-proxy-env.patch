@@ -1,8 +1,8 @@
-Index: bitbake/lib/bb/fetch/__init__.py
+Index: lib/bb/fetch/__init__.py
 ===================================================================
---- lib/bb/fetch/__init__.py
+--- lib/bb/fetch/__init__.py.orig
 +++ lib/bb/fetch/__init__.py
-@@ -275,7 +275,8 @@ def runfetchcmd(cmd, d, quiet = False):
+@@ -424,7 +424,8 @@ def runfetchcmd(cmd, d, quiet = False):
      # rather than host provided
      # Also include some other variables.
      # FIXME: Should really include all export varaiables?

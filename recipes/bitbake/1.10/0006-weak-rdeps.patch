@@ -2,7 +2,7 @@ Index: lib/bb/cache.py
 ===================================================================
 --- lib/bb/cache.py.orig
 +++ lib/bb/cache.py
-@@ -422,9 +422,16 @@ class Cache:
+@@ -430,9 +430,16 @@ class Cache:
          rrecommends = self.getVar('RRECOMMENDS', file_name, True) or ""
          for package in packages + [pn]:
              if not package in cacheData.rundeps[file_name]:

@@ -2,7 +2,7 @@ Index: lib/bb/cooker.py
 ===================================================================
 --- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
-@@ -737,6 +737,54 @@ class BBCooker:
+@@ -787,6 +787,54 @@ class BBCooker:
  
          self.server.register_idle_function(buildTargetsIdle, rq)
  
@@ -57,7 +57,7 @@ Index: lib/bb/cooker.py
      def updateCache(self):
  
          if self.cookerState == cookerParsed:
-@@ -778,6 +826,10 @@ class BBCooker:
+@@ -828,6 +876,10 @@ class BBCooker:
  
          if not self.parser.parse_next():
              bb.msg.debug(1, bb.msg.domain.Collection, "parsing complete")

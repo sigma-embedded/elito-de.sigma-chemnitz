@@ -15,9 +15,9 @@ way like
 
 | ./bitbake -b virtual:native:<recipe>.bb
 
-Index: bitbake/lib/bb/cooker.py
+Index: lib/bb/cooker.py
 ===================================================================
---- lib/bb/cooker.py
+--- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
 @@ -469,15 +469,23 @@ class BBCooker:
          Build the file matching regexp buildfile

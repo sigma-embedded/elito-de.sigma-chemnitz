@@ -2,7 +2,7 @@ Index: lib/bb/build.py
 ===================================================================
 --- lib/bb/build.py.orig
 +++ lib/bb/build.py
-@@ -278,15 +283,16 @@ def exec_task(task, d):
+@@ -276,10 +276,11 @@ def exec_task(task, d):
      if not data.getVarFlag(task, 'task', d):
          raise EventException("No such task", InvalidTask(task, d))
  
@@ -16,13 +16,7 @@ Index: lib/bb/build.py
          data.setVar('OVERRIDES', 'task-%s:%s' % (task[3:], old_overrides), localdata)
          data.update_data(localdata)
          data.expandKeys(localdata)
-         event.fire(TaskStarted(task, localdata), localdata)
--        exec_func(task, localdata)
-+        exec_func(task, localdata)
-         event.fire(TaskSucceeded(task, localdata), localdata)
-     except FuncFailed, message:
-         # Try to extract the optional logfile
-@@ -296,8 +306,8 @@ def exec_task(task, d):
+@@ -294,8 +295,8 @@ def exec_task(task, d):
              logfile = None
              msg = message
          bb.msg.note(1, bb.msg.domain.Build, "Task failed: %s" % message )
@@ -33,11 +27,3 @@ Index: lib/bb/build.py
          raise EventException("Function failed in task: %s" % message, failedevent)
  
      # make stamp, or cause event and raise exception
-Index: lib/bb/cooker.py
-===================================================================
---- lib/bb/cooker.py.orig
-+++ lib/bb/cooker.py
-Index: lib/bb/event.py
-===================================================================
---- lib/bb/event.py.orig
-+++ lib/bb/event.py

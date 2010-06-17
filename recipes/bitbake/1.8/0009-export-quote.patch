@@ -1,8 +1,8 @@
-Index: bitbake/lib/bb/fetch/__init__.py
+Index: lib/bb/fetch/__init__.py
 ===================================================================
---- lib/bb/fetch/__init__.py
+--- lib/bb/fetch/__init__.py.orig
 +++ lib/bb/fetch/__init__.py
-@@ -281,7 +281,7 @@ def runfetchcmd(cmd, d, quiet = False):
+@@ -282,7 +282,7 @@ def runfetchcmd(cmd, d, quiet = False):
      for var in exportvars:
          val = data.getVar(var, d, True)
          if val:

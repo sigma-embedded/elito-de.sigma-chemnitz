@@ -1,6 +1,6 @@
-Index: bitbake/lib/bb/parse/parse_py/BBHandler.py
+Index: lib/bb/parse/parse_py/BBHandler.py
 ===================================================================
---- lib/bb/parse/parse_py/BBHandler.py
+--- lib/bb/parse/parse_py/BBHandler.py.orig
 +++ lib/bb/parse/parse_py/BBHandler.py
 @@ -146,7 +146,11 @@ def handle(fn, d, include):
      if ext != ".bbclass":

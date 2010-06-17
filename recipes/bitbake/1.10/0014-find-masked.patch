@@ -2,7 +2,7 @@ Index: lib/bb/cooker.py
 ===================================================================
 --- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
-@@ -933,13 +933,20 @@ class BBCooker:
+@@ -960,13 +960,20 @@ class BBCooker:
              bb.msg.fatal(bb.msg.domain.Collection, "BBMASK is not a valid regular expression.")
  
          finalfiles = []
@@ -24,7 +24,7 @@ Index: lib/bb/cooker.py
          return (finalfiles, masked)
  
      def serve(self):
-@@ -980,6 +987,12 @@ class CookerExit(bb.event.Event):
+@@ -1007,6 +1014,12 @@ class CookerExit(bb.event.Event):
      def __init__(self):
          bb.event.Event.__init__(self)
  

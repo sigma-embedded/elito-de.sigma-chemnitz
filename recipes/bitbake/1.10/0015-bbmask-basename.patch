@@ -2,7 +2,7 @@ Index: lib/bb/cooker.py
 ===================================================================
 --- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
-@@ -923,8 +923,10 @@ class BBCooker:
+@@ -950,8 +950,10 @@ class BBCooker:
                  newfiles.update(globbed)
  
          bbmask = bb.data.getVar('BBMASK', self.configuration.data, 1)
@@ -14,7 +14,7 @@ Index: lib/bb/cooker.py
              return (list(newfiles), 0)
  
          try:
-@@ -932,10 +934,18 @@ class BBCooker:
+@@ -959,10 +961,18 @@ class BBCooker:
          except sre_constants.error:
              bb.msg.fatal(bb.msg.domain.Collection, "BBMASK is not a valid regular expression.")
  
