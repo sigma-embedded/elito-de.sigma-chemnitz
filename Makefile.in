@@ -187,7 +187,7 @@ endif
 tmp/stamps/.bitbake.setuptools.stamp:
 			$(MAKE) $(_bitbake_setuptools)
 			@mkdir -p $(dir $@)
-			install -p -m 0644 $< tmp/bitbake/
+			install -p -m 0644 $(_bitbake_setuptools) tmp/bitbake/
 			@touch $@
 
 tmp/stamps/.bitbake.gitinit.stamp:
