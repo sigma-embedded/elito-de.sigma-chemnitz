@@ -33,7 +33,6 @@ do_generate_makefile() {
 	gc=${gc%%gcc}
 	dn=`dirname "$gc"`
 	gc=`basename "$gc"`
-	ccache=`${WHICH} ccache`
 
 	rm -f "${_gen_mf}"
 	cat << EOF | sed -e 's![[:space:]]*$!!' > "${_gen_mf}"
