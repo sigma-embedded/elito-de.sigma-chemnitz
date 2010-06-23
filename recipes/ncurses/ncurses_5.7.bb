@@ -1,5 +1,5 @@
 PATCHDATE = "20100501"
-PR = "r6.${PATCHDATE}"
+PR = "r7.${PATCHDATE}"
 
 DESCRIPTION = "Ncurses library"
 HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
@@ -18,7 +18,7 @@ PACKAGES = " \
 "
 RSUGGESTS_${PN} = "ncurses-terminfo"
 
-inherit autotools_stage
+inherit autotools_stage binconfig
 
 BBCLASSEXTEND = "native sdk"
 
