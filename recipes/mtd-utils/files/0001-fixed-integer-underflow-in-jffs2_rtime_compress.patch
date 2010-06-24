@@ -1,0 +1,38 @@
+From 4bb590487be75f658d6a90ac05e6a23bd03cd7b7 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 24 Jun 2010 14:47:48 +0200
+Subject: [PATCH/mtd-utils] fixed integer underflow in jffs2_rtime_compress()
+
+When '*dstlen' is 0 or 1, comparison will return wrong result.  Reported
+by valgrind as
+
+==5919== Invalid write of size 1
+==5919==    at 0x40564E: jffs2_rtime_compress (compr_rtime.c:51)
+==5919==    by 0x40676B: jffs2_compress (compr.c:246)
+==5919==    by 0x403EE4: recursive_populate_directory (mkfs.jffs2.c:884)
+==5919==  Address 0x4e1bdb1 is 0 bytes after a block of size 1 alloc'd
+==5919==    at 0x4A0515D: malloc (vg_replace_malloc.c:195)
+==5919==    by 0x40671C: jffs2_compress (compr.c:229)
+==5919==    by 0x403EE4: recursive_populate_directory (mkfs.jffs2.c:884)
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ compr_rtime.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/compr_rtime.c b/compr_rtime.c
+index 131536c..5613963 100644
+--- a/compr_rtime.c
++++ b/compr_rtime.c
+@@ -32,7 +32,7 @@ static int jffs2_rtime_compress(unsigned char *data_in, unsigned char *cpage_out
+ 
+ 	memset(positions,0,sizeof(positions));
+ 
+-	while (pos < (*sourcelen) && outpos <= (*dstlen)-2) {
++	while (pos < (*sourcelen) && outpos+2 <= (*dstlen)) {
+ 		int backpos, runlen=0;
+ 		unsigned char value;
+ 
+-- 
+1.7.0.1
+
