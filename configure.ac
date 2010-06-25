@@ -84,6 +84,19 @@ AC_ARG_ENABLE(maintainer-mode,
 
 ELITO_TRUE_FALSE(ENABLE_MAINTAINER_MODE, test x"${enable_maintainer_mode}" != xno)
 
+AC_MSG_CHECKING([whether 'sh' is 'bash'])
+if env -u BASH sh -c 'test "x${BASH:+set}" = xset'; then
+   AC_MSG_RESULT([yes])
+else
+   s=`readlink /bin/sh`
+   AC_MSG_RESULT([no ($s)])
+   AC_MSG_ERROR([
+************************************************************************
+Buildsystem assumes that '/bin/sh' is a bash.  This might cause
+various subtle build problems and is not supported hence.
+************************************************************************])
+fi
+
 AC_ARG_ENABLE(distro,
 	AS_HELP_STRING([--enable-distro=<type>],
 		       [Distribution type; valid values are 'debug' and 'release' (default: 'debug')]),
