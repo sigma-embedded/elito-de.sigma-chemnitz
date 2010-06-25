@@ -4,6 +4,7 @@ SVN =			svn
 GIT =			git
 WGET =			wget
 TAR =			tar
+SHELL :=		/bin/bash
 abs_top_srcdir :=	$(abspath @abs_top_srcdir@)
 abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
