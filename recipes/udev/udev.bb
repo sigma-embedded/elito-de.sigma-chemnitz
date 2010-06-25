@@ -10,10 +10,10 @@ PR	= "r1"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-	file://udev-145-settlerace.patch;patch=1	\
-	file://udev-145-stop.patch;patch=1		\
-	file://udev-145-cross.patch;patch=1		\
-	file://udev-151-target-input.patch;patch=1	\
+	file://udev-145-settlerace.patch	\
+	file://udev-145-stop.patch		\
+	file://udev-145-cross.patch		\
+	file://udev-151-target-input.patch	\
 	file://60-ubi.rules			\
 "
 
