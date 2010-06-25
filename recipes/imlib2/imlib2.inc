@@ -1,12 +1,11 @@
 HOMEPAGE = "http://docs.enlightenment.org/api/imlib2/html"
-PV = "1.4.2"
+PV = "1.4.4"
 PR = "r0"
 
-SRC_URI = "${SOURCEFORGE_MIRROR}/enlightenment/imlib2-${PV}.tar.bz2;name=tarball \
-	file://imlib2-1.4.2-cve-2008-5187.patch"
+SRC_URI = "${SOURCEFORGE_MIRROR}/enlightenment/imlib2-${PV}.tar.bz2"
 
-SRC_URI[tarball.md5sum] = "9f15568e76ebda9092c571e0df261f54"
-SRC_URI[tarball.sha256sum] = "fc7b9eaad7b028872db4d660053b700c27dcbddb5212a03a9d7661ef8f09e89e"
+SRC_URI[md5sum] = "b6de51879502e857d5b1f7622267a030"
+SRC_URI[sha256sum] = "6441fb1e88a31533791c40ea4b3310b6d5d46233ca69d9f731a2846e4e423404"
 
 S = "${WORKDIR}/imlib2-${PV}"
 
