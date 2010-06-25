@@ -11,3 +11,8 @@ unset MAKEOVERRIDES
 unset POSIXLY_CORRECT
 export ELITO_METRICS_ID
 export CCACHE_DIR BBPATH
+
+for f in @abs_top_builddir@/set-env.local $HOME/.elito-set-env; do
+    test -r "$f" || continue
+    . "$f"
+done
