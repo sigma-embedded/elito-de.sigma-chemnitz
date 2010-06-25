@@ -10,8 +10,8 @@ PR = "r0"
 
 SRC_URI = "	\
 	http://upstart.ubuntu.com/download/0.6/upstart-${PV}.tar.gz;name=tarball \
-	file://upstart-0.5-oomadj.patch;patch=1				\
-	file://old-glibc.patch;patch=1					\
+	file://upstart-0.5-oomadj.patch				\
+	file://old-glibc.patch					\
 "
 
 SRC_URI[tarball.md5sum] = "5a2e9962a4cea719fbe07c33e2591b06"

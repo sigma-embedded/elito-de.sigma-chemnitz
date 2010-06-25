@@ -4,7 +4,7 @@ PR = "r1"
 DEPENDS = "libxine aalib libxinerama libxtst libpng libxft libxv libx11 readline"
 
 SRC_URI = "http://prdownloads.sourceforge.net/xine/${PN}-${PV}.tar.bz2;name=tarball \
-	file://configure-hostinclude.patch;patch=1"
+	file://configure-hostinclude.patch"
 
 SRC_URI[tarball.md5sum] = "18057dafd2f8422d090a6bef6245652e"
 SRC_URI[tarball.sha256sum] = "6c7d30479504154dec102a1431a0632be4083c7ec7dfe6230720a2676aa87f3a"

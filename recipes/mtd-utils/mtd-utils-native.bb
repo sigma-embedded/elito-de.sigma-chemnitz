@@ -4,7 +4,7 @@ inherit native
 require mtd-utils.inc
 
 PR		=  "${INC_PR}.0"
-SRC_URI		+= "file://no-man-install.patch;patch=1"
+SRC_URI		+= "file://no-man-install.patch"
 
 do_stage () {
         install -d ${STAGING_INCDIR}/mtd

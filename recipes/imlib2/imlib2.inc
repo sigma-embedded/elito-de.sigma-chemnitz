@@ -3,7 +3,7 @@ PV = "1.4.2"
 PR = "r0"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/enlightenment/imlib2-${PV}.tar.bz2;name=tarball \
-	file://imlib2-1.4.2-cve-2008-5187.patch;patch=1"
+	file://imlib2-1.4.2-cve-2008-5187.patch"
 
 SRC_URI[tarball.md5sum] = "9f15568e76ebda9092c571e0df261f54"
 SRC_URI[tarball.sha256sum] = "fc7b9eaad7b028872db4d660053b700c27dcbddb5212a03a9d7661ef8f09e89e"

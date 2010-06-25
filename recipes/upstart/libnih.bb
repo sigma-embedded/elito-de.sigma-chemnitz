@@ -12,7 +12,7 @@ PR = "r0"
 
 SRC_URI = " \
 	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz;name=tarball \
-	file://libnih-nom4.patch;patch=1"
+	file://libnih-nom4.patch"
 
 SRC_URI[tarball.md5sum]    = "89bf20db4ff3f005cc37482a4f050650"
 SRC_URI[tarball.sha256sum] = "7b0c0a95eb718ad0aa591f67db7b9f274cecdedd2037fc066037ea7b99c2257e"

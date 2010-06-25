@@ -9,8 +9,8 @@ INC_PR = "r0"
 
 SRC_URI = " \
 	git://github.com/ensc/dietlibc.git;protocol=git;branch=master \
-	file://ccache.patch;patch=1 \
-        file://arm-elfinfo.patch;patch=1"
+	file://ccache.patch \
+        file://arm-elfinfo.patch"
 S = "${WORKDIR}/git"
 
 #otherwise the whole run scripts got broken
