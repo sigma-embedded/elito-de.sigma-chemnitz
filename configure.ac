@@ -163,9 +163,9 @@ AC_MSG_CHECKING([whether security wrapper works])
 if test -n "$SECWRAP_CMD" && ! eval $SECWRAP_CMD true </dev/null >/dev/null; then
    AC_MSG_RESULT([no])
    AC_MSG_ERROR([
-******************************
+************************************************************************
 Security wrapper '$SECWRAP_CMD' seems to be non functional.
-******************************])
+************************************************************************])
 else
   AC_MSG_RESULT([yes])
 fi
@@ -271,14 +271,14 @@ AC_MSG_RESULT([$tftpserver])
 
 if $_tftpserver_auto && test "127.0.0.1" = "$tftpserver"; then
    AC_MSG_ERROR([
-******************************
+************************************************************************
 A non public IP has been detected for the TFTP which is usually
 unwanted.
 
 Please add a '--with-tftp-server' option in global .config or project
 specific build-setup configuration.  Alternatively, edit /etc/hosts so
 that your hostname will not be assigned to the 127.0.0.1 ip.
-******************************
+************************************************************************
 ])
 fi
 
