@@ -1,6 +1,13 @@
 #! /bin/sh
 
 abs_top_builddir='@abs_top_builddir@'
+
+BB_ENV_EXTRAWHITE='CCACHE_DIR HOME GIT_SSL_CAINFO '\
+'ftp_proxy http_proxy https_proxy no_proxy '\
+'ELITO_CRT ELITO_KEY ELITO_PROG_SSL_CLIENT ELITO_USE_LIBPROXY ELITO_PROG_PROXY '\
+'ELITO_METRICS_ID'
+export BB_ENV_EXTRAWHITE
+
 . ${abs_top_builddir}/set-env
 
 if ! test -x "@BITBAKE@"; then
@@ -8,11 +15,5 @@ if ! test -x "@BITBAKE@"; then
     echo "***** checkout by 'make init' in your project directory"
     exit 1
 fi >&2
-
-BB_ENV_EXTRAWHITE='CCACHE_DIR HOME GIT_SSL_CAINFO '\
-'ftp_proxy http_proxy https_proxy no_proxy '\
-'ELITO_CRT ELITO_KEY ELITO_PROG_SSL_CLIENT ELITO_USE_LIBPROXY ELITO_PROG_PROXY '\
-'ELITO_METRICS_ID'
-export BB_ENV_EXTRAWHITE
 
 exec @SECWRAP_CMD@ @PYTHON@ @BITBAKE@ "$@"
