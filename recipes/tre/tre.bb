@@ -1,3 +1,4 @@
+DESCRIPTION = "TRE is a lightweight, robust, and efficient POSIX compliant regexp matching library "
 HOMEPAGE = "http://laurikari.net/tre"
 LICENSE  = "BSD"
 PV = "0.8.0"
