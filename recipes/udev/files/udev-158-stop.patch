@@ -1,26 +1,26 @@
-Index: udev-145/udev/udevd.c
+Index: udev-158/udev/udevd.c
 ===================================================================
---- udev-145.orig/udev/udevd.c
-+++ udev-145/udev/udevd.c
-@@ -776,10 +776,11 @@ int main(int argc, char *argv[])
+--- udev-158.orig/udev/udevd.c
++++ udev-158/udev/udevd.c
+@@ -1032,10 +1032,11 @@ int main(int argc, char *argv[])
  	int fd;
+ 	FILE *f;
  	sigset_t mask;
- 	const char *value;
 -	int daemonize = false;
 +	enum { DAEMON_FG, DAEMON_BG, DAEMON_STOP } daemonize = DAEMON_FG;
  	int resolve_names = 1;
  	static const struct option options[] = {
  		{ "daemon", no_argument, NULL, 'd' },
 +		{ "daemon-stop", no_argument, NULL, 'S' },
- 		{ "debug-trace", no_argument, NULL, 't' },
  		{ "debug", no_argument, NULL, 'D' },
- 		{ "help", no_argument, NULL, 'h' },
-@@ -801,13 +802,16 @@ int main(int argc, char *argv[])
- 	while (1) {
+ 		{ "children-max", required_argument, NULL, 'c' },
+ 		{ "exec-delay", required_argument, NULL, 'e' },
+@@ -1058,13 +1059,16 @@ int main(int argc, char *argv[])
+ 	for (;;) {
  		int option;
  
--		option = getopt_long(argc, argv, "dDthV", options, NULL);
-+		option = getopt_long(argc, argv, "dDthVS", options, NULL);
+-		option = getopt_long(argc, argv, "cdeDthV", options, NULL);
++		option = getopt_long(argc, argv, "cdeDthVS", options, NULL);
  		if (option == -1)
  			break;
  
@@ -32,11 +32,11 @@ Index: udev-145/udev/udevd.c
 +		case 'S':
 +			daemonize = DAEMON_STOP;
  			break;
- 		case 't':
- 			debug_trace = true;
-@@ -944,7 +948,9 @@ int main(int argc, char *argv[])
- 		goto exit;
- 	}
+ 		case 'c':
+ 			children_max = strtoul(optarg, NULL, 0);
+@@ -1262,7 +1266,9 @@ int main(int argc, char *argv[])
+ 	if (fd > STDERR_FILENO)
+ 		close(fd);
  
 -	if (daemonize) {
 +	if (daemonize == DAEMON_STOP)
