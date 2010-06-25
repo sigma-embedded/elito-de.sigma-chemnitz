@@ -1,0 +1,38 @@
+#! /bin/bash
+
+: ${BRANCHES:=heads/master}
+D=$1				# destination
+S=$2				# source
+R=$3				# last tag/release
+REL_D=$4
+
+panic() {
+    echo "$*" >&2
+    exit 1
+}
+
+validate_rev() {
+    test "$#" -eq 1 || panic "Bad revision $*"
+}
+
+set -e
+mkdir "$D"
+
+
+
+_r=`$GIT ls-remote "$S" $R | cut -f 1`
+validate_rev $_r
+
+
+cd "$S"
+$GIT bundle create $D/bundle $BRANCHES ^$_r || :
+
+test -z "$BRANCHES" || \
+    $GIT ls-remote "$S" $BRANCHES > "$D/branches"
+
+test -z "$TAGS" || \
+    $GIT ls-remote --tags "$S" $TAGS > "$D/tags"
+
+echo "$REL_D" > "$D/dir"
+
+ls -l $D
