@@ -40,6 +40,14 @@ apply() {
 	    $GIT fetch "$1/bundle" "+$branch:refs/failed/${branch##refs/heads/}"
 	fi
     done
+
+    while read ref branch; do
+	case $branch in
+	  (refs/heads/*)
+		$GIT branch "${branch##/refs/heads}" "$ref" 2>/dev/null || :
+		;;
+	esac
+    done < $1/branches
 }
 
 t=$(mktemp -t -d update-pack.XXXXXX)
@@ -51,4 +59,12 @@ for i in $t/*; do
     test -d "$i" || continue
 
     ( apply "$i" )
+done
+
+$GIT submodule status --cached | while read ref dir xtra; do
+    case $ref in
+      (+*)
+	    ( cd "$dir" && $GIT checkout ${ref##+} )
+	    ;;
+    esac
 done
