@@ -15,3 +15,16 @@ Index: lib/bb/parse/parse_py/BBHandler.py
  
      if ext == ".bbclass":
          classes.remove(__classname__)
+Index: lib/bb/data_smart.py
+===================================================================
+--- lib/bb/data_smart.py.orig
++++ lib/bb/data_smart.py
+@@ -86,6 +86,8 @@ class DataSmart:
+                     bb.msg.error(bb.msg.domain.Data, 'expansion of %s returned non-string %s' % (olds, s))
+             except KeyboardInterrupt:
+                 raise
++            except bb.parse.SkipPackage:
++                raise
+             except:
+                 bb.msg.note(1, bb.msg.domain.Data, "%s:%s while evaluating:\n%s" % (sys.exc_info()[0], sys.exc_info()[1], s))
+                 raise
