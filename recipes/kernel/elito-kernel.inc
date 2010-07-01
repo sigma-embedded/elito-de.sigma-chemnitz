@@ -49,11 +49,12 @@ export CROSS_COMPILE = ${CROSS_COMPILE}
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 export ARCH = ${ARCH}
 
+_kernel_size = ${KERNEL_SIZE}
 _flash_filename = ${_tftp_image}
 _bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 
 %:
-	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(_cc)' LD='\$(_ld)' ${@base_conditional("_tftp_image","","","FLASH_FILENAME='\$(_flash_filename)'",d)} MAKELEVEL=0 $(_secwrap) \$@
+	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(_cc)' LD='\$(_ld)' ${@base_conditional("_tftp_image","","","FLASH_FILENAME='\$(_flash_filename)'",d)} ${@base_conditional("KERNEL_SIZE","","","KCPPFLAGS+=-DKERNEL_MTD_SIZE=${KERNEL_SIZE}",d)} MAKELEVEL=0 $(_secwrap) \$@
 
 exec:
 	$(_secwrap) \$(P)
