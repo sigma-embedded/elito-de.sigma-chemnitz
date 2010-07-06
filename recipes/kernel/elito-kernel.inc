@@ -15,6 +15,8 @@ EXTRA_OEMAKE_append = " _secwrap="
 
 KERNEL_DEPENDS ?= ""
 
+do_fetch[depends] += "linux-libc-headers:do_fetch"
+
 DEPENDS += '\
 	${KERNEL_DEPENDS} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
