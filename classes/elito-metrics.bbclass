@@ -15,13 +15,16 @@ def _elito_metrics_id(d):
     return bb.data.getVar('METRICS_ID', d, True) or os.environ.get("ELITO_METRICS_ID")
 
 def _elito_metrics_tmpname(d):
+    import os.path
+
     fname = bb.data.getVar('METRICS_FILE', d, True)
     mid   = _elito_metrics_id(d)
     assert(fname != None)
     if mid == None:
         return None
 
-    return fname + ".tmp.%s" % mid
+    return os.path.join(bb.data.getVar('TMPDIR', d, True),
+                        os.path.basename(fname) + ".tmp.%s" % mid)
 
 def elito_metrics_write(d, str):
     import fcntl, bb
