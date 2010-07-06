@@ -3,7 +3,7 @@ SECTION		= "base"
 HOMEPAGE	= "http://www.linux-mtd.infradead.org/"
 LICENSE		= "GPLv2"
 PV		= "1.3.1+gitr${SRCPV}"
-INC_PR		= "r1"
+INC_PR		= "r2"
 
 DEFAULT_PREFERENCE = "99"
 
