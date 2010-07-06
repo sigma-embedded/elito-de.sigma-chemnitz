@@ -1,0 +1,13 @@
+Index: lib/bb/__init__.py
+===================================================================
+--- lib/bb/__init__.py.orig
++++ lib/bb/__init__.py
+@@ -343,7 +343,7 @@ def decodeurl(url):
+     parm = m.group('parm')
+ 
+     locidx = location.find('/')
+-    if locidx != -1:
++    if locidx != -1 and type != 'file':
+         host = location[:locidx]
+         path = location[locidx:]
+     else:
