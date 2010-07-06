@@ -43,6 +43,7 @@ BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
 _bitbake_srcdir =	$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
 BITBAKE_REV =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '1p;d')
 BITBAKE_REV_S =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
+BITBAKE_REV_R =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '3p;d')
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
 BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg
 
@@ -130,11 +131,12 @@ endif
 bitbake-validate:
 			@f=tmp/stamps/.bitbake.fetch.stamp; \
 			test ! -e "$$f" || { \
-			v=$$(cat $$f); test x"$$v" = x${BITBAKE_REV}; } || { \
+			v=$$(cat $$f); test x"$$v" = x${BITBAKE_REV}/${BITBAKE_REV_R}; } || { \
 			echo "****"; \
-			echo "**** BITBAKE revision mismatch; you have $$v but ${BITBAKE_REV} is expected"; \
-			echo "**** please run"; \
-			echo "**** cd '$(abspath .)' && make bitbake-clean && make init"; \
+			echo "**** BITBAKE revision mismatch; you have '$$v'"; \
+			echo "**** but '${BITBAKE_REV}/${BITBAKE_REV_R}' is expected; please execute"; \
+			echo "****"; \
+			echo "     ( cd '$(abspath .)' && make bitbake-clean && make init )"; \
 			echo "****"; \
 			exit 1; \
 			} >&2
@@ -166,7 +168,7 @@ _bitbake_setuptools =	$(CACHE_DIR)/setuptools-0.6c9-py2.6.egg
 tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.gitinit.stamp
 			cd tmp/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
 			cd tmp/bitbake && $(GIT) merge ${BITBAKE_REV}
-			@echo $(BITBAKE_REV) > $@
+			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
 
 ifeq ($(ELITO_OFFLINE),)
 $(_bitbake-tarball):
