@@ -1,19 +1,35 @@
-DEPENDS		= "zlib lzo2 util-linux-ng"
+DESCRIPTION	= "Tools for managing memory technology devices."
+SECTION		= "base"
+HOMEPAGE	= "http://www.linux-mtd.infradead.org/"
+LICENSE		= "GPLv2"
+PV		= "1.3.1+gitr${SRCPV}"
+PR		= "r8"
 
-require mtd-utils.inc
-PR		=  "${INC_PR}.0"
+DEFAULT_PREFERENCE = "99"
 
-do_stage () {
-	install -d ${STAGING_INCDIR}/mtd
-	for f in ${S}/include/mtd/*.h; do
-		install -m 0644 $f ${STAGING_INCDIR}/mtd/
-	done
-}
+SRCREV  = "${AUTOREV}"
+SRC_URI = "\
+        git://git.infradead.org/mtd-utils.git;protocol=git	\
+	file://0001-fixed-integer-underflow-in-jffs2_rtime_compress.patch	\
+	file://no-man-install.patch \
+"
+S = "${WORKDIR}/git"
+
+DEPENDS = "zlib lzo2 util-linux-ng"
+EXTRA_OEMAKE  = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR'"
+PARALLEL_MAKE = ""
+NATIVE_INSTALL_WORKS = "1"
+BBCLASSEXTEND = "native"
 
 do_install () {
-	oe_runmake DESTDIR=${D} install
+	oe_runmake DESTDIR=${D} SBINDIR=${sbindir} install
+        install -d -m 0755 ${D}${includedir}/mtd
+        install -p -m 0644 include/mtd/*.h ${D}${includedir}/mtd/
 
-	rm ${D}${sbindir}/ubicrc32.pl
+        if "${@['false','true']['${PN}' == 'mtd-utils']}"; then
+		rm ${D}${sbindir}/mkpfi
+		rm ${D}${sbindir}/ubicrc32.pl
+        fi
 }
 
 PACKAGES =+ "mkfs-jffs mkfs-jffs2 mkfs-ubifs \
