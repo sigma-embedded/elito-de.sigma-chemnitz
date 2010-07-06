@@ -1,0 +1,6 @@
+<!DOCTYPE builds [
+	  <!ENTITY data SYSTEM "metrics">
+]>
+<builds>
+  &data;
+</builds>
