@@ -1,4 +1,4 @@
-DEPENDS		= "zlib lzo util-linux-ng"
+DEPENDS		= "zlib lzo2 util-linux-ng"
 
 require mtd-utils.inc
 PR		=  "${INC_PR}.0"
