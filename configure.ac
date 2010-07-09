@@ -109,14 +109,6 @@ AC_ARG_ENABLE(machine,
 	[MACHINE=$enableval], [AC_MSG_ERROR([No machine specified])])
 AC_SUBST(MACHINE)
 
-AC_MSG_CHECKING([for libc to be used])
-AC_ARG_WITH(libc,
-	AS_HELP_STRING([--with-libc=eglibc|glibc|uclibc],
-		[libc to be used (default: eglibc)]),
-	[DISTRO_LIBC=$withval], [DISTRO_LIBC=eglibc])
-AC_MSG_RESULT([$DISTRO_LIBC])
-AC_SUBST([DISTRO_LIBC])
-
 AC_MSG_CHECKING([whether to enable offline mode])
 AC_ARG_ENABLE(offline-mode,
 	AS_HELP_STRING([--enable-offline-mode],
