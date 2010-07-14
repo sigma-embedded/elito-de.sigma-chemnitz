@@ -16,7 +16,7 @@ SRC_URI = "\
 S = "${WORKDIR}/git"
 
 DEPENDS = "zlib lzo2 util-linux-ng"
-EXTRA_OEMAKE  = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR'"
+EXTRA_OEMAKE  = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include' WITHOUT_XATTR=1"
 PARALLEL_MAKE = ""
 NATIVE_INSTALL_WORKS = "1"
 BBCLASSEXTEND = "native"
