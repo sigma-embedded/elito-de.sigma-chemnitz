@@ -2,10 +2,14 @@ DESCRIPTION	= "Tools for managing memory technology devices."
 SECTION		= "base"
 HOMEPAGE	= "http://www.linux-mtd.infradead.org/"
 LICENSE		= "GPLv2"
-PV		= "1.3.1+gitr${SRCPV}"
-PR		= "r8"
+_pv		= "1.3.1"
+PV		= "${_pv}+gitr${SRCPV}"
+PKGV		= "${_pv}+git${GITPKGV}"
+PR		= "r9"
 
 DEFAULT_PREFERENCE = "99"
+
+inherit gitpkgv
 
 SRCREV  = "${AUTOREV}"
 SRC_URI = "\
