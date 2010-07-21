@@ -3,14 +3,14 @@ SECTION = "bootloaders"
 PRIORITY = "optional"
 LICENSE = "GPLv3"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-PV = "0.3.10"
-PR = "r1"
+PV = "0.3.11"
+PR = "r2"
 
 SRC_URI = "${ELITO_MIRROR}/elito-mobm320-${PV}.tar.bz2"
 S = "${WORKDIR}/elito-mobm320-${PV}"
 
-SRC_URI[md5sum] = "d431b641ed95d747190d4afb86ab701d"
-SRC_URI[sha256sum] = "6551c86dd32d9c6a8e99dbfb4b22830007d92978a74c73ed93a0f9d7a1d14ce9"
+SRC_URI[md5sum] = "6220e3ba80fd4e7093ca72c5f46edbc5"
+SRC_URI[sha256sum] = "ea134f2491569452c6ae61cadf43beedab67fb05dc00d099b1b15fcf9ebef770"
 
 MOBM320_IMAGE ?=
 MOBM320_ARGS ?=
