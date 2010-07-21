@@ -60,5 +60,38 @@ IMAGE_KEEPROOTFS	 = 1
 # in the process of marking these so let us know if you find any.
 # PARALLEL_MAKE = "-j 4"
 
+# Uncomment this to enable the use of ccache when building.  Due to
+# the nature of our builds this is only helpful in cases when one
+# is rebuilding a recipe or set of recipes, repeatedly.
+# CCACHE = "${@bb.which(bb.data.getVar('PATH', d, 1), 'ccache') and 'ccache '}"
+
+# Uncomment this to disable the parse cache (not recommended).
+# CACHE = ""
+
+# Uncomment this if you want BitBake to emit debugging output
+# BBDEBUG = "yes"
+
+# If you want to have unstripped ready-to-debug binaries, set this to "no",
+# although for debugging you can use automatically produced -dbg packages.
+# If you need to have completely undebuggable builds, set this to "full",
+# by default gnu.debuglink section is left in the binaries after stripping, so
+# this might be useful if you want to have checksum-level binary consistency
+# across successive builds.
+# PACKAGE_STRIP = "no"
+
+# Uncomment these to build a package such that you can use gprof to profile it.
+# NOTE: This will only work with 'linux' targets, not
+# 'linux-uclibc', as uClibc doesn't provide the necessary
+# object files.  Also, don't build glibc itself with these
+# flags, or it'll fail to build.
+#
+# PROFILE_OPTIMIZATION = "-pg"
+# SELECTED_OPTIMIZATION = "${PROFILE_OPTIMIZATION}"
+# LDFLAGS =+ "-pg"
+
+# Specifies a location to search for pre-generated tarballs when fetching
+# a cvs:// URI. Outcomment this, if you always want to pull directly from CVS.
+# CVS_TARBALL_STASH = ""
+
 # Uncomment this if you want BitBake to emit the log if a build fails.
 # BBINCLUDELOGS = "yes"
