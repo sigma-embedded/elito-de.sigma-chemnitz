@@ -1,27 +1,15 @@
 _elito_skip := "${@elito_skip(d, 'mobm320')}"
 
-DESCRIPTION       = "Initial bootloader for PXA320"
-SECTION           = "bootloaders"
-PRIORITY          = "optional"
-LICENSE           = "GPLv3"
-PROVIDES          = "virtual/bootloader-ibl"
-PACKAGE_ARCH      = "${MACHINE_ARCH}"
+require mobm320-common.inc
 
+PROVIDES          = "virtual/bootloader-ibl"
 DEPENDS           = "linux-libc-headers mtd-utils mobm320-native"
-S                 = "${WORKDIR}/elito-${PN}-${PV}"
 
 PACKAGES         += "${PN}-tools"
 FILES_${PN}       = "/boot/*"
 FILES_${PN}-tools = "/sbin/create-boot-env"
 
-MOBM320_IMAGE	?=
-MOBM320_ARGS	?=
-
-MOBM320_IMAGE_BASE_NAME		?= "mobm320-${PV}-${PR}-${MACHINE}"
-MOBM320_IMAGE_SYMLINK_NAME	?= "mobm320-${MACHINE}"
-
 MOBM320_ARGS_prepend = "IMAGES='${MOBM320_IMAGE}' IMAGE_KIND='img elf bin' "
-
 
 do_configure() {
 	if test x"${MOBM320_IMAGE}" = x; then

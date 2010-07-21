@@ -1,0 +1,21 @@
+DESCRIPTION = "Initial bootloader for PXA320"
+SECTION = "bootloaders"
+PRIORITY = "optional"
+LICENSE = "GPLv3"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+PV = "0.3.10"
+PR = "r1"
+
+SRC_URI = "${ELITO_MIRROR}/elito-mobm320-${PV}.tar.bz2"
+S = "${WORKDIR}/elito-mobm320-${PV}"
+
+SRC_URI[md5sum] = "d431b641ed95d747190d4afb86ab701d"
+SRC_URI[sha256sum] = "6551c86dd32d9c6a8e99dbfb4b22830007d92978a74c73ed93a0f9d7a1d14ce9"
+
+MOBM320_IMAGE ?=
+MOBM320_ARGS ?=
+
+MOBM320_IMAGE_BASE_NAME ?= "mobm320-${PV}-${PR}-${MACHINE}"
+MOBM320_IMAGE_SYMLINK_NAME ?= "mobm320-${MACHINE}"
+
+NATIVE_INSTALL_WORKS = 1
