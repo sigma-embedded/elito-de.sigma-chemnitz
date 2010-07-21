@@ -6,8 +6,9 @@ PROVIDES          = "virtual/bootloader-ibl"
 DEPENDS           = "linux-libc-headers mtd-utils mobm320-native"
 
 PACKAGES         += "${PN}-tools"
-FILES_${PN}       = "/boot/*"
+FILES_${PN}       = "/boot/*.img"
 FILES_${PN}-tools = "/sbin/create-boot-env"
+FILES_${PN}-dbg  += "${datadir}/elito-mobm320/${MOBM320_IMAGE}.elf"
 
 MOBM320_ARGS_prepend = "IMAGES='${MOBM320_IMAGE}' IMAGE_KIND='img elf bin' "
 
@@ -32,25 +33,18 @@ do_install() {
 
 	mv ${D}${datadir}/elito-mobm320/${MOBM320_IMAGE}.img ${D}/boot/
 	rm -f ${D}${datadir}/elito-mobm320/*.img
+	rm -f ${D}${datadir}/elito-mobm320/*.bin
 }
 
 do_deploy() {
 	install -d ${DEPLOY_DIR_IMAGE}
 	cd ${D}/boot
 
-	rm -f ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.img \
-              ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.bin \
-              ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.elf
+	rm -f ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.img
 	install -p -m 0644 ${MOBM320_IMAGE}.img ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.img
-	install -p -m 0644 ${D}${datadir}/elito-mobm320/*.bin ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.bin
-	install -p -m 0644 ${D}${datadir}/elito-mobm320/*.elf ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_BASE_NAME}.elf
 
-	rm -f ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}.img \
-              ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}.bin \
-              ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}.elf
+	rm -f ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}.img
 	ln -s ${MOBM320_IMAGE_BASE_NAME}.img ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}.img
-	ln -s ${MOBM320_IMAGE_BASE_NAME}.bin ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}.bin
-	ln -s ${MOBM320_IMAGE_BASE_NAME}.elf ${DEPLOY_DIR_IMAGE}/${MOBM320_IMAGE_SYMLINK_NAME}.elf
 }
 
 do_deploy[dirs] = "${S}"
