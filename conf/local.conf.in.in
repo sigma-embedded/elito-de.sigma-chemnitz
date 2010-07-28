@@ -8,6 +8,7 @@ DL_DIR		 = "@CACHE_DIR@/sources"
 
 PROJECT_NAME	:= "@PROJECT_NAME@"
 PROJECT_TOPDIR	:= "@abs_top_builddir@"
+TMPDIR		:= "${PROJECT_TOPDIR}/${@os.environ.get('W','tmp')}"
 ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz"
 OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded"
 

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-_s=@abs_top_builddir@/tmp/staging/`uname -m`-linux
+_s=@abs_top_builddir@/${W:-tmp}/staging/`uname -m`-linux
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=@CCACHE_DIR@
 BBPATH=@abs_top_builddir@:@ELITO_ROOTDIR@/de.sigma-chemnitz:@ELITO_ROOTDIR@/org.openembedded
