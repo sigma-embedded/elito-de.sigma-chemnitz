@@ -425,6 +425,11 @@ AC_DEFUN([_cmake_check_version],[
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	AC_PATH_PROGS([$2], [$3])
 
+	m4_if(m4_cmp($1,0),-1,[
+		test -x "${$2}" || \
+		AC_MSG_ERROR([The `$3' program is required for bootstrapping])]
+	)
+
 	_elito_bad_ver=false
 	if test -x "${$2}"; then
 		ifelse([$5],,:,$5([$2],$6))
