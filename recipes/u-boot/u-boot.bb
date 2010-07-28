@@ -7,7 +7,7 @@ LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
 PV               = "${UBOOT_VERSION}"
-PR               = "r4"
+PR               = "r5"
 
 DEFAULT_PREFERENCE = "99"
 SRCREV           = "${AUTOREV}"
@@ -30,7 +30,7 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
-_make = ${MAKE} -e -f "${TMPDIR}/Makefile.develcomp" CFG=u-boot _secwrap=
+_make = "${MAKE} -e -f '{TMPDIR}/Makefile.develcomp' CFG=u-boot CFG_NONDEVEL=1 _secwrap="
 
 do_configure() {
 	${_make} ${UBOOT_MACHINE}
