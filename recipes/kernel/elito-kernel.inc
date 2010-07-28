@@ -27,7 +27,7 @@ DEPENDS += '\
 ##
 ## When _gen_mf is not set yet, use the public KERNEL_MAKEFILE variable.
 KERNEL_MAKEFILE ?= "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
-_gen_mf         ?= "${KERNEL_MAKEFILE}"
+_gen_mf         ?= "${TMPDIR}/Makefile.kernel"
 
 do_generate_makefile[depends] = "gcc-cross:do_populate_sysroot"
 do_generate_makefile() {
@@ -69,6 +69,9 @@ EOF
 
         # make it read-only
         chmod a-w "${_gen_mf}"
+
+        ${@base_conditional('DISTRO_TYPE','debug','',': ', d)}\
+        ln -sf "${_gen_mf}" "${KERNEL_MAKEFILE}"
 }
 
 do_configure_prepend() {
