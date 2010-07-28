@@ -70,9 +70,10 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
                     (time.strftime('%c', time.gmtime(start_info['time'])),
                      time.strftime('%c', time.gmtime(end_info['time']))))
 
-        f_out.write('<build project="%s" started="%f" finished="%f"' \
+        f_out.write('<build project="%s" tmpdir="%s" started="%f" finished="%f"' \
                     ' duration="%f" id="%s">\n' %
                     (data.getVar('PROJECT_NAME', e.data, True),
+                     os.path.basename(data.getVar('TMPDIR', e.data)),
                      start_info['time'], end_info['time'],
                      end_info['time'] - start_info['time'],
                      _elito_metrics_id(e.data)))
@@ -309,9 +310,10 @@ def _elito_metrics_eventhandler_18 (e):
                         (time.strftime('%c', time.gmtime(start_tm)),
                          time.strftime('%c', time.gmtime(now))))
 
-            f_out.write('<build project="%s" started="%f" finished="%f"' \
+            f_out.write('<build project="%s" tmpdir="%s" started="%f" finished="%f"' \
                         ' duration="%f">\n' %
                         (data.getVar('PROJECT_NAME', e.data, True),
+                         os.path.basename(data.getVar('TMPDIR', e.data)),
                          data.getVar('_BUILD_START_TIME', e.data, False),
                          now,
                          now - data.getVar('_BUILD_START_TIME', e.data, False)))
