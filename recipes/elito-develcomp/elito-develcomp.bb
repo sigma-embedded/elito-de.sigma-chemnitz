@@ -169,5 +169,7 @@ EOF
 
         # make it read-only
 	chmod a-w "${TMPDIR}/Makefile.develcomp"
+
+        ${@base_conditional('DISTRO_TYPE','debug','',': ', d)}\
         ln -sf "${TMPDIR}/Makefile.develcomp" "${DEVELCOMP_MAKEFILE}"
 }
