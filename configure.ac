@@ -141,12 +141,6 @@ AC_ARG_ENABLE(ccache,
 	[],
 	[enable_ccache=auto])
 
-AC_ARG_WITH(ccache-dir,
-	AS_HELP_STRING([--with-ccache-dir=<dir>],
-		       [Directory where to place ccache data. Default: PROJECTDIR/tmp/cache/ccache]),
-	[_CCACHE_DIR=$withval], [_CCACHE_DIR=\${abs_top_builddir}/tmp/cache/ccache])
-AC_SUBST(_CCACHE_DIR, [$_CCACHE_DIR])
-
 AC_ARG_WITH(kernel-reference-repo,
 	AS_HELP_STRING([--with-kernel-reference-repo=<dir>],
 			[Specify location of a local reference git repository which holds kernel sources]),

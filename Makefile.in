@@ -12,7 +12,6 @@ ELITO_ROOTDIR :=	$(abspath $(abs_top_srcdir)/..)
 ELITO_OFFLINE :=	@ELITO_OFFLINE@
 ELITO_WORKSPACE_DIR :=	$(abspath $(abs_top_builddir)/../workspace)
 CACHE_DIR :=		$(abspath @_CACHE_DIR@)
-_CCACHE_DIR :=		$(abspath @_CCACHE_DIR@)
 PROJECT_NAME =		@PROJECT_NAME@
 QUILT =			@QUILT@
 INSTALL =		@INSTALL@
@@ -32,7 +31,6 @@ SED_EXPR :=	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'		\
 		-e 's!@'PYTHON'@!$(PYTHON)!g'			\
-		-e 's!@'CCACHE_DIR'@!$(_CCACHE_DIR)!g'		\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'	\
 		-e 's!@'TOP_BUILD_DIR'@!$(abs_top_builddir)!g'	\
 		-e 's!@'SECWRAP_CMD'@!$(SECWRAP_CMD)!g'
@@ -162,7 +160,7 @@ $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.s
 			@touch $@
 
 $(_stampdir)/.filesystem.stamp:
-			mkdir -p ${_CCACHE_DIR}
+			mkdir -p ${_stampdir}
 			@touch $@
 
 _bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar

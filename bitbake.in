@@ -16,4 +16,5 @@ if ! test -x "@BITBAKE@"; then
     exit 1
 fi >&2
 
+@INSTALL@ -d -m 0775 "$CCACHE_DIR"
 exec @SECWRAP_CMD@ @PYTHON@ @BITBAKE@ "$@"
