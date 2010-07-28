@@ -20,6 +20,9 @@ SECWRAP_CMD =		@SECWRAP_CMD@
 
 INSTALL_DATA =		$(INSTALL) -p -m 0644
 
+_tmpdir :=		$(abs_top_builddir)/.tmp
+_stampdir :=		$(_tmpdir)/stamps
+
 _FQDN =			$(shell hostname -f)
 _DOMAIN =		$(shell hostname -d)
 
@@ -100,7 +103,7 @@ config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
 config:			$(_project_task_file) $(_project_files_file)
 
 init:			bitbake-fetch filesystem-init
-prep:			tmp/stamps/.prep.stamp Makefile bitbake-validate
+prep:			$(_stampdir)/.prep.stamp Makefile bitbake-validate
 image:			prep
 			$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
 
@@ -117,19 +120,19 @@ $(ELITO_WORKSPACE_DIR)/Makefile.$(PROJECT_NAME):
 			@echo "*************" >&2
 			@false
 
-_bitbake_root =		$(abs_top_builddir)/tmp/staging/.bitbake
+_bitbake_root =		$(_tmpdir)/staging/.bitbake
 
-filesystem-init:	tmp/stamps/.filesystem.stamp
-bitbake-fetch:		tmp/stamps/.bitbake.stamp
+filesystem-init:	$(_stampdir)/.filesystem.stamp
+bitbake-fetch:		$(_stampdir)/.bitbake.stamp
 bitbake-clean:
-			rm -rf tmp/bitbake $(_bitbake_root)
-			rm -f tmp/stamps/.bitbake.*
+			rm -rf $(_tmpdir)/bitbake $(_bitbake_root)
+			rm -f $(_stampdir)/.bitbake.*
 ifeq ($(ELITO_OFFLINE),)
 			rm -f $(_bitbake-tarball)
 endif
 
 bitbake-validate:
-			@f=tmp/stamps/.bitbake.fetch.stamp; \
+			@f=$(_stampdir)/.bitbake.fetch.stamp; \
 			test ! -e "$$f" || { \
 			v=$$(cat $$f); test x"$$v" = x${BITBAKE_REV}/${BITBAKE_REV_R}; } || { \
 			echo "****"; \
@@ -142,32 +145,32 @@ bitbake-validate:
 			} >&2
 
 update-checksum:
-			$(if $(FORCE),-)test -e tmp/checksums.ini
+			$(if $(FORCE),-)test -e $(_tmpdir)/checksums.ini
 			t=$$(mktemp -t elito-crc.XXXXXX) && trap "rm -f $$t" EXIT && $(MAKE) .update-checksum _tmpfile=$$t
 
 .update-checksum:
-			$(if $(FORCE),-)cat tmp/checksums.ini >> $(CHECKSUM_FILE)
+			$(if $(FORCE),-)cat $(_tmpdir)/checksums.ini >> $(CHECKSUM_FILE)
 			$(CHECKSUM_SORTER) $(CHECKSUM_FILE) > $(_tmpfile)
 			cat $(_tmpfile) >$(CHECKSUM_FILE)
-			rm -f tmp/checksums.ini
+			rm -f $(_tmpdir)/checksums.ini
 
 find-dups:		init
 			./bitbake -l Collection -d $(TARGETS) -c find_dups
 
-tmp/stamps/.prep.stamp:	tmp/stamps/.bitbake.stamp tmp/stamps/.filesystem.stamp
+$(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp
 			$(call _call_cmd,$(BITBAKE) stagemanager-native ipkg-utils-native,prep)
 			@touch $@
 
-tmp/stamps/.filesystem.stamp:
+$(_stampdir)/.filesystem.stamp:
 			mkdir -p ${_CCACHE_DIR}
 			@touch $@
 
 _bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
 _bitbake_setuptools =	$(CACHE_DIR)/setuptools-0.6c9-py2.6.egg
 
-tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.gitinit.stamp
-			cd tmp/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
-			cd tmp/bitbake && $(GIT) merge ${BITBAKE_REV}
+$(_stampdir)/.bitbake.fetch.stamp:	$(_stampdir)/.bitbake.gitinit.stamp
+			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
+			cd $(_tmpdir)/bitbake && $(GIT) merge ${BITBAKE_REV}
 			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
 
 ifeq ($(ELITO_OFFLINE),)
@@ -184,53 +187,53 @@ $(_bitbake_setuptools):
 			mv -f $@.tmp $@
 
 else
-tmp/stamps/.bitbake.fetch.stamp:	tmp/stamps/.bitbake.setuptools.stamp
+$(_stampdir)/.bitbake.fetch.stamp:	$(_stampdir)/.bitbake.setuptools.stamp
 endif
 
-tmp/stamps/.bitbake.setuptools.stamp:
+$(_stampdir)/.bitbake.setuptools.stamp:
 			$(MAKE) $(_bitbake_setuptools)
 			@mkdir -p $(dir $@)
-			install -p -m 0644 $(_bitbake_setuptools) tmp/bitbake/
+			install -p -m 0644 $(_bitbake_setuptools) $(_tmpdir)/bitbake/
 			@touch $@
 
-tmp/stamps/.bitbake.gitinit.stamp:
+$(_stampdir)/.bitbake.gitinit.stamp:
 			$(MAKE) $(_bitbake-tarball)
 			@mkdir -p $(dir $@)
-			mkdir -p tmp/bitbake
-			cd tmp/bitbake && $(GIT) init
-			-cd tmp/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
-			-cd tmp/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
-			-cd tmp/bitbake && $(GIT) config remote.origin.tagopt --no-tags
-			-cd tmp/bitbake/.git && $(TAR) xf $(_bitbake-tarball)
-			-cd tmp/bitbake/.git/objects/pack && for i in *-elito.pack; do \
+			mkdir -p $(_tmpdir)/bitbake
+			cd $(_tmpdir)/bitbake && $(GIT) init
+			-cd $(_tmpdir)/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
+			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
+			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.tagopt --no-tags
+			-cd $(_tmpdir)/bitbake/.git && $(TAR) xf $(_bitbake-tarball)
+			-cd $(_tmpdir)/bitbake/.git/objects/pack && for i in *-elito.pack; do \
 				test -e $$i || continue;	\
 				echo P $$i >> ../info/packs;	\
 			done
-			-cd tmp/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV_S}
-			cd tmp/bitbake && { $(_GITR) remote update || $(_GITR) remote update || :; }
-			cd tmp/bitbake && $(GIT) branch -M elito elito.old || :
-			cd tmp/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
-			cd tmp/bitbake && $(GIT) reset --hard elito
-			cd tmp/bitbake && $(GIT) branch -D elito.old || :
-			cd tmp/bitbake && $(GIT) gc
+			-cd $(_tmpdir)/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV_S}
+			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update || :; }
+			cd $(_tmpdir)/bitbake && $(GIT) branch -M elito elito.old || :
+			cd $(_tmpdir)/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
+			cd $(_tmpdir)/bitbake && $(GIT) reset --hard elito
+			cd $(_tmpdir)/bitbake && $(GIT) branch -D elito.old || :
+			cd $(_tmpdir)/bitbake && $(GIT) gc
 			@touch $@
 
-tmp/stamps/.bitbake.patch.stamp:	tmp/stamps/.bitbake.fetch.stamp
+$(_stampdir)/.bitbake.patch.stamp:	$(_stampdir)/.bitbake.fetch.stamp
 ifeq ($(QUILT),)
-			cd tmp/bitbake && cat $(_bitbake_srcdir)/*.patch | patch -p0
+			cd $(_tmpdir)/bitbake && cat $(_bitbake_srcdir)/*.patch | patch -p0
 else
-			cd tmp/bitbake && $(QUILT) pop -a || :
-			rm -rf tmp/bitbake/patches tmp/bitbake/.pc
-			mkdir -p tmp/bitbake/patches
-			cd tmp/bitbake && $(QUILT) import -p0 $(_bitbake_srcdir)/*.patch
-			cd tmp/bitbake && $(QUILT) push -a -f
+			cd $(_tmpdir)/bitbake && $(QUILT) pop -a || :
+			rm -rf $(_tmpdir)/bitbake/patches $(_tmpdir)/bitbake/.pc
+			mkdir -p $(_tmpdir)/bitbake/patches
+			cd $(_tmpdir)/bitbake && $(QUILT) import -p0 $(_bitbake_srcdir)/*.patch
+			cd $(_tmpdir)/bitbake && $(QUILT) push -a -f
 endif
 			@touch $@
 
-tmp/stamps/.bitbake.stamp:	tmp/stamps/.bitbake.patch.stamp
-			cd tmp/bitbake && $(PYTHON) setup.py build
+$(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.patch.stamp
+			cd $(_tmpdir)/bitbake && $(PYTHON) setup.py build
 			mkdir -p $(_bitbake_root)/lib
-			cd tmp/bitbake && \
+			cd $(_tmpdir)/bitbake && \
 			env PYTHONPATH=./lib:$(_bitbake_root)/lib$(if ${PYTHONPATH},:,)${PYTHONPATH} python setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
 			$(SED) -i -e '/EASY-INSTALL-SCRIPT/aimport os, site; site.addsitedir("$(_bitbake_root)/lib")' $(_bitbake_root)/bin/bitbake
 			$(MAKE) bitbake
@@ -270,7 +273,7 @@ clean:
 			rm -f set-env.in conf/local.conf bitbake
 
 mrproper:		clean
-			rm -rf tmp
+			rm -rf tmp $(_tmpdir)
 
 $(AUTOCONF_FILES): %:	config.status %.in
 			$(abspath $<)
