@@ -436,6 +436,8 @@ AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	fi
 ])
 
+AC_PATH_PROGS([AUTORECONF], autoreconf)
+
 dnl AC_PATH_PROGS(BITBAKE, bitbake)
 BITBAKE=\${abs_top_builddir}/.tmp/staging/.bitbake/bin/bitbake
 BITBAKE_PATH=\${abs_top_builddir}/.tmp/staging/.bitbake/lib
@@ -444,6 +446,8 @@ AC_SUBST(BITBAKE_PATH)
 AC_PROG_EGREP
 
 ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
+ELITO_CHECK_PROGRAM(-1, SED,        sed)
+ELITO_CHECK_PROGRAM(-1, WGET,       wget)
 ELITO_CHECK_PROGRAM( 0, M4,         m4)
 ELITO_CHECK_PROGRAM( 0, BISON,      bison)
 ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version], 0x02051f)
