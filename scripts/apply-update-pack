@@ -37,7 +37,7 @@ apply() {
 	    $GIT pull "$1/bundle" "$branch"
 	else
 	    $GIT fetch "$1/bundle" "$branch:$branch" ||
-	    $GIT fetch "$1/bundle" "+$branch:refs/failed/${branch##refs/heads/}"
+	    $GIT fetch "$1/bundle" "+$branch:refs/heads/failed/${branch##refs/heads/}"
 	fi
     done
 
