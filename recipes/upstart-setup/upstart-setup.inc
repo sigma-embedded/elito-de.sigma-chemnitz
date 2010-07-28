@@ -12,7 +12,6 @@ j                = "${sysconfdir}/init/"
 ALLOW_EMPTY_${PN}       = "1"
 RRECOMMENDS_${PN}      += " \
 	${PN}-base		\
-	${DEVFS_INIT_PROVIDER}	\
 "
 
 DEPENDS += "elito-setup-tools upstart"
