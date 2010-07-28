@@ -80,7 +80,7 @@ define _call_cmd
 @$1 && ( $(call ${XTERM_INFO},!DONE!); : ) || ( $(call ${XTERM_INFO},!FAILED!); false )
 endef
 
-_gitdate = $(shell $(GIT) show --pretty='format:%ct-%h' | sed '1p;d')
+_gitdate = $(shell $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
 
 release-image release-build:		export W=release-${_gitdate}
 
@@ -93,7 +93,14 @@ image release-image:	prep
 			$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
 
 build release-build:
-			@echo "Error: R=<recipe> not set" >&2; exit 1
+ifeq (${R},)
+			@{ \
+			echo "***" ; \
+			echo "*** error: parameter R=<recipe> not set" ; \
+			echo "***" ; \
+			} >&2
+			@false
+endif
 			$(call _call_cmd,$(BITBAKE) -b $(R) $(BO),>$(R)<)
 
 pkg-regen pkg-update pkg-upgrade pkg-install pkg-remove shell: \
@@ -101,9 +108,12 @@ pkg-regen pkg-update pkg-upgrade pkg-install pkg-remove shell: \
 			$(SECWRAP_CMD) env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
 $(W)/Makefile.develcomp:
-			@echo "*************" >&2
-			@echo "*** Development Makefile not found; please build the 'elito-develcomp' package" >&2
-			@echo "*************" >&2
+			@{ \
+			echo "***" ; \
+			echo "*** error: development Makefile not found; please" ; \
+			echo "***        build the 'elito-develcomp' package" ; \
+			echo "***" ; \
+			} >&2
 			@false
 
 _bitbake_root =		$(_tmpdir)/staging/.bitbake
@@ -142,7 +152,7 @@ $(_stampdir)/.filesystem.stamp:
 			@touch $@
 
 _bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
-_bitbake_setuptools =	$(CACHE_DIR)/setuptools-0.6c9-py2.6.egg
+_bitbake_setuptools =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
 
 $(_stampdir)/.bitbake.fetch.stamp:	$(_stampdir)/.bitbake.gitinit.stamp
 			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
@@ -169,7 +179,7 @@ endif
 $(_stampdir)/.bitbake.setuptools.stamp:
 			$(MAKE) $(_bitbake_setuptools)
 			@mkdir -p $(dir $@)
-			install -p -m 0644 $(_bitbake_setuptools) $(_tmpdir)/bitbake/
+			$(INSTALL_DATA) $(_bitbake_setuptools) $(_tmpdir)/bitbake/
 			@touch $@
 
 $(_stampdir)/.bitbake.gitinit.stamp:
