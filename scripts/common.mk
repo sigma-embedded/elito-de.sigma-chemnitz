@@ -22,9 +22,6 @@ SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'TOP_BUILD_DIR'@!$(abs_top_builddir)!g'	\
 		-e 's!@'SECWRAP_CMD'@!$(SECWRAP_CMD)!g'
 
-CHECKSUM_SORTER =	env LC_COLLATE=C $(PYTHON) $(ELITO_ROOTDIR)/org.openembedded/contrib/source-checker/oe-checksums-sorter.py
-CHECKSUM_FILE =		$(ELITO_ROOTDIR)/org.openembedded/conf/checksums.ini
-
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
 
 _bitbake_srcdir =	$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
@@ -132,16 +129,6 @@ bitbake-validate:
 			echo "****"; \
 			exit 1; \
 			} >&2
-
-update-checksum:
-			$(if $(FORCE),-)test -e $(_tmpdir)/checksums.ini
-			t=$$(mktemp -t elito-crc.XXXXXX) && trap "rm -f $$t" EXIT && $(MAKE) .update-checksum _tmpfile=$$t
-
-.update-checksum:
-			$(if $(FORCE),-)cat $(_tmpdir)/checksums.ini >> $(CHECKSUM_FILE)
-			$(CHECKSUM_SORTER) $(CHECKSUM_FILE) > $(_tmpfile)
-			cat $(_tmpfile) >$(CHECKSUM_FILE)
-			rm -f $(_tmpdir)/checksums.ini
 
 find-dups:		init
 			./bitbake -l Collection -d $(TARGETS) -c find_dups
