@@ -154,6 +154,8 @@ $(_stampdir)/.filesystem.stamp:
 _bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
 _bitbake_setuptools =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
 
+.SECONDARY:		$(_bitbake-tarball) $(_bitbake_setuptools)
+
 $(_stampdir)/.bitbake.fetch.stamp:	$(_stampdir)/.bitbake.gitinit.stamp
 			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
 			cd $(_tmpdir)/bitbake && $(GIT) merge ${BITBAKE_REV}
@@ -257,6 +259,16 @@ $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 
 clean:
 			rm -f set-env.in conf/local.conf bitbake
+
+clean-sources:
+			rm -f ${CACHE_DIR}/sources/*_svn.*
+			rm -f ${CACHE_DIR}/sources/*_hg.*
+			rm -f ${CACHE_DIR}/sources/git_*
+			rm -f ${CACHE_DIR}/bitbake-*
+			rm -f ${CACHE_DIR}/setuptools-*
+			rm -f ${CACHE_DIR}/sources/*.md5
+			rm -f ${CACHE_DIR}/sources/*.lock
+			#find ${CACHE_DIR}/sources -maxdepth 1 -type f -atime +28 -print0 | xargs -0 rm -vf
 
 mrproper:		clean
 			rm -rf $W $(_tmpdir)
