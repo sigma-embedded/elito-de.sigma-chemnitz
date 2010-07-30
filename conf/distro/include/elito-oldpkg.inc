@@ -21,6 +21,7 @@ abiword_2.6.4 \
 abiword_2.6.8 \
 abiword_2.8.1 \
 abiword_2.8.2 \
+aceofpenguins_1.2 \
 acpid_1.0.2 \
 acpid_1.0.3 \
 acpid_1.0.4 \
@@ -89,6 +90,7 @@ at-spi_1.28.0 \
 at91bootstrap_2.10 \
 at91bootstrap_2.11 \
 at91bootstrap_2.4 \
+at_3.1.8 \
 atd_0.70 \
 atk_1.18.0 \
 atk_1.19.3 \
@@ -116,7 +118,6 @@ avahi_0.6.24 \
 balsa_2.0.17 \
 batmand_0.3 \
 bc-cube_0.1.0 \
-bdftopcf-native_1.0.0 \
 bdftopcf_1.0.1 \
 beforelight_1.0.2 \
 bigreqsproto_1.0.2 \
@@ -295,7 +296,6 @@ db-native_4.2.52 \
 db-native_4.3.29 \
 db_4.2.52 \
 db_4.3.29 \
-dbus-glib-native_0.74 \
 dbus-glib_0.74 \
 dbus-glib_0.76 \
 dbus-glib_0.78 \
@@ -306,6 +306,7 @@ dbus_1.0.3 \
 dbus_1.2.1 \
 dbus_1.2.20 \
 dbus_1.2.22 \
+dbus_1.2.24 \
 dbus_1.2.3 \
 debianutils_2.17.3 \
 debianutils_2.19 \
@@ -357,6 +358,7 @@ docbook-sgml-dtd-4.1-native \
 dosbox_0.63 \
 dosbox_0.70 \
 dosfstools_2.10 \
+dosfstools_2.11 \
 dpkg-native_1.13.22 \
 dpkg-native_1.13.25 \
 dpkg-native_1.14.19 \
@@ -389,6 +391,7 @@ ekiga_3.0.2 \
 ekiga_3.1.0 \
 ekiga_3.2.0 \
 ekiga_3.2.4 \
+ekiga_3.2.5 \
 elfutils_0.127 \
 elfutils_0.131 \
 elfutils_0.89 \
@@ -437,6 +440,7 @@ fakeroot_1.9.6 \
 fam_2.6.10 \
 fbpanel_4.3 \
 fbreader_0.10.7 \
+fbreader_0.12.1 \
 fbreader_0.7.3d \
 fbreader_0.7.4q \
 fbreader_0.8.2a \
@@ -466,7 +470,6 @@ firefox_3.5b4 \
 firefox_3.6 \
 firefox_3.6.2 \
 firefox_3.6.3 \
-fixesproto-native_4.0 \
 fixesproto_4.0 \
 flac_1.1.0 \
 flac_1.1.2 \
@@ -515,14 +518,12 @@ font-sun-misc_1.0.0 \
 font-winitzki-cyrillic_1.0.0 \
 font-xfree86-type1_1.0.0 \
 font-xfree86-type1_1.0.1 \
-fontcacheproto-native_0.1.2 \
 fontcacheproto_0.1.2 \
 fontconfig_2.2.95 \
 fontconfig_2.3.91 \
 fontconfig_2.3.95 \
 fontconfig_2.4.1 \
 fontconfig_2.6.0 \
-fontsproto-native_2.0.2 \
 fontsproto_2.0.2 \
 fonttosfnt_1.0.3 \
 forte_0.3 \
@@ -541,6 +542,7 @@ freetype_2.3.11 \
 freetype_2.3.4 \
 freetype_2.3.5 \
 freetype_2.3.6 \
+freetype_2.3.9 \
 frodo_4.1b \
 frotz_2.42 \
 frozen-bubble_1.0.0 \
@@ -728,30 +730,22 @@ glib-2.0_2.20.4 \
 glib-2.0_2.22.1 \
 glib-2.0_2.22.4 \
 glib-2.0_2.23.6 \
+glib-2.0_2.24.0 \
 glib-2.0_2.4.6 \
 glib-2.0_2.6.4 \
 glib-2.0_2.6.6 \
 glib-2.0_2.8.6 \
 glibc-initial_2.2.5 \
 glibc-initial_2.3.2 \
-glibc-initial_2.3.2+cvs20040726 \
-glibc-initial_2.3.6 \
 glibc-initial_2.5 \
 glibc-initial_2.6.1 \
-glibc-initial_2.7 \
 glibc-initial_2.9 \
 glibc_2.2.5 \
 glibc_2.3.2 \
-glibc_2.3.2+cvs20040726 \
 glibc_2.3.3 \
-glibc_2.3.3+cvs20041128 \
-glibc_2.3.3+cvs20050221 \
-glibc_2.3.3+cvs20050420 \
 glibc_2.3.5+cvs20050627 \
-glibc_2.3.6 \
 glibc_2.5 \
 glibc_2.6.1 \
-glibc_2.7 \
 glibc_2.9 \
 glibmm_2.16.2 \
 glibmm_2.18.0 \
@@ -1036,6 +1030,7 @@ gtk+_2.16.6 \
 gtk+_2.18.0 \
 gtk+_2.18.3 \
 gtk+_2.18.6 \
+gtk+_2.20.0 \
 gtk+_2.6.10 \
 gtk+_2.8.16 \
 gtk+_2.8.9 \
@@ -1101,6 +1096,7 @@ ibrdtn_0.1.1 \
 ibrdtn_0.1.2 \
 ica-bin_8.0 \
 iceauth_1.0.2 \
+icedtea6-native_1.7.3 \
 icon-naming-utils-native_0.8.2 \
 iksemel_1.2 \
 imagemagick_6.3.5-10 \
@@ -1158,6 +1154,7 @@ ixp4xx-npe-native_2.3.2 \
 ixp4xx-npe_2.1 \
 ixp4xx-npe_2.3.2 \
 jack_0.103.0 \
+jack_0.116.2 \
 jamvm-initial_1.4.5 \
 jamvm_1.4.5 \
 jamvm_1.5.0 \
@@ -1213,6 +1210,7 @@ libdrm_2.3.0 \
 libdrm_2.3.1 \
 libdrm_2.4.11 \
 libdrm_2.4.17 \
+libdrm_2.4.18 \
 libdvdread_0.9.6 \
 libecj-bootstrap_3.3 \
 libecj-bootstrap_3.3.2 \
@@ -1351,6 +1349,7 @@ libmikmod_3.1.12 \
 libmimedir_0.0-20040307 \
 libmimedir_0.3.1 \
 libmodplug_0.8.4 \
+libmpc_0.8.1 \
 libmrss_0.17.2 \
 libmusicbrainz_2.1.5 \
 libmusicbrainz_3.0.1 \
@@ -1392,15 +1391,11 @@ libpam_1.1.0 \
 libpcap_0.9.3 \
 libpcap_0.9.5 \
 libpcap_0.9.8 \
+libpcap_1.0.0 \
 libpciaccess_0.10.3 \
 libpciaccess_0.10.9 \
-libpng-native_1.2.37 \
-libpng-native_1.2.40 \
-libpng-native_1.2.41 \
-libpng_1.2.37 \
-libpng_1.2.40 \
-libpng_1.2.41 \
 libpthread-stubs_0.1 \
+libpthread-stubs_0.2 \
 libqpe-opie_1.2.2 \
 libqpe-opie_1.2.3 \
 libqtaux2_1.2.2 \
@@ -1538,6 +1533,7 @@ libxfont_1.3.0 \
 libxfont_1.3.1 \
 libxfont_1.3.2 \
 libxfont_1.3.3 \
+libxfont_1.4.1 \
 libxfontcache_1.0.4 \
 libxft_2.1.12 \
 libxft_2.1.13 \
@@ -1656,6 +1652,7 @@ linux-libc-headers_2.6.29 \
 linux-libc-headers_2.6.30 \
 linux-libc-headers_2.6.31 \
 linux-libc-headers_2.6.32 \
+linux-libc-headers_2.6.34 \
 linux-libc-headers_2.6.7.0 \
 linux-libc-headers_2.6.8.1 \
 linux-magicbox_2.6.18.6 \
@@ -1733,8 +1730,6 @@ listres_1.0.1 \
 live555_20051005 \
 live555_20090602 \
 live555_20100409 \
-llvm2.5-native_2.5 \
-llvm2.5_2.5 \
 lmbench_2.0.4 \
 lmsensors-apps_2.10.1 \
 loudmouth_1.0.1 \
@@ -1801,10 +1796,13 @@ memtester_4.0.5 \
 memtester_4.0.6 \
 menu-cache_0.2.2 \
 mesa-dri_7.2 \
+mesa-dri_7.4 \
 mesa-dri_7.6 \
 mesa-xlib_7.2 \
+mesa-xlib_7.4 \
 mesa-xlib_7.6 \
 mesa_7.2 \
+mesa_7.4 \
 mesa_7.6 \
 metacity_2.24.0 \
 microwindows_0.90 \
@@ -1834,13 +1832,8 @@ minilite_0.49 \
 minimix_0.7 \
 minimix_0.8 \
 mkcomposecache_1.2 \
-mkfontdir-native_1.0.3 \
-mkfontdir-native_1.0.4 \
 mkfontdir_1.0.3 \
 mkfontdir_1.0.4 \
-mkfontscale-native_1.0.3 \
-mkfontscale-native_1.0.4 \
-mkfontscale-native_1.0.5 \
 mkfontscale_1.0.3 \
 mkfontscale_1.0.4 \
 mkfontscale_1.0.5 \
@@ -1856,12 +1849,15 @@ mp3blaster_3.2.0 \
 mp3blaster_3.2.3 \
 mpd-alsa_0.11.5 \
 mpd_0.14.2 \
+mpd_0.15 \
+mpfr-canadian_2.3.1 \
 mpfr-native_2.1.1 \
 mpfr-native_2.3.1 \
 mpfr-native_2.3.2 \
 mpfr_2.1.1 \
 mpfr_2.3.1 \
 mpfr_2.3.2 \
+mpfr_2.4.2 \
 mplayer_0.0+1.0rc1 \
 msynctool_0.22 \
 mt-daapd_0.2.1.1 \
@@ -1933,12 +1929,14 @@ opal_3.6.1 \
 opal_3.6.2 \
 opal_3.6.4 \
 opal_3.6.6 \
+opal_3.8.0 \
 openbmap-logger_0.2.0 \
 openldap_2.2.29 \
 openldap_2.3.11 \
 openntpd_3.7p1 \
 openobex_1.2 \
 openobex_1.3 \
+openscenegraph_2.9.6 \
 opensimpad_2.4.25-vrs2-pxa1-jpm1 \
 openssh_3.7.1p1 \
 openssh_3.7.1p2 \
@@ -2051,6 +2049,7 @@ orbit2_2.13.2 \
 orbit2_2.14.12 \
 orbit2_2.14.16 \
 orc_0.4.3 \
+orc_0.4.4 \
 orinoco-modules_0.13e \
 orinoco-modules_0.15rc1 \
 ortp_0.7.1 \
@@ -2085,8 +2084,8 @@ pcmciautils_010 \
 pcmciautils_013 \
 pcmciautils_014 \
 pcsc-lite_1.4.102 \
-perl-native_5.8.9 \
-perl_5.8.9 \
+perl-native_5.8.8 \
+perl_5.8.8 \
 phoneme-advanced-foundation_0.0.b87 \
 php-native_5.2.6 \
 php-native_5.3.0 \
@@ -2157,6 +2156,7 @@ ptlib_2.6.1 \
 ptlib_2.6.2 \
 ptlib_2.6.4 \
 ptlib_2.6.5 \
+ptlib_2.8.0 \
 pulseaudio_0.9.10 \
 pulseaudio_0.9.11 \
 pulseaudio_0.9.15 \
@@ -2175,6 +2175,7 @@ python-cython-native_0.10.3 \
 python-cython-native_0.12 \
 python-cython_0.10.3 \
 python-cython_0.12 \
+python-django_1.0.2 \
 python-gst_0.10.10 \
 python-native_2.6.1 \
 python-pybluez_0.15 \
@@ -2202,16 +2203,22 @@ qscintilla_1.60-gpl-1.3 \
 qscintilla_1.60-gpl-1.3b \
 qt-x11-free_3.3.6 \
 qt4-embedded-gles_4.6.0 \
+qt4-embedded-gles_4.6.2 \
 qt4-embedded_4.4.3 \
 qt4-embedded_4.6.0 \
+qt4-embedded_4.6.2 \
 qt4-tools-native_4.4.3 \
 qt4-tools-native_4.6.0 \
+qt4-tools-native_4.6.2 \
 qt4-tools-sdk_4.5.2 \
 qt4-tools-sdk_4.6.0 \
+qt4-tools-sdk_4.6.2 \
 qt4-x11-free-gles_4.5.2 \
 qt4-x11-free-gles_4.6.0 \
+qt4-x11-free-gles_4.6.2 \
 qt4-x11-free_4.4.3 \
 qt4-x11-free_4.6.0 \
+qt4-x11-free_4.6.2 \
 quagga_0.99.14 \
 quagga_0.99.6 \
 quagga_0.99.7 \
@@ -2230,8 +2237,8 @@ rdesktop_1.5.0 \
 rdiff-backup_1.0.4 \
 readline_4.3 \
 readline_5.2 \
+realpath_1.10 \
 recordproto_1.13.2 \
-renderproto-native_0.9.3 \
 renderproto_0.9.2 \
 renderproto_0.9.3 \
 resolvconf_1.43 \
@@ -2243,6 +2250,7 @@ rsync_2.6.9 \
 rsync_3.0.0 \
 rsyslog_5.4.0 \
 rt2570-k2wrlz_1.6.0 \
+rt2570-k2wrlz_1.6.1 \
 rt73-k2wrlz_1.0.0 \
 rt73-k2wrlz_2.0.1 \
 rtorrent_0.8.0 \
@@ -2308,11 +2316,12 @@ sphinxbase_0.1 \
 sqlite3-native_3.6.2 \
 sqlite3_3.6.13 \
 sqlite3_3.6.2 \
+sqlite3_3.6.20 \
 sqlite3_3.6.5 \
 squashfs-tools-native_3.3 \
 squashfs-tools_3.3 \
-squid-native_2.6.STABLE14 \
 squid_2.6.STABLE14 \
+squid_2.7.STABLE8 \
 sshfs-fuse_1.8 \
 startup-notification_0.5 \
 startup-notification_0.8 \
@@ -2357,13 +2366,12 @@ system-tools-backends_2.8.3 \
 taglib_1.4 \
 tango-icon-theme_0.7.2 \
 tangogps_0.9.6 \
-tangogps_0.99.1 \
-tangogps_0.99.2 \
 tar_1.13.93 \
 tar_1.18 \
 tar_1.20 \
 tcl_8.4.19 \
 tcpdump_3.9.7 \
+tcpdump_4.0.0 \
 telepathy-gabble_0.5.10 \
 telepathy-gabble_0.7.8 \
 telepathy-glib_0.5.10 \
@@ -2407,6 +2415,7 @@ u-boot_2009.01 \
 u-boot_2009.03 \
 u-boot_2009.06 \
 u-boot_2009.08 \
+u-boot_2010.06 \
 uclibc-initial_0.9.28 \
 uclibc-initial_0.9.29 \
 uclibc-initial_0.9.30 \
@@ -2430,6 +2439,7 @@ upslug2_10 \
 upslug2_8 \
 upstart_0.3.8 \
 uqm_0.3 \
+usbmodeswitch_1.0.7 \
 usbutils_0.70 \
 usbutils_0.73 \
 usbutils_0.82 \
@@ -2449,6 +2459,7 @@ util-macros_1.5.0 \
 util-macros_1.6.0 \
 util-macros_1.6.1 \
 util-macros_1.7.0 \
+util-macros_1.8.0 \
 vagalume_0.5.1 \
 vagalume_0.7.1 \
 vala_0.8.1.2 \
@@ -2474,6 +2485,7 @@ watchdog_5.3.1 \
 watchdog_5.4 \
 wbxml2_0.9.2 \
 wesnoth_1.4.6 \
+wesnoth_1.6.5 \
 wget_1.9.1 \
 whois_4.5.25 \
 whois_5.0.0 \
@@ -2525,7 +2537,6 @@ xcmsdb_1.0.1 \
 xcompmgr_1.1.4 \
 xconsole_1.0.2 \
 xcursor-themes_1.0.1 \
-xcursorgen-native_1.0.2 \
 xcursorgen_1.0.1 \
 xcursorgen_1.0.2 \
 xdm_1.1.3 \
@@ -2650,6 +2661,7 @@ xf86-video-i128_1.3.1 \
 xf86-video-i740_1.1.0 \
 xf86-video-i740_1.2.0 \
 xf86-video-i810_1.6.5 \
+xf86-video-intel_2.10.0 \
 xf86-video-intel_2.2.1 \
 xf86-video-intel_2.4.2 \
 xf86-video-mach64_6.8.0 \
@@ -2782,8 +2794,6 @@ xinput_1.3.0 \
 xinput_1.4.2 \
 xinput_1.5.0 \
 xinput_1.5.1 \
-xkbcomp-native_1.0.3 \
-xkbcomp-native_1.0.5 \
 xkbcomp_1.0.3 \
 xkbcomp_1.0.4 \
 xkbcomp_1.0.5 \
@@ -2815,6 +2825,7 @@ xorg-docs_1.4 \
 xorg-sgml-doctools_1.1.1 \
 xorg-sgml-doctools_1.2 \
 xorg-sgml-doctools_1.3 \
+xorg-sgml-doctools_1.4 \
 xournal_0.3.3 \
 xournal_0.4 \
 xournal_0.4.0.1 \
@@ -2868,8 +2879,6 @@ xserver-xorg_1.5.1 \
 xserver-xorg_1.5.3 \
 xserver-xorg_1.7.1 \
 xserver-xorg_1.7.4 \
-xserver-xorg_1.8.0 \
-xserver-xorg_1.8.99.903 \
 xset_1.0.2 \
 xset_1.0.3 \
 xset_1.0.4 \
@@ -2921,7 +2930,6 @@ compcache_0.5+0.6pre3 \
 coreutils_6.0 \
 cppunit_1.10.2 \
 ctorrent_1.3.4 \
-dbus_1.3.0 \
 devio-native_r2 \
 devio_r2 \
 dhcdbd_1.16 \
@@ -2995,11 +3003,9 @@ libtool-sdk_2.2.4 \
 libtool_2.2.4 \
 libwnck_2.13.5 \
 libx11_1.1.5 \
-libxcb_0.9 \
 libxfce4util_4.4.2 \
 libxfcegui4_4.4.2 \
 lxpanel_0.3.99 \
-lzo_1.08 \
 madwifi-modules_cvs-bsd \
 mathomatic_unstable \
 mipv6_1.1-v2.4.26 \
@@ -3019,6 +3025,7 @@ osb-nrcore_20070816 \
 prismstumbler_0.7.3+0.7.4pre1 \
 pyorbit_2.14.3 \
 qt4-embedded_4.5.2 \
+qt4-embedded_4.7.0-beta1 \
 qt4-tools-native_4.5.2 \
 qt4-tools-native_4.7.0-beta1 \
 qt4-x11-free_4.5.2 \
@@ -3031,7 +3038,6 @@ system-tools-backends_2.6.1 \
 tango-icon-theme_0.8.90 \
 tracker_0.6.95 \
 transmission_1.76+1.80b4 \
-u-boot_2010.03 \
 upstart-setup_devel \
 ushare_0.9.7 \
 vino_2.16.0 \
@@ -3059,6 +3065,7 @@ xf86-video-trident_1.2.4 \
 xf86-video-vesa_2.2.1 \
 xscreensaver_4.22 \
 xserver-kdrive_1.4.2 \
+xserver-xorg_1.8.99.905 \
 xvidcap_1.1.7rc1 \
 ztappy_0.9.3ern \
 "
