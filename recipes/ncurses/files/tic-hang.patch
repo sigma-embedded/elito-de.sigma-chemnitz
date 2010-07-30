@@ -1,3 +1,6 @@
+'tic' of some linux distributions (e.g. fedora 11) hang in an infinite
+loop when processing the original file.
+
 Index: ncurses-5.7/misc/terminfo.src
 ===================================================================
 --- ncurses-5.7.orig/misc/terminfo.src
