@@ -7,7 +7,7 @@ LICENSE          = "GPL"
 PROVIDES         = "virtual/bootloader"
 PACKAGE_ARCH     = "${MACHINE_ARCH}"
 PV               = "${UBOOT_VERSION}"
-PR               = "r5"
+PR               = "r6"
 
 DEFAULT_PREFERENCE = "99"
 SRCREV           = "${AUTOREV}"
@@ -30,7 +30,14 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
-_make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' CFG=u-boot CFG_NONDEVEL=1 _secwrap="
+UBOOT_CONSOLE	?= "${@'${SERIAL_CONSOLE}'.split()[1]}"
+UBOOT_BAUD	?= "${@'${SERIAL_CONSOLE}'.split()[0]}"
+
+_make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
+	CFG=u-boot _secwrap= \
+	CFG_NONDEVEL=1 \
+	CFG_KERNEL_UART=${UBOOT_CONSOLE} \
+	CFG_KERNEL_BAUD=${UBOOT_BAUD}"
 
 do_configure() {
 	${_make} ${UBOOT_MACHINE}
