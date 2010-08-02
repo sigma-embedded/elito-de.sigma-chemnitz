@@ -2,8 +2,6 @@
 #######################################
 
 ELITO_OLD_CRUFT = "\
-0xffff-native_0.1	\
-0xffff_0.1	\
 abiword-embedded_2.4.6 \
 abiword-embedded_2.5.2 \
 abiword-embedded_2.6.4 \
@@ -28,16 +26,8 @@ acpid_1.0.4 \
 acpid_1.0.6 \
 acpid_1.0.8 \
 aircrack_2.1 \
-alsa-lib_1.0.11 \
-alsa-lib_1.0.13 \
-alsa-lib_1.0.14 \
 alsa-lib_1.0.15 \
-alsa-lib_1.0.17 \
-alsa-lib_1.0.18 \
-alsa-lib_1.0.19 \
 alsa-lib_1.0.20 \
-alsa-oss_1.0.11 \
-alsa-oss_1.0.14 \
 alsa-oss_1.0.15 \
 alsa-plugins_1.0.15 \
 alsa-plugins_1.0.17 \
@@ -306,7 +296,6 @@ dbus_1.0.3 \
 dbus_1.2.1 \
 dbus_1.2.20 \
 dbus_1.2.22 \
-dbus_1.2.24 \
 dbus_1.2.3 \
 debianutils_2.17.3 \
 debianutils_2.19 \
@@ -1163,8 +1152,6 @@ jikes_1.21 \
 kanatest_0.3.6 \
 kazehakase_0.4.5 \
 kbproto_1.0.3 \
-kexec-tools-klibc-static_1.101 \
-kexec-tools_1.101 \
 kismet_2007-01-R1b \
 kismet_2007-10-R1 \
 klibc-utils-static_1.5 \
@@ -1469,8 +1456,6 @@ libtool_1.5.22 \
 libtool_1.5.24 \
 libtool_1.5.6 \
 libtool_2.2.6a \
-libtorrent_0.12.0 \
-libtorrent_0.12.3 \
 libunique_1.0.8 \
 libunique_1.1.2 \
 libupnp_1.3.1 \
@@ -2253,8 +2238,6 @@ rt2570-k2wrlz_1.6.0 \
 rt2570-k2wrlz_1.6.1 \
 rt73-k2wrlz_1.0.0 \
 rt73-k2wrlz_2.0.1 \
-rtorrent_0.8.0 \
-rtorrent_0.8.3 \
 ruby_1.8.5 \
 rxvt-unicode_4.8 \
 rxvt-unicode_4.9 \
@@ -2913,11 +2896,13 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
+liboil_0.3.15 \
 "
 
 ############################################
 
 PKGDUP_IGNORES = " \
+dbus_1.3.1 \
 bash_3.0 \
 bluez-libs_3.36 \
 boost_1.33.1 \
