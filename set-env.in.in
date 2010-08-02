@@ -6,7 +6,7 @@ case $_w in
   *)	_w=@abs_top_builddir@/$_w;;
 esac
 
-_s=$_w/staging/`uname -m`-linux
+_s=$_w/sysroots/`uname -m`-linux
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=$_w/cache/ccache
 BBPATH=@abs_top_builddir@:@ELITO_ROOTDIR@/de.sigma-chemnitz:@ELITO_ROOTDIR@/org.openembedded
