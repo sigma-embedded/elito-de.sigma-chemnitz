@@ -439,8 +439,8 @@ AC_DEFUN([ELITO_CHECK_PROGRAM],[
 AC_PATH_PROGS([AUTORECONF], autoreconf)
 
 dnl AC_PATH_PROGS(BITBAKE, bitbake)
-BITBAKE=\${abs_top_builddir}/.tmp/staging/.bitbake/bin/bitbake
-BITBAKE_PATH=\${abs_top_builddir}/.tmp/staging/.bitbake/lib
+BITBAKE=\${abs_top_builddir}/.tmp/staging/bin/bitbake
+BITBAKE_PATH=\${abs_top_builddir}/.tmp/staging/lib
 AC_SUBST(BITBAKE)
 AC_SUBST(BITBAKE_PATH)
 AC_PROG_EGREP

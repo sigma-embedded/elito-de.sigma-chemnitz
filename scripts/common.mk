@@ -116,7 +116,7 @@ $(W)/Makefile.develcomp:
 			} >&2
 			@false
 
-_bitbake_root =		$(_tmpdir)/staging/.bitbake
+_bitbake_root =		$(_tmpdir)/staging
 
 filesystem-init:	$(_stampdir)/.filesystem.stamp
 bitbake-fetch:		$(_stampdir)/.bitbake.stamp
