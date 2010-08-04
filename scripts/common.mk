@@ -148,7 +148,7 @@ $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.s
 			@touch $@
 
 $(_stampdir)/.filesystem.stamp:
-			mkdir -p ${_stampdir}
+			@mkdir -p $(@D)
 			@touch $@
 
 _bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
@@ -170,14 +170,12 @@ $(_bitbake_setuptools):
 			mv -f $@.tmp $@
 endif
 
-$(_stampdir)/.bitbake.filesystem.stamp:
-			@mkdir -p $(dir $@)
+$(_stampdir)/.bitbake.filesystem.stamp: $(_stampdir)/.filesystem.stamp
 			mkdir -p $(_tmpdir)/bitbake
 			@touch $@
 
 $(_stampdir)/.bitbake.setuptools.stamp: $(_stampdir)/.bitbake.filesystem.stamp
 			$(MAKE) $(_bitbake_setuptools)
-			@mkdir -p $(dir $@)
 			$(INSTALL_DATA) $(_bitbake_setuptools) $(_tmpdir)/bitbake/
 			@touch $@
 
@@ -222,7 +220,7 @@ $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.patch.stamp
 			cd $(_tmpdir)/bitbake && $(PYTHON) setup.py build
 			mkdir -p $(_bitbake_root)/lib
 			cd $(_tmpdir)/bitbake && \
-			env PYTHONPATH=./lib:$(_bitbake_root)/lib$(if ${PYTHONPATH},:,)${PYTHONPATH} python setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
+			env PYTHONPATH=./lib:$(_bitbake_root)/lib$(if ${PYTHONPATH},:,)${PYTHONPATH} $(PYTHON) setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
 			$(SED) -i -e '/EASY-INSTALL-SCRIPT/aimport os, site; site.addsitedir("$(_bitbake_root)/lib")' $(_bitbake_root)/bin/bitbake
 			$(MAKE) bitbake
 			@touch $@
@@ -232,14 +230,14 @@ $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.patch.stamp
 
 $(_template_files):$(abs_top_builddir)/%:
 			test ! -e $@
-			mkdir -p $(dir $@)
+			mkdir -p $(@D)
 			cp --preserve=mode,timestamps ${abs_top_srcdir}/$*.sample $@
 
 $(_project_task_dir)/.stamp:
-			mkdir -p '$(dir $@)' '$(dir $@)/rootfs' '$(dir $@)/rootfs/etc'
-			$(INSTALL_DATA) $(_samples_dir)/Makefile          $(dir $@)Makefile
-			$(INSTALL_DATA) $(_samples_dir)/.gitignore.sample $(dir $@).gitignore
-			$(INSTALL_DATA) $(_samples_dir)/securetty         $(dir $@)rootfs/etc/securetty
+			mkdir -p '$(@D)' '$(@D)/rootfs' '$(@D)/rootfs/etc'
+			$(INSTALL_DATA) $(_samples_dir)/Makefile          $(@D)/Makefile
+			$(INSTALL_DATA) $(_samples_dir)/.gitignore.sample $(@D)/.gitignore
+			$(INSTALL_DATA) $(_samples_dir)/securetty         $(@D)/rootfs/etc/securetty
 			touch $@
 
 $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
