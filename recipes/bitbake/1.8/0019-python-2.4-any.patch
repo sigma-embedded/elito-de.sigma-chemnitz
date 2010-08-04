@@ -1,7 +1,7 @@
 Index: bitbake/lib/bb/build.py
 ===================================================================
---- bitbake.orig/lib/bb/build.py
-+++ bitbake/lib/bb/build.py
+--- lib/bb/build.py
++++ lib/bb/build.py
 @@ -130,6 +131,7 @@ def exec_func(func, d, dirs = None):
  def exec_func_python(func, d):
      """Execute a python BB 'function'"""
