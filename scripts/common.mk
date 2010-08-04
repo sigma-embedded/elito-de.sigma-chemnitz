@@ -156,11 +156,6 @@ _bitbake_setuptools =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
 
 .SECONDARY:		$(_bitbake-tarball) $(_bitbake_setuptools)
 
-$(_stampdir)/.bitbake.fetch.stamp:	$(_stampdir)/.bitbake.gitinit.stamp
-			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
-			cd $(_tmpdir)/bitbake && $(GIT) merge ${BITBAKE_REV}
-			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
-
 ifeq ($(ELITO_OFFLINE),)
 $(_bitbake-tarball):
 			mkdir -p $(@D)
@@ -173,21 +168,21 @@ $(_bitbake_setuptools):
 			@rm -f $@.tmp
 			$(WGET) $(BITBAKE_SETUPTOOLS) -O $@.tmp
 			mv -f $@.tmp $@
-
-else
-$(_stampdir)/.bitbake.fetch.stamp:	$(_stampdir)/.bitbake.setuptools.stamp
 endif
 
-$(_stampdir)/.bitbake.setuptools.stamp:
+$(_stampdir)/.bitbake.filesystem.stamp:
+			@mkdir -p $(dir $@)
+			mkdir -p $(_tmpdir)/bitbake
+			@touch $@
+
+$(_stampdir)/.bitbake.setuptools.stamp: $(_stampdir)/.bitbake.filesystem.stamp
 			$(MAKE) $(_bitbake_setuptools)
 			@mkdir -p $(dir $@)
 			$(INSTALL_DATA) $(_bitbake_setuptools) $(_tmpdir)/bitbake/
 			@touch $@
 
-$(_stampdir)/.bitbake.gitinit.stamp:
+$(_stampdir)/.bitbake.gitinit.stamp: $(_stampdir)/.bitbake.filesystem.stamp
 			$(MAKE) $(_bitbake-tarball)
-			@mkdir -p $(dir $@)
-			mkdir -p $(_tmpdir)/bitbake
 			cd $(_tmpdir)/bitbake && $(GIT) init
 			-cd $(_tmpdir)/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
 			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
@@ -206,7 +201,12 @@ $(_stampdir)/.bitbake.gitinit.stamp:
 			cd $(_tmpdir)/bitbake && $(GIT) gc
 			@touch $@
 
-$(_stampdir)/.bitbake.patch.stamp:	$(_stampdir)/.bitbake.fetch.stamp
+$(_stampdir)/.bitbake.fetch.stamp: $(_stampdir)/.bitbake.gitinit.stamp $(_stampdir)/.bitbake.setuptools.stamp
+			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
+			cd $(_tmpdir)/bitbake && $(GIT) merge ${BITBAKE_REV}
+			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
+
+$(_stampdir)/.bitbake.patch.stamp: $(_stampdir)/.bitbake.fetch.stamp
 ifeq ($(QUILT),)
 			cd $(_tmpdir)/bitbake && cat $(_bitbake_srcdir)/*.patch | patch -p0
 else
