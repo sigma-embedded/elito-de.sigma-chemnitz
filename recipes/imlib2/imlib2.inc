@@ -1,6 +1,6 @@
 HOMEPAGE = "http://docs.enlightenment.org/api/imlib2/html"
 PV = "1.4.4"
-PR = "r0"
+PR = "r1"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/enlightenment/imlib2-${PV}.tar.bz2"
 
@@ -30,7 +30,7 @@ EXTRA_OECONF       = ' \
 
 PACKAGES =+ "${PN}-utils ${PN}-fonts ${PN}-images"
 
-inherit autotools autotools_stage
+inherit autotools
 
 do_install_append() {
     rm -f ${D}${libdir}/imlib2/*/*.la

@@ -8,7 +8,7 @@ DEPENDS          = "${base_deps} libnih-native"
 DEPENDS_virtclass-native = "${base_deps}"
 
 PV = "1.0.2"
-PR = "r0"
+PR = "r1"
 
 SRC_URI = " \
 	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz;name=tarball \
@@ -17,7 +17,7 @@ SRC_URI = " \
 SRC_URI[tarball.md5sum]    = "89bf20db4ff3f005cc37482a4f050650"
 SRC_URI[tarball.sha256sum] = "7b0c0a95eb718ad0aa591f67db7b9f274cecdedd2037fc066037ea7b99c2257e"
 
-inherit autotools autotools_stage
+inherit autotools
 
 _libdir                  = "${base_libdir}"
 _libdir_virtclass-native = "${libdir}"

@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
 PV	= "158"
-PR	= "r0"
+PR	= "r1"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -32,7 +32,7 @@ EXTRA_OECONF = "\
 	--libexecdir=${_libexecdir} \
 	--sbindir=${_sbindir}"
 
-inherit autotools_stage pkgconfig
+inherit autotools pkgconfig
 
 PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
