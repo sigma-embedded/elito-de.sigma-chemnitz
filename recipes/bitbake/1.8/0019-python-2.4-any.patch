@@ -1,0 +1,21 @@
+Index: bitbake/lib/bb/build.py
+===================================================================
+--- bitbake.orig/lib/bb/build.py
++++ bitbake/lib/bb/build.py
+@@ -130,6 +131,7 @@ def exec_func(func, d, dirs = None):
+ def exec_func_python(func, d):
+     """Execute a python BB 'function'"""
+     import re, os
++    import sys
+ 
+     bbfile = bb.data.getVar('FILE', d, 1)
+     tmp  = "def " + func + "():\n%s" % data.getVar(func, d)
+@@ -138,6 +140,8 @@ def exec_func_python(func, d):
+     prevdir = os.getcwd()
+     g = {} # globals
+     g['d'] = d
++    if sys.hexversion < 0x2050000:
++        g['any'] = lambda x: len(filter(lambda e: bool(e), x)) > 0
+     utils.better_exec(comp, g, tmp, bbfile)
+     if os.path.exists(prevdir):
+         os.chdir(prevdir)
