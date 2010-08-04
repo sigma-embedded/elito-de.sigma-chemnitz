@@ -245,10 +245,7 @@ chicken_3.3.0 \
 chicken_4.2.0 \
 chicken_4.2.10 \
 clamav_0.95.3 \
-classpath-minimal_0.96.1 \
 classpath-native_0.97.2 \
-classpath_0.95 \
-classpath_0.96.1 \
 classpath_0.97.2 \
 clutter-gtk-0.6_git \
 clutter_0.4svn \
@@ -517,12 +514,8 @@ fontsproto_2.0.2 \
 fonttosfnt_1.0.3 \
 forte_0.3 \
 freedoom_0.3 \
-freetype-native_2.1.10 \
-freetype-native_2.1.8 \
 freetype-native_2.2.1 \
 freetype-native_2.3.5 \
-freetype_2.1.10 \
-freetype_2.1.8 \
 freetype_2.2.1 \
 freetype_2.3.0 \
 freetype_2.3.1 \
@@ -1145,6 +1138,7 @@ ixp4xx-npe_2.3.2 \
 jack_0.103.0 \
 jack_0.116.2 \
 jamvm-initial_1.4.5 \
+jamvm-native_1.5.3 \
 jamvm_1.4.5 \
 jamvm_1.5.0 \
 jamvm_1.5.2 \
@@ -1314,10 +1308,7 @@ libice_1.0.4 \
 libiconv_1.11 \
 libiconv_1.12 \
 libidl-native_0.8.10 \
-libidl-native_0.8.3 \
 libidl_0.8.10 \
-libidl_0.8.2 \
-libidl_0.8.3 \
 libidn_0.5.19 \
 libintl-perl_1.11 \
 libintl-perl_1.16 \
@@ -1355,6 +1346,7 @@ libogg_1.1.3 \
 liboil_0.3.10 \
 liboil_0.3.11 \
 liboil_0.3.14 \
+liboil_0.3.15 \
 liboil_0.3.9 \
 libomxil-bellagio_0.9.0 \
 libomxil-bellagio_0.9.1 \
@@ -1381,6 +1373,7 @@ libpcap_0.9.8 \
 libpcap_1.0.0 \
 libpciaccess_0.10.3 \
 libpciaccess_0.10.9 \
+libpciaccess_0.11.0 \
 libpthread-stubs_0.1 \
 libpthread-stubs_0.2 \
 libqpe-opie_1.2.2 \
@@ -1486,6 +1479,7 @@ libx11_1.3.2 \
 libx11_1.3.3 \
 libxau_1.0.3 \
 libxau_1.0.4 \
+libxau_1.0.5 \
 libxaw_1.0.3 \
 libxaw_1.0.4 \
 libxcb_0.9.91 \
@@ -1527,6 +1521,7 @@ libxi_1.1.0 \
 libxi_1.1.2 \
 libxi_1.1.3 \
 libxi_1.2.0 \
+libxi_1.3 \
 libxine_1.1.16 \
 libxinerama_1.0.2 \
 libxinerama_1.0.3 \
@@ -2155,6 +2150,7 @@ pwc_10.0.6a \
 pwc_10.0.7a \
 pwc_10.0.9-rc1 \
 pwlib_1.5.2 \
+pxaregs_1.14 \
 python-coherence_0.6.2 \
 python-cython-native_0.10.3 \
 python-cython-native_0.12 \
@@ -2234,6 +2230,7 @@ rstart_1.0.2 \
 rsync_2.6.9 \
 rsync_3.0.0 \
 rsyslog_5.4.0 \
+rsyslog_5.5.4 \
 rt2570-k2wrlz_1.6.0 \
 rt2570-k2wrlz_1.6.1 \
 rt73-k2wrlz_1.0.0 \
@@ -2608,22 +2605,27 @@ xf86-input-void_1.1.0 \
 xf86-input-void_1.1.1 \
 xf86-video-apm_1.1.1 \
 xf86-video-apm_1.2.0 \
+xf86-video-apm_1.2.2 \
 xf86-video-ark_0.6.0 \
 xf86-video-ark_0.7.0 \
+xf86-video-ark_0.7.2 \
 xf86-video-ast_0.81.0 \
 xf86-video-ast_0.85.0 \
 xf86-video-ati_6.12.4 \
+xf86-video-ati_6.13.0 \
 xf86-video-ati_6.6.193 \
 xf86-video-ati_6.6.3 \
 xf86-video-ati_6.7.196 \
 xf86-video-ati_6.7.197 \
 xf86-video-chips_1.1.1 \
 xf86-video-chips_1.2.0 \
+xf86-video-chips_1.2.2 \
 xf86-video-cirrus_1.1.0 \
 xf86-video-cirrus_1.2.1 \
 xf86-video-dummy_0.2.0 \
 xf86-video-dummy_0.3.0 \
 xf86-video-dummy_0.3.2 \
+xf86-video-dummy_0.3.3 \
 xf86-video-fbdev_0.3.1 \
 xf86-video-fbdev_0.4.0 \
 xf86-video-fbdev_0.4.1 \
@@ -2651,11 +2653,13 @@ xf86-video-mach64_6.8.0 \
 xf86-video-mga_1.4.1 \
 xf86-video-mga_1.4.9 \
 xf86-video-neomagic_1.2.1 \
+xf86-video-neomagic_1.2.4 \
 xf86-video-newport_0.2.1 \
 xf86-video-nsc_2.8.2 \
 xf86-video-nv_2.1.12 \
 xf86-video-nv_2.1.15 \
 xf86-video-nv_2.1.16 \
+xf86-video-nv_2.1.17 \
 xf86-video-nv_2.1.3 \
 xf86-video-nv_2.1.7 \
 xf86-video-nv_2.1.8 \
@@ -2666,6 +2670,7 @@ xf86-video-r128_6.8.0 \
 xf86-video-radeonhd_1.2.0 \
 xf86-video-rendition_4.1.3 \
 xf86-video-rendition_4.2.0 \
+xf86-video-rendition_4.2.3 \
 xf86-video-s3_0.5.0 \
 xf86-video-s3_0.6.0 \
 xf86-video-s3virge_1.10.1 \
@@ -2678,11 +2683,13 @@ xf86-video-siliconmotion_1.6.0 \
 xf86-video-siliconmotion_1.7.3 \
 xf86-video-sis_0.10.0 \
 xf86-video-sis_0.10.1 \
+xf86-video-sis_0.10.2 \
 xf86-video-sis_0.9.3 \
 xf86-video-sis_0.9.4 \
 xf86-video-sisusb_0.8.1 \
 xf86-video-sisusb_0.9.0 \
 xf86-video-sisusb_0.9.1 \
+xf86-video-sisusb_0.9.3 \
 xf86-video-suncg14_1.1.0 \
 xf86-video-suncg3_1.1.0 \
 xf86-video-suncg6_1.1.0 \
@@ -2696,8 +2703,10 @@ xf86-video-tga_1.1.0 \
 xf86-video-tga_1.2.0 \
 xf86-video-trident_1.2.3 \
 xf86-video-trident_1.3.0 \
+xf86-video-trident_1.3.3 \
 xf86-video-tseng_1.1.1 \
 xf86-video-tseng_1.2.0 \
+xf86-video-tseng_1.2.3 \
 xf86-video-v4l_0.1.1 \
 xf86-video-vesa_1.3.0 \
 xf86-video-vesa_2.0.0 \
@@ -2711,6 +2720,7 @@ xf86-video-vmware_10.16.9 \
 xf86-video-vmware_11.0.0 \
 xf86-video-voodoo_1.1.1 \
 xf86-video-voodoo_1.2.0 \
+xf86-video-voodoo_1.2.3 \
 xf86-video-wsfb_0.2.1 \
 xf86-video-xgi_1.5.0 \
 xf86-video-xgixp_1.7.99.3 \
@@ -2801,6 +2811,7 @@ xmessage_1.0.2 \
 xmodmap_1.0.2 \
 xmodmap_1.0.3 \
 xmonobut_0.4 \
+xmore_1.0.1 \
 xorg-cf-files_1.0.2 \
 xorg-docs_1.0.1 \
 xorg-docs_1.2 \
@@ -2827,6 +2838,7 @@ xproxymanagementprotocol_1.0.2 \
 xrandr_1.2.0 \
 xrandr_1.2.2 \
 xrandr_1.2.3 \
+xrandr_1.3.2 \
 xrdb_1.0.3 \
 xrdb_1.0.4 \
 xrdb_1.0.5 \
@@ -2896,7 +2908,6 @@ zsh_4.1.1 \
 zziplib-native_0.12.83 \
 zziplib_0.10.82 \
 zziplib_0.12.83 \
-liboil_0.3.15 \
 "
 
 ############################################
