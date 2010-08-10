@@ -149,6 +149,13 @@ do_deploy_append() {
 	fi
 }
 
+def kernel_maxsize(mtdsize_var, xtra, d):
+	mtdsize = bb.data.getVar(mtdsize_var, d, True)
+        if mtdsize:
+		return "%s" % (int(mtdsize) - xtra)
+        else:
+		return ""
+
 do_generate_makefile[dirs] = "${ELITO_GIT_WS}"
 addtask generate_makefile before do_configure after do_unpack
 
