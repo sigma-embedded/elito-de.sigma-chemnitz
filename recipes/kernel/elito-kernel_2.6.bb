@@ -2,7 +2,7 @@ DESCRIPTION      = "ELiTo Linux kernel"
 SECTION          = "kernel"
 LICENSE          = "GPL"
 
-PR               = "r7"
+PR               = "r8"
 KERNEL_TFTP_IMAGE ?= ""
 PROVIDES         = "virtual/elito-kernel"
 

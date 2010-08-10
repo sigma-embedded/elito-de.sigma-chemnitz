@@ -1,6 +1,10 @@
 _elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 
 PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
+PKGV = "${MACHINE_KERNEL_VERSION}+gitr${GITPKGV}"
+
+inherit gitpkgv
+BB_LOCALCOUNT_OVERRIDE = "1"
 
 GIT_REPO = "${KERNEL_REPO}"
 SRCREV   = "${AUTOREV}"
