@@ -4,7 +4,7 @@ DESCRIPTION	=  "UBI bootstrap kernel"
 SECTION		=  "kernel"
 LICENSE		=  "GPL"
 
-PR		=  "r2"
+PR		=  "r3"
 PACKAGE_ARCH	=  "${MACHINE_ARCH}"
 
 KERNEL_BOOTSTRAP_TFTP_IMAGE ?= ""
@@ -91,7 +91,7 @@ do_prepramfs() {
 
 do_configure() {
 	echo 'CONFIG_INITRAMFS_SOURCE="ramfs.txt"' >> .config
-	oe_runmake -f ${_gen_mf} oldconfig
+	oe_runmake oldconfig
 
 	! grep -q -i -e '^CONFIG_MODULES=y$' .config || {
 		oefatal "CONFIG_MODULE not possible for bootstrap kernels"
@@ -100,8 +100,8 @@ do_configure() {
 }
 
 do_compile() {
-	oe_runmake -f ${_gen_mf}
-	oe_runmake -f ${_gen_mf} ${KERNEL_IMAGETYPE}
+	oe_runmake
+	oe_runmake ${KERNEL_IMAGETYPE}
 }
 
 do_deploy() {

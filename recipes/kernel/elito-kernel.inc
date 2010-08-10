@@ -15,7 +15,7 @@ _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
 S            = "${WORKDIR}/git"
 
-EXTRA_OEMAKE_append = " _secwrap="
+EXTRA_OEMAKE_prepend = "-f ${_gen_mf} _secwrap= "
 
 KERNEL_DEPENDS ?= ""
 
@@ -59,16 +59,27 @@ KERNEL_SIZE = ${KERNEL_SIZE}
 _flash_filename = ${_tftp_image}
 _bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 
+_build_cmd = \\
+            env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \\
+            \$(MAKE) MAKELEVEL=0 CC='\$(_cc)' LD='\$(_ld)' \\
+            \$(if \$(_flash_filename),FLASH_FILENAME='\$(_flash_filename)') \\
+            \$(if \$(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=\$(KERNEL_SIZE)') \\
+            $(_secwrap)
+
 %:
-	env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \$(MAKE) CC='\$(_cc)' LD='\$(_ld)' \$(if \$(_flash_filename),FLASH_FILENAME='\$(_flash_filename)') \$(if \$(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=\$(KERNEL_SIZE)') MAKELEVEL=0 $(_secwrap) \$@
+	\$(_build_cmd) \$@
+
+include/linux/version.h:
+	\$(_build_cmd) \$@
 
 exec:
-	$(_secwrap) \$(P)
+	\$(_secwrap) \$(P)
 
 unexport _secwrap
 unexport MAKEFILES
 unexport MAKELEVEL
 .DEFAULT_GOAL := all
+.PHONY:	include/linux/version.h exec
 EOF
 
         # make it read-only
@@ -80,7 +91,7 @@ EOF
 
 do_configure_prepend() {
 	if ! test -e .config; then
-		oe_runmake -f "${_gen_mf}" "${_defconfig}"
+		oe_runmake "${_defconfig}"
 	fi
 
         changed=false
@@ -102,14 +113,18 @@ EOF
 		changed=true
         fi
 
-	! $changed || oe_runmake -f "${_gen_mf}" oldconfig < /dev/null
+	! $changed || oe_runmake oldconfig < /dev/null
+}
+
+do_compile_prepare() {
+	oe_runmake prepare
 }
 
 do_uboot_mkimage() {
 	set -x
         if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
-                        oe_runmake -f "${_gen_mf}" arnoldboot-$i _flash_filename=${KERNEL_OUTPUT}-$i
+                        oe_runmake arnoldboot-$i _flash_filename=${KERNEL_OUTPUT}-$i
                 done
         elif test -w "${_tftp_image}"; then
                 cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
@@ -136,3 +151,6 @@ do_deploy_append() {
 
 do_generate_makefile[dirs] = "${ELITO_GIT_WS}"
 addtask generate_makefile before do_configure after do_unpack
+
+do_compile_prepare[dirs] = "${S}"
+addtask compile_prepare before do_compile after do_configure
