@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r8"
+PR		= "r9"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
@@ -20,6 +20,8 @@ RRECOMMENDS_${PN} = "${RELEASE_FILES_PROVIDER}"
 
 TMPFS_SIZE       ?= 8m
 PTS_GID          ?= 5
+
+inherit amend
 
 do_install() {
 	set -x
