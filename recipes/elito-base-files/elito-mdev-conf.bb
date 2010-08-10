@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for mdev based system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r0"
+PR		= "r1"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
