@@ -2,20 +2,6 @@
 #######################################
 
 ELITO_OLD_CRUFT = "\
-abiword-embedded_2.4.6 \
-abiword-embedded_2.5.2 \
-abiword-embedded_2.6.4 \
-abiword-plugins_2.4.6 \
-abiword-plugins_2.5.1 \
-abiword-plugins_2.5.2 \
-abiword-plugins_2.6.0 \
-abiword-plugins_2.6.4 \
-abiword_2.4.6 \
-abiword_2.5.1 \
-abiword_2.5.2 \
-abiword_2.6.0 \
-abiword_2.6.3 \
-abiword_2.6.4 \
 abiword_2.6.8 \
 abiword_2.8.1 \
 abiword_2.8.2 \
@@ -26,17 +12,10 @@ acpid_1.0.4 \
 acpid_1.0.6 \
 acpid_1.0.8 \
 aircrack_2.1 \
-alsa-lib_1.0.15 \
 alsa-lib_1.0.20 \
-alsa-oss_1.0.15 \
-alsa-plugins_1.0.15 \
 alsa-plugins_1.0.17 \
 alsa-plugins_1.0.18 \
 alsa-plugins_1.0.19 \
-alsa-utils_1.0.11 \
-alsa-utils_1.0.13 \
-alsa-utils_1.0.14 \
-alsa-utils_1.0.15 \
 alsa-utils_1.0.17 \
 alsa-utils_1.0.18 \
 alsa-utils_1.0.19 \
@@ -54,17 +33,11 @@ apr_0.9.12 \
 apr_1.2.12 \
 apr_1.2.7 \
 apr_1.3.3 \
-apt-native_0.6.46.2 \
 apt-native_0.7.14 \
 apt-native_0.7.19 \
-apt-native_0.7.2 \
 apt-native_0.7.3 \
-apt_0.5.28.6 \
-apt_0.6.25 \
-apt_0.6.46.2 \
 apt_0.7.14 \
 apt_0.7.19 \
-apt_0.7.2 \
 apt_0.7.3 \
 arora-e_0.10.1 \
 arora_0.10.1 \
@@ -87,9 +60,6 @@ atk_1.19.3 \
 atk_1.20.0 \
 atk_1.26.0 \
 atk_1.28.0 \
-autoconf213-native_2.13 \
-autoconf_2.57 \
-autoconf_2.59 \
 autoconf_2.61 \
 autoconf_2.63 \
 autofs_3.1.7 \
@@ -380,7 +350,6 @@ ekiga_3.2.4 \
 ekiga_3.2.5 \
 elfutils_0.127 \
 elfutils_0.131 \
-elfutils_0.89 \
 empathy_0.1 \
 empathy_0.14 \
 empathy_0.4 \
@@ -530,6 +499,7 @@ frotz_2.42 \
 frozen-bubble_1.0.0 \
 fslsfonts_1.0.1 \
 fstobdf_1.0.2 \
+ftdi-eeprom_0.2 \
 fuse-module_2.5.3 \
 fuse-module_2.6.5 \
 fuse-module_2.7.1 \
@@ -681,24 +651,10 @@ gimp_2.5.2 \
 gimp_2.6.0 \
 gimp_2.6.3 \
 gizmod_2.3 \
-glib-2.0-native_2.12.4 \
 glib-2.0-native_2.16.1 \
 glib-2.0-native_2.18.0 \
-glib-2.0-native_2.2.3 \
 glib-2.0-native_2.22.1 \
-glib-2.0-native_2.4.6 \
-glib-2.0-native_2.6.5 \
-glib-2.0-native_2.6.6 \
-glib-2.0_2.12.10 \
-glib-2.0_2.12.11 \
 glib-2.0_2.12.12 \
-glib-2.0_2.12.13 \
-glib-2.0_2.12.6 \
-glib-2.0_2.12.9 \
-glib-2.0_2.14.0 \
-glib-2.0_2.14.1 \
-glib-2.0_2.14.4 \
-glib-2.0_2.15.6 \
 glib-2.0_2.16.1 \
 glib-2.0_2.16.3 \
 glib-2.0_2.16.4 \
@@ -706,16 +662,13 @@ glib-2.0_2.16.5 \
 glib-2.0_2.18.0 \
 glib-2.0_2.18.1 \
 glib-2.0_2.18.3 \
-glib-2.0_2.2.3 \
 glib-2.0_2.20.3 \
 glib-2.0_2.20.4 \
 glib-2.0_2.22.1 \
 glib-2.0_2.22.4 \
 glib-2.0_2.23.6 \
 glib-2.0_2.24.0 \
-glib-2.0_2.4.6 \
 glib-2.0_2.6.4 \
-glib-2.0_2.6.6 \
 glib-2.0_2.8.6 \
 glibc-initial_2.2.5 \
 glibc-initial_2.3.2 \
@@ -944,9 +897,6 @@ gpe-what_0.41 \
 gpe-what_0.42 \
 gpgme_1.0.0 \
 gpgme_1.0.3 \
-gphoto2_2.1.4 \
-gphoto2_2.1.5 \
-gphoto2_2.1.6 \
 gphoto2_2.4.0 \
 gphoto2_2.4.2 \
 gphoto2_2.4.4 \
@@ -1097,17 +1047,8 @@ inputproto_1.4.2.1 \
 inputproto_1.4.3 \
 inputproto_1.4.4 \
 inputproto_1.5.0 \
-intltool-native_0.30 \
-intltool-native_0.31 \
-intltool-native_0.34 \
-intltool-native_0.35.0 \
 intltool-native_0.35.5 \
 intltool-native_0.37.1 \
-intltool_0.30 \
-intltool_0.31 \
-intltool_0.34 \
-intltool_0.35.0 \
-intltool_0.35.2 \
 intltool_0.35.5 \
 intltool_0.37.1 \
 iperf_2.0.2 \
@@ -1143,6 +1084,7 @@ jamvm_1.4.5 \
 jamvm_1.5.0 \
 jamvm_1.5.2 \
 jikes_1.21 \
+jpeg_6b \
 kanatest_0.3.6 \
 kazehakase_0.4.5 \
 kbproto_1.0.3 \
@@ -1216,11 +1158,8 @@ libffi_2.0+gcc3.4.1 \
 libfontenc_1.0.4 \
 libfs_1.0.0 \
 libfs_1.0.1 \
-libftdi-native_0.9 \
-libftdi_0.9 \
 libgc_6.5 \
 libgc_6.7 \
-libgcrypt_1.1.91 \
 libgcrypt_1.2.4 \
 libgcrypt_1.4.0 \
 libgdata_0.4.0 \
@@ -1230,6 +1169,7 @@ libglade_2.4.0 \
 libglade_2.4.2 \
 libglade_2.5.1 \
 libglade_2.6.2 \
+libgles-omap3_3.01.00.02 \
 libgmime_2.1.7 \
 libgnome_2.10.1 \
 libgnome_2.12.0.1 \
@@ -1274,13 +1214,8 @@ libgpevtype_0.16 \
 libgpevtype_0.17 \
 libgpewidget_0.114 \
 libgpewidget_0.115 \
-libgpg-error_0.6 \
-libgpg-error_0.7 \
 libgpg-error_1.0 \
 libgpg-error_1.3 \
-libgphoto2_2.1.4 \
-libgphoto2_2.1.5 \
-libgphoto2_2.1.6 \
 libgphoto2_2.4.0 \
 libgphoto2_2.4.2 \
 libgphoto2_2.4.4 \
@@ -1551,7 +1486,6 @@ libxsettings-client_0.12 \
 libxsettings-client_0.13 \
 libxsettings-client_0.14 \
 libxsettings-client_0.16 \
-libxslt_1.1.17 \
 libxslt_1.1.21 \
 libxslt_1.1.22 \
 libxt_1.0.4 \
@@ -1697,15 +1631,6 @@ linux_2.6.28-rc6 \
 linux_2.6.29 \
 linux_2.6.29+2.6.30-rc4 \
 linux_2.6.29+2.6.30-rc5 \
-lirc-modules_0.8.0 \
-lirc-modules_0.8.1 \
-lirc-modules_0.8.1+cvs20070307 \
-lirc-modules_0.8.3+cvs20080713 \
-lirc-modules_0.8.3+cvs20081230 \
-lirc-modules_0.8.4a \
-lirc_0.8.0 \
-lirc_0.8.1+cvs20070307 \
-lirc_0.8.4a \
 listres_1.0.1 \
 live555_20051005 \
 live555_20090602 \
@@ -1726,13 +1651,9 @@ lxde-common_0.3.2.1 \
 lxmenu-data_0.1 \
 lxpanel_0.3.8.1 \
 lyx_1.6.1 \
-m4-native_1.4.11 \
 m4-native_1.4.12 \
-m4-native_1.4.4 \
 m4-native_1.4.8 \
-m4_1.4.11 \
 m4_1.4.12 \
-m4_1.4.4 \
 m4_1.4.8 \
 madwifi-ng_r2826-20071105 \
 madwifi-ng_r3314-20080131 \
@@ -1854,6 +1775,7 @@ myththemes_0.22+fixes \
 mythtv_0.22+fixes \
 nano_2.0.7 \
 nano_2.0.9 \
+nano_2.2.4 \
 nautilus-cd-burner_2.24.0 \
 nautilus_2.12.2 \
 nautilus_2.22.5 \
@@ -1911,8 +1833,6 @@ opal_3.6.4 \
 opal_3.6.6 \
 opal_3.8.0 \
 openbmap-logger_0.2.0 \
-openldap_2.2.29 \
-openldap_2.3.11 \
 openntpd_3.7p1 \
 openobex_1.2 \
 openobex_1.3 \
@@ -1924,13 +1844,8 @@ openssh_3.8p1 \
 openssh_4.0p1 \
 openssh_4.3p2 \
 openssh_4.6p1 \
-openssl-native_0.9.7g \
-openssl-native_0.9.7m \
 openssl-native_0.9.8g \
 openssl-native_0.9.8m \
-openssl_0.9.7e \
-openssl_0.9.7g \
-openssl_0.9.7m \
 openssl_0.9.8g \
 openssl_0.9.8m \
 openswan_2.2.0 \
@@ -2073,6 +1988,7 @@ php_5.2.6 \
 picocom_1.3 \
 pidgin_2.5.8 \
 pidgin_2.6.5 \
+pidgin_2.6.6 \
 pixman_0.10.0 \
 pixman_0.11.4 \
 pixman_0.11.8 \
@@ -2102,9 +2018,7 @@ poppler_0.12.1 \
 poppler_0.5.9 \
 poppler_0.6.4 \
 poppler_0.8.4 \
-popt-native_1.7 \
 popt_1.7 \
-poptop_1.3.0 \
 portmap_5-25 \
 portmap_5-26 \
 portmap_5-9 \
@@ -2152,9 +2066,7 @@ pwc_10.0.9-rc1 \
 pwlib_1.5.2 \
 pxaregs_1.14 \
 python-coherence_0.6.2 \
-python-cython-native_0.10.3 \
 python-cython-native_0.12 \
-python-cython_0.10.3 \
 python-cython_0.12 \
 python-django_1.0.2 \
 python-gst_0.10.10 \
@@ -2162,9 +2074,7 @@ python-native_2.6.1 \
 python-pybluez_0.15 \
 python-pycairo_1.4.0 \
 python-pycurl_7.18.2 \
-python-pygobject-native_2.14.2 \
 python-pygobject-native_2.16.0 \
-python-pygobject_2.14.2 \
 python-pygobject_2.16.0 \
 python-pygtk_2.10.4 \
 python-pygtk_2.6.3 \
@@ -2280,8 +2190,6 @@ shadow_4.1.4.1 \
 shared-mime-info_0.20 \
 shared-mime-info_0.22 \
 showfont_1.0.1 \
-sip-native_4.7.3 \
-sip-native_4.7.7 \
 slugos-init_0.10 \
 slugos-init_4.8 \
 smartmontools_5.33 \
@@ -2346,7 +2254,6 @@ system-tools-backends_2.8.3 \
 taglib_1.4 \
 tango-icon-theme_0.7.2 \
 tangogps_0.9.6 \
-tar_1.13.93 \
 tar_1.18 \
 tar_1.20 \
 tcl_8.4.19 \
@@ -2365,7 +2272,6 @@ telepathy-python_0.14.0 \
 tgt_0.9.10 \
 thunar_0.9.0 \
 thunar_1.0.1 \
-tiff_3.7.2 \
 tk_8.4.19 \
 totem-pl-parser_2.28.1 \
 totem_2.28.1 \
@@ -2491,7 +2397,6 @@ x11perf_1.5 \
 x11vnc_0.9.4 \
 x11vnc_0.9.7 \
 x11vnc_0.9.8 \
-xapian-core-native_1.0.5 \
 xapian-core_1.0.13 \
 xapian-core_1.0.5 \
 xapian-core_1.0.7 \
@@ -2764,6 +2669,7 @@ xfs_1.0.6 \
 xfs_1.0.8 \
 xfsinfo_1.0.1 \
 xfsprogs_2.8.16 \
+xfsprogs_3.1.1 \
 xfwm4-themes_4.4.2 \
 xfwm4_4.4.2 \
 xfwm4_4.6.1 \
@@ -2905,9 +2811,6 @@ zeroconf_0.6.1 \
 zile_1.7+2.0beta6 \
 zlib_1.2.3 \
 zsh_4.1.1 \
-zziplib-native_0.12.83 \
-zziplib_0.10.82 \
-zziplib_0.12.83 \
 "
 
 ############################################
@@ -3041,8 +2944,6 @@ vpnc_0.3.3 \
 wpa-supplicant_0.5.10 \
 wvstreams_4.2.2 \
 wvstreams_4.4.1 \
-wxbase_2.6.4 \
-wxwidgets_2.6.4 \
 xcb-proto_0.9 \
 xchat_2.6.8 \
 xf86-input-elographics_1.1.0 \
