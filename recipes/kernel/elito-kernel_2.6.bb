@@ -1,3 +1,5 @@
+_elito_skip := "${@elito_skip(d, None, 'nokernel')}"
+
 DESCRIPTION      = "ELiTo Linux kernel"
 SECTION          = "kernel"
 LICENSE          = "GPL"
