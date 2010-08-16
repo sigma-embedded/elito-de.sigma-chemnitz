@@ -20,6 +20,9 @@ PREFERRED_VERSION_glibc-initial          ?= "${PREFERRED_VERSION_glibc}"
 PREFERRED_VERSION_eglibc                 ?= "2.12"
 PREFERRED_VERSION_eglibc-initial         ?= "${PREFERRED_VERSION_eglibc}"
 
+PREFERRED_VERSION_uclibc                 ?= "0.9.31"
+PREFERRED_VERSION_uclibc-initial         ?= "${PREFERRED_VERSION_uclibc}"
+
 SRCREV_pn-opkg        ?= 544
 SRCREV_pn-opkg-native ?= ${SRCREV_pn-opkg}
 
