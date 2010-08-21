@@ -23,7 +23,9 @@ PREFERRED_VERSION_eglibc-initial         ?= "${PREFERRED_VERSION_eglibc}"
 PREFERRED_VERSION_uclibc                 ?= "0.9.31"
 PREFERRED_VERSION_uclibc-initial         ?= "${PREFERRED_VERSION_uclibc}"
 
-SRCREV_pn-opkg        ?= 544
-SRCREV_pn-opkg-native ?= ${SRCREV_pn-opkg}
+SRCREV_pn-opkg        ?= 554
+SRCREV_pn-opkg-native ?= "${SRCREV_pn-opkg}"
 
 SRCREV_pn-mtd-utils        ?= "004760f969175da7392dd02bb4fa14164ff46c1e"
+SRCREV_pn-kernel-firmware  ?= "1533edfac39d8a1be35d960d3b2b9516b945ad1c"
+SRCREV_pn-iproute2         ?= "02833d1b381f468c8744f786061b36b7a4c2572a"
