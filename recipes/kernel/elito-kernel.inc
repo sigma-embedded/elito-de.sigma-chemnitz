@@ -24,7 +24,7 @@ do_fetch[depends] += "linux-libc-headers:do_fetch"
 DEPENDS += '\
 	${KERNEL_DEPENDS} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
-	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-utils-native","",d)}'
+	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-mkimage-native","",d)}'
 
 ## Use this indirect assignment to allow recipes which are including
 ## this rules to define and use their own _gen_mf makefile.
