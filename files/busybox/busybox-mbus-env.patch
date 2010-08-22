@@ -1,12 +1,11 @@
-Index: busybox-1.15.3/util-linux/mdev.c
+Index: busybox-1.17.1/util-linux/mdev.c
 ===================================================================
---- busybox-1.15.3.orig/util-linux/mdev.c
-+++ busybox-1.15.3/util-linux/mdev.c
-@@ -270,26 +270,53 @@ static void make_device(char *path, int 
- 					s[0] = '\0';
+--- busybox-1.17.1.orig/util-linux/mdev.c
++++ busybox-1.17.1/util-linux/mdev.c
+@@ -289,25 +289,53 @@ static void make_device(char *path, int 
+ 						unsigned i, n;
  
- 					if (ENABLE_FEATURE_MDEV_RENAME_REGEXP) {
--						/* substitute %1..9 with off[1..9], if any */
+ 						/* substitute %1..9 with off[1..9], if any */
 -						n = 0;
  						s = a;
 -						while (*s)

@@ -1,8 +1,8 @@
-Index: busybox-1.16.1/include/applets.h
+Index: busybox-1.17.1/include/applets.src.h
 ===================================================================
---- busybox-1.16.1.orig/include/applets.h
-+++ busybox-1.16.1/include/applets.h
-@@ -208,7 +208,7 @@ IF_IONICE(APPLET(ionice, _BB_DIR_BIN, _B
+--- busybox-1.17.1.orig/include/applets.src.h
++++ busybox-1.17.1/include/applets.src.h
+@@ -203,7 +203,7 @@ IF_IONICE(APPLET(ionice, _BB_DIR_BIN, _B
   || ENABLE_FEATURE_IP_LINK \
   || ENABLE_FEATURE_IP_TUNNEL \
   || ENABLE_FEATURE_IP_RULE

@@ -1,8 +1,8 @@
-Index: busybox-1.13.2/miscutils/fbsplash.c
+Index: busybox-1.17.1/miscutils/fbsplash.c
 ===================================================================
---- busybox-1.13.2.orig/miscutils/fbsplash.c
-+++ busybox-1.13.2/miscutils/fbsplash.c
-@@ -161,6 +161,15 @@ static void fb_drawfullrectangle(int nx1
+--- busybox-1.17.1.orig/miscutils/fbsplash.c
++++ busybox-1.17.1/miscutils/fbsplash.c
+@@ -160,6 +160,15 @@ static void fb_drawfullrectangle(int nx1
  	} while (--cnt1 >= 0);
  }
  
@@ -18,8 +18,8 @@ Index: busybox-1.13.2/miscutils/fbsplash.c
  
  /**
   *	Draw a progress bar on framebuffer
-@@ -262,9 +271,9 @@ static void fb_drawimage(void)
- 			bb_error_msg_and_die("bad PPM file '%s'", G.image_filename);
+@@ -281,9 +290,9 @@ static void fb_drawimage(void)
+ 		src = (DATA *)(G.addr + j * G.scr_fix.line_length);
  		for (i = 0; i < width; i++) {
  			unsigned thispix;
 -			thispix = (((unsigned)pixel[0] << 8) & 0xf800)
