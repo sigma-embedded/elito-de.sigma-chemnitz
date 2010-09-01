@@ -33,18 +33,20 @@ apply() {
     $GIT bundle verify $1/bundle &>/dev/null
 
     $GIT ls-remote $1/bundle | while read ref branch; do
+	fail_fetch=+$branch:refs/heads/failed/${branch##refs/heads/}
 	if test x"$cur_head" = x"$branch"; then
-	    $GIT pull "$1/bundle" "$branch"
+	    $GIT pull "$1/bundle" "$branch" || \
+	    $GIT fetch "$1/bundle" "$fail_fetch"
 	else
-	    $GIT fetch "$1/bundle" "$branch:$branch" ||
-	    $GIT fetch "$1/bundle" "+$branch:refs/heads/failed/${branch##refs/heads/}"
+	    $GIT fetch "$1/bundle" "$branch:$branch" || \
+	    $GIT fetch "$1/bundle" "$fail_fetch"
 	fi
     done
 
     while read ref branch; do
 	case $branch in
 	  (refs/heads/*)
-		$GIT branch "${branch##/refs/heads}" "$ref" 2>/dev/null || :
+		$GIT branch "${branch##refs/heads/}" "$ref" 2>/dev/null || :
 		;;
 	esac
     done < $1/branches
