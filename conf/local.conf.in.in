@@ -35,7 +35,7 @@ ELITO_DEVEL_COMPONENTS = "@devel_components@"
 
 WHICH = "@WHICH@"
 
-@IPKG_TRUE@INHERIT +=	"package_ipk"
+@IPKG_TRUE@require conf/distro/include/sane-feed-ipk.inc
 @TAR_TRUE@INHERIT +=	"package_tar"
 
 @NFSROOT_TRUE@IMAGE_ROOTFS = "@nfs_rootdir@"
