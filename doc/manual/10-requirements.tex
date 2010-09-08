@@ -1,4 +1,3 @@
-
 \chapter{Requirements}
 \label{chap:reqs}
 
@@ -28,8 +27,11 @@
   should be supported, the toolchain has been tested only on
   \begin{itemize}
   \item Fedora 13
-  \item \href{http://centos.org}{CentOS 5} + \href{https://fedoraproject.org/wiki/EPEL}{EPEL}
   \item Ubuntu 9.10
+  \item \href{http://centos.org}{CentOS 5} +
+    \href{https://fedoraproject.org/wiki/EPEL}{EPEL}\footnote{Using
+      RHEL5/CentOS5 is discouraged due to its old Python version which
+      makes it necessary to use an older bitbake version}
   \end{itemize}
 \item[Software:] ELiTo is self containing and ships all programs which
   are not part of a recent GNU/Linux distribution.
