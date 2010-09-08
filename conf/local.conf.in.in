@@ -6,8 +6,8 @@ ELITO_WORKSPACE_DIR = "@ELITO_WORKSPACE_DIR@"
 DL_DIR		 = "@CACHE_DIR@/sources"
 
 PROJECT_NAME	:= "@PROJECT_NAME@"
-PROJECT_TOPDIR	:= "@abs_top_builddir@"
-TMPDIR		:= "${@os.path.join('${PROJECT_TOPDIR}',os.environ.get('W','tmp'))}"
+PROJECT_TOPDIR	:= "@TOP_BUILD_DIR@"
+TMPDIR		:= "${@os.path.normpath(os.path.join('${PROJECT_TOPDIR}',os.environ.get('W','tmp')))}"
 ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz"
 OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded"
 
