@@ -7,7 +7,28 @@ VDR_CONFIGDIR = "${sysconfdir}/vdr"
 DEPENDS += "vdr"
 PLUGINS ?= "lib${PN}.so.*"
 
+vdr_fixldflags() {
+    cat <<"EOF" >> "$1"
+CXXFLAGS = $(CXXFLAGS_)
+CFLAGS = $(CFLAGS_)
+
+%.so:	CXXFLAGS:=$(CXXFLAGS) $(LDFLAGS)
+%.so:	CFLAGS:=$(CFLAGS) $(LDFLAGS)
+EOF
+}
+
+do_fixldflags() {
+    vdr_fixldflags Makefile
+}
+
+addtask fixldflags after do_patch before do_compile
+
 vdr_runmake() {
+    eval CXXFLAGS_=\$\{CXXFLAGS\}
+    eval CFLAGS_=\$\{CFLAGS\}
+    unset CXXFLAGS CFLAGS
+    export CXXFLAGS_ CFLAGS_
+
     oe_runmake \
 	LIBDIR=. LOCALEDIR=./locale VDRDIR=${STAGING_LIBDIR}/vdr \
 	STRIP=/bin/true "$@"
