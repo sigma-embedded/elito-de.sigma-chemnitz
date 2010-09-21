@@ -63,9 +63,9 @@ python populate_packages_prepend () {
         'udev'		: P(('init/udev-fill.conf',
                              'init/udev-modules.conf',
                              'services/udevd.conf'),
-                            'udev virtual/${PN}-fsck',
+                            'udev',
                             '/lib/udev/rules.d/*-upstart.rules'),
-        'mdev'		: P('init/mdev*.conf', 'busybox virtual/${PN}-fsck'),
+        'mdev'		: P('init/mdev*.conf', 'busybox'),
 
         'net'		: P(('network/ifup.conf', 'network/ifdown.conf'),
                             None,
