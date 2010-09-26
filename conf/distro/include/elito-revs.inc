@@ -1,9 +1,9 @@
 # --*- python -*--
-_elito-gcc-version                        = "4.4.4"
+_elito-gcc-version                        = "4.5"
 _elito-gcc-version_arm                    = \
     "${@elito_base_switch(d, 'TARGET_CPU',   \
                           'iwmmxt', '4.3.4', \
-                          '4.4.4')}"
+                          '4.5')}"
 
 PREFERRED_VERSION_gcc                    ?= "${_elito-gcc-version}"
 
