@@ -23,7 +23,7 @@ PREFERRED_VERSION_eglibc-initial         ?= "${PREFERRED_VERSION_eglibc}"
 PREFERRED_VERSION_uclibc                 ?= "0.9.31"
 PREFERRED_VERSION_uclibc-initial         ?= "${PREFERRED_VERSION_uclibc}"
 
-SRCREV_pn-opkg        ?= 554
+SRCREV_pn-opkg        ?= 575
 SRCREV_pn-opkg-native ?= "${SRCREV_pn-opkg}"
 
 SRCREV_pn-mtd-utils        ?= "004760f969175da7392dd02bb4fa14164ff46c1e"
