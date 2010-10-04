@@ -57,7 +57,7 @@ _flash_filename = ${_tftp_image}
 _bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 
 _build_cmd = \\
-            env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \\
+            +env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \\
             \$(MAKE) MAKELEVEL=0 CC='\$(_cc)' LD='\$(_ld)' \\
             \$(if \$(_flash_filename),FLASH_FILENAME='\$(_flash_filename)') \\
             \$(if \$(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=\$(KERNEL_SIZE)') \\
