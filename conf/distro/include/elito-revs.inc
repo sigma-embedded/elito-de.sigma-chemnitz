@@ -23,6 +23,13 @@ PREFERRED_VERSION_eglibc-initial         ?= "${PREFERRED_VERSION_eglibc}"
 PREFERRED_VERSION_uclibc                 ?= "0.9.31"
 PREFERRED_VERSION_uclibc-initial         ?= "${PREFERRED_VERSION_uclibc}"
 
+LIBTOOL_HAS_SYSROOT                      ?= "yes"
+PREFERRED_VERSION_libtool                ?= "2.4"
+PREFERRED_VERSION_libtool-native         ?= "${PREFERRED_VERSION_libtool}"
+PREFERRED_VERSION_libtool-cross          ?= "${PREFERRED_VERSION_libtool}"
+PREFERRED_VERSION_libtool-nativesdk      ?= "${PREFERRED_VERSION_libtool}"
+PREFERRED_VERSION_libtool-sdk            ?= "${PREFERRED_VERSION_libtool}"
+
 SRCREV_pn-opkg        ?= 575
 SRCREV_pn-opkg-native ?= "${SRCREV_pn-opkg}"
 
