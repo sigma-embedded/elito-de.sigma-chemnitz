@@ -14,6 +14,10 @@ _DOMAIN =		$(shell hostname -d)
 VPATH ?=		$(abs_top_srcdir)
 W ?=			tmp
 
+ELITO_SPACE_MIN =	15
+ELITO_SPACE_FULL =	30
+
+
 SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
 		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'		\
@@ -30,6 +34,8 @@ BITBAKE_REV_S =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
 BITBAKE_REV_R =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '3p;d')
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
 BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg
+
+ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -51,8 +57,12 @@ _project_task_file =	$(_project_task_dir)/task-$(PROJECT_NAME).bb
 _project_files_file =	$(_project_task_dir)/files-$(PROJECT_NAME).bb
 _samples_dir =		$(abs_top_srcdir)/samples
 
+BITBAKE_ENV =		env $(addprefix -u ,\
+	MAKEFILES MAKEFLAGS MAKEOVERRIDES MFLAGS VPATH \
+	BO TARGETS)
+
 TARGETS =		elito-image
-BITBAKE :=		$(abs_top_builddir)/bitbake
+BITBAKE :=		$(BITBAKE_ENV) $(abs_top_builddir)/bitbake
 BO ?=
 RECIPE ?=
 
@@ -90,6 +100,8 @@ config:			$(_project_task_file) $(_project_files_file)
 init:			bitbake-fetch filesystem-init
 prep:			$(_stampdir)/.prep.stamp Makefile bitbake-validate
 image release-image:	prep
+
+_image image release-image:
 			$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
 
 build release-build:
@@ -143,8 +155,13 @@ bitbake-validate:
 find-dups:		init
 			./bitbake -l Collection -d $(TARGETS) -c find_dups
 
+_space_check = ${ELITO_STATVFS} '${abs_top_builddir}/${W}'
+
 $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp
 			$(call _call_cmd,$(BITBAKE) stagemanager-native ipkg-utils-native,prep)
+			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
+				$(MAKE) _image BO= TARGETS=elito-prep; \
+			fi
 			@touch $@
 
 $(_stampdir)/.filesystem.stamp:
@@ -283,3 +300,6 @@ _ECHO := echo
 else
 _ECHO := :
 endif
+
+# do not export any variable set here by default
+unexport
