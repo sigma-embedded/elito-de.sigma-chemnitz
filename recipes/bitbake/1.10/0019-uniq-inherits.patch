@@ -1,0 +1,17 @@
+Index: bitbake/lib/bb/cooker.py
+===================================================================
+--- lib/bb/cooker.py
++++ lib/bb/cooker.py
+@@ -572,7 +572,12 @@ class BBCooker:
+ 
+             # Handle any INHERITs and inherit the base class
+             inherits  = ["base"] + (bb.data.getVar('INHERIT', self.configuration.data, True ) or "").split()
++            seen_inherits={}
+             for inherit in inherits:
++                if seen_inherits.has_key(inherit):
++                    continue
++
++                seen_inherits[inherit] = 1
+                 self.configuration.data = bb.parse.handle(os.path.join('classes', '%s.bbclass' % inherit), self.configuration.data, True )
+ 
+             # Nomally we only register event handlers at the end of parsing .bb files
