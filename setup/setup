@@ -21,12 +21,49 @@ else
     COL_NORMAL=
 fi
 
+clean_files=
+clean_dirs=
+
+cleanup_failure() {
+    section_start "Cleaning up (failure):"
+    rm -f "${clean_files[@]}"
+    rm -rf "${clean_dirs[@]}"
+    section_end
+}
+
+add_cleanup_files() {
+    local i
+    local d=`pwd`
+    for i; do
+	case $i in
+	  (/*)	;;
+	  (*)	i=$d/$i;;
+	esac
+
+	clean_files=( "${clean_files[@]}" "$i" )
+    done
+}
+
+add_cleanup_dirs() {
+    local i
+    local d=`pwd`
+    for i; do
+	case $i in
+	  (/*)	;;
+	  (*)	i=$d/$i;;
+	esac
+
+	clean_dirs=( "${clean_dirs[@]}" "$i" )
+    done
+}
+
 build_sigma_ssl_client() {
     set -ex
     export LANG=C
 
     cd ${srcdir}
     ${TAR} xjf packages/sigma-ssl-*.tar.bz2
+    add_cleanup_dirs sigma-ssl-*
     cd sigma-ssl-*
     ${MAKE} -e ssl-client CC=${GCC}
     ${INSTALL} -D -p -m 0755 ssl-client "${SIGMA_SSL_CLIENT}"
@@ -39,9 +76,11 @@ fetch_repository() {
     export ELITO_CRT
 
     ${GIT} init || :
+    add_cleanup_dirs .git
+
     ${GIT} remote add sigma git://${ELITO_GITHOST}/${ELITO_PROJECT_ID}.git || :
     ${GIT} remote update || return 1
-    ${GIT} checkout --track -b master sigma/master || :
+    ${GIT} checkout --track -b master sigma/master
 }
 
 do_it() {
@@ -54,6 +93,8 @@ do_it() {
       msg_success " ok"
   fi
 }
+
+trap "cleanup_failure" EXIT
 
 section_start "Core programs:"
 test_prog TAR tar
@@ -150,8 +191,11 @@ test_prog ELITO_PROXY elito-proxy ''
 if test -z "$ELITO_PROXY"; then
     ELITO_PROXY=$ELITO_TOPDIR/.bin/elito-proxy
     msg_action "+creating ${ELITO_PROXY}..."
+    _d="`dirname ${ELITO_PROXY}`"
 
-    mkdir -p "`dirname ${ELITO_PROXY}`"
+    test -d "$_d" || add_cleanup_dirs "$_d"
+    mkdir -p "$_d"
+
     rm -f ${ELITO_PROXY}
     ${SED} \
 	-e "s!@SOCAT@!${SOCAT}!g" \
@@ -161,6 +205,7 @@ if test -z "$ELITO_PROXY"; then
 	-e "s!@SIGMA_SSL_CLIENT@!${SIGMA_SSL_CLIENT}!g" \
 	< ${srcdir}elito-proxy.tmpl \
 	> "${ELITO_PROXY}"
+    add_cleanup_files "${ELITO_PROXY}"
     chmod 0755 "${ELITO_PROXY}"
     msg_success " done"
 fi
@@ -194,6 +239,7 @@ export ELITO_GITHOST
 
 AUTORECONF=${AUTORECONF}
 EOF
+add_cleanup_files "${ELITO_TOPDIR}"/.config
 
 msg_action "checking out project repository... "
 do_it fetch_repository
@@ -223,11 +269,16 @@ in .config-<domain> or .config-<hostname> and execute
 *******************************************
 EOF
 else
+    tail -n10 .build.log >&2
     cat <<EOF | ${SED} "s!^!${I}  **** !" >&2
-automatic download failed; please execute
+
+Automatic download failed; details can be found in .build.log.
+Please execute
 
   ${MAKE} -C ${ELITO_TOPDIR} prepare
 
 after fixing the problems.
 EOF
 fi
+
+trap EXIT
