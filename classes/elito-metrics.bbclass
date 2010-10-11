@@ -58,9 +58,13 @@ def _elito_metrics_write_build_complete(fname, start_info, end_info, e):
 
     f_in_name = _elito_metrics_tmpname(e.data)
 
-    f_out = open(fname, 'a')
-    f_in  = open(f_in_name, 'r')
-    os.unlink(f_in_name)
+    try:
+        f_out = open(fname, 'a')
+        f_in  = open(f_in_name, 'r')
+        os.unlink(f_in_name)
+    except:
+        bb.warn("Failed to execute build-complete step")
+        return
 
     try:
         fcntl.flock(f_out.fileno(), fcntl.LOCK_EX)
