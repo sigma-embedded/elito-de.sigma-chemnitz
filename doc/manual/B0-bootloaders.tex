@@ -1,0 +1,33 @@
+\chapter{Bootloaders}
+
+\section{Keith\&Koep ``arnoldboot''}
+
+Three kernel image types:
+
+\begin{description}
+\item[\texttt{*-sdram.bin}]
+\item[\texttt{*-flash.bin}]
+\item[\texttt{*-gdb.bin}]
+\end{description}
+
+\begin{verbatim}
+fuseburn 9
+fuselist
+\end{verbatim}
+
+
+
+\begin{verbatim}
+setbaud com1 115200
+
+boot mmc kernel.img
+boot mmc rootfs.img
+
+tftp
+\end{verbatim}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
