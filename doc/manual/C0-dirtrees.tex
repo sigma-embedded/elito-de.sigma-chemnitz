@@ -1,0 +1,81 @@
+\chapter{\label{app:dirtree}Directory trees}
+
+\section{Main directory tree}
+\label{sec:dirtree-main}
+
+\dirtree{%
+.1 /srv/elito/\DTcomment{git repository}.
+.2 COLIBRI270/.
+.3 .tmp.
+.3 tmp/.
+.4 deploy/.
+.5 ipk/.
+.6 all/.
+.7 \dots{}.
+.6 armv5te/.
+.7 \dots{}.
+.7 bzip2\_1.0.5-r2\_armv5te.ipk.
+.7 \dots{}.
+.6 \dots{}.
+.5 images/.
+.3 Makefile.
+.3 \dots{}.
+.2 COLIBRI320/.
+.3 \dots{}.
+.2 \dots{}.
+.2 de.sigma-chemnitz/\DTcomment{git submodule}.
+.2 org.openembedded/\DTcomment{git submodule}.
+.2 workspace/.
+.3 kernel.git\DTcomment{bare git repository}.
+.3 u-boot.git\DTcomment{bare git repository}.
+.2 Makefile.
+.2 project.conf.
+}\vspace{1em}
+
+In detail, there is:
+\begin{itemize}
+\item the \texttt{/srv/elito} toplevel directory with configuration
+  data and a makefile with some helper targets
+\item the \texttt{org.openembedded} directory with a clone of the
+  \href{http://www.openembedded.org}{OpenEmbedded} environment plus
+  some ELiTo specific changes.
+\item the \texttt{de.sigma-chemnitz} directory with the core ELiTo
+  data
+\item one or more project directories which contain the setup for your
+  platform and which will hold the area where packages will be built
+\item directories under \texttt{workspace/} with clones of (big)
+  foreign projects which need usually local modifications. The Linux
+  kernel and the U-Boot bootloader are examples of such projects.
+\end{itemize}
+
+\section{NFS exportable sysroots}
+
+\dirtree{%
+.1 /srv/sysroots/.
+.2 colibri270-evalboard/.
+.3 bin/.
+.3 etc/.
+.3 lib/.
+.3 \dots{}.
+}
+
+\section{Source cache}
+
+\dirtree{%
+.1 /srv/elito/.cache.
+.2 setuptools-0.6c9-py2.6.egg.
+.2 sources/.
+.3 cvs/.
+.3 git/.
+.4 sources.redhat.com.git.binutils.git/.
+.4 \dots{}.
+.3 svn/.
+.3 \dots{}.
+.3 zlib-1.2.5.tar.bz2.
+.3 zlib-1.2.5.tar.md5.
+}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 

@@ -1,6 +1,6 @@
 \chapter{Bootloaders}
 
-\section{Keith\&Koep ``arnoldboot''}
+\section{Keith\&Koep ``arnoldboot'' (TrizepsIV)}
 
 Three kernel image types:
 
@@ -25,6 +25,98 @@ boot mmc rootfs.img
 
 tftp
 \end{verbatim}
+
+\section{Toradex Bootloader (Colibri270)}
+
+\paragraph{NOTE:} Content of this section is preliminary and are
+extracts from e-mail communication about creation of U-Boot images.
+Integration into the buildsystem is missing.  It assumes the Fedora
+implementation of the tftp client program.
+
+
+\subsection{Creating .nb images}
+
+\paragraph{NOTE:} This section describes generation of U-Boot images
+which are to be loaded at address 0.
+
+
+\begin{enumerate}
+\item build the ce-bootme tool
+\begin{verbatim}
+tar xjf ce-bootme.tar.bz2
+make
+\end{verbatim}
+\item create the .nb image from the u-boot.bin image
+\begin{verbatim}
+ce-data2bin u-boot.bin 0 > u-boot.nb
+\end{verbatim}
+\end{enumerate}
+
+
+\subsection{Using .nb images}
+
+\begin{enumerate}
+\item build the ce-bootme tool
+\begin{verbatim}
+tar xjf ce-bootme.tar.bz2
+make
+\end{verbatim}
+\item install the tftp-client package
+\item execute it
+\begin{verbatim}
+./ce-bootme u-boot-SAx.nb COLIBRI\*
+\end{verbatim}%
+%
+\paragraph{NOTE:} program must be started as root because it listens
+  on privileged UDP port 980
+
+\item connect to the ffuart interface of the colibri module with 9600 baud
+
+\item turn off the colibri module
+
+\item press SPACE
+
+\item turn on the colibri module; you will see
+
+\begin{verbatim}
+Toradex Bootloader 3.6 for Colibri Built Jun 24 2010
+
+Press [SPACE] to enter Bootloader Menu
+
+
+
+BootLoader Configuration:
+
+C) Clear Flash Registry
+X) Enter CommandPrompt Mode
+D) Download image to RAM now
+F) Download image to FLASH now
+L) Launch existing flash resident image now
+\end{verbatim}
+
+\item press F
+
+\item ce-bootme from step 3 will output something like
+\begin{verbatim}
+ID: COLIBRI0
+mode set to octet
+Connected to 192.168.2.126 (192.168.2.126), port 980
+putting u-boot-SA0.nb to 192.168.2.126:boot.bin [octet]
+Sent 145955 bytes in 6.1 seconds [190260 bit/s]
+\end{verbatim}
+
+     and the eboot bootloader
+
+\begin{verbatim}
+-EbootSendBootmeAndWaitForTftp
+FLASH download [ 0x00000000 ==> 0x00023A37 ]
+
+INFO: FlashErase: 0x00000000 to 0x0002FFFF.  Please wait: 100%
+INFO: FlashWrite: 0x00000000 to 0x00023A37.  Please wait: 100%
+Flash image. Resetting device...
+\end{verbatim}
+
+\end{enumerate}
 
 
 %%% Local Variables:

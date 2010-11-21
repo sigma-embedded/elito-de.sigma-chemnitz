@@ -1,40 +1,20 @@
 \chapter{Quickstart}
 \label{chap:quickstart}
 
-\section{Step-by-step}
-\label{sec:quickstart_step-by-step}
-
 These steps will download the base build environment from the ELiTo
-server and will populate:
-
-\begin{itemize}
-\item a toplevel directory with configuration data and a makefile with
-  some helper targets
-\item a directory with a clone of the
-  \href{http://www.openembedded.org}{OpenEmbedded} environment plus
-  some ELiTo specific changes
-\item a directory with the core ELiTo data
-\item one or more project directories which contain the setup for your
-  platform and which will hold the area where packages will be built
-\item directories with clones of (big) foreign projects which need
-  usually local modifications. The Linux kernel and the U-Boot
-  bootloader are examples of such projects.
-\end{itemize}
-
-After download of these data, there can be built the projects which
-results in a filesystem exportable by NFS, various binary images
-(e.g. for kernel, bootloader and rootfs) and packages which can be
-installed manually on the system.
+server and will populate directory trees as shown in
+\autoref{app:dirtree}. Results are a filesystem exportable by NFS,
+various binary images (e.g. for kernel, bootloader and rootfs) and
+packages which can be installed manually on the system.
 
 
-
-\subsection{ELiTo metadata download}
+\section{ELiTo metadata download}
 \label{subsec:quickstart_elito-download}
 
 \begin{enumerate}
 \item Verify that requirements are met; especially make sure that
   network access is possible.
-\item Create a directory with sufficient free space (25\,GB) and make
+\item Create a directory with sufficiently free space (25\,GB) and make
   it writable for your user account.  This step might require
   \texttt{root} permissions.  Due to performance reasons it is not
   recommended to have this directory on an NFS share.
@@ -43,8 +23,8 @@ installed manually on the system.
   and assume that it is located at \texttt{/srv/elito}.
 \item\label{step:quickstart_elito-registration} After your
   registration\footnote{see \url{http://elito.sigma-chemnitz.de}} for
-  ELiTo you will receive a message with an X.509 certificate and the
-  name of project (which is used in
+  ELiTo you will receive a message with an X.509 certificate and a
+  project name (which is used in
   \autoref{step:quickstart_elito-setup-call}).  Install the X.509
   certificate in your home directory as \texttt{\$HOME/.elito.pem}
 \item Download the setup
@@ -72,7 +52,7 @@ bash /tmp/elito-setup /srv/elito-setup $project
   fail sometimes.
 \end{enumerate}
 
-\subsection{Project build}
+\section{Project build}
 \label{subsec:quickstart_project-build}
 
 \begin{enumerate}[resume]
@@ -116,7 +96,7 @@ make M=$project build
 
 \end{enumerate}
 
-\subsection{Creating a new project}
+\section{Creating a new project}
 \label{sec:quickstart_new-project}
 
 \begin{enumerate}

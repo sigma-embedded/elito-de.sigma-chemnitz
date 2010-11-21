@@ -14,6 +14,7 @@
 \usepackage{enumitem}
 \usepackage{xspace}
 \usepackage{ifthen}
+
 \ifpdf
         \usepackage{thumbpdf}
         \usepackage[pdftex, colorlinks=true]{hyperref}   % !! keine Links im  draft-Modus !!
@@ -23,6 +24,7 @@
         \usepackage[dvips]{graphicx}
         \usepackage[dvips, colorlinks=false, pdfborder=0]{hyperref}             % die hyperref-Erweiterung
 \fi
+\usepackage{dirtree}
 \usepackage{color,epsfig}
 \usepackage{epic,eepic}
 \usepackage{scrpage2,scrtime,scrdate}
@@ -31,6 +33,8 @@
 
 \lstloadlanguages{python,C}
 \lstset{language=python,basicstyle=\ttfamily\small}
+
+\DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{0pt}
 
 \begin{document}
 \tableofcontents
@@ -46,6 +50,7 @@
 
 \input{A0-logs}
 \input{B0-bootloaders}
+\input{C0-dirtrees}
 \end{document}
 
 
