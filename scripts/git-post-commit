@@ -1,0 +1,19 @@
+#! /bin/sh
+
+rev=`git rev-parse --verify --short HEAD`
+revf=`git rev-parse --verify HEAD`
+cnt=`git rev-list $rev -- | wc -l`
+
+rm -f .git-info
+
+cat <<EOF >.git-info.sh
+GIT_REVISION="$rev"
+GIT_REVISION_FULL="$revf"
+GIT_CNT="$cnt"
+EOF
+
+cat <<EOF >.git-info.mk
+CUR_GIT_REVISION = $rev
+CUR_GIT_REVISION_FULL = $revf
+CUR_GIT_CNT = $cnt
+EOF
