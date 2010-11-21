@@ -251,10 +251,11 @@ $(_template_files):$(abs_top_builddir)/%:
 			cp --preserve=mode,timestamps ${abs_top_srcdir}/$*.sample $@
 
 $(_project_task_dir)/.stamp:
-			mkdir -p '$(@D)' '$(@D)/rootfs' '$(@D)/rootfs/etc'
+			mkdir -p '$(@D)' '$(@D)/rootfs' '$(@D)/rootfs/etc/network'
 			$(INSTALL_DATA) $(_samples_dir)/Makefile          $(@D)/Makefile
 			$(INSTALL_DATA) $(_samples_dir)/.gitignore.sample $(@D)/.gitignore
 			$(INSTALL_DATA) $(_samples_dir)/securetty         $(@D)/rootfs/etc/securetty
+			$(INSTALL_DATA) $(_samples_dir)/network-interfaces $(@D)/rootfs/etc/network/interfaces
 			touch $@
 
 $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
