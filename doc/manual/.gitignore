@@ -6,3 +6,5 @@
 *.toc
 /_region_.tex
 /auto
+/version.tex
+/out

@@ -1,0 +1,6 @@
+\newcommand{\gitcnt}{@GITCNT@}
+\newcommand{\gitref}{@GITREF@}
+\newcommand{\gitreffull}{@GITREFF@}
+%%% Local Variables:
+%%% TeX-master: "feinspec"
+%%% End:

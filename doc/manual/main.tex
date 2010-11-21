@@ -14,6 +14,7 @@
 \usepackage{enumitem}
 \usepackage{xspace}
 \usepackage{ifthen}
+\usepackage{lmodern}
 
 \ifpdf
         \usepackage{thumbpdf}
@@ -31,12 +32,25 @@
 \usepackage{times}
 \usepackage{listings}
 
+\hypersetup{
+  pdftitle={ELiTo Manual},
+  backref,
+  pdftex,
+  colorlinks=true,
+  breaklinks=true}
+
 \lstloadlanguages{python,C}
 \lstset{language=python,basicstyle=\ttfamily\small}
 
 \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{0pt}
 
+\include{version}
+\title{ELiTo manual}
+\date{Revision: g\gitcnt+\gitref}
+
 \begin{document}
+\maketitle
+
 \tableofcontents
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}

@@ -28,47 +28,57 @@ tftp
 
 \section{Toradex Bootloader (Colibri270)}
 
-\paragraph{NOTE:} Content of this section is preliminary and are
-extracts from e-mail communication about creation of U-Boot images.
+\paragraph{NOTE:} Content of this section is preliminary and consists
+of extracts from e-mail communication about creation of U-Boot images.
 Integration into the buildsystem is missing.  It assumes the Fedora
 implementation of the tftp client program.
 
+\subsection{Build CE tools}
+
+\begin{enumerate}
+\item Clone the git repository and go into it
+\begin{lstlisting}[language=sh]
+$ git clone git://git.sigma-chemnitz.de:4815/pub/ce-bootme
+$ cd ce-bootme
+\end{lstlisting}
+\item Build and install it manually
+\begin{lstlisting}[language=sh]
+$ make && make install
+\end{lstlisting}%$
+or create an rpm package
+\begin{lstlisting}[language=sh]
+$ make dist
+$ rpmbuild -tb ce-bootme.tar.xz
+\end{lstlisting}
+\end{enumerate}
+
+The RPM package adds a ``ce-'' prefix to the installed programs which
+is used in the examples below. ``ce-bootme'' needs to listen on the
+privileged 980/udp port so that it must be started by the ``root''
+user or installed with suid permissions (which is done by the RPM
+package).
 
 \subsection{Creating .nb images}
 
 \paragraph{NOTE:} This section describes generation of U-Boot images
 which are to be loaded at address 0.
 
-
 \begin{enumerate}
-\item build the ce-bootme tool
-\begin{verbatim}
-tar xjf ce-bootme.tar.bz2
-make
-\end{verbatim}
 \item create the .nb image from the u-boot.bin image
-\begin{verbatim}
-ce-data2bin u-boot.bin 0 > u-boot.nb
-\end{verbatim}
+\begin{lstlisting}[language=sh]
+$ ce-data2bin u-boot.bin 0 > u-boot.nb
+\end{lstlisting}%$
 \end{enumerate}
 
 
 \subsection{Using .nb images}
 
 \begin{enumerate}
-\item build the ce-bootme tool
-\begin{verbatim}
-tar xjf ce-bootme.tar.bz2
-make
-\end{verbatim}
 \item install the tftp-client package
 \item execute it
-\begin{verbatim}
-./ce-bootme u-boot-SAx.nb COLIBRI\*
-\end{verbatim}%
-%
-\paragraph{NOTE:} program must be started as root because it listens
-  on privileged UDP port 980
+\begin{lstlisting}[language=sh]
+$ ce-bootme u-boot-SAx.nb COLIBRI\*
+\end{lstlisting}%$
 
 \item connect to the ffuart interface of the colibri module with 9600 baud
 
