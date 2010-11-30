@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 _w=${W:-tmp}
 case $_w in
@@ -12,11 +12,17 @@ CCACHE_DIR=$_w/cache/ccache
 BBPATH=@abs_top_builddir@:@ELITO_ROOTDIR@/de.sigma-chemnitz:@ELITO_ROOTDIR@/org.openembedded
 ELITO_METRICS_ID=$$
 
-unset MAKEFLAGS
-unset MAKEOVERRIDES
-unset POSIXLY_CORRECT
-unset LD_LIBRARY_PATH
-unset LD_PRELOAD
+
+for i in "${!_@}" \
+    ENV OPTS MAKEFLAGS MAKEOVERRIDES POSIXLY_CORRECT \
+    ACLOCAL_FLAGS OSTYPE HOSTTYPE ARCH CPU BOARD VENDOR SOC \
+    LD_LIBRARY_PATH LD_PRELOAD MAIL MAILCHECK MAILPATH \
+    DIRSTACK OPTERR OPTIND SHLVL HOST HOSTFILE \
+    PKG_CONFIG_PATH PYTHONSTARTUP PROFILEREAD \
+; do
+	eval unset "$i"
+done
+
 export ELITO_METRICS_ID
 export CCACHE_DIR BBPATH
 
