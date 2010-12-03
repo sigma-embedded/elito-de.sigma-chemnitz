@@ -23,6 +23,7 @@ do_fetch[depends] += "linux-libc-headers:do_fetch"
 
 DEPENDS += '\
 	${KERNEL_DEPENDS} \
+	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native","",d)} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-mkimage-native","",d)}'
 
@@ -120,6 +121,8 @@ do_uboot_mkimage() {
                 for i in sdram gdb flash; do
                         oe_runmake arnoldboot-$i _flash_filename=${KERNEL_OUTPUT}-$i
                 done
+        elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
+		oe_runmake ce-boot
         elif test -w "${_tftp_image}"; then
                 cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
         elif ! test -w "${_tftp_image}"; then
@@ -140,6 +143,8 @@ do_deploy_append() {
 			ln -sf ${KERNEL_IMAGE_BASE_NAME}-$i.bin ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 			package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 		done
+        elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
+		:			# TODO
 	fi
 }
 
