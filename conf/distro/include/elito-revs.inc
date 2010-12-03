@@ -32,5 +32,4 @@ PREFERRED_VERSION_libtool-sdk            ?= "${PREFERRED_VERSION_libtool}"
 
 SRCREV_pn-mtd-utils        ?= "004760f969175da7392dd02bb4fa14164ff46c1e"
 SRCREV_pn-kernel-firmware  ?= "1533edfac39d8a1be35d960d3b2b9516b945ad1c"
-SRCREV_pn-iproute2         ?= "02833d1b381f468c8744f786061b36b7a4c2572a"
 SRCREV_pn-dietlibc         ?= "61bbe58fe2121cbdc686d7e0e803b60763a60d5d"
