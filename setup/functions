@@ -115,7 +115,7 @@ test_prog() {
 
 test_pkg() {
     msg_checking "for package $1..."
-    _v=`$PKG_CONFIG --modversion "$1"` || \
+    _v=`$PKG_CONFIG --modversion "$2"` || \
 	panic "Can not find package $1"
 
     msg_success "yes" " ($_v)"

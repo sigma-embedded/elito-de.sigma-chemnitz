@@ -174,7 +174,7 @@ if test -z "$SIGMA_SSL_CLIENT"; then
     SIGMA_SSL_CLIENT=${ELITO_TOPDIR}/.bin/sigma-ssl-client
 
     subsection_start "Building sigma-ssl-client:"
-    test_pkg gnutls
+    test_pkg GNUTLS gnutls
     msg_action "building sigma-ssl-client..."
     do_it build_sigma_ssl_client
     subsection_end
