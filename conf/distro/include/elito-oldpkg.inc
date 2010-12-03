@@ -17,9 +17,11 @@ alsa-lib_1.0.20 \
 alsa-plugins_1.0.17 \
 alsa-plugins_1.0.18 \
 alsa-plugins_1.0.19 \
+alsa-plugins_1.0.20 \
 alsa-utils_1.0.17 \
 alsa-utils_1.0.18 \
 alsa-utils_1.0.19 \
+alsa-utils_1.0.20 \
 apache2-native_2.2.3 \
 apache2_2.2.3 \
 apex-env_1.5.8 \
@@ -153,7 +155,6 @@ btsco-module_0.41 \
 btsco_0.41 \
 busybox-static_1.2.1 \
 busybox_1.13.2 \
-busybox_1.17.1 \
 busybox_1.2.1 \
 busybox_1.7.2 \
 cacao-native_0.99.3 \
@@ -183,6 +184,7 @@ connman_0.46 \
 conserver_8.1.2 \
 consolekit_0.3.0 \
 constype_1.0.2 \
+contacts_0.8 \
 coreutils-native_6.0 \
 coreutils_6.0 \
 cpusage_0.1 \
@@ -191,6 +193,7 @@ cups_1.2.12 \
 cups_1.2.7 \
 cups_1.3.8 \
 cups_1.4.3 \
+curl_7.21.1 \
 cvs_1.12.8 \
 cyrus-imapd_2.2.5 \
 cyrus-sasl_2.1.17 \
@@ -282,6 +285,7 @@ faad2_2.0 \
 fakeroot-native_1.9.6 \
 fakeroot_1.9.6 \
 fam_2.6.10 \
+farsight2_0.0.9 \
 fbpanel_4.12 \
 fbpanel_4.3 \
 fbreader_0.10.7 \
@@ -532,6 +536,7 @@ gmailfs_0.7.3 \
 gmp-native_4.2.4 \
 gmp_4.2.4 \
 gmpc_0.11.2 \
+gmpc_0.17.96 \
 gnash-minimal_0.8.2 \
 gnash_0.8.0 \
 gnash_0.8.1 \
@@ -539,6 +544,7 @@ gnash_0.8.2 \
 gnash_0.8.3 \
 gnash_0.8.4 \
 gnash_0.8.5 \
+gnash_0.8.7 \
 gnokii_0.6.4 \
 gnome-games_2.30.2 \
 gnome-icon-theme_2.28.0 \
@@ -674,6 +680,7 @@ gsoko_0.4.2-gpe5 \
 gspcav1_20070110 \
 gspcav1_20070508 \
 gssdp_0.6.3 \
+gst-ffmpeg_0.10.10 \
 gst-ffmpeg_0.10.2 \
 gst-ffmpeg_0.10.4 \
 gst-ffmpeg_0.10.6 \
@@ -766,7 +773,6 @@ hostap-daemon_0.6.9 \
 hotplug-ng_001 \
 howl_0.9.7 \
 hplip_2.8.10 \
-hubbub_0.0.1 \
 hydra_4.4 \
 i2c-tools_3.0.1 \
 ica-bin_8.0 \
@@ -924,16 +930,16 @@ libmimedir_0.0-20040307 \
 libmimedir_0.3.1 \
 libmodplug_0.8.4 \
 libmpc_0.8.1 \
+libmpd_0.17.96 \
 libmrss_0.17.2 \
 libnet-dbus-perl_0.33.5 \
 libnet_1.0.2a \
 libnetfilter-queue_0.0.13 \
 libnfnetlink_0.0.30 \
 libnfnetlink_0.0.39 \
+libnice_0.0.6 \
 libnids_1.18 \
 libnotify_0.4.4 \
-libnsbmp_0.0.1 \
-libnsgif_0.0.1 \
 libnss-mdns_0.9 \
 libnxml_0.16 \
 libogg_1.0 \
@@ -946,6 +952,7 @@ liboil_0.3.15 \
 liboil_0.3.9 \
 libomxil-bellagio_0.9.0 \
 libomxil-bellagio_0.9.1 \
+libomxil-bellagio_0.9.2 \
 libopensync-plugin-file_0.18 \
 libopensync-plugin-irmc_0.18 \
 libopensync-plugin-syncml_0.22 \
@@ -959,7 +966,6 @@ libosip2_2.2.2 \
 libpam_0.79 \
 libpam_1.0.2 \
 libpam_1.1.0 \
-libparserutils_0.0.1 \
 libpcap_0.9.3 \
 libpcap_0.9.5 \
 libpcap_0.9.8 \
@@ -1083,6 +1089,7 @@ libxt_1.0.7 \
 libxtst_1.1.0 \
 libxv_1.0.5 \
 libxxf86dga_1.1.1 \
+libxxf86misc_1.0.2 \
 libxxf86vm_1.1.0 \
 libyaml_0.1.2 \
 libzvbi_0.2.22 \
@@ -1281,6 +1288,7 @@ mesa_7.6 \
 mesa_7.8.2 \
 microwindows_0.90 \
 midori_0.2.4 \
+midori_0.2.8 \
 mime-support_3.28 \
 mingw-binutils-canadian-cross_2.17.50-20060824-1 \
 mingw-binutils-canadian-cross_2.19.1 \
@@ -1316,9 +1324,6 @@ murrine_0.90.3 \
 mutt_1.5.15 \
 mutt_1.5.4i \
 mutt_1.5.9i \
-mythplugins_0.22+fixes \
-myththemes_0.22+fixes \
-mythtv_0.22+fixes \
 nano_2.0.7 \
 nano_2.0.9 \
 nano_2.2.4 \
@@ -1329,7 +1334,6 @@ net-snmp_5.4.1 \
 net6_1.2.2 \
 netbook-launcher-efl_0.2.3 \
 netperf_2.3 \
-netsurf_2.1 \
 network-manager-applet_0.6.5 \
 network-manager-applet_0.7.1 \
 network-manager-applet_0.8 \
@@ -1439,7 +1443,7 @@ packagekit_0.2.4 \
 packagekit_0.4.6 \
 packagekit_0.4.8 \
 packagekit_0.5.2 \
-pango_1.28.1 \
+pango_1.24.4 \
 pango_1.8.2 \
 pavucontrol_0.9.8 \
 pax-utils_0.1.13 \
@@ -1538,29 +1542,18 @@ python-scons_1.2.0 \
 python-setuptools_0.6c9 \
 python-sip_4.7.9 \
 qc-usb-messenger_0.8 \
+qemu_0.12.5 \
 qof_0.6.0 \
 qpegps_0.9.2.3.3 \
 qpf-qte_2.3.10 \
 qscintilla_1.60-gpl-1.3 \
 qscintilla_1.60-gpl-1.3b \
 qt-x11-free_3.3.6 \
-qt4-embedded-gles_4.6.0 \
-qt4-embedded-gles_4.6.2 \
-qt4-embedded_4.6.0 \
-qt4-embedded_4.6.2 \
 qt4-embedded_4.6.3 \
-qt4-tools-native_4.6.0 \
-qt4-tools-native_4.6.2 \
 qt4-tools-native_4.6.3 \
 qt4-tools-sdk_4.5.2 \
-qt4-tools-sdk_4.6.0 \
-qt4-tools-sdk_4.6.2 \
 qt4-tools-sdk_4.6.3 \
 qt4-x11-free-gles_4.5.2 \
-qt4-x11-free-gles_4.6.0 \
-qt4-x11-free-gles_4.6.2 \
-qt4-x11-free_4.6.0 \
-qt4-x11-free_4.6.2 \
 qt4-x11-free_4.6.3 \
 qwo_0.4 \
 qwt_4.2.0rc1 \
@@ -1575,6 +1568,7 @@ readline_4.3 \
 readline_5.2 \
 realpath_1.10 \
 recordproto_1.14 \
+rendercheck_1.3 \
 renderproto_0.11 \
 resolvconf_1.43 \
 rgb_1.0.3 \
@@ -1665,13 +1659,6 @@ sugar-toolkit_0.83.3 \
 sugar_0.82.9 \
 sugar_0.83.4 \
 supertux_0.1.2 \
-swfdec-mozilla_0.7.2 \
-swfdec-mozilla_0.7.4 \
-swfdec-mozilla_0.8.2 \
-swfdec_0.4.0 \
-swfdec_0.7.2 \
-swfdec_0.7.4 \
-swfdec_0.8.2 \
 swig_1.3.31 \
 swig_1.3.38 \
 swig_1.3.39 \
@@ -1726,6 +1713,7 @@ u-boot_2009.01 \
 u-boot_2009.03 \
 u-boot_2009.06 \
 u-boot_2009.08 \
+u-boot_2009.11 \
 u-boot_2010.06 \
 uclibc-initial_0.9.28 \
 uclibc-initial_0.9.29 \
@@ -2006,6 +1994,7 @@ PKGDUP_IGNORES = " \
 bash_3.0 \
 bluez-libs_3.36 \
 boost_1.33.1 \
+busybox_1.18.0 \
 cherokee_0.99.24 \
 chillispot_1.0RC3 \
 compcache_0.5+0.6pre3 \
