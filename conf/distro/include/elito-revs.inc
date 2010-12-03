@@ -30,9 +30,6 @@ PREFERRED_VERSION_libtool-cross          ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-nativesdk      ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-sdk            ?= "${PREFERRED_VERSION_libtool}"
 
-SRCREV_pn-opkg        ?= 575
-SRCREV_pn-opkg-native ?= "${SRCREV_pn-opkg}"
-
 SRCREV_pn-mtd-utils        ?= "004760f969175da7392dd02bb4fa14164ff46c1e"
 SRCREV_pn-kernel-firmware  ?= "1533edfac39d8a1be35d960d3b2b9516b945ad1c"
 SRCREV_pn-iproute2         ?= "02833d1b381f468c8744f786061b36b7a4c2572a"
