@@ -86,6 +86,7 @@ subsection_end() {
 test_prog() {
     local old_PATH
 
+    eval local hint=\${HINT_$1}
     msg_checking "for program $2..."
     if eval test x\${$1+set} = xset; then
 	eval _p=\${$1}
@@ -114,6 +115,7 @@ test_prog() {
 }
 
 test_pkg() {
+    eval local hint=\${HINT_$1}
     msg_checking "for package $1..."
     _v=`$PKG_CONFIG --modversion "$2"` || \
 	panic "Can not find package $1"
