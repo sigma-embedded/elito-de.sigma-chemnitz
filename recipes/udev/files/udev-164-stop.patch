@@ -1,8 +1,8 @@
-Index: udev-158/udev/udevd.c
+Index: udev-164/udev/udevd.c
 ===================================================================
---- udev-158.orig/udev/udevd.c
-+++ udev-158/udev/udevd.c
-@@ -1032,10 +1032,11 @@ int main(int argc, char *argv[])
+--- udev-164.orig/udev/udevd.c
++++ udev-164/udev/udevd.c
+@@ -977,10 +977,11 @@ int main(int argc, char *argv[])
  	int fd;
  	FILE *f;
  	sigset_t mask;
@@ -15,18 +15,18 @@ Index: udev-158/udev/udevd.c
  		{ "debug", no_argument, NULL, 'D' },
  		{ "children-max", required_argument, NULL, 'c' },
  		{ "exec-delay", required_argument, NULL, 'e' },
-@@ -1058,13 +1059,16 @@ int main(int argc, char *argv[])
+@@ -1003,13 +1004,17 @@ int main(int argc, char *argv[])
  	for (;;) {
  		int option;
  
--		option = getopt_long(argc, argv, "cdeDthV", options, NULL);
-+		option = getopt_long(argc, argv, "cdeDthVS", options, NULL);
+-		option = getopt_long(argc, argv, "c:deDthV", options, NULL);
++		option = getopt_long(argc, argv, "c:deDthVS", options, NULL);
  		if (option == -1)
  			break;
  
  		switch (option) {
  		case 'd':
--			daemonize = true;
+ 			daemonize = true;
 +			daemonize = DAEMON_BG;
 +			break;
 +		case 'S':
@@ -34,7 +34,7 @@ Index: udev-158/udev/udevd.c
  			break;
  		case 'c':
  			children_max = strtoul(optarg, NULL, 0);
-@@ -1262,7 +1266,9 @@ int main(int argc, char *argv[])
+@@ -1207,7 +1212,9 @@ int main(int argc, char *argv[])
  	if (fd > STDERR_FILENO)
  		close(fd);
  

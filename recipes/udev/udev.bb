@@ -5,19 +5,19 @@ RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
-PV	= "158"
+PV	= "164"
 PR	= "r1"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
 	file://udev-145-settlerace.patch	\
-	file://udev-158-stop.patch		\
+	file://udev-164-stop.patch		\
 	file://udev-158-target-input.patch	\
 	file://60-ubi.rules			\
 "
 
-SRC_URI[md5sum] = "d0f21f72f9e8b95d85191b77ff1ad2a0"
-SRC_URI[sha256sum] = "f0a194a0500a07d50ae3f14416a34c8d94ea8a1aff8fc1f06e1d421775dcc902"
+SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
+SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
 
 _sbindir    = "/sbin"
 rootlibdir  = "/lib"
@@ -27,10 +27,14 @@ rules_dir   = "${_libexecdir}/rules.d"
 EXTRA_OECONF = "\
 	--enable-static \
 	--disable-introspection \
-	--with-pci-ids-path=/usr/share/pci.ids \
+	--with-pci-ids-path=/usr/share/misc \
 	--with-rootlibdir=${rootlibdir} \
 	--libexecdir=${_libexecdir} \
-	--sbindir=${_sbindir}"
+	--sbindir=${_sbindir} \
+	ac_cv_file__usr_share_pci_ids=no \
+	ac_cv_file__usr_share_hwdata_pci_ids=no \
+	ac_cv_file__usr_share_misc_pci_ids=yes \
+"
 
 inherit autotools pkgconfig
 
@@ -95,7 +99,7 @@ FILES_${PN}-fstab-import = "\
 FILES_${PN}-usb-id   += "${_libexecdir}/usb-db"
 
 FILES_${PN}-lib       = "${rootlibdir}/libudev.so.*"
-FILES_${PN}-libgudev  = "${libdir}/libgudev-*.so.*"
+FILES_${PN}-libgudev  = "${rootlibdir}/libgudev-*.so.*"
 
 FILES_${PN}-firmware  = " \
 	${_libexecdir}/firmware \
