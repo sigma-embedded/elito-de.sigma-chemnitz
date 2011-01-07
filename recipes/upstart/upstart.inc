@@ -5,7 +5,7 @@ DESCRIPTION      = "Event driven system init"
 LICENSE          = "GPLv2"
 DEPENDS          = "dbus expat bison-native pkgconfig-native libnih libnih-native"
 
-PV = "0.6.6"
+PV = "0.6.7"
 PR = "r0"
 
 SRC_URI = "	\
@@ -14,8 +14,8 @@ SRC_URI = "	\
 	file://old-glibc.patch					\
 "
 
-SRC_URI[tarball.md5sum] = "5a2e9962a4cea719fbe07c33e2591b06"
-SRC_URI[tarball.sha256sum] = "7ab4014a808751327f0a4f9687844c4022fc12d5d8b21755775d4a4aac30c9b3"
+SRC_URI[tarball.md5sum] = "37740f81b6d12a53072603fadee451c9"
+SRC_URI[tarball.sha256sum] = "29d38ebf126cc601ace3852ca13a967905bd56b1d385189937b12976846e37b8"
 
 inherit autotools
 
