@@ -35,11 +35,20 @@ UBOOT_BAUD	?= "${@'${SERIAL_CONSOLE}'.split()[0]}"
 
 _make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
 	CFG=u-boot _secwrap= \
+	STRIP=: BUILD_STRIP=: \
 	CFG_NONDEVEL=1 \
 	CFG_KERNEL_UART=${UBOOT_CONSOLE} \
 	CFG_KERNEL_BAUD=${UBOOT_BAUD}"
 
 do_configure() {
+	cat << EOF >>config.mk
+HOSTCFLAGS += \$(BUILD_CFLAGS)
+HOSTCPPFLAGS += \$(BUILD_CPPFLAGS)
+HOSTLDFLAGS += \$(BUILD_LDFLAGS)
+
+unexport HOSTCFLAGS HOSTCPPFLAGS
+EOF
+
 	${_make} ${UBOOT_MACHINE}
 	${_make} include/autoconf.mk || :
 	${_make} clean
