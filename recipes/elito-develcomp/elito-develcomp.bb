@@ -6,6 +6,7 @@ LICENSE = "GPLv3"
 
 PACKAGES = ""
 PACKAGE_ARCH = "all"
+PROVIDES = "elito-develcomp-native"
 
 INHIBIT_DEFAULT_DEPS = "1"
 
