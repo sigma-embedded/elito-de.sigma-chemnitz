@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3+${PROJECT_CONF_DATE}"
-PR = "r4"
+PR = "r5"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -149,8 +149,11 @@ endef
 
 ifeq (\$(_SKIP_DEVELCOMP_RULES),)
 
-%:
+%:	__force
 	\$(_start) \$(MAKE) -e MAKELEVEL:=0 MAKEFILES:= \$(OPTS) \$@
+
+__call:
+	\$(_start) env -u T \$(MAKE) -e MAKELEVEL:=0 MAKEFILES:= \$(OPTS) \$T
 
 _all_:
 	\$(_start) \$(MAKE) -e MAKELEVEL:=0 MAKEFILES:= \$(OPTS)
@@ -160,6 +163,9 @@ exec:
 
 shell:
 	@env PS1='\$(PS1) ' \$(_start) \$(SH) -
+
+__force:
+.PHONY:	__force __call _all_ exec shell
 
 endif
 
