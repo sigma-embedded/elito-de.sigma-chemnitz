@@ -89,6 +89,7 @@ binutils-cross-sdk_2.19.1 \
 binutils-cross-sdk_2.19.51 \
 binutils-cross-sdk_2.19.51.0.3 \
 binutils-cross-sdk_2.20 \
+binutils-cross-sdk_2.20.1 \
 binutils-cross_2.14.90.0.6 \
 binutils-cross_2.14.90.0.7 \
 binutils-cross_2.15.94.0.1 \
@@ -109,6 +110,7 @@ binutils-cross_2.19.1 \
 binutils-cross_2.19.51 \
 binutils-cross_2.19.51.0.3 \
 binutils-cross_2.20 \
+binutils-cross_2.20.1 \
 binutils-cross_csl-arm-20050416 \
 binutils-cross_csl-arm-20050603 \
 binutils_2.14.90.0.6 \
@@ -131,9 +133,11 @@ binutils_2.19.1 \
 binutils_2.19.51 \
 binutils_2.19.51.0.3 \
 binutils_2.20 \
+binutils_2.20.1 \
 binutils_csl-arm-20050416 \
 binutils_csl-arm-20050603 \
 bison_2.0 \
+bison_2.3 \
 bitmap_1.0.4 \
 blueman_1.10 \
 bluez-cups-backend_3.33 \
@@ -147,14 +151,17 @@ bluez4_4.42 \
 bluez4_4.56 \
 bluez4_4.59 \
 bluez4_4.66 \
+bluez4_4.75 \
 bonnie++_1.03a \
 bootmenu_0.6 \
 bridge-utils_1.2 \
 btscanner_1.0 \
 btsco-module_0.41 \
 btsco_0.41 \
+busybox-static_1.17.4 \
 busybox-static_1.2.1 \
 busybox_1.13.2 \
+busybox_1.17.4 \
 busybox_1.2.1 \
 busybox_1.7.2 \
 cacao-native_0.99.3 \
@@ -181,6 +188,7 @@ cmake_2.6.4 \
 compositeproto_0.4.1 \
 comprec_0.01 \
 connman_0.46 \
+connman_0.51 \
 conserver_8.1.2 \
 consolekit_0.3.0 \
 constype_1.0.2 \
@@ -298,6 +306,7 @@ feh_1.2.7 \
 fetchmail_6.2.3 \
 fetchmail_6.2.5 \
 ffmpeg_0.4.9-pre1 \
+ffmpeg_0.5.1 \
 fftw_3.1.2 \
 fftwf_3.1.2 \
 fftwl_3.1.2 \
@@ -310,6 +319,7 @@ firefox_1.0.7 \
 fixesproto_4.1.1 \
 flac_1.1.0 \
 flac_1.1.2 \
+fldigi_3.11.4 \
 flex_2.5.31 \
 flite-alsa_1.2 \
 flite_1.2 \
@@ -512,6 +522,7 @@ glib-2.0_2.22.1 \
 glib-2.0_2.22.4 \
 glib-2.0_2.23.6 \
 glib-2.0_2.24.0 \
+glib-2.0_2.24.1 \
 glib-2.0_2.6.4 \
 glib-2.0_2.8.6 \
 glibc-initial_2.2.5 \
@@ -564,6 +575,7 @@ gnuplot_4.2.4 \
 gnutls_2.10.1 \
 gnutls_2.8.5 \
 gnutls_2.8.6 \
+gob2_2.0.14 \
 goffice_0.8.1 \
 gparted_0.3.3 \
 gpe-aerial_0.2.11 \
@@ -751,6 +763,7 @@ gupnp-vala_0.4 \
 gupnp_0.12.4 \
 gupnp_0.12.5 \
 gupnp_0.13.1 \
+gvfs_1.6.0 \
 hal-info_20070618 \
 hal-info_20070831 \
 hal-info_20080313 \
@@ -759,6 +772,7 @@ hal_0.5.11 \
 hal_0.5.12 \
 hal_0.5.9 \
 hal_0.5.9.1 \
+hamlib_1.2.10 \
 haserl_0.8.0 \
 haserl_0.9.23 \
 havp_0.82 \
@@ -838,7 +852,9 @@ lcdproc_0.4.5 \
 lcdproc_0.4.99+cvs20060123 \
 lcdproc_0.5.0 \
 lcms_1.13 \
+less_418 \
 libaio_0.3.103 \
+libaio_0.3.106 \
 libassuan_0.6.7 \
 libassuan_0.9.3 \
 libcanberra_0.12 \
@@ -923,6 +939,7 @@ liblauncher_0.3.6 \
 liblinebreak_0.9.6 \
 libmad_0.15.0b \
 libmailwrapper_1.2.3 \
+libmailwrapper_1.2.4 \
 libmatthew_0.7 \
 libmicrohttpd_0.4.2 \
 libmikmod_3.1.12 \
@@ -960,8 +977,11 @@ libopensync_0.18 \
 libopensync_0.20 \
 libopensync_0.22 \
 libopie2_1.2.3 \
+libopie2_1.2.4 \
 libopieobex0_1.2.3 \
+libopieobex0_1.2.4 \
 libopietooth1_1.2.3 \
+libopietooth1_1.2.4 \
 libosip2_2.2.2 \
 libpam_0.79 \
 libpam_1.0.2 \
@@ -975,6 +995,7 @@ libpthread-stubs_0.1 \
 libpthread-stubs_0.2 \
 libqpe-opie_1.2.3 \
 libqtaux2_1.2.3 \
+libqtaux2_1.2.4 \
 librsvg_2.11.1 \
 librsvg_2.16.1 \
 librsvg_2.22.2 \
@@ -1093,6 +1114,7 @@ libxxf86misc_1.0.2 \
 libxxf86vm_1.1.0 \
 libyaml_0.1.2 \
 libzvbi_0.2.22 \
+lightmediascanner_0.2.0.0 \
 lighttpd_1.4.18 \
 lighttpd_1.4.26 \
 linphone_0.12.2 \
@@ -1305,6 +1327,7 @@ minimix_0.7 \
 minimix_0.8 \
 mkfontdir_1.0.5 \
 mkfontscale_1.0.7 \
+modemmanager_0.3 \
 module-init-tools_3.2.1 \
 module-init-tools_3.2.2 \
 mousepad_0.2.13 \
@@ -1314,6 +1337,7 @@ mp3blaster_3.2.3 \
 mpd-alsa_0.11.5 \
 mpd_0.14.2 \
 mpd_0.15 \
+mpd_0.15.12 \
 mpfr_2.4.2 \
 mplayer_0.0+1.0rc1 \
 msynctool_0.22 \
@@ -1350,6 +1374,7 @@ notecase_1.6.9 \
 notification-daemon_0.3.6 \
 ntp_4.1.2 \
 ntp_4.2.0 \
+ntp_4.2.4p7 \
 ntpclient_2003_194 \
 nxproxy_3.2.0-1 \
 nxproxy_3.3.0-2 \
@@ -1377,6 +1402,7 @@ opal_3.6.4 \
 opal_3.6.6 \
 opal_3.8.0 \
 openbmap-logger_0.2.0 \
+opencv_1.0.0 \
 openntpd_3.7p1 \
 openobex_1.2 \
 openobex_1.3 \
@@ -1524,6 +1550,7 @@ pwc_10.0.7a \
 pwc_10.0.9-rc1 \
 pwlib_1.5.2 \
 pxaregs_1.14 \
+python-cheetah_2.0.1 \
 python-coherence_0.6.2 \
 python-django_1.0.2 \
 python-gst_0.10.10 \
@@ -1537,6 +1564,7 @@ python-pycairo_1.4.0 \
 python-pycurl_7.18.2 \
 python-pygtk_2.10.4 \
 python-pygtk_2.6.3 \
+python-pygtksourceview_2.6.0 \
 python-scons-native_1.2.0 \
 python-scons_1.2.0 \
 python-setuptools_0.6c9 \
@@ -1564,6 +1592,7 @@ rdesktop_1.3.1 \
 rdesktop_1.4.1 \
 rdesktop_1.5.0 \
 rdiff-backup_1.0.4 \
+re2c_0.13.1 \
 readline_4.3 \
 readline_5.2 \
 realpath_1.10 \
@@ -1571,6 +1600,7 @@ recordproto_1.14 \
 rendercheck_1.3 \
 renderproto_0.11 \
 resolvconf_1.43 \
+resourceproto_1.1.0 \
 rgb_1.0.3 \
 rstart_1.0.3 \
 rsync_2.6.9 \
@@ -1626,6 +1656,7 @@ shared-mime-info_0.20 \
 shared-mime-info_0.22 \
 shorewall_2.0.9 \
 showfont_1.0.2 \
+sip-native_4.7.9 \
 slugos-init_0.10 \
 slugos-init_4.8 \
 smartmontools_5.33 \
@@ -1750,6 +1781,7 @@ util-linux_2.12q \
 util-macros_1.3.0 \
 vagalume_0.5.1 \
 vagalume_0.7.1 \
+vala_0.11.0.1 \
 vala_0.8.1.2 \
 vala_0.9.3.2 \
 vala_0.9.6.1 \
@@ -1790,10 +1822,12 @@ wpa-supplicant_0.4.7 \
 wpa-supplicant_0.4.8 \
 wpa-supplicant_0.4.9 \
 wpa-supplicant_0.6.0 \
+wpa-supplicant_0.6.10 \
 wpa-supplicant_0.6.3 \
 wpa-supplicant_0.6.7 \
 wpa-supplicant_0.6.9 \
 wscan_20080720 \
+wscan_20091230 \
 wt3_2.99.0 \
 wt3_3.0.0 \
 wt_2.2.0 \
@@ -1808,7 +1842,9 @@ xapian-core_1.0.13 \
 xapian-core_1.0.5 \
 xapian-core_1.0.7 \
 xauth_1.0.4 \
+xbacklight_1.1.1 \
 xbiff_1.0.1 \
+xbitmaps_1.1.0 \
 xboard_4.4.1 \
 xcalc_1.0.2 \
 xcb-proto_0.9.91 \
@@ -1835,6 +1871,7 @@ xedit_1.1.2 \
 xev_1.0.4 \
 xextproto_7.0.5 \
 xextproto_7.1.1 \
+xeyes_1.1.0 \
 xf86-input-aiptek_1.3.0 \
 xf86-input-elographics_1.2.3 \
 xf86-input-evdev_2.3.0 \
@@ -1860,6 +1897,7 @@ xf86-video-neomagic_1.2.4 \
 xf86-video-nv_2.1.15 \
 xf86-video-openchrome_0.2.902 \
 xf86-video-rendition_4.2.3 \
+xf86-video-savage_2.3.1 \
 xf86-video-siliconmotion_1.7.3 \
 xf86-video-sis_0.10.2 \
 xf86-video-sisusb_0.9.3 \
@@ -1930,6 +1968,7 @@ xmh_1.0.1 \
 xmodmap_1.0.4 \
 xmonobut_0.4 \
 xmore_1.0.1 \
+xorg-docs_1.5 \
 xorg-sgml-doctools_1.3 \
 xournal_0.3.3 \
 xournal_0.4 \
@@ -1994,7 +2033,6 @@ PKGDUP_IGNORES = " \
 bash_3.0 \
 bluez-libs_3.36 \
 boost_1.33.1 \
-busybox_1.18.0 \
 cherokee_0.99.24 \
 chillispot_1.0RC3 \
 compcache_0.5+0.6pre3 \
@@ -2050,7 +2088,6 @@ iqnotes_2.0.99-2.1.0rc1 \
 lcd4linux_0.11.0-SVN \
 libdisplaymigration_0.99 \
 libeventdb_0.90 \
-libffi_2.0+gcc4.3.2 \
 libsvg-cairo_20050601 \
 libx11_1.1.5 \
 libxfce4util_4.4.2 \
@@ -2091,9 +2128,7 @@ xchat_2.6.8 \
 xf86-video-intel_2.9.1 \
 xf86-video-mga_1.9.100 \
 xf86-video-vesa_2.2.1 \
-xorg-docs_1.5.99.901 \
 xscreensaver_4.22 \
 xserver-kdrive_1.4.2 \
-xserver-xorg_1.9.2.901 \
 ztappy_0.9.3ern \
 "
