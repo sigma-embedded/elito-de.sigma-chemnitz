@@ -51,7 +51,7 @@ Index: busybox-1.17.1/networking/ifupdown.c
  static int FAST_FUNC dhcp_up(struct interface_defn_t *ifd, execfn *exec)
  {
  	unsigned i;
-@@ -546,7 +579,20 @@ static int FAST_FUNC dhcp_up(struct inte
+@@ -546,7 +579,22 @@ static int FAST_FUNC dhcp_up(struct inte
  }
  #endif
  
@@ -65,6 +65,8 @@ Index: busybox-1.17.1/networking/ifupdown.c
 +
 +	if (!kernel_autoconf(ifd->iface)) {
 +		result += static_down(ifd, exec);
++	} else {
++		result += 1;
 +	}
 +
 +	return result == 2 ? result : 0;
