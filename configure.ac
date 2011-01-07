@@ -374,7 +374,7 @@ AC_DEFUN([ELITO_NUMERIC_VERSION],[
 
 	old_IFS=$IFS
 	IFS=.
-	set -- ${verinfo}
+	set -- ${verinfo} 0 0 0
 	IFS=$old_IFS
 
 	$1=$(( m4_for([pos],1,$2,,dnl
