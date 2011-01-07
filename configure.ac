@@ -413,7 +413,7 @@ AC_DEFUN([_cmake_check_version],[
 
 	ELITO_VERSION_CHECK([$2],3,
 			    [${$1} --version |
-                             sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'])
+                             sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
 ])
 
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
