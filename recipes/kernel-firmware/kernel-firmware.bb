@@ -3,7 +3,7 @@ PR		= "r4"
 LICENSE		= "unknown"
 PACKAGE_ARCH	= "all"
 
-SRCREV          = "${AUTOREV}"
+SRCREV          = "bce93b43e6f143a0d27244a788fc4757aa201ea7"
 
 SRC_URI = "\
 	git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git \
