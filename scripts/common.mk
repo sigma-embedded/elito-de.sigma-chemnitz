@@ -13,6 +13,7 @@ _DOMAIN =		$(shell hostname -d)
 
 VPATH ?=		$(abs_top_srcdir)
 W ?=			tmp
+NOW :=			$(shell date +%Y%m%dT%H%M%S)
 
 ELITO_SPACE_MIN =	15
 ELITO_SPACE_FULL =	30
@@ -276,6 +277,18 @@ $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 clean:
 			rm -f set-env.in conf/local.conf bitbake
 
+ifneq ($(wildcard metrics),)
+clean-metrics:		metrics-$(NOW).gz
+endif
+
+metrics-%.gz:		metrics
+			rm -f $@.tmp
+			gzip -c $< > $@.tmp
+			mv $@.tmp $@
+
+clean-metrics:
+			rm -f metrics
+
 clean-sources:
 			rm -f ${CACHE_DIR}/sources/*_svn.*
 			rm -f ${CACHE_DIR}/sources/*_hg.*
@@ -286,7 +299,7 @@ clean-sources:
 			rm -f ${CACHE_DIR}/sources/*.lock
 			#find ${CACHE_DIR}/sources -maxdepth 1 -type f -atime +28 -print0 | xargs -0 rm -vf
 
-mrproper:		clean
+mrproper:		clean clean-metrics
 			rm -rf $W $(_tmpdir)
 
 $(AUTOCONF_FILES): %:	config.status %.in

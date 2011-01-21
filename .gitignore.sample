@@ -8,3 +8,5 @@
 /set-env.in
 /conf/local.conf
 /conf/local.conf.in
+/metrics
+/metrics-*.gz
