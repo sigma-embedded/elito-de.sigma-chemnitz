@@ -3,7 +3,7 @@ DESCRIPTION = "The diet libc is a libc that is optimized for small size. \
 It can be used to create small statically linked binaries"
 LICENSE = "GPLv2"
 
-SRCREV = "749ea37e7793f58be8f0131b82d1affd249de244"
+SRCREV = "c24f54e2d9c3b6629379"
 _pv = "0.32"
 PR = "r0"
 
