@@ -29,4 +29,3 @@ PREFERRED_VERSION_libtool-native         ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-cross          ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-nativesdk      ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-sdk            ?= "${PREFERRED_VERSION_libtool}"
-
