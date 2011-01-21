@@ -18,11 +18,12 @@ S = "${WORKDIR}/git"
 
 EXTRA_OEMAKE = "\
 	STRIP=: \
-	prefix=${STAGING_DIR_TARGET}${libdir}/dietlibc \
+	prefix=${STAGING_DIR_TARGET}${target_libdir}/dietlibc \
 	HOME=\"`pwd`\" \
 	MYARCH:='${BUILD_ARCH}' \
 "
 
+target_libdir ?= "${libdir}"
 
 inherit gitpkgv
 
@@ -35,5 +36,5 @@ do_configure () {
 }
 
 FILES_${PN}      = "${bindir}/*"
-FILES_${PN}-dev += "${libdir}/dietlibc/*"
-FILES_${PN}-dbg += "${libdir}/dietlibc/lib-*/.debug"
+FILES_${PN}-dev += "${target_libdir}/dietlibc/*"
+FILES_${PN}-dbg += "${target_libdir}/dietlibc/lib-*/.debug"
