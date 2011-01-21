@@ -11,7 +11,7 @@ DEFAULT_PREFERENCE = "99"
 
 inherit gitpkgv
 
-SRCREV  = "${AUTOREV}"
+SRCREV  = "004760f969175da7392dd02bb4fa14164ff46c1e"
 SRC_URI = "\
         git://git.infradead.org/mtd-utils.git;protocol=git	\
 	file://0001-fixed-integer-underflow-in-jffs2_rtime_compress.patch	\

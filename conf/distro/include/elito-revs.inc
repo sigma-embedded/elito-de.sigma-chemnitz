@@ -30,5 +30,4 @@ PREFERRED_VERSION_libtool-cross          ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-nativesdk      ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-sdk            ?= "${PREFERRED_VERSION_libtool}"
 
-SRCREV_pn-mtd-utils        ?= "004760f969175da7392dd02bb4fa14164ff46c1e"
 SRCREV_pn-dietlibc         ?= "749ea37e7793f58be8f0131b82d1affd249de244"
