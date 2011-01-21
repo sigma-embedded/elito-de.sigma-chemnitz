@@ -2,19 +2,18 @@ DESCRIPTION	= "Tools for managing memory technology devices."
 SECTION		= "base"
 HOMEPAGE	= "http://www.linux-mtd.infradead.org/"
 LICENSE		= "GPLv2"
-_pv		= "1.3.1"
+_pv		= "1.4.1"
 PV		= "${_pv}+gitr${SRCPV}"
 PKGV		= "${_pv}+git${GITPKGV}"
-PR		= "r9"
+PR		= "r0"
 
 DEFAULT_PREFERENCE = "99"
 
 inherit gitpkgv
 
-SRCREV  = "004760f969175da7392dd02bb4fa14164ff46c1e"
+SRCREV  = "3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c"
 SRC_URI = "\
         git://git.infradead.org/mtd-utils.git;protocol=git	\
-	file://0001-fixed-integer-underflow-in-jffs2_rtime_compress.patch	\
 	file://no-man-install.patch \
 "
 S = "${WORKDIR}/git"
