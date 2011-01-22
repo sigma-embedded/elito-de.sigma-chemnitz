@@ -1,6 +1,6 @@
-Index: bitbake/lib/bb/cooker.py
+Index: lib/bb/cooker.py
 ===================================================================
---- lib/bb/cooker.py
+--- lib/bb/cooker.py.orig
 +++ lib/bb/cooker.py
 @@ -572,7 +572,12 @@ class BBCooker:
  

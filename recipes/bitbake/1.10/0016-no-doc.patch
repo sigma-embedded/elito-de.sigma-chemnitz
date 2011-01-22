@@ -1,6 +1,6 @@
-Index: bitbake/setup.py
+Index: setup.py
 ===================================================================
---- setup.py
+--- setup.py.orig
 +++ setup.py
 @@ -47,7 +47,7 @@ class Build(build):
          origpath = os.path.abspath(os.curdir)

@@ -1,6 +1,6 @@
-Index: ui/knotty.py
+Index: lib/bb/ui/knotty.py
 ===================================================================
---- lib/bb/ui.orig/knotty.py
+--- lib/bb/ui/knotty.py.orig
 +++ lib/bb/ui/knotty.py
 @@ -84,7 +84,6 @@ def init(server, eventHandler):
                  print 'WARNING: ' + event._message

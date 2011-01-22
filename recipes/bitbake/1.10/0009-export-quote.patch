@@ -2,7 +2,7 @@ Index: lib/bb/fetch/__init__.py
 ===================================================================
 --- lib/bb/fetch/__init__.py.orig
 +++ lib/bb/fetch/__init__.py
-@@ -430,7 +430,7 @@ def runfetchcmd(cmd, d, quiet = False):
+@@ -432,7 +432,7 @@ def runfetchcmd(cmd, d, quiet = False):
      for var in exportvars:
          val = data.getVar(var, d, True)
          if val:
