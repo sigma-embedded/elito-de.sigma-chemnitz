@@ -22,3 +22,4 @@ do_install_append_ubifs() {
 }
 
 FILES_${PN} = "${sysconfdir}/mdev.conf ${sysconfdir}/mdev/*.sh"
+CONFFILES_${PN} = "${sysconfdir}/mdev.conf"
