@@ -9,6 +9,7 @@ PDFLATEX ?= pdflatex
 BIBTEX ?= bibtex
 SHA1SUM ?= sha1sum
 SED ?= sed
+PDFLATEX_FLAGS = -interaction nonstopmode -halt-on-error -file-line-error
 
 THIS_MAKEFILE = $(abspath $(firstword ${MAKEFILE_LIST}))
 
@@ -42,7 +43,7 @@ elito-manual.pdf:	${elito-manual_SRCS} Makefile
 	mkdir -p out
 	while true; do \
 		old_sum=`( cd out && cat $(patsubst %.tex,%.aux,$(filter %.tex,$^)) 2>/dev/null ) | ${SHA1SUM}` && \
-		env TEXINPUTS=.:$(abspath .): $(MAKE) -f ${THIS_MAKEFILE} -C out .build_latex OUTFILE='$@' SOURCES='$^' MAIN='$<' && \
+		env TEXINPUTS=.:$(abspath .): $(MAKE) -f ${THIS_MAKEFILE} -C out .build_latex OUTFILE='$@' SOURCES='$^' MAIN='$<' || exit 1; \
 		new_sum=`( cd out && cat $(patsubst %.tex,%.aux,$(filter %.tex,$^)) 2>/dev/null ) | ${SHA1SUM}` && \
 		{ test x"$$old_sum" = x"$$new_sum" && break; } \
 	done
