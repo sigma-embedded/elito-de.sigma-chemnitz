@@ -22,7 +22,10 @@ elito-manual_SRCS = \
 	A0-logs.tex			\
 	B0-bootloaders.tex		\
 	C0-dirtrees.tex			\
-	hyperref.cfg
+	D0-references.tex		\
+	hyperref.cfg			\
+	elito-setup.txt			\
+	elito-make.txt
 
 SED_CMD = \
 	-e 's!@GITCNT@!$(CUR_GIT_CNT)!g' \

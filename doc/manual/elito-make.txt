@@ -1,0 +1,48 @@
+elito-release-201009@london:/srv/elito$ make configure M=COLIBRI320 NFSROOT=/srv/sysroots CACHEROOT=/srv/cache
+make -C 'COLIBRI320' -f /srv/elito/Makefile configure _MODE=configure _topdir=/srv/elito
+make[1]: Entering directory `/srv/elito/COLIBRI320'
+/srv/elito/de.sigma-chemnitz/configure --enable-maintainer-mode --with-cache-dir='/srv/cache' --enable-machine=toradex-colibri320 --enable-nfs-root=/srv/sysroots/colibri320/evalboard --with-project-name=colibri320
+checking whether 'sh' is 'bash'... yes
+checking whether to enable offline mode... no
+checking whether security wrapper works... yes
+checking for development components... auto
+configure:   enabling component 'kernel'
+configure:   enabling component 'u-boot'
+checking for python... /usr/bin/python
+checking for bitbake version... 1.10
+checking whether to enable an NFS root directory... yes (/srv/sysroots/colibri320/evalboard)
+checking for tftp server... 192.168.0.141
+checking for tftp root directory... /tftpboot
+checking whether 'type -p' works... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for native pkg-config path... :/usr/lib/pkgconfig:/usr/share/pkgconfig
+checking for autoreconf... /usr/bin/autoreconf
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for quilt... no
+checking whether to enable system version for quilt... no
+checking for sed... /bin/sed
+checking whether to enable system version for sed... yes
+checking for wget... /usr/bin/wget
+checking whether to enable system version for wget... yes
+checking for m4... /usr/bin/m4
+checking whether to enable system version for m4... yes
+checking for bison... no
+checking whether to enable system version for bison... no
+checking for flex... no
+checking whether to enable system version for flex... no
+checking for gettext... /usr/bin/gettext
+...
+checking for LIBXSLT... no
+checking for LIBXML2... no
+checking for OPENSSL... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating set-env.in
+config.status: creating conf/local.conf.in
+config.status: creating bitbake
+config.status: executing config commands
+config.status: executing fixperm commands
+make[1]: Leaving directory `/srv/elito/COLIBRI320'
+elito-release-201009@london:/srv/elito$

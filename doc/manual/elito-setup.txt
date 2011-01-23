@@ -1,0 +1,96 @@
+elito-release-201009@london:/srv/elito$ bash ../elito-setup `pwd` pub/elito/reference release-201009
+Core programs:
+  checking for program tar... /bin/tar
+  checking for program gzip... /bin/gzip
+  checking for program sed... /bin/sed
+  checking for program grep... /bin/grep
+  checking for program gcc... /usr/bin/gcc
+  checking for program make... /usr/bin/make
+  checking for program install... /usr/bin/install
+  checking for program ldconfig... /sbin/ldconfig
+  checking for program pkg-config... /usr/bin/pkg-config
+  checking for program socat... /usr/bin/socat
+  checking for program git... /usr/bin/git
+  checking for program cvs... /usr/bin/cvs
+  checking for program svn... /usr/bin/svn
+  checking for program autoconf... /usr/bin/autoconf
+  checking for program libtoolize... /usr/bin/libtoolize
+  checking for program autoreconf... /usr/bin/autoreconf
+  checking for program python... /usr/bin/python
+  checking for program nc... /bin/nc
+    checking whether this is the BSD version of nc... yes
+  checking for program wget... /usr/bin/wget
+
+Libraries:
+  checking for libproxy... no
+
+General questions:
+  Where to install ELiTo [/srv/elito]?
+
+Proxy traversal/remote setup:
+  checking for program sigma-ssl-client... no
+  Building sigma-ssl-client:
+    checking for package GNUTLS...yes (2.8.5)
+    building sigma-ssl-client... ok
+  location of ELiTo certificate [${HOME}/.elito.pem]?
+  checking for program elito-proxy... no
+    creating /srv/elito/.bin/elito-proxy... done
+  registering elito-proxy in git... done
+  project repository [pub/elito/reference]?
+
+checking out project repository...  ok
+registering elito-proxy in local git repository...  done
+downloading project data (this will take some time)...
+Submodule 'de.sigma-chemnitz' (git://git.sigma-chemnitz.de:4815/pub/elito/de.sigma-chemnitz.git) registered for path 'de.sigma-chemnitz'
+Submodule 'org.openembedded' (git://git.sigma-chemnitz.de:4815/pub/elito/org.openembedded.git) registered for path 'org.openembedded'
+git.kernel.org[0: 199.6.1.166]: errno=Connection refused
+git.kernel.org[0: 130.239.17.7]: errno=Connection refused
+fatal: unable to connect a socket (Connection refused)
+remote: Counting objects: 1854711, done.
+remote: Compressing objects: 100% (309586/309586), done.
+Receiving objects: 100% (1854711/1854711), 469.13 MiB | 8.47 MiB/s, done.
+remote: Total 1854711 (delta 1545310), reused 1837348 (delta 1528855)
+Resolving deltas: 100% (1545310/1545310), done.
+From git://git.sigma-chemnitz.de:4815/kernel
+ * [new branch]      2.6.27/elito -> 2.6.27/elito
+...
+ * [new tag]         v2.6.34-rc5 -> v2.6.34-rc5
+ * [new tag]         v2.6.34-rc6 -> v2.6.34-rc6
+ * [new tag]         v2.6.34-rc7 -> v2.6.34-rc7
+remote: Counting objects: 115357, done.
+remote: Compressing objects: 100% (21167/21167), done.
+remote: Total 115357 (delta 94403), reused 114077 (delta 93462)
+Receiving objects: 100% (115357/115357), 32.88 MiB | 10.49 MiB/s, done.
+Resolving deltas: 100% (94403/94403), done.
+From git://git.sigma-chemnitz.de:4815/u-boot
+ * [new branch]      2008.10/elito -> 2008.10/elito
+ * [new branch]      2008.10/toradex/colibri320 -> 2008.10/toradex/colibri320
+ * [new branch]      2009.08/elito -> 2009.08/elito
+...
+ * [new tag]         v2009.11.1 -> v2009.11.1
+ * [new tag]         v2010.03   -> v2010.03
+ * [new tag]         v2010.06   -> v2010.06
+Initialized empty Git repository in /srv/elito/de.sigma-chemnitz/.git/
+remote: Counting objects: 4956, done.
+remote: Compressing objects: 100% (1936/1936), done.
+remote: Total 4956 (delta 3107), reused 4532 (delta 2819)
+Receiving objects: 100% (4956/4956), 627.98 KiB, done.
+Resolving deltas: 100% (3107/3107), done.
+Submodule path 'de.sigma-chemnitz': checked out '8829052485878a03c5321a54f5ed2481caefd3f8'
+Initialized empty Git repository in /srv/elito/org.openembedded/.git/
+remote: Counting objects: 376578, done.
+remote: Compressing objects: 100% (114544/114544), done.
+remote: Total 376578 (delta 256862), reused 372273 (delta 252593)
+Receiving objects: 100% (376578/376578), 150.98 MiB | 10.11 MiB/s, done.
+Resolving deltas: 100% (256862/256862), done.
+Submodule path 'org.openembedded': checked out 'a7eb519e2c344f38751c736bba0f3a6f96c7ca8c'
+*******************************************
+Project has been downloaded; now go to /srv/elito, set parameters
+in .config-<domain> or .config-<hostname> and execute
+
+  make configure M=<project>
+  make build M=<project>
+
+ there.
+*******************************************
+elito-release-201009@london:/srv/elito$

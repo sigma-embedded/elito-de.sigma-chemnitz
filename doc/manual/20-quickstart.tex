@@ -7,6 +7,37 @@ server and will populate directory trees as shown in
 various binary images (e.g. for kernel, bootloader and rootfs) and
 packages which can be installed manually on the system.
 
+\section{Development host preparations}
+
+Although OpenEmbedded is almost self-hosting, some software is
+required for bootstrapping and download tasks:
+
+\begin{itemize}
+\item tar, gzip, grep, xz
+\item gcc, g++
+\item socat, wget, gawk, chrpath
+\item git, cvs, svn
+\item pkg-config, autoconf, automake, libtool
+\item gnutls development files
+\item help2man, diffstat, texi2html, makeinfo
+\end{itemize}
+
+\subsection*{Ubuntu 10.04}
+\begin{lstlisting}[language={}]
+sudo aptitude install \
+   tar gzip sed xz-utils grep gawk chrpath \
+   gcc g++ pkg-config \
+   socat git-core cvs subversion autoconf libtool wget \
+   libgnutls-dev help2man diffstat texi2html texinfo
+\end{lstlisting}
+
+Some parts of OpenEmbedded require \texttt{/bin/sh} to be a bash.
+Ubuntu uses \texttt{dash} as the default shell which requires a manual
+reconfiguration by
+\begin{lstlisting}[language={}]
+dpkg-reconfigure dash
+\end{lstlisting}
+
 
 \section{ELiTo metadata download}
 \label{subsec:quickstart_elito-download}
