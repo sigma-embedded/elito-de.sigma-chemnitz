@@ -1,9 +1,4 @@
 # --*- python -*--
-SRC_URI_append_pn-ipkg-utils-native = " \
-        file://${ELITO_TOPDIR}/files/ipkg-utils/license.patch;apply=yes"
-SRC_URI_append_pn-ipkg-utils        = "\
-        file://${ELITO_TOPDIR}/files/ipkg-utils/license.patch;apply=yes"
-
 SRC_URI_append_pn-opkg-native = " \
         file://${ELITO_TOPDIR}/files/opkg/license-info.patch;apply=yes"
 SRC_URI_append_pn-opkg        = " \
