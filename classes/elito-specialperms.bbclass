@@ -1,4 +1,4 @@
-IPKGBUILDCMD = "; set -x; fakeroot -i ${S}/fakeroot-session ipkg-build"
+OPKGBUILDCMD = "; set -x; fakeroot -i ${S}/fakeroot-session opkg-build"
 
 fixup_perms () {
     cd ${PKGDEST}

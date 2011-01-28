@@ -159,7 +159,7 @@ find-dups:		init
 _space_check = ${ELITO_STATVFS} '${abs_top_builddir}/${W}'
 
 $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp
-			$(call _call_cmd,$(BITBAKE) stagemanager-native ipkg-utils-native,prep)
+			$(call _call_cmd,$(BITBAKE) opkg-utils-native,prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
 			fi
