@@ -471,6 +471,7 @@ ELITO_CHECK_PROGRAM( 0, COREUTILS,  basename, coreutils)
 ELITO_CHECK_PROGRAM(60, PERL,       perl)
 ELITO_CHECK_PROGRAM(90, AUTOCONF,   autoconf)
 ELITO_CHECK_PROGRAM(90, AUTOMAKE,   automake)
+ELITO_CHECK_PROGRAM( 0, INTLTOOL,   intltool)
 ELITO_CHECK_PROGRAM(90, LIBTOOL,    libtoolize,  libtool)
 ELITO_CHECK_PROGRAM(60, UIC_QT4,    uic-qt4,     uicmoc4)
 ELITO_CHECK_PROGRAM(20, MTD_UTILS,  mkfs.ubifs,  mtd-utils)
@@ -485,7 +486,7 @@ ELITO_CHECK_PROGRAM( 0, TCL,        tclsh, tcl)
 ELITO_CHECK_PROGRAM( 0, TK,         witch, tk)
 ELITO_CHECK_PROGRAM( 0, ANT,        ant, ant)
 ELITO_CHECK_PROGRAM( 0, JAVAC,      javac)
-
+ELITO_CHECK_PROGRAM( 0, HELP2MAN,   help2man)
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
 AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
@@ -509,6 +510,10 @@ PKG_CHECK_MODULES(LIBXSLT,   [libxslt > 1.1.20], [ELITO_ASSUME(10, libxslt,   tr
 PKG_CHECK_MODULES(LIBXML2,   [libxml-2.0 > 2.7], [ELITO_ASSUME(10, libxml2,   true)], [true])
 PKG_CHECK_MODULES(OPENSSL,   [openssl libssl libcrypto],
 		  [ELITO_ASSUME(0, openssl, true)], [true])
+
+PKG_CHECK_MODULES(UUID,      [uuid >= 2.18], [
+  ELITO_CHECK_PROGRAM( 0, UTIL_LINUX, mount, util-linux)
+  ELITO_CHECK_PROGRAM( 0, UTIL_LINUX, mount, util-linux-ng)], [true])
 
 AC_CONFIG_FILES([Makefile
 		set-env.in
