@@ -184,6 +184,7 @@ conserver_8.1.2 \
 consolekit_0.3.0 \
 contacts_0.8 \
 cpusage_0.1 \
+cryptsetup_1.0.5 \
 cups_1.1.23 \
 cups_1.2.12 \
 cups_1.2.7 \
@@ -461,7 +462,6 @@ gimp_2.5.2 \
 gimp_2.6.0 \
 gimp_2.6.3 \
 gizmod_2.3 \
-glib-2.0-native_2.22.1 \
 glib-2.0_2.12.12 \
 glib-2.0_2.20.3 \
 glib-2.0_2.20.4 \
@@ -633,12 +633,15 @@ gspcav1_20070110 \
 gspcav1_20070508 \
 gssdp_0.6.3 \
 gst-ffmpeg_0.10.2 \
+gst-plugins-bad_0.10.20 \
 gst-plugins-base_0.10.25 \
+gst-plugins-base_0.10.31 \
 gst-plugins-good_0.10.15 \
 gst-rtsp_0.10.4 \
 gst-rtsp_0.10.5 \
 gstreamer_0.10.17 \
 gstreamer_0.10.25 \
+gstreamer_0.10.31 \
 gthumb_2.6.9 \
 gtk+_2.10.14 \
 gtk+_2.14.1 \
@@ -701,6 +704,7 @@ hydra_4.4 \
 i2c-tools_3.0.1 \
 ica-bin_8.0 \
 icedtea6-native_1.7.5 \
+icedtea6-native_1.7.6 \
 iksemel_1.2 \
 imagemagick_6.3.5-10 \
 inetutils_1.4.2 \
@@ -860,9 +864,6 @@ liboil_0.3.11 \
 liboil_0.3.14 \
 liboil_0.3.15 \
 liboil_0.3.9 \
-libomxil-bellagio_0.9.0 \
-libomxil-bellagio_0.9.1 \
-libomxil-bellagio_0.9.2 \
 libopensync-plugin-file_0.18 \
 libopensync-plugin-irmc_0.18 \
 libopensync-plugin-syncml_0.22 \
@@ -1076,7 +1077,6 @@ linux-wrt_2.4.20 \
 linux-wrt_2.4.30 \
 linux-x86_2.6.17.9 \
 linux-x86_2.6.20 \
-linux-xxs1500_2.4.21 \
 linux-z_2.6.20 \
 linux_2.6.14 \
 linux_2.6.18 \
@@ -1113,7 +1113,6 @@ lxpanel_0.3.8.1 \
 lyx_1.6.1 \
 madwifi-ng_r2826-20071105 \
 madwifi-ng_r3314-20080131 \
-madwifi-ng_r3837-20080802 \
 madwifi-ng_r3878-20081204 \
 mailx_8.1.2-0.20020411cvs \
 mailx_8.1.2-0.20040524cvs \
@@ -1141,6 +1140,7 @@ matchbox_0.8.1 \
 matchbox_0.9 \
 mc_4.6.0 \
 mc_4.6.1 \
+mc_4.6.2 \
 mdadm_1.12.0 \
 mdadm_2.5.5 \
 mdk2_v33 \
@@ -1242,6 +1242,7 @@ octave_3.0.0 \
 octave_3.0.3 \
 olsrd_0.5.3 \
 omap3-sgx-modules_1.4.14.2514 \
+omap3-sgx-modules_1.4.14.2616 \
 opal_3.4.4 \
 opal_3.5.2 \
 opal_3.6.1 \
@@ -1250,7 +1251,9 @@ opal_3.6.4 \
 opal_3.6.6 \
 opal_3.8.0 \
 openbmap-logger_0.2.0 \
+opencv-samples_2.1 \
 opencv_1.0.0 \
+opencv_2.1 \
 openntpd_3.7p1 \
 openobex_1.2 \
 openobex_1.3 \
