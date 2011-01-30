@@ -487,6 +487,8 @@ ELITO_CHECK_PROGRAM( 0, TK,         witch, tk)
 ELITO_CHECK_PROGRAM( 0, ANT,        ant, ant)
 ELITO_CHECK_PROGRAM( 0, JAVAC,      javac)
 ELITO_CHECK_PROGRAM( 0, HELP2MAN,   help2man)
+ELITO_CHECK_PROGRAM( 0, MAKEDEPEND, makedepend)
+ELITO_CHECK_PROGRAM( 0, IMAKE,      imake)
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
 AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
