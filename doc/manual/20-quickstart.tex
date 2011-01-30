@@ -20,6 +20,7 @@ required for bootstrapping and download tasks:
 \item pkg-config, autoconf, automake, libtool
 \item gnutls development files
 \item help2man, diffstat, texi2html, makeinfo
+\item python-libxml2 bindings
 \end{itemize}
 
 \subsection*{Ubuntu 10.04}
@@ -28,7 +29,8 @@ sudo aptitude install \
    tar gzip sed xz-utils grep gawk chrpath \
    gcc g++ pkg-config \
    socat git-core cvs subversion autoconf libtool wget \
-   libgnutls-dev help2man diffstat texi2html texinfo
+   libgnutls-dev help2man diffstat texi2html texinfo \
+   python-libxml2
 \end{lstlisting}
 
 Some parts of OpenEmbedded require \texttt{/bin/sh} to be a bash.
