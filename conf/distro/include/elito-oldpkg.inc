@@ -38,6 +38,7 @@ asterisk_1.4.23.1 \
 at-spi_1.30.0 \
 at91bootstrap_2.10 \
 at91bootstrap_2.11 \
+at91bootstrap_2.13 \
 at91bootstrap_2.4 \
 at_3.1.8 \
 atd_0.70 \
@@ -62,6 +63,7 @@ avahi_0.6.22 \
 avahi_0.6.23 \
 avahi_0.6.24 \
 balsa_2.0.17 \
+barebox_2009.12 \
 batmand_0.3 \
 bc-cube_0.1.0 \
 bind_9.3.1 \
@@ -172,24 +174,23 @@ cherokee_0.98.0 \
 chicken-cross_4.2.10 \
 chicken_4.2.10 \
 clamav_0.95.3 \
+clutter-gst_1.2.0 \
 clutter-gtk_0.10.2 \
 clutter_1.0.10 \
+clutter_1.2.12 \
 cmake-native_2.6.4 \
 cmake_2.6.4 \
 commoncpp2_1.7.1 \
 comprec_0.01 \
 connman_0.46 \
 connman_0.51 \
+connman_0.65 \
 conserver_8.1.2 \
 consolekit_0.3.0 \
 contacts_0.8 \
 cpusage_0.1 \
 cryptsetup_1.0.5 \
-cups_1.1.23 \
 cups_1.2.12 \
-cups_1.2.7 \
-cups_1.3.8 \
-cups_1.4.3 \
 curl_7.21.1 \
 cvs_1.12.8 \
 cyrus-imapd_2.2.5 \
@@ -197,8 +198,6 @@ cyrus-sasl_2.1.17 \
 cyrus-sasl_2.1.18 \
 dates_0.4.5 \
 davfs2_0.2.7 \
-db-native_4.3.29 \
-db_4.3.29 \
 dbus-glib_0.74 \
 dbus-glib_0.78 \
 dbus-native_1.2.1 \
@@ -470,6 +469,7 @@ glib-2.0_2.22.4 \
 glib-2.0_2.23.6 \
 glib-2.0_2.24.0 \
 glib-2.0_2.24.1 \
+glib-2.0_2.26.1 \
 glib-2.0_2.6.4 \
 glib-2.0_2.8.6 \
 glibc-initial_2.2.5 \
@@ -499,7 +499,6 @@ gnash_0.8.3 \
 gnash_0.8.4 \
 gnash_0.8.5 \
 gnash_0.8.7 \
-gnokii_0.6.4 \
 gnome-games_2.30.2 \
 gnome-icon-theme_2.28.0 \
 gnome-mplayer_0.5.3 \
@@ -678,6 +677,7 @@ gupnp_0.12.4 \
 gupnp_0.12.5 \
 gupnp_0.13.1 \
 gvfs_1.6.0 \
+gvfs_1.6.6 \
 hal-info_20070618 \
 hal-info_20070831 \
 hal-info_20080313 \
@@ -781,10 +781,7 @@ libdbi_0.7.2 \
 libdvdnav_0.1.10 \
 libdvdread_0.9.6 \
 libdvdread_0.9.7 \
-libecj-bootstrap_3.3 \
-libecj-bootstrap_3.3.2 \
-libecj-bootstrap_3.4 \
-libecj-bootstrap_3.4.1 \
+libecj-bootstrap_3.6 \
 libeina_0.96.5 \
 libelf_0.8.3 \
 libelf_0.8.6 \
@@ -843,6 +840,7 @@ libmicrohttpd_0.4.2 \
 libmikmod_3.1.12 \
 libmimedir_0.0-20040307 \
 libmimedir_0.3.1 \
+libmms_0.5 \
 libmodplug_0.8.4 \
 libmpc_0.8.1 \
 libmrss_0.17.2 \
@@ -893,7 +891,6 @@ libschedule_0.14 \
 libschedule_0.15 \
 libschedule_0.16 \
 libsdl-directfb_1.2.11 \
-libsdl-directfb_1.2.9 \
 libsdl-gfx_2.0.11 \
 libsdl-image_1.2.3 \
 libsdl-image_1.2.6 \
@@ -916,6 +913,7 @@ libsndfile1_1.0.16 \
 libsndfile1_1.0.17 \
 libsoundgen_0.3 \
 libsoundgen_0.5 \
+libsoup-2.4_2.32.2 \
 libsoup_2.2.7 \
 libsyncml_0.4.0 \
 libsyncml_0.4.6 \
@@ -1180,8 +1178,10 @@ minilite_0.49 \
 minimix_0.7 \
 minimix_0.8 \
 modemmanager_0.3 \
+module-init-tools-cross_3.2.2 \
 module-init-tools_3.2.1 \
 module-init-tools_3.2.2 \
+module-init-tools_3.4 \
 mousepad_0.2.13 \
 mp3blaster_3.1.3 \
 mp3blaster_3.2.0 \
@@ -1221,6 +1221,7 @@ networkmanager_0.7.1.997 \
 networkmanager_0.7olpc \
 networkmanager_0.8 \
 nfs-utils_1.0.6 \
+nodejs_0.2.6 \
 notecase_1.2.6 \
 notecase_1.6.9 \
 notification-daemon_0.3.6 \
@@ -1240,6 +1241,7 @@ octave_2.1.73 \
 octave_2.9.19 \
 octave_3.0.0 \
 octave_3.0.3 \
+ofono_0.37 \
 olsrd_0.5.3 \
 omap3-sgx-modules_1.4.14.2514 \
 omap3-sgx-modules_1.4.14.2616 \
@@ -1254,6 +1256,7 @@ openbmap-logger_0.2.0 \
 opencv-samples_2.1 \
 opencv_1.0.0 \
 opencv_2.1 \
+openjdk-6_6b18-1.8 \
 openntpd_3.7p1 \
 openobex_1.2 \
 openobex_1.3 \
@@ -1292,8 +1295,6 @@ pcmciautils_010 \
 pcmciautils_013 \
 pcmciautils_014 \
 pcsc-lite_1.4.102 \
-perl-native_5.8.8 \
-perl_5.8.8 \
 phoneme-advanced-foundation_0.0.b87 \
 picocom_1.3 \
 pidgin_2.5.8 \
@@ -1322,9 +1323,6 @@ portmap_5-26 \
 portmap_5-9 \
 postfix_2.0.20 \
 postfix_2.2.12 \
-postgresql_8.1.4 \
-postgresql_8.1.8 \
-postgresql_8.2.17 \
 povray_3.6.1 \
 powertop_1.10 \
 powertop_1.8 \
@@ -1351,6 +1349,7 @@ ptlib_2.6.4 \
 ptlib_2.6.5 \
 ptlib_2.8.0 \
 pulseaudio_0.9.15 \
+pulseaudio_0.9.21 \
 puppy_1.8 \
 puppy_1.9 \
 pvrusb2-mci_20060903 \
@@ -1364,7 +1363,7 @@ python-coherence_0.6.2 \
 python-django_1.0.2 \
 python-gst_0.10.10 \
 python-lxml_2.2.6 \
-python-native_2.6.5 \
+python-native_2.6.6 \
 python-numeric_23.7 \
 python-numpy_1.1.1 \
 python-pybluez_0.15 \
@@ -1378,7 +1377,7 @@ python-scons-native_1.2.0 \
 python-scons_1.2.0 \
 python-setuptools_0.6c9 \
 python-sip_4.7.9 \
-python_2.6.5 \
+python_2.6.6 \
 qc-usb-messenger_0.8 \
 qemu_0.12.5 \
 qof_0.6.0 \
@@ -1408,8 +1407,8 @@ realpath_1.10 \
 resolvconf_1.43 \
 rsync_2.6.9 \
 rsync_3.0.0 \
-rsyslog_5.4.0 \
 rsyslog_5.5.4 \
+rsyslog_5.5.6 \
 rt2570-k2wrlz_1.6.0 \
 rt2570-k2wrlz_1.6.1 \
 rt3070_2.1.1.0 \
@@ -1467,6 +1466,7 @@ sox_12.17.5 \
 sphinxbase_0.1 \
 sqlite3_3.6.13 \
 sqlite3_3.6.20 \
+sqlite3_3.6.23.1 \
 squid_2.7.STABLE8 \
 sshfs-fuse_1.8 \
 startup-notification_0.5 \
@@ -1559,6 +1559,8 @@ unicap_0.9.3 \
 unicap_0.9.4 \
 unionfs-utils_1.0.11 \
 unixbench_4.1.0 \
+update-alternatives-dpkg-native_1.13.25 \
+update-alternatives-dpkg_1.13.25 \
 upslug2-native_8 \
 upslug2_10 \
 upslug2_8 \
@@ -1572,6 +1574,7 @@ util-linux-ng_2.13.1 \
 util-linux-ng_2.14 \
 util-linux-ng_2.15 \
 util-linux-ng_2.16 \
+util-linux-ng_2.17.2 \
 util-linux_2.12 \
 util-linux_2.12o \
 util-linux_2.12q \
