@@ -2,7 +2,7 @@ SECTION		= "base"
 DESCRIPTION	= "ELiTo Base utilities"
 LICENSE		= "GPLv3"
 PV		= "0.8.13"
-PR		= "r0"
+PR		= "r1"
 
 bindir		= "/bin"
 sbindir		= "/sbin"
@@ -10,6 +10,8 @@ sbindir		= "/sbin"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 PACKAGES	=  "${PN}-dbg ${PN}"
 RCONFLICTS_${PN} = "sysvinit"
+
+DEPENDS        += "dietlibc-cross"
 
 S               = "${WORKDIR}/elito-setup-${PV}"
 SRC_URI		= " \
@@ -27,6 +29,8 @@ FILES_${PN}	= "	\
 	${bindir}/*			\
 	/etc/files.d			\
 "
+
+EXTRA_OEMAKE += "DIET=diet"
 
 do_compile() {
 	oe_runmake
