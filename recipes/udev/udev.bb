@@ -5,19 +5,20 @@ RPROVIDES_${PN} = "hotplug"
 LICENSE = "GPLv2"
 DEPENDS = "acl virtual/libusb0 usbutils glib-2.0 gperf-native"
 
-PV	= "164"
-PR	= "r1"
+PV	= "166"
+PR	= "r0"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
 	file://udev-145-settlerace.patch	\
 	file://udev-164-stop.patch		\
 	file://udev-158-target-input.patch	\
+	file://nov4l.patch			\
 	file://60-ubi.rules			\
 "
 
-SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
-SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
+SRC_URI[md5sum] = "a5a896b3d945e0ab804667ff0096eaf7"
+SRC_URI[sha256sum] = "76fe334ad21d88476371b835352f494ca56d271f6212eb402e5b17e37351a48e"
 
 _sbindir    = "/sbin"
 rootlibdir  = "/lib"
