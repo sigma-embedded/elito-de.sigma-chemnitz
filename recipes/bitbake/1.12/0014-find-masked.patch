@@ -1,0 +1,43 @@
+Index: lib/bb/cooker.py
+===================================================================
+--- lib/bb/cooker.py.orig
++++ lib/bb/cooker.py
+@@ -909,9 +909,12 @@ class BBCooker:
+ 
+         bbfiles = []
+         bbappend = []
++        maskedfiles = []
+         for f in newfiles:
+             if bbmask and bbmask_compiled.search(f):
+-                collectlog.debug(1, "skipping masked file %s", f)
++                collectlog.debug(2, "skipping masked file %s", f)
++                if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++                    maskedfiles.append(f)
+                 masked += 1
+                 continue
+             if f.endswith('.bb'):
+@@ -928,6 +931,11 @@ class BBCooker:
+                self.appendlist[base] = []
+             self.appendlist[base].append(f)
+ 
++        if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++            bb.data.setVar("_BBMASKED", maskedfiles, self.configuration.data)
++            bb.event.fire(CookerNewFiles(bbfiles, maskedfiles),
++                          self.configuration.data)
++
+         return (bbfiles, masked)
+ 
+     def get_file_appends(self, fn):
+@@ -962,6 +970,12 @@ def parse_file(task):
+         exc.recipe = filename
+         raise exc
+ 
++class CookerNewFiles(bb.event.Event):
++    def __init__(self, finalfiles, maskedfiles):
++        bb.event.Event.__init__(self)
++        self.finalfiles = finalfiles
++        self.maskedfiles = maskedfiles
++
+ class CookerParser(object):
+     def __init__(self, cooker, filelist, masked):
+         self.filelist = filelist

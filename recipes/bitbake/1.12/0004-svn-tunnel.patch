@@ -1,0 +1,18 @@
+Index: lib/bb/fetch/svn.py
+===================================================================
+--- lib/bb/fetch/svn.py.orig
++++ lib/bb/fetch/svn.py
+@@ -90,9 +90,13 @@ class Svn(Fetch):
+         """
+ 
+         basecmd = data.expand('${FETCHCMD_svn}', d)
++        tunnel  = data.getVar('BB_SVN_TUNNEL', d, True) or ""
+ 
+         proto = ud.parm.get('proto', 'svn')
+ 
++        if proto == "svn":
++            proto = proto + tunnel
++
+         svn_rsh = None
+         if proto == "svn+ssh" and "rsh" in ud.parm:
+             svn_rsh = ud.parm["rsh"]
