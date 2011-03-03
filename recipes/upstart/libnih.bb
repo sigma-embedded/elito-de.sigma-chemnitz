@@ -7,15 +7,15 @@ base_deps        = "dbus expat pkgconfig-native bison-native"
 DEPENDS          = "${base_deps} libnih-native"
 DEPENDS_virtclass-native = "${base_deps}"
 
-PV = "1.0.2"
-PR = "r1"
+PV = "1.0.3"
+PR = "r0"
 
 SRC_URI = " \
-	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz;name=tarball \
+	http://upstart.ubuntu.com/download/libnih/1.0/libnih-${PV}.tar.gz \
 	file://libnih-nom4.patch"
 
-SRC_URI[tarball.md5sum]    = "89bf20db4ff3f005cc37482a4f050650"
-SRC_URI[tarball.sha256sum] = "7b0c0a95eb718ad0aa591f67db7b9f274cecdedd2037fc066037ea7b99c2257e"
+SRC_URI[md5sum] = "db7990ce55e01daffe19006524a1ccb0"
+SRC_URI[sha256sum] = "897572df7565c0a90a81532671e23c63f99b4efde2eecbbf11e7857fbc61f405"
 
 inherit autotools
 
