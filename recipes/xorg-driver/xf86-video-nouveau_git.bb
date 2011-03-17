@@ -2,7 +2,7 @@ require ${OEDEV_TOPDIR}/recipes/xorg-driver/xorg-driver-video.inc
 DESCRIPTION = "X.Org X server -- nouveau display driver"
 DEPENDS += "libdrm"
 
-SRCREV = "aa2821a42706ac7b69703d1869e2d00a4ced9f4b"
+SRCREV = "bc5dec2ca7ca7edc340a99bd73946e228117dfd8"
 PE = "1"
 _pv = "0.0"
 PR = "${INC_PR}.0"
