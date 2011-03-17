@@ -14,6 +14,7 @@ acpid_1.0.6 \
 acpid_1.0.8 \
 aircrack_2.1 \
 alsa-lib_1.0.20 \
+alsa-lib_1.0.23 \
 alsa-plugins_1.0.17 \
 alsa-plugins_1.0.18 \
 alsa-plugins_1.0.19 \
@@ -22,6 +23,7 @@ alsa-utils_1.0.17 \
 alsa-utils_1.0.18 \
 alsa-utils_1.0.19 \
 alsa-utils_1.0.20 \
+alsa-utils_1.0.23 \
 apache2-native_2.2.3 \
 apache2_2.2.3 \
 apex-env_1.5.8 \
@@ -136,6 +138,7 @@ bison_2.3 \
 blueman_1.10 \
 bluez-cups-backend_3.33 \
 bluez-gstreamer-plugin_3.33 \
+bluez-hcidump_1.42 \
 bluez-libs_3.33 \
 bluez-utils-alsa_3.33 \
 bluez-utils_3.33 \
@@ -146,6 +149,7 @@ bluez4_4.56 \
 bluez4_4.59 \
 bluez4_4.66 \
 bluez4_4.75 \
+bluez4_4.84 \
 bonnie++_1.03a \
 boost_1.41.0 \
 bootmenu_0.6 \
@@ -239,6 +243,7 @@ dosbox_0.72 \
 dosfstools_2.11 \
 dropbear_0.49 \
 dropbear_0.51 \
+dropbear_0.52 \
 ebtables_2.0.6 \
 ed_0.5 \
 eel_2.12.2 \
@@ -703,6 +708,7 @@ hplip_2.8.10 \
 hydra_4.4 \
 i2c-tools_3.0.1 \
 ica-bin_8.0 \
+icedtea6-native_1.7.10 \
 icedtea6-native_1.7.5 \
 icedtea6-native_1.7.6 \
 iksemel_1.2 \
@@ -748,6 +754,7 @@ jamvm-native_1.5.3 \
 jamvm_1.4.5 \
 jamvm_1.5.0 \
 jamvm_1.5.2 \
+jansson_1.2.1 \
 jikes_1.21 \
 jpeg_6b \
 kanatest_0.3.6 \
@@ -789,11 +796,13 @@ liberror-perl_0.17004 \
 libetpan_0.46 \
 libetpan_0.48 \
 libevent_1.1a \
+libevent_1.4.14b-stable \
 libeventdb_0.17 \
 libeventdb_0.18 \
 libeventdb_0.19 \
 libeventdb_0.21 \
 libexosip2_2.2.3 \
+libffi_3.0.9 \
 libgc_6.5 \
 libgc_6.7 \
 libgcrypt_1.2.4 \
@@ -879,6 +888,8 @@ libpcap_0.9.3 \
 libpcap_0.9.5 \
 libpcap_0.9.8 \
 libpcap_1.0.0 \
+libpcre-native_7.6 \
+libpcre_7.6 \
 libpthread-stubs_0.1 \
 libpthread-stubs_0.2 \
 libqtaux2_1.2.4 \
@@ -1235,6 +1246,7 @@ obexd_0.15 \
 obexd_0.19 \
 obexd_0.21 \
 obexd_0.22 \
+obexd_0.34 \
 obexftp_0.20 \
 obexftp_0.22 \
 octave_2.1.73 \
@@ -1265,6 +1277,7 @@ openssh_5.2p1 \
 openssl-native_0.9.8m \
 openssl_0.9.8m \
 openttd_0.6.3 \
+openttd_0.7.4 \
 openvpn_2.1.0 \
 oprofile_0.9.3 \
 oprofile_0.9.4 \
@@ -1296,6 +1309,7 @@ pcmciautils_013 \
 pcmciautils_014 \
 pcsc-lite_1.4.102 \
 phoneme-advanced-foundation_0.0.b87 \
+php_5.2.13 \
 picocom_1.3 \
 pidgin_2.5.8 \
 pidgin_2.6.5 \
@@ -1310,7 +1324,9 @@ pmount_0.9.18 \
 pmount_0.9.4 \
 pocketsphinx_0.2.1 \
 policykit-gnome_0.9.2 \
+policykit-gnome_0.96 \
 policykit_0.9 \
+policykit_0.96 \
 poppler-data_0.1 \
 poppler_0.11.3 \
 poppler_0.12.1 \
@@ -1526,6 +1542,7 @@ totem-pl-parser_2.28.1 \
 totem_2.28.1 \
 totem_2.28.5 \
 transconnect_1.2 \
+transmission_2.04 \
 tre_0.7.5 \
 tsclient_0.132 \
 u-boot-omap2430sdp_1.1.4 \
