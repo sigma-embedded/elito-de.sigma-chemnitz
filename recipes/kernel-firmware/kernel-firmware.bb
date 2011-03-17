@@ -1,9 +1,9 @@
 PV		= "0.2+gitr${SRCPV}"
-PR		= "r4"
+PR		= "r5"
 LICENSE		= "unknown"
 PACKAGE_ARCH	= "all"
 
-SRCREV          = "bce93b43e6f143a0d27244a788fc4757aa201ea7"
+SRCREV          = "8654e2dd962899cbc81b3735c7122ca40fa5ea0e"
 
 SRC_URI = "\
 	git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git \
