@@ -1,0 +1,13 @@
+Index: acpid-1.0.10/Makefile
+===================================================================
+--- acpid-1.0.10.orig/Makefile
++++ acpid-1.0.10/Makefile
+@@ -24,7 +24,7 @@ all_SRCS = $(acpid_SRCS) $(acpi_listen_S
+ MAN8 = acpid.8 acpi_listen.8
+ MAN8GZ = $(MAN8:.8=.8.gz)
+ 
+-CFLAGS = -W -Wall -Werror -Wundef -Wshadow -D_GNU_SOURCE -O2 -g $(DEFS)
++CFLAGS = -W -Wall -Wundef -Wshadow -D_GNU_SOURCE -O2 -g $(DEFS)
+ DEFS = -DVERSION="\"$(VERSION)\""
+ 
+ all: $(PROGS)
