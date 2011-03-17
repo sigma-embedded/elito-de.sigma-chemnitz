@@ -5,17 +5,17 @@ DESCRIPTION      = "Event driven system init"
 LICENSE          = "GPLv2"
 DEPENDS          = "dbus expat bison-native pkgconfig-native libnih libnih-native"
 
-PV = "1.0"
+PV = "1.1"
 PR = "r0"
 
 SRC_URI = "	\
-        http://launchpad.net/upstart/1.x/1.0/+download/upstart-${PV}.tar.gz \
+        http://launchpad.net/upstart/1.x/${PV}/+download/upstart-${PV}.tar.gz \
 	file://upstart-0.5-oomadj.patch				\
 	file://old-glibc.patch					\
 "
 
-SRC_URI[md5sum] = "bbcdf7580d5cd35b4b1da44bcb12de9f"
-SRC_URI[sha256sum] = "0eddebcb87c9493206ccdcae79d5e1297b2fb3330b10ae98252898c53602c616"
+SRC_URI[md5sum] = "9e9ce9d5e3936e59331f478d8a436e00"
+SRC_URI[sha256sum] = "1e246b31fd0533d594afa357e54a851db6747a255534364570336233564350bf"
 
 inherit autotools
 
