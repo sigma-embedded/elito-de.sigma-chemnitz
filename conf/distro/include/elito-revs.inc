@@ -20,7 +20,7 @@ PREFERRED_VERSION_glibc-initial          ?= "${PREFERRED_VERSION_glibc}"
 PREFERRED_VERSION_eglibc                 ?= "2.12"
 PREFERRED_VERSION_eglibc-initial         ?= "${PREFERRED_VERSION_eglibc}"
 
-PREFERRED_VERSION_uclibc                 ?= "0.9.32+git%"
+PREFERRED_VERSION_uclibc                 ?= "git"
 PREFERRED_VERSION_uclibc-initial         ?= "${PREFERRED_VERSION_uclibc}"
 
 # can not use ?= here because bitbake.conf assigns it already
