@@ -25,7 +25,7 @@ DEPENDS += '\
 	${KERNEL_DEPENDS} \
 	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native","",d)} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
-	${@base_conditional("KERNEL_IMAGETYPE","uImage","u-boot-mkimage-native","",d)}'
+	${@base_conditional("KERNEL_IMAGETYPE","uImage","virtual/u-boot-mkimage-native","",d)}'
 
 ## Use this indirect assignment to allow recipes which are including
 ## this rules to define and use their own _gen_mf makefile.
