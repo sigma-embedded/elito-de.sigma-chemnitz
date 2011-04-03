@@ -1,0 +1,1 @@
+export ARCH = ${_ARCH}
