@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3+${PROJECT_CONF_DATE}"
-PR = "r5"
+PR = "r6"
 LICENSE = "GPLv3"
 
 PACKAGES = ""
@@ -149,7 +149,9 @@ endef
 
 ifeq (\$(_SKIP_DEVELCOMP_RULES),)
 
-%:	__force
+LOCALGOALS += __call _all_ exec shell
+
+\$(filter-out \$(LOCALGOALS),\${MAKECMDGOALS}):	__force
 	\$(_start) \$(MAKE) -e MAKELEVEL:=0 MAKEFILES:= \$(OPTS) \$@
 
 __call:
@@ -169,6 +171,7 @@ __force:
 
 endif
 
+unexport LOCALGOALS
 unexport MAKEFILES
 unexport MAKELEVEL
 .DEFAULT_GOAL := _all_

@@ -7,6 +7,9 @@ _pkgs =			$(foreach a,${PACKAGE_ARCHS},${DEPLOY_DIR_IPK}/$a/Packages)
 _fakeroot =		$(_start) $(FAKEROOT)
 _opkg_make_index =	$(_start) $(OPKG_MAKE_INDEX)
 
+LOCALGOALS =		pkg-regen pkg-update pkg-upgrade \
+			pkg-install pkg-remove
+
 pkg-regen:	$(wildcard ${_pkgs})
 	@:
 
