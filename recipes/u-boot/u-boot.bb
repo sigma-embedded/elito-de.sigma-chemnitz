@@ -1,37 +1,20 @@
 _elito_skip := "${@elito_skip(d, 'u-boot')}"
 
-DESCRIPTION      = "The U-Boot bootloader"
-SECTION          = "bootloaders"
-PRIORITY         = "optional"
-LICENSE          = "GPL"
-PROVIDES         = "virtual/bootloader"
-PACKAGE_ARCH     = "${MACHINE_ARCH}"
-PV               = "${UBOOT_VERSION}"
-PR               = "r6"
+DESCRIPTION = "The U-Boot bootloader"
+PRIORITY = "optional"
+LICENSE = "GPL"
+PROVIDES = "virtual/bootloader"
 
+PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
-SRCREV           = "${AUTOREV}"
 
-UBOOT_BRANCH	?= "${KERNEL_BRANCH}"
-UBOOT_MACHINE	?= "${MACHINE}_config"
-UBOOT_REV       ?= "branch=${UBOOT_VERSION}/${UBOOT_BRANCH}"
-UBOOT_SYMLINK	?= "u-boot-${MACHINE}.bin"
+include u-boot-common.inc
 
-SRCURI_SPEC_append	=  ";${UBOOT_REV}"
-COMPONENT		=  u-boot
-
-inherit elito-develcomp
-
-
-S                = "${WORKDIR}/git"
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
 
 FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg  = "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
-
-UBOOT_CONSOLE	?= "${@'${SERIAL_CONSOLE}'.split()[1]}"
-UBOOT_BAUD	?= "${@'${SERIAL_CONSOLE}'.split()[0]}"
 
 _make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
 	CFG=u-boot _secwrap= \

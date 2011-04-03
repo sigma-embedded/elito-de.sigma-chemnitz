@@ -1,26 +1,13 @@
 _elito_skip := "${@elito_skip(d, 'u-boot')}"
 
-DESCRIPTION = "U-boot bootloader mkimage tool"
+DESCRIPTION = "U-Boot bootloader mkimage tool"
 LICENSE = "GPLv2"
-SECTION = "bootloader"
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+PROVIDES = "virtual/u-boot-mkimage"
 
-PV = "${UBOOT_VERSION}"
-PR = "r0"
-
+PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
-SRCREV           = "${AUTOREV}"
 
-UBOOT_BRANCH	?= "${KERNEL_BRANCH}"
-UBOOT_MACHINE	?= "${MACHINE}_config"
-UBOOT_REV       ?= "branch=${UBOOT_VERSION}/${UBOOT_BRANCH}"
-
-SRCURI_SPEC_append	=  ";${UBOOT_REV}"
-COMPONENT		=  u-boot
-
-inherit elito-develcomp
-
-S = "${WORKDIR}/git"
+include u-boot-common.inc
 
 _make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
 	CFG=u-boot _secwrap= \
