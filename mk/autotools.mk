@@ -1,4 +1,5 @@
 CONFIGURE =	./configure
+LOCALGOALS =	printcmd configure
 
 _cmdline = \
 	--build=${BUILD_SYS} \

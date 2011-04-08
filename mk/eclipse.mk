@@ -17,6 +17,8 @@ ECLIPSE = eclipse
 export CROSS = ${_CROSS}
 ENV += "CROSS=${CROSS}"
 
+LOCALGOALS =	info run
+
 info:
 	echo "Autotools:"
 	echo "  Configure Settings"
