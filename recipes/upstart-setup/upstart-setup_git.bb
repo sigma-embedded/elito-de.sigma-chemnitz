@@ -1,6 +1,6 @@
 PV		= "0.4.99+git${SRCPV}"
 PR		= "r3"
-SRCREV		= "${AUTOREV}"
+SRCREV		= "b279dd64581a20ce40a93050931ace16dae52e43"
 
 SRC_URI		= "${ELITO_GIT_REPO}/pub/upstart-setup.git;protocol=git"
 
