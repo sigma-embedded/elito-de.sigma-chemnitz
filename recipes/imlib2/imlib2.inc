@@ -26,7 +26,7 @@ EXTRA_OECONF       = ' \
   --with-zlib \
   --with-bzip2 \
   --with-id3 \
-  ${_extra_oeconf_i686}'
+  ${_extra_oeconf}'
 
 PACKAGES =+ "${PN}-utils ${PN}-fonts ${PN}-images"
 
