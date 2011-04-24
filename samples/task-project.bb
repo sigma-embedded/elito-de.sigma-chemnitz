@@ -32,7 +32,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 # |    * ERROR: Cannot satisfy the following dependencies for elito-task-core:
 #
 # like errors during rootfs creation.
-DEPENDS += "upstart-setup alsa-utils openntpd"
+DEPENDS += "upstart-setup alsa-utils openntpd elito-develcomp"
 
 RDEPENDS_${PN} = "\
 	files-@PROJECT_NAME@		\
