@@ -256,7 +256,6 @@ $(_project_task_dir)/.stamp:
 			$(INSTALL_DATA) $(_samples_dir)/Makefile          $(@D)/Makefile
 			$(INSTALL_DATA) $(_samples_dir)/.gitignore.sample $(@D)/.gitignore
 			$(INSTALL_DATA) $(_samples_dir)/securetty         $(@D)/rootfs/etc/securetty
-			$(INSTALL_DATA) $(_samples_dir)/network-interfaces $(@D)/rootfs/etc/network/interfaces
 			touch $@
 
 $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
