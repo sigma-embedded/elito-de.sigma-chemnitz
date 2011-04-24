@@ -24,8 +24,8 @@ do_fixldflags() {
 addtask fixldflags after do_patch before do_compile
 
 vdr_runmake() {
-    eval CXXFLAGS_=\$\{CXXFLAGS\}
-    eval CFLAGS_=\$\{CFLAGS\}
+    eval CXXFLAGS_=\$\{CXXFLAGS\}\\ -fPIC
+    eval CFLAGS_=\$\{CFLAGS\}\\ -fPIC
     unset CXXFLAGS CFLAGS
     export CXXFLAGS_ CFLAGS_
 
