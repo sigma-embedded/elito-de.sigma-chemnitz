@@ -149,7 +149,6 @@ bluez4_4.56 \
 bluez4_4.59 \
 bluez4_4.66 \
 bluez4_4.75 \
-bluez4_4.84 \
 bonnie++_1.03a \
 boost_1.41.0 \
 bootmenu_0.6 \
@@ -641,6 +640,7 @@ gst-plugins-bad_0.10.20 \
 gst-plugins-base_0.10.25 \
 gst-plugins-base_0.10.31 \
 gst-plugins-good_0.10.15 \
+gst-plugins-good_0.10.26 \
 gst-rtsp_0.10.4 \
 gst-rtsp_0.10.5 \
 gstreamer_0.10.17 \
@@ -802,7 +802,6 @@ libeventdb_0.18 \
 libeventdb_0.19 \
 libeventdb_0.21 \
 libexosip2_2.2.3 \
-libffi_3.0.9 \
 libgc_6.5 \
 libgc_6.7 \
 libgcrypt_1.2.4 \
@@ -1226,6 +1225,7 @@ network-manager-applet_0.7.1 \
 network-manager-applet_0.8 \
 networkmanager-openvpn_0.7.1 \
 networkmanager-openvpn_0.8 \
+networkmanager-openvpn_0.8.1 \
 networkmanager_0.6.6 \
 networkmanager_0.7 \
 networkmanager_0.7.1.997 \
@@ -1287,6 +1287,7 @@ orbit2_2.14.12 \
 orc_0.4.3 \
 orc_0.4.4 \
 orc_0.4.5 \
+orc_0.4.9 \
 orinoco-modules_0.13e \
 orinoco-modules_0.15rc1 \
 ortp_0.7.1 \
@@ -1317,6 +1318,7 @@ pidgin_2.6.6 \
 pixman_0.13.2 \
 pixman_0.17.4 \
 pixman_0.17.4 \
+pixman_0.21.4 \
 pixman_0.9.6 \
 pmacct_0.7.9 \
 pmount_0.9.17 \
@@ -1324,9 +1326,7 @@ pmount_0.9.18 \
 pmount_0.9.4 \
 pocketsphinx_0.2.1 \
 policykit-gnome_0.9.2 \
-policykit-gnome_0.96 \
 policykit_0.9 \
-policykit_0.96 \
 poppler-data_0.1 \
 poppler_0.11.3 \
 poppler_0.12.1 \
