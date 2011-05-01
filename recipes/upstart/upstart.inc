@@ -6,7 +6,7 @@ LICENSE          = "GPLv2"
 DEPENDS          = "dbus expat bison-native pkgconfig-native libnih libnih-native"
 
 PV = "1.2"
-PR = "r0"
+PR = "r1"
 
 SRC_URI = "	\
         http://launchpad.net/upstart/1.x/${PV}/+download/upstart-${PV}.tar.gz \
@@ -17,11 +17,13 @@ SRC_URI = "	\
 SRC_URI[md5sum] = "c1b1bab5c1c1ed2595081d8178542b37"
 SRC_URI[sha256sum] = "df56f1f8638c6cc2202c9ba5f8a1d093f091303c58ad3bce6a375f9ca0821710"
 
-inherit autotools
+inherit autotools gettext
 
 EXTRA_OECONF     = "--disable-static --disable-rpath \
 	--libdir=${base_libdir} --sbindir=${base_sbindir}"
 EXTRA_AUTORECONF = "--force"
+
+RPROVIDES_${PN} += "virtual/initctl"
 
 do_compile() {
 	oe_runmake check_PROGRAMS=
