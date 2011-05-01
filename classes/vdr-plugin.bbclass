@@ -1,6 +1,8 @@
 PLUGINNAME = "${@bb.data.getVar('PN',d,1).replace('vdr-','',1)}"
 S = "${WORKDIR}/${PLUGINNAME}-${PV}"
 
+VDR_DEV_DVBBASE ?= "/dev/bus/dvb/"
+
 VDR_PLUGINDIR = "${libdir}/vdr"
 VDR_CONFIGDIR = "${sysconfdir}/vdr"
 
@@ -9,8 +11,8 @@ PLUGINS ?= "lib${PN}.so.*"
 
 vdr_fixldflags() {
     cat <<"EOF" >> "$1"
-CXXFLAGS = $(CXXFLAGS_)
-CFLAGS = $(CFLAGS_)
+CXXFLAGS = $(CXXFLAGS_) $(CPPFLAGS_)
+CFLAGS = $(CFLAGS_) $(CPPFLAGS_)
 
 %.so:	CXXFLAGS:=$(CXXFLAGS) $(LDFLAGS)
 %.so:	CFLAGS:=$(CFLAGS) $(LDFLAGS)
@@ -24,10 +26,11 @@ do_fixldflags() {
 addtask fixldflags after do_patch before do_compile
 
 vdr_runmake() {
+    CPPFLAGS_='-DDEV_DVBBASE=\"${VDR_DEV_DVBBASE}\"'
     eval CXXFLAGS_=\$\{CXXFLAGS\}\\ -fPIC
     eval CFLAGS_=\$\{CFLAGS\}\\ -fPIC
     unset CXXFLAGS CFLAGS
-    export CXXFLAGS_ CFLAGS_
+    export CXXFLAGS_ CFLAGS_ CPPFLAGS_
 
     oe_runmake \
 	LIBDIR=. LOCALEDIR=./locale VDRDIR=${STAGING_LIBDIR}/vdr \
