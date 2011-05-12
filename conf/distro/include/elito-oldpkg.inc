@@ -36,7 +36,6 @@ arora-e_0.10.1 \
 arora_0.10.1 \
 asio_1.1.1 \
 aspell_0.60.5 \
-asterisk_1.4.23.1 \
 at-spi_1.30.0 \
 at91bootstrap_2.10 \
 at91bootstrap_2.11 \
@@ -57,13 +56,7 @@ automake_1.10.2 \
 automake_1.10.3 \
 automake_1.9.6 \
 avahi-python_0.6.21 \
-avahi-ui_0.6.21 \
-avahi_0.6.19 \
 avahi_0.6.20 \
-avahi_0.6.21 \
-avahi_0.6.22 \
-avahi_0.6.23 \
-avahi_0.6.24 \
 balsa_2.0.17 \
 barebox_2009.12 \
 batmand_0.3 \
@@ -181,8 +174,6 @@ clutter-gst_1.2.0 \
 clutter-gtk_0.10.2 \
 clutter_1.0.10 \
 clutter_1.2.12 \
-cmake-native_2.6.4 \
-cmake_2.6.4 \
 commoncpp2_1.7.1 \
 comprec_0.01 \
 connman_0.46 \
@@ -226,7 +217,7 @@ dhcp_3.0.2 \
 dhcp_3.1.2p1 \
 dia_0.94+0.95pre3 \
 dialog_1.0-20050306 \
-dietlibc_0.31 \
+dillo2_0.6.6 \
 directfb-examples_1.0.0 \
 directfb_1.2.8 \
 disko_1.6.0 \
@@ -710,7 +701,6 @@ i2c-tools_3.0.1 \
 ica-bin_8.0 \
 icedtea6-native_1.7.10 \
 icedtea6-native_1.7.5 \
-icedtea6-native_1.7.6 \
 iksemel_1.2 \
 imagemagick_6.3.5-10 \
 inetutils_1.4.2 \
@@ -747,8 +737,6 @@ ixp4xx-npe-native_2.1 \
 ixp4xx-npe-native_2.3.2 \
 ixp4xx-npe_2.1 \
 ixp4xx-npe_2.3.2 \
-jack_0.103.0 \
-jack_0.116.2 \
 jamvm-initial_1.4.5 \
 jamvm-native_1.5.3 \
 jamvm_1.4.5 \
@@ -959,9 +947,6 @@ libvisual_0.1.3 \
 libvncserver_0.9 \
 libvorbis_1.0.1 \
 libvorbis_1.2.0 \
-libvpx_0.9.0 \
-libvpx_0.9.1 \
-libvpx_0.9.2 \
 libwnck_2.30.0 \
 libwpd_0.8.4 \
 libwpd_0.8.6 \
@@ -1020,12 +1005,7 @@ linux-ixp4xx_2.6.20 \
 linux-ixp4xx_2.6.21.7 \
 linux-ixp4xx_2.6.23.14 \
 linux-ixp4xx_2.6.24.7 \
-linux-jlime-jornada6xx_2.6.11 \
 linux-jlime-jornada6xx_2.6.17 \
-linux-jlime-jornada6xx_2.6.21rc5 \
-linux-jlime-jornada7xx_2.6.17 \
-linux-jlime-jornada7xx_2.6.18 \
-linux-jlime-jornada7xx_2.6.19rc6 \
 linux-kexecboot_2.6.21-hh20 \
 linux-kexecboot_2.6.24 \
 linux-kexecboot_2.6.26 \
@@ -1109,9 +1089,7 @@ lmbench_2.0.4 \
 lmsensors-apps_2.10.8 \
 log4cxx_0.9.7 \
 loudmouth_1.0.1 \
-loudmouth_1.1.1 \
 loudmouth_1.2.2 \
-loudmouth_1.3.2 \
 ltp_20070228 \
 ltp_20080229 \
 ltp_20090131 \
@@ -1214,6 +1192,7 @@ nano_2.0.7 \
 nano_2.0.9 \
 nano_2.2.4 \
 ncurses_5.4 \
+ncurses_5.7 \
 neon_0.25.5 \
 net-snmp_5.1.2 \
 net-snmp_5.4.1 \
