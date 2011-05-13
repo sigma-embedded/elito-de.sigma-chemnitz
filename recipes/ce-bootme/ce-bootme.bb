@@ -3,8 +3,8 @@ _elito_skip := "${@elito_skip(d, 'ce-bootme')}"
 DESCRIPTION = "Tools for working with the Windoze CE E-Boot bootloader"
 LICENSE = "GPLv3"
 
-SRCREV = "${AUTOREV}"
-_pv = "0.0"
+SRCREV = "4bb05f14163e75becb9ea010aa98bcec70b9a8b4"
+_pv = "0.1"
 PR = "r3"
 
 PV = "${_pv}+gitr${SRCPV}"
