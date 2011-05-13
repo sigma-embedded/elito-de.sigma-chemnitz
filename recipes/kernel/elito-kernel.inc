@@ -116,16 +116,24 @@ do_compile_prepare() {
 }
 
 do_uboot_mkimage() {
-	set -x
+	have_tftp_image=true
+	tftp_image_name='arch/${ARCH}/boot/${KERNEL_IMAGETYPE}'
+
         if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
                         oe_runmake arnoldboot-$i _flash_filename=${KERNEL_OUTPUT}-$i
                 done
+		have_tftp_image=false
         elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
 		oe_runmake ce-boot
+		have_tftp_image=false
+	fi
+
+	if ! $have_tftp_image; then
+		:			# noop
         elif test -w "${_tftp_image}"; then
-                cat "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}" > "${_tftp_image}"
-        elif ! test -w "${_tftp_image}"; then
+                cat "$tftp_image_name" > "${_tftp_image}"
+        else
 		oewarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
 	fi
 }
@@ -144,7 +152,15 @@ do_deploy_append() {
 			package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 		done
         elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
-		:			# TODO
+		cd "${S}"
+		install -p -m 0644 arch/${ARCH}/boot/ceImage \
+			${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-ce.bin
+		package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-ce.bin
+
+		cd "${DEPLOY_DIR_IMAGE}"
+		rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
+		ln -sf ${KERNEL_IMAGE_BASE_NAME}-ce.bin ${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
+		package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
 	fi
 }
 
