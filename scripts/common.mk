@@ -40,11 +40,13 @@ ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
+			conf/bblayers.conf.in	\
 			conf/local.conf.in	\
 			bitbake
 
 CFG_FILES =		Makefile		\
 			set-env			\
+			conf/bblayers.conf	\
 			conf/local.conf		\
 			bitbake
 
@@ -158,7 +160,7 @@ find-dups:		init
 
 _space_check = ${ELITO_STATVFS} '${abs_top_builddir}/${W}'
 
-$(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp
+$(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp $(_stampdir)/.pseudo.stamp
 			$(call _call_cmd,$(BITBAKE) opkg-utils-native,prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
@@ -166,7 +168,7 @@ $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.s
 			@touch $@
 
 $(_stampdir)/.filesystem.stamp:
-			@mkdir -p $(@D)
+			@mkdir -p $(@D) $W/deploy
 			@touch $@
 
 _bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
@@ -190,6 +192,10 @@ endif
 
 $(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp $(_stampdir)/.filesystem.stamp
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $(_tmpdir)/bitbake.env)
+			@touch $@
+
+$(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native tar-replacement-native,populate_sysroot)
 			@touch $@
 
 $(_stampdir)/.bitbake.filesystem.stamp: $(_stampdir)/.filesystem.stamp
@@ -238,7 +244,10 @@ else
 endif
 			@touch $@
 
-$(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.patch.stamp
+$(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_stampdir)/.bitbake.env.stamp
+			@touch $@
+
+$(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp
 			cd $(_tmpdir)/bitbake && $(PYTHON) setup.py build
 			mkdir -p $(_bitbake_root)/lib
 			cd $(_tmpdir)/bitbake && \
