@@ -1,0 +1,9 @@
+ELITO_ROOTDIR	 = "@ELITO_ROOTDIR@"
+PROJECT_TOPDIR	:= "@TOP_BUILD_DIR@"
+
+BBLAYERS := "\
+       ${PROJECT_TOPDIR} \
+       ${ELITO_ROOTDIR}/de.sigma-chemnitz \
+       ${ELITO_ROOTDIR}/de.sigma-chemnitz/meta-backports \
+       @LAYER_DEFINITIONS@ \
+"

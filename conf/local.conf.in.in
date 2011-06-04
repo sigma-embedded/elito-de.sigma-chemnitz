@@ -1,31 +1,17 @@
 DISTRO		 = "elito"
 MACHINE		 = "@MACHINE@"
 
-ELITO_ROOTDIR	 = "@ELITO_ROOTDIR@"
 ELITO_WORKSPACE_DIR = "@ELITO_WORKSPACE_DIR@"
 DL_DIR		 = "@CACHE_DIR@/sources"
 
 PROJECT_NAME	:= "@PROJECT_NAME@"
-PROJECT_TOPDIR	:= "@TOP_BUILD_DIR@"
 TMPDIR		:= "${@os.path.normpath(os.path.join('${PROJECT_TOPDIR}',os.environ.get('W','tmp')))}"
-ELITO_TOPDIR	?= "${ELITO_ROOTDIR}/de.sigma-chemnitz"
-OEDEV_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded"
-
-BBFILES    := "${OEDEV_TOPDIR}/recipes/*/*.bb"
-BBFILES    += "${ELITO_TOPDIR}/recipes/*/*.bb"
-BBFILES    += "${PROJECT_TOPDIR}/recipes/*/*.bb"
+OECORE_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.core"
+OEMETA_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.meta"
 
 SECWRAP_CMD = "@SECWRAP_CMD@"
 
 @EXTRA_BBFILES_TRUE@BBFILES += " @EXTRA_BBFILES@"
-
-BBFILE_COLLECTIONS     += "elito"
-BBFILE_PATTERN_elito    = "${ELITO_TOPDIR}"
-BBFILE_PRIORITY_elito   =  100
-
-BBFILE_COLLECTIONS     += "project"
-BBFILE_PATTERN_project  = "${PROJECT_TOPDIR}"
-BBFILE_PRIORITY_project =  200
 
 ASSUME_PROVIDED += " @elito_assumed@"
 EXTRA_NATIVE_PKGCONFIG_PATH = "@EXTRA_NATIVE_PKGCONFIG_PATH@"
@@ -35,8 +21,9 @@ ELITO_DEVEL_COMPONENTS = "@devel_components@"
 
 WHICH = "@WHICH@"
 
-@IPKG_TRUE@require conf/distro/include/sane-feed-ipk.inc
-@TAR_TRUE@INHERIT +=	"package_tar"
+PACKAGE_CLASSES = ""
+@IPKG_TRUE@PACKAGE_CLASSES += "package_ipk"
+@TAR_TRUE@PACKAGE_CLASSES += "package_tar"
 
 @NFSROOT_TRUE@IMAGE_ROOTFS = "@nfs_rootdir@"
 TFTPBOOT_DIR = "@tftpbootdir@"

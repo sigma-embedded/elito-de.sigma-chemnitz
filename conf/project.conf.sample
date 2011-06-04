@@ -15,7 +15,7 @@ IMAGE_KEEPROOTFS	 = 1
 #IMAGE_LOGIN_MANAGER	 = ""
 
 # Uncomment this to reduce disk space
-#INHERIT			+= "rm_work"
+#USER_CLASSES		= "rm_work"
 
 # So far, angstrom.conf sets ENABLE_BINARY_LOCALE_GENERATION
 # to generate binary locale packages at build time using qemu-native and
