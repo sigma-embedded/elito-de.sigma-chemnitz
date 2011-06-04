@@ -1,9 +1,9 @@
 # --*- python -*--
-_elito-gcc-version                        = "4.5"
+_elito-gcc-version                        = "4.6.0"
 _elito-gcc-version_arm                    = \
     "${@elito_base_switch(d, 'TARGET_CPU',   \
                           'iwmmxt', '4.3.4', \
-                          '4.5')}"
+                          '4.6.0')}"
 
 PREFERRED_VERSION_gcc                    ?= "${_elito-gcc-version}"
 
@@ -17,7 +17,7 @@ PREFERRED_VERSION_linux-libc-headers     ?= "${MACHINE_KERNEL_VERSION}"
 PREFERRED_VERSION_glibc                  ?= "2.10.1"
 PREFERRED_VERSION_glibc-initial          ?= "${PREFERRED_VERSION_glibc}"
 
-PREFERRED_VERSION_eglibc                 ?= "2.12"
+PREFERRED_VERSION_eglibc                 ?= "2.13"
 PREFERRED_VERSION_eglibc-initial         ?= "${PREFERRED_VERSION_eglibc}"
 
 PREFERRED_VERSION_uclibc                 ?= "git"
