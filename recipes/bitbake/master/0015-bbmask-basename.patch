@@ -1,0 +1,39 @@
+Index: lib/bb/cooker.py
+===================================================================
+--- lib/bb/cooker.py.orig
++++ lib/bb/cooker.py
+@@ -1023,6 +1023,9 @@ class BBCooker:
+                         newfiles.append(g)
+ 
+         bbmask = bb.data.getVar('BBMASK', self.configuration.data, 1)
++        bbmask_basenames = (bb.data.getVar('BBMASK_BASENAMES',
++                                           self.configuration.data, 1)
++                            or "").split()
+ 
+         if bbmask:
+             try:
+@@ -1030,12 +1033,23 @@ class BBCooker:
+             except sre_constants.error:
+                 collectlog.critical("BBMASK is not a valid regular expression, ignoring.")
+                 return list(newfiles), 0
++        elif not bbmask_basenames:
++            return list(newfiles), 0
++
++        bbmask_dict = {}
++        for f in bbmask_basenames:
++            if not f.endswith('.bb'):
++                f += '.bb'
++
++            bbmask_dict[f] = 1
+ 
+         bbfiles = []
+         bbappend = []
+         maskedfiles = []
+         for f in newfiles:
+-            if bbmask and bbmask_compiled.search(f):
++            f_base = os.path.basename(f)
++            if bbmask_dict.has_key(f_base) or (bbmask and
++                                               bbmask_compiled.search(f)):
+                 collectlog.debug(2, "skipping masked file %s", f)
+                 if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
+                     maskedfiles.append(f)

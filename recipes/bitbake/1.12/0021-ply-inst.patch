@@ -1,0 +1,14 @@
+Index: bitbake/setup.py
+===================================================================
+--- setup.py
++++ setup.py
+@@ -54,7 +54,7 @@ setup(name='bitbake',
+       requires = ["ply", "progressbar"],
+       package_dir = {"": "lib"},
+       packages = ["bb.server", "bb.parse.parse_py", "bb.parse", "bb.fetch",
+-                  "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb"],
+-      py_modules = ["codegen"],
++                  "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb", 'ply', 'bb.fetch2'],
++      py_modules = ["codegen", "progressbar"],
+       scripts = ["bin/bitbake"],
+       data_files = [("share/bitbake", glob("conf/*") + glob("classes/*")),
