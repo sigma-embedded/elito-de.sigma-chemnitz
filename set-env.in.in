@@ -9,7 +9,7 @@ esac
 _s=$_w/sysroots/`uname -m`-linux
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=$_w/cache/ccache
-BBPATH=@abs_top_builddir@:@ELITO_ROOTDIR@/de.sigma-chemnitz:@ELITO_ROOTDIR@/org.openembedded
+BBPATH=@abs_top_builddir@
 ELITO_METRICS_ID=$$
 
 
