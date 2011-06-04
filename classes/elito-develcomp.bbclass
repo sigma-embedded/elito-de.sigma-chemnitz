@@ -14,10 +14,10 @@ python () {
 
     c    = bb.data.getVar('COMPONENT', d, 1)
     if not base_contains('ELITO_DEVEL_COMPONENTS', c, True, False, d):
-        bb.debug("Using normal version for component '%s'" % c)
+        bb.debug(1, "Using normal version for component '%s'" % c)
         return
 
-    bb.debug("Using development snapshot for component '%s'" % c)
+    bb.debug(2, "Using development snapshot for component '%s'" % c)
 
     base = bb.data.getVar('ELITO_GIT_WS', d, 1)
     p    = bb.data.getVar('PROJECT_NAME', d, 1)
@@ -25,7 +25,7 @@ python () {
 
     for suffix in (',' + p + '.git', ',' + p, '.git', ''):
         path = os.path.join(base, c + suffix)
-        bb.debug("Checking %s" % path)
+        bb.debug(1, "Checking %s" % path)
         if os.path.isdir(path):
             break
         path = None
@@ -34,15 +34,15 @@ python () {
         raise Exception("No development repository found")
 
     uri = bb.data.getVar('SRC_URI', d, 0).split()
-    bb.debug("Original SRC_URI: %s" % uri)
+    bb.debug(1, "Original SRC_URI: %s" % uri)
     uri[0] = "git://%s;${SRCURI_SPEC}" % path
-    bb.debug("Modified SRC_URI: %s" % uri)
+    bb.debug(1, "Modified SRC_URI: %s" % uri)
 
 
     bb.data.setVar('SRC_URI', ' '.join(uri), d)
 
     rev = bb.data.getVar('AUTOREV', d, 1)
-    bb.debug("Rev: %s" % rev)
+    bb.debug(1, "Rev: %s" % rev)
     bb.data.setVar('SRCREV', rev , d)
     bb.data.setVar('PV', '%s+gitr%s' % (bb.data.getVar('PV', d, 0),
                                         rev), d)
