@@ -190,7 +190,7 @@ def _elito_metrics_get_duse(e):
 
 def _elito_metrics_eventhandler (e):
     from bb import note, error, data
-    from bb.event import NotHandled, getName
+    from bb.event import getName
 
     def record_resources(prop, d):
         import resource, time, os
@@ -207,7 +207,7 @@ def _elito_metrics_eventhandler (e):
 
 
     if e.data is None or getName(e) in ("MsgNote", "ParseProgress", "RecipeParsed", "ConfigParsed"):
-        return NotHandled
+        return
 
     name = getName(e)
 
@@ -249,12 +249,12 @@ def _elito_metrics_eventhandler (e):
 
         _elito_metrics_write_task_complete(res_start, res_end, e)
 
-    return NotHandled
+    return
 
 def _elito_metrics_eventhandler_18 (e):
     import resource, time, fcntl
     from bb import note, error, data
-    from bb.event import NotHandled, getName
+    from bb.event import getName
 
     if e.data is None or getName(e) == "MsgNote":
         return NotHandled
