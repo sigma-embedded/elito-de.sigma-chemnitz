@@ -1,4 +1,5 @@
 HOMEPAGE = "http://www.kernel.org/pub/linux/utils/cpu/mce"
+LICENSE = "GPL"
 
 PV   = "1.0+git${SRCPV}"
 PKGV = "1.0+git${GITPKGV}"

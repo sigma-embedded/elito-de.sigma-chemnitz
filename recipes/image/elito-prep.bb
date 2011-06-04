@@ -3,6 +3,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/libc"
 PACKAGES = ""
 PACKAGE_ARCH = "all"
 INHIBIT_DEFAULT_DEPS = "1"
+LICENSE = "GPLv3"
 
 do_compile() {
     :

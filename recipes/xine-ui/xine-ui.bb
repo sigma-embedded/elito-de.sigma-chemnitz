@@ -1,3 +1,4 @@
+LICENSE = "GPL"
 PV = "0.99.6"
 PR = "r1"
 

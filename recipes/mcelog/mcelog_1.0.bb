@@ -1,4 +1,5 @@
 HOMEPAGE = "http://www.kernel.org/pub/linux/utils/cpu/mce"
+LICENSE = "GPL"
 
 PV   = "1.0"
 PR   = "r0"
