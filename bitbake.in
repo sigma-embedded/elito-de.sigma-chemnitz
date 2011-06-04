@@ -5,16 +5,61 @@ abs_top_builddir='@abs_top_builddir@'
 BB_ENV_EXTRAWHITE='CCACHE_DIR HOME GIT_SSL_CAINFO '\
 'ftp_proxy http_proxy https_proxy no_proxy '\
 'ELITO_CRT ELITO_KEY ELITO_PROG_SSL_CLIENT ELITO_USE_LIBPROXY ELITO_PROG_PROXY '\
+'PSEUDO_BUILD PSEUDO_DISABLED '\
 'ELITO_METRICS_ID'
-export BB_ENV_EXTRAWHITE
+
+BBFETCH2=True
+export BB_ENV_EXTRAWHITE PSEUDO_BUILD BBFETCH2
 
 . ${abs_top_builddir}/set-env
 
+echo $_w
+
 if ! test -x "@BITBAKE@"; then
-    echo "***** Could not found bitbake binary. Make sure that it was"
+    echo "***** Could not find bitbake binary. Make sure that it was"
     echo "***** checkout by 'make init' in your project directory"
     exit 1
 fi >&2
 
+_p=
+case x$PSEUDO_BUILD in
+  (x0)
+	unset PSEUDO_BUILD
+	;;
+  (x1)
+	;;
+
+  (x|x*)
+	PSEUDO_BUILD=2
+	test -e "$abs_top_builddir/.tmp/bitbake.env" || {
+	  echo "***** Could not find bitbake environment. Try"
+	  echo "        make bitbake-clean && make init"
+	  echo "***** again."
+	  exit 1
+	} >&2
+
+	_w=${W:-tmp}
+	case $_w in
+	  /*)	;;
+	  *)	_w=$abs_top_builddir/$_w;;
+	esac
+
+	d=`sed '/^STAGING_BINDIR_NATIVE=/s/^\([^"]\+="\)\(.*\)"$/\2/p;d' \
+	    $abs_top_builddir/.tmp/bitbake.env`
+
+	d=$_w${d##${abs_top_builddir}/tmp}
+
+	PSEUDO_BINDIR=$d
+	PSEUDO_LIBDIR=$d/../lib/pseudo/lib
+	PSEUDO_PREFIX=$d/../..
+	PSEUDO_DISABLED=1
+	_p=$PSEUDO_BINDIR/pseudo
+
+	export PSEUDO_BINDIR PSEUDO_LIBDIR PSEUDO_PREFIX PSEUDO_DISABLED
+
+	unset _w d
+	;;
+esac
+
 @INSTALL@ -d -m 0775 "$CCACHE_DIR"
-exec @SECWRAP_CMD@ @PYTHON@ @BITBAKE@ "$@"
+exec @SECWRAP_CMD@ $_p @PYTHON@ @BITBAKE@ "$@"
