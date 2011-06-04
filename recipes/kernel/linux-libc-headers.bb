@@ -2,7 +2,7 @@ DESCRIPTION = "Sanitized set of 2.6 kernel headers for the C library's use."
 SECTION = "devel"
 LICENSE = "GPL"
 PV = "${MACHINE_KERNEL_VERSION}"
-PR = "r${SRCPV}"
+PR = "r0"
 PKGV = "${MACHINE_KERNEL_VERSION}+git${GITPKGV}"
 
 inherit gitpkgv
