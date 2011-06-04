@@ -164,6 +164,24 @@ else
   AC_MSG_RESULT([yes])
 fi
 
+AC_ARG_ENABLE(layers,
+	AS_HELP_STRING([--enable-layers=<dir>[,<dir>]*],
+		       [enable additional layers]),
+        [],[enable_layers=org.openembedded.core/meta,org.openembedded.meta/meta-oe])
+
+old_IFS=$IFS
+IFS=,
+set -- $enable_layers
+IFS=$old_IFS
+
+layer_str=''
+for i; do
+    AC_MSG_CHECKING([for extra layers])
+    layer_str="${layer_str}\${ELITO_ROOTDIR}/$i "
+    AC_MSG_RESULT($i)
+done
+
+AC_SUBST([LAYER_DEFINITIONS],[$layer_str])
 
 dnl -----------------
 
