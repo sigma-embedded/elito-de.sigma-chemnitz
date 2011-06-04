@@ -3,9 +3,9 @@ infrastructure for basic TCP/IP based networking."
 SECTION		= "base"
 LICENSE		= "GPL"
 PR		= "r3"
-PV		= 4.41
+PV		= 4.45
 
-FILESDIR	= "${OEDEV_TOPDIR}/recipes/netbase/netbase"
+FILESDIR	= "${OECORE_TOPDIR}/meta/recipes-core/netbase/netbase-${PV}"
 DEFAULT_PREFERENCE = 10
 
 SRC_URI		= "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz"

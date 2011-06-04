@@ -1,4 +1,4 @@
-_o = "${OEDEV_TOPDIR}/recipes/pxaregs"
+_o = "${OEMETA_TOPDIR}/meta-oe/recipes-support/pxaregs"
 
 PV = "1.14"
 require ${_o}/pxaregs_${PV}.bb

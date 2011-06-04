@@ -1,4 +1,4 @@
-require ${OEDEV_TOPDIR}/recipes/xorg-driver/xorg-driver-video.inc
+require ${OEMETA_TOPDIR}/meta-oe/recipes-graphics/xorg-driver/xorg-driver-video.inc
 DESCRIPTION = "X.Org X server -- nouveau display driver"
 DEPENDS += "libdrm"
 

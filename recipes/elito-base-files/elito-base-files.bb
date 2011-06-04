@@ -5,7 +5,7 @@ PR		= "r11"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 
-FILESDIR	= "${OEDEV_TOPDIR}/recipes/base-files/base-files"
+FILESDIR	= "${OECORE_TOPDIR}/meta/recipes-core/base-files/base-files"
 
 SRC_URI = "	\
 	file://fstab			\
