@@ -1,7 +1,7 @@
-_elito_skip := "${@elito_skip(d, 'can')}"
-
 DESCRIPTION	= "Socket CAN test utility"
 LICENSE		= "GPLv3"
+
+_elito_skip := "${@elito_skip(d, 'can')}"
 
 SRCREV		= "${AUTOREV}"
 PV		= "0.2"
