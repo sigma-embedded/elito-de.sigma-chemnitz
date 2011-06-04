@@ -5,6 +5,8 @@ PV = "${MACHINE_KERNEL_VERSION}"
 PR = "r0"
 PKGV = "${MACHINE_KERNEL_VERSION}+git${GITPKGV}"
 
+LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+
 inherit gitpkgv
 
 RDEPENDS_${PN}-dev = ""

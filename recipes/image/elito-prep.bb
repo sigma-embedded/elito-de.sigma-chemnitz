@@ -3,7 +3,8 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/libc"
 PACKAGES = ""
 PACKAGE_ARCH = "all"
 INHIBIT_DEFAULT_DEPS = "1"
-LICENSE = "GPLv3"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 do_compile() {
     :
