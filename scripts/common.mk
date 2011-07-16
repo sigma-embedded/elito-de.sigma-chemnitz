@@ -42,11 +42,13 @@ AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
 			conf/bblayers.conf.in	\
 			conf/local.conf.in	\
+			conf/layer.conf		\
 			bitbake
 
 CFG_FILES =		Makefile		\
 			set-env			\
 			conf/bblayers.conf	\
+			conf/layer.conf		\
 			conf/local.conf		\
 			bitbake
 

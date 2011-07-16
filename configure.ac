@@ -563,8 +563,8 @@ PKG_CHECK_MODULES(UUID,      [uuid >= 2.18], [
 AC_CONFIG_FILES([Makefile
 		set-env.in
 		conf/bblayers.conf.in
+		conf/layer.conf
 		conf/local.conf.in])
-AC_CONFIG_FILES([conf/layer.conf:conf/project-layer.conf])
 AC_CONFIG_FILES(bitbake,    [chmod a+x bitbake])
 
 AC_CONFIG_COMMANDS([config],  [make -s config])
