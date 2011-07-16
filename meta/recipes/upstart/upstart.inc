@@ -30,6 +30,16 @@ do_compile() {
 
 do_install_append() {
 	mv ${D}${base_sbindir}/init ${D}${base_sbindir}/init.upstart
+
+        cd ${D}${mandir}/man7
+	for i in *.7; do
+		test -L "$i" || continue
+		d=`readlink "$i"`
+		rd=${d##${mandir}/}
+		test x"$rd" != x"$d" || continue
+		ln -sf "../$rd" "$i"
+	done
+        cd -
 }
 
 RDEPENDS_${PN}	+= "update-alternatives"

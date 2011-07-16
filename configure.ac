@@ -164,10 +164,12 @@ else
   AC_MSG_RESULT([yes])
 fi
 
+_default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe'
+
 AC_ARG_ENABLE(layers,
 	AS_HELP_STRING([--enable-layers=<dir>[,<dir>]*],
 		       [enable additional layers]),
-        [],[enable_layers=org.openembedded.core/meta,org.openembedded.meta/meta-oe])
+        [],[enable_layers=DEFAULT])
 
 old_IFS=$IFS
 IFS=,
@@ -176,9 +178,21 @@ IFS=$old_IFS
 
 layer_str=''
 for i; do
-    AC_MSG_CHECKING([for extra layers])
-    layer_str="${layer_str}\${ELITO_ROOTDIR}/$i "
-    AC_MSG_RESULT($i)
+    case x$i in
+    (xDEFAULT)
+        for j in $_default_layers; do
+	    AC_MSG_CHECKING([for extra layers])
+	    layer_str="${layer_str}\${ELITO_ROOTDIR}/$j "
+	    AC_MSG_RESULT([$j (default)])
+	done
+	;;
+
+    (x*)
+        AC_MSG_CHECKING([for extra layers])
+	layer_str="${layer_str}\${ELITO_ROOTDIR}/$i "
+        AC_MSG_RESULT([$i])
+	;;
+    esac
 done
 
 AC_SUBST([LAYER_DEFINITIONS],[$layer_str])
