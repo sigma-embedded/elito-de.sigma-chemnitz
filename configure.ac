@@ -440,6 +440,13 @@ AC_DEFUN([_flex_check_version],[
 			    [${$1} --version | sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'])
 ])
 
+AC_DEFUN([_m4_check_version],[
+	AC_MSG_CHECKING([for m4 version >= ELITO_VERSION_TO_STRING($2)])
+
+	ELITO_VERSION_CHECK([$2],3,
+			    [${$1} --version | sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'])
+])
+
 AC_DEFUN([_cmake_check_version],[
 	AC_MSG_CHECKING([for cmake version >= ELITO_VERSION_TO_STRING($2)])
 
@@ -480,7 +487,7 @@ AC_PROG_EGREP
 ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
 ELITO_CHECK_PROGRAM(-1, SED,        sed)
 ELITO_CHECK_PROGRAM(-1, WGET,       wget)
-ELITO_CHECK_PROGRAM( 0, M4,         m4)
+ELITO_CHECK_PROGRAM( 0, M4,         m4,[],[_m4_check_version], 0x010410)
 ELITO_CHECK_PROGRAM( 0, BISON,      bison)
 ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version], 0x02051f)
 ELITO_CHECK_PROGRAM(90, GETTEXT,    gettext)
