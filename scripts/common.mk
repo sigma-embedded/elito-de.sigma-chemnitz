@@ -158,7 +158,7 @@ bitbake-validate:
 			} >&2
 
 find-dups:		init
-			./bitbake -l Collection -d $(TARGETS) -c find_dups
+			./bitbake -l Collection -c find_dups $(TARGETS)
 
 _space_check = ${ELITO_STATVFS} '${abs_top_builddir}/${W}'
 
