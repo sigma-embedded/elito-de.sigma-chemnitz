@@ -228,13 +228,15 @@ $(_stampdir)/.bitbake.fetch.stamp: $(_stampdir)/.bitbake.gitinit.stamp $(_stampd
 			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
 
 $(_stampdir)/.bitbake.patch.stamp: $(_stampdir)/.bitbake.fetch.stamp
-ifeq ($(QUILT),)
-			cd $(_tmpdir)/bitbake && cat $(_bitbake_srcdir)/*.patch | patch -p0
+ifneq ($(GIT),)
+			cd $(_tmpdir)/bitbake && $(GIT) am -3 $(_bitbake_srcdir)/*.patch
+else ifeq ($(QUILT),)
+			cd $(_tmpdir)/bitbake && cat $(_bitbake_srcdir)/*.patch | patch -p1
 else
 			cd $(_tmpdir)/bitbake && $(QUILT) pop -a || :
 			rm -rf $(_tmpdir)/bitbake/patches $(_tmpdir)/bitbake/.pc
 			mkdir -p $(_tmpdir)/bitbake/patches
-			cd $(_tmpdir)/bitbake && $(QUILT) import -p0 $(_bitbake_srcdir)/*.patch
+			cd $(_tmpdir)/bitbake && $(QUILT) import -p1 $(_bitbake_srcdir)/*.patch
 			cd $(_tmpdir)/bitbake && $(QUILT) push -a -f
 endif
 			@touch $@
