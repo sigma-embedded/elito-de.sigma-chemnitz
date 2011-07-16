@@ -1,0 +1,24 @@
+From b7364a633b4865a6c07add290dac44b51b6b9644 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Date: Sat, 16 Jul 2011 13:41:44 +0200
+Subject: [PATCH 05/12] import 're' module by default
+
+---
+ lib/bb/utils.py |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/lib/bb/utils.py b/lib/bb/utils.py
+index 82e5dc4..02c600e 100644
+--- a/lib/bb/utils.py
++++ b/lib/bb/utils.py
+@@ -38,6 +38,7 @@ _context = {
+     "os": os,
+     "bb": bb,
+     "time": time,
++    "re": re,
+ }
+ 
+ def explode_version(s):
+-- 
+1.7.6
+

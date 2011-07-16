@@ -1,0 +1,27 @@
+From d72d5f622ce3cfee5ff993e24407f4bbf726a950 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Date: Sat, 16 Jul 2011 13:41:42 +0200
+Subject: [PATCH 02/12] export some more proxy related environment variables
+
+---
+ lib/bb/fetch/__init__.py |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/lib/bb/fetch/__init__.py b/lib/bb/fetch/__init__.py
+index 5be4c9c..6308c47 100644
+--- a/lib/bb/fetch/__init__.py
++++ b/lib/bb/fetch/__init__.py
+@@ -443,6 +443,10 @@ def runfetchcmd(cmd, d, quiet = False):
+                   'https_proxy', 'no_proxy', 'ALL_PROXY', 'all_proxy',
+                   'KRB5CCNAME', 'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME']
+ 
++    exportvars.extend(['https_proxy', 'no_proxy'])
++    exportvars.extend(['ELITO_CRT', 'ELITO_KEY', 'ELITO_PROG_SSL_CLIENT',
++                       'ELITO_PROG_PROXY', 'ELITO_USE_LIBPROXY'])
++
+     for var in exportvars:
+         val = data.getVar(var, d, True)
+         if val:
+-- 
+1.7.6
+

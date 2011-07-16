@@ -1,8 +1,18 @@
-Index: lib/bb/cooker.py
-===================================================================
---- lib/bb/cooker.py.orig
-+++ lib/bb/cooker.py
-@@ -851,6 +851,54 @@ class BBCooker:
+From 8e8ce81fc3593ab5572561561fd51a6faf090c83 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Date: Sat, 16 Jul 2011 13:41:43 +0200
+Subject: [PATCH 03/12] added find-dups functions
+
+it is activated by a debug level of collection domain >= 1
+---
+ lib/bb/cooker.py |   52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 52 insertions(+), 0 deletions(-)
+
+diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
+index 7aa600f..9c82d20 100644
+--- a/lib/bb/cooker.py
++++ b/lib/bb/cooker.py
+@@ -995,6 +995,54 @@ class BBCooker:
  
          self.server_registration_cb(buildTargetsIdle, rq)
  
@@ -57,7 +67,7 @@ Index: lib/bb/cooker.py
      def updateCache(self):
          if self.state == state.running:
              return
-@@ -893,6 +941,10 @@ class BBCooker:
+@@ -1024,6 +1072,10 @@ class BBCooker:
  
          if not self.parser.parse_next():
              collectlog.debug(1, "parsing complete")
@@ -65,6 +75,9 @@ Index: lib/bb/cooker.py
 +            if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
 +                self.findDups()
 +
+             self.show_appends_with_no_recipes()
              self.buildDepgraph()
              self.state = state.running
-             return None
+-- 
+1.7.6
+
