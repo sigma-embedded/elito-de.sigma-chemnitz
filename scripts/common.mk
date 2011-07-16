@@ -33,7 +33,7 @@ _bitbake_srcdir =	$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
 BITBAKE_REV =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '1p;d')
 BITBAKE_REV_S =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
 BITBAKE_REV_R =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '3p;d')
-BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.tar
+BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.bundle
 BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg
 
 ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
@@ -139,7 +139,7 @@ bitbake-clean:
 			rm -rf $(_tmpdir)/bitbake $(_bitbake_root)
 			rm -f $(_stampdir)/.bitbake.*
 ifeq ($(ELITO_OFFLINE),)
-			rm -f $(_bitbake-tarball)
+			rm -f $(_bitbake-bundle)
 endif
 
 bitbake-validate:
@@ -171,17 +171,17 @@ $(_stampdir)/.filesystem.stamp:
 			@mkdir -p $(@D) $W/deploy
 			@touch $@
 
-_bitbake-tarball =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.tar
+_bitbake-bundle =	$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.bundle
 _bitbake_setuptools =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
 
-.SECONDARY:		$(_bitbake-tarball) $(_bitbake_setuptools)
+.SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools)
 
 ifeq ($(ELITO_OFFLINE),)
-$(_bitbake-tarball):
+$(_bitbake-bundle):
 			mkdir -p $(@D)
-			@rm -f $(_bitbake-tarball).tmp
-			$(WGET) $(BITBAKE_SNAPSHOT) -O $(_bitbake-tarball).tmp
-			mv -f $(_bitbake-tarball).tmp $(_bitbake-tarball)
+			@rm -f $(_bitbake-bundle).tmp
+			$(WGET) $(BITBAKE_SNAPSHOT) -O $(_bitbake-bundle).tmp
+			mv -f $(_bitbake-bundle).tmp $(_bitbake-bundle)
 
 $(_bitbake_setuptools):
 			mkdir -p $(@D)
@@ -208,22 +208,15 @@ $(_stampdir)/.bitbake.setuptools.stamp: $(_stampdir)/.bitbake.filesystem.stamp
 			@touch $@
 
 $(_stampdir)/.bitbake.gitinit.stamp: $(_stampdir)/.bitbake.filesystem.stamp
-			$(MAKE) $(_bitbake-tarball)
+			$(MAKE) $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && $(GIT) init
+			-cd $(_tmpdir)/bitbake && $(GIT) fetch $(_bitbake-bundle) 'refs/heads/*:refs/remotes/bundle/*'
 			-cd $(_tmpdir)/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
 			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
 			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.tagopt --no-tags
-			-cd $(_tmpdir)/bitbake/.git && $(TAR) xf $(_bitbake-tarball)
-			-cd $(_tmpdir)/bitbake/.git/objects/pack && for i in *-elito.pack; do \
-				test -e $$i || continue;	\
-				echo P $$i >> ../info/packs;	\
-			done
-			-cd $(_tmpdir)/bitbake && $(GIT) branch ${BITBAKE_BRANCH} ${BITBAKE_REV_S}
 			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update || :; }
-			cd $(_tmpdir)/bitbake && $(GIT) branch -M elito elito.old || :
 			cd $(_tmpdir)/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
 			cd $(_tmpdir)/bitbake && $(GIT) reset --hard elito
-			cd $(_tmpdir)/bitbake && $(GIT) branch -D elito.old || :
 			cd $(_tmpdir)/bitbake && $(GIT) gc
 			@touch $@
 
