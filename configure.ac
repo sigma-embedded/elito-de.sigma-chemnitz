@@ -532,6 +532,7 @@ ELITO_CHECK_PROGRAM( 0, HELP2MAN,   help2man)
 ELITO_CHECK_PROGRAM( 0, MAKEDEPEND, makedepend)
 ELITO_CHECK_PROGRAM( 0, IMAKE,      imake)
 ELITO_CHECK_PROGRAM( 0, RPM,        rpm)
+ELITO_CHECK_PROGRAM( 0, FONTFORGE,  fontforge)
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
 AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
