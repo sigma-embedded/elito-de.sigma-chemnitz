@@ -18,7 +18,7 @@ SRC_URI = " \
 SRC_URI[md5sum] = "db7990ce55e01daffe19006524a1ccb0"
 SRC_URI[sha256sum] = "897572df7565c0a90a81532671e23c63f99b4efde2eecbbf11e7857fbc61f405"
 
-inherit autotools
+inherit autotools gettext
 
 _libdir                  = "${base_libdir}"
 _libdir_virtclass-native = "${libdir}"
