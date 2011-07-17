@@ -4,6 +4,7 @@ DESCRIPTION = "The U-Boot bootloader"
 PRIORITY = "optional"
 LICENSE = "GPL"
 PROVIDES = "virtual/bootloader"
+LIC_FILES_CHKSUM = "file://COPYING;md5=4c6cde5df68eff615d36789dc18edd3b"
 
 PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
