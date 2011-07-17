@@ -1,0 +1,12 @@
+Index: faac-1.28/common/mp4v2/mpeg4ip.h
+===================================================================
+--- faac-1.28.orig/common/mp4v2/mpeg4ip.h
++++ faac-1.28/common/mp4v2/mpeg4ip.h
+@@ -123,7 +123,6 @@
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+-char *strcasestr(const char *haystack, const char *needle);
+ #ifdef __cplusplus
+ }
+ #endif
