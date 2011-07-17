@@ -46,9 +46,6 @@ python elito_find_dups() {
 			print i
 
 		print("|BBMASK| = %u" % len(bb.data.getVar('BBMASK', e.data, True)))
-		return Handled
-
-	return NotHandled
 }
 
 
