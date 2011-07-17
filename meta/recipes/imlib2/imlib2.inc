@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "6441fb1e88a31533791c40ea4b3310b6d5d46233ca69d9f731a2846e4e
 S = "${WORKDIR}/imlib2-${PV}"
 
 PROVIDES += "virtual/imlib2"
-DEPENDS += "jpeg zlib libpng tiff libungif freetype bzip2 libid3tag"
+DEPENDS += "jpeg zlib libpng tiff giflib freetype bzip2 libid3tag"
 
 PACKAGES_DYNAMIC += 'imlib2-filters-.* imlib2-loaders-.*'
 
@@ -28,7 +28,7 @@ EXTRA_OECONF       = ' \
   --with-jpeg \
   --with-png \
   --with-tiff \
-  --with-gif=libungif \
+  --with-gif=giflib \
   --with-zlib \
   --with-bzip2 \
   --with-id3 \
