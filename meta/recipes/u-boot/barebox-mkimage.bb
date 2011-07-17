@@ -20,4 +20,4 @@ do_install () {
 }
 
 NATIVE_INSTALL_WORKS = "1"
-BBCLASSEXTEND = "native sdk"
+BBCLASSEXTEND = "native"
