@@ -8,7 +8,7 @@ PR   = "r0"
 
 S    = "${WORKDIR}/git"
 
-SRCREV   = "5dbfa53be2e737632bb5e58458131c415a23461c"
+SRCREV   = "cbd4da48d16f5a781ee4f19d84b54c3875487942"
 SRC_URI  = "git://git.kernel.org/pub/scm/utils/cpu/mce/mcelog.git;protocol=git"
 
 inherit gitpkgv
