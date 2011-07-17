@@ -7,7 +7,7 @@ DEPENDS          = "dbus expat bison-native pkgconfig-native libnih libnih-nativ
 LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
 PV = "1.3"
-PR = "r1"
+PR = "r3"
 
 SRC_URI = "	\
         http://launchpad.net/upstart/1.x/${PV}/+download/upstart-${PV}.tar.gz \
