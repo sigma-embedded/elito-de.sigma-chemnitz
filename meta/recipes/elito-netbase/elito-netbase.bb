@@ -3,17 +3,14 @@ infrastructure for basic TCP/IP based networking."
 SECTION		= "base"
 LICENSE		= "GPLv2"
 PR		= "r3"
-PV		= 4.45
+PV		= "4.45"
 LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
 
 FILESDIR	= "${OECORE_TOPDIR}/meta/recipes-core/netbase/netbase-${PV}"
-DEFAULT_PREFERENCE = 10
+DEFAULT_PREFERENCE = "10"
 
 SRC_URI		= "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz"
 SRC_URI_OVERRIDES_PACKAGE_ARCH = "1"
-
-SRC_URI[md5sum] = "58255f1a729795a0c34197f223b1a155"
-SRC_URI[sha256sum] = "64e34618a488d3e7f2e32d0172e31af060e7495214ac2c5647d0ecf30f94d0e0"
 
 S = "${WORKDIR}/netbase-${PV}"
 do_install () {
@@ -28,3 +25,6 @@ CONFFILES_${PN} = "${sysconfdir}/rpc ${sysconfdir}/protocols \
 	${sysconfdir}/services"
 RPROVIDES_${PN} = "netbase"
 RCONFLICTS	= "netbase"
+
+SRC_URI[md5sum] = "a56cb362ece358a5b3b8972e5c7be534"
+SRC_URI[sha256sum] = "dea29d60b3d751f0c5669b5299af312ad269c48e6440e0072d0d68d9544ebad3"
