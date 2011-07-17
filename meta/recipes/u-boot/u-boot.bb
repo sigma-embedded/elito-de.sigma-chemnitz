@@ -10,6 +10,7 @@ PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
 
 include u-boot-common.inc
+inherit deploy
 
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
 
@@ -52,14 +53,12 @@ do_deploy () {
 	gitrev=`git ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
 	uboot_image="u-boot-${MACHINE}-${PV}-${PR}-${gitrev}.bin"
 
-	install -d ${DEPLOY_DIR_IMAGE}
-	install ${S}/u-boot.bin ${DEPLOY_DIR_IMAGE}/${uboot_image}
-	package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${uboot_image}
+	install -d ${DEPLOYDIR}
+	install ${S}/u-boot.bin ${DEPLOYDIR}/${uboot_image}
 
-	cd ${DEPLOY_DIR_IMAGE}
+	cd ${DEPLOYDIR}
 	rm -f ${UBOOT_SYMLINK}
 	ln -sf ${uboot_image} ${UBOOT_SYMLINK}
-	package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${UBOOT_SYMLINK}
 }
 do_deploy[dirs] = "${S}"
 addtask deploy before do_build after do_compile
