@@ -8,7 +8,7 @@ SRC_URI_append = " file://paths"
 
 PACKAGES        = "${PN} ${PN}-base"
 
-j                = "${sysconfdir}/init/"
+J                = "${sysconfdir}/init/"
 
 ALLOW_EMPTY_${PN}       = "1"
 RRECOMMENDS_${PN}      += " \
@@ -21,20 +21,20 @@ FILES_${PN} = ""
 
 # TODO: move udev rules and files.d into own package
 FILES_${PN}-base = "				\
-	${j}ctrl-alt-del.conf			\
-	${j}halt.conf				\
-	${j}init/boot.conf			\
-	${j}init/dmesg.conf			\
-	${j}init/mount-all.conf			\
-	${j}init/mount-nonfs.conf		\
-	${j}init/mount-tmpfs.conf		\
-	${j}init/ldconfig.conf			\
-	${j}shutdown/bind-mounts.conf		\
-	${j}shutdown/shutdown.conf		\
-	${j}wait/dev-urandom.conf               \
+	${J}ctrl-alt-del.conf			\
+	${J}halt.conf				\
+	${J}init/boot.conf			\
+	${J}init/dmesg.conf			\
+	${J}init/mount-all.conf			\
+	${J}init/mount-nonfs.conf		\
+	${J}init/mount-tmpfs.conf		\
+	${J}init/ldconfig.conf			\
+	${J}shutdown/bind-mounts.conf		\
+	${J}shutdown/shutdown.conf		\
+	${J}wait/dev-urandom.conf               \
 	${sysconfdir}/files.d/*-log.txt		\
 "
-FILES_${PN}-base_append_arm += "${j}init/cpu-align.conf"
+FILES_${PN}-base_append_arm += "${J}init/cpu-align.conf"
 RDEPENDS_${PN}-base         += "upstart elito-setup-tools"
 
 PACKAGES_DYNAMIC = "${PN}-.*"
