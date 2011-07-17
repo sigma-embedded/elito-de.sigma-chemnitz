@@ -1,8 +1,9 @@
 SECTION		= "base"
 DESCRIPTION	= "ELiTo Base utilities"
-LICENSE		= "GPLv3"
 PV		= "0.8.13"
 PR		= "r1"
+LICENSE		= "GPLv3"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
 
 bindir		= "/bin"
 sbindir		= "/sbin"

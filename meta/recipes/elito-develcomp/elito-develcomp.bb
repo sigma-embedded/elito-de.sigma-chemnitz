@@ -3,6 +3,7 @@ HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.3+${PROJECT_CONF_DATE}"
 PR = "r6"
 LICENSE = "GPLv3"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
 
 PACKAGES = ""
 PACKAGE_ARCH = "all"

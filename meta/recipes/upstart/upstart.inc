@@ -4,6 +4,7 @@ PRIORITY         = "optional"
 DESCRIPTION      = "Event driven system init"
 LICENSE          = "GPLv2"
 DEPENDS          = "dbus expat bison-native pkgconfig-native libnih libnih-native"
+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
 PV = "1.3"
 PR = "r1"

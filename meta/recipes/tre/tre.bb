@@ -3,6 +3,7 @@ HOMEPAGE = "http://laurikari.net/tre"
 LICENSE  = "BSD"
 PV = "0.8.0"
 PR = "r1"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=57bfe44248af5a55319260ab0f63aa30"
 
 SRC_URI = "http://laurikari.net/tre/tre-${PV}.tar.bz2;name=tarball \
 	file://tre-pkgconfig.patch"
