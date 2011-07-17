@@ -4,7 +4,6 @@ Date: Sat, 16 Jul 2011 13:41:45 +0200
 Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
  masked out
 
-===================================================================
 ---
  lib/bb/cooker.py |   16 +++++++++++++++-
  1 files changed, 15 insertions(+), 1 deletions(-)
