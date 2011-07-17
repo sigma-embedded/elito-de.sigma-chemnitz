@@ -41,6 +41,7 @@ SRC_URI[tts2400.md5sum] = "6774e32bbf8b3d6f86e98e699cc56b97"
 SRC_URI[tts2400.sha256sum] = "6290cdcb76adff393e2ade506a611c1f95e4a5c619248d464792bda5a6796794"
 
 
+S = "${WORKDIR}/git"
 INHIBIT_DEFAULT_DEPS = "1"
 
 do_install() {
