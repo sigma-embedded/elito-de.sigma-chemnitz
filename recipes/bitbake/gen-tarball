@@ -1,0 +1,27 @@
+#! /bin/bash
+
+U=git://git.openembedded.org/bitbake
+B='master 1.8 1.10 1.12'
+
+d=`mktemp -t -d bitbake.XXXXXX` || exit 1
+trap "rm -rf $d" EXIT
+
+{
+  cd $d
+  git init --bare
+
+  for b in $B; do
+      git fetch --no-tags "$U" $b:$b
+  done
+
+  git gc
+  git repack -a -d
+
+  git ls-remote .
+
+  tar cf - objects/pack/* --owner root --group root --mode 0644 >&3
+  git bundle create bundle $B
+
+  cat bundle >&4
+  cd -
+} 3> bitbake-git.tar 4>bitbake-git.bundle
