@@ -1,7 +1,7 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
-PV = "0.3+${PROJECT_CONF_DATE}"
-PR = "r6"
+PV = "0.4+${PROJECT_CONF_DATE}"
+PR = "r0"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
 
@@ -91,16 +91,17 @@ python __anonymous () {
     bb.data.setVar('_export_vars_gen', '\n'.join(res), d)
 }
 
-do_configure[depends] = "gcc-cross:do_populate_sysroot"
-do_configure() {
+do_setup_makefile[dirs] = "${WORKDIR}/setup-makefile"
+do_setup_makefile[depends] = "gcc-cross:do_populate_sysroot"
+do_setup_makefile() {
         set >&2
 	gc=`${WHICH} ${CROSS_COMPILE}gcc`
 	gc=${gc%%gcc}
 	dn=`dirname "$gc"`
 	gc=`basename "$gc"`
 
-	rm -f "${DEVELCOMP_MAKEFILE}" "${TMPDIR}/Makefile.develcomp"
-        cat << EOF | sed -e 's![[:space:]]*$!!' > "${TMPDIR}/Makefile.develcomp"
+	rm -f "Makefile.develcomp"
+        cat << EOF | sed -e 's![[:space:]]*$!!' > "Makefile.develcomp"
 ## --*- makefile -*--    ${PV}-${PR}
 ## This file was created by the 'elito-develcomp' recipe.  Any manual
 ## changes will get lost on next rebuild of this package.
@@ -116,6 +117,7 @@ export _ARCH	= ${TARGET_ARCH}
 _tmpdir		= ${TMPDIR}
 
 _kernel_tftp_image ?= ${KERNEL_TFTP_IMAGE}
+_kernel_size    ?= ${KERNEL_SIZE}
 _tftp_server	?= ${TFTP_SERVER}
 
 _nfs_root	?= \$(DESTDIR)
@@ -179,8 +181,46 @@ unexport MAKELEVEL
 EOF
 
         # make it read-only
-	chmod a-w "${TMPDIR}/Makefile.develcomp"
+	chmod a-w "Makefile.develcomp"
 
-        ${@base_conditional('DISTRO_TYPE','debug','',': ', d)}\
+####
+
+
+
+}
+
+
+SSTATETASKS += "do_setup_makefile"
+do_setup_makefile[sstate-name] = "setup-makefile"
+do_setup_makefile[sstate-inputdirs] = "${WORKDIR}/setup-makefile"
+do_setup_makefile[sstate-outputdirs] = "${TMPDIR}"
+
+addtask do_setup_makefile before do_populate_sysroot after do_configure
+
+###########
+
+IPKGCONF_TARGET = "${WORKDIR}/ipkg-conf/opkg.conf"
+IPKGCONF_SDK = "${WORKDIR}/ipkg-conf/opkg-sdk.conf"
+
+do_setup_ipkg[dirs] = "${WORKDIR}/ipkg-conf"
+do_setup_ipkg() {
+        package_generate_ipkg_conf
+}
+
+SSTATETASKS += "do_setup_ipkg"
+do_setup_ipkg[sstate-name] = "setup-ipk"
+do_setup_ipkg[sstate-inputdirs] = "${WORKDIR}/ipkg-conf"
+do_setup_ipkg[sstate-outputdirs] = "${DEPLOY_DIR_IPK}"
+
+addtask setup_ipkg before do_package_write after do_package
+
+###########
+
+do_create_link() {
+        ${@base_conditional('DISTRO_TYPE','debug','','return 0', d)}
+
+        rm -f "${DEVELCOMP_MAKEFILE}"
         ln -sf "${TMPDIR}/Makefile.develcomp" "${DEVELCOMP_MAKEFILE}"
 }
+
+addtask create_link before do_populate_sysroot after do_setup_makefile
