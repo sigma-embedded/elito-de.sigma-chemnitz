@@ -134,7 +134,7 @@ do_uboot_mkimage() {
         elif test -w "${_tftp_image}"; then
                 cat "$tftp_image_name" > "${_tftp_image}"
         else
-		oewarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
+		bbwarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
 	fi
 }
 
