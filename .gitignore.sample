@@ -6,7 +6,16 @@
 /config.status
 /set-env
 /set-env.in
-/conf/local.conf
-/conf/local.conf.in
 /metrics
 /metrics-*.gz
+/package-depends.dot
+/pn-depends.dot
+/task-depends.dot
+
+### subdirs ##
+/conf/layer.conf
+/conf/local.conf
+/conf/local.conf.in
+/conf/bblayers.conf
+/conf/bblayers.conf.in
+/conf/sanity_info
