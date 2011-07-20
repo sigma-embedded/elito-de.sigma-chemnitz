@@ -59,14 +59,14 @@ NAND_LEB_SIZE	?= "${@ubi_get_nand_leb_size(d)}"
 IMAGE_CMD_ubi    = "ubi_gen_ini; ${UBI_GEN_ENV};		\
 	ubinize							\
 	--output ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi	\
-	${EXTRA_IMAGECMD}					\
+	${UBINIZE_ARGS}						\
 	${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubi.ini"
 
-EXTRA_IMAGECMD_ubifs  ?= "	\
+MKUBIFS_ARGS ?= "	\
 	--min-io-size ${NAND_PAGESIZE}	\
 	--leb-size ${NAND_LEB_SIZE}	\
 	--max-leb-cnt ${@ubi_byte_to_leb('ROOTFS_SIZE',d)}"
 
-EXTRA_IMAGECMD_ubi    ?= "	\
+UBINIZE_ARGS ?= "	\
 	--peb-size ${NAND_BLOCKSIZE}	\
 	--min-io-size ${NAND_PAGESIZE}"
