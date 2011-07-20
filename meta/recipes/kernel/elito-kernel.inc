@@ -115,6 +115,10 @@ do_compile_prepare() {
 	oe_runmake prepare
 }
 
+do_install_prepend() {
+	mkdir -p ${D}/lib/firmware
+}
+
 do_uboot_mkimage() {
 	have_tftp_image=true
 	tftp_image_name='arch/${ARCH}/boot/${KERNEL_IMAGETYPE}'
