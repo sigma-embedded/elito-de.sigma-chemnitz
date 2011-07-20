@@ -107,10 +107,10 @@ do_compile() {
 do_deploy() {
 	set -x
 
-	install -d ${DEPLOY_DIR_IMAGE}
-	install -p -m 0644 ${_kernel_output} ${DEPLOY_DIR_IMAGE}/${KERNEL_BOOTSTRAP_IMAGE_BASE_NAME}.img
+	install -d ${DEPLOYDIR}
+	install -p -m 0644 ${_kernel_output} ${DEPLOYDIR}/${KERNEL_BOOTSTRAP_IMAGE_BASE_NAME}.img
 
-	cd ${DEPLOY_DIR_IMAGE}
+	cd ${DEPLOYDIR}
 	rm -f ${KERNEL_BOOTSTRAP_IMAGE_SYMLINK_NAME}.img
 	ln -sf ${KERNEL_BOOTSTRAP_IMAGE_BASE_NAME}.img ${KERNEL_BOOTSTRAP_IMAGE_SYMLINK_NAME}.img
 }

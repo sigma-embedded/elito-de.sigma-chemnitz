@@ -3,7 +3,7 @@ _elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
 PKGV = "${MACHINE_KERNEL_VERSION}+gitr${GITPKGV}"
 
-inherit gitpkgv
+inherit gitpkgv deploy
 BB_LOCALCOUNT_OVERRIDE = "1"
 
 GIT_REPO = "${KERNEL_REPO}"
@@ -138,29 +138,37 @@ do_uboot_mkimage() {
 	fi
 }
 
+kernel_do_deploy() {
+	install -m 0644 arch/${ARCH}/boot/${KERNEL_IMAGETYPE} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
+	fi
+
+	cd ${DEPLOYDIR}
+	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+	cd -
+}
+
 do_deploy_append() {
         if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
                         cd "${S}"
                         install -m 0644 ${KERNEL_OUTPUT}-$i \
-				${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-$i.bin
-                        package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-$i.bin
+				${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}-$i.bin
 
-			cd "${DEPLOY_DIR_IMAGE}"
+			cd "${DEPLOYDIR}"
 			rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 			ln -sf ${KERNEL_IMAGE_BASE_NAME}-$i.bin ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
-			package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 		done
         elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
 		cd "${S}"
 		install -p -m 0644 arch/${ARCH}/boot/ceImage \
-			${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-ce.bin
-		package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_BASE_NAME}-ce.bin
+			${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}-ce.bin
 
-		cd "${DEPLOY_DIR_IMAGE}"
+		cd "${DEPLOYDIR}"
 		rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
 		ln -sf ${KERNEL_IMAGE_BASE_NAME}-ce.bin ${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
-		package_stagefile_shell ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
 	fi
 }
 
