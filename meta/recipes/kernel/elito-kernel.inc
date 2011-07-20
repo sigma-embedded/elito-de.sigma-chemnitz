@@ -141,6 +141,7 @@ do_uboot_mkimage() {
 		bbwarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
 	fi
 }
+addtask uboot_mkimage before do_install after do_compile
 
 kernel_do_deploy() {
 	install -m 0644 arch/${ARCH}/boot/${KERNEL_IMAGETYPE} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
