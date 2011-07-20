@@ -3,7 +3,7 @@ _elito_skip := "${@elito_skip(d, 'barebox')}"
 DESCRIPTION = "Barebox (formerly U-Boot v2) bootloader mkimage tool"
 LICENSE = "GPLv2"
 PROVIDES = "virtual/u-boot-mkimage"
-LIC_FILES_CHKSUM = "file://COPYING;md5=4c6cde5df68eff615d36789dc18edd3b"
+LIC_FILES_CHKSUM = "file://COPYING;md5=057bf9e50e1ca857d0eb97bfe4ba8e5d"
 
 PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
