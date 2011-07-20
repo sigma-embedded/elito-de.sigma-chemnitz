@@ -3,6 +3,7 @@ _elito_skip := "${@elito_skip(d, 'ubifs')}"
 DESCRIPTION	=  "UBI bootstrap kernel"
 SECTION		=  "kernel"
 LICENSE		=  "GPL"
+LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 PR		=  "r3"
 PACKAGE_ARCH	=  "${MACHINE_ARCH}"
