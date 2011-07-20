@@ -20,7 +20,7 @@ SRC_URI = "\
 "
 S = "${WORKDIR}/git"
 
-DEPENDS = "zlib lzo2 util-linux-ng"
+DEPENDS = "zlib lzo (>= 2) util-linux"
 EXTRA_OEMAKE  = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include' WITHOUT_XATTR=1"
 PARALLEL_MAKE = ""
 NATIVE_INSTALL_WORKS = "1"
