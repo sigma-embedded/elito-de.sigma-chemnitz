@@ -1,5 +1,5 @@
 PV		= "0.2+gitr${SRCPV}"
-PR		= "r5"
+PR		= "r7"
 LICENSE		= "GPLv3"
 LICENSE		= "unknown"
 PACKAGE_ARCH	= "all"
@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "\
   file://GPL-3;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
   file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
   file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-  file://LICENCE.atheros_firmware;md5=62748c8fecfa12010fd76409db4b5459 \
-  file://LICENCE.broadcom_bcm43xx;md5=8cba1397cda6386db37210439a0da3eb \
+  file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+  file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
   file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
   file://LICENCE.iwlwifi_firmware;md5=311cc823df5b1be4f00fbf0f17d96a6b \
   file://LICENCE.mwl8335;md5=9a6271ee0e644404b2ff3c61fd070983 \
@@ -22,7 +22,7 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
 "
 
-SRCREV          = "8654e2dd962899cbc81b3735c7122ca40fa5ea0e"
+SRCREV          = "c8958f5de9a8a2fa590ab9e5641fe16ec044c200"
 
 SRC_URI = "\
 	git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git \
@@ -47,18 +47,30 @@ INHIBIT_DEFAULT_DEPS = "1"
 do_install() {
     cd ../git
 
-    install -d -m 0755 ${D}/lib/firmware ${D}/lib/firmware/nouveau
+    install -d -m 0755 ${D}/lib/firmware ${D}/lib/firmware/nouveau ${D}/lib/firmware/libertas
 
-    install -p -m 0644 libertas/*.bin ath3k*.fw ${WORKDIR}/*.fw  ${D}/lib/firmware/
+    install -p -m 0644 ath3k*.fw ${WORKDIR}/*.fw  ${D}/lib/firmware/
+    install -p -m 0644 libertas/*.bin ${D}/lib/firmware/libertas/
     install -p -m 0644 ../nouveau/*.ctxprog ../nouveau/*.ctxvals ${D}/lib/firmware/nouveau/
 }
 
-_pkginfo = "{'libertas-sd8686-v9' : [ 'sd8686_v9*' ], \
-             'libertas-sd8686-v8' : [ 'sd8686_v8*' ], \
-             'dvb-usb-af9015'     : [ 'dvb-usb-af9015.fw' ], \
-             'dvb-usb-tt-s2400'   : [ 'dvb-usb-tt-s2400-01.fw' ], \
-             'nouveau'            : [ 'nouveau/' ], \
-             'ath3k'              : [ 'ath3k-1.fw' ]}"
+_pkginfo = "{ \
+        'libertas-cf8385'    : [ 'libertas/cf8385*' ], \
+        'libertas-gspi8682'  : [ 'libertas/gspi8682*' ], \
+        'libertas-gspi8686-v9' : [ 'libertas/gspi8686_v9*' ], \
+        'libertas-gspi8688'  : [ 'libertas/gspi8688*' ], \
+        'libertas-sd8385'    : [ 'libertas/sd8385*' ], \
+        'libertas-sd8682'    : [ 'libertas/sd8682*' ], \
+        'libertas-sd8686-v8' : [ 'libertas/sd8686_v8*' ], \
+        'libertas-sd8686-v9' : [ 'libertas/sd8686_v9*' ], \
+        'libertas-sd8688'    : [ 'libertas/sd8688*' ], \
+        'libertas-usb8388-v5' : [ 'libertas/usb8388_v5*' ], \
+        'libertas-usb8388-v9' : [ 'libertas/usb8388_v9*' ], \
+        'libertas-usb8682'   : [ 'libertas/usb8682*' ], \
+        'dvb-usb-af9015'     : [ 'dvb-usb-af9015.fw' ], \
+        'dvb-usb-tt-s2400'   : [ 'dvb-usb-tt-s2400-01.fw' ], \
+        'nouveau'            : [ 'nouveau/' ], \
+        'ath3k'              : [ 'ath3k-1.fw' ]}"
 
 PACKAGES_DYNAMIC += 'firmware-.*'
 
