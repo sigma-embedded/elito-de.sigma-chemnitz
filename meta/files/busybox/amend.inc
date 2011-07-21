@@ -3,4 +3,5 @@ SRC_URI += " \
         file://cvt-color.patch \
         file://busybox-mbus-env.patch \
         file://ifup-upstart.patch \
+	file://linux30.patch \
 "
