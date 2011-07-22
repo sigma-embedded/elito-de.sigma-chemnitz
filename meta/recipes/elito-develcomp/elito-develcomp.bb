@@ -1,12 +1,12 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
 PV = "0.4+${PROJECT_CONF_DATE}"
-PR = "r0"
+PR = "r2"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
 
 PACKAGES = ""
-PACKAGE_ARCH = "all"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 PROVIDES = "elito-develcomp-native"
 
 INHIBIT_DEFAULT_DEPS = "1"
@@ -182,11 +182,6 @@ EOF
 
         # make it read-only
 	chmod a-w "Makefile.develcomp"
-
-####
-
-
-
 }
 
 
@@ -202,6 +197,7 @@ addtask do_setup_makefile before do_populate_sysroot after do_configure
 IPKGCONF_TARGET = "${WORKDIR}/ipkg-conf/opkg.conf"
 IPKGCONF_SDK = "${WORKDIR}/ipkg-conf/opkg-sdk.conf"
 
+do_setup_ipkg[depends] = "elito-image:do_rootfs"
 do_setup_ipkg[dirs] = "${WORKDIR}/ipkg-conf"
 do_setup_ipkg() {
         package_generate_ipkg_conf
