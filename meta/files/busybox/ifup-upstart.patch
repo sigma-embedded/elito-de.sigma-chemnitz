@@ -32,7 +32,7 @@ Index: busybox-1.18.1/networking/ifupdown.c
  /* execute() returns 1 for success and 0 for failure */
  static int execute(const char *command, struct interface_defn_t *ifd, execfn *exec)
  {
-@@ -514,7 +537,17 @@ static const struct dhcp_client_t ext_dh
+@@ -514,7 +537,18 @@ static const struct dhcp_client_t ext_dh
  };
  # endif /* FEATURE_IFUPDOWN_EXTERNAL_DHCPC */
  
@@ -40,11 +40,12 @@ Index: busybox-1.18.1/networking/ifupdown.c
 +# if 1
 +static int FAST_FUNC dhcp_up(struct interface_defn_t *ifd, execfn *exec)
 +{
-+	return execute("/sbin/initctl emit -q start-dhcp INTERFACE=%iface%"
++	return execute("/usr/bin/env"
 +		       "[[ HOSTNAME=%hostname%]][[ CLIENT=%clientid%]]"
 +		       "[[ LEASEHOURS=%leasehours%]][[ LEASETIME=%leasetime%]]"
 +		       "[[ VENDOR=%vendor%]][[ HWADDRESS=%hwaddress%]]"
-+		       "[[ UDHCPC_OPTIONS='%udhcpc_opts%']]",
++		       "[[ UDHCPC_OPTIONS=%udhcpc_opts%]]"
++		       " /sbin/elito-iface start-dhcp %iface%",
 +		       ifd, exec);
 +}
 +# elif ENABLE_FEATURE_IFUPDOWN_EXTERNAL_DHCP
@@ -60,7 +61,7 @@ Index: busybox-1.18.1/networking/ifupdown.c
 +static int FAST_FUNC dhcp_down(struct interface_defn_t *ifd, execfn *exec)
 +{
 +	int result;
-+	result = execute("/sbin/initctl emit -q stop-dhcp INTERFACE=%iface%",
++	result = execute("/sbin/elito-iface stop-dhcp %iface%",
 +			 ifd, exec);
 +
 +	if (!kernel_autoconf(ifd->iface)) {
@@ -75,19 +76,20 @@ Index: busybox-1.18.1/networking/ifupdown.c
  static int FAST_FUNC dhcp_down(struct interface_defn_t *ifd, execfn *exec)
  {
  	int result = 0;
-@@ -620,24 +668,26 @@ static int FAST_FUNC bootp_up(struct int
+@@ -620,24 +668,27 @@ static int FAST_FUNC bootp_up(struct int
  
  static int FAST_FUNC ppp_up(struct interface_defn_t *ifd, execfn *exec)
  {
 -	return execute("pon[[ %provider%]]", ifd, exec);
-+	return execute("/sbin/initctl emit -q start-ppp INTERFACE=%iface%"
-+		       "[[ PROVIDER=%provider%]]", ifd, exec);
++	return execute("/usr/bin/env[[ PROVIDER=%provider%]]"
++		       " /sbin/elito-iface start-ppp %iface%",
++		       ifd, exec);
  }
  
  static int FAST_FUNC ppp_down(struct interface_defn_t *ifd, execfn *exec)
  {
 -	return execute("poff[[ %provider%]]", ifd, exec);
-+	return execute("/sbin/initctl emit -q stop-ppp INTERFACE=%iface%",
++	return execute("/sbin/elito-iface stop-ppp %iface%",
 +		       ifd, exec);
  }
  
@@ -95,15 +97,15 @@ Index: busybox-1.18.1/networking/ifupdown.c
  {
 -	return execute("start-stop-daemon --start -x wvdial "
 -		"-p /var/run/wvdial.%iface% -b -m --[[ %provider%]]", ifd, exec);
-+	return execute("/sbin/initctl emit -q start-wvdial INTERFACE=%iface%"
-+		       "[[ PROVIDER=%provider%]]", ifd, exec);
++	return execute("/usr/bin/env[[ PROVIDER=%provider%]]"
++		       " /sbin/elito-iface start-wvdial %iface%", ifd, exec);
  }
  
  static int FAST_FUNC wvdial_down(struct interface_defn_t *ifd, execfn *exec)
  {
 -	return execute("start-stop-daemon --stop -x wvdial "
 -			"-p /var/run/wvdial.%iface% -s 2", ifd, exec);
-+	return execute("/sbin/initctl emit -q stop-wvdial INTERFACE=%iface%",
++	return execute("/sbin/elito-iface stop-wvdial %iface%",
 +		       ifd, exec);
  }
  
