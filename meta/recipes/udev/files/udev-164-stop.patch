@@ -1,9 +1,9 @@
-Index: udev-164/udev/udevd.c
+Index: udev-172/udev/udevd.c
 ===================================================================
---- udev-164.orig/udev/udevd.c
-+++ udev-164/udev/udevd.c
-@@ -977,10 +977,11 @@ int main(int argc, char *argv[])
- 	int fd;
+--- udev-172.orig/udev/udevd.c
++++ udev-172/udev/udevd.c
+@@ -1180,10 +1180,11 @@ int main(int argc, char *argv[])
+ 	struct udev *udev;
  	FILE *f;
  	sigset_t mask;
 -	int daemonize = false;
@@ -15,18 +15,18 @@ Index: udev-164/udev/udevd.c
  		{ "debug", no_argument, NULL, 'D' },
  		{ "children-max", required_argument, NULL, 'c' },
  		{ "exec-delay", required_argument, NULL, 'e' },
-@@ -1003,13 +1004,17 @@ int main(int argc, char *argv[])
+@@ -1236,13 +1237,16 @@ int main(int argc, char *argv[])
  	for (;;) {
  		int option;
  
--		option = getopt_long(argc, argv, "c:deDthV", options, NULL);
-+		option = getopt_long(argc, argv, "c:deDthVS", options, NULL);
+-		option = getopt_long(argc, argv, "c:deDtN:hV", options, NULL);
++		option = getopt_long(argc, argv, "c:deDtN:hVS", options, NULL);
  		if (option == -1)
  			break;
  
  		switch (option) {
  		case 'd':
- 			daemonize = true;
+-			daemonize = true;
 +			daemonize = DAEMON_BG;
 +			break;
 +		case 'S':
@@ -34,14 +34,14 @@ Index: udev-164/udev/udevd.c
  			break;
  		case 'c':
  			children_max = strtoul(optarg, NULL, 0);
-@@ -1207,7 +1212,9 @@ int main(int argc, char *argv[])
- 	if (fd > STDERR_FILENO)
- 		close(fd);
+@@ -1412,7 +1416,9 @@ int main(int argc, char *argv[])
+ 		goto exit;
+ 	}
  
 -	if (daemonize) {
 +	if (daemonize == DAEMON_STOP)
 +		raise(SIGSTOP);
 +	else if (daemonize == DAEMON_BG) {
  		pid_t pid;
+ 		int fd;
  
- 		pid = fork();
