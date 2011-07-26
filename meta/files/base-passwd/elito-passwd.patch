@@ -2,12 +2,13 @@ Index: base-passwd/group.master
 ===================================================================
 --- base-passwd.orig/group.master
 +++ base-passwd/group.master
-@@ -33,8 +33,14 @@ utmp:*:43:
+@@ -33,8 +33,15 @@ utmp:*:43:
  video:*:44:
  sasl:*:45:
  plugdev:*:46:
 +httpd:*:48:
  staff:*:50:
++lock:*:54:
  games:*:60:
 +wheel:*:66:
 +x11:*:67:
