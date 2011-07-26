@@ -197,7 +197,7 @@ addtask do_setup_makefile before do_populate_sysroot after do_configure
 IPKGCONF_TARGET = "${WORKDIR}/ipkg-conf/opkg.conf"
 IPKGCONF_SDK = "${WORKDIR}/ipkg-conf/opkg-sdk.conf"
 
-do_setup_ipkg[depends] = "elito-image:do_rootfs"
+do_setup_ipkg[depends] = "${@base_contains('MACHINE_FEATURES', 'nokernel', '', 'elito-image:do_rootfs',d)}"
 do_setup_ipkg[dirs] = "${WORKDIR}/ipkg-conf"
 do_setup_ipkg() {
         package_generate_ipkg_conf
