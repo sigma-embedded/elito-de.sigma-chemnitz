@@ -19,7 +19,7 @@ DEPENDS += "elito-setup-tools upstart"
 
 FILES_${PN} = ""
 
-# TODO: move udev rules and files.d into own package
+# TODO: move udev rules and tmpfiles.d into own package
 FILES_${PN}-base = "				\
 	${J}ctrl-alt-del.conf			\
 	${J}halt.conf				\
@@ -32,7 +32,7 @@ FILES_${PN}-base = "				\
 	${J}shutdown/bind-mounts.conf		\
 	${J}shutdown/shutdown.conf		\
 	${J}wait/dev-urandom.conf               \
-	${sysconfdir}/files.d/*-log.txt		\
+	${sysconfdir}/tmpfiles.d/*-log.conf	\
 "
 FILES_${PN}-base_append_arm += "${J}init/cpu-align.conf"
 RDEPENDS_${PN}-base         += "upstart elito-setup-tools"
@@ -97,11 +97,11 @@ python populate_packages_prepend () {
 
         'dbus'		: P(('services/dbus-daemon.conf', 'init/dbus-uuidgen.conf'),
                             'dbus',
-                            '${sysconfdir}/files.d/*-dbus.txt'),
+                            '${sysconfdir}/tmpfiles.d/*-dbus.conf'),
 
         'hald'		: P(('services/hald.conf',),
                             'hal ${PN}-dbus',
-                            '${sysconfdir}/files.d/*-hald.txt'),
+                            '${sysconfdir}/tmpfiles.d/*-hald.conf'),
 
         'acpid'		: P('services/acpid.conf', 'acpid'),
         'mcelog'	: P('services/mcelog.conf', 'mcelog'),
@@ -126,7 +126,7 @@ do_compile() {
 }
 
 do_install() {
-	mkdir -p ${D}${sysconfdir} ${D}/sbin ${D}/share/udhcpc ${D}/lib/udev/rules.d ${D}${sysconfdir}/files.d
+	mkdir -p ${D}${sysconfdir} ${D}/sbin ${D}/share/udhcpc ${D}/lib/udev/rules.d ${D}${sysconfdir}/tmpfiles.d
 	cp -a jobs.d ${D}${sysconfdir}/init
 
         oe_runmake install-extras DESTDIR=${D}

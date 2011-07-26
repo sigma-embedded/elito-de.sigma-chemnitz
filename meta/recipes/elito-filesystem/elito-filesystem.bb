@@ -1,18 +1,18 @@
 DESCRIPTION	= "Base file system structure."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r7"
+PR		= "r8"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "all"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
 
 do_install() {
 	for i in bin dev etc home ${lib-name} libexec media mnt \
-                 opt proc root sbin selinux share srv sys usr var; do
+                 opt proc root sbin selinux share srv sys usr var run; do
 		install -d -m 0755 ${D}/${i}
 	done
 
-	for i in files.d modules.d pki pki/elito; do
+	for i in tmpfiles.d modules.d pki pki/elito; do
 		install -d -m 0755 ${D}/etc/$i
 	done
 
@@ -29,4 +29,4 @@ do_install() {
 PACKAGES    = "${PN}"
 FILES_${PN} = "/bin /boot /dev /etc /home /${lib-name} /libexec \
 	/media /mnt /opt /proc /root /sbin /selinux /share /srv /sys	\
-	/tmp /usr /var"
+	/tmp /usr /var /run"

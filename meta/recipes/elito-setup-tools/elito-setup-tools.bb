@@ -1,6 +1,6 @@
 SECTION		= "base"
 DESCRIPTION	= "ELiTo Base utilities"
-PV		= "0.8.13"
+PV		= "0.9"
 PR		= "r1"
 LICENSE		= "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
@@ -16,11 +16,8 @@ DEPENDS        += "dietlibc-cross"
 
 S               = "${WORKDIR}/elito-setup-${PV}"
 SRC_URI		= " \
-	${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2;name=tarball \
+	${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2 \
 	file://mdev.dbg"
-
-SRC_URI[tarball.md5sum] = "de46a007775c189607bc219e8d2c255b"
-SRC_URI[tarball.sha256sum] = "febe2662d363f7721bc8f79668cf14be0f71a7aca0c09d565e26924c55e0e466"
 
 OVERRIDES .= "${@base_conditional('IMAGE_DEV_MANAGER','busybox-mdev',':mdev','',d)}"
 OVERRIDES .= "${@base_contains('MACHINE_FEATURES','modules','',':nomodules',d)}"
@@ -28,7 +25,7 @@ OVERRIDES .= "${@base_contains('MACHINE_FEATURES','modules','',':nomodules',d)}"
 FILES_${PN}	= "	\
 	${sbindir}/*			\
 	${bindir}/*			\
-	/etc/files.d			\
+	/etc/tmpfiles.d			\
 "
 
 EXTRA_OEMAKE += "DIET=diet"
@@ -58,3 +55,6 @@ pkg_postinst_${PN}() {
 pkg_postrm_${PN}() {
 	update-alternatives --remove init /sbin/init.wrapper
 }
+
+SRC_URI[md5sum] = "3688b523a90c4b02c62b238556c239a0"
+SRC_URI[sha256sum] = "031c7aad6e82258eec1536dfa543d72106c015d039fd52d38782115a2a5de544"
