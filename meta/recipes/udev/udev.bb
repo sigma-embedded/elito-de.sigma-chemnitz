@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
                     file://libudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
                     file://extras/gudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
 
-PV	= "166"
-PR	= "r0"
+PV	= "172"
+PR	= "r1"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -24,21 +24,18 @@ SRC_URI = "	\
 	file://60-ubi.rules			\
 "
 
-SRC_URI[md5sum] = "a5a896b3d945e0ab804667ff0096eaf7"
-SRC_URI[sha256sum] = "76fe334ad21d88476371b835352f494ca56d271f6212eb402e5b17e37351a48e"
-
 _sbindir    = "/sbin"
-rootlibdir  = "/lib"
-_libexecdir = "${rootlibdir}/udev"
+_libexecdir = "${base_libdir}/udev"
 rules_dir   = "${_libexecdir}/rules.d"
 
 EXTRA_OECONF = "\
 	--enable-static \
 	--disable-introspection \
 	--with-pci-ids-path=/usr/share/misc \
-	--with-rootlibdir=${rootlibdir} \
+	--with-rootlibdir=${base_libdir} \
 	--libexecdir=${_libexecdir} \
 	--sbindir=${_sbindir} \
+	--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
 	ac_cv_file__usr_share_pci_ids=no \
 	ac_cv_file__usr_share_hwdata_pci_ids=no \
 	ac_cv_file__usr_share_misc_pci_ids=yes \
@@ -49,7 +46,7 @@ inherit autotools pkgconfig
 PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
              ${PN}-firmware ${PN}-keymaps"
-PACKAGES += "${PN}-consolekit ${PN}-lib ${PN}-libgudev ${PN}-fstab-import \
+PACKAGES += "${PN}-consolekit ${PN}-systemd libudev libgudev ${PN}-fstab-import \
              ${PN}-rulegen ${PN}-extra"
 
 PACKAGES_DYNAMIC += "udev-.*-id"
@@ -60,7 +57,7 @@ python populate_packages_prepend() {
 	libdir  = bb.data.getVar('_libexecdir', d, 1)
 	pkgs    = bb.data.getVar('PACKAGES', d, 1).split()
 
-	id_progs=("ata", "cdrom", "edd", "path", "scsi", "usb", "v4l")
+	id_progs=("ata", "cdrom", "edd", "path", "scsi", "usb", "input")
 	pkgs.extend(map(lambda x: '%s-%s-id' % (pn,x), id_progs))
 
 	bb.data.setVar('PACKAGES', ' '.join(pkgs), d);
@@ -76,6 +73,9 @@ do_install_append() {
 
         rm -f ${D}${libdir}/*.la
 	touch ${D}${rules_dir}/.empty
+
+	# disable udev-cache sysv script on systemd installs
+	ln -sf /dev/null ${D}/${base_libdir}/systemd/system/udev-cache.service
 }
 
 FILES_${PN} = "\
@@ -106,8 +106,8 @@ FILES_${PN}-fstab-import = "\
 
 FILES_${PN}-usb-id   += "${_libexecdir}/usb-db"
 
-FILES_${PN}-lib       = "${rootlibdir}/libudev.so.*"
-FILES_${PN}-libgudev  = "${rootlibdir}/libgudev-*.so.*"
+FILES_libudev = "${base_libdir}/libudev.so.*"
+FILES_libgudev = "${base_libdir}/libgudev-*.so.*"
 
 FILES_${PN}-firmware  = " \
 	${_libexecdir}/firmware \
@@ -135,3 +135,5 @@ FILES_${PN}-dev             += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
 FILES_${PN}-consolekit       = "/usr/lib/ConsoleKit"
 
 FILES_${PN}-dbg             += "/lib/udev/.debug"
+
+FILES_${PN}-systemd = "${base_libdir}/systemd"
