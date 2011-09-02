@@ -229,7 +229,7 @@ $(_stampdir)/.bitbake.fetch.stamp: $(_stampdir)/.bitbake.gitinit.stamp $(_stampd
 
 $(_stampdir)/.bitbake.patch.stamp: $(_stampdir)/.bitbake.fetch.stamp
 ifneq ($(GIT),)
-			cd $(_tmpdir)/bitbake && $(GIT) am -3 $(_bitbake_srcdir)/*.patch
+			cd $(_tmpdir)/bitbake && $(GIT) am --reject -3 $(_bitbake_srcdir)/*.patch
 else ifeq ($(QUILT),)
 			cd $(_tmpdir)/bitbake && cat $(_bitbake_srcdir)/*.patch | patch -p1
 else
