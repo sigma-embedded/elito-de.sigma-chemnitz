@@ -5,7 +5,7 @@ SECTION          = "kernel"
 LICENSE          = "GPL"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-PR               = "r10"
+PR               = "r12"
 KERNEL_TFTP_IMAGE ?= ""
 PROVIDES         = "virtual/elito-kernel"
 
@@ -26,3 +26,7 @@ do_generate_makefile_append() {
 }
 
 include elito-kernel.inc
+
+RDEPENDS_kernel-image += "elito-filesystem"
+RDEPENDS_kernel-dev += "elito-filesystem"
+RDEPENDS_kernel-vmlinux += "elito-filesystem"
