@@ -1,0 +1,12 @@
+[Unit]
+Description=SSH Key Generation
+ConditionPathExists=|!/etc/dropbear/dropbear_rsa_host_key
+
+[Service]
+Type = oneshot
+ExecStartPre = /bin/sh -c 'test -w /etc/dropbear || /bin/mount --bind /var/lib/dropbear /etc/dropbear'
+ExecStart = /usr/sbin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
