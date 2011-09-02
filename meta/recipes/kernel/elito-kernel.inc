@@ -84,10 +84,37 @@ EOF
         chmod a-w "${_gen_mf}"
 }
 
+_configdebug-opts='\
+  SHIRQ OBJECTS OBJECTS_FREE OBJECTS_WORK OBJECTS_RCU_HEAD \
+  OBJECTS_PERCPU_COUNTER OBJECTS_ENABLE_DEFAULT KMEMLEAK \
+  PREEMPT RT_MUTEXES PI_LIST SPINLOCK MUTEXES LOCK_ALLOC \
+  SPINLOCK_SLEEP VM WRITECOUNT MEMORY_INIT LIST SG LOCKING \
+  LOCKDEP PAGEALLOC KOBJECT LOCKING_API_SELFTESTS \
+  SHIRQ OBJECTS_TIMERS NOTIFIERS \
+'
+
+_configdebug-opts-re = \
+  "\(CONFIG_DEBUG_\(${@'\\|'.join('${_configdebug-opts}'.split())}\)\)"
+
+_configdisable-opts = ' \
+  LOCKDEP PROVE_RCU SLUB_DEBUG_ON SCHED_DEBUG SLUB_STATS \
+  PROVE_LOCKING LOCK_STAT \
+'
+
+_configdisable-opts-re = \
+  "\(CONFIG_\(${@'\\|'.join('${_configdisable-opts}'.split())}\)\)"
+
 do_configure_prepend() {
 	if ! test -e .config; then
 		oe_runmake "${_defconfig}"
 	fi
+
+	sed -e 's!^\(${_configdebug-opts-re}\|${_configdisable-opts-re}\)=.*!# \1 is not set!' .config > .config-nodebug
+	if ! cmp .config .config-nodebug; then
+		cat .config-nodebug > .config
+		changed=true
+	fi
+	#rm -f .config-nodebug
 
         changed=false
         if test -n "${OVERRIDE_KERNEL_CMDLINE}" -a -n "${KERNEL_CMDLINE}"; then
