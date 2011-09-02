@@ -1,7 +1,17 @@
 # --*- python -*--
-SRC_URI += "file://vartmp.patch"
+SRC_URI += "\
+  file://embedded.patch \
+"
 
-PR="r0+3"
+EXTRA_OECONF += "\
+  --with-distro=other \
+  --with-sysvinit-path= \
+  --with-sysvrcd-path= \
+"
+
+do_install_append() {
+    rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
+}
 
 python populate_packages_prepend () {
 	pkg_info = {
