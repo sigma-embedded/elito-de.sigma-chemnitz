@@ -193,7 +193,7 @@ $(_bitbake_setuptools):
 endif
 
 $(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp $(_stampdir)/.filesystem.stamp
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $(_tmpdir)/bitbake.env)
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $(_tmpdir)/bitbake.env || { rc=$$?; cat $(_tmpdir)/bitbake.env >&2; exit $$rc; })
 			@touch $@
 
 $(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp
