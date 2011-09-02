@@ -14,6 +14,7 @@ GIT =			@GIT@
 WGET =			@WGET@
 TAR =			@TAR@
 PYTHON =		@PYTHON@
+GZIP =			@GZIP@
 
 SECWRAP_CMD =		@SECWRAP_CMD@
 
