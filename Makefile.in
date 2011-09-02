@@ -18,7 +18,7 @@ GZIP =			@GZIP@
 
 SECWRAP_CMD =		@SECWRAP_CMD@
 
-include ${abs_top_srcdir}/scripts/common.mk
+include $(abs_top_srcdir)/scripts/common.mk
 
 @ENABLE_MAINTAINER_MODE_TRUE@$(abs_top_srcdir)/configure:	$(abs_top_srcdir)/configure.ac
 @ENABLE_MAINTAINER_MODE_TRUE@		cd $(abs_top_srcdir) && $(AUTORECONF) -i -f
