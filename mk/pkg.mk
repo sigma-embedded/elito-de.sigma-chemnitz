@@ -9,7 +9,7 @@ _opkg_make_index =	$(_start) $(OPKG_MAKE_INDEX)
 _opkg_conf =		${DEPLOY_DIR_IPK}/opkg.conf
 
 LOCALGOALS =		pkg-regen pkg-update pkg-upgrade \
-			pkg-install pkg-remove
+			pkg-install pkg-remove pkg-reinstall
 
 pkg-regen:	$(wildcard ${_pkgs})
 	@:
@@ -26,6 +26,10 @@ pkg-upgrade:	${_opkg_conf} pkg-regen
 .PHONY:		pkg-install
 pkg-install:	${_opkg_conf} pkg-update
 	$(_fakeroot) $(OPKG) -o $(DESTDIR) -f '$<' install ${P}
+
+.PHONY:		pkg-reinstall
+pkg-reinstall:	${_opkg_conf} pkg-update
+	$(_fakeroot) $(OPKG) -o $(DESTDIR) -f '$<' --force-reinstall install ${P}
 
 .PHONY:		pkg-remove
 pkg-remove:	${_opkg_conf}
