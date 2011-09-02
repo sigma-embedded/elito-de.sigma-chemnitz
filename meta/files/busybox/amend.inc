@@ -5,7 +5,7 @@ SRC_URI += " \
         file://ifup-upstart.patch \
 	file://linux30.patch \
 \
-	file://syslog.service \
+	file://syslogd.service \
 	file://klogd.service \
 "
 
@@ -14,7 +14,7 @@ RDEPENDS_${PN}-systemd += "systemd"
 FILES_${PN}-systemd = "${base_libdir}/systemd/system/*"
 
 do_install_append() {
-	for i in syslog.service klogd.service; do
+	for i in syslogd.service klogd.service; do
 		install -D -p -m 0644 ${WORKDIR}/$i ${D}${base_libdir}/systemd/system/$i
         done
 }

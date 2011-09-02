@@ -1,6 +1,6 @@
 [Unit]
 Description = syslogd
-Wants = syslog.service
+Wants = syslogd.service
 After = systemd-tmpfiles-setup.service
 
 [Install]

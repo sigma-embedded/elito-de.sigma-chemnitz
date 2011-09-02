@@ -1,6 +1,7 @@
 [Unit]
 Description = syslogd
 After = systemd-tmpfiles-setup.service
+After = systemd-kmsg-syslogd.service
 
 [Install]
 WantedBy = multi-user.target
@@ -8,6 +9,7 @@ WantedBy = multi-user.target
 [Service]
 Type = simple
 EnvironmentFile = -/etc/sysconfig/syslogd
+ExecStartPre = /bin/systemctl stop syslog.socket
+ExecStartPost = /bin/systemctl stop systemd-kmsg-syslogd.service
 ExecStart = /sbin/syslogd $SYSLOG_OPTIONS -n
-ExecStartPost=/bin/systemctl stop systemd-kmsg-syslogd.service
 Restart = on-failure
