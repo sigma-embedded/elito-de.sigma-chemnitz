@@ -292,7 +292,7 @@ endif
 
 metrics-%.gz:		metrics
 			rm -f $@.tmp
-			gzip -c $< > $@.tmp
+			$(GZIP) -c $< > $@.tmp
 			mv $@.tmp $@
 
 clean-metrics:
