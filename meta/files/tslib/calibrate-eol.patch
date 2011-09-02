@@ -1,0 +1,13 @@
+Index: tslib-1.0/tests/ts_calibrate.c
+===================================================================
+--- tslib-1.0.orig/tests/ts_calibrate.c
++++ tslib-1.0/tests/ts_calibrate.c
+@@ -228,7 +228,7 @@ int main()
+ 		} else {
+ 			cal_fd = open ("/etc/pointercal", O_CREAT | O_RDWR, 0666);
+ 		}
+-		sprintf (cal_buffer,"%d %d %d %d %d %d %d",
++		sprintf (cal_buffer,"%d %d %d %d %d %d %d\n",
+ 			 cal.a[1], cal.a[2], cal.a[0],
+ 			 cal.a[4], cal.a[5], cal.a[3], cal.a[6]);
+ 		write (cal_fd, cal_buffer, strlen (cal_buffer) + 1);

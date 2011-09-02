@@ -1,0 +1,65 @@
+Index: tslib-1.0/tests/ts_calibrate.c
+===================================================================
+--- tslib-1.0.orig/tests/ts_calibrate.c
++++ tslib-1.0/tests/ts_calibrate.c
+@@ -180,7 +180,7 @@ int main()
+ 		ts = ts_open(tsdevice,0);
+ 	} else {
+ #ifdef USE_INPUT_API
+-		ts = ts_open("/dev/input/event0", 0);
++		ts = ts_open("/dev/input/event-touchscreen0", 0);
+ #else
+ 		ts = ts_open("/dev/touchscreen/ucb1x00", 0);
+ #endif /* USE_INPUT_API */
+Index: tslib-1.0/tests/ts_harvest.c
+===================================================================
+--- tslib-1.0.orig/tests/ts_harvest.c
++++ tslib-1.0/tests/ts_harvest.c
+@@ -76,7 +76,7 @@ int main()
+ 
+ 	if ((tsdevice = getenv("TSLIB_TSDEVICE")) == NULL) {
+ #ifdef USE_INPUT_API
+-		tsdevice = strdup ("/dev/input/event0");
++		tsdevice = strdup ("/dev/input/event-touchscreen0");
+ #else
+ 		tsdevice = strdup ("/dev/touchscreen/ucb1x00");
+ #endif /* USE_INPUT_API */
+Index: tslib-1.0/tests/ts_print.c
+===================================================================
+--- tslib-1.0.orig/tests/ts_print.c
++++ tslib-1.0/tests/ts_print.c
+@@ -29,7 +29,7 @@ int main()
+                 ts = ts_open(tsdevice,0);
+         } else {
+ #ifdef USE_INPUT_API
+-                ts = ts_open("/dev/input/event0", 0);
++                ts = ts_open("/dev/input/event-touchscreen0", 0);
+ #else
+                 ts = ts_open("/dev/touchscreen/ucb1x00", 0);
+ #endif /* USE_INPUT_API */
+Index: tslib-1.0/tests/ts_print_raw.c
+===================================================================
+--- tslib-1.0.orig/tests/ts_print_raw.c
++++ tslib-1.0/tests/ts_print_raw.c
+@@ -29,7 +29,7 @@ int main()
+                 ts = ts_open(tsdevice,0);
+         } else {
+ #ifdef USE_INPUT_API
+-                ts = ts_open("/dev/input/event0", 0);
++                ts = ts_open("/dev/input/event-touchscreen0", 0);
+ #else
+                 ts = ts_open("/dev/touchscreen/ucb1x00", 0);
+ #endif /* USE_INPUT_API */
+Index: tslib-1.0/tests/ts_test.c
+===================================================================
+--- tslib-1.0.orig/tests/ts_test.c
++++ tslib-1.0/tests/ts_test.c
+@@ -121,7 +121,7 @@ int main()
+ 
+ 	if ((tsdevice = getenv("TSLIB_TSDEVICE")) == NULL) {
+ #ifdef USE_INPUT_API
+-		tsdevice = strdup ("/dev/input/event0");
++		tsdevice = strdup ("/dev/input/event-touchscreen0");
+ #else
+ 		tsdevice = strdup ("/dev/touchscreen/ucb1x00");
+ #endif /* USE_INPUT_API */
