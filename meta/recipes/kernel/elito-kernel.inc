@@ -146,6 +146,10 @@ do_install_prepend() {
 	mkdir -p ${D}/lib/firmware
 }
 
+do_install_append() {
+	find ${D}/lib/modules -type f -name '*.ko' -print0 | xargs -0r chmod a+x
+}
+
 do_uboot_mkimage() {
 	have_tftp_image=true
 	tftp_image_name='arch/${ARCH}/boot/${KERNEL_IMAGETYPE}'
