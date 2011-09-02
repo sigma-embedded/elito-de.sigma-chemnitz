@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r8.${PROJECT_FILE_DATE}"
+PR           = "r10.${PROJECT_FILE_DATE}"
 LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
 
 do_distribute_sources() {
@@ -44,6 +44,10 @@ DEPENDS = "elito-task-boot"
 
 _DEV_MANAGER_DEPS_udev += "udev"
 _DEV_MANAGER_DEPS_mdev += "busybox elito-mdev-conf"
+
+RDEPENDS_${PN} =+ " \
+    elito-filesystem	\
+"
 
 #
 # minimal set of packages - needed to boot
