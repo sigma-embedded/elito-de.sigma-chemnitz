@@ -10,17 +10,3 @@ Index: git/units/sysinit.target
 +Wants=local-fs.target
  After=local-fs.target swap.target emergency.service emergency.target
  RefuseManualStart=yes
-Index: git/Makefile.am
-===================================================================
---- git.orig/Makefile.am
-+++ git/Makefile.am
-@@ -1479,7 +1479,8 @@ endif
- 		rm -f user && \
- 		$(LN_S) $(pkgsysconfdir)/user user )
- 	( cd $(DESTDIR)$(systemunitdir)/sockets.target.wants && \
--		rm -f systemd-initctl.socket systemd-logger.socket systemd-shutdownd.socket syslog.socket && \
-+		rm -f swap.target systemd-initctl.socket systemd-logger.socket systemd-shutdownd.socket syslog.socket && \
-+		$(LN_S) ../swap.target swap.target && \
- 		$(LN_S) ../systemd-logger.socket systemd-logger.socket && \
- 		$(LN_S) ../systemd-initctl.socket systemd-initctl.socket && \
- 		$(LN_S) ../systemd-shutdownd.socket systemd-shutdownd.socket && \
