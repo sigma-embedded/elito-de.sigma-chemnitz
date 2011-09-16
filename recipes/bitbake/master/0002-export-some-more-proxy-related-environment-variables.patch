@@ -1,4 +1,4 @@
-From d72d5f622ce3cfee5ff993e24407f4bbf726a950 Mon Sep 17 00:00:00 2001
+From da6cebf2dde5abe12c7fcab72c253b4bb3f57af2 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:42 +0200
 Subject: [PATCH 02/12] export some more proxy related environment variables

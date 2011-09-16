@@ -1,4 +1,4 @@
-From f918aa7a312f653e260e624972ffe09dc881a8fa Mon Sep 17 00:00:00 2001
+From c048f902a2bbe074ae8c8cfab3e1461af502fc1f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:48 +0200
 Subject: [PATCH 10/12] install ply + progressbar modules

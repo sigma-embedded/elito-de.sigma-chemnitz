@@ -1,4 +1,4 @@
-From 4d9190bc39d8f011eb86ca1a02cb69a926bed3dc Mon Sep 17 00:00:00 2001
+From b85a65b03062013ba0f14dc9cdf4f8edbeae28d9 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
 Subject: [PATCH 08/12] do not execute the 'make doc' target

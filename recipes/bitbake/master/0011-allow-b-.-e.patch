@@ -1,27 +1,22 @@
-From 2919c945a89a6708869e83dd9801483429a3cb53 Mon Sep 17 00:00:00 2001
+From 99fa96788b164ff7a7241a2463f7ee6d0cb8e974 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:49 +0200
 Subject: [PATCH 11/12] allow '-b ... -e'
 
 ---
- lib/bb/cooker.py |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
+ lib/bb/cooker.py |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 86730da..2227b1a 100644
+index 5e34e4f..c60d75f 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -256,7 +256,13 @@ class BBCooker:
-         envdata = None
+@@ -277,7 +277,9 @@ class BBCooker:
+             self.status = bb.cache.CacheData(self.caches_array)
+             self.handleCollections( bb.data.getVar("BBFILE_COLLECTIONS", self.configuration.data, 1) )
  
-         if buildfile:
--            fn = self.matchFile(buildfile)
-+            self.parseConfiguration()
-+            self.status = bb.cache.CacheData(self.caches_array)
-+            self.handleCollections( bb.data.getVar("BBFILE_COLLECTIONS", self.configuration.data, 1) )
-+
 +            fn, cls = bb.cache.Cache.virtualfn2realfn(buildfile)
-+            fn = self.matchFile(fn)
+             fn = self.matchFile(buildfile)
 +            fn = bb.cache.Cache.realfn2virtual(fn, cls)
          elif len(pkgs_to_build) == 1:
              self.updateCache()

@@ -1,4 +1,4 @@
-From aef962b9410aea3bc3f2832478e9ba116a0b8ca4 Mon Sep 17 00:00:00 2001
+From 92670354f16467b5bbb21ca0217dd5e6e7925e11 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:40 +0200
 Subject: [PATCH 01/12] added BB_SVN_TUNNEL variable
@@ -35,12 +35,12 @@ index 59d7ccb..faf064f 100644
 +++ b/lib/bb/fetch2/svn.py
 @@ -70,9 +70,13 @@ class Svn(FetchMethod):
          """
-
+ 
          basecmd = data.expand('${FETCHCMD_svn}', d)
 +        tunnel  = data.getVar('BB_SVN_TUNNEL', d, True) or ""
-
+ 
          proto = ud.parm.get('proto', 'svn')
-
+ 
 +        if proto == "svn":
 +            proto = proto + tunnel
 +

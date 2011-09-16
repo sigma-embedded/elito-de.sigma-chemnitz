@@ -1,4 +1,4 @@
-From 62daf05ffb67e35ec49dcc6572b4968c21b2dbfc Mon Sep 17 00:00:00 2001
+From 176c8626a14a625f46339d116662630d5eb1e146 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:43 +0200
 Subject: [PATCH 04/12] do not bail out on SkipPackage exceptions
@@ -10,7 +10,7 @@ set __SKIPPED instead of
  2 files changed, 7 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index 301f9e3..127953e 100644
+index d8ba24f..2df98df 100644
 --- a/lib/bb/data_smart.py
 +++ b/lib/bb/data_smart.py
 @@ -128,6 +128,8 @@ class DataSmart(MutableMapping):
@@ -23,7 +23,7 @@ index 301f9e3..127953e 100644
                  raise
              except Exception as exc:
 diff --git a/lib/bb/parse/parse_py/BBHandler.py b/lib/bb/parse/parse_py/BBHandler.py
-index 31d1e21..45ac4a8 100644
+index 851a7e6..4422147 100644
 --- a/lib/bb/parse/parse_py/BBHandler.py
 +++ b/lib/bb/parse/parse_py/BBHandler.py
 @@ -150,7 +150,11 @@ def handle(fn, d, include):
