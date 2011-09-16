@@ -1,4 +1,4 @@
-From b93e768756305e8af8618092e6a29c61fc3b897b Mon Sep 17 00:00:00 2001
+From 91b657f8287fa159bb8df829da60f3996ef352d8 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:43 +0200
 Subject: [PATCH 03/12] added find-dups functions
@@ -9,7 +9,7 @@ it is activated by a debug level of collection domain >= 1
  1 files changed, 52 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index a0fcc15..0880b0f 100644
+index a0fcc15..b54f697 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
 @@ -1098,6 +1098,54 @@ class BBCooker:
@@ -72,7 +72,7 @@ index a0fcc15..0880b0f 100644
          if not self.parser.parse_next():
              collectlog.debug(1, "parsing complete")
 +
-+            if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++            if collectlog.level >= 1:
 +                self.findDups()
 +
              self.show_appends_with_no_recipes()

@@ -1,4 +1,4 @@
-From dcf7330b3de578aaba211be5ef60f7f1fdca021e Mon Sep 17 00:00:00 2001
+From e15f0e6b1fb9745a368674d5e7ef08713c9323f9 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:45 +0200
 Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
@@ -9,7 +9,7 @@ Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
  1 files changed, 15 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 0880b0f..173e124 100644
+index b54f697..0912871 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
 @@ -1276,9 +1276,12 @@ class BBCooker:
@@ -21,7 +21,7 @@ index 0880b0f..173e124 100644
              if bbmask and bbmask_compiled.search(f):
 -                collectlog.debug(1, "skipping masked file %s", f)
 +                collectlog.debug(2, "skipping masked file %s", f)
-+                if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++                if collectlog.level >= 1:
 +                    maskedfiles.append(f)
                  masked += 1
                  continue
@@ -30,7 +30,7 @@ index 0880b0f..173e124 100644
                  topfile = bbfile_seen[base]
                  self.overlayed[topfile].append(f)
  
-+        if bb.msg.debug_level[bb.msg.domain.Collection] >= 1:
++        if collectlog.level >= 1:
 +            bb.data.setVar("_BBMASKED", maskedfiles, self.configuration.data)
 +            bb.event.fire(CookerNewFiles(bbfiles, maskedfiles),
 +                          self.configuration.data)
