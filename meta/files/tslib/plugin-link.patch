@@ -1,11 +1,11 @@
-Index: tslib-1.0/plugins/Makefile.am
+Index: git/plugins/Makefile.am
 ===================================================================
---- tslib-1.0.orig/plugins/Makefile.am
-+++ tslib-1.0/plugins/Makefile.am
-@@ -10,13 +10,13 @@
+--- git.orig/plugins/Makefile.am
++++ git/plugins/Makefile.am
+@@ -9,13 +9,13 @@
  #
  
- AM_CFLAGS		= $(DEBUGFLAGS) $(LIBFLAGS) $(VIS_CFLAGS)
+ AM_CFLAGS		= -DTS_POINTERCAL=\"@TS_POINTERCAL@\" $(DEBUGFLAGS) $(LIBFLAGS) $(VIS_CFLAGS)
 -LDADD		= -rpath $(PLUGIN_DIR)
 +AM_LDFLAGS		= -rpath $(PLUGIN_DIR)
  INCLUDES		= -I$(top_srcdir)/src
