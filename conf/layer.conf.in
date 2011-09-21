@@ -1,6 +1,10 @@
 _abs_project_dir := ${@os.path.normpath("${LAYERDIR}")}
 
-BBFILES += "${_abs_project_dir}/recipes/*/*.bb ${_abs_project_dir}/files/*/*.bbappend"
+BBFILES += " \
+  ${_abs_project_dir}/recipes/*/*.bb \
+  ${_abs_project_dir}/recipes/*/*.bbappend \
+  ${_abs_project_dir}/files/*/*.bbappend \
+"
 
 BBFILE_COLLECTIONS     += "project"
 BBFILE_PATTERN_project := "^${LAYERDIR}"
