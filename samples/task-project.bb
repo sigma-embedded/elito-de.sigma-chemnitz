@@ -22,6 +22,8 @@ do_unpack() {
 do_distribute_sources() {
 }
 
+OVERRIDES .= ":initsys-${IMAGE_INIT_MANAGER}"
+
 # !! DO NOT MOVE IT TO TOP !!
 # Else, the task class sets PACKAGE_ARCH to all which will override
 # value here.
@@ -34,17 +36,29 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 # |    * ERROR: Cannot satisfy the following dependencies for elito-task-core:
 #
 # like errors during rootfs creation.
-DEPENDS += "upstart-setup alsa-utils openntpd elito-develcomp"
+DEPENDS += "elito-develcomp alsa-utils"
+DEPENDS_initsys-upstart += "upstart-setup"
 
 RDEPENDS_${PN} = "\
 	files-@PROJECT_NAME@		\
 "
 
-RRECOMMENDS_${PN} = "\
-	upstart-setup-syslogd		\
+extra-RRECOMMENDS = ""
+
+extra-RRECOMMENDS_initsys-systemd = " \
+	busybox-systemd \
+	dropbear-systemd \
+"
+
+extra-RRECOMMENDS_initsys-upstart = " \
+	upstart-setup-fsck-dummy	\
 	upstart-setup-klogd		\
-	upstart-setup-openntpd		\
 	upstart-setup-net-dhcp		\
+	upstart-setup-syslogd		\
+	upstart-setup-tty-plain		\
+"
+
+RRECOMMENDS_${PN} = "\
 	alsa-utils-alsamixer		\
 	alsa-utils-amixer		\
 	alsa-utils-aplay		\
@@ -58,4 +72,6 @@ RRECOMMENDS_${PN} = "\
 	dropbear			\
 	opkg				\
 	usbutils			\
+\
+	${extra-RRECOMMENDS}		\
 "
