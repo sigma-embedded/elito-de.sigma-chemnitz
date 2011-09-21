@@ -11,6 +11,7 @@ EXTRA_OECONF += "\
 
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
+    rm ${D}${libdir}/tmpfiles.d/tmp.conf
 }
 
 python populate_packages_prepend () {
