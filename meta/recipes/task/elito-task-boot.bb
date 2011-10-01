@@ -10,12 +10,13 @@ inherit task
 
 
 # !! DO NOT MOVE IT TO TOP !!
-# Else, the task class sets PACKAGE_ARCH to all which will override
+# Else, the task class sets PACKAGE_ARCH to 'all' which will override
 # value here.
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 #
-# those ones can be set in machine config to supply packages needed to get machine booting
+# those ones can be set in machine config to supply packages needed to
+# get machine booting
 #
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
 MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
