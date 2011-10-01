@@ -392,7 +392,7 @@ AC_DEFUN([ELITO_ASSUME],[
 	(yes|system)	force=true;;
 	esac
 
-	$force && elito_assumed="$elito_assumed ifelse($4,,$2-native,$4)"
+	$force && elito_assumed="$elito_assumed ^ifelse($4,,$2-native,$4)\$"
 
 	if $force; then
 		AC_MSG_RESULT([yes])
