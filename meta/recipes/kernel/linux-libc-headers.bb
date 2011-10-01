@@ -57,4 +57,7 @@ do_install() {
 	set_arch
 	oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix} ARCH=$ARCH
 	rm -f ${D}${exec_prefix}/include/scsi/scsi.h
+
+        # The ..install.cmd conflicts between various configure runs
+        find ${D}${includedir} -name ..install.cmd | xargs rm -f
 }
