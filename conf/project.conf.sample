@@ -6,6 +6,9 @@ KERNEL_DEFCONFIG	 = "project_defconfig"
 
 TERMCMD			 = "${XTERM_TERMCMD}"
 
+#PROJECT_FEATURES	 = "fb usb modules usbhost alsa"
+#DISTRO_FEATURES	 = "${DISTRO_FEATURES_LIBC} ipv4 ipv6 x11"
+
 #PROJECT_EXTRA_RDEPENDS	+= "task-${PROJECT_NAME}"
 #PROJECT_EXTRA_RRECOMMENDS += ""
 
