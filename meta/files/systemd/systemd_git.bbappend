@@ -44,4 +44,5 @@ python populate_packages_prepend () {
 }
 
 PACKAGES_DYNAMIC = "systemd-.*"
-RDEPENDS_systemd := "${@'${RDEPENDS_systemd}'.replace('dbus-systemd', '')}"
+RDEPENDS_systemd := "${@(bb.data.getVar('RDEPENDS_systemd', d, True) or '')\
+                       .replace('dbus-systemd', '')}"
