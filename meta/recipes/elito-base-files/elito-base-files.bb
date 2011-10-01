@@ -43,12 +43,10 @@ do_install() {
 
 	echo ${MACHINE} > ${D}${sysconfdir}/hostname
 
-	c0='-e /[[:space:]]usbfs[[:space:]]/d'
 	c1='-e /[[:space:]]debugfs[[:space:]]/d'
 	c2='-e /[[:space:]]selinuxfs[[:space:]]/d'
 	c3='-e /[[:space:]]unionfs[[:space:]]/d'
 
-	${@base_contains("MACHINE_FEATURES","usb","c0=",':',d)}
 	${@base_contains("MACHINE_FEATURES","kdebug","c1=",':',d)}
 	${@base_contains("MACHINE_FEATURES","selinux","c2=",':',d)}
 	${@base_contains("MACHINE_FEATURES","unionfs","c3=",':',d)}
