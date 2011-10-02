@@ -46,3 +46,13 @@ python populate_packages_prepend () {
 PACKAGES_DYNAMIC = "systemd-.*"
 RDEPENDS_systemd := "${@(bb.data.getVar('RDEPENDS_systemd', d, True) or '')\
                        .replace('dbus-systemd', '')}"
+
+RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
+
+python() {
+    r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""
+    for x in ['util-linux-swaponoff']:
+        r = r.replace(x,'')
+    r = ' '.join(r.split())
+    bb.data.setVar('RRECOMMENDS_systemd', r, d)
+}
