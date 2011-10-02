@@ -385,13 +385,13 @@ AC_DEFUN([ELITO_ASSUME],[
 			enableval=no;
 		fi])
 
-	enable_pkg_[]translit($2,-,_)=$enableval
 	case $enableval in
 	(auto)		force=$3;;
 	(no|builtin)	force=false;;
 	(yes|system)	force=true;;
 	esac
 
+	enable_pkg_[]translit($2,-,_)=$force
 	$force && elito_assumed="$elito_assumed ^ifelse($4,,$2-native,$4)\$"
 
 	if $force; then
