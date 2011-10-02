@@ -27,3 +27,5 @@ do_configure_prepend () {
 }
 
 inherit autotools cpan
+
+FILES_${PN}-dbg += "${libdir}/perl/vendor_perl/*/auto/Socket6/.debug"
