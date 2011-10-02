@@ -484,8 +484,10 @@ AC_SUBST(BITBAKE)
 AC_SUBST(BITBAKE_PATH)
 AC_PROG_EGREP
 
-AC_PATH_PROGS([AS], [as], [
-  AC_MSG_ERROR([The `as' program is required for bootstrapping])])
+AC_PATH_PROGS([AS], [as], [])
+if test -z "$AS"; then
+  AC_MSG_ERROR([The `as' program is required for bootstrapping])
+fi
 
 ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
 ELITO_CHECK_PROGRAM(-1, GZIP,       gzip)
