@@ -484,6 +484,9 @@ AC_SUBST(BITBAKE)
 AC_SUBST(BITBAKE_PATH)
 AC_PROG_EGREP
 
+AC_PATH_PROGS([AS], [as], [
+  AC_MSG_ERROR([The `as' program is required for bootstrapping])])
+
 ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
 ELITO_CHECK_PROGRAM(-1, GZIP,       gzip)
 ELITO_CHECK_PROGRAM(-1, SED,        sed)
@@ -498,7 +501,6 @@ ELITO_CHECK_PROGRAM(-1, BZIP2,      bzip2)
 ELITO_CHECK_PROGRAM(-1, XZ,         xz)
 ELITO_CHECK_PROGRAM(-1, MAKE,       make)
 ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
-ELITO_CHECK_PROGRAM(-1, AS,         as, binutils)
 ELITO_CHECK_PROGRAM( 0, QEMU,       qemu)
 ELITO_CHECK_PROGRAM( 0, FAKEROOT,   fakeroot)
 ELITO_CHECK_PROGRAM(90, PKGCONFIG,  pkg-config,  pkgconfig)
@@ -548,6 +550,8 @@ AC_CHECK_HEADER(lzo/lzo1.h,  [ELITO_ASSUME(10, lzo,true)])
 AC_CHECK_HEADER(bzlib.h,     [ELITO_ASSUME(0,  bzip2-full,true)])
 AC_CHECK_HEADER(readline/readline.h, [ELITO_ASSUME(10, readline,true)])
 AC_CHECK_HEADER(linux/version.h, [ELITO_ASSUME(0,  linux-libc-headers,true)])
+
+AC_CHECK_LIB(iberty, [cplus_demangle], [ELITO_ASSUME(0, binutils, true)])
 
 PKG_CHECK_MODULES(GLIB20,    [glib-2.0],    [ELITO_ASSUME(70, glib20,    true, glib-2.0-native)],  [true])
 PKG_CHECK_MODULES(DBUS,      [dbus-1],      [ELITO_ASSUME(70, dbus,      true)],      [true])
