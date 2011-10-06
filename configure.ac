@@ -545,15 +545,15 @@ AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
 AC_CHECK_HEADER(mpfr.h,      [ELITO_ASSUME(20, mpfr,true)])
 AC_CHECK_HEADER(ncurses.h,   [ELITO_ASSUME(10, ncurses,true)])
 AC_CHECK_HEADER(expat.h,     [ELITO_ASSUME(10, expat,true)])
-AC_CHECK_HEADER(db.h,        [ELITO_ASSUME(10, db,true)])
 AC_CHECK_HEADER(lzo/lzo2a.h, [ELITO_ASSUME(10, lzo2,true)])
 AC_CHECK_HEADER(lzo/lzo1.h,  [ELITO_ASSUME(10, lzo,true)])
 AC_CHECK_HEADER(bzlib.h,     [ELITO_ASSUME(0,  bzip2-full,true)])
 AC_CHECK_HEADER(readline/readline.h, [ELITO_ASSUME(10, readline,true)])
 AC_CHECK_HEADER(linux/version.h, [ELITO_ASSUME(0,  linux-libc-headers,true)])
 
-if x$enable_pkg_rpm = xyes; then
+if test x$enable_pkg_rpm = xyes; then
   AC_CHECK_HEADER(popt.h,    [ELITO_ASSUME(10, popt,true)])
+  AC_CHECK_HEADER(db.h,      [ELITO_ASSUME(10, db,true)])
 fi
 
 AC_CHECK_LIB(iberty, [cplus_demangle], [ELITO_ASSUME(0, binutils, true)])
