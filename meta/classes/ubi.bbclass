@@ -65,7 +65,7 @@ IMAGE_CMD_ubi    = "ubi_gen_ini; ${UBI_GEN_ENV};		\
 MKUBIFS_ARGS ?= "	\
 	--min-io-size ${NAND_PAGESIZE}	\
 	--leb-size ${NAND_LEB_SIZE}	\
-	--max-leb-cnt ${@ubi_byte_to_leb('ROOTFS_SIZE',d)}"
+	--max-leb-cnt ${@ubi_byte_to_leb('IMAGE_ROOTFS_SIZE',d)}"
 
 UBINIZE_ARGS ?= "	\
 	--peb-size ${NAND_BLOCKSIZE}	\
