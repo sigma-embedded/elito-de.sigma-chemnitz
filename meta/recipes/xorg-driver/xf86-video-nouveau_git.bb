@@ -1,4 +1,4 @@
-require recipes-graphics/xorg-driver/xf86-video-common.inc
+require recipes-graphics/xorg-driver/xorg-driver-video.inc
 DESCRIPTION = "X.Org X server -- nouveau display driver"
 DEPENDS += "libdrm"
 
