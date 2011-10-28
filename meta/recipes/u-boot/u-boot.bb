@@ -15,7 +15,7 @@ inherit deploy
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
 
 FILES_${PN}      = "/boot/u-boot"
-FILES_${PN}-dbg  = "/boot/.debug"
+FILES_${PN}-dbg += "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
 _make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
@@ -24,6 +24,8 @@ _make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
 	CFG_NONDEVEL=1 \
 	CFG_KERNEL_UART=${UBOOT_CONSOLE} \
 	CFG_KERNEL_BAUD=${UBOOT_BAUD}"
+
+do_configure[depends] = "elito-develcomp:do_setup_makefile"
 
 do_configure() {
 	cat << EOF >>config.mk

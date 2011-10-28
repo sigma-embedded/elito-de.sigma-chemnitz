@@ -17,6 +17,7 @@ _make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
 	CFG_KERNEL_UART=${UBOOT_CONSOLE} \
 	CFG_KERNEL_BAUD=${UBOOT_BAUD}"
 
+do_configure[depends] = "elito-develcomp:do_setup_makefile"
 do_configure() {
 	cat << EOF >>config.mk
 HOSTCFLAGS += \$(BUILD_CFLAGS)
