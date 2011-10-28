@@ -1,10 +1,14 @@
-PV		= "0.4.99+git${SRCPV}"
+_pv		= "0.4.99"
 PR		= "r3"
+
+PV              = "${_pv}+gitr${SRCPV}"
+PKGV            = "${_pv}+gitr${GITPKGV}"
 SRCREV		= "b279dd64581a20ce40a93050931ace16dae52e43"
 
-SRC_URI		= "${ELITO_GIT_REPO}/pub/upstart-setup.git;protocol=git"
+SRC_URI		= "${@elito_uri('${ELITO_GIT_REPO}/pub/upstart-setup.git',d)}"
 
 require upstart-setup.inc
+inherit gitpkgv
 
 do_patch_late() {
     cd ${WORKDIR}
