@@ -14,16 +14,8 @@ def get_filedate(filename):
 	return '%04d%02d%02d%02d%02d%02d' % (tm[0], tm[1], tm[2], tm[3], tm[4], tm[5])
 
 def elito_skip(d, feature_pos, feature_neg = None, var_name = "MACHINE_FEATURES"):
-	import bb
-
-	v  = bb.data.getVar(var_name, d, 1).split(' ')
-	pn = bb.data.getVar('PN', d, 1)
-
-	if ((feature_pos != None and feature_pos not in v) or
-	    (feature_neg != None and feature_neg     in v)):
-		raise bb.parse.SkipPackage('Package %s not available for this machine' % pn)
-	if (feature_pos == None and feature_neg == None):
-		raise bb.parse.ParseError('No feature given in package %s' % pn)
+	import elito
+	elito.test_skip(d, feature_pos, feature_neg, var_name)
 
 def elito_base_switch(d, var_name, *args):
 	import bb
@@ -82,6 +74,10 @@ def elito_upstart_job(d, pkg, job_files, rdepends = None, extra_files = [], \
 def elito_glob(pathname):
 	import glob
 	return glob.glob(pathname)
+
+def elito_uri(uri, d):
+	import elito
+	return elito.uri(uri, d)
 
 do_compile_prepend() {
 	export HOME=${WORKDIR}/.home
