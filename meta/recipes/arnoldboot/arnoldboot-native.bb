@@ -4,11 +4,12 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd
 
 _elito_skip := "${@elito_skip(d, 'arnoldboot')}"
 
-SRCREV = "${AUTOREV}"
-PV = "0.0+gitr${SRCPV}"
-PR = "r1"
+SRCREV = "b3a30f9b4b791a94ea8e0e6752a3baa2f4fdfb3e"
+_pv = "0.0"
+PV = "${_pv}+gitr${SRCPV}"
+PKGV = "${_pv}+gitr${GITPKGV}"
 
-SRC_URI = "${ELITO_GIT_REPO}/pub/arnoldboot.git;protocol=git"
+SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/pub/arnoldboot.git', d)};protocol=git"
 S = "${WORKDIR}/git"
 
-inherit native
+inherit native gitpkgv
