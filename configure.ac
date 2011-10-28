@@ -199,43 +199,6 @@ AC_SUBST([LAYER_DEFINITIONS],[$layer_str])
 
 dnl -----------------
 
-AC_MSG_CHECKING([for development components])
-AC_ARG_ENABLE([devel],
-	AS_HELP_STRING([--enable-devel=<comp0>...],
-		[enable development versions of components within the ../workspace/ directory (default:auto). The list of components  is comma separated.]),
-	[enable_devel_components=$enableval],[enable_devel_components=auto])
-AC_MSG_RESULT([$enable_devel_components])
-
-AC_CACHE_VAL([ensc_cv_DEVEL_COMPONENTS],[
-	old_IFS=$IFS
-	IFS=\ ,
-	ensc_cv_DEVEL_COMPONENTS=
-	for i in $enable_devel_components; do
-	    case $i in
-	    (auto)
-		for p in ../workspace/*; do
-		    test -d "$p" || continue
-		    p=${p%%.git}
-		    p=${p%%,$PROJECT_NAME}
-		    p=${p##*/}
-
-		    # ignore components of other projects
-		    test x"$p" = x"${p##*,}" || continue
-		    ensc_cv_DEVEL_COMPONENTS="$ensc_cv_DEVEL_COMPONENTS $p"
-		done
-		;;
-	    (*)
-		ensc_cv_DEVEL_COMPONENTS="$ensc_cv_DEVEL_COMPONENTS$p"
-		;;
-	    esac
-	done
-	IFS=$old_IFS])
-
-for i in $ensc_cv_DEVEL_COMPONENTS; do
-    AC_MSG_NOTICE([  enabling component '$i'])
-done
-AC_SUBST([devel_components],[${ensc_cv_DEVEL_COMPONENTS## }])
-
 AC_PATH_PROGS([PYTHON], python)
 
 AC_MSG_CHECKING([for bitbake version])
