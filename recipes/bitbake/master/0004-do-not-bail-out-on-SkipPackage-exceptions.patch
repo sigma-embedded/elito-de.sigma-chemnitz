@@ -1,13 +1,13 @@
-From 176c8626a14a625f46339d116662630d5eb1e146 Mon Sep 17 00:00:00 2001
+From 40ec30f64f62b07aa221ae1355b32a7929f198f8 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:43 +0200
-Subject: [PATCH 04/12] do not bail out on SkipPackage exceptions
+Subject: [PATCH 04/13] do not bail out on SkipPackage exceptions
 
 set __SKIPPED instead of
 ---
  lib/bb/data_smart.py               |    2 ++
- lib/bb/parse/parse_py/BBHandler.py |    6 +++++-
- 2 files changed, 7 insertions(+), 1 deletions(-)
+ lib/bb/parse/parse_py/BBHandler.py |    8 +++++++-
+ 2 files changed, 9 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
 index d8ba24f..2df98df 100644
@@ -23,10 +23,10 @@ index d8ba24f..2df98df 100644
                  raise
              except Exception as exc:
 diff --git a/lib/bb/parse/parse_py/BBHandler.py b/lib/bb/parse/parse_py/BBHandler.py
-index 851a7e6..4422147 100644
+index 851a7e6..52faaa0 100644
 --- a/lib/bb/parse/parse_py/BBHandler.py
 +++ b/lib/bb/parse/parse_py/BBHandler.py
-@@ -150,7 +150,11 @@ def handle(fn, d, include):
+@@ -150,7 +150,13 @@ def handle(fn, d, include):
      if ext != ".bbclass":
          data.setVar('FILE', fn, d)
  
@@ -35,10 +35,12 @@ index 851a7e6..4422147 100644
 +        statements.eval(d)
 +    except bb.parse.SkipPackage:
 +        bb.data.setVar("__SKIPPED", True, d)
++
++    if bb.data.getVar("__SKIPPED", d, True):
 +        return { "" : d }
  
      if ext == ".bbclass":
          classes.remove(__classname__)
 -- 
-1.7.6
+1.7.6.4
 
