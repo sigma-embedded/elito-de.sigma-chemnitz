@@ -1,7 +1,13 @@
-require mobm320.bb
+include mobm320.inc
 
-S          = "${WORKDIR}/git"
+PV = "${_pv}+gitr${SRCPV}"
+PKGV = "${_pv}+gitr${GITPKGV}"
 
-SRCREV     = "${AUTOREV}"
-COMPONENT  = "mobm320"
-inherit elito-develcomp
+MOBM320_BRANCH ?= "${KERNEL_BRANCH}"
+
+#SRCREV  = "e7a58a0d93b125d6937e1c163ebe847ae4ad121d"
+SRCREV = "${AUTOREV}"
+SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/mobm320.git',d)};branch=${MOBM320_BRANCH}"
+S = "${WORKDIR}/git"
+
+inherit gitpkgv
