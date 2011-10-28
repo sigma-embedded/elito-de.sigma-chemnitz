@@ -1,0 +1,24 @@
+Index: elftosb_2.6.1/source/makefile.rules
+===================================================================
+--- elftosb_2.6.1.orig/source/makefile.rules
++++ elftosb_2.6.1/source/makefile.rules
+@@ -83,7 +83,6 @@ OBJ_FILES_COMMON =			\
+ 
+ OBJ_FILES_ELFTOSB2 = 		\
+ 	${OBJ_FILES_COMMON} \
+-	StKeySet.o	\
+ 	BootImageGenerator.o	\
+ 	ConversionController.o	\
+ 	ElftosbAST.o	\
+@@ -92,11 +91,6 @@ OBJ_FILES_ELFTOSB2 = 		\
+ 	ElftosbLexer.o	\
+ 	elftosb_parser.tab.o	\
+ 	EncoreBootImageGenerator.o \
+-	St3600IPL.o		\
+-	StLFSREncrypter.o	\
+-	crypto.o	\
+-	default_rom_key.o \
+-	SB36xxBootImageGenerator.o
+ 
+ OBJ_FILES_SBTOOL =			\
+ 	${OBJ_FILES_COMMON} \
