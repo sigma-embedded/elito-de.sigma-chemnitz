@@ -1,0 +1,45 @@
+_elito_skip := "${@elito_skip(d, 'barebox')}"
+
+DESCRIPTION = "The barebox (formerly U-Boot v2) bootloader"
+PRIORITY = "optional"
+LICENSE = "GPLv2"
+PROVIDES = "virtual/bootloader"
+LIC_FILES_CHKSUM = "file://COPYING;md5=057bf9e50e1ca857d0eb97bfe4ba8e5d"
+
+PR = "${INCPR}.0"
+DEFAULT_PREFERENCE = "99"
+
+EXTRA_OEMAKE_prepend = "-f ${TMPDIR}/Makefile.kernel _secwrap= V=1 "
+
+PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
+
+FILES_${PN}      = "/boot/u-boot"
+FILES_${PN}-dbg += "/boot/.debug"
+FILES_${PN}-bin  = "/boot/u-boot.bin"
+
+include u-boot-common.inc
+inherit deploy
+
+do_configure[depends] = "elito-kernel:do_generate_makefile"
+
+do_configure() {
+    oe_runmake "${UBOOT_DEFCONFIG}"
+}
+
+do_install() {
+	install -D -p -m 0644 barebox.bin ${D}/boot/u-boot.bin
+	install -D -p -m 0755 barebox     ${D}/boot/u-boot
+}
+
+do_deploy () {
+	gitrev=`git ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
+	uboot_image="u-boot-${MACHINE}-${PV}-${PR}-${gitrev}.bin"
+
+	install -d ${DEPLOYDIR}
+	install ${S}/barebox.bin ${DEPLOYDIR}/${uboot_image}
+
+	cd ${DEPLOYDIR}
+	rm -f ${UBOOT_SYMLINK}
+	ln -sf ${uboot_image} ${UBOOT_SYMLINK}
+}
+addtask deploy before do_build after do_compile

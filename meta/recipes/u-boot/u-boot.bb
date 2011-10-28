@@ -60,5 +60,4 @@ do_deploy () {
 	rm -f ${UBOOT_SYMLINK}
 	ln -sf ${uboot_image} ${UBOOT_SYMLINK}
 }
-do_deploy[dirs] = "${S}"
 addtask deploy before do_build after do_compile
