@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
                     file://extras/gudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
 
 PV	= "172"
-PR	= "r1"
+PR	= "r2"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
@@ -47,7 +47,7 @@ PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-alsa ${PN}-rules-ubi \
              ${PN}-firmware ${PN}-keymaps"
 PACKAGES += "${PN}-consolekit ${PN}-systemd libudev libgudev ${PN}-fstab-import \
-             ${PN}-rulegen ${PN}-extra"
+             ${PN}-rulegen ${PN}-extra ${PN}-pci-db"
 
 PACKAGES_DYNAMIC += "udev-.*-id"
 
@@ -105,6 +105,7 @@ FILES_${PN}-fstab-import = "\
 "
 
 FILES_${PN}-usb-id   += "${_libexecdir}/usb-db"
+FILES_${PN}-pci-db    = "${_libexecdir}/pci-db"
 
 FILES_libudev = "${base_libdir}/libudev.so.*"
 FILES_libgudev = "${base_libdir}/libgudev-*.so.*"
@@ -122,8 +123,10 @@ FILES_${PN}-rules-base = "	\
 	${rules_dir}/*udev-default.rules	\
 	${rules_dir}/*udev-late.rules		\
 "
+RRECOMMENDS_${PN}-rules-base += "${PN}-usb-id"
 
 FILES_${PN}-rules-alsa       = "${rules_dir}/*alsa.rules"
+RRECOMMENDS_${PN}-rules-alsa = "${PN}-path-id ${PN}-usb-id"
 
 FILES_${PN}-rules-modules    = "${rules_dir}/*-drivers.rules"
 RDEPENDS_${PN}-rules-modules = "module-init-tools"
@@ -131,6 +134,8 @@ RDEPENDS_${PN}-rules-modules = "module-init-tools"
 FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
 
 FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
+RRECOMMENDS_${PN}-rules-extra = "${PN}-usb-id ${PN}-pci-db ${PN}-path-id"
+
 FILES_${PN}-dev             += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
 FILES_${PN}-consolekit       = "/usr/lib/ConsoleKit"
 
