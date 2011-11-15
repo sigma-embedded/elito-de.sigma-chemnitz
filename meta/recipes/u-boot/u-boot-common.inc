@@ -17,6 +17,18 @@ PKGV = "${UBOOT_VERSION}+gitr${GITPKGV}"
 
 SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/u-boot.git',d)};${UBOOT_REV}"
 
+OVERRIDES .= "${@base_contains('MACHINE_FEATURES', 'imx-bootlets',':img-imx-bootlets','',d)}"
+
+DEPLOYDEPENDS =
+DEPLOYDEPENDS_img-imx-bootlets = "\
+ elftosb-native:do_populate_sysroot \
+ imx-bootlets:do_populate_sysroot"
+
 inherit gitpkgv
 
 S = "${WORKDIR}/git"
+
+do_builddeploy[depends] = "${DEPLOYDEPENDS}"
+do_builddeploy() {
+    :
+}

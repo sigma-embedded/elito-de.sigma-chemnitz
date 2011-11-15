@@ -26,6 +26,16 @@ do_configure() {
     oe_runmake "${UBOOT_DEFCONFIG}"
 }
 
+bootletspath = "${STAGING_DIR_TARGET}${libdir}/imx-bootlets"
+
+do_builddeploy_img-imx-bootlets() {
+	freescale-elftosb -z -f "${FREESCALE_SBARCH}" \
+		-p "${bootletspath}" \
+                -c "${bootletspath}/uboot_ivt.bd" \
+		-o barebox.sb \
+		barebox
+}
+
 do_install() {
 	install -D -p -m 0644 barebox.bin ${D}/boot/u-boot.bin
 	install -D -p -m 0755 barebox     ${D}/boot/u-boot
@@ -41,5 +51,21 @@ do_deploy () {
 	cd ${DEPLOYDIR}
 	rm -f ${UBOOT_SYMLINK}
 	ln -sf ${uboot_image} ${UBOOT_SYMLINK}
+        cd -
 }
+
+do_deploy_append_img-imx-bootlets() {
+        sb_image=${uboot_image%%.bin}.sb
+        sb_symlink=${UBOOT_SYMLINK}
+        sb_symlink=${sb_symlink%%.bin}.sb
+
+	install -p -m 0644 ${S}/barebox.sb ${DEPLOYDIR}/$sb_image
+
+	cd ${DEPLOYDIR}
+	rm -f ${sb_symlink}
+	ln -sf ${sb_image} ${sb_symlink}
+        cd -
+}
+
 addtask deploy before do_build after do_compile
+addtask builddeploy after do_compile before do_deploy
