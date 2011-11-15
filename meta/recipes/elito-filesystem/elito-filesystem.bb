@@ -1,14 +1,14 @@
 DESCRIPTION	= "Base file system structure."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r8"
+PR		= "r12"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "all"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
 
 do_install() {
-	for i in bin dev etc home ${lib-name} libexec media mnt \
-                 opt proc root sbin selinux share srv sys usr var run; do
+	for i in boot bin dev etc home ${baselib} lib libexec media mnt \
+                 opt proc root run sbin selinux share srv sys usr var; do
 		install -d -m 0755 ${D}/${i}
 	done
 
@@ -16,17 +16,34 @@ do_install() {
 		install -d -m 0755 ${D}/etc/$i
 	done
 
-	for i in bin lib libexec sbin include share; do
+	for i in bin ${baselib} lib libexec sbin include share; do
 		install -d -m 0755 ${D}/usr/$i
 	done
 
-	install -d -m 0755 ${D}/lib/firmware
+        for i in X11 doc empty icons info locale man misc pixmaps; do
+		install -d -m 0755 ${D}/usr/share/${i}
+	done
+
+        for i in locale; do
+		install -d -m 0755 ${D}/usr/lib/${i}
+	done
+
+        for i in firmware modules; do
+		install -d -m 0755 ${D}/lib/$i
+        done
+
+        for i in lib spool volatile; do
+		install -d -m 0755 ${D}/var/$i
+	done
+
+        for i in cache run tmp log lock; do
+		ln -s volatile/$i ${D}/var/$i
+        done
+
 	ln -s var/tmp ${D}/tmp
-	ln -s var/lib/boot ${D}/boot
-	mkdir -p ${D}/var/tmp/ ${D}/var/lib/boot
 }
 
 PACKAGES    = "${PN}"
-FILES_${PN} = "/bin /boot /dev /etc /home /${lib-name} /libexec \
+FILES_${PN} = "/bin /boot /dev /etc /home /${baselib} /lib /libexec \
 	/media /mnt /opt /proc /root /sbin /selinux /share /srv /sys	\
 	/tmp /usr /var /run"
