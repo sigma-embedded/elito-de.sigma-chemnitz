@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r14"
+PR		= "r16"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
@@ -61,7 +61,6 @@ do_install() {
 	cp -a licenses ${D}${datadir}/doc/
 
 	ln -s /proc/mounts ${D}${sysconfdir}/mtab
-	ln -s /var/run/ld.so.cache ${D}/etc/ld.so.cache
 }
 
 PACKAGES        = "${PN}"
