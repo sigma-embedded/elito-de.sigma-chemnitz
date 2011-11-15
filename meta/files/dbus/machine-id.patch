@@ -1,0 +1,12 @@
+Index: dbus-1.4.12/bus/dbus.service.in
+===================================================================
+--- dbus-1.4.12.orig/bus/dbus.service.in
++++ dbus-1.4.12/bus/dbus.service.in
+@@ -4,6 +4,7 @@ Requires=dbus.socket
+ After=syslog.target
+ 
+ [Service]
++ExecStartPre=@EXPANDED_LIBEXECDIR@/create-machine-uuid
+ ExecStartPre=@EXPANDED_BINDIR@/dbus-uuidgen --ensure
+ ExecStartPre=-/bin/rm -f @DBUS_SYSTEM_PID_FILE@
+ ExecStart=@EXPANDED_BINDIR@/dbus-daemon --system --address=systemd: --nofork --systemd-activation
