@@ -45,8 +45,7 @@ do_deploy () {
 	gitrev=`git ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
 	uboot_image="u-boot-${MACHINE}-${PV}-${PR}-${gitrev}.bin"
 
-	install -d ${DEPLOYDIR}
-	install ${S}/barebox.bin ${DEPLOYDIR}/${uboot_image}
+	install -D -p -m 0644 ${S}/barebox.bin ${DEPLOYDIR}/${uboot_image}
 
 	cd ${DEPLOYDIR}
 	rm -f ${UBOOT_SYMLINK}
