@@ -2,7 +2,6 @@ none			/sys			sysfs		noauto
 none			/proc			proc		noauto
 none			/var			tmpfs		noauto,size=@TMPFS_SIZE@,mode=0755
 none			/dev/pts		devpts		noauto,gid=@PTS_GID@,mode=0620
-none			/proc/bus/usb		usbfs		noauto
 none			/sys/kernel/debug	debugfs		defaults
 none			/selinux		selinuxfs	defaults
 none			/boot			tmpfs		defaults,size=16M
