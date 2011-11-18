@@ -163,6 +163,8 @@ if ! test -d "$ELITO_TOPDIR"; then
     panic "directory '$ELITO_TOPDIR' does not exist"
 fi
 
+ELITO_TOPDIR=`cd "$ELITO_TOPDIR" && pwd -P`
+
 PATH=$PATH:$ELITO_TOPDIR/.bin
 section_end
 
