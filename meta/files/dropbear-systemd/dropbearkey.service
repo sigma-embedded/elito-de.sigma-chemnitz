@@ -4,7 +4,7 @@ ConditionPathExists=|!/etc/dropbear/dropbear_rsa_host_key
 
 [Service]
 Type = oneshot
-ExecStartPre = /bin/sh -c 'test -w /etc/dropbear || /bin/mount --bind /var/lib/dropbear /etc/dropbear'
+ExecStartPre = /bin/sh -c 'test -w /etc/dropbear || /bin/mount --bind /var/run/dropbear /etc/dropbear'
 ExecStart = /usr/sbin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
 RemainAfterExit=yes
 
