@@ -1,7 +1,11 @@
 #
 
 def uri(uri, d):
-    premirrors = d.getVar("PREMIRRORS", True).split('\n')
+    premirrors = d.getVar("PREMIRRORS", True)
+    if premirrors == None:
+        premirrors = []
+    else:
+        premirrors = premirrors.split('\n')
 
     for m in premirrors:
         (k,v) = m.strip().split()
