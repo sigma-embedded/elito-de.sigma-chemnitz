@@ -1,5 +1,5 @@
 PV		= "0.2+gitr${SRCPV}"
-PR		= "r7"
+PR		= "r9"
 LICENSE		= "GPLv3"
 LICENSE		= "unknown"
 PACKAGE_ARCH	= "all"
@@ -47,10 +47,12 @@ INHIBIT_DEFAULT_DEPS = "1"
 do_install() {
     cd ../git
 
-    install -d -m 0755 ${D}/lib/firmware ${D}/lib/firmware/nouveau ${D}/lib/firmware/libertas
+    install -d -m 0755 ${D}/lib/firmware ${D}/lib/firmware/nouveau \
+        ${D}/lib/firmware/libertas ${D}/lib/firmware/rtlwifi
 
     install -p -m 0644 ath3k*.fw ${WORKDIR}/*.fw  ${D}/lib/firmware/
     install -p -m 0644 libertas/*.bin ${D}/lib/firmware/libertas/
+    install -p -m 0644 rtlwifi/*.bin ${D}/lib/firmware/rtlwifi/
     install -p -m 0644 ../nouveau/*.ctxprog ../nouveau/*.ctxvals ${D}/lib/firmware/nouveau/
 }
 
@@ -70,6 +72,11 @@ _pkginfo = "{ \
         'dvb-usb-af9015'     : [ 'dvb-usb-af9015.fw' ], \
         'dvb-usb-tt-s2400'   : [ 'dvb-usb-tt-s2400-01.fw' ], \
         'nouveau'            : [ 'nouveau/' ], \
+        'rtl8192cfw'         : [ 'rtlwifi/rtl8192cfw*' ], \
+        'rtl8192cufw'        : [ 'rtlwifi/rtl8192cufw*' ], \
+        'rtl8192defw'        : [ 'rtlwifi/rtl8192defw*' ], \
+        'rtl8192sefw'        : [ 'rtlwifi/rtl8192sefw*' ], \
+        'rtl8712u'           : [ 'rtlwifi/rtl8712u*' ], \
         'ath3k'              : [ 'ath3k-1.fw' ]}"
 
 PACKAGES_DYNAMIC += 'firmware-.*'
