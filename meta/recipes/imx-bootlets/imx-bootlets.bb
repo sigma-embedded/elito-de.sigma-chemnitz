@@ -10,8 +10,10 @@ PR = "r0"
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
+IMX_BOOTLETS_BRANCH ?= "master"
+
 SRCREV = "${AUTOREV}"
-SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/imx-bootlets.git',d)};branch=tq-mx28"
+SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/imx-bootlets.git',d)};branch=${IMX_BOOTLETS_BRANCH}"
 
 inherit gitpkgv
 
