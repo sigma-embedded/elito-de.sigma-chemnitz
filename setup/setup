@@ -95,6 +95,11 @@ do_it() {
   fi
 }
 
+is_dir_empty() {
+    local f=`ls -A "$1"`
+    test -n "$f" && return 1 || return 0
+}
+
 trap "cleanup_failure" EXIT
 
 section_start "Core programs:"
@@ -159,8 +164,12 @@ section_end
 section_start "General questions:"
 ask_user ELITO_TOPDIR "Where to install ELiTo" "$instdir"
 
-if ! test -d "$ELITO_TOPDIR"; then
-    panic "directory '$ELITO_TOPDIR' does not exist"
+if ! mkdir -p "$ELITO_TOPDIR"; then
+    panic "could not create '$ELITO_TOPDIR'"
+fi
+
+if ! is_dir_empty "$ELITO_TOPDIR"; then
+    msg_warning "directory '$ELITO_TOPDIR' not empty; it might to be removed when next steps fail"
 fi
 
 ELITO_TOPDIR=`cd "$ELITO_TOPDIR" && pwd -P`
