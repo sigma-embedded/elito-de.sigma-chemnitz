@@ -7,6 +7,7 @@ SRC_URI += " \
 \
 	file://syslogd.service \
 	file://klogd.service \
+	file://test-access.patch \
 "
 
 PACKAGES =+ "${PN}-systemd"

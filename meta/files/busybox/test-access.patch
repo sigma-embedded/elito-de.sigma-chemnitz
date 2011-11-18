@@ -1,0 +1,22 @@
+Index: busybox-1.18.5/coreutils/test.c
+===================================================================
+--- busybox-1.18.5.orig/coreutils/test.c
++++ busybox-1.18.5/coreutils/test.c
+@@ -575,6 +575,9 @@ static int is_a_group_member(gid_t gid)
+    executable. */
+ static int test_eaccess(char *path, int mode)
+ {
++#ifdef __GLIBC__
++	return eaccess(path, mode);
++#else
+ 	struct stat st;
+ 	unsigned int euid = geteuid();
+ 
+@@ -601,6 +604,7 @@ static int test_eaccess(char *path, int
+ 		return 0;
+ 
+ 	return -1;
++#endif
+ }
+ 
+ 
