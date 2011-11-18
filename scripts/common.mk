@@ -56,6 +56,12 @@ TEMPLATE_FILES =	conf/project.conf	\
 			.gitignore		\
 			recipes/helloworld/helloworld.bb
 
+PKGS_PREP =		opkg-utils-native	\
+			automake-native		\
+			pkgconfig-native	\
+			libtool-native		\
+			gettext-native
+
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
 _project_task_dir =	$(abs_top_builddir)/recipes/$(PROJECT_NAME)
 _project_task_file =	$(_project_task_dir)/task-$(PROJECT_NAME).bb
@@ -163,7 +169,7 @@ find-dups:		init
 _space_check = ${ELITO_STATVFS} '${abs_top_builddir}/${W}'
 
 $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.filesystem.stamp $(_stampdir)/.pseudo.stamp
-			$(call _call_cmd,$(BITBAKE) opkg-utils-native,prep)
+			$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
 			fi
