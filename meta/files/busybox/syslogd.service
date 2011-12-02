@@ -8,8 +8,9 @@ WantedBy = multi-user.target
 
 [Service]
 Type = simple
-EnvironmentFile = -/etc/sysconfig/syslogd
-ExecStartPre = /bin/systemctl stop syslog.socket
-ExecStartPost = /bin/systemctl stop systemd-kmsg-syslogd.service
-ExecStart = /sbin/syslogd $SYSLOG_OPTIONS -n
 Restart = on-failure
+EnvironmentFile = -/etc/sysconfig/syslogd
+ExecStartPre = /bin/systemctl stop systemd-kmsg-syslogd.service
+ExecStart = /sbin/syslogd $SYSLOG_OPTIONS -n
+Sockets = syslog.socket
+StandardOutput = null

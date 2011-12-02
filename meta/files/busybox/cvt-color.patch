@@ -1,9 +1,9 @@
-Index: busybox-1.17.1/miscutils/fbsplash.c
+Index: busybox-1.19.3/miscutils/fbsplash.c
 ===================================================================
---- busybox-1.17.1.orig/miscutils/fbsplash.c
-+++ busybox-1.17.1/miscutils/fbsplash.c
-@@ -160,6 +160,15 @@ static void fb_drawfullrectangle(int nx1
- 	} while (--cnt1 >= 0);
+--- busybox-1.19.3.orig/miscutils/fbsplash.c
++++ busybox-1.19.3/miscutils/fbsplash.c
+@@ -103,17 +103,25 @@ static void fb_open(const char *strfb_de
+ 	close(fbfd);
  }
  
 +static unsigned int fb_reduce_color(uint8_t c, unsigned int num)
@@ -17,17 +17,18 @@ Index: busybox-1.17.1/miscutils/fbsplash.c
 +}
  
  /**
-  *	Draw a progress bar on framebuffer
-@@ -281,9 +290,9 @@ static void fb_drawimage(void)
- 		src = (DATA *)(G.addr + j * G.scr_fix.line_length);
- 		for (i = 0; i < width; i++) {
- 			unsigned thispix;
--			thispix = (((unsigned)pixel[0] << 8) & 0xf800)
--				| (((unsigned)pixel[1] << 3) & 0x07e0)
--				| (((unsigned)pixel[2] >> 3));
-+			thispix = ((fb_reduce_color(pixel[0],5) << 11) |
-+				   (fb_reduce_color(pixel[1],6) <<  5) |
-+				   (fb_reduce_color(pixel[2],5) <<  0));
- 			*src++ = thispix;
- 			pixel += 3;
- 		}
+  * Return pixel value of the passed RGB color
+  */
+ static unsigned fb_pixel_value(unsigned r, unsigned g, unsigned b)
+ {
+ 	if (G.bytes_per_pixel == 2) {
+-		r >>= 3;  // 5-bit red
+-		g >>= 2;  // 6-bit green
+-		b >>= 3;  // 5-bit blue
+-		return b + (g << 5) + (r << (5+6));
++        return ((fb_reduce_color(r,5) << 11) |
++                (fb_reduce_color(g,6) <<  5) |
++                (fb_reduce_color(b,5) <<  0));
+ 	}
+ 	// RGB 888
+ 	return b + (g << 8) + (r << 16);
