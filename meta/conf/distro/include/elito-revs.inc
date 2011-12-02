@@ -5,14 +5,14 @@ GCCVERSION = "${@elito_base_switch(d, 'TARGET_CPU',   \
                 '4.6%')}"
 
 LINUXLIBCVERSION = "${MACHINE_KERNEL_VERSION}"
-BINUVERSION = "2.21%"
+BINUVERSION = "2.22%"
 
 PREFERRED_VERSION_uclibc                 ?= "git"
 PREFERRED_VERSION_uclibc-initial         ?= "${PREFERRED_VERSION_uclibc}"
 
 # can not use ?= here because bitbake.conf assigns it already
 LIBTOOL_HAS_SYSROOT                       = "yes"
-PREFERRED_VERSION_libtool                ?= "2.4"
+PREFERRED_VERSION_libtool                ?= "2.4.2"
 PREFERRED_VERSION_libtool-native         ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-cross          ?= "${PREFERRED_VERSION_libtool}"
 PREFERRED_VERSION_libtool-nativesdk      ?= "${PREFERRED_VERSION_libtool}"
