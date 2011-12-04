@@ -27,6 +27,9 @@ CONFIGUREOPTS = " \
           --enable-libs \
           --disable-install-docs \
 "
+
+EXTRA_OEMAKE += verbose=true
+
 do_configure() {
 	${S}/configure ${CONFIGUREOPTS}
 }
