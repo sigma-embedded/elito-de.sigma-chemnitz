@@ -33,6 +33,12 @@ EXTRA_OEMAKE += verbose=true
 do_configure() {
 	${S}/configure ${CONFIGUREOPTS}
 }
+
+do_compile_prepend_x86-64() {
+	${CC} ${CPPFLAGS} ${CFLAGS} -fPIC -I. -O2 -c -o md5_utils.c.o md5_utils.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -fPIC -I. -O2 -c -o vpx_scale/generic/gen_scalers.c.o vpx_scale/generic/gen_scalers.c
+}
+
 do_compile() {
 	oe_runmake
 }
