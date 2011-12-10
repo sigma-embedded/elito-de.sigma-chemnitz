@@ -287,9 +287,9 @@ AC_SUBST(tftpbootdir)
 
 
 AC_CACHE_VAL([ensc_cv_PROG_WHICH],[
-	for i in 'type -p' 'which'; do
+	for i in 'type -p' 'command -v' 'which'; do
 		AC_MSG_CHECKING([whether '$i' works])
-		tmp=`$i sh`
+		tmp=`sh -c "$i sh"`
 		if test -x "$tmp"; then
 			ensc_cv_PROG_WHICH=$i
 			AC_MSG_RESULT([yes])
