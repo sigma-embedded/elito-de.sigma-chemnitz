@@ -1,7 +1,7 @@
 DESCRIPTION  = "Basic task to get a device booting to a prompt"
 LICENSE      = "GPLv3"
 PR           = "r12.${PROJECT_FILE_DATE}"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 do_distribute_sources() {
 }
