@@ -1,6 +1,1 @@
-do_configure_prepend() {
-	for i in lib/m4/*.m4; do
-		grep -q '\(gettext-0.*\)' "$i" || continue
-		rm -f "$i"
-	done
-}
+SRC_URI += "file://gettext-0.18.patch"
