@@ -220,3 +220,13 @@ addtask generate_makefile before do_configure after do_unpack
 
 do_compile_prepare[dirs] = "${S}"
 addtask compile_prepare before do_compile after do_configure
+
+FILES_${PN}-dbg += "\
+  /lib/modules/*/*/.debug \
+  /lib/modules/*/*/*/.debug \
+  /lib/modules/*/*/*/*/.debug \
+  /lib/modules/*/*/*/*/*/.debug \
+  /lib/modules/*/*/*/*/*/*/.debug \
+  /lib/modules/*/*/*/*/*/*/*/.debug \
+  /lib/modules/*/*/*/*/*/*/*/*/.debug \
+"
