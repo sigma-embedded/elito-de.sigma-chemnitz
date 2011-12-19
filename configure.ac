@@ -7,9 +7,9 @@ AC_INIT(elito, 0.8.1, [ELiTo Support <elito@sigma-chemnitz.de>])
 AC_DEFUN([ELITO_TRUE_FALSE],
 [
 	if $2; then
-		AC_SUBST($1[_FALSE], [\#])
+		AC_SUBST($1[_FALSE], [@%:@])
 	else
-		AC_SUBST($1[_TRUE],  [\#])
+		AC_SUBST($1[_TRUE],  [@%:@])
 	fi
 ])
 
@@ -58,11 +58,11 @@ case $withval in
 		while test -n "$_d"; do
 		      _f=conf/local-"$_d".conf
 		      ! test -r "$_f" || break
-		      if test x"$_d" = x"${_d#*.}"; then
+		      if test x"$_d" = x"${_d@%:@*.}"; then
 			 _d=
 			 _f=
 		      else
-			 _d=${_d#*.}
+			 _d=${_d@%:@*.}
 		      fi
 		done
 		;;
