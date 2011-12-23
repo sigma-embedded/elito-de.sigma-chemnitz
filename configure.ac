@@ -372,8 +372,10 @@ AC_DEFUN([ELITO_NUMERIC_VERSION],[
 	set -- ${verinfo} 0 0 0
 	IFS=$old_IFS
 
+	dnl This uses the special bash feature to enforce base 10 in
+	dnl terms like '10#009'
 	$1=$(( m4_for([pos],1,$2,,dnl
-               [(${pos} * m4_eval(1 << (8 * ($2-pos)))) + ]) 0 )) dnl
+               [( 10@%:@${pos} * m4_eval(1 << (8 * ($2-pos)))) + ]) 0 )) dnl
            2>/dev/null || [$1]=
 ])
 
