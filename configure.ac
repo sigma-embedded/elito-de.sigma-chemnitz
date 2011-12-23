@@ -390,10 +390,10 @@ AC_DEFUN([ELITO_VERSION_CHECK],[
 
 	if ${_elito_bad_ver}; then
 	   AC_MSG_RESULT([unknown ($verinfo)])
-	elif test "$_cver" -ge m4_eval([$1]); then
+	elif test "$_cver" ifelse($4,,-ge,$4) m4_eval([$1]); then
 	   AC_MSG_RESULT([ok ($verinfo)])
 	else
-	   AC_MSG_RESULT([too old ($verinfo)])
+	   AC_MSG_RESULT([wrong version ($verinfo)])
 	   _elito_bad_ver=true
 	fi
 ])
