@@ -420,6 +420,15 @@ AC_DEFUN([_cmake_check_version],[
                              sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
 ])
 
+AC_DEFUN([_file_check_version],[
+	AC_MSG_CHECKING([for file version = ELITO_VERSION_TO_STRING($2)])
+
+	ELITO_VERSION_CHECK([$2],2,
+			    [${$1} --version | \
+			     sed -e'1s/.*[[[- ]]]\([[[0-9.]]]\+\).*/\1/p;d'],
+			    [-eq])
+])
+
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	AC_PATH_PROGS([$2], [$3])
 
@@ -462,7 +471,7 @@ ELITO_CHECK_PROGRAM( 0, M4,         m4,[],[_m4_check_version], 0x010410)
 ELITO_CHECK_PROGRAM( 0, BISON,      bison)
 ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version], 0x02051f)
 ELITO_CHECK_PROGRAM(90, GETTEXT,    gettext)
-ELITO_CHECK_PROGRAM( 0, FILE,       file)
+ELITO_CHECK_PROGRAM( 0, FILE,       file,[],[_file_check_version], 0x000509)
 ELITO_CHECK_PROGRAM(-1, TAR,        tar)
 ELITO_CHECK_PROGRAM(-1, BZIP2,      bzip2)
 ELITO_CHECK_PROGRAM(-1, XZ,         xz)
