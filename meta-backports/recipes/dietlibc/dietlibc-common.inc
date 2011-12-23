@@ -24,7 +24,8 @@ FILES_${PN}-dbg += "${pkgarchdir}/.debug"
 export DIETLIBC_BUILD_ARCH="${@re.sub('i[0-9]86','i386','${BUILD_ARCH}')}"
 export DIETLIBC_TARGET_ARCH="${@re.sub('i[0-9]86','i386','${TARGET_ARCH}')}"
 
-#export QEMU = "${@qemu_target_binary(d)}"
+inherit qemu
+export QEMU = "${@qemu_target_binary(d)}"
 
 pkglibdir = "${libdir}/dietlibc"
 pkgarchdir = "${pkglibdir}/lib-${DIETLIBC_TARGET_ARCH}"
