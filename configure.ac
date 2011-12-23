@@ -85,7 +85,15 @@ AC_ARG_ENABLE(maintainer-mode,
 ELITO_TRUE_FALSE(ENABLE_MAINTAINER_MODE, test x"${enable_maintainer_mode}" != xno)
 
 AC_MSG_CHECKING([whether 'sh' is 'bash'])
-if env -u BASH sh -c 'test "x${BASH:+set}" = xset'; then
+AC_CACHE_VAL([ensc_cv_SH_IS_BASH],[
+    if env -u BASH sh -c 'test "x${BASH:+set}" = xset'; then
+       ensc_cv_SH_IS_BASH=true
+    else
+       ensc_cv_SH_IS_BASH=false
+    fi
+])
+
+if $ensc_cv_SH_IS_BASH; then
    AC_MSG_RESULT([yes])
 else
    s=`readlink /bin/sh`
