@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 abs_top_builddir='@abs_top_builddir@'
 
