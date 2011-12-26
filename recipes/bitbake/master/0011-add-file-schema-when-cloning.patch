@@ -1,7 +1,7 @@
-From b8597168e3bce8c70321b56dcfd536d81719b425 Mon Sep 17 00:00:00 2001
+From d181c566bf9fae892ff330275e1be1ceae52d9ad Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 14:14:09 +0200
-Subject: [PATCH 12/12] add file:// schema when cloning
+Subject: [PATCH 11/12] add file:// schema when cloning
 
 Command will fail else when clonedir contains a ':' (e.g. in
 'host:portnumber')
@@ -10,10 +10,10 @@ Command will fail else when clonedir contains a ':' (e.g. in
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 9a578ae..fe38801 100644
+index f203c5a..3ad9db3 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
-@@ -218,7 +218,7 @@ class Git(FetchMethod):
+@@ -220,7 +220,7 @@ class Git(FetchMethod):
          if os.path.exists(destdir):
              bb.utils.prunedir(destdir)
  
@@ -23,5 +23,5 @@ index 9a578ae..fe38801 100644
              os.chdir(destdir)
              if subdir != "":
 -- 
-1.7.6
+1.7.7.4
 

@@ -1,4 +1,4 @@
-From 09e4f816c66ec0e2ecf59dd52fdc63c12e0d2ae8 Mon Sep 17 00:00:00 2001
+From 2345251de210a9bf11e170abea4872a2bd15992c Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
 Subject: [PATCH 09/12] detect and ignore duplicate inherits
@@ -8,10 +8,10 @@ Subject: [PATCH 09/12] detect and ignore duplicate inherits
  1 files changed, 6 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 47389e8..5e34e4f 100644
+index eef83c9..6a5d3f3 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -805,7 +805,13 @@ class BBCooker:
+@@ -819,7 +819,13 @@ class BBCooker:
  
          # Handle any INHERITs and inherit the base class
          bbclasses  = ["base"] + (data.getVar('INHERIT', True) or "").split()
@@ -26,5 +26,5 @@ index 47389e8..5e34e4f 100644
  
          # Nomally we only register event handlers at the end of parsing .bb files
 -- 
-1.7.6
+1.7.7.4
 

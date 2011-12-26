@@ -1,27 +1,26 @@
-From cec861c0d49a2aeabc5097fe44f84d2009ea891f Mon Sep 17 00:00:00 2001
+From ceedeedc30d4f64aeaeeeace0a9c7b27158f56d7 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:46 +0200
 Subject: [PATCH 07/12] added BBMASK_BASENAMES variables
 
 ---
- lib/bb/cooker.py |   16 +++++++++++++++-
- 1 files changed, 15 insertions(+), 1 deletions(-)
+ lib/bb/cooker.py |   15 ++++++++++++++-
+ 1 files changed, 14 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 0912871..9a3a8a0 100644
+index 2674d66..eef83c9 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -1266,6 +1266,9 @@ class BBCooker:
+@@ -1280,6 +1280,8 @@ class BBCooker:
                          newfiles.append(g)
  
-         bbmask = bb.data.getVar('BBMASK', self.configuration.data, 1)
-+        bbmask_basenames = (bb.data.getVar('BBMASK_BASENAMES',
-+                                           self.configuration.data, 1)
+         bbmask = self.configuration.data.getVar('BBMASK', 1)
++        bbmask_basenames = (self.configuration.data.getVar('BBMASK_BASENAMES', 1)
 +                            or "").split()
  
          if bbmask:
              try:
-@@ -1273,12 +1276,23 @@ class BBCooker:
+@@ -1287,12 +1289,23 @@ class BBCooker:
              except sre_constants.error:
                  collectlog.critical("BBMASK is not a valid regular expression, ignoring.")
                  return list(newfiles), 0
@@ -47,5 +46,5 @@ index 0912871..9a3a8a0 100644
                  if collectlog.level >= 1:
                      maskedfiles.append(f)
 -- 
-1.7.6
+1.7.7.4
 

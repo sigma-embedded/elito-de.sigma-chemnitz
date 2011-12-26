@@ -1,4 +1,4 @@
-From b85a65b03062013ba0f14dc9cdf4f8edbeae28d9 Mon Sep 17 00:00:00 2001
+From f0a9aef039f04ed4374ddc0be93da273ba458015 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
 Subject: [PATCH 08/12] do not execute the 'make doc' target
@@ -21,5 +21,5 @@ index 038dd87..6503494 100755
              print("ERROR: Unable to generate html documentation.")
              sys.exit(ret)
 -- 
-1.7.6
+1.7.7.4
 

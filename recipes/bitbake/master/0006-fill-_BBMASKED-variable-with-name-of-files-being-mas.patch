@@ -1,4 +1,4 @@
-From e15f0e6b1fb9745a368674d5e7ef08713c9323f9 Mon Sep 17 00:00:00 2001
+From 7d9cab4be691f8e94c38bf28833d928912131498 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:45 +0200
 Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
@@ -9,10 +9,10 @@ Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
  1 files changed, 15 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index b54f697..0912871 100644
+index a3b90b5..2674d66 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -1276,9 +1276,12 @@ class BBCooker:
+@@ -1290,9 +1290,12 @@ class BBCooker:
  
          bbfiles = []
          bbappend = []
@@ -26,7 +26,7 @@ index b54f697..0912871 100644
                  masked += 1
                  continue
              if f.endswith('.bb'):
-@@ -1308,6 +1311,11 @@ class BBCooker:
+@@ -1322,6 +1325,11 @@ class BBCooker:
                  topfile = bbfile_seen[base]
                  self.overlayed[topfile].append(f)
  
@@ -38,7 +38,7 @@ index b54f697..0912871 100644
          return (bbfiles, masked)
  
      def get_file_appends(self, fn):
-@@ -1432,6 +1440,12 @@ def parse_file(task):
+@@ -1446,6 +1454,12 @@ def parse_file(task):
      except BaseException as exc:
          raise ParsingFailure(exc, filename)
  
@@ -52,5 +52,5 @@ index b54f697..0912871 100644
      def __init__(self, cooker, filelist, masked):
          self.filelist = filelist
 -- 
-1.7.6
+1.7.7.4
 
