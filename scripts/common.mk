@@ -210,7 +210,7 @@ $(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp
 $(_bitbake_setuptools):	$(_bitbake_setuptools_cached) | $(_tmpdir)/bitbake $(_stampdir)
 			$(INSTALL_DATA) $< $@
 
-$(_stampdir)/.bitbake.gitinit.stamp: | $(_bitbake-dirs) $(_stampdir)
+$(_stampdir)/.bitbake.gitinit.stamp: | $(_bitbake-dirs) $(_stampdir) $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && $(GIT) init
 			-cd $(_tmpdir)/bitbake && $(GIT) fetch $(_bitbake-bundle) 'refs/heads/*:refs/remotes/bundle/*'
 			-cd $(_tmpdir)/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
