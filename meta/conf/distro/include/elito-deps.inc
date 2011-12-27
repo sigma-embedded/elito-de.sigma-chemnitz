@@ -1,7 +1,7 @@
 # --*- python -*--
 
 RRECOMMENDS_libasound_append = " ${@elito_base_switch(d, 'IMAGE_DEV_MANAGER', \
-	'udev','udev-rules-alsa','')}"
+	'udev','udev-sound','')}"
 
 RRECOMMENDS_dropbear_append  = " ${@elito_base_switch(d, 'IMAGE_INIT_MANAGER', \
 	'upstart', 'upstart-setup-dropbear', '')}"
