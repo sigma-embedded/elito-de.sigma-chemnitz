@@ -4,7 +4,7 @@ LICENSE = "Artistic|GPLv1+"
 DEPENDS = "virtual/libintl"
 BBCLASSEXTEND = "native"
 PR = "r1"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-2.0;md5=8bbc66f0ba93cec26ef526117e280266"
 
 SRC_URI = "http://search.cpan.org/CPAN/authors/id/P/PV/PVANDRY/gettext-${PV}.tar.gz"
 

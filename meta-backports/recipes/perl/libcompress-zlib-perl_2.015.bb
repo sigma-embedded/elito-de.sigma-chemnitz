@@ -2,7 +2,7 @@ DESCRIPTION = "Compress::Zlib - Interface to zlib compression library"
 SECTION = "libs"
 LICENSE = "Artistic|GPLv1+"
 PR = "r2"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-2.0;md5=8bbc66f0ba93cec26ef526117e280266"
 
 RDEPENDS_${PN} += "libio-compress-base-perl libio-compress-zlib-perl"
 RDEPENDS_${PN}_virtclass-native = ""
