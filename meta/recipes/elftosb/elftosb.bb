@@ -11,6 +11,9 @@ SRC_URI = " \
 	file://buildflags.patch \
 "
 
+SRC_URI[md5sum] = "e8005d606c1e0bb3507c82f6eceb3056"
+SRC_URI[sha256sum] = "77bb6981620f7575b87d136d94c7daa88dd09195959cc75fc18b138369ecd42b"
+
 S = "${WORKDIR}/elftosb-${PV}"
 
 EXTRA_OEMAKE = " \
