@@ -213,7 +213,7 @@ $(_bitbake_setuptools):	$(_bitbake_setuptools_cached) | $(_tmpdir)
 $(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && $(GIT) init
 			-cd $(_tmpdir)/bitbake && $(GIT) remote rm origin
-			-cd $(_tmpdir)/bitbake && $(GIT) branch -D elito
+			-cd $(_tmpdir)/bitbake && $(GIT) branch -M elito _elito
 			-cd $(_tmpdir)/bitbake && $(GIT) fetch $(_bitbake-bundle) 'refs/heads/*:refs/remotes/bundle/*'
 			-cd $(_tmpdir)/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
 			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
@@ -221,6 +221,7 @@ $(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update || :; }
 			cd $(_tmpdir)/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
 			cd $(_tmpdir)/bitbake && $(GIT) reset --hard elito
+			-cd $(_tmpdir)/bitbake && $(GIT) branch -D _elito
 			cd $(_tmpdir)/bitbake && $(GIT) gc
 			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
 
