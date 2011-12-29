@@ -101,6 +101,12 @@ define _call_cmd
 @$1 && ( $(call ${XTERM_INFO},!DONE!); : ) || ( $(call ${XTERM_INFO},!FAILED!); false )
 endef
 
+define _download
+@rm -f '$@.tmp'
+$(WGET) '$1' -O '$@.tmp'
+mv -f '$@.tmp' '$@'
+endef
+
 _gitdate = $(shell $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
 
 release-image release-build:		export W=release-${_gitdate}
@@ -140,7 +146,7 @@ $(W)/Makefile.develcomp:
 			@false
 
 _bitbake_root =		$(_tmpdir)/staging
-_filesystem-dirs =	$(_stampdir) $W/deploy
+_filesystem-dirs =	$(_stampdir) $W/deploy $(_tmpdir)
 _bitbake-dirs =		$(_tmpdir)/bitbake
 
 bitbake-fetch:		$(_stampdir)/.bitbake.stamp
@@ -151,7 +157,7 @@ ifeq ($(ELITO_OFFLINE),)
 			rm -f $(_bitbake-bundle)
 endif
 
-bitbake-validate:
+bitbake-validate:	| $(_stampdir)/.bitbake.fetch.stamp
 			@f=$(_stampdir)/.bitbake.fetch.stamp; \
 			test ! -e "$$f" || { \
 			v=$$(cat $$f); test x"$$v" = x${BITBAKE_REV}/${BITBAKE_REV_R}; } || { \
@@ -186,17 +192,11 @@ _bitbake_setuptools =		$(_tmpdir)/$(notdir ${BITBAKE_SETUPTOOLS})
 .SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools_cached)
 
 ifeq ($(ELITO_OFFLINE),)
-$(_bitbake-bundle):
-			mkdir -p $(@D)
-			@rm -f $(_bitbake-bundle).tmp
-			$(WGET) $(BITBAKE_SNAPSHOT) -O $(_bitbake-bundle).tmp
-			mv -f $(_bitbake-bundle).tmp $(_bitbake-bundle)
+$(_bitbake-bundle):	|  $(CACHE_DIR)
+			$(call _download,$(BITBAKE_SNAPSHOT))
 
-$(_bitbake_setuptools_cached):
-			mkdir -p $(@D)
-			@rm -f $@.tmp
-			$(WGET) $(BITBAKE_SETUPTOOLS) -O $@.tmp
-			mv -f $@.tmp $@
+$(_bitbake_setuptools_cached):	|  $(CACHE_DIR)
+			$(call _download,$(BITBAKE_SETUPTOOLS))
 endif
 
 $(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp
@@ -207,10 +207,10 @@ $(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native tar-replacement-native,populate_sysroot)
 			@touch $@
 
-$(_bitbake_setuptools):	$(_bitbake_setuptools_cached) | $(_tmpdir)/bitbake $(_stampdir)
+$(_bitbake_setuptools):	$(_bitbake_setuptools_cached) | $(_tmpdir)
 			$(INSTALL_DATA) $< $@
 
-$(_stampdir)/.bitbake.gitinit.stamp: | $(_bitbake-dirs) $(_stampdir) $(_bitbake-bundle)
+$(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && $(GIT) init
 			-cd $(_tmpdir)/bitbake && $(GIT) fetch $(_bitbake-bundle) 'refs/heads/*:refs/remotes/bundle/*'
 			-cd $(_tmpdir)/bitbake && $(GIT) remote add origin ${BITBAKE_REPO}
@@ -220,14 +220,9 @@ $(_stampdir)/.bitbake.gitinit.stamp: | $(_bitbake-dirs) $(_stampdir) $(_bitbake-
 			cd $(_tmpdir)/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
 			cd $(_tmpdir)/bitbake && $(GIT) reset --hard elito
 			cd $(_tmpdir)/bitbake && $(GIT) gc
-			@touch $@
-
-$(_stampdir)/.bitbake.fetch.stamp: $(_stampdir)/.bitbake.gitinit.stamp | $(_bitbake_setuptools) $(_tmpdir)/bitbake
-			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update; }
-			cd $(_tmpdir)/bitbake && $(GIT) merge ${BITBAKE_REV}
 			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
 
-$(_stampdir)/.bitbake.patch.stamp: $(_stampdir)/.bitbake.fetch.stamp
+$(_stampdir)/.bitbake.patch.stamp: $(_stampdir)/.bitbake.fetch.stamp | $(_tmpdir)/bitbake
 ifneq ($(GIT),)
 			cd $(_tmpdir)/bitbake && $(GIT) am --reject -3 $(_bitbake_srcdir)/*.patch
 else ifeq ($(QUILT),)
@@ -241,7 +236,7 @@ else
 endif
 			@touch $@
 
-$(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp
+$(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitbake_setuptools)
 			cd $(_tmpdir)/bitbake && $(PYTHON) setup.py build
 			mkdir -p $(_bitbake_root)/lib
 			cd $(_tmpdir)/bitbake && \
