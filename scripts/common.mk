@@ -199,7 +199,7 @@ $(_bitbake_setuptools_cached):	|  $(CACHE_DIR)
 			$(call _download,$(BITBAKE_SETUPTOOLS))
 endif
 
-$(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp
+$(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $(_tmpdir)/bitbake.env || { rc=$$?; cat $(_tmpdir)/bitbake.env >&2; exit $$rc; })
 			@touch $@
 
@@ -210,7 +210,7 @@ $(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp
 $(_bitbake_setuptools):	$(_bitbake_setuptools_cached) | $(_tmpdir)
 			$(INSTALL_DATA) $< $@
 
-$(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_bitbake-bundle)
+$(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_stampdir) $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && $(GIT) init
 			-cd $(_tmpdir)/bitbake && $(GIT) remote rm origin
 			-cd $(_tmpdir)/bitbake && $(GIT) branch -M elito _elito
