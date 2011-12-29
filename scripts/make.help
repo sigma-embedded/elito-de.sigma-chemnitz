@@ -1,0 +1,58 @@
+Usage: make <target> [CFG=<cfg>] [<option>=<value>]*
+
+Supported targets:
+
+  image ............ build the targets specified by the $(TARGETS)
+                     variable. By default, this is the 'elito-image'
+                     package which creates a complete image.
+
+  build R=<recipe>  ...
+                     build the recipe <recipe>
+
+  shell ............ starts a shell with an environment allowing easy
+                     access to the cross tools
+
+  mrproper ......... remove all generated files
+
+  bitbake-clean .... remove local bitbake installation
+
+  pkg-install P=<pkg> ...
+  pkg-reinstall P=<pkg> ...
+  pkg-remove P=<pkg> ...
+                     invokes the corresponding 'opkg' operation on the
+                     given package <pkg>
+
+
+Supported options:
+
+  R=<recipe> ....... recipe to be built; used by 'build' target
+
+  BO=<bbopt> ....... sets special bitbake options for 'build' and
+                     'image' targets
+
+  P=<pkg> .......... package name or the filename of a package which
+                     shall be processed by the various 'pkg-*' targets
+
+
+Configuration:
+
+  Buildsystem includes the following files in this order:
+
+    - Makefile.local ......... project specific configuration
+    - Makefile.local.$DOMAIN . organization specific configuration
+    - Makefile.local.$FQDN ... development machine specific configuration
+
+  with $DOMAIN and $FQDN are being the domain- resp. the full qualified
+  name of the host.
+
+
+Examples:
+
+  Build the predefined image
+
+    $ make image
+
+  Fetch all required sources but do not build the image
+
+    $ make image BO='-c fetchall'
+

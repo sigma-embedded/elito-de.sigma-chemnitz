@@ -312,6 +312,10 @@ $(AUTOCONF_FILES): %:	config.status %.in
 config.status:		$(abs_top_srcdir)/configure
 			$(abspath $@) --recheck
 
+help:			$(abs_top_srcdir)/scripts/make.help
+			@cat $<
+
+.PHONY:			help
 
 ifeq ($(filter $(MAKEFLAGS),s),)
 _ECHO := echo
