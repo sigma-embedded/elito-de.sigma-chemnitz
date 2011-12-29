@@ -87,9 +87,9 @@ endif
 
 XTERM_INFO =		_xterm_info
 
--include $(abs_top_builddir)/Makefile.local.$(_FQDN)
--include $(abs_top_builddir)/Makefile.local.$(_DOMAIN)
 -include $(abs_top_builddir)/Makefile.local
+-include $(abs_top_builddir)/Makefile.local.$(_DOMAIN)
+-include $(abs_top_builddir)/Makefile.local.$(_FQDN)
 
 define _xterm_info
 ! tty -s || echo -ne "\033]0;OE Build ${PROJECT_NAME}@$${HOSTNAME%%.*}:$${PWD/#$$HOME/~} - `date`$(if $1, - $1)\007"
