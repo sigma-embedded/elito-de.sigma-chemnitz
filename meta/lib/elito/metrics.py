@@ -1,9 +1,8 @@
 import bb
+import time, fcntl, os
 
 def _metrics_id(d):
-    import os
-
-    res = bb.data.getVar('METRICS_ID', d, True)
+    res = d.getVar('METRICS_ID', True)
     assert(res != None)
 
     return res
@@ -11,8 +10,8 @@ def _metrics_id(d):
 def _metrics_tmpname(d):
     import os.path
 
-    fname = bb.data.getVar('METRICS_FILE', d, True)
-    tmpd  = bb.data.getVar('TMPDIR', d, True)
+    fname = d.getVar('METRICS_FILE', True)
+    tmpd  = d.getVar('TMPDIR', True)
     mid   = _metrics_id(d)
 
     assert(fname != None)
@@ -22,9 +21,7 @@ def _metrics_tmpname(d):
     return os.path.join(tmpd,
                         os.path.basename(fname) + ".tmp.%s" % mid)
 
-def __metrics_write(d, str):
-    import fcntl, bb
-
+def __write(d, str):
     f = open(_metrics_tmpname(d), "a")
     try:
         fcntl.flock(f.fileno(), fcntl.LOCK_EX)
@@ -32,7 +29,7 @@ def __metrics_write(d, str):
     finally:
         f.close()
 
-def __metrics_to_xml(who, res_a, res_b):
+def __to_xml(who, res_a, res_b):
     res = []
     for i in filter(lambda x: x.startswith('ru_'), dir(res_a)):
         try:
@@ -48,10 +45,7 @@ def __metrics_to_xml(who, res_a, res_b):
 
     return res
 
-def __metrics_write_build_complete(fname, start_info, end_info, e):
-    import time, fcntl
-    from bb import data
-
+def __write_build_complete(e, start_info, end_info, fname):
     f_in_name = _metrics_tmpname(e.data)
 
     try:
@@ -72,8 +66,8 @@ def __metrics_write_build_complete(fname, start_info, end_info, e):
 
         f_out.write('<build project="%s" tmpdir="%s" started="%f" finished="%f"' \
                         ' duration="%f" id="%s">\n' %
-                    (data.getVar('PROJECT_NAME', e.data, True),
-                     os.path.basename(data.getVar('TMPDIR', e.data, True)),
+                    (e.data.getVar('PROJECT_NAME', True),
+                     os.path.basename(e.data.getVar('TMPDIR', True)),
                      start_info['time'], end_info['time'],
                      end_info['time'] - start_info['time'],
                      _metrics_id(e.data)))
@@ -115,39 +109,34 @@ def __metrics_write_build_complete(fname, start_info, end_info, e):
 
         f_out.write('    <!-- RUSAGE_CHILDREN -->\n' +
                     ''.join(map(lambda x: '    ' + x + '\n',
-                                __metrics_to_xml("children",
-                                               end_info['res_chld'],
-                                               start_info['res_chld']))) +
+                                __to_xml("children", end_info['res_chld'],
+                                         start_info['res_chld']))) +
                     '    <!-- RUSAGE_SELF -->\n' +
                     ''.join(map(lambda x: '    ' + x + '\n',
-                                __metrics_to_xml("self",
-                                               end_info['res_self'],
-                                               start_info['res_self']))) +
+                                __to_xml("self", end_info['res_self'],
+                                         start_info['res_self']))) +
                     "  </metrics>\n")
         f_out.write('</build>\n')
     finally:
         f_in.close()
         f_out.close()
 
-def metrics_write_task_complete(start_info, end_info, e):
+def __write_task_complete(e, start_info, end_info):
     from bb.event import getName
-    import bb
-
-    import time
 
     info = {
         'now' : end_info['time'],
-        'PV'  : bb.data.getVar('PV', e.data, True),
-        'PR'  : bb.data.getVar('PR', e.data, True),
-        'PN'  : bb.data.getVar('PN', e.data, True),
-        'PF'  : bb.data.getVar('PF', e.data, True),
+        'PV'  : e.data.getVar('PV', True),
+        'PR'  : e.data.getVar('PR', True),
+        'PN'  : e.data.getVar('PN', True),
+        'PF'  : e.data.getVar('PF', True),
         'pid' : start_info['pid'],
         'start_tm'     : start_info['time'],
         'start_tm_str' : time.strftime('%c', time.gmtime(start_info['time'])),
         'end_tm_str'   : time.strftime('%c', time.gmtime(end_info['time'])),
         'total_time' : end_info['time'] - start_info['time'],
         'result' : ['FAIL','OK'][getName(e) == "TaskSucceeded"],
-        'preference' : bb.data.getVar('DEFAULT_PREFERENCE', e.data, True) or '0',
+        'preference' : e.data.getVar('DEFAULT_PREFERENCE', True) or '0',
         'task' : e.task }
 
     x = \
@@ -158,57 +147,100 @@ def metrics_write_task_complete(start_info, end_info, e):
     if end_info['duse'] != None:
         x = x + '    <info type="diskusage">%u</info>\n' % end_info['duse']
 
-    __metrics_write(e.data, x +
-                    '    <!-- RUSAGE_CHILDREN -->\n' +
-                    ''.join(map(lambda x: '    ' + x + '\n',
-                                __metrics_to_xml("children",
-                                               end_info['res_chld'],
-                                               start_info['res_chld']))) +
-                    '    <!-- RUSAGE_SELF -->\n' +
-                    ''.join(map(lambda x: '    ' + x + '\n',
-                                __metrics_to_xml("self",
-                                               end_info['res_self'],
-                                               start_info['res_self']))) +
+    __write(e.data, x +
+            '    <!-- RUSAGE_CHILDREN -->\n' +
+            ''.join(map(lambda x: '    ' + x + '\n',
+                        __to_xml("children",
+                                 end_info['res_chld'],
+                                 start_info['res_chld']))) +
+            '    <!-- RUSAGE_SELF -->\n' +
+            ''.join(map(lambda x: '    ' + x + '\n',
+                        __to_xml("self",
+                                 end_info['res_self'],
+                                 start_info['res_self']))) +
 
-                    '  </task>\n')
+            '  </task>\n')
 
-def metrics_get_duse(e):
-    from bb import data
-    import os
+def __write_stamp(e, start_info, end_info, name):
+    info = {
+        'name' : name,
+        'now' : end_info['time'],
+        'pid' : start_info['pid'],
+        'start_tm'     : start_info['time'],
+        'start_tm_str' : time.strftime('%c', time.gmtime(start_info['time'])),
+        'end_tm_str'   : time.strftime('%c', time.gmtime(end_info['time'])),
+        'total_time' : end_info['time'] - start_info['time'],
+        }
 
+    x = '  <!-- stamp: %(name)s | %(start_tm_str)s - %(end_tm_str)s (PID %(pid)s) -->\n' \
+        '  <stamp name="%(name)s" started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" ' \
+        ' pid="%(pid)s">\n' % info
+
+    if end_info['duse'] != None:
+        x = x + '    <info type="diskusage">%u</info>\n' % end_info['duse']
+
+    __write(e.data, x +
+            '    <!-- RUSAGE_CHILDREN -->\n' +
+            ''.join(map(lambda x: '    ' + x + '\n',
+                        __to_xml("children", end_info['res_chld'],
+                                 start_info['res_chld']))) +
+            '    <!-- RUSAGE_SELF -->\n' +
+            ''.join(map(lambda x: '    ' + x + '\n',
+                        __to_xml("self", end_info['res_self'],
+                                 start_info['res_self']))) +
+
+            '  </stamp>\n')
+    
+
+
+def __get_duse(e):
     try:
-        df = os.statvfs(data.getVar("TMPDIR", e.data, True))
+        df = os.statvfs(e.data.getVar("TMPDIR", True))
         duse = df.f_bsize * (df.f_blocks - df.f_bavail)
     except OSError:
         duse = None
 
     return duse
 
+def __record_resources(prop, e):
+    import resource
+
+    ev_data = (e.data.getVarFlag('_event_info', 'resources') or {})
+    ev_data[prop] = { 'res_chld' : resource.getrusage(resource.RUSAGE_CHILDREN),
+                      'res_self' : resource.getrusage(resource.RUSAGE_SELF),
+                      'clock'    : time.clock(),
+                      'time'     : time.time(),
+                      'pid'      : os.getpid(),
+                      'duse'     : __get_duse(e) }
+
+    e.data.setVarFlag('_event_info', 'resources', ev_data)
+
+def __handle_complete(e, prefix, name, fn):
+    __record_resources(prefix + '_end', e)
+    info = e.data.getVarFlags('_event_info')
+
+    res_start = info['resources'][prefix + '_start']
+    res_end   = info['resources'][prefix + '_end']
+
+    if res_start['pid'] != res_end['pid']:
+        bb.warn("PID mismatch in %s (%u vs %u)" %
+                (name, res_start['pid'], res_end['pid']))
+
+    fn(res_start, res_end)
+
 def eventhandler (e):
-    from bb import note, error, data
+    from bb import note, error
     from bb.event import getName
 
-    def record_resources(prop, d):
-        import resource, time, os
-
-        ev_data = (bb.data.getVarFlag('_event_info', 'resources', d) or {})
-        ev_data[prop] = { 'res_chld' : resource.getrusage(resource.RUSAGE_CHILDREN),
-                          'res_self' : resource.getrusage(resource.RUSAGE_SELF),
-                          'clock'    : time.clock(),
-                          'time'     : time.time(),
-                          'pid'      : os.getpid(),
-                          'duse'   : metrics_get_duse(e) }
-
-        bb.data.setVarFlag('_event_info', 'resources', ev_data, d)
-
-
-    if e.data is None or getName(e) in ("MsgNote", "ParseProgress", "RecipeParsed", "ConfigParsed"):
+    if e.data is None or getName(e) in ("MsgNote", "RecipePreFinalise", 
+                                        "RecipeParsed", "ParseProgress", "StampUpdate"):
         return
 
     name = getName(e)
+    #bb.note("event: %s" % name)
 
-    if name == "BuildStarted":
-        record_resources('build_start', e.data)
+    # First event
+    if name == "ParseStarted":
         tmp_fname = _metrics_tmpname(e.data)
 
         try:
@@ -216,197 +248,30 @@ def eventhandler (e):
         except OSError:
             pass
 
-        __metrics_write(e.data, '')
-    elif name == "BuildCompleted":
-        record_resources('build_end', e.data)
-        info = bb.data.getVarFlags('_event_info', e.data)
+        __write(e.data, '')
 
-        res_start = info['resources']['build_start']
-        res_end   = info['resources']['build_end']
+    if name == "BuildStarted":
+        __record_resources('build_start', e)
+    elif name in "BuildCompleted":
+        __handle_complete(e, 'build', 'BuildCompleted',
+                          lambda res_start, res_end: 
+                          __write_build_complete(e, res_start, res_end,
+                                                 e.data.getVar('METRICS_FILE', True)))
 
-        if res_start['pid'] != res_end['pid']:
-            bb.warn("PID mismatch in BuildCompleted (%u vs %u)" %
-                    (res_start['pid'], res_end['pid']))
-
-        __metrics_write_build_complete(data.getVar('METRICS_FILE', e.data, True),
-                                       res_start, res_end, e)
     elif name == "TaskStarted":
-        record_resources('task_start', e.data)
-    elif name == "TaskSucceeded" or name == "TaskFailed":
-        record_resources('task_end', e.data)
-        info = bb.data.getVarFlags('_event_info', e.data)
-
-        res_start = info['resources']['task_start']
-        res_end   = info['resources']['task_end']
-
-        if res_start['pid'] != res_end['pid']:
-            bb.warn("PID mismatch in BuildCompleted (%u vs %u)" %
-                    (res_start['pid'], res_end['pid']))
-
-        metrics_write_task_complete(res_start, res_end, e)
+        __record_resources('task_start', e)
+    elif name in ("TaskSucceeded", "TaskFailed"):
+        __handle_complete(e, 'task', 'task-complete',
+                          lambda res_start, res_end:
+                              __write_task_complete(e, res_start, res_end))
+    elif name == 'ParseStarted':
+        __record_resources('parse_start', e)
+    elif name == 'ParseCompleted':
+        __handle_complete(e, 'parse', 'ParseCompleted',
+                          lambda res_start, res_end:
+                              __write_stamp(e, res_start, res_end, 'parsing'))
+    else:
+    	#bb.warn("Unsupported event %s" % name)
+        pass
 
     return
-
-def eventhandler_18 (e):
-    import resource, time, fcntl
-    from bb import note, error, data
-    from bb.event import getName
-
-    if e.data is None or getName(e) == "MsgNote":
-        return NotHandled
-
-    if data.getVar("METRICS_FILE", e.data, True) == None:
-        return NotHandled
-
-
-    name = getName(e)
-    if name == "PkgStarted":
-        assert data.getVar('_PKG_RESOURCES_SELF', e.data, False) == None
-        assert data.getVar('_PKG_RESOURCES_CHLD', e.data, False) == None
-        assert data.getVar('_PKG_CLOCK', e.data, False) == None
-        assert data.getVar('_PKG_TIME',  e.data, False) == None
-
-        data.setVar('_PKG_RESOURCES_CHLD', resource.getrusage(resource.RUSAGE_CHILDREN), e.data)
-        data.setVar('_PKG_RESOURCES_SELF', resource.getrusage(resource.RUSAGE_SELF), e.data)
-        data.setVar('_PKG_CLOCK',      time.clock(), e.data)
-        data.setVar('_PKG_TIME',       time.time(), e.data)
-    elif name == "BuildStarted":
-        data.setVar('_BUILD_START_CLOCK', time.clock(), e.data)
-        data.setVar('_BUILD_START_TIME',  time.time(), e.data)
-        data.setVar('_BUILD_RESOURCES_CHLD', resource.getrusage(resource.RUSAGE_CHILDREN), e.data)
-        data.setVar('_BUILD_RESOURCES_SELF', resource.getrusage(resource.RUSAGE_SELF), e.data)
-        data.setVar('_BUILD_DUSE', metrics_get_duse(e), e.data)
-
-        tmp_fname = _metrics_tmpname(e.data)
-        try:
-            os.unlink(tmp_fname)
-        except:
-            pass
-        __metrics_write(e.data, '')
-
-    elif name == "BuildCompleted":
-        now_chld = resource.getrusage(resource.RUSAGE_CHILDREN)
-        now_self = resource.getrusage(resource.RUSAGE_SELF)
-        res_chld = data.getVar('_BUILD_RESOURCES_CHLD', e.data, False)
-        res_self = data.getVar('_BUILD_RESOURCES_SELF', e.data, False)
-        old_duse = data.getVar('_BUILD_DUSE', e.data, False)
-
-        start_tm = data.getVar('_BUILD_START_TIME', e.data, False)
-        now      = time.time()
-
-        f_in_name = _metrics_tmpname(e.data)
-
-        fname = data.getVar('METRICS_FILE', e.data, True)
-        f_out = open(fname, 'a')
-        f_in  = open(f_in_name, 'r')
-
-        os.unlink(f_in_name)
-
-        try:
-            fcntl.flock(f_out.fileno(), fcntl.LOCK_EX)
-            fcntl.fcntl(f_in.fileno(),  fcntl.LOCK_SH)
-
-            f_out.write('<!-- Started: %s   Ended: %s -->\n' %
-                        (time.strftime('%c', time.gmtime(start_tm)),
-                         time.strftime('%c', time.gmtime(now))))
-
-            f_out.write('<build project="%s" tmpdir="%s" started="%f" '
-                        'finished="%f" duration="%f">\n' %
-                        (data.getVar('PROJECT_NAME', e.data, True),
-                         os.path.basename(data.getVar('TMPDIR', e.data, True)),
-                         data.getVar('_BUILD_START_TIME', e.data, False),
-                         now,
-                         now - data.getVar('_BUILD_START_TIME', e.data, False)))
-
-            f_out.write('  <sysinfo>\n')
-
-            uname = os.uname()
-            f_out.write('    <hostname>%s</hostname>\n' \
-                            '    <release>%s</release>\n' \
-                            '    <machine>%s</machine>\n' % \
-                            (uname[1], uname[2], uname[4]))
-
-            try:
-                total_mem = os.sysconf("SC_PHYS_PAGES") * os.sysconf("SC_PAGE_SIZE")
-                f_out.write('    <memory>%s</memory>\n' % total_mem)
-            except:
-                pass
-
-            try:
-                f_out.write('    <cpus>%s</cpus>\n' %
-                            os.sysconf("SC_NPROCESSORS_ONLN"))
-            except:
-                pass
-
-            now_duse = metrics_get_duse(e)
-            if now_duse != None and old_duse != None:
-                f_out.write('    <diskusage start="%u" end="%u">%d</diskusage>\n' %
-                            (old_duse, now_duse,
-                             now_duse - old_duse))
-            f_out.write('  </sysinfo>\n')
-
-            while True:
-                buf = f_in.read(8192)
-                if len(buf) == 0:
-                    break
-                f_out.write(buf)
-
-            f_out.write('  <metrics>\n' +
-                        '    <!-- RUSAGE_CHILDREN -->\n' +
-                        ''.join(map(lambda x: '    ' + x + '\n',
-                                    __metrics_to_xml("children", now_chld, res_chld))) +
-                        '    <!-- RUSAGE_SELF -->\n' +
-                        ''.join(map(lambda x: '    ' + x + '\n',
-                                    __metrics_to_xml("self", now_self, res_self))) +
-                        "  </metrics>\n")
-            f_out.write('</build>\n')
-        finally:
-            f_in.close()
-            f_out.close()
-
-    if name == "TaskSucceeded" or name == "TaskFailed":
-        res_chld = data.getVar('_PKG_RESOURCES_CHLD', e.data, False)
-        res_self = data.getVar('_PKG_RESOURCES_SELF', e.data, False)
-
-        now_chld = resource.getrusage(resource.RUSAGE_CHILDREN)
-        now_self = resource.getrusage(resource.RUSAGE_SELF)
-
-        now_tm   = time.time()
-
-        assert(res_chld != None)
-        assert(res_self != None)
-
-        info = {
-            'now' : time.time(),
-            'PV'  : data.getVar('PV', e.data, True),
-            'PR'  : data.getVar('PR', e.data, True),
-            'PN'  : data.getVar('PN', e.data, True),
-            'PF'  : data.getVar('PF', e.data, True),
-            'start_tm'     : data.getVar('_PKG_TIME', e.data, False),
-            'start_tm_str' : time.strftime('%c', time.gmtime(data.getVar('_PKG_TIME', e.data, False))),
-            'end_tm_str'   : time.strftime('%c', time.gmtime(now_tm)),
-            'total_time' : now_tm - data.getVar('_PKG_TIME', e.data, False),
-            'result' : ['FAIL','OK'][name == "TaskSucceeded"],
-            'preference' : data.getVar('DEFAULT_PREFERENCE', e.data, True) or '0',
-            'task' : e.task }
-
-        x = \
-            '  <!-- %(task)s(%(PF)s) | %(start_tm_str)s - %(end_tm_str)s -->\n' \
-            '  <task name="%(task)s" result="%(result)s" pn="%(PN)s" pv="%(PV)s" pr="%(PR)s" ' \
-            'started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" preference="%(preference)s">\n' % info
-
-        duse = metrics_get_duse(e)
-        if duse != None:
-            x = x + '    <info type="diskusage">%u</info>\n' % duse
-
-        __metrics_write(e.data, x +
-                        '    <!-- RUSAGE_CHILDREN -->\n' +
-                        ''.join(map(lambda x: '    ' + x + '\n',
-                                    __metrics_to_xml("children", now_chld, res_chld))) +
-                        '    <!-- RUSAGE_SELF -->\n' +
-                        ''.join(map(lambda x: '    ' + x + '\n',
-                                    __metrics_to_xml("self", now_self, res_self))) +
-
-                        '  </task>\n')
-
-    return NotHandled
