@@ -5,9 +5,6 @@ INSTALL_DATA =		$(INSTALL) -p -m 0644
 ELITO_ROOTDIR :=	$(abspath $(abs_top_srcdir)/..)
 ELITO_WORKSPACE_DIR :=	$(abspath $(abs_top_builddir)/../workspace)
 
-_tmpdir :=		$(abs_top_builddir)/.tmp
-_stampdir :=		$(_tmpdir)/stamps
-
 _FQDN =			$(shell hostname -f)
 _DOMAIN =		$(shell hostname -d)
 
@@ -18,6 +15,21 @@ NOW :=			$(shell date +%Y%m%dT%H%M%S)
 ELITO_SPACE_MIN =	15
 ELITO_SPACE_FULL =	30
 
+TARGETS =		elito-image
+BO ?=
+
+BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
+
+BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.bundle
+BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg
+
+BITBAKE_ENV =		env $(addprefix -u ,\
+	MAKEFILES MAKEFLAGS MAKEOVERRIDES MFLAGS VPATH \
+	BO TARGETS)
+
+BITBAKE :=		$(BITBAKE_ENV) $(abs_top_builddir)/bitbake
+
+ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
 SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
@@ -26,17 +38,6 @@ SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'	\
 		-e 's!@'TOP_BUILD_DIR'@!$(abs_top_builddir)!g'	\
 		-e 's!@'SECWRAP_CMD'@!$(SECWRAP_CMD)!g'
-
-BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
-
-_bitbake_srcdir =	$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
-BITBAKE_REV =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '1p;d')
-BITBAKE_REV_S =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
-BITBAKE_REV_R =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '3p;d')
-BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.bundle
-BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg
-
-ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -62,21 +63,6 @@ PKGS_PREP =		opkg-utils-native	\
 			libtool-native		\
 			gettext-native
 
-_template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
-_project_task_dir =	$(abs_top_builddir)/recipes/$(PROJECT_NAME)
-_project_task_file =	$(_project_task_dir)/task-$(PROJECT_NAME).bb
-_project_files_file =	$(_project_task_dir)/files-$(PROJECT_NAME).bb
-_samples_dir =		$(abs_top_srcdir)/samples
-
-BITBAKE_ENV =		env $(addprefix -u ,\
-	MAKEFILES MAKEFLAGS MAKEOVERRIDES MFLAGS VPATH \
-	BO TARGETS)
-
-TARGETS =		elito-image
-BITBAKE :=		$(BITBAKE_ENV) $(abs_top_builddir)/bitbake
-BO ?=
-RECIPE ?=
-
 ifeq ($(ELITO_OFFLINE),)
 _GITR	=		$(GIT)
 else
@@ -87,9 +73,9 @@ endif
 
 XTERM_INFO =		_xterm_info
 
--include $(abs_top_builddir)/Makefile.local
--include $(abs_top_builddir)/Makefile.local.$(_DOMAIN)
--include $(abs_top_builddir)/Makefile.local.$(_FQDN)
+_gitdate =		$(shell $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
+_tmpdir :=		$(abs_top_builddir)/.tmp
+_stampdir :=		$(_tmpdir)/stamps
 
 define _xterm_info
 ! tty -s || echo -ne "\033]0;OE Build ${PROJECT_NAME}@$${HOSTNAME%%.*}:$${PWD/#$$HOME/~} - `date`$(if $1, - $1)\007"
@@ -107,12 +93,17 @@ $(WGET) '$1' -O '$@.tmp'
 mv -f '$@.tmp' '$@'
 endef
 
-_gitdate = $(shell $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
+###### local customizations #######
+
+-include $(abs_top_builddir)/Makefile.local
+-include $(abs_top_builddir)/Makefile.local.$(_DOMAIN)
+-include $(abs_top_builddir)/Makefile.local.$(_FQDN)
+
+###### {{{ top level targets ########
 
 release-image release-build:		export W=release-${_gitdate}
 
-config:			$(CFG_FILES) $(_template_files) .gitignore bitbake-validate
-config:			$(_project_task_file) $(_project_files_file)
+config:			$(CFG_FILES)
 
 init:			bitbake-fetch
 prep:			$(_stampdir)/.prep.stamp Makefile bitbake-validate
@@ -136,6 +127,9 @@ pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell: \
 			$(W)/Makefile.develcomp
 			$(SECWRAP_CMD) env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
+find-dups:		init
+			./bitbake -l Collection -c find_dups $(TARGETS)
+
 $(W)/Makefile.develcomp:
 			@{ \
 			echo "***" ; \
@@ -145,9 +139,33 @@ $(W)/Makefile.develcomp:
 			} >&2
 			@false
 
-_bitbake_root =		$(_tmpdir)/staging
-_filesystem-dirs =	$(_stampdir) $W/deploy $(_tmpdir)
-_bitbake-dirs =		$(_tmpdir)/bitbake
+help:			$(abs_top_srcdir)/scripts/make.help
+			@cat $<
+
+.PHONY:			help
+###### top level targets }}} ########
+
+
+############ {{{ Bitbake and general setup section ##########
+
+_bitbake_srcdir =		$(abs_top_srcdir)/recipes/bitbake/$(BITBAKE_BRANCH)
+_bitbake_rev =			$(shell cat $(_bitbake_srcdir)/rev | $(SED) '1p;d')
+_bitbake_rev_s =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
+_bitbake_rev_r =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '3p;d')
+
+_bitbake_root =			$(_tmpdir)/staging
+_filesystem-dirs =		$(_stampdir) $W/deploy $(_tmpdir)
+_bitbake-dirs =			$(_tmpdir)/bitbake
+
+_bitbake-bundle =		$(CACHE_DIR)/bitbake-${_bitbake_rev_s}.bundle
+_bitbake_setuptools_cached =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
+_bitbake_setuptools =		$(_tmpdir)/$(notdir ${BITBAKE_SETUPTOOLS})
+
+_space_check =			${ELITO_STATVFS} '${abs_top_builddir}/${W}'
+
+.SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools_cached)
+
+config:			bitbake-validate
 
 bitbake-fetch:		$(_stampdir)/.bitbake.stamp
 bitbake-clean:
@@ -160,20 +178,18 @@ endif
 bitbake-validate:	| $(_stampdir)/.bitbake.fetch.stamp
 			@f=$(_stampdir)/.bitbake.fetch.stamp; \
 			test ! -e "$$f" || { \
-			v=$$(cat $$f); test x"$$v" = x${BITBAKE_REV}/${BITBAKE_REV_R}; } || { \
+			v=$$(cat $$f); test x"$$v" = x${_bitbake_rev}/${_bitbake_rev_r}; } || { \
 			echo "****"; \
 			echo "**** BITBAKE revision mismatch; you have '$$v'"; \
-			echo "**** but '${BITBAKE_REV}/${BITBAKE_REV_R}' is expected; please execute"; \
+			echo "**** but '${_bitbake_rev}/${_bitbake_rev_r}' is expected; please execute"; \
 			echo "****"; \
 			echo "     ( cd '$(abspath .)' && make bitbake-clean && make init )"; \
 			echo "****"; \
 			exit 1; \
 			} >&2
 
-find-dups:		init
-			./bitbake -l Collection -c find_dups $(TARGETS)
-
-_space_check = ${ELITO_STATVFS} '${abs_top_builddir}/${W}'
+$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR):
+			mkdir -p $@
 
 $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp
 			$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
@@ -181,15 +197,6 @@ $(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp
 				$(MAKE) _image BO= TARGETS=elito-prep; \
 			fi
 			@touch $@
-
-$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR):
-			mkdir -p $@
-
-_bitbake-bundle =		$(CACHE_DIR)/bitbake-${BITBAKE_REV_S}.bundle
-_bitbake_setuptools_cached =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
-_bitbake_setuptools =		$(_tmpdir)/$(notdir ${BITBAKE_SETUPTOOLS})
-
-.SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools_cached)
 
 ifeq ($(ELITO_OFFLINE),)
 $(_bitbake-bundle):	|  $(CACHE_DIR)
@@ -199,16 +206,9 @@ $(_bitbake_setuptools_cached):	|  $(CACHE_DIR)
 			$(call _download,$(BITBAKE_SETUPTOOLS))
 endif
 
-$(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $(_tmpdir)/bitbake.env || { rc=$$?; cat $(_tmpdir)/bitbake.env >&2; exit $$rc; })
-			@touch $@
-
-$(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native tar-replacement-native,populate_sysroot)
-			@touch $@
-
 $(_bitbake_setuptools):	$(_bitbake_setuptools_cached) | $(_tmpdir)
 			$(INSTALL_DATA) $< $@
+
 
 $(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_stampdir) $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && $(GIT) init
@@ -219,11 +219,11 @@ $(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_stampdir) $(_bitbake-
 			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.fetch refs/heads/${BITBAKE_BRANCH}:refs/remotes/origin/${BITBAKE_BRANCH}
 			-cd $(_tmpdir)/bitbake && $(GIT) config remote.origin.tagopt --no-tags
 			cd $(_tmpdir)/bitbake && { $(_GITR) remote update || $(_GITR) remote update || :; }
-			cd $(_tmpdir)/bitbake && $(GIT) checkout -b elito ${BITBAKE_REV}
+			cd $(_tmpdir)/bitbake && $(GIT) checkout -b elito ${_bitbake_rev}
 			cd $(_tmpdir)/bitbake && $(GIT) reset --hard elito
 			-cd $(_tmpdir)/bitbake && $(GIT) branch -D _elito
 			cd $(_tmpdir)/bitbake && $(GIT) gc
-			@echo ${BITBAKE_REV}/${BITBAKE_REV_R} > $@
+			@echo ${_bitbake_rev}/${_bitbake_rev_r} > $@
 
 $(_stampdir)/.bitbake.patch.stamp: $(_stampdir)/.bitbake.fetch.stamp | $(_tmpdir)/bitbake
 ifneq ($(GIT),)
@@ -248,8 +248,30 @@ $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitb
 			$(MAKE) bitbake
 			@touch $@
 
+$(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $(_tmpdir)/bitbake.env || { rc=$$?; cat $(_tmpdir)/bitbake.env >&2; exit $$rc; })
+			@touch $@
+
 $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_stampdir)/.bitbake.env.stamp
 			@touch $@
+
+$(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native tar-replacement-native,populate_sysroot)
+			@touch $@
+
+############ Bitbake and general setup section }}} ##########
+
+
+############ {{{ Sample file generation ###########
+
+_template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
+_project_task_dir =	$(abs_top_builddir)/recipes/$(PROJECT_NAME)
+_project_task_file =	$(_project_task_dir)/task-$(PROJECT_NAME).bb
+_project_files_file =	$(_project_task_dir)/files-$(PROJECT_NAME).bb
+_samples_dir =		$(abs_top_srcdir)/samples
+
+config:			$(_template_files) $(_project_task_file) $(_project_files_file)
+config:			.gitignore
 
 .gitignore:
 			echo "${CFG_FILES}" | xargs -n1 echo > $@
@@ -275,12 +297,10 @@ $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 # edited by the user
 			-@test "$<" -ot "$@" || touch --reference "$@" "$<"
 
-%:			%.in
-			@-rm -f $@.tmp $@
-			$(SED) $(SED_EXPR) $< > $@.tmp
-			mv $@.tmp $@
-			chmod a-w $@
+############ Sample file generation }}} ###########
 
+
+############ {{{ 'clean' rules ##########
 clean:
 			rm -f set-env.in conf/local.conf bitbake
 
@@ -308,6 +328,15 @@ clean-sources:
 
 mrproper:		clean clean-metrics
 			rm -rf $W $(_tmpdir)
+############ 'clean' rules }}} ##########
+
+
+############ {{{ autoconf stuff #########
+%:			%.in
+			@-rm -f $@.tmp $@
+			$(SED) $(SED_EXPR) $< > $@.tmp
+			mv $@.tmp $@
+			chmod a-w $@
 
 $(AUTOCONF_FILES): %:	config.status %.in
 			$(abspath $<)
@@ -315,10 +344,7 @@ $(AUTOCONF_FILES): %:	config.status %.in
 config.status:		$(abs_top_srcdir)/configure
 			$(abspath $@) --recheck
 
-help:			$(abs_top_srcdir)/scripts/make.help
-			@cat $<
-
-.PHONY:			help
+############ autoconf stuff }}} #########
 
 ifeq ($(filter $(MAKEFLAGS),s),)
 _ECHO := echo
