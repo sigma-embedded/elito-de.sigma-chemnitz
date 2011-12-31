@@ -39,3 +39,5 @@ pkg-remove:	${_opkg_conf}
 
 ${_pkgs}:${DEPLOY_DIR_IPK}/%/Packages:	${DEPLOY_DIR_IPK}/%
 	$(_opkg_make_index) -r $@ -p $@ -l $@.filelist -m $<
+	test -e $@	   # ensure that target really exists after this rule
+	touch $@	   # make sure that timestamps are as expected
