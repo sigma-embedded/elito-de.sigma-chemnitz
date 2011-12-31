@@ -1,4 +1,4 @@
-Usage: make <target> [CFG=<cfg>] [<option>=<value>]*
+Usage: make <target> [<option>=<value>]*
 
 Supported targets:
 
