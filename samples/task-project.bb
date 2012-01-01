@@ -13,14 +13,14 @@ SRC_URI = "git://${PROJECT_TOPDIR};protocol=file"
 inherit elito-utils
 inherit task
 
-do_fetch() {
-}
-
-do_unpack() {
-}
-
-do_distribute_sources() {
-}
+do_fetch[noexec] = "1"
+do_unpack[noexec] = "1"
+do_patch[noexec] = "1"
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+do_install[noexec] = "1"
+do_distribute_sources[noexec] = "1"
+do_populate_sysroot[noexec] = "1"
 
 OVERRIDES .= ":initsys-${IMAGE_INIT_MANAGER}"
 

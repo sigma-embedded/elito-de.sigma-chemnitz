@@ -15,14 +15,9 @@ FILES_${PN} = "/"
 # for PROJECT_REVISION
 inherit elito-utils
 
-do_fetch() {
-}
-
-do_unpack() {
-}
-
-do_distribute_sources() {
-}
+do_fetch[noexec] = "1"
+do_unpack[noexec] = "1"
+do_distribute_sources[noexec] = "1"
 
 do_compile() {
         make -C ${FILE_DIRNAME} dist TARBALL=`pwd`/base-files.tar.bz2
