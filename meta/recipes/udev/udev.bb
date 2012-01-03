@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
                     file://extras/gudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
 
 PV	= "173"
-PR	= "r0"
+PR	= "r1"
 
 SRC_URI = "	\
 	http://kernel.org/pub/linux/utils/kernel/hotplug/udev-${PV}.tar.bz2 \
@@ -49,8 +49,9 @@ inherit autotools pkgconfig
 PACKAGES =+ "${PN}-rules-extra"
 PACKAGES =+ "${PN}-rules-base ${PN}-rules-modules ${PN}-rules-persistent ${PN}-rules-ubi \
              ${PN}-mtd ${PN}-firmware ${PN}-keyboard ${PN}-sound ${PN}-keymaps"
+PACKAGES =+ "${PN}-extra"
 PACKAGES += "${PN}-consolekit ${PN}-systemd libudev libgudev ${PN}-fstab-import \
-             ${PN}-rulegen ${PN}-extra ${PN}-pci-db"
+             ${PN}-rulegen ${PN}-pci-db"
 
 PACKAGES_DYNAMIC += "udev-.*-id"
 
@@ -105,6 +106,7 @@ FILES_${PN}-keymaps = "\
 	${_libexecdir}/keymaps"
 
 FILES_${PN}-extra = "\
+	${rules_dir}/*-persistent-net.rules \
 	${_libexecdir}/create_floppy_devices	\
 	${_libexecdir}/collect			\
 	${_libexecdir}/accelerometer		\
@@ -151,7 +153,7 @@ FILES_${PN}-rules-persistent = " \
 	${rules_dir}/*-persistent*.rules \
 	${rules_dir}/*-cd-aliases-generator.rules \
 "
-RRECOMMENDS_${PN}-rules-persistent = "${PN}-path-id ${PN}-usb-id"
+RRECOMMENDS_${PN}-rules-persistent = "${PN}-path-id ${PN}-usb-id ${PN}-ata-id"
 
 FILES_${PN}-rules-modules    = "${rules_dir}/*-drivers.rules"
 RDEPENDS_${PN}-rules-modules = "module-init-tools"
@@ -159,7 +161,7 @@ RDEPENDS_${PN}-rules-modules = "module-init-tools"
 FILES_${PN}-rules-ubi        = "${rules_dir}/*-ubi.rules"
 
 FILES_${PN}-rules-extra      = "${rules_dir}/*.rules"
-RRECOMMENDS_${PN}-rules-extra = "${PN}-usb-id ${PN}-pci-db ${PN}-path-id"
+RRECOMMENDS_${PN}-rules-extra = "${PN}-usb-id ${PN}-pci-db ${PN}-path-id ${PN}-rulegen"
 
 FILES_${PN}-dev             += "/usr/lib/*.so /usr/lib/pkgconfig/*.pc"
 FILES_${PN}-consolekit       = "/usr/lib/ConsoleKit"
