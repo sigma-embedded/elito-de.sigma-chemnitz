@@ -107,7 +107,7 @@ config:			$(CFG_FILES)
 
 init:			bitbake-fetch
 prep:			$(_stampdir)/.prep.stamp Makefile bitbake-validate
-image release-image:	prep
+image release-image:	prep inc-build-num
 
 _image image release-image:
 			$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
@@ -142,7 +142,11 @@ $(W)/Makefile.develcomp:
 help:			$(abs_top_srcdir)/scripts/make.help
 			@cat $<
 
-.PHONY:			help
+inc-build-num:
+			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
+			echo $$(( v + 1 )) > ${W}/build-num
+
+.PHONY:			help inc-build-num
 ###### top level targets }}} ########
 
 

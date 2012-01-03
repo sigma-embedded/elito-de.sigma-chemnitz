@@ -79,6 +79,13 @@ def elito_uri(uri, d):
 	import elito
 	return elito.uri(uri, d)
 
+def elito_build_number(d):
+	try:
+		f = open(os.path.join(d.getVar("TMPDIR", True), "build-num"))
+		return int(f.readline().strip())
+	except:
+		return 0
+
 do_compile_prepend() {
 	export HOME=${WORKDIR}/.home
 }
