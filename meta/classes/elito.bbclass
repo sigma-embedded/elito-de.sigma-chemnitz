@@ -1,4 +1,7 @@
 # --*- python -*--
+
+ELITO_BUILD_NUMBER = "${@elito_build_number(d)}"
+
 def get_filedate(filename):
 	import os, time
 
