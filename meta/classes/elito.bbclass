@@ -1,7 +1,5 @@
 # --*- python -*--
 
-ELITO_BUILD_NUMBER = "${@elito_build_number(d)}"
-
 def get_filedate(filename):
 	import os, time
 
@@ -92,3 +90,6 @@ def elito_build_number(d):
 do_compile_prepend() {
 	export HOME=${WORKDIR}/.home
 }
+
+ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
+ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
