@@ -2,6 +2,7 @@
 /.tmp
 /Makefile
 /bitbake
+/bitbake.lock
 /config.log
 /config.status
 /set-env
