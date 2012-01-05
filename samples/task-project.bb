@@ -2,12 +2,8 @@ DESCRIPTION  = "@PROJECT_NAME@ tasks"
 LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
 
-SRCREV       = "${PROJECT_REVISION}"
-
 PV = "0.1+gitr${SRCPV}"
 PR = "r0"
-
-SRC_URI = "git://${PROJECT_TOPDIR};protocol=file"
 
 # for PROJECT_REVISION
 inherit elito-utils
