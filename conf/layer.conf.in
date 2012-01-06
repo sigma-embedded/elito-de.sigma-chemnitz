@@ -9,3 +9,5 @@ BBFILES += " \
 BBFILE_COLLECTIONS     += "project"
 BBFILE_PATTERN_project := "^${LAYERDIR}"
 BBFILE_PRIORITY_project = "200"
+
+FILESPATHBASE_prepend := "${LAYERDIR}/files/${PN}:${LAYERDIR}/files:"
