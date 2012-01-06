@@ -1,6 +1,6 @@
 # --*- python -*--
 
-METRICS_ID := "${@os.environ['ELITO_METRICS_ID']}"
+METRICS_ID := "${@os.environ.get('ELITO_METRICS_ID',None)}"
 
 python elito_metrics_eventhandler () {
     from bb.event import getName
