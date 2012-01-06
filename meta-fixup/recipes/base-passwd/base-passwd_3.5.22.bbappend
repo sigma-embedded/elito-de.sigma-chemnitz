@@ -1,3 +1,5 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}:"
+
 SRC_URI += "\
   file://elito-passwd.patch \
   file://passwd-hash.c \

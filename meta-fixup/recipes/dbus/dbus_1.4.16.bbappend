@@ -1,3 +1,5 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 SRC_URI += "\
 	file://create-machine-uuid \
 	file://machine-id.patch \

@@ -1,3 +1,5 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}:"
+
 SRC_URI += "\
   file://dev-name.patch \
   file://calibrate-eol.patch \

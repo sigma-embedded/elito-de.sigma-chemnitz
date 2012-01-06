@@ -1,3 +1,5 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 SRC_URI += " \
 	file://elito-directory.patch \
         file://cvt-color.patch \
