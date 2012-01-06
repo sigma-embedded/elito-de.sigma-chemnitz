@@ -2,7 +2,7 @@ _elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 
 DESCRIPTION      = "ELiTo Linux kernel"
 SECTION          = "kernel"
-LICENSE          = "GPL"
+LICENSE          = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 PR               = "r12"
