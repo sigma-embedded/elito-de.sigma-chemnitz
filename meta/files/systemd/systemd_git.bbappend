@@ -16,6 +16,7 @@ do_install_append() {
 
 python populate_packages_prepend () {
 	pkg_info = {
+	'binfmt' : ['systemd-binfmt.service'],
 	'remount-rootfs' : ['remount-rootfs.service'],
 	'swap' : ['swap.target'],
 	'cryptsetup' : ['cryptsetup.target'],
@@ -26,6 +27,11 @@ python populate_packages_prepend () {
                            'systemd-ask-password-wall.path']
 	}
 
+        xtra_paths = {
+        'binfmt' : ['${base_libdir}/systemd/systemd-binfmt',
+                    '${libdir}/binfmt.d'],
+        }
+
 	pkgs = ''
 	pn = bb.data.getVar('PN', d, 1)
 	for (_p,i) in pkg_info.items():
@@ -34,6 +40,9 @@ python populate_packages_prepend () {
                             '${base_libdir}/systemd/system/%s' % x, i)
 		files += map(lambda x:
                             '${base_libdir}/systemd/system/*/%s' % x, i)
+		files += map(lambda x:
+                             x, (xtra_paths.get(_p) or []))
+
 		pkgs = pkgs + ' ' + p
 
 		bb.data.setVar('FILES_' + p, ' '.join(files), d)
