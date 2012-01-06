@@ -6,5 +6,6 @@ BBLAYERS := "\
        ${PROJECT_TOPDIR} \
        ${ELITO_ROOTDIR}/de.sigma-chemnitz/meta \
        ${ELITO_ROOTDIR}/de.sigma-chemnitz/meta-backports \
+       ${ELITO_ROOTDIR}/de.sigma-chemnitz/meta-fixup \
        @LAYER_DEFINITIONS@ \
 "
