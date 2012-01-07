@@ -1,12 +1,4 @@
-_o = "${OEMETA_TOPDIR}/meta-oe/recipes-support/pxaregs"
-
-PV = "1.14"
-require ${_o}/pxaregs_${PV}.bb
-
-PE = "1"
-DEFAULT_PREFERENCE = "99"
-
-FILESPATHBASE_append = ":${_o}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
 	file://misc.patch \
