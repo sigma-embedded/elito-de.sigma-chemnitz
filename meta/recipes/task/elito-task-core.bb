@@ -54,7 +54,7 @@ RDEPENDS_${PN} =+ " \
 #
 RDEPENDS_${PN} += "\
     elito-task-boot			\
-    ${@base_contains('MACHINE_FEATURES', 'ubifs', 'mtd-utils-ubi-tools', '', d)} \
+    ${@base_contains('MACHINE_FEATURES', 'ubifs', 'mtd-utils', '', d)} \
     ${@base_contains('MACHINE_FEATURES', 'keyboard', 'keymaps', '', d)} \
     ${IMAGE_INITSCRIPTS}		\
     ${EXTRA_DEV_RULES}			\

@@ -20,5 +20,3 @@ RRECOMMENDS_kernel-module-usb-storage_append = " kernel-module-sd-mod"
 
 RRECOMMENDS_i2c-tools_append		= " kernel-module-i2c-dev"
 RRECOMMENDS_udev-rules-base_append	= " udev-rules-ubi"
-RRECOMMENDS_mtd-utils-ubi-tools_append	= " \
-        mtd-utils-flash-tools mtd-utils-nand-tools"
