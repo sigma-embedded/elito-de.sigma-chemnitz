@@ -1,5 +1,9 @@
-PV		= "0.2+gitr${SRCPV}"
-PR		= "r9"
+_pv = "0.2"
+PR = "r10"
+
+PV = "${_pv}+gitr${SRCPV}"
+PKGV = "${_pv}+gitr${GITPKGV}"
+
 LICENSE		= "GPLv3"
 LICENSE		= "unknown"
 PACKAGE_ARCH	= "all"
@@ -22,14 +26,16 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
 "
 
-SRCREV          = "c8958f5de9a8a2fa590ab9e5641fe16ec044c200"
+SRCREV          = "a2995d38c234e3d767df7223d84a0f33a1a24997"
 
 SRC_URI = "\
-	git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git \
+	git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git \
 	http://www.otit.fi/~crope/v4l-dvb/af9015/af9015_firmware_cutter/firmware_files/4.95.0/dvb-usb-af9015.fw;name=af9015 \
 	http://people.freedesktop.org/~pq/nouveau-drm/nouveau-firmware-20091212.tar.gz;name=nvfw \
 	http://ilpss8.dyndns.org/dvb-usb-tt-s2400-01.fw;name=tts2400 \
 "
+
+inherit gitpkgv
 
 SRC_URI[af9015.md5sum] = "dccbc92c9168cc629a88b34ee67ede7b"
 SRC_URI[af9015.sha256sum] = "a0ae064c3acef212172f13317d627492d0ed3c0a43f3634821b33a00fbf99621"
@@ -51,12 +57,15 @@ do_install() {
         ${D}/lib/firmware/libertas ${D}/lib/firmware/rtlwifi
 
     install -p -m 0644 ath3k*.fw ${WORKDIR}/*.fw  ${D}/lib/firmware/
+    install -p -m 0644 rt*.bin ${D}/lib/firmware/
     install -p -m 0644 libertas/*.bin ${D}/lib/firmware/libertas/
     install -p -m 0644 rtlwifi/*.bin ${D}/lib/firmware/rtlwifi/
     install -p -m 0644 ../nouveau/*.ctxprog ../nouveau/*.ctxvals ${D}/lib/firmware/nouveau/
 }
 
 _pkginfo = "{ \
+        'libertas-lbtf-sdio' : [ 'libertas/lbtf_sdio*' ], \
+        'libertas-cf8381'    : [ 'libertas/cf8381*' ], \
         'libertas-cf8385'    : [ 'libertas/cf8385*' ], \
         'libertas-gspi8682'  : [ 'libertas/gspi8682*' ], \
         'libertas-gspi8686-v9' : [ 'libertas/gspi8686_v9*' ], \
@@ -66,12 +75,22 @@ _pkginfo = "{ \
         'libertas-sd8686-v8' : [ 'libertas/sd8686_v8*' ], \
         'libertas-sd8686-v9' : [ 'libertas/sd8686_v9*' ], \
         'libertas-sd8688'    : [ 'libertas/sd8688*' ], \
+        'libertas-usb8388-olpc' : [ 'libertas/usb8388_olpc*' ], \
         'libertas-usb8388-v5' : [ 'libertas/usb8388_v5*' ], \
         'libertas-usb8388-v9' : [ 'libertas/usb8388_v9*' ], \
         'libertas-usb8682'   : [ 'libertas/usb8682*' ], \
         'dvb-usb-af9015'     : [ 'dvb-usb-af9015.fw' ], \
         'dvb-usb-tt-s2400'   : [ 'dvb-usb-tt-s2400-01.fw' ], \
         'nouveau'            : [ 'nouveau/' ], \
+        'rt2561'             : [ 'rt2561.bin' ], \
+        'rt2561s'            : [ 'rt2561s.bin' ], \
+        'rt2661'             : [ 'rt2661.bin' ], \
+        'rt2860'             : [ 'rt2860.bin' ], \
+        'rt2870'             : [ 'rt2870.bin' ], \
+        'rt3070'             : [ 'rt3070.bin' ], \
+        'rt3071'             : [ 'rt3071.bin' ], \
+        'rt3090'             : [ 'rt3090.bin' ], \
+        'rt73'               : [ 'rt73.bin' ], \
         'rtl8192cfw'         : [ 'rtlwifi/rtl8192cfw*' ], \
         'rtl8192cufw'        : [ 'rtlwifi/rtl8192cufw*' ], \
         'rtl8192defw'        : [ 'rtlwifi/rtl8192defw*' ], \
