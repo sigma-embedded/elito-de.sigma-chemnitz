@@ -6,6 +6,7 @@ GCCVERSION = "${@elito_base_switch(d, 'TARGET_CPU',   \
 
 LINUXLIBCVERSION = "${MACHINE_KERNEL_VERSION}"
 BINUVERSION = "2.22%"
+EGLIBCVERSION = "2.15"
 
 PREFERRED_VERSION_uclibc                 ?= "git"
 PREFERRED_VERSION_uclibc-initial         ?= "${PREFERRED_VERSION_uclibc}"
