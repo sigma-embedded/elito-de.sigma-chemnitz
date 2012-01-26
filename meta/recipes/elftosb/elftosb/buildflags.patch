@@ -1,7 +1,7 @@
-Index: elftosb-10.12.01/makefile.rules
+Index: elftosb-11.09.01/makefile.rules
 ===================================================================
---- elftosb-10.12.01.orig/makefile.rules
-+++ elftosb-10.12.01/makefile.rules
+--- elftosb-11.09.01.orig/makefile.rules
++++ elftosb-11.09.01/makefile.rules
 @@ -40,7 +40,8 @@ INC_PATH =                      \
  # gcc Compiler flags
  #    -g						: Produce debugging information.
@@ -12,16 +12,15 @@ Index: elftosb-10.12.01/makefile.rules
  
  #*******************************************************************************
  #                               File lists
-@@ -100,7 +101,7 @@ OBJ_FILES_KEYGEN =			\
- 	${OBJ_FILES_COMMON} \
+@@ -101,6 +102,7 @@ OBJ_FILES_KEYGEN =			\
  	keygen.o
  
--
+ 
 +CXX = g++
- LIBS =     -lstdc++
+ LIBS =     -lstdc++ -lm
  
  
-@@ -137,13 +138,13 @@ clean:
+@@ -137,13 +139,13 @@ clean:
  		${EXEC_FILE_ELFTOSB2} ${EXEC_FILE_SBTOOL} ${EXEC_FILE_KEYGEN}
  
  elftosb: ${OBJ_FILES_ELFTOSB2}
@@ -38,7 +37,7 @@ Index: elftosb-10.12.01/makefile.rules
  
  
  #ifeq ("${UNAMES}", "Linux")
-@@ -153,10 +154,10 @@ keygen: ${OBJ_FILES_KEYGEN}
+@@ -153,10 +155,10 @@ keygen: ${OBJ_FILES_KEYGEN}
  .SUFFIXES : .c .cpp
  
  .c.o :

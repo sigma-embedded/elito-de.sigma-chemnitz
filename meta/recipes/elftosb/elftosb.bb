@@ -3,16 +3,15 @@ DESCRIPTION = "Tool to convert ELF format executable files and other source file
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://COPYING;md5=172ede34353056ebec7a597d8459f029"
 
-#PV = "2.6.1"
-PV = "10.12.01"
+PV = "11.09.01"
 
 SRC_URI = " \
 	http://foss.doredevelopment.dk/mirrors/imx/elftosb-${PV}.tar.gz \
 	file://buildflags.patch \
 "
 
-SRC_URI[md5sum] = "e8005d606c1e0bb3507c82f6eceb3056"
-SRC_URI[sha256sum] = "77bb6981620f7575b87d136d94c7daa88dd09195959cc75fc18b138369ecd42b"
+SRC_URI[md5sum] = "10deccaf1af9e9d396ffbf51e7d320c0"
+SRC_URI[sha256sum] = "78e91fb9c3d0ec2c030f2ec2554bafe14c6723879a9649222bb3b92ea0952c33"
 
 S = "${WORKDIR}/elftosb-${PV}"
 
