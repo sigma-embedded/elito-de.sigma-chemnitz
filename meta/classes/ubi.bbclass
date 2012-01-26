@@ -1,16 +1,16 @@
 def ubi_get_nand_leb_size(d):
 	import bb
-	bsize = int(bb.data.getVar('NAND_BLOCKSIZE', d, 1),0)
-	psize = int(bb.data.getVar('NAND_PAGESIZE',  d, 1),0)
+	bsize = int(d.getVar('NAND_BLOCKSIZE', True),0)
+	psize = int(d.getVar('NAND_PAGESIZE',  True),0)
 	return bsize - 2*psize
 
 def ubi_gen_ini_data(info_name,d):
 	import bb
 	import os.path
 
-	deploy_dir = bb.data.getVar('DEPLOY_DIR', d, 1)
-	space	   = bb.data.getVar('FLASH_SIZE', d, 1)
-	info	   = bb.data.getVar(info_name, d, 1)
+	deploy_dir = d.getVar('DEPLOY_DIR', True)
+	space	   = d.getVar('FLASH_SIZE', True)
+	info	   = d.getVar(info_name, True)
 
 	if not info:
 		return ""
@@ -33,7 +33,7 @@ def ubi_gen_ini_data(info_name,d):
 
 def ubi_byte_to_leb(var_name, d):
 	import bb
-	src = int(bb.data.getVar(var_name, d), 0)
+	src = int(d.getVar(var_name, True), 0)
 	return src/ubi_get_nand_leb_size(d)
 
 ubi_gen_ini() {
