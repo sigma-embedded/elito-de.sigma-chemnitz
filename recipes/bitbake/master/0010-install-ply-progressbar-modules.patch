@@ -1,27 +1,28 @@
-From 14c61b57d62af6c835d97af8d87ef3e870d66611 Mon Sep 17 00:00:00 2001
+From 055637489de023532d9f8032b779b45739fe8fc0 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:48 +0200
 Subject: [PATCH 10/12] install ply + progressbar modules
 
 ---
- setup.py |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ setup.py |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index 6503494..1b2ac01 100755
+index 7814852..fa0c85b 100755
 --- a/setup.py
 +++ b/setup.py
-@@ -54,8 +54,8 @@ setup(name='bitbake',
-       requires = ["ply", "progressbar"],
+@@ -54,8 +54,9 @@ setup(name='bitbake',
+       requires = ["ply", "progressbar", "futures"],
        package_dir = {"": "lib"},
        packages = ["bb.server", "bb.parse.parse_py", "bb.parse", "bb.fetch",
--                  "bb.fetch2", "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb"],
+-                  "bb.fetch2", "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb", "prserv"],
 -      py_modules = ["codegen"],
-+                  "bb.fetch2", "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb", "ply"],
++                  "bb.fetch2", "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb", "prserv",
++                  "ply", "concurrent", "concurrent.futures"],
 +      py_modules = ["codegen", "progressbar"],
-       scripts = ["bin/bitbake", "bin/bitbake-layers", "bin/bitbake-diffsigs"],
+       scripts = ["bin/bitbake", "bin/bitbake-layers", "bin/bitbake-diffsigs", "bin/bitbake-prserv"],
        data_files = [("share/bitbake", glob("conf/*") + glob("classes/*")),
                    ("share/doc/bitbake-%s/manual" % __version__, glob("doc/manual/html/*"))],
 -- 
-1.7.7.4
+1.7.7.5
 
