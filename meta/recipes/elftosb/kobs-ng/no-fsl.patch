@@ -1,0 +1,36 @@
+Index: kobs-ng-10.12.01/src/mtd.c
+===================================================================
+--- kobs-ng-10.12.01.orig/src/mtd.c
++++ kobs-ng-10.12.01/src/mtd.c
+@@ -443,8 +443,7 @@ int parse_nfc_geometry(struct mtd_data *
+ 	//----------------------------------------------------------------------
+ 
+ 	if (!(node = fopen(nfc_geometry_node_path, "r"))) {
+-		fprintf(stderr, "Cannot open NFC geometry node: \"%s\"", nfc_geometry_node_path);
+-		return !0;
++		goto failure;
+ 	}
+ 
+ 	//----------------------------------------------------------------------
+@@ -529,9 +528,19 @@ int parse_nfc_geometry(struct mtd_data *
+ 
+ failure:
+ 
+-	fprintf(stderr, "Could not parse the NFC geometry\n");
++	fprintf(stderr, "Could not parse the NFC geometry; assuming defaults\n");
+ 
+-	return !0;
++	md->nfc_geometry.page_size_in_bytes = 2048 + 64;
++	md->nfc_geometry.metadata_size_in_bytes = 10;
++	md->nfc_geometry.ecc_chunk_size_in_bytes = 512;
++	md->nfc_geometry.ecc_chunk_count = 4;
++	md->nfc_geometry.block_mark_byte_offset = 
++		md->nfc_geometry.page_size_in_bytes -
++		md->nfc_geometry.metadata_size_in_bytes;
++	md->nfc_geometry.block_mark_bit_offset = 
++		md->nfc_geometry.block_mark_byte_offset * 8;
++
++	return 0;
+ 
+ }
+ 
