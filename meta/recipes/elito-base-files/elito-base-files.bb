@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r16"
+PR		= "r17"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
@@ -15,6 +15,7 @@ SRC_URI = "	\
 	file://sysctl.conf		\
 	file://interfaces		\
 	file://licenses			\
+	file://profile			\
 "
 
 RELEASE_FILES_PROVIDER ?= "elito-release"
@@ -28,7 +29,7 @@ do_install() {
 	cd ${WORKDIR}
 	mkdir -p ${D}${sysconfdir} ${D}${datadir}/doc/
 
-	for i in hosts nsswitch.conf sysctl.conf; do
+	for i in hosts nsswitch.conf sysctl.conf profile; do
 		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
 

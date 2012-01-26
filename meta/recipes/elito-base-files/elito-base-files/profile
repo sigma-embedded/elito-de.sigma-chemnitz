@@ -1,0 +1,50 @@
+#! /bin/sh
+
+pathmunge () {
+    case ":${PATH}:" in
+      *:"$1":*)
+	    ;;
+      *)
+	    if test "$2" = "after"; then
+		PATH=$PATH:$1
+	    else
+		PATH=$1:$PATH
+	    fi
+	    ;;
+    esac
+}
+
+if tty > /dev/null; then
+    eval `/usr/bin/resize`
+fi
+
+if test -z "$EUID"; then
+    if test -x "/usr/bin/id"; then
+	EUID=`/usr/bin/id -u`
+	UID=`/usr/bin/id -ru`
+    fi
+fi
+
+if test x"$EUID" = x0; then
+    pathmunge /sbin
+    pathmunge /usr/sbin
+    pathmunge /usr/local/sbin
+fi
+
+if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then
+    umask 002
+else
+    umask 022
+fi
+
+for i in /etc/profile.d/*.sh; do
+    test -r "$i" || continue
+    if test x"${-#*i}" != x"$-"; then 
+        . "$i"
+    else
+        . "$i" >/dev/null 2>&1
+    fi
+done
+
+unset i
+unset pathmunge
