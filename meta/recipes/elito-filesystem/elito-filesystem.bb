@@ -1,7 +1,7 @@
 DESCRIPTION	= "Base file system structure."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r12"
+PR		= "r13"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "all"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
@@ -12,7 +12,7 @@ do_install() {
 		install -d -m 0755 ${D}/${i}
 	done
 
-	for i in tmpfiles.d modules.d pki pki/elito; do
+	for i in tmpfiles.d modules.d profile.d pki pki/elito; do
 		install -d -m 0755 ${D}/etc/$i
 	done
 
