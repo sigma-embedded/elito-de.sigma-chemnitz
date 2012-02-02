@@ -26,7 +26,9 @@ python populate_packages_prepend () {
                     'dbus-org.freedesktop.login1.service'],
 	'vconsole' : ['systemd-vconsole-setup.service'],
         'user-sessions' : ['systemd-user-sessions.service',
-                           'systemd-ask-password-wall.path']
+                           'systemd-ask-password-wall.path'],
+        'random-seed' : ['systemd-random-seed-load.service',
+                         'systemd-random-seed-save.service'],
 	}
 
         xtra_paths = {
