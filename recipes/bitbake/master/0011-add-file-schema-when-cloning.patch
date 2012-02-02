@@ -1,4 +1,4 @@
-From d181c566bf9fae892ff330275e1be1ceae52d9ad Mon Sep 17 00:00:00 2001
+From ccb12e26fa72881959f7411fee2e113418b6cf50 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 14:14:09 +0200
 Subject: [PATCH 11/12] add file:// schema when cloning
@@ -10,18 +10,18 @@ Command will fail else when clonedir contains a ':' (e.g. in
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index f203c5a..3ad9db3 100644
+index fb0260a..ace42d7 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
 @@ -220,7 +220,7 @@ class Git(FetchMethod):
          if os.path.exists(destdir):
              bb.utils.prunedir(destdir)
  
--        runfetchcmd("git clone -s -n %s %s" % (ud.clonedir, destdir), d)
-+        runfetchcmd("git clone -s -n file://%s %s" % (ud.clonedir, destdir), d)
+-        runfetchcmd("git clone -s -n %s/ %s" % (ud.clonedir, destdir), d)
++        runfetchcmd("git clone -s -n file://%s/ %s" % (ud.clonedir, destdir), d)
          if not ud.nocheckout:
              os.chdir(destdir)
              if subdir != "":
 -- 
-1.7.7.4
+1.7.7.6
 
