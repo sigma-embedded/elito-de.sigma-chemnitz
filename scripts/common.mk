@@ -106,13 +106,13 @@ release-image release-build:		export W=release-${_gitdate}
 config:			$(CFG_FILES)
 
 init:			bitbake-fetch
-prep:			$(_stampdir)/.prep.stamp Makefile bitbake-validate
-image release-image:	prep inc-build-num
+prep:			$(_stampdir)/.prep.stamp Makefile | bitbake-validate
+image release-image:	FORCE prep inc-build-num
 
 _image image release-image:
 			$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
 
-build release-build:
+build release-build:	FORCE
 ifeq (${R},)
 			@{ \
 			echo "***" ; \
@@ -124,10 +124,10 @@ endif
 			$(call _call_cmd,$(BITBAKE) -b $(R) $(BO),>$(R)<)
 
 pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell: \
-			$(W)/Makefile.develcomp
+			$(W)/Makefile.develcomp FORCE
 			$(SECWRAP_CMD) env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
-find-dups:		init
+find-dups:		FORCE init
 			./bitbake -l Collection -c find_dups $(TARGETS)
 
 $(W)/Makefile.develcomp:
@@ -139,14 +139,13 @@ $(W)/Makefile.develcomp:
 			} >&2
 			@false
 
-help:			$(abs_top_srcdir)/scripts/make.help
+help:			FORCE $(abs_top_srcdir)/scripts/make.help
 			@cat $<
 
-inc-build-num:
+inc-build-num:		FORCE
 			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
 			echo $$(( v + 1 )) > ${W}/build-num
 
-.PHONY:			help inc-build-num
 ###### top level targets }}} ########
 
 
@@ -172,14 +171,14 @@ _space_check =			${ELITO_STATVFS} '${abs_top_builddir}/${W}'
 config:			bitbake-validate
 
 bitbake-fetch:		$(_stampdir)/.bitbake.stamp
-bitbake-clean:
+bitbake-clean:		FORCE
 			rm -rf $(_tmpdir)/bitbake $(_bitbake_root)
 			rm -f $(_stampdir)/.bitbake.*
 ifeq ($(ELITO_OFFLINE),)
 			rm -f $(_bitbake-bundle)
 endif
 
-bitbake-validate:	| $(_stampdir)/.bitbake.fetch.stamp
+bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			@f=$(_stampdir)/.bitbake.fetch.stamp; \
 			test ! -e "$$f" || { \
 			v=$$(cat $$f); test x"$$v" = x${_bitbake_rev}/${_bitbake_rev_r}; } || { \
@@ -195,7 +194,7 @@ bitbake-validate:	| $(_stampdir)/.bitbake.fetch.stamp
 $(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR):
 			mkdir -p $@
 
-$(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp
+$(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp | bitbake-validate
 			$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
@@ -349,6 +348,9 @@ config.status:		$(abs_top_srcdir)/configure
 			$(abspath $@) --recheck
 
 ############ autoconf stuff }}} #########
+
+FORCE:
+.PHONY:		FORCE
 
 ifeq ($(filter $(MAKEFLAGS),s),)
 _ECHO := echo
