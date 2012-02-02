@@ -7,10 +7,13 @@ case $_w in
 esac
 
 _s=$_w/sysroots/`uname -m`-linux
+: ${PYTHON:=@PYTHON@}
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=$_w/cache/ccache
 BBPATH=@abs_top_builddir@
 ELITO_METRICS_ID=$$
+ELITO_PROJECT_NAME='@PROJECT_NAME@'
+ELITO_SCRIPTS_DIR='@abs_top_srcdir@/scripts'
 
 
 for i in "${!_@}" \
