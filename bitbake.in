@@ -62,4 +62,4 @@ case x$PSEUDO_BUILD in
 esac
 
 @INSTALL@ -d -m 0775 "$CCACHE_DIR"
-exec @SECWRAP_CMD@ $_p @PYTHON@ @BITBAKE@ "$@"
+exec @SECWRAP_CMD@ $_p $PYTHON @BITBAKE@ "$@"
