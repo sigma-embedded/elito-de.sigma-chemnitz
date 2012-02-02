@@ -12,7 +12,7 @@ SRCREV   = "${AUTOREV}"
 KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
 _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 
-SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
+SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=refs/heads/${_branch}"
 S            = "${WORKDIR}/git"
 
 EXTRA_OEMAKE_prepend = "-f ${_gen_mf} _secwrap= "
