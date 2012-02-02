@@ -61,5 +61,7 @@ case x$PSEUDO_BUILD in
 	;;
 esac
 
+@ENABLE_CGROUPS_TRUE@$ELITO_SCRIPTS_DIR/exec-cgroup "elito_$ELITO_PROJECT_NAME" $$
+
 @INSTALL@ -d -m 0775 "$CCACHE_DIR"
 exec @SECWRAP_CMD@ $_p $PYTHON @BITBAKE@ "$@"

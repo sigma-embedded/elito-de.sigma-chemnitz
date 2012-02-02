@@ -1,0 +1,22 @@
+#! /bin/bash
+
+CGDIR=/sys/fs/cgroup
+CNAME=$1
+shift
+
+test -d "$CGDIR" || exit 0
+test -r /proc/self/cgroup || exit 0
+
+while read; do
+    case $REPLY in
+      (1:name=systemd:*)
+      tmp=${REPLY##1:name=systemd:}
+      
+      ldir=$CGDIR/systemd/$tmp/$CNAME
+      mkdir -p $ldir || exit 1
+      for i; do
+	  echo $i > $ldir/tasks
+      done
+      ;;
+    esac
+done < /proc/self/cgroup
