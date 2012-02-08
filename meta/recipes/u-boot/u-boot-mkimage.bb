@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4c6cde5df68eff615d36789dc18edd3b"
 
 PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
+DEPENDS = "elito-makefile"
 
 include u-boot-common.inc
 
@@ -17,7 +18,6 @@ _make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
 	CFG_KERNEL_UART=${UBOOT_CONSOLE} \
 	CFG_KERNEL_BAUD=${UBOOT_BAUD}"
 
-do_configure[depends] = "elito-develcomp:do_setup_makefile"
 do_configure() {
 	cat << EOF >>config.mk
 HOSTCFLAGS += \$(BUILD_CFLAGS)

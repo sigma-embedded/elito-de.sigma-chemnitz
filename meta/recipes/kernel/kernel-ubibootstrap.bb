@@ -44,8 +44,6 @@ DEPENDS += " \
 	virtual/${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} \
 "
 
-_gen_mf = "${S}/mf"
-
 inherit kernel-arch
 include elito-kernel.inc
 

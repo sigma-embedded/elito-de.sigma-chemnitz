@@ -15,74 +15,18 @@ _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=refs/heads/${_branch}"
 S            = "${WORKDIR}/git"
 
-EXTRA_OEMAKE_prepend = "-f ${_gen_mf} _secwrap= "
+EXTRA_OEMAKE_prepend = "-f '${TMPDIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_tftp_image}'"
 
 KERNEL_DEPENDS ?= ""
 
 do_fetch[depends] += "linux-libc-headers:do_fetch"
 
 DEPENDS += '\
+	kernel-makefile \
 	${KERNEL_DEPENDS} \
 	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native","",d)} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","virtual/u-boot-mkimage-native","",d)}'
-
-## Use this indirect assignment to allow recipes which are including
-## this rules to define and use their own _gen_mf makefile.
-_gen_mf         ?= "${TMPDIR}/Makefile.kernel"
-
-do_generate_makefile[depends] = "gcc-cross:do_populate_sysroot"
-do_generate_makefile() {
-	gc=`${WHICH} ${CROSS_COMPILE}gcc`
-	gc=${gc%%gcc}
-	dn=`dirname "$gc"`
-	gc=`basename "$gc"`
-
-	rm -f "${_gen_mf}"
-	cat << EOF | sed -e 's![[:space:]]*$!!' > "${_gen_mf}"
-## --*- makefile -*--
-_cc = ${KERNEL_CC}
-_ld = ${KERNEL_LD}
-_secwrap = ${SECWRAP_CMD}
-
-export PATH = ${PATH}
-export CCACHE_DIR = ${CCACHE_DIR}
-export CC = \$(_cc)
-export LD = \$(_ld)
-export CROSS_COMPILE = ${CROSS_COMPILE}
-export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
-export ARCH = ${ARCH}
-
-KERNEL_SIZE = ${KERNEL_SIZE}
-_flash_filename = ${_tftp_image}
-_bad_env = CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-
-_build_cmd = \\
-            +env \$(addprefix -u ,\$(_bad_env)) PATH=\$(PATH) \\
-            \$(MAKE) MAKELEVEL=0 CC='\$(_cc)' LD='\$(_ld)' \\
-            \$(if \$(_flash_filename),FLASH_FILENAME='\$(_flash_filename)') \\
-            \$(if \$(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=\$(KERNEL_SIZE)') \\
-            $(_secwrap)
-
-%:
-	\$(_build_cmd) \$@
-
-include/linux/version.h:
-	\$(_build_cmd) \$@
-
-exec:
-	\$(_secwrap) \$(P)
-
-unexport _secwrap
-unexport MAKEFILES
-unexport MAKELEVEL
-.DEFAULT_GOAL := all
-.PHONY:	include/linux/version.h exec
-EOF
-
-        # make it read-only
-        chmod a-w "${_gen_mf}"
-}
 
 _configdebug-opts='\
   SHIRQ OBJECTS OBJECTS_FREE OBJECTS_WORK OBJECTS_RCU_HEAD \
@@ -156,7 +100,7 @@ do_uboot_mkimage() {
 
         if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
-                        oe_runmake arnoldboot-$i _flash_filename=${KERNEL_OUTPUT}-$i
+                        oe_runmake arnoldboot-$i TFTP_IMAGE=${KERNEL_OUTPUT}-$i
                 done
 		have_tftp_image=false
         elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
@@ -214,9 +158,6 @@ def kernel_maxsize(mtdsize_var, xtra, d):
 		return "%s" % (int(mtdsize) - xtra)
         else:
 		return ""
-
-do_generate_makefile[dirs] = "${ELITO_GIT_WS}"
-addtask generate_makefile before do_configure after do_unpack
 
 do_compile_prepare[dirs] = "${S}"
 addtask compile_prepare before do_compile after do_configure
