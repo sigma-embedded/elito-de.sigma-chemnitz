@@ -15,7 +15,14 @@ TERMCMD			 = "${XTERM_TERMCMD}"
 IMAGE_KEEPROOTFS	 = 1
 
 # Uncomment this to reduce disk space
-#USER_CLASSES		= "rm_work"
+USER_CLASSES		= "rm_work"
+USER_CLASSES		+= "image-prelink"
+
+# The EXTRA_IMAGE_FEATURES variable allows extra packages to be added
+# to the generated
+EXTRA_IMAGE_FEATURES	 = " \
+  debug-tweaks tools-debug package-management ssh-server-dropbear \
+  apps-console-core"
 
 # So far, angstrom.conf sets ENABLE_BINARY_LOCALE_GENERATION
 # to generate binary locale packages at build time using qemu-native and
