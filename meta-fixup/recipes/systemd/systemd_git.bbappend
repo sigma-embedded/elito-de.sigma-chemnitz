@@ -29,6 +29,8 @@ python populate_packages_prepend () {
                            'systemd-ask-password-wall.path'],
         'random-seed' : ['systemd-random-seed-load.service',
                          'systemd-random-seed-save.service'],
+        'binfmt' : ['proc-sys-fs-binfmt_misc.mount',
+                    'proc-sys-fs-binfmt_misc.automount'],
 	}
 
         xtra_paths = {
