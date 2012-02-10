@@ -31,11 +31,6 @@ EXTRA_DEV_RULES_append_udev = " ${@base_contains('MACHINE_FEATURES','modules','u
 #
 IMAGE_INIT_MANAGER ?= "upstart"
 
-#
-# tinylogin, getty
-#
-IMAGE_LOGIN_MANAGER ?= "tinylogin"
-
 PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
 
@@ -59,7 +54,6 @@ RDEPENDS_${PN} += "\
     ${IMAGE_INITSCRIPTS}		\
     ${EXTRA_DEV_RULES}			\
     ${IMAGE_INIT_MANAGER}		\
-    ${IMAGE_LOGIN_MANAGER}		\
     ${PROJECT_EXTRA_RDEPENDS}		\
     ${_DEV_MANAGER_DEPS}		\
     "
