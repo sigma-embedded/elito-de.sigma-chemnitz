@@ -20,6 +20,9 @@ XTRA_GOALS += modules modules_install _all
 ifdef KERNEL_BOOT_VARIANT
 LOCALGOALS += tftp tftp-m
 
+override _k_all_target =
+
+tftp-m:	_k_all_target=_all
 tftp-m:	tftp
 	+$(_build_cmd) modules_install
 
