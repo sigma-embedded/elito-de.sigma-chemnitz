@@ -9,6 +9,9 @@ Supported targets:
   build R=<recipe>  ...
                      build the recipe <recipe>
 
+  fetchall ......... like 'make image' but fetch only the sources but
+                     do not build
+
   shell ............ starts a shell with an environment allowing easy
                      access to the cross tools
 

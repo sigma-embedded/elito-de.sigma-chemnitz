@@ -139,6 +139,12 @@ $(W)/Makefile.develcomp:
 			} >&2
 			@false
 
+fetch-all fetchall:	FORCE prep
+                        ## call it twice; first step might fail when
+                        ## downloading git sources from http mirrors
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources)
+
 help:			FORCE $(abs_top_srcdir)/scripts/make.help
 			@cat $<
 
