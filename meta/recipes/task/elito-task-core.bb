@@ -34,8 +34,10 @@ IMAGE_INIT_MANAGER ?= "upstart"
 PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
 
+MACHINE_EXTRA_DEPENDS ?= ""
+
 # Make sure we build the kernel
-DEPENDS = "elito-task-boot"
+DEPENDS = "elito-task-boot ${MACHINE_EXTRA_DEPENDS}"
 
 _DEV_MANAGER_DEPS_udev += "udev"
 _DEV_MANAGER_DEPS_mdev += "busybox elito-mdev-conf"
