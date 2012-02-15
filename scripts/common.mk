@@ -139,7 +139,7 @@ $(W)/Makefile.develcomp:
 			} >&2
 			@false
 
-fetch-all fetchall:	FORCE Makefile | bitbake-validate
+fetch-all fetchall:	FORCE init | bitbake-validate
                         ## call it twice; first step might fail when
                         ## downloading git sources from http mirrors
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
