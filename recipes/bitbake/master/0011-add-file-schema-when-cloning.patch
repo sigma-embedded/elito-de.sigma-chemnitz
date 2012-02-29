@@ -10,15 +10,15 @@ Command will fail else when clonedir contains a ':' (e.g. in
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index fb0260a..ace42d7 100644
+index 4e46ec8..bbfbd24 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
-@@ -220,7 +220,7 @@ class Git(FetchMethod):
-         if os.path.exists(destdir):
-             bb.utils.prunedir(destdir)
+@@ -235,7 +235,7 @@ class Git(FetchMethod):
+         if ud.bareclone:
+             cloneflags += " --mirror"
  
--        runfetchcmd("git clone -s -n %s/ %s" % (ud.clonedir, destdir), d)
-+        runfetchcmd("git clone -s -n file://%s/ %s" % (ud.clonedir, destdir), d)
+-        runfetchcmd("git clone %s %s/ %s" % (cloneflags, ud.clonedir, destdir), d)
++        runfetchcmd("git clone %s file://%s/ %s" % (cloneflags, ud.clonedir, destdir), d)
          if not ud.nocheckout:
              os.chdir(destdir)
              if subdir != "":

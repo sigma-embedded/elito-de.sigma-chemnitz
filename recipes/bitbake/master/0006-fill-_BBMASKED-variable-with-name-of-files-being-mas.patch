@@ -9,10 +9,10 @@ Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
  1 files changed, 15 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index a3b90b5..2674d66 100644
+index 5792f9e..9492339 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -1290,9 +1290,12 @@ class BBCooker:
+@@ -1353,9 +1353,12 @@ class BBCooker:
  
          bbfiles = []
          bbappend = []
@@ -26,7 +26,7 @@ index a3b90b5..2674d66 100644
                  masked += 1
                  continue
              if f.endswith('.bb'):
-@@ -1322,6 +1325,11 @@ class BBCooker:
+@@ -1385,6 +1388,11 @@ class BBCooker:
                  topfile = bbfile_seen[base]
                  self.overlayed[topfile].append(f)
  
@@ -38,9 +38,9 @@ index a3b90b5..2674d66 100644
          return (bbfiles, masked)
  
      def get_file_appends(self, fn):
-@@ -1446,6 +1454,12 @@ def parse_file(task):
-     except BaseException as exc:
-         raise ParsingFailure(exc, filename)
+@@ -1582,6 +1590,12 @@ class Parser(multiprocessing.Process):
+         except BaseException as exc:
+             return True, ParsingFailure(exc, filename)
  
 +class CookerNewFiles(bb.event.Event):
 +    def __init__(self, finalfiles, maskedfiles):
