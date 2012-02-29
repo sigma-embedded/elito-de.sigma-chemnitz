@@ -21,8 +21,8 @@ SRC_URI = "	\
 RELEASE_FILES_PROVIDER ?= "elito-release"
 RRECOMMENDS_${PN} = "${RELEASE_FILES_PROVIDER}"
 
-TMPFS_SIZE       ?= 8m
-PTS_GID          ?= 5
+TMPFS_SIZE       ?= "8m"
+PTS_GID          ?= "5"
 
 do_install() {
 	set -x

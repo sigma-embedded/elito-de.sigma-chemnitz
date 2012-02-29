@@ -50,9 +50,9 @@ ubi_gen_env_mobm320() {
 	mobm320-create-env ${MOBM320_ENV_ARGS} > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.bootenv
 }
 
-NAND_PAGESIZE	?= 2048
-NAND_BLOCKSIZE	?= 65536
-FLASH_SIZE	?= 134217728
+NAND_PAGESIZE	?= "2048"
+NAND_BLOCKSIZE	?= "65536"
+FLASH_SIZE	?= "134217728"
 
 NAND_LEB_SIZE	?= "${@ubi_get_nand_leb_size(d)}"
 

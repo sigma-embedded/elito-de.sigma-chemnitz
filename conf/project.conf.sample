@@ -12,7 +12,7 @@ TERMCMD			 = "${XTERM_TERMCMD}"
 #PROJECT_EXTRA_RDEPENDS	+= "task-${PROJECT_NAME}"
 #PROJECT_EXTRA_RRECOMMENDS += ""
 
-IMAGE_KEEPROOTFS	 = 1
+IMAGE_KEEPROOTFS	 = "1"
 
 # Uncomment this to reduce disk space
 USER_CLASSES		= "rm_work"

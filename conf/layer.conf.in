@@ -1,4 +1,4 @@
-_abs_project_dir := ${@os.path.normpath("${LAYERDIR}")}
+_abs_project_dir := "${@os.path.normpath('${LAYERDIR}')}"
 
 BBFILES += " \
   ${_abs_project_dir}/recipes/*/*.bb \

@@ -120,7 +120,7 @@ do_package_stage() {
 
 do_fetch[depends] = "virtual/elito-kernel:do_fetch"
 do_prepramfs[depends] = "virtual/elito-image:do_rootfs"
-do_prepramfs[nostamp] = 1
+do_prepramfs[nostamp] = "1"
 do_prepramfs[dirs] = "${S}"
 do_deploy[dirs] = "${S}"
 do_build[nostamp] = "1"

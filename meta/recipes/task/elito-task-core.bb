@@ -21,7 +21,7 @@ IMAGE_DEV_MANAGER ?= "${@base_contains('MACHINE_FEATURES', 'kernel26',  'udev','
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'udev', ':udev', '', d)}"
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '', d)}"
 
-EXTRA_DEV_RULES ?=
+EXTRA_DEV_RULES ?= ""
 EXTRA_DEV_RULES_append = " ${DEVFS_INIT_PROVIDER}"
 EXTRA_DEV_RULES_append = " ${@base_contains('MACHINE_FEATURES','firmware','${FIRMWARE_LOADER_PROVIDER}','',d)}"
 EXTRA_DEV_RULES_append_udev = " ${@base_contains('MACHINE_FEATURES','modules','udev-rules-modules','',d)}"
