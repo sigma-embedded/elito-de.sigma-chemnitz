@@ -1,5 +1,5 @@
 _pv = "0.2"
-PR = "r10"
+PR = "r11"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
@@ -107,7 +107,6 @@ python populate_packages_prepend() {
 		pname = 'firmware-%s' % n
 		pkgs += ' ' + pname
 		bb.data.setVar('FILES_' + pname, ' '.join(map(lambda x: '/lib/firmware/' + x, f)), d)
-		bb.data.setVar('RRECOMMENDS_' + pname, '${FIRMWARE_LOADER_PROVIDER}', d)
 
 		print pname, f, bb.data.getVar('FILES_' + pname, d, 1)
 

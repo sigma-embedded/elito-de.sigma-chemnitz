@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r10.${PROJECT_FILE_DATE}"
+PR           = "r11.${PROJECT_FILE_DATE}"
 LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
 
 do_distribute_sources() {
@@ -23,8 +23,6 @@ OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '',
 
 EXTRA_DEV_RULES ?= ""
 EXTRA_DEV_RULES_append = " ${DEVFS_INIT_PROVIDER}"
-EXTRA_DEV_RULES_append = " ${@base_contains('MACHINE_FEATURES','firmware','${FIRMWARE_LOADER_PROVIDER}','',d)}"
-EXTRA_DEV_RULES_append_udev = " ${@base_contains('MACHINE_FEATURES','modules','udev-rules-modules','',d)}"
 
 #
 # sysvinit, upstart
