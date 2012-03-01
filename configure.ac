@@ -524,6 +524,7 @@ ELITO_CHECK_PROGRAM( 0, IMAKE,      imake)
 ELITO_CHECK_PROGRAM(20, RPM,        rpm)
 ELITO_CHECK_PROGRAM( 0, FONTFORGE,  fontforge)
 ELITO_CHECK_PROGRAM( 0, DOXYGEN,    doxygen)
+ELITO_CHECK_PROGRAM( 0, MKISOFS,    mkisofs)
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
 AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
