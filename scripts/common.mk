@@ -78,7 +78,7 @@ _tmpdir :=		$(abs_top_builddir)/.tmp
 _stampdir :=		$(_tmpdir)/stamps
 
 define _xterm_info
-! tty -s || echo -ne "\033]0;OE Build ${PROJECT_NAME}@$${HOSTNAME%%.*}:$${PWD/#$$HOME/~} - `date`$(if $1, - $1)\007"
+! tty -s || echo -ne "\033]0;OE Build ${PROJECT_NAME}@$${HOSTNAME%%.*}:$${PWD/#$$HOME/~} - `env LANG=C date`$(if $1, - $1)\007"
 endef
 
 define _call_cmd
