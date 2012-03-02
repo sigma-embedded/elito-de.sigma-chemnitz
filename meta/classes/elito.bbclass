@@ -87,9 +87,12 @@ def elito_build_number(d):
 	except:
 		return 0
 
-do_compile_prepend() {
-	export HOME=${WORKDIR}/.home
+python do_elito_set_home() {
+	d.setVar("HOME", "${WORKDIR}/.home");
+	d.setVarFlag("HOME", "export", True);
 }
+
+do_compile[prefuncs] += "do_elito_set_home"
 
 ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
 ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
