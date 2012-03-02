@@ -1,4 +1,9 @@
 # --*- python -*--
+OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
+
+_headless-pkgs := "${@'${PACKAGES}'.replace(' ${PN}-analyze', ' ')}"
+PACKAGES_headless = "${_headless-pkgs}"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 SRC_URI += "\
@@ -14,6 +19,10 @@ EXTRA_OECONF += "\
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
+}
+
+do_install_append_headless() {
+    rm -f ${D}${bindir}/systemd-analyze
 }
 
 python populate_packages_prepend () {
