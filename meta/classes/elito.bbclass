@@ -93,6 +93,7 @@ python do_elito_set_home() {
 }
 
 do_compile[prefuncs] += "do_elito_set_home"
+do_install[prefuncs] += "do_elito_set_home"
 
 ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
 ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
