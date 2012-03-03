@@ -193,7 +193,8 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			echo "**** but '${_bitbake_rev}/${_bitbake_rev_r}' is expected; please execute"; \
 			echo "****"; \
 			echo "     ( cd '$(abspath .)' && make bitbake-clean && make init )"; \
-			echo "****"; \
+			echo "**** Hint: most Linux terminals allow to copy the line above by a mouse"; \
+			echo "**** triple click and to paste it with the middle mouse button"; \
 			exit 1; \
 			} >&2
 
