@@ -76,6 +76,7 @@ XTERM_INFO =		_xterm_info
 _gitdate =		$(shell $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
 _tmpdir :=		$(abs_top_builddir)/.tmp
 _stampdir :=		$(_tmpdir)/stamps
+_comma :=		,
 
 define _xterm_info
 ! tty -s || echo -ne "\033]0;OE Build ${PROJECT_NAME}@$${HOSTNAME%%.*}:$${PWD/#$$HOME/~} - `env LANG=C date`$(if $1, - $1)\007"
@@ -308,6 +309,69 @@ $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 			-@test "$<" -ot "$@" || touch --reference "$@" "$<"
 
 ############ Sample file generation }}} ###########
+
+############ {{{ 'distribute' rules ##########
+
+PUBLISH_IMAGES ?=
+TFTP_IMAGES ?=
+
+define _distribute_do_install
+$(INSTALL_DATA) -D '$1' '${D}/$2'
+endef
+
+define _distribute__define_image
+_distribute_$1_images += $2
+_distribute_$1_images-$1: _image-src := $2
+_distribute_$1_images-$1: _image-dst := $3
+_distribute_$1_image_$2-src = $3
+_distribute_$1_image_$2-dst = $3
+endef
+
+_distribute_define_image = $$(eval $$(call _distribute__define_image,$1,$2))
+
+_distribute_publish_images =
+$(foreach i,$(PUBLISH_IMAGES),\
+	$(eval $(call _distribute_define_image,publish,$(subst :,$(_comma),$i))))
+
+_distribute_tftp_images =
+$(foreach i,$(TFTP_IMAGES),\
+	$(eval $(call _distribute_define_image,tftp,$(subst :,$(_comma),$i))))
+
+_distribute_publish_targets = $(addprefix .publish-images-,$(_distribute_publish_images))
+_distribute_tftp_targets = $(addprefix .tftp-images-,$(_distribute_tftp_images))
+
+## {{{ publish-images
+ifneq ($(PUBLISH_IMAGES),)
+publish-images:	$(_tmpdir)/.versions.txt $(_publish_targets)
+	$(INSTALL_DATA) $< $(D)/versions.txt
+
+$(_distribute_publish_targets): .publish-images-%:	$W/deploy/images/% | .publish-check
+	$(call _distribute_do_install,$<,$(_distribute_publish_image_$*-dst))
+endif
+## }}} publish-images
+
+
+## {{{ tftp-images
+ifneq ($(TFTP_IMAGES),)
+tftp-images:	D = $(TFTPBOOT_DIR)
+tftp-images:	$(_publish_tftp_targets)
+
+$(_publish_tftp_targets): .tftp-images-%:	$W/deploy/images/% | .publish-check
+	cat $< > $(D)/${_publish_tftp_image_$*-dst}
+endif
+## }}} tftp-images
+
+
+.publish-check:			FORCE
+ifeq ($(D),)
+	@echo 'D not defined' >&2; false
+endif
+	@test -d "$(D)" || { echo "No such directory: $(D)" >&2; false; }
+
+$(_tmpdir)/.versions.txt:	FORCE | $(_tmpdir)
+	@rm -f $@ $@.tmp
+	$(MAKE) -s --no-print-directory -C .. repo-info > $@.tmp
+	@mv $@.tmp $@
 
 
 ############ {{{ 'clean' rules ##########
