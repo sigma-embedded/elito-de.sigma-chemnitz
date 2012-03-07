@@ -201,7 +201,7 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 $(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR):
 			mkdir -p $@
 
-$(_stampdir)/.prep.stamp:	$(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp | bitbake-validate
+$(_stampdir)/.prep.stamp:	| $(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp bitbake-validate
 			$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
