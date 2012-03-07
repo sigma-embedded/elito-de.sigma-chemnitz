@@ -17,6 +17,7 @@ PYTHON =		@PYTHON@
 GZIP =			@GZIP@
 
 SECWRAP_CMD =		@SECWRAP_CMD@
+TFTPBOOT_DIR =		@tftpbootdir@
 
 include $(abs_top_srcdir)/scripts/common.mk
 
