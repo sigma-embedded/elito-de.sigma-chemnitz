@@ -6,9 +6,18 @@ P=$1
 : ${GIT:=git}
 
 apply() {
+    is_new=false
     test -e "$1/bundle" || return 0
 
     read dir < "$1"/dir
+
+    if ! test -d "$dir" || test x"$dir" = x. -a ! -d "$dir/.git"; then
+	opts=
+	! test -e "$1"/bare || opts="$opts --bare"
+
+	$GIT init $opts $dir
+	is_new=true
+    fi
 
     cd "$dir"
 
@@ -41,6 +50,11 @@ apply() {
 	    $GIT fetch "$1/bundle" "$branch:$branch" || \
 	    $GIT fetch "$1/bundle" "$fail_fetch"
 	fi
+
+	if $is_new && ! $is_bare; then
+	    $GIT checkout "${branch##refs/heads/}"
+	    is_new=false
+	fi
     done
 
     while read ref branch; do
@@ -62,6 +76,8 @@ for i in $t/*; do
 
     ( apply "$i" )
 done
+
+$GIT submodule init
 
 $GIT submodule status --cached | while read ref dir xtra; do
     case $ref in
