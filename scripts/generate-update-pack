@@ -29,13 +29,19 @@ else
     _r=
 fi
 
-cd "$S"
+if test -d "$REL_D"; then
+    cd "$REL_D"
 
-case x`$GIT config core.bare` in
-  (xtrue)
-	touch $D/bare
-	;;
-esac
+    case x`$GIT config core.bare` in
+      (xtrue)
+	    touch $D/bare
+	    ;;
+    esac
+
+    cd -
+fi
+
+cd "$S"
 
 $GIT bundle create $D/bundle $BRANCHES $_r "$@" || :
 
