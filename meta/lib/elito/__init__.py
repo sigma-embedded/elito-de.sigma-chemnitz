@@ -5,10 +5,17 @@ def uri(uri, d):
     if premirrors == None:
         premirrors = []
     else:
-        premirrors = premirrors.split('\n')
+        premirrors = filter(lambda x: x != '' and x[0] != '#', 
+                            map(lambda x: x.strip(),
+                                premirrors.split('\n')))
 
     for m in premirrors:
-        (k,v) = m.strip().split()
+        try:
+            (k,v) = m.split()
+        except:
+            bb.error("Invalid PREMIRRORS element: '%s'" % (m,))
+            raise
+
         if uri == k:
             return v
 
