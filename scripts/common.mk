@@ -69,6 +69,14 @@ else
 _GITR	=		:
 endif
 
+ifeq ($(ELITO_OFFLINE),strict)
+http_proxy =	http://localhost:0
+https_proxy =	$(http_proxy)
+ftp_proxy =	$(http_proxy)
+
+export http_proxy https_proxy ftp_proxy
+endif
+
 .DEFAULT_GOAL :=	config
 
 XTERM_INFO =		_xterm_info
