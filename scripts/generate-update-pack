@@ -19,13 +19,23 @@ set -e
 mkdir "$D"
 
 
-
-_r=`$GIT ls-remote "$S" $R | cut -f 1`
-validate_rev $_r
-
+if test -n "$R"; then
+    _r=`$GIT ls-remote "$S" $R | cut -f 1`
+    validate_rev $_r
+    _r=^$_r
+else
+    _r=
+fi
 
 cd "$S"
-$GIT bundle create $D/bundle $BRANCHES ^$_r || :
+
+case x`$GIT config core.bare` in
+  (xtrue)
+	touch $D/bare
+	;;
+esac
+
+$GIT bundle create $D/bundle $BRANCHES $_r || :
 
 test -z "$BRANCHES" || \
     $GIT ls-remote "$S" $BRANCHES > "$D/branches"
