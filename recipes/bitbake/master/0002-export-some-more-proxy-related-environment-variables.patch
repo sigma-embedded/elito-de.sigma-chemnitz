@@ -1,27 +1,26 @@
-From e58a8ce9655a3ce5892621d79a089e69e0f6b47c Mon Sep 17 00:00:00 2001
+From 96f2a1cd2bdac0b6ce98a45fbe13f7cdce14e278 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:42 +0200
 Subject: [PATCH 02/12] export some more proxy related environment variables
 
 ---
- lib/bb/fetch/__init__.py |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ lib/bb/fetch2/__init__.py |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/lib/bb/fetch/__init__.py b/lib/bb/fetch/__init__.py
-index ea98019..07ae9bc 100644
---- a/lib/bb/fetch/__init__.py
-+++ b/lib/bb/fetch/__init__.py
-@@ -443,6 +443,10 @@ def runfetchcmd(cmd, d, quiet = False):
-                   'https_proxy', 'no_proxy', 'ALL_PROXY', 'all_proxy',
-                   'KRB5CCNAME', 'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME']
+diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
+index 42fef69..6233e7c 100644
+--- a/lib/bb/fetch2/__init__.py
++++ b/lib/bb/fetch2/__init__.py
+@@ -405,6 +405,9 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+                   'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME',
+                   'GIT_PROXY_IGNORE', 'SOCKS5_USER', 'SOCKS5_PASSWD']
  
-+    exportvars.extend(['https_proxy', 'no_proxy'])
 +    exportvars.extend(['ELITO_CRT', 'ELITO_KEY', 'ELITO_PROG_SSL_CLIENT',
 +                       'ELITO_PROG_PROXY', 'ELITO_USE_LIBPROXY'])
 +
      for var in exportvars:
-         val = data.getVar(var, d, True)
+         val = d.getVar(var, True)
          if val:
 -- 
-1.7.7.4
+1.7.7.6
 
