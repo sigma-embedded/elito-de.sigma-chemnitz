@@ -15,7 +15,7 @@ index 305ffb7..b94212e 100755
        version = __version__,
        requires = ["ply", "progressbar"],
        package_dir = {"": "lib"},
--      packages = ["bb.server", "bb.parse.parse_py", "bb.parse",
+-      packages = ["bb.server", "bb.parse.parse_py", "bb.parse", 
 +      packages = ["ply",
 +                  "bb.server", "bb.parse.parse_py", "bb.parse",
                    "bb.fetch2", "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb", "prserv"],
