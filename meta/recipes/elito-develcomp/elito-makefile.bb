@@ -15,11 +15,6 @@ PACKAGES = ""
 INHIBIT_DEFAULT_DEPS = "1"
 PROVIDES = "elito-makefile-native"
 
-do_configure[deps] := ""
-do_compile[deps] := ""
-do_install[deps] := ""
-do_build[deps] := ""
-
 python __anonymous() {
     d.setVar("DEPENDS", "${_DEPENDS}")
 }
@@ -146,6 +141,11 @@ do_setup_makefile[sstate-name] = "setup-makefile"
 do_setup_makefile[sstate-inputdirs] = "${WORKDIR}/setup-makefile"
 do_setup_makefile[sstate-outputdirs] = "${TMPDIR}"
 
+do_sizecheck[deps] := ""
+do_compile_kernelmodules[deps] := ""
+
+do_sizecheck[noexec] = "1"
+do_compile_kernelmodules[noexec] = "1"
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"
 do_patch[noexec] = "1"
