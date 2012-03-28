@@ -15,7 +15,7 @@ _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=refs/heads/${_branch}"
 S            = "${WORKDIR}/git"
 
-EXTRA_OEMAKE_prepend = "-f '${TMPDIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_tftp_image}'"
+EXTRA_OEMAKE_prepend = "-f '${TMPDIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1"
 
 KERNEL_DEPENDS ?= ""
 
