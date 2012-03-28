@@ -175,7 +175,7 @@ case $enable_cgroups in
 esac
 ELITO_TRUE_FALSE([ENABLE_CGROUPS],[test x"$enable_cgroups" = xyes])
 
-_default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe'
+_default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/toolchain-layer'
 
 AC_ARG_ENABLE(layers,
 	AS_HELP_STRING([--enable-layers=<dir>[,<dir>]*],
