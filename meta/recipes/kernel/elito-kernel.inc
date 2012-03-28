@@ -68,6 +68,10 @@ CONFIG_CMDLINE="${KERNEL_CMDLINE}"
 EOF
         fi
 
+	if ${@base_contains('DISTRO_FEATURES','ipv6','true','false',d)}; then
+		sed -i -e 's/^# CONFIG_IPV6 is not set/CONFIG_IPV6=m/' .config
+	fi
+
         if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d)}; then
 		sed -i -e '/^CONFIG_DANGEROUS=/d' .config
 		cat <<EOF >> .config
