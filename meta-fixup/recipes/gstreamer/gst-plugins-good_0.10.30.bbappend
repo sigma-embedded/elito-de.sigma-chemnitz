@@ -1,0 +1,1 @@
+DEPENDS += "libv4l"
