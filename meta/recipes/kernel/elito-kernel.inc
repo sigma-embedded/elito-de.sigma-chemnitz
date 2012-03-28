@@ -53,21 +53,19 @@ do_configure_prepend() {
 		oe_runmake "${_defconfig}"
 	fi
 
+	cp -a .config .config-ref
+
 	sed -e 's!^\(${_configdebug-opts-re}\|${_configdisable-opts-re}\)=.*!# \1 is not set!' .config > .config-nodebug
 	if ! cmp .config .config-nodebug; then
 		cat .config-nodebug > .config
-		changed=true
 	fi
 	#rm -f .config-nodebug
 
-        changed=false
         if test -n "${OVERRIDE_KERNEL_CMDLINE}" -a -n "${KERNEL_CMDLINE}"; then
 		sed -i -e '/^CONFIG_CMDLINE=/d' .config
 		cat <<EOF >> .config
 CONFIG_CMDLINE="${KERNEL_CMDLINE}"
 EOF
-
-		changed=true
         fi
 
         if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d)}; then
@@ -75,11 +73,9 @@ EOF
 		cat <<EOF >> .config
 # CONFIG_DANGEROUS is not set
 EOF
-
-		changed=true
         fi
 
-	! $changed || oe_runmake oldconfig < /dev/null
+	cmp .config .config-ref || oe_runmake oldconfig < /dev/null
 }
 
 do_compile_prepare() {
