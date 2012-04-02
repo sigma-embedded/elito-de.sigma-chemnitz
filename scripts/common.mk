@@ -157,7 +157,7 @@ fetch-all fetchall:	FORCE init | bitbake-validate
 help:			FORCE $(abs_top_srcdir)/scripts/make.help
 			@cat $<
 
-inc-build-num:		FORCE
+inc-build-num:		FORCE | ${W}
 			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
 			echo $$(( v + 1 )) > ${W}/build-num
 
@@ -207,7 +207,7 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			exit 1; \
 			} >&2
 
-$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR):
+$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W:
 			mkdir -p $@
 
 $(_stampdir)/.prep.stamp:	| $(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp bitbake-validate
@@ -274,8 +274,11 @@ $(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir
 $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_stampdir)/.bitbake.env.stamp
 			@touch $@
 
-$(_stampdir)/.pseudo.stamp:	$(_stampdir)/.bitbake.stamp
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native tar-replacement-native,populate_sysroot)
+$(_stampdir)/.pseudo.stamp:	| $(_stampdir)/.bitbake.stamp $W
+			test ! -d $W/stamps
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
+			rm -rf $W/stamps
+			rm -f $W/cache/bb_*
 			@touch $@
 
 ############ Bitbake and general setup section }}} ##########
