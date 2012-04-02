@@ -1,0 +1,35 @@
+From 2f3da36f569a97eb48a0019029853199d7c6bd80 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Date: Mon, 2 Apr 2012 15:43:06 +0200
+Subject: [PATCH 13/13] data: give out configuration hash data
+
+this helps to debug problems
+---
+ lib/bb/data_smart.py |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
+index 4e73929..f22ba39 100644
+--- a/lib/bb/data_smart.py
++++ b/lib/bb/data_smart.py
+@@ -32,6 +32,7 @@ import copy, re
+ from collections import MutableMapping
+ import logging
+ import hashlib
++import time
+ import bb, bb.codeparser
+ from bb   import utils
+ from bb.COW  import COWDictBase
+@@ -473,4 +474,9 @@ class DataSmart(MutableMapping):
+             value = self.getVar(key, False) or ""
+             data = data + key + ': ' + str(value) + '\n'
+ 
++        if logger.level >= 0:
++            fname = os.path.join(self.getVar("TMPDIR", True) or ".",
++                                 "datahash.%u" % time.time());
++            open(fname,"w").write(data)
++
+         return hashlib.md5(data).hexdigest()
+-- 
+1.7.7.6
+
