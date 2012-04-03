@@ -10,6 +10,7 @@ _s=$_w/sysroots/`uname -m`-linux
 : ${PYTHON:=@PYTHON@}
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=$_w/cache/ccache
+INSTALL='@INSTALL@'
 BBPATH=@abs_top_builddir@
 ELITO_METRICS_ID=$$
 ELITO_PROJECT_NAME='@PROJECT_NAME@'

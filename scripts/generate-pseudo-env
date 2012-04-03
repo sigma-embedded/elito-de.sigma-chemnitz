@@ -1,0 +1,22 @@
+#! /bin/bash
+
+test -r "$1" || {
+  echo "**** Can not read '$1'. Try"
+  echo "        make bitbake-clean && make init"
+  echo "***** again."
+  exit 1
+} >&2
+
+d=`sed '/^STAGING_BINDIR_NATIVE=/s/^\([^"]\+="\)\(.*\)"$/\2/p;d' "$1"`
+d=${d##$2/tmp}
+
+cat <<EOF
+__w=\${_w:-$2/tmp}
+PSEUDO_BINDIR="\$__w$d"
+PSEUDO_LIBDIR="\$__w$d/../lib/pseudo/lib"
+PSEUDO_PREFIX="\$__w$d/../.."
+PSEUDO_DISABLED=1
+PSEUDO=\$PSEUDO_BINDIR/pseudo
+export PSEUDO_BINDIR PSEUDO_LIBDIR PSEUDO_PREFIX PSEUDO_DISABLED
+unset __w
+EOF

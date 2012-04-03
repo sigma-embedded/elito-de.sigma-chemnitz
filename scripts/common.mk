@@ -174,6 +174,7 @@ _bitbake_rev_r =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '3p;d')
 _bitbake_root =			$(_tmpdir)/staging
 _filesystem-dirs =		$(_stampdir) $W/deploy $(_tmpdir)
 _bitbake-dirs =			$(_tmpdir)/bitbake
+_bitbake-xtraprogs =		bitbake-layers bitbake-diffsigs bitbake-prserv
 
 _bitbake-bundle =		$(CACHE_DIR)/bitbake-${_bitbake_rev_s}.bundle
 _bitbake_setuptools_cached =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
@@ -189,6 +190,7 @@ bitbake-fetch:		$(_stampdir)/.bitbake.stamp
 bitbake-clean:		FORCE
 			rm -rf $(_tmpdir)/bitbake $(_bitbake_root)
 			rm -f $(_stampdir)/.bitbake.*
+			rm -f $(_bitbake-xtraprogs)
 ifeq ($(ELITO_OFFLINE),)
 			rm -f $(_bitbake-bundle)
 endif
@@ -265,16 +267,28 @@ $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitb
 			env PYTHONPATH=./lib:$(_bitbake_root)/lib$(if ${PYTHONPATH},:,)${PYTHONPATH} $(PYTHON) setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
 			$(SED) -i -e '/EASY-INSTALL-SCRIPT/aimport os, site; site.addsitedir("$(_bitbake_root)/lib")' $(_bitbake_root)/bin/bitbake
 			$(MAKE) bitbake
+			p='${_bitbake-xtraprogs}'; for i in $$p; do \
+				test -x "${_bitbake_root}/bin/$$i" || continue; \
+				ln -s bitbake $$i; \
+			done
 			@touch $@
 
-$(_stampdir)/.bitbake.env.stamp:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $(_tmpdir)/bitbake.env || { rc=$$?; cat $(_tmpdir)/bitbake.env >&2; exit $$rc; })
+$(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
+			@rm -f $@ $@.tmp
+			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
+			@mv $@.tmp $@
+.SECONDARY:		$(_tmpdir)/bitbake.env
+
+$(_tmpdir)/pseudo.env:	$(_tmpdir)/bitbake.env $(abs_top_srcdir)/scripts/generate-pseudo-env
+			@rm -f $@ $@.tmp
+			$(call _call_cmd,$(abs_top_srcdir)/scripts/generate-pseudo-env '$<' '${abs_top_builddir}' >$@.tmp)
+			@mv $@.tmp $@
+.SECONDARY:		$(_tmpdir)/pseudo.env
+
+$(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_tmpdir)/pseudo.env
 			@touch $@
 
-$(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_stampdir)/.bitbake.env.stamp
-			@touch $@
-
-$(_stampdir)/.pseudo.stamp:	| $(_stampdir)/.bitbake.stamp $W
+$(_stampdir)/.pseudo.stamp:	| $(_stampdir)/.bitbake.stamp $(_tmpdir)/pseudo.env $W
 			test ! -d $W/stamps
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
 			rm -rf $W/stamps

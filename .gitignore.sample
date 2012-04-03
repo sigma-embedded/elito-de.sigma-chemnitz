@@ -2,6 +2,9 @@
 /.tmp
 /Makefile
 /bitbake
+/bitbake-diffsigs
+/bitbake-layers
+/bitbake-prserv
 /bitbake.lock
 /config.log
 /config.status

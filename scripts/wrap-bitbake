@@ -1,0 +1,49 @@
+#! /bin/bash
+
+## Usage: wrap-bitbake <abs_top_builddir> <prog> [<args>*]
+
+if ! test -x "$2"; then
+    echo "***** Could not find bitbake binary. Make sure that it was"
+    echo "***** checked out by 'make init' in your project directory"
+    exit 1
+fi >&2
+
+BB_ENV_EXTRAWHITE='CCACHE_DIR HOME GIT_SSL_CAINFO '\
+'ftp_proxy http_proxy https_proxy no_proxy '\
+'ELITO_CRT ELITO_KEY ELITO_PROG_SSL_CLIENT ELITO_USE_LIBPROXY ELITO_PROG_PROXY '\
+'PSEUDO_BUILD PSEUDO_DISABLED '\
+'ELITO_METRICS_ID'
+
+BBFETCH2=True
+export BB_ENV_EXTRAWHITE PSEUDO_BUILD BBFETCH2
+
+. "$1/set-env"
+
+PSEUDO=
+export -n PSEUDO
+
+case x$PSEUDO_BUILD in
+  (x0)
+	unset PSEUDO_BUILD
+	;;
+  (x1)
+	;;
+
+  (x|x*)
+	PSEUDO_BUILD=2
+	test -e "$1/.tmp/pseudo.env" || {
+	  echo "***** Could not find bitbake environment. Try"
+	  echo "        make bitbake-clean && make init"
+	  echo "***** again."
+	  exit 1
+	} >&2
+
+	. "$1/.tmp/pseudo.env"
+	;;
+esac
+
+_prog=$2
+shift 2
+
+$INSTALL -d -m 0775 "$CCACHE_DIR"
+exec $PSEUDO "$_prog" "$@"
