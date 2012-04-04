@@ -6,9 +6,7 @@
 # the tests including a test
 #
 
-
-addtask test after do_compile before do_build
-test_do_test () {
+do_test () {
     :
 }
-
+addtask do_test after do_compile before do_populate_sysroot
