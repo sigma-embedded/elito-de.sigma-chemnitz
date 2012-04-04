@@ -8,7 +8,6 @@ inherit cross
 
 libdir := "${STAGING_DIR_TARGET}${target_libdir}"
 
-#do_configure[depends] = "dietlibc:do_populate_sysroot"
 do_compile () {
     ln -sf dietfeatures-build.h dietfeatures.h
     oe_runmake all ARCH="${DIETLIBC_BUILD_ARCH}"  \
