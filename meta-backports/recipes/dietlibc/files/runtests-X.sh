@@ -1,6 +1,17 @@
 #! /bin/bash
 
-eval $(grep '^\(TESTPROGRAMS\|SUBDIRS\)=' runtests.sh)
+eval $(grep '^\(SUBDIRS\)=' runtests.sh)
+eval $(make --no-print-directory \
+       --eval 'print-tests:;@echo TESTPROGRAMS=\"$(sort $(TESTPROGRAMS))\"' print-tests)
+
+SKIP=(
+  ":asprintf"			# requires special cmdline
+  ":getpass"			# expects input from TTY
+  ":read1"			# expects input
+  ":stdio:tst-ferror"		# expects input
+  ":stdio:tstscanf"		# expects input
+  ":stdlib:testdiv"		# expects input
+)
 
 FAILURES_BOGUS=(
   ":gethostbyname"		# network test; net might not be available in test environment
@@ -44,10 +55,17 @@ function is_in() {
 
 rc=0
 
+: ${ME:=${BASH_SOURCE[0]}}
 : ${EMULATOR:=}
 : ${RUNTEST_INDENT=0}
+export ME
 export RUNTEST_INDENT
 export RUNTEST_NS
+
+case $ME in
+  /*) ;;
+  *) ME=`pwd`/$ME;;
+esac
 
 test -z "$EMULATOR" || \
     FAILURES_BOGUS=( "${FAILURES_BOGUS[@]}" "${FAILURES_BOGUS_emulator[@]}" )
@@ -57,16 +75,21 @@ for p in $TESTPROGRAMS; do
 
     is_in "$RUNTEST_NS:$p" "${FAILURES_BOGUS[@]}" && fail_bogus=true || fail_bogus=false
     is_in "$RUNTEST_NS:$p" "${FAILURES_KNOWN[@]}" && fail_known=true || fail_known=false
-    $EMULATOR ./$p >/dev/null && failed=false || failed=true
 
-    case $failed:$fail_known:$fail_bogus in
-      (false:false:*)		res='OK';;
-      (false:true:true)		res='OK (bogus)';;
-      (false:true:false)	res="OK (unexpected)"; let ++rc;;
-      (true:*:true)		res='FAIL (bogus)';;
-      (true:true:*)		res="FAIL (known)";;
-      (true:false:*)		res='FAIL'; let ++rc;;
-    esac
+    if is_in "$RUNTEST_NS:$p" "${SKIP[@]}"; then
+	res='SKIPPED'
+    else
+	$EMULATOR ./$p >/dev/null && failed=false || failed=true
+
+	case $failed:$fail_known:$fail_bogus in
+	  (false:false:*)	res='OK';;
+	  (false:true:true)	res='OK (bogus)';;
+	  (false:true:false)	res="OK (unexpected)"; let ++rc;;
+	  (true:*:true)		res='FAIL (bogus)';;
+	  (true:true:*)		res="FAIL (known)";;
+	  (true:false:*)	res='FAIL'; let ++rc;;
+	esac
+    fi
 
     ! tty -s || printf '\r'
 
@@ -82,7 +105,7 @@ for d in $SUBDIRS; do
     old_ns=$RUNTEST_NS
     RUNTEST_NS=$RUNTEST_NS:$d
 
-    cd $d && bash ./runtests-X.sh || let ++rc
+    cd $d && bash $ME || let ++rc
 
     RUNTEST_NS=$old_ns
     let RUNTEST_INDENT-=2

@@ -6,6 +6,7 @@ SRC_URI = " \
         file://ccache.patch \
         file://ceil.patch \
         file://getrlimit.patch \
+        file://runtests-X.sh \
 "
 
 S = "${WORKDIR}/dietlibc"

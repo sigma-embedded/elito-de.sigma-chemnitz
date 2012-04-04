@@ -36,10 +36,8 @@ do_configure () {
 
     rm -f dietfeatures.h
 
-    # Initialize infrastructure for our tests
-    for i in `find test -name 'runtests.sh'`; do
-        ln -s ${WORKDIR}/runtests-X.sh `dirname $i`/runtests-X.sh
-    done
+    test -e test/runtests-X.sh || \
+        install -p -m 0755 ${WORKDIR}/runtests-X.sh test/runtests-X.sh
 }
 
 dietlibc_fix_features () {
