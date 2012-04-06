@@ -1,11 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PRINC := "${@int(PRINC) + 3}"
+PRINC := "${@int(PRINC) + 2}"
 
-SRC_URI += "\
-  file://0001-start-ntp-service-when-interface-is-ready.patch \
-  file://nfs-root.patch \
-"
+SRC_URI += "file://0001-start-ntp-service-when-interface-is-ready.patch"
 
 INITSCRIPT_PACKAGES = "${PN}-sysv"
 
