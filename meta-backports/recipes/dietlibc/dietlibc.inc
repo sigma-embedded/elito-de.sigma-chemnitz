@@ -53,7 +53,7 @@ dietlibc_do_full_test () {
 
     if type -p "$QEMU" && test x"$QEMU" != x"false"; then
        cd test
-       env EMULATOR="${QEMU} ${QEMU_OPTIONS}" bash ${WORKDIR}/runtests-X.sh
+       env EMULATOR="${QEMU} ${QEMU_OPTIONS}" bash ./runtests-X.sh
        cd -
     fi
 }
