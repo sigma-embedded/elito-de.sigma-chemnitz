@@ -80,3 +80,11 @@ python() {
     r = ' '.join(r.split())
     bb.data.setVar('RRECOMMENDS_systemd', r, d)
 }
+
+pkg_postinst_append_systemd () {
+update-alternatives --install ${base_sbindir}/init.wrapped init.wrapped ${systemd_unitdir}/systemd 300
+}
+
+pkg_prerm_append_systemd () {
+update-alternatives --remove init.wrapped ${systemd_unitdir}/systemd
+}
