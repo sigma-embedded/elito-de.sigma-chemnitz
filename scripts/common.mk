@@ -9,7 +9,6 @@ _FQDN =			$(shell hostname -f)
 _DOMAIN =		$(shell hostname -d)
 
 VPATH ?=		$(abs_top_srcdir)
-W ?=			tmp
 NOW :=			$(shell date +%Y%m%dT%H%M%S)
 
 ELITO_SPACE_MIN =	15
@@ -63,6 +62,13 @@ PKGS_PREP =		opkg-utils-native	\
 			libtool-native		\
 			gettext-native
 
+ifeq ($(filter release-%,${MAKECMDGOALS}),)
+W ?=			tmp
+else
+W ?=			release-${_gitdate}
+export W
+endif
+
 ifeq ($(ELITO_OFFLINE),)
 _GITR	=		$(GIT)
 else
@@ -84,6 +90,7 @@ XTERM_INFO =		_xterm_info
 _gitdate =		$(shell $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
 _tmpdir :=		$(abs_top_builddir)/.tmp
 _stampdir :=		$(_tmpdir)/stamps
+_wstampdir :=		$(_tmpdir)/stamps/$(subst /,_,$W)
 _comma :=		,
 
 define _xterm_info
@@ -110,12 +117,10 @@ endef
 
 ###### {{{ top level targets ########
 
-release-image release-build:		export W=release-${_gitdate}
-
 config:			$(CFG_FILES)
 
-init:			bitbake-fetch
-prep:			$(_stampdir)/.prep.stamp Makefile | bitbake-validate
+init:			bitbake-fetch | $W/cache/ccache
+prep:			$(_wstampdir)/.prep.stamp Makefile | bitbake-validate $W/cache/ccache
 image release-image:	FORCE prep inc-build-num
 
 _image image release-image:
@@ -157,7 +162,7 @@ fetch-all fetchall:	FORCE init | bitbake-validate
 help:			FORCE $(abs_top_srcdir)/scripts/make.help
 			@cat $<
 
-inc-build-num:		FORCE | ${W}
+inc-build-num:		FORCE | $W
 			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
 			echo $$(( v + 1 )) > ${W}/build-num
 
@@ -172,7 +177,7 @@ _bitbake_rev_s =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '2p;d')
 _bitbake_rev_r =		$(shell cat $(_bitbake_srcdir)/rev | $(SED) '3p;d')
 
 _bitbake_root =			$(_tmpdir)/staging
-_filesystem-dirs =		$(_stampdir) $W/deploy $(_tmpdir)
+_filesystem-dirs =		$(_stampdir) $(_wstampdir) $W/deploy $(_tmpdir)
 _bitbake-dirs =			$(_tmpdir)/bitbake
 _bitbake-xtraprogs =		bitbake-layers bitbake-diffsigs bitbake-prserv
 
@@ -210,10 +215,10 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			exit 1; \
 			} >&2
 
-$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W:
+$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W $W/cache/ccache:
 			mkdir -p $@
 
-$(_stampdir)/.prep.stamp:	| $(_stampdir)/.bitbake.stamp $(_stampdir)/.pseudo.stamp bitbake-validate
+$(_wstampdir)/.prep.stamp:	| $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp bitbake-validate
 			$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
@@ -289,7 +294,7 @@ $(_tmpdir)/pseudo.env:	$(_tmpdir)/bitbake.env $(abs_top_srcdir)/scripts/generate
 $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_tmpdir)/pseudo.env
 			@touch $@
 
-$(_stampdir)/.pseudo.stamp:	| $(_stampdir)/.bitbake.stamp $(_tmpdir)/pseudo.env $W
+$(_wstampdir)/.pseudo.stamp:	| $(_wstampdir) $(_stampdir)/.bitbake.stamp $(_tmpdir)/pseudo.env $W
 			test ! -d $W/stamps
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
 			rm -rf $W/stamps
