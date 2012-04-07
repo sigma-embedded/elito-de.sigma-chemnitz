@@ -185,6 +185,7 @@ _space_check =			${ELITO_STATVFS} '${abs_top_builddir}/${W}'
 .SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools_cached)
 
 config:			bitbake-validate
+mrproper:		bitbake-clean
 
 bitbake-fetch:		$(_stampdir)/.bitbake.stamp
 bitbake-clean:		FORCE
