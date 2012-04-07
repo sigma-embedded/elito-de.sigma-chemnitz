@@ -10,11 +10,11 @@ case $W_ in
 esac
 
 _s=$W_/sysroots/`uname -m`-linux
-: ${PYTHON:=@PYTHON@}
+: ${PYTHON:='@PYTHON@'}
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=$W_/cache/ccache
 INSTALL='@INSTALL@'
-BBPATH=@abs_top_builddir@
+BBPATH='@abs_top_builddir@'
 ELITO_METRICS_ID=$$
 ELITO_PROJECT_NAME='@PROJECT_NAME@'
 ELITO_SCRIPTS_DIR='@abs_top_srcdir@/scripts'
@@ -35,7 +35,7 @@ done
 export ELITO_METRICS_ID
 export CCACHE_DIR BBPATH
 
-for f in @abs_top_builddir@/set-env.local $HOME/.elito-set-env; do
+for f in '@abs_top_builddir@'/set-env.local $HOME/.elito-set-env; do
     test -r "$f" || continue
     . "$f"
 done
