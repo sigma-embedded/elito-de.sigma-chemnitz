@@ -47,5 +47,5 @@ esac
 _prog=$2
 shift 2
 
-test -z "$ELITO_CGROUP_NAME" || "$ELITO_SCRIPTS_DIR"/scripts/exec-cgroup "$ELITO_CGROUP_NAME" $$
+test -z "$ELITO_CGROUP_NAME" || "$ELITO_SCRIPTS_DIR"/exec-cgroup "$ELITO_CGROUP_NAME" $$
 exec $PSEUDO "$_prog" "$@"
