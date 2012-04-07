@@ -295,10 +295,17 @@ $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_tmpdir)/pseu
 			@touch $@
 
 $(_wstampdir)/.pseudo.stamp:	| $(_wstampdir) $(_stampdir)/.bitbake.stamp $(_tmpdir)/pseudo.env $W
+## HACK: allow soft transition from old installations;
+## remove me after 2014-01-01
+ifneq ($(wildcard $(_stampdir)/.pseudo.stamp),)
+			@echo "Old pseudo stamp found; assuming transition from old installation"
+			rm -f $(_stampdir)/.pseudo.stamp
+else
 			test ! -d $W/stamps
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
 			rm -rf $W/stamps
 			rm -f $W/cache/bb_*
+endif
 			@touch $@
 
 ############ Bitbake and general setup section }}} ##########
