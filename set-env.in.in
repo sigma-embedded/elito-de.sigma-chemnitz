@@ -1,7 +1,5 @@
 #! /bin/bash
 
-set -x
-
 W_=${W:-tmp}
 export -n W_
 case $W_ in
