@@ -1,7 +1,8 @@
 #! /bin/bash
 
 _me=`basename "${BASH_SOURCE[0]}"`
+# abs_top_builddir must be set because @BITBAKE_BINDIR@ expansion
+# refers this variable
 abs_top_builddir='@abs_top_builddir@'
 
-@ENABLE_CGROUPS_TRUE@$ELITO_SCRIPTS_DIR/exec-cgroup "elito_$ELITO_PROJECT_NAME" $$
 exec @SECWRAP_CMD@ @abs_top_srcdir@/scripts/wrap-bitbake "${abs_top_builddir}" "@BITBAKE_BINDIR@/$_me" "$@"
