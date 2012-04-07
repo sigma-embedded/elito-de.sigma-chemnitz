@@ -1,7 +1,0 @@
-#! /bin/sh
-
-logger -t mdev/$SEQNUM ACTION=$ACTION DEVPATH=$DEVPATH SUBSYSTEM=$SUBSYSTEM MODALIAS=$MODALIAS
-! test -d /var/run/mdev || \
-    set > /var/run/mdev/$SEQNUM
-
-exec /sbin/mdev "$@"

@@ -1,60 +1,50 @@
-SECTION		= "base"
-DESCRIPTION	= "ELiTo Base utilities"
-PV		= "0.9"
-PR		= "r1"
-LICENSE		= "GPLv3"
+SECTION = "base"
+DESCRIPTION = "ELiTo Base utilities"
+LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-bindir		= "/bin"
-sbindir		= "/sbin"
+_pv = "0.10"
+PR = "r2"
+SRCREV = "eb2192f2aee50717481747f88084ad5d6a7d6b2c"
 
-PACKAGE_ARCH	= "${MACHINE_ARCH}"
-PACKAGES	=  "${PN}-dbg ${PN}"
+PV = "${_pv}+gitr${SRCPV}"
+PKGV = "${_pv}+gitr${GITPKGV}"
+
+SRC_URI = "${ELITO_GIT_REPO}/pub/elito-setup.git;protocol=git"
+S = "${WORKDIR}/git"
+
+inherit gitpkgv update-alternatives
+
+bindir = "/bin"
+sbindir = "/sbin"
+
 RCONFLICTS_${PN} = "sysvinit"
-
-DEPENDS        += "dietlibc-cross"
-
-S               = "${WORKDIR}/elito-setup-${PV}"
-SRC_URI		= " \
-	${ELITO_MIRROR}/elito-setup-${PV}.tar.bz2 \
-	file://mdev.dbg"
-
-OVERRIDES .= "${@base_conditional('IMAGE_DEV_MANAGER','busybox-mdev',':mdev','',d)}"
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','modules','',':nomodules',d)}"
-
-FILES_${PN}	= "	\
-	${sbindir}/*			\
-	${bindir}/*			\
-	/etc/tmpfiles.d			\
+FILES_${PN} = " \
+  ${sbindir}/* \
+  ${bindir}/* \
 "
 
-EXTRA_OEMAKE += "DIET=diet"
+OVERRIDES .= "${@base_conditional('IMAGE_INIT_MANAGER','systemd',':systemd','',d)}"
+OVERRIDES .= "${@base_contains('DISTRO_FEATURES','dietlibc',':dietlibc','',d)}"
+
+DEPENDS_append_dietlibc += "dietlibc-cross"
+EXTRA_OEMAKE_append_dietlibc += "DIET=diet"
+
+CPPFLAGS_append_systemd = '\
+  -DENABLE_SYSTEMD=1 \
+  -DSYSTEMD_TEMPLATE_DIR='"${datadir}/elito-systemd"' \
+'
 
 do_compile() {
-	oe_runmake
+    oe_runmake
 }
-
 
 do_install() {
     oe_runmake DESTDIR=${D} install
 }
 
-do_install_append_mdev() {
-    install -p -m 0755 ../mdev.dbg ${D}/sbin/mdev.dbg
-}
-
-do_install_append_nomodules() {
-    rm -f ${D}${sbindir}/elito-load-modules
-}
-
-
-pkg_postinst_${PN}() {
-	update-alternatives --install /sbin/init init /sbin/init.wrapper 90
-}
-
-pkg_postrm_${PN}() {
-	update-alternatives --remove init /sbin/init.wrapper
-}
-
-SRC_URI[md5sum] = "3688b523a90c4b02c62b238556c239a0"
-SRC_URI[sha256sum] = "031c7aad6e82258eec1536dfa543d72106c015d039fd52d38782115a2a5de544"
+ALTERNATIVE_NAME = "init"
+ALTERNATIVE_PATH = "${sbindir}/init.wrapper"
+ALTERNATIVE_LINK = "${sbindir}/init"
+ALTERNATIVE_PRIORITY = "900"
