@@ -20,7 +20,7 @@ index 4e73929..f22ba39 100644
  import bb, bb.codeparser
  from bb   import utils
  from bb.COW  import COWDictBase
-@@ -473,5 +474,10 @@ class DataSmart(MutableMapping):
+@@ -473,4 +474,10 @@ class DataSmart(MutableMapping):
              value = self.getVar(key, False) or ""
              data = data + key + ': ' + str(value) + '\n'
  
