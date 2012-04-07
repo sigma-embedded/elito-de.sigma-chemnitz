@@ -267,6 +267,7 @@ endif
 			@touch $@
 
 $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitbake_setuptools)
+			rm -f ${_bitbake-xtraprogs}
 			cd $(_tmpdir)/bitbake && $(PYTHON) setup.py build
 			mkdir -p $(_bitbake_root)/lib
 			cd $(_tmpdir)/bitbake && \
