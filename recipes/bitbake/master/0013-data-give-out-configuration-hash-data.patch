@@ -20,13 +20,14 @@ index 4e73929..f22ba39 100644
  import bb, bb.codeparser
  from bb   import utils
  from bb.COW  import COWDictBase
-@@ -473,4 +474,9 @@ class DataSmart(MutableMapping):
+@@ -473,5 +474,10 @@ class DataSmart(MutableMapping):
              value = self.getVar(key, False) or ""
              data = data + key + ': ' + str(value) + '\n'
  
-+        if logger.level >= 0:
++        if logger.level >= 1:
++            now = self.getVar("DATETIME", True) or ("%u" % time.time())
 +            fname = os.path.join(self.getVar("TMPDIR", True) or ".",
-+                                 "datahash.%u" % time.time());
++                                 "datahash.%s" % now);
 +            open(fname,"w").write(data)
 +
          return hashlib.md5(data).hexdigest()
