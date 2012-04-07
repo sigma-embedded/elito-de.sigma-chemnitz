@@ -1,15 +1,18 @@
 #! /bin/bash
 
-_w=${W:-tmp}
-case $_w in
+set -x
+
+W_=${W:-tmp}
+export -n W_
+case $W_ in
   /*)	;;
-  *)	_w=@abs_top_builddir@/$_w;;
+  *)	W_=@abs_top_builddir@/$W_;;
 esac
 
-_s=$_w/sysroots/`uname -m`-linux
+_s=$W_/sysroots/`uname -m`-linux
 : ${PYTHON:=@PYTHON@}
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
-CCACHE_DIR=$_w/cache/ccache
+CCACHE_DIR=$W_/cache/ccache
 INSTALL='@INSTALL@'
 BBPATH=@abs_top_builddir@
 ELITO_METRICS_ID=$$
