@@ -2,11 +2,13 @@
 
 ## Usage: wrap-bitbake <abs_top_builddir> <prog> [<args>*]
 
-if ! test -x "$2"; then
+_cmd=`type -P "$2"`
+if ! test -x "$_cmd"; then
     echo "***** Could not find bitbake binary. Make sure that it was"
     echo "***** checked out by 'make init' in your project directory"
     exit 1
 fi >&2
+unset _cmd
 
 BB_ENV_EXTRAWHITE='CCACHE_DIR HOME GIT_SSL_CAINFO '\
 'ftp_proxy http_proxy https_proxy no_proxy '\
