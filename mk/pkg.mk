@@ -1,5 +1,5 @@
 OPKG_MAKE_INDEX =	opkg-make-index
-FAKEROOT =		${ELITO_TOPDIR}/scripts/wrap-bitbake '${PROJECT_TOPDIR}'
+FAKEROOT =		${ELITO_TOPDIR}/scripts/run-pseudo '${PROJECT_TOPDIR}'
 OPKG =			opkg-cl
 OPKG_ENV =		env D='$(DESTDIR)'
 OPKG_OPTS =		--force_postinstall

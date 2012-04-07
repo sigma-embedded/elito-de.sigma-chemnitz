@@ -1,6 +1,6 @@
 #! /bin/bash
 
-## Usage: wrap-bitbake <abs_top_builddir> <prog> [<args>*]
+## Usage: run-pseudo <abs_top_builddir> <prog> [<args>*]
 
 _cmd=`type -P "$2"`
 if ! test -x "$_cmd"; then
