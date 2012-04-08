@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r17"
+PR		= "r18"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
@@ -36,6 +36,8 @@ do_install() {
 	for i in resolv.conf.static ntpd.conf.static; do
 		touch ${D}${sysconfdir}/$i
 	done
+
+        touch ${D}${sysconfdir}/machine-id
 
 	ln -s ../run/resolv.conf ${D}/etc/resolv.conf
 	ln -s ../run/ntpd.conf ${D}/etc/ntpd.conf
