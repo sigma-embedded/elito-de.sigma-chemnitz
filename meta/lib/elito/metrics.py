@@ -60,7 +60,7 @@ def __write_build_complete(e, start_info, end_info, fname):
         fcntl.flock(f_out.fileno(), fcntl.LOCK_EX)
         fcntl.fcntl(f_in.fileno(),  fcntl.LOCK_SH)
 
-        f_out.write('<!-- Started: %s   Ended: %s -->\n' %
+        f_out.write('<!-- Started: %s   Ended: %s -*- xml -*- -->\n' %
                     (time.strftime('%c', time.gmtime(start_info['time'])),
                      time.strftime('%c', time.gmtime(end_info['time']))))
 
