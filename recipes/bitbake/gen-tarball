@@ -6,13 +6,24 @@ B='master 1.8 1.10 1.12'
 d=`mktemp -t -d bitbake.XXXXXX` || exit 1
 trap "rm -rf $d" EXIT
 
+: ${OLD_BUNDLE:=`pwd`/bitbake-git.bundle}
+
+test -r "$OLD_BUNDLE" || OLD_BUNDLE=
+
 {
   cd $d
   git init --bare
 
+  if test -n "$OLD_BUNDLE"; then
+      git remote add old "$OLD_BUNDLE"
+      git remote update
+  fi
+
   for b in $B; do
       git fetch --no-tags "$U" $b:$b
   done
+
+  test -z "$OLD_BUNDLE" || git remote rm old
 
   git gc
   git repack -a -d
@@ -24,4 +35,9 @@ trap "rm -rf $d" EXIT
 
   cat bundle >&4
   cd -
-} 3> bitbake-git.tar 4>bitbake-git.bundle
+} 3> bitbake-git.tar.tmp 4>bitbake-git.bundle.tmp
+
+rm -f bitbake-git.bundle bitbake-git.tar
+
+mv bitbake-git.bundle.tmp bitbake-git.bundle
+mv bitbake-git.tar.tmp bitbake-git.tar
