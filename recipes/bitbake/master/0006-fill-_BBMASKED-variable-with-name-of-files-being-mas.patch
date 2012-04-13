@@ -1,7 +1,7 @@
-From 7d9cab4be691f8e94c38bf28833d928912131498 Mon Sep 17 00:00:00 2001
+From b2e5c6427c1c60c65d54102d50d75473cf1008d8 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:45 +0200
-Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
+Subject: [PATCH 06/16] fill _BBMASKED variable with name of files being
  masked out
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 06/12] fill _BBMASKED variable with name of files being
  1 files changed, 15 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 5792f9e..9492339 100644
+index d2f8404..9b6412f 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -1353,9 +1353,12 @@ class BBCooker:
+@@ -1349,9 +1349,12 @@ class BBCooker:
  
          bbfiles = []
          bbappend = []
@@ -26,7 +26,7 @@ index 5792f9e..9492339 100644
                  masked += 1
                  continue
              if f.endswith('.bb'):
-@@ -1385,6 +1388,11 @@ class BBCooker:
+@@ -1381,6 +1384,11 @@ class BBCooker:
                  topfile = bbfile_seen[base]
                  self.overlayed[topfile].append(f)
  
@@ -38,7 +38,7 @@ index 5792f9e..9492339 100644
          return (bbfiles, masked)
  
      def get_file_appends(self, fn):
-@@ -1582,6 +1590,12 @@ class Parser(multiprocessing.Process):
+@@ -1578,6 +1586,12 @@ class Parser(multiprocessing.Process):
          except BaseException as exc:
              return True, ParsingFailure(exc, filename)
  
@@ -52,5 +52,5 @@ index 5792f9e..9492339 100644
      def __init__(self, cooker, filelist, masked):
          self.filelist = filelist
 -- 
-1.7.7.4
+1.7.7.6
 

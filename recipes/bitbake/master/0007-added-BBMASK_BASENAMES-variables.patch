@@ -1,17 +1,17 @@
-From fed0624c8be0a0649ee93f87a106a04fc136bf5a Mon Sep 17 00:00:00 2001
+From 46dc742e629046e9d13309b8c3aca48b695adf81 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:46 +0200
-Subject: [PATCH 07/12] added BBMASK_BASENAMES variables
+Subject: [PATCH 07/16] added BBMASK_BASENAMES variables
 
 ---
  lib/bb/cooker.py |   15 ++++++++++++++-
  1 files changed, 14 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index f869a84..b78e125 100644
+index 9b6412f..7297cf4 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -1335,6 +1335,8 @@ class BBCooker:
+@@ -1339,6 +1339,8 @@ class BBCooker:
                          newfiles.append(g)
  
          bbmask = self.configuration.data.getVar('BBMASK', True)
@@ -20,7 +20,7 @@ index f869a84..b78e125 100644
  
          if bbmask:
              try:
-@@ -1342,12 +1344,23 @@ class BBCooker:
+@@ -1346,12 +1348,23 @@ class BBCooker:
              except sre_constants.error:
                  collectlog.critical("BBMASK is not a valid regular expression, ignoring.")
                  return list(newfiles), 0

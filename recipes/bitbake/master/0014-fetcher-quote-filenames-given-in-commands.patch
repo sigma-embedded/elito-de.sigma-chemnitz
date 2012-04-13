@@ -1,7 +1,7 @@
-From fa555de9dd0cd3493bf2e5a5d14cdf3f15ebc172 Mon Sep 17 00:00:00 2001
+From 86a0245171beeb3a9444fef96c2162e1ee300f15 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 6 Apr 2012 16:53:30 +0200
-Subject: [PATCH] fetcher: quote filenames given in commands
+Subject: [PATCH 14/16] fetcher: quote filenames given in commands
 
 Filenames were given as-is to shell commands. This causes problems
 when names contain characters which have a special meaning. E.g. when
@@ -24,7 +24,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 files changed, 15 insertions(+), 13 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 606d86a..38c3874 100644
+index 5729d18..d5ff49c 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -29,6 +29,7 @@ from __future__ import print_function
@@ -35,7 +35,7 @@ index 606d86a..38c3874 100644
  from bb import data
  
  __version__ = "2"
-@@ -714,20 +715,21 @@ class FetchMethod(object):
+@@ -715,20 +716,21 @@ class FetchMethod(object):
          cmd = None
  
          if unpack:
@@ -64,7 +64,7 @@ index 606d86a..38c3874 100644
              elif file.endswith('.zip') or file.endswith('.jar'):
                  try:
                      dos = bb.utils.to_boolean(urldata.parm.get('dos'), False)
-@@ -737,15 +739,15 @@ class FetchMethod(object):
+@@ -738,15 +740,15 @@ class FetchMethod(object):
                  cmd = 'unzip -q -o'
                  if dos:
                      cmd = '%s -a' % cmd
@@ -83,7 +83,7 @@ index 606d86a..38c3874 100644
  
          if not unpack or not cmd:
              # If file == dest, then avoid any copies, as we already put the file into dest!
-@@ -761,8 +763,8 @@ class FetchMethod(object):
+@@ -762,8 +764,8 @@ class FetchMethod(object):
                              destdir = "."
                          elif not os.access("%s/%s" % (rootdir, destdir), os.F_OK):
                              os.makedirs("%s/%s" % (rootdir, destdir))
@@ -94,7 +94,7 @@ index 606d86a..38c3874 100644
                  else:
                      # The "destdir" handling was specifically done for FILESPATH
                      # items.  So, only do so for file:// entries.
-@@ -771,7 +773,7 @@ class FetchMethod(object):
+@@ -772,7 +774,7 @@ class FetchMethod(object):
                      else:
                         destdir = "."
                      bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))

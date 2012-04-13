@@ -1,7 +1,7 @@
-From f31cf6a5c6306abff8867a91b344e250f713ca9a Mon Sep 17 00:00:00 2001
+From 405df9007417d70afe857513d5fd599768cbccda Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:43 +0200
-Subject: [PATCH 03/12] added find-dups functions
+Subject: [PATCH 03/16] added find-dups functions
 
 it is activated by a debug level of collection domain >= 1
 ---
@@ -9,10 +9,10 @@ it is activated by a debug level of collection domain >= 1
  1 files changed, 52 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index cbe0d71..a3b90b5 100644
+index dea0aad..d2f8404 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
-@@ -1112,6 +1112,54 @@ class BBCooker:
+@@ -1170,6 +1170,54 @@ class BBCooker:
  
          self.server_registration_cb(buildTargetsIdle, rq)
  
@@ -67,7 +67,7 @@ index cbe0d71..a3b90b5 100644
      def updateCache(self):
          if self.state == state.running:
              return
-@@ -1143,6 +1191,10 @@ class BBCooker:
+@@ -1201,6 +1249,10 @@ class BBCooker:
  
          if not self.parser.parse_next():
              collectlog.debug(1, "parsing complete")
@@ -79,5 +79,5 @@ index cbe0d71..a3b90b5 100644
              self.buildDepgraph()
              self.state = state.running
 -- 
-1.7.7.4
+1.7.7.6
 

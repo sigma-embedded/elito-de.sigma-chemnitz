@@ -1,17 +1,17 @@
-From 96f2a1cd2bdac0b6ce98a45fbe13f7cdce14e278 Mon Sep 17 00:00:00 2001
+From 4cc8b73ade51db61ca337265c0d91da0e8e6e491 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:42 +0200
-Subject: [PATCH 02/12] export some more proxy related environment variables
+Subject: [PATCH 02/16] export some more proxy related environment variables
 
 ---
  lib/bb/fetch2/__init__.py |    3 +++
  1 files changed, 3 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 42fef69..6233e7c 100644
+index 414cc2b..5729d18 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -405,6 +405,9 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -406,6 +406,9 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
                    'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME',
                    'GIT_PROXY_IGNORE', 'SOCKS5_USER', 'SOCKS5_PASSWD']
  

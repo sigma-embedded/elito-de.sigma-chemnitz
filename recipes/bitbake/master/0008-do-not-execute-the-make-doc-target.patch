@@ -1,14 +1,14 @@
-From f0a9aef039f04ed4374ddc0be93da273ba458015 Mon Sep 17 00:00:00 2001
+From ba1c4dd45c031ee95078a62a78a31d630a015849 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
-Subject: [PATCH 08/12] do not execute the 'make doc' target
+Subject: [PATCH 08/16] do not execute the 'make doc' target
 
 ---
  setup.py |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index 038dd87..6503494 100755
+index bc2815d..e103779 100755
 --- a/setup.py
 +++ b/setup.py
 @@ -43,7 +43,7 @@ class Build(build):
@@ -21,5 +21,5 @@ index 038dd87..6503494 100755
              print("ERROR: Unable to generate html documentation.")
              sys.exit(ret)
 -- 
-1.7.7.4
+1.7.7.6
 
