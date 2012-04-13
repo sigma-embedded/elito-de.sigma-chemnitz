@@ -8,7 +8,7 @@ PV = "0.1+gitr${SRCPV}"
 PR = "r0"
 
 SRC_URI		=  "${ELITO_GIT_REPO}/pub/fbtest.git;protocol=git"
-SRCREV		=  "${AUTOREV}"
+SRCREV		=  "fb132343a92d919594b2281f0b59304ea5ae737a"
 S		=  "${WORKDIR}/git"
 
 do_compile() {
