@@ -4,7 +4,7 @@ S = "${WORKDIR}/${PLUGINNAME}-${PV}"
 VDR_DEV_DVBBASE ?= "/dev/bus/dvb/"
 
 VDR_PLUGINDIR = "${libdir}/vdr"
-VDR_CONFIGDIR = "${sysconfdir}/vdr"
+VDR_CONFIGDIR = "${localstatedir}/lib/vdr/etc"
 
 DEPENDS += "vdr"
 PLUGINS ?= "lib${PN}.so.*"
@@ -52,4 +52,4 @@ RPROVIDES_${PN}	       = "vdr-plugin-${PLUGINNAME}"
 FILES_${PN}            = "${VDR_PLUGINDIR}/libvdr-*.so*"
 FILES_${PN}-dbg       .= " ${VDR_PLUGINDIR}/.debug/*"
 
-inherit gettext
+inherit gettext elito-normalize-po
