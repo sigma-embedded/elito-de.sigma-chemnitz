@@ -95,7 +95,7 @@ python do_elito_set_home() {
 do_compile[prefuncs] += "do_elito_set_home"
 do_install[prefuncs] += "do_elito_set_home"
 
-BB_HASHCONFIG_WHITELIST += "ftp_proxy http_proxy https_proxy no_proxy DISPLAY"
+BB_HASHCONFIG_WHITELIST += "ftp_proxy http_proxy https_proxy no_proxy DISPLAY ELITO_BUILD_NUMBER"
 
 ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
 ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
