@@ -1,7 +1,7 @@
-From 86a0245171beeb3a9444fef96c2162e1ee300f15 Mon Sep 17 00:00:00 2001
+From 5fc8191aef462624b23990fe8bc0aea666c35d5c Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 6 Apr 2012 16:53:30 +0200
-Subject: [PATCH 14/16] fetcher: quote filenames given in commands
+Subject: [PATCH 01/16] fetcher: quote filenames given in commands
 
 Filenames were given as-is to shell commands. This causes problems
 when names contain characters which have a special meaning. E.g. when
@@ -16,15 +16,15 @@ the fetcher failed with
 
 Patch uses the pipes.quote() function to apply shell escaping.  These
 changes are not really complete; they are modifying __init__.py only
-but most fetchers need similar changes too.
+but most fetchers need similar adaptations too.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 ---
- lib/bb/fetch2/__init__.py |   28 +++++++++++++++-------------
- 1 files changed, 15 insertions(+), 13 deletions(-)
+ lib/bb/fetch2/__init__.py |   38 +++++++++++++++++++++-----------------
+ 1 files changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 5729d18..d5ff49c 100644
+index 414cc2b..9afbc4f 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -29,6 +29,7 @@ from __future__ import print_function
@@ -35,17 +35,17 @@ index 5729d18..d5ff49c 100644
  from bb import data
  
  __version__ = "2"
-@@ -715,20 +716,21 @@ class FetchMethod(object):
+@@ -712,38 +713,39 @@ class FetchMethod(object):
          cmd = None
  
          if unpack:
 +            qfile = pipes.quote(file)
              if file.endswith('.tar'):
 -                cmd = 'tar x --no-same-owner -f %s' % file
-+                cmd = 'tar x --no-same-owner -f %s' % qfile
++                cmd = ['tar', 'x', '--no-same-owner',  '-f', file]
              elif file.endswith('.tgz') or file.endswith('.tar.gz') or file.endswith('.tar.Z'):
 -                cmd = 'tar xz --no-same-owner -f %s' % file
-+                cmd = 'tar xz --no-same-owner -f %s' % qfile
++                cmd = ['tar', 'xz', '--no-same-owner', '-f', file]
              elif file.endswith('.tbz') or file.endswith('.tbz2') or file.endswith('.tar.bz2'):
 -                cmd = 'bzip2 -dc %s | tar x --no-same-owner -f -' % file
 +                cmd = 'bzip2 -dc %s | tar x --no-same-owner -f -' % qfile
@@ -64,12 +64,16 @@ index 5729d18..d5ff49c 100644
              elif file.endswith('.zip') or file.endswith('.jar'):
                  try:
                      dos = bb.utils.to_boolean(urldata.parm.get('dos'), False)
-@@ -738,15 +740,15 @@ class FetchMethod(object):
-                 cmd = 'unzip -q -o'
+                 except ValueError as exc:
+                     bb.fatal("Invalid value for 'dos' parameter for %s: %s" %
+                              (file, urldata.parm.get('dos')))
+-                cmd = 'unzip -q -o'
++                cmd = ['unzip', '-q', '-o']
                  if dos:
-                     cmd = '%s -a' % cmd
+-                    cmd = '%s -a' % cmd
 -                cmd = "%s '%s'" % (cmd, file)
-+                cmd = "%s %s" % (cmd, qfile)
++                    cmd.append('-a')
++                cmd.append(file)
              elif file.endswith('.src.rpm') or file.endswith('.srpm'):
                  if 'extract' in urldata.parm:
                      unpack_file = urldata.parm.get('extract')
@@ -83,26 +87,40 @@ index 5729d18..d5ff49c 100644
  
          if not unpack or not cmd:
              # If file == dest, then avoid any copies, as we already put the file into dest!
-@@ -762,8 +764,8 @@ class FetchMethod(object):
+@@ -759,8 +761,8 @@ class FetchMethod(object):
                              destdir = "."
                          elif not os.access("%s/%s" % (rootdir, destdir), os.F_OK):
                              os.makedirs("%s/%s" % (rootdir, destdir))
 -                    cmd = 'cp -pPR %s %s/%s/' % (file, rootdir, destdir)
 -                    #cmd = 'tar -cf - -C "%d" -ps . | tar -xf - -C "%s/%s/"' % (file, rootdir, destdir)
-+                    cmd = 'cp -pPR %s %s/%s/' % (pipes.quote(file), pipes.quote(rootdir), pipes.quote(destdir))
++                    cmd = ['cp', '-pPR', file, '%s/%s/' % (rootdir, destdir)]
 +                    #cmd = 'tar -cf - -C "%d" -ps . | tar -xf - -C "%s/%s/"' % (pipes.quote(file), pipes.quote(rootdir), pipes.quote(destdir))
                  else:
                      # The "destdir" handling was specifically done for FILESPATH
                      # items.  So, only do so for file:// entries.
-@@ -772,7 +774,7 @@ class FetchMethod(object):
+@@ -769,7 +771,7 @@ class FetchMethod(object):
                      else:
                         destdir = "."
                      bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))
 -                    cmd = 'cp %s %s/%s/' % (file, rootdir, destdir)
-+                    cmd = 'cp %s %s/%s/' % (pipes.quote(file), pipes.quote(rootdir), pipes.quote(destdir))
++                    cmd = ['cp', file, '%s/%s/' % (rootdir, destdir)]
  
          if not cmd:
              return
+@@ -782,9 +784,11 @@ class FetchMethod(object):
+             bb.utils.mkdirhier(newdir)
+             os.chdir(newdir)
+ 
+-        cmd = "PATH=\"%s\" %s" % (data.getVar('PATH', True), cmd)
++        new_env = os.environ.copy()
++        new_env['PATH'] = data.getVar('PATH', True)
+         bb.note("Unpacking %s to %s/" % (file, os.getcwd()))
+-        ret = subprocess.call(cmd, preexec_fn=subprocess_setup, shell=True)
++        ret = subprocess.call(cmd, preexec_fn=subprocess_setup,
++                              shell=isinstance(cmd, basestring), env=new_env)
+ 
+         os.chdir(save_cwd)
+ 
 -- 
 1.7.7.6
 

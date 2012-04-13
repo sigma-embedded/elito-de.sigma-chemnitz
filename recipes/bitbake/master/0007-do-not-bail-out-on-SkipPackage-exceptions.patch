@@ -1,7 +1,7 @@
-From 461413834fbdc796b4a924970be36f1107e79c83 Mon Sep 17 00:00:00 2001
+From 4d41afcd7b6da63b5e78b6e1de125412e13e6c4e Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:43 +0200
-Subject: [PATCH 04/16] do not bail out on SkipPackage exceptions
+Subject: [PATCH 07/16] do not bail out on SkipPackage exceptions
 
 set __SKIPPED instead of
 ---

@@ -1,26 +1,31 @@
-From 697a2c80ad0e7824026adc8c35f354c4e830aff8 Mon Sep 17 00:00:00 2001
+From 673635c146330e3331f61ce79a3e27942dfe8d8f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
-Date: Fri, 13 Apr 2012 11:41:46 +0200
-Subject: [PATCH 15/16] fixup! data: give out configuration hash data
+Date: Mon, 2 Apr 2012 15:43:06 +0200
+Subject: [PATCH 16/16] data: give out configuration hash data
 
+this helps to debug problems
 ---
- lib/bb/data_smart.py |   18 ++++++++++++++----
- 1 files changed, 14 insertions(+), 4 deletions(-)
+ lib/bb/data_smart.py |   17 +++++++++++++++++
+ 1 files changed, 17 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index ef9a065..89c35be 100644
+index 4e73929..89c35be 100644
 --- a/lib/bb/data_smart.py
 +++ b/lib/bb/data_smart.py
-@@ -474,10 +474,20 @@ class DataSmart(MutableMapping):
+@@ -32,6 +32,7 @@ import copy, re
+ from collections import MutableMapping
+ import logging
+ import hashlib
++import time
+ import bb, bb.codeparser
+ from bb   import utils
+ from bb.COW  import COWDictBase
+@@ -473,4 +474,20 @@ class DataSmart(MutableMapping):
              value = self.getVar(key, False) or ""
              data = data + key + ': ' + str(value) + '\n'
  
--        if logger.level >= 1:
--            now = self.getVar("DATETIME", True) or ("%u" % time.time())
 +        if logger.level >= 0:
-             fname = os.path.join(self.getVar("TMPDIR", True) or ".",
--                                 "datahash.%s" % now);
--            open(fname,"w").write(data)
++            fname = os.path.join(self.getVar("TMPDIR", True) or ".",
 +                                 "datahash");
 +
 +            try:
@@ -34,7 +39,7 @@ index ef9a065..89c35be 100644
 +                pass
 +
 +            open(fname + ".curr","w").write(data)
- 
++
          return hashlib.md5(data).hexdigest()
 -- 
 1.7.7.6

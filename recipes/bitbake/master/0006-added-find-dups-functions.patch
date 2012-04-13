@@ -1,7 +1,7 @@
-From 405df9007417d70afe857513d5fd599768cbccda Mon Sep 17 00:00:00 2001
+From 19aa0c8b77c3bc68ac8f85790863ddbce379bf08 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:43 +0200
-Subject: [PATCH 03/16] added find-dups functions
+Subject: [PATCH 06/16] added find-dups functions
 
 it is activated by a debug level of collection domain >= 1
 ---

@@ -1,7 +1,7 @@
-From 46dc742e629046e9d13309b8c3aca48b695adf81 Mon Sep 17 00:00:00 2001
+From b0f724986d5969fc5dfd8f28a4001980b293574f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:46 +0200
-Subject: [PATCH 07/16] added BBMASK_BASENAMES variables
+Subject: [PATCH 10/16] added BBMASK_BASENAMES variables
 
 ---
  lib/bb/cooker.py |   15 ++++++++++++++-

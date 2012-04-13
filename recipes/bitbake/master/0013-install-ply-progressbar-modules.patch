@@ -1,7 +1,7 @@
-From 8929720397fbd70e6b11bae8578c21fcbce5b363 Mon Sep 17 00:00:00 2001
+From c17799c3077a412b382ed140a0fd4b95fc7d5fe6 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:48 +0200
-Subject: [PATCH 10/16] install ply + progressbar modules
+Subject: [PATCH 13/16] install ply + progressbar modules
 
 ---
  setup.py |    5 +++--

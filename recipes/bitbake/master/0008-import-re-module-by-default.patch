@@ -1,17 +1,17 @@
-From 6a44aafb92972b27b1f2d35a92dce7869f19d59a Mon Sep 17 00:00:00 2001
+From 501022696dc0ff3cc19a9f29cc6a3c84813b7a25 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:44 +0200
-Subject: [PATCH 05/12] import 're' module by default
+Subject: [PATCH 08/16] import 're' module by default
 
 ---
  lib/bb/utils.py |    1 +
  1 files changed, 1 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/utils.py b/lib/bb/utils.py
-index a26635a..8329a02 100644
+index 1d98bca..b1d862e 100644
 --- a/lib/bb/utils.py
 +++ b/lib/bb/utils.py
-@@ -38,6 +38,7 @@ _context = {
+@@ -36,6 +36,7 @@ _context = {
      "os": os,
      "bb": bb,
      "time": time,
@@ -20,5 +20,5 @@ index a26635a..8329a02 100644
  
  def explode_version(s):
 -- 
-1.7.7.4
+1.7.7.6
 

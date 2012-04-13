@@ -1,0 +1,91 @@
+From 3371ccbafe47c32f036a194d76f02fd0774d0a76 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Date: Fri, 13 Apr 2012 13:06:00 +0200
+Subject: [PATCH 02/16] runfetchcmd(): allow to use a sequence as cmd
+
+Patch removes the explicit 'shell=True' from the bb.process.run() call
+and modifies the environment directly.  This allows to use a sequence as
+the cmd option which in turn, removes the need for quoting filenames
+manually.
+
+Unfortunately, modifying only runfetchmod() does not allow code like
+
+  runfetchcmd([ud.basecmd, 'remote', 'add', ..., repourl])
+
+because 'ud.basecmd' (expanded e.g. from ${FETCHCMD_git}) might contain
+a command plus shell escaped options.
+
+To cope with such situations, a runfetchcmd2() function was added
+which quotes the arguments but takes the cmd as-is.
+
+Having basecmd splitted off from cmdline string reduces information
+printed out by check_network_access().  To retain the old behavior, an
+optional argument was added which allows to specify the basecmd.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+---
+ lib/bb/fetch2/__init__.py |   26 +++++++++++++++++++++-----
+ 1 files changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
+index 9afbc4f..168efb5 100644
+--- a/lib/bb/fetch2/__init__.py
++++ b/lib/bb/fetch2/__init__.py
+@@ -407,10 +407,11 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+                   'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME',
+                   'GIT_PROXY_IGNORE', 'SOCKS5_USER', 'SOCKS5_PASSWD']
+ 
++    new_env = os.environ.copy()
+     for var in exportvars:
+         val = d.getVar(var, True)
+         if val:
+-            cmd = 'export ' + var + '=\"%s\"; %s' % (val, cmd)
++            new_env[var] = val
+ 
+     logger.debug(1, "Running %s", cmd)
+ 
+@@ -418,7 +419,7 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+     error_message = ""
+ 
+     try:
+-        (output, errors) = bb.process.run(cmd, shell=True, stderr=subprocess.PIPE)
++        (output, errors) = bb.process.run(cmd, stderr=subprocess.PIPE, env=new_env)
+         success = True
+     except bb.process.NotFoundError as e:
+         error_message = "Fetch command %s" % (e.command)
+@@ -438,14 +439,29 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+ 
+     return output
+ 
+-def check_network_access(d, info = "", url = None):
++def runfetchcmd2(cmd, args, d, **opts):
++    cmd += ' '
++    cmd += ' '.join(map(lambda a: pipes.quote(a), args))
++    return runfetchcmd(cmd, d, **opts)
++
++def check_network_access(d, info = "", url = None, base_cmd = None):
+     """
+     log remote network access, and error if BB_NO_NETWORK is set
+     """
++    if base_cmd:
++        info_str = base_cmd + ' '
++    else:
++        info_str = ''
++
++    if isinstance(info, list) or isinstance(info, tuple):
++        info_str += ' '.join(map(lambda a: pipes.quote(a), info))
++    else:
++        info_str += '%s' % info
++
+     if d.getVar("BB_NO_NETWORK", True) == "1":
+-        raise NetworkAccess(url, info)
++        raise NetworkAccess(url, info_str)
+     else:
+-        logger.debug(1, "Fetcher accessed the network with the command %s" % info)
++        logger.debug(1, "Fetcher accessed the network with the command %s" % info_str)
+ 
+ def try_mirrors(d, origud, mirrors, check = False):
+     """
+-- 
+1.7.7.6
+

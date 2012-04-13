@@ -1,7 +1,7 @@
-From 3da79e3aa448be41e8c46bcca6f5970b8a71a2c1 Mon Sep 17 00:00:00 2001
+From 53526c65deb23d1bef13c2b8a4b5de49a6747c5f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
-Subject: [PATCH 09/16] detect and ignore duplicate inherits
+Subject: [PATCH 12/16] detect and ignore duplicate inherits
 
 ---
  lib/bb/cooker.py |    6 ++++++
