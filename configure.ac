@@ -207,6 +207,14 @@ for i; do
 	    test -d "$i" || AC_MSG_ERROR([can not determine path for layer '$i'])
 	    i=`cd "$i" && pwd -P`
 	    ;;
+	-*)
+	    i=${i##-}
+	    if ! test -d "$i"; then
+		AC_MSG_RESULT([($i) -- skipped])
+		continue
+	    fi
+	    i=`cd "$i" && pwd -P`
+	    ;;
 	*)			 
 	    i="\${ELITO_ROOTDIR}/$i "
 	    ;;
