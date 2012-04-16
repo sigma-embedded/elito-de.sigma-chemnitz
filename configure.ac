@@ -4,6 +4,9 @@
 AC_PREREQ(2.59)
 AC_INIT(elito, 0.8.1, [ELiTo Support <elito@sigma-chemnitz.de>])
 
+: ${PWD_P:=pwd -P}
+AC_ARG_VAR([PWD_P],[Command to determine current directory])
+
 AC_DEFUN([ELITO_TRUE_FALSE],
 [
 	if $2; then
@@ -203,14 +206,14 @@ for i; do
 	[[[$/]]*],[],
 	[./*|../*],[
 	    test -d "$i" || AC_MSG_ERROR([can not determine path for layer '$i'])
-	    i=`cd "$i" && pwd -P`],
+	    i=`cd "$i" && ${PWD_P}`],
 	[-*],[
 	    i=${i##-}
 	    if ! test -d "$i"; then
 		AC_MSG_RESULT([($i) -- skipped])
 		continue
 	    fi
-	    i=`cd "$i" && pwd -P`],
+	    i=`cd "$i" && ${PWD_P}`],
 	[i="\${ELITO_ROOTDIR}/$i "])
 
 	layer_str="${layer_str}$i "
