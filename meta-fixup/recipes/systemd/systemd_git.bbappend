@@ -18,6 +18,7 @@ EXTRA_OECONF += "\
 
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
+    rm -f ${D}${sysconfdir}/systemd/system/tmp.mount
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
 }
 
