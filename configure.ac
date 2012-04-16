@@ -189,40 +189,33 @@ IFS=$old_IFS
 
 layer_str=''
 for i; do
-    case x$i in
-    (xDEFAULT)
+    AS_CASE([x$i],
+    [xDEFAULT],[
         for j in $_default_layers; do
 	    AC_MSG_CHECKING([for extra layers])
 	    layer_str="${layer_str}\${ELITO_ROOTDIR}/$j "
 	    AC_MSG_RESULT([$j (default)])
-	done
-	;;
-
-    (x*)
+	done],
+    [
         AC_MSG_CHECKING([for extra layers])
-	case $i in
-	[$/]*)
-	    ;;
-	./*|../*)
+
+	AS_CASE([$i],
+	[[[$/]]*],[],
+	[./*|../*],[
 	    test -d "$i" || AC_MSG_ERROR([can not determine path for layer '$i'])
-	    i=`cd "$i" && pwd -P`
-	    ;;
-	-*)
+	    i=`cd "$i" && pwd -P`],
+	[-*],[
 	    i=${i##-}
 	    if ! test -d "$i"; then
 		AC_MSG_RESULT([($i) -- skipped])
 		continue
 	    fi
-	    i=`cd "$i" && pwd -P`
-	    ;;
-	*)			 
-	    i="\${ELITO_ROOTDIR}/$i "
-	    ;;
-	esac
+	    i=`cd "$i" && pwd -P`],
+	[i="\${ELITO_ROOTDIR}/$i "])
+
 	layer_str="${layer_str}$i "
         AC_MSG_RESULT([$i])
-	;;
-    esac
+     ])
 done
 
 AC_SUBST([LAYER_DEFINITIONS],[$layer_str])
