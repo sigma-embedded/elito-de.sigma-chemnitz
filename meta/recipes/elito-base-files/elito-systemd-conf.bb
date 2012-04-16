@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 
 SRCREV = "fc0d4db960b4ee138ead24fffaa43a287439131f"
 _pv = "0.3"
-PR = "r0"
+PR = "r1"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -21,7 +21,7 @@ SRC_URI		= " \
 "
 
 RRECOMMENDS_${PN} += "${PN}-firstboot"
-RRECOMMENDS_${PN} += "${@base_contains('DISTRO_FEATURES','nfs','${PN}-nfs','', d)}"
+RRECOMMENDS_${PN} += "${@base_contains('DISTRO_FEATURES','nfsroot','${PN}-nfs','', d)}"
 
 FILES_${PN} = "\
   ${libdir}/tmpfiles.d/*.conf \
