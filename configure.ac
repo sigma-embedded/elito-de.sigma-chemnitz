@@ -200,7 +200,18 @@ for i; do
 
     (x*)
         AC_MSG_CHECKING([for extra layers])
-	layer_str="${layer_str}\${ELITO_ROOTDIR}/$i "
+	case $i in
+	[$/]*)
+	    ;;
+	./*|../*)
+	    test -d "$i" || AC_MSG_ERROR([can not determine path for layer '$i'])
+	    i=`cd "$i" && pwd -P`
+	    ;;
+	*)			 
+	    i="\${ELITO_ROOTDIR}/$i "
+	    ;;
+	esac
+	layer_str="${layer_str}$i "
         AC_MSG_RESULT([$i])
 	;;
     esac
