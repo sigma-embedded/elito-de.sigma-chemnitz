@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 _pv = "0.10"
-PR = "r2"
-SRCREV = "cfbfc73561044cef6a73ac1f9a92aeb90c7986c8"
+PR = "r0"
+SRCREV = "0498bd7d512cbba6ba1e27c1d6024adbb2693d5d"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
