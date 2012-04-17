@@ -2,12 +2,12 @@ DESCRIPTION = "ELiTo testsuite"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
+SRCREV = "3a702f9ca3b8b74669757cb87a9b354523524241"
 PV = "0.0.1+gitr${SRCPV}"
 PR = "r0"
 
 inherit gitpkgv
 
-SRCREV = "bf63336cf699aec72e445248679983cc0ae5969c"
 SRC_URI = "${ELITO_GIT_REPO}/pub/elito-testsuite.git;protocol=git"
 S = "${WORKDIR}/git"
 
