@@ -414,7 +414,9 @@ $(_tmpdir)/.versions.txt:	FORCE | $(_tmpdir)
 
 ############ {{{ 'clean' rules ##########
 clean:
+			rm -f $(filter-out Makefile,${CFG_FILES} ${AUTOCONF_FILES})
 			rm -f set-env.in conf/local.conf bitbake
+			rm -f config.log Packages.filelist bitbake.lock
 
 ifneq ($(wildcard metrics),)
 clean-metrics:		metrics-$(NOW).gz
@@ -440,6 +442,7 @@ clean-sources:
 
 mrproper:		clean clean-metrics
 			rm -rf $W $(_tmpdir)
+			rm -f config/sanity_info
 ############ 'clean' rules }}} ##########
 
 
