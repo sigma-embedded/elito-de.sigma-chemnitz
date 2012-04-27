@@ -22,18 +22,9 @@ ed_0.5 \
 findutils_4.2.31 \
 gawk_3.1.5 \
 gcc_csl-arm-2008q1 \
-gcc_4.5 \
 gcc-cross_csl-arm-2008q1 \
-gcc-cross_4.5 \
-gcc-cross-canadian_4.5 \
 gcc-cross-initial_csl-arm-2008q1 \
-gcc-cross-initial_4.5 \
 gcc-cross-intermediate_csl-arm-2008q1 \
-gcc-cross-intermediate_4.5 \
-gcc-crosssdk_4.5 \
-gcc-crosssdk-initial_4.5 \
-gcc-crosssdk-intermediate_4.5 \
-gcc-runtime_4.5 \
 gettext_0.16.1 \
 glib-2.0_2.27.5 \
 gmp_4.2.1 \
@@ -45,7 +36,6 @@ gzip_1.3.12 \
 json-glib_0.10.4 \
 libcanberra_0.26 \
 libdrm_2.4.25 \
-libgcc_4.5 \
 libgpg-error_1.8 \
 libiconv_1.11.1 \
 libidn_0.6.14 \
@@ -80,16 +70,6 @@ cross-localedef-native_2.12 \
 eglibc_2.12 \
 eglibc-initial_2.12 \
 eglibc-locale_2.12 \
-gcc_4.5.1 \
-gcc-cross_4.5.1 \
-gcc-cross-canadian_4.5.1 \
-gcc-cross-initial_4.5.1 \
-gcc-cross-intermediate_4.5.1 \
-gcc-crosssdk_4.5.1 \
-gcc-crosssdk-initial_4.5.1 \
-gcc-crosssdk-intermediate_4.5.1 \
-gcc-runtime_4.5.1 \
 liberation-fonts_1.04 \
-libgcc_4.5.1 \
 upstart-setup_devel \
 "
