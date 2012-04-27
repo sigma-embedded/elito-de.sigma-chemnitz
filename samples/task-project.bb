@@ -1,9 +1,9 @@
 DESCRIPTION  = "@PROJECT_NAME@ tasks"
 LICENSE      = "GPLv3"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9e"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-PV = "0.1+gitr${SRCPV}"
-PR = "r0"
+PV = "0.2"
+PR = "r0+b${ELITO_BUILD_NUMBER}"
 
 # for PROJECT_REVISION
 inherit elito-utils
@@ -32,7 +32,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 # |    * ERROR: Cannot satisfy the following dependencies for elito-task-core:
 #
 # like errors during rootfs creation.
-DEPENDS += "elito-develcomp alsa-utils"
+DEPENDS += "elito-develcomp"
 DEPENDS_initsys-upstart += "upstart-setup"
 
 RDEPENDS_${PN} = "\
@@ -42,7 +42,7 @@ RDEPENDS_${PN} = "\
 extra-RRECOMMENDS = ""
 
 extra-RRECOMMENDS_initsys-systemd = " \
-	busybox-systemd \
+	connman-systemd \
 	dropbear-systemd \
 "
 
@@ -55,10 +55,25 @@ extra-RRECOMMENDS_initsys-upstart = " \
 "
 
 RRECOMMENDS_${PN} = "\
-	alsa-utils-alsamixer		\
-	alsa-utils-amixer		\
-	alsa-utils-aplay		\
-	alsa-utils-alsactl		\
+	kernel-module-ehci-hcd		\
+	kernel-module-evdev		\
+	kernel-module-i2c-dev		\
+	kernel-module-iptable-filter	\
+	kernel-module-iptable-nat	\
+	kernel-module-mtdblock		\
+	kernel-module-mtdblock-ro	\
+	kernel-module-mtdchar		\
+	kernel-module-nls-ascii		\
+	kernel-module-nls-cp437		\
+	kernel-module-nls-cp850		\
+	kernel-module-nls-iso8859-1	\
+	kernel-module-nls-iso8859-15	\
+	kernel-module-nls-utf8		\
+	kernel-module-usb-serial	\
+	kernel-module-usb-storage	\
+	kernel-module-usbhid		\
+	kernel-module-vfat		\
+\
 	elito-fbtest			\
 	strace				\
 	minicom				\
