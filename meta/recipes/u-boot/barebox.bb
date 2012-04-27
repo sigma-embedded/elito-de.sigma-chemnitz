@@ -22,7 +22,7 @@ include u-boot-common.inc
 inherit deploy
 
 do_configure() {
-    oe_runmake "${UBOOT_DEFCONFIG}"
+    oe_runmake "${UBOOT_MACHINE}"
 }
 
 bootletspath = "${STAGING_DIR_TARGET}${libdir}/imx-bootlets"
