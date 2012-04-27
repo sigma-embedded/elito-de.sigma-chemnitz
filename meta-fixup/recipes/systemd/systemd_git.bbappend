@@ -18,7 +18,6 @@ EXTRA_OECONF += "\
 
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
-    rm -f ${D}${systemd_unitdir}/system/tmp.mount
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
 }
 
@@ -31,6 +30,7 @@ python populate_packages_prepend () {
 	'binfmt' : ['systemd-binfmt.service'],
 	'remount-rootfs' : ['remount-rootfs.service'],
 	'swap' : ['swap.target'],
+	'tmpfs' : ['tmp.mount'],
 	'cryptsetup' : ['cryptsetup.target'],
 	'logind' : ['systemd-logind.service',
                     'dbus-org.freedesktop.login1.service'],
