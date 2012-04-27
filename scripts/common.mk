@@ -335,7 +335,6 @@ $(_project_task_dir)/.stamp:
 			mkdir -p '$(@D)' '$(@D)/rootfs' '$(@D)/rootfs/etc/network'
 			$(INSTALL_DATA) $(_samples_dir)/Makefile          $(@D)/Makefile
 			$(INSTALL_DATA) $(_samples_dir)/.gitignore.sample $(@D)/.gitignore
-			$(INSTALL_DATA) $(_samples_dir)/securetty         $(@D)/rootfs/etc/securetty
 			touch $@
 
 $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
