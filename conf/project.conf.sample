@@ -1,104 +1,25 @@
-# Select between multiple alternative providers, if more than one is eligible.
+#### For more, documented settings, look into
+#### <topdir>/org.openembedded.core/meta/conf/local.conf.sample*
+
 BBMASK			 = "${BBMASK_DISTRO}"
 
-KERNEL_BRANCH		 = "vendor/project"
-KERNEL_DEFCONFIG	 = "project_defconfig"
+#MACHINE_KERNEL_VERSION	 = "3.1"
+#KERNEL_BRANCH		 = "vendor/project"
+#KERNEL_DEFCONFIG	 = "project_defconfig"
+#KERNEL_TFTP_IMAGE	 = "${TFTPBOOT_DIR}/${PROJECT_NAME}-kernel.img"
 
-TERMCMD			 = "${XTERM_TERMCMD}"
+#PROJECT_FEATURES	 = "mmc fb usbhost touchscreen"
 
-#PROJECT_FEATURES	 = "fb usb modules usbhost alsa"
-#DISTRO_FEATURES	 = "${DISTRO_FEATURES_LIBC} ipv4 ipv6 x11"
+#PROJECT_EXTRA_RDEPENDS  = "task-${PROJECT_NAME}"
+#PROJECT_EXTRA_RRECOMMENDS = ""
 
-#PROJECT_EXTRA_RDEPENDS	+= "task-${PROJECT_NAME}"
-#PROJECT_EXTRA_RRECOMMENDS += ""
+# Override default user classes
+#USER_CLASSES		= "rm_work image-prelink"
 
-IMAGE_KEEPROOTFS	 = "1"
-
-# Uncomment this to reduce disk space
-USER_CLASSES		= "rm_work"
-USER_CLASSES		+= "image-prelink"
+#IMAGE_LINGUAS            = "de-de en-gb en-us fr-fr"
 
 # The EXTRA_IMAGE_FEATURES variable allows extra packages to be added
 # to the generated
-EXTRA_IMAGE_FEATURES	 = " \
-  debug-tweaks tools-debug package-management ssh-server-dropbear \
-  apps-console-core"
-
-# So far, angstrom.conf sets ENABLE_BINARY_LOCALE_GENERATION
-# to generate binary locale packages at build time using qemu-native and
-# thereby guarantee i18n support on all devices. If your build breaks on
-# qemu-native consider disabling ENABLE_BINARY_LOCALE_GENERATION (note that
-# this breaks i18n on devices with less than 128MB RAM) or installing
-# a working third-party qemu (e.g. provided by your distribution) and
-# adding qemu-native to ASSUME_PROVIDED. Caveat emptor, since third-party
-# qemus lack patches needed to work with various OE targets.
-# ENABLE_BINARY_LOCALE_GENERATION = "0"
-
-# If ENABLE_BINARY_LOCALE_GENERATION is set to "1", you can limit locales
-# generated to the list provided by GLIBC_GENERATE_LOCALES. This is huge
-# time-savior for developmental builds. Format: list of locale.encoding pairs
-# with spaces as separators.
-# GLIBC_GENERATE_LOCALES = "en_GB.UTF-8 de_DE.UTF-8"
-
-# Add the required image file system types below. Valid are
-# jffs2, tar(.gz|bz2), cpio(.gz), cramfs, ext2(.gz), ext3(.gz)
-# squashfs, squashfs-lzma
-# IMAGE_FSTYPES = "jffs2 tar"
-
-# Uncomment these two if you want BitBake to build images useful for debugging.
-# Note that INHIBIT_PACKAGE_STRIP needs a package format to be defined.
-# Also note that OE now produces -dbg packages which contain debugging symbols.
-# DEBUG_BUILD = "1"
-# INHIBIT_PACKAGE_STRIP = "1"
-
-# Uncomment these to build a package such that you can use gprof to profile it.
-# NOTE: This will only work with 'linux' targets, not
-# 'linux-uclibc', as uClibc doesn't provide the necessary
-# object files.  Also, don't build glibc itself with these
-# flags, or it'll fail to build.
-#
-# PROFILE_OPTIMIZATION = "-pg"
-# SELECTED_OPTIMIZATION = "${PROFILE_OPTIMIZATION}"
-# LDFLAGS =+ "-pg"
-
-# Uncomment this to enable parallel make.
-# This allows make to spawn mutliple processes to take advantage of multiple
-# processors. Useful on SMP machines. This may break some packages - we're
-# in the process of marking these so let us know if you find any.
-# PARALLEL_MAKE = "-j 4"
-
-# Uncomment this to enable the use of ccache when building.  Due to
-# the nature of our builds this is only helpful in cases when one
-# is rebuilding a recipe or set of recipes, repeatedly.
-# CCACHE = "${@bb.which(bb.data.getVar('PATH', d, 1), 'ccache') and 'ccache '}"
-
-# Uncomment this to disable the parse cache (not recommended).
-# CACHE = ""
-
-# Uncomment this if you want BitBake to emit debugging output
-# BBDEBUG = "yes"
-
-# If you want to have unstripped ready-to-debug binaries, set this to "no",
-# although for debugging you can use automatically produced -dbg packages.
-# If you need to have completely undebuggable builds, set this to "full",
-# by default gnu.debuglink section is left in the binaries after stripping, so
-# this might be useful if you want to have checksum-level binary consistency
-# across successive builds.
-# PACKAGE_STRIP = "no"
-
-# Uncomment these to build a package such that you can use gprof to profile it.
-# NOTE: This will only work with 'linux' targets, not
-# 'linux-uclibc', as uClibc doesn't provide the necessary
-# object files.  Also, don't build glibc itself with these
-# flags, or it'll fail to build.
-#
-# PROFILE_OPTIMIZATION = "-pg"
-# SELECTED_OPTIMIZATION = "${PROFILE_OPTIMIZATION}"
-# LDFLAGS =+ "-pg"
-
-# Specifies a location to search for pre-generated tarballs when fetching
-# a cvs:// URI. Outcomment this, if you always want to pull directly from CVS.
-# CVS_TARBALL_STASH = ""
-
-# Uncomment this if you want BitBake to emit the log if a build fails.
-# BBINCLUDELOGS = "yes"
+#EXTRA_IMAGE_FEATURES	 = " \
+#  debug-tweaks tools-debug package-management ssh-server-dropbear \
+#  apps-console-core"
