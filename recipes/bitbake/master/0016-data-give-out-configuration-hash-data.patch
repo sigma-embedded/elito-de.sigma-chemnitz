@@ -1,46 +1,32 @@
-From 673635c146330e3331f61ce79a3e27942dfe8d8f Mon Sep 17 00:00:00 2001
+From b0246b87d74f1934b9ef3c4413ddfb751958808f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Mon, 2 Apr 2012 15:43:06 +0200
 Subject: [PATCH 16/16] data: give out configuration hash data
 
 this helps to debug problems
 ---
- lib/bb/data_smart.py |   17 +++++++++++++++++
- 1 files changed, 17 insertions(+), 0 deletions(-)
+ lib/bb/data_smart.py |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index 4e73929..89c35be 100644
+index 9d8587e..a72ee0c 100644
 --- a/lib/bb/data_smart.py
 +++ b/lib/bb/data_smart.py
-@@ -32,6 +32,7 @@ import copy, re
- from collections import MutableMapping
- import logging
- import hashlib
-+import time
- import bb, bb.codeparser
- from bb   import utils
- from bb.COW  import COWDictBase
-@@ -473,4 +474,20 @@ class DataSmart(MutableMapping):
-             value = self.getVar(key, False) or ""
-             data = data + key + ': ' + str(value) + '\n'
+@@ -474,4 +474,14 @@ class DataSmart(MutableMapping):
+             data.update({key:value})
  
+         data_str = str([(k, data[k]) for k in sorted(data.keys())])
++
 +        if logger.level >= 0:
 +            fname = os.path.join(self.getVar("TMPDIR", True) or ".",
 +                                 "datahash");
 +
-+            try:
-+                os.unlink(fname + ".prev")
-+            except:
-+                pass
++            if os.access(fname + ".curr", os.F_OK):
++                utils.movefile(fname + ".curr", fname + ".prev")
 +
-+            try:
-+                os.rename(fname + ".curr", fname + ".prev")
-+            except:
-+                pass
++            open(fname + ".curr","w").write(data_str)
 +
-+            open(fname + ".curr","w").write(data)
-+
-         return hashlib.md5(data).hexdigest()
+         return hashlib.md5(data_str).hexdigest()
 -- 
 1.7.7.6
 
