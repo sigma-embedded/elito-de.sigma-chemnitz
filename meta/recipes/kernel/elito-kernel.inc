@@ -66,16 +66,26 @@ CONFIG_CMDLINE="${KERNEL_CMDLINE}"
 EOF
         fi
 
-	if ${@base_contains('DISTRO_FEATURES','ipv6','true','false',d)}; then
-		sed -i -e 's/^# CONFIG_IPV6 is not set/CONFIG_IPV6=m/' .config
-	fi
-
         if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d)}; then
 		sed -i -e '/^CONFIG_DANGEROUS=/d' .config
 		cat <<EOF >> .config
 # CONFIG_DANGEROUS is not set
 EOF
         fi
+
+	cp -a .config .config-ref1
+
+	if ${@base_contains('DISTRO_FEATURES','ipv6','true','false',d)}; then
+		sed -i -e 's/^# CONFIG_IPV6 is not set/CONFIG_IPV6=m/' .config
+	fi
+
+	if ${@base_contains('IMAGE_INIT_MANAGER','systemd','true','false',d)}; then
+		sed -i -e 's/^# \(CONFIG_AUTOFS4_FS\|CONFIG_CGROUPS\) is not set/\1=m/' .config
+	fi
+
+	if ! diff -u .config-ref1 .config; then
+		bbwarn "Default kernel configuration does not fulfill image/distro requirements; configuration was adjusted but should be rechecked"
+	fi
 
 	cmp .config .config-ref || oe_runmake oldconfig < /dev/null
 }
