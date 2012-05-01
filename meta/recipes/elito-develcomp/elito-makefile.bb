@@ -156,6 +156,7 @@ do_compile_kernelmodules[noexec] = "1"
 do_savedefconfig[noexec] = "1"
 do_sizecheck[noexec] = "1"
 do_deploy[noexec] = "1"
+do_uboot_mkimage[noexec] = "1"
 
 addtask do_setup_makefile before do_populate_sysroot after do_configure
 
