@@ -46,6 +46,11 @@ _configdisable-opts = ' \
 _configdisable-opts-re = \
   "\(CONFIG_\(${@'\\|'.join('${_configdisable-opts}'.split())}\)\)"
 
+do_configure_extra_local() {
+	:
+}
+export do_configure_extra_local
+
 do_configure_prepend() {
 	if ! test -e .config; then
 		oe_runmake "${_defconfig}"
@@ -82,6 +87,8 @@ EOF
 	if ${@base_contains('IMAGE_INIT_MANAGER','systemd','true','false',d)}; then
 		sed -i -e 's/^# \(CONFIG_AUTOFS4_FS\|CONFIG_CGROUPS\) is not set/\1=m/' .config
 	fi
+
+	do_configure_extra_local
 
 	if ! diff -u .config-ref1 .config; then
 		bbwarn "Default kernel configuration does not fulfill image/distro requirements; configuration was adjusted but should be rechecked"
