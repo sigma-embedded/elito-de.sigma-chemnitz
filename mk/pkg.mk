@@ -14,8 +14,7 @@ _opkg_make_index =	$(_start) $(OPKG_MAKE_INDEX)
 _opkg_conf =		${DEPLOY_DIR_IPK}/opkg.conf
 
 
-LOCALGOALS =		pkg-regen pkg-update pkg-upgrade \
-			pkg-install pkg-remove pkg-reinstall
+LOCALGOALS =		pkg-%
 
 ${_opkg_conf}:	${_tmpdir}/stamps/opkg.conf.stamp
 	@echo "NOTE: creating opkg.conf for: ${_pkgs_archs}"
