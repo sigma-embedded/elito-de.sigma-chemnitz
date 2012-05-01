@@ -5,13 +5,21 @@ OPKG_ENV =		env D='$(DESTDIR)'
 OPKG_OPTS =		--force_postinstall
 
 _pkgs =			$(foreach a,${PACKAGE_ARCHS},${DEPLOY_DIR_IPK}/$a/Packages)
+_pkgs_dirs =		$(wildcard ${_pkgs})
+_pkgs_archs =		$(patsubst ${DEPLOY_DIR_IPK}/%/Packages,%,${_pkgs_dirs})
+_pkgs_stamp =		$(foreach a,${_pkgs_archs},${_tmpdir}/stamps/opkg-arch_$a.stamp)
 
 _fakeroot =		$(_start) $(OPKG_ENV) $(FAKEROOT)
 _opkg_make_index =	$(_start) $(OPKG_MAKE_INDEX)
 _opkg_conf =		${DEPLOY_DIR_IPK}/opkg.conf
 
+
 LOCALGOALS =		pkg-regen pkg-update pkg-upgrade \
 			pkg-install pkg-remove pkg-reinstall
+
+${_opkg_conf}:	${_tmpdir}/stamps/opkg.conf.stamp
+	@echo "NOTE: creating opkg.conf for: ${_pkgs_archs}"
+	${PROJECT_TOPDIR}/bitbake -b /elito-develcomp.bb -c setup_ipkg -f
 
 pkg-regen:	$(wildcard ${_pkgs})
 	@:
@@ -41,3 +49,9 @@ ${_pkgs}:${DEPLOY_DIR_IPK}/%/Packages:	${DEPLOY_DIR_IPK}/%
 	$(_opkg_make_index) -r $@ -p $@ -l $@.filelist -m $<
 	test -e $@	   # ensure that target really exists after this rule
 	touch $@	   # make sure that timestamps are as expected
+
+${_tmpdir}/stamps/opkg.conf.stamp:	${_pkgs_stamp}
+	@touch $@
+
+${_pkgs_stamp}:${_tmpdir}/stamps/opkg-arch_%.stamp:	| ${DEPLOY_DIR_IPK}/%/Packages
+	@touch $@
