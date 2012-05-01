@@ -19,8 +19,6 @@ EXTRA_OEMAKE_prepend = "-f '${TMPDIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_
 
 KERNEL_DEPENDS ?= ""
 
-do_fetch[depends] += "linux-libc-headers:do_fetch"
-
 DEPENDS += '\
 	kernel-makefile \
 	${KERNEL_DEPENDS} \
