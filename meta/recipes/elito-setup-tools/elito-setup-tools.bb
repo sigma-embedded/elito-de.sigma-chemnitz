@@ -6,7 +6,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 _pv = "0.10"
 PR = "r0"
-SRCREV = "0498bd7d512cbba6ba1e27c1d6024adbb2693d5d"
+SRCREV = "efceb4b715b822c1f615b34cb55fbaa9730906bc"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
