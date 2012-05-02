@@ -40,6 +40,58 @@ ELITO_COMMON_DEPENDS = "${@elito_common_expand('ELITO_COMMON_DEPENDS',d)}"
 
 #####
 
+ELITO_COMMON_KERNEL_MODULES-alsa = "\
+"
+
+ELITO_COMMON_KERNEL_MODULES-can = "\
+  kernel-module-can-bcm \
+  kernel-module-can-raw \
+  kernel-module-can-dev \
+"
+
+ELITO_COMMON_KERNEL_MODULES-ext2 = "\
+  kernel-module-ext4 \
+"
+
+ELITO_COMMON_KERNEL_MODULES-initsys-systemd = "\
+  kernel-module-binfmt-misc \
+"
+
+ELITO_COMMON_KERNEL_MODULES-irda = "\
+  kernel-module-sir-dev \
+"
+
+ELITO_COMMON_KERNEL_MODULES-mmc = "\
+  kernel-module-mmc-block \
+"
+
+ELITO_COMMON_KERNEL_MODULES-mtd = "\
+  kernel-module-mtdchar \
+  kernel-module-mtdblock \
+  kernel-module-mtdblock-ro \
+"
+
+ELITO_COMMON_KERNEL_MODULES-pcmcia = "\
+  kernel-module-ide-gd-mod \
+  kernel-module-ide-cs \
+"
+
+ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
+  kernel-module-ucb1400-core \
+  kernel-module-ucb1400-gpio \
+  kernel-module-snd-soc-ucb1400 \
+  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-ucb1400-ts', '', d)} \
+"
+
+ELITO_COMMON_KERNEL_MODULES-usbclient = "\
+  kernel-module-g-ether \
+  kernel-module-g-serial \
+  kernel-module-g-multi \
+  kernel-module-g-file-storage \
+  kernel-module-g-mass-storage \
+  kernel-module-gadgetfs \
+"
+
 ELITO_COMMON_KERNEL_MODULES-usbhost = "\
   kernel-module-ehci-hcd \
   kernel-module-usb-serial \
@@ -50,13 +102,7 @@ ELITO_COMMON_KERNEL_MODULES-usbhost = "\
   kernel-module-usbmon \
 "
 
-ELITO_COMMON_KERNEL_MODULES-usbclient = "\
-  kernel-module-g-ether \
-  kernel-module-g-serial \
-  kernel-module-g-multi \
-  kernel-module-g-file-storage \
-  kernel-module-g-mass-storage \
-  kernel-module-gadgetfs \
+ELITO_COMMON_KERNEL_MODULES-v4l = "\
 "
 
 ELITO_COMMON_KERNEL_MODULES-vfat = "\
@@ -69,52 +115,17 @@ ELITO_COMMON_KERNEL_MODULES-vfat = "\
   kernel-module-vfat \
 "
 
-ELITO_COMMON_KERNEL_MODULES-mtd = "\
-  kernel-module-mtdchar \
-  kernel-module-mtdblock \
-  kernel-module-mtdblock-ro \
-"
-
-ELITO_COMMON_KERNEL_MODULES-can = "\
-  kernel-module-can-bcm \
-  kernel-module-can-raw \
-  kernel-module-can-dev \
-"
-
-ELITO_COMMON_KERNEL_MODULES-alsa = "\
-"
-
-ELITO_COMMON_KERNEL_MODULES-ext2 = "\
-  kernel-module-ext4 \
-"
-
-ELITO_COMMON_KERNEL_MODULES-mmc = "\
-  kernel-module-mmc-block \
-"
-
-ELITO_COMMON_KERNEL_MODULES-pcmcia = "\
-  kernel-module-ide-gd-mod	\
-  kernel-module-ide-cs		\
-"
-
-ELITO_COMMON_KERNEL_MODULES-initsys-systemd = "\
-  kernel-module-binfmt-misc \
-"
-
-ELITO_COMMON_KERNEL_MODULES-irda = "\
-  kernel-module-sir-dev		\
-"
-
-ELITO_COMMON_KERNEL_MODULES-v4l = "\
-"
-
 ELITO_COMMON_KERNEL_MODULES-wifi = "\
   kernel-module-arc4 \
 "
 
+ELITO_COMMON_KERNEL_MODULES-wm97xx += "\
+  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-wm97xx_ts', '', d)} \
+"
+
 ELITO_COMMON_KERNEL_MODULES-core = "\
-  kernel-module-configfs		\
-  kernel-module-configs		\
+  kernel-module-configfs \
+  kernel-module-configs \
   kernel-module-evdev \
   kernel-module-gpio-keys \
   kernel-module-hwmon \
@@ -133,18 +144,11 @@ ELITO_COMMON_KERNEL_MODULES = "${@elito_common_expand('ELITO_COMMON_KERNEL_MODUL
 
 #####
 
-ELITO_COMMON_DIAGNOSIS_TOOLS-touchscreen = "\
-  tslib-calibrate \
-  tslib-tests \
-"
-
-ELITO_COMMON_DIAGNOSIS_TOOLS-screen = "\
-  elito-fbtest \
-  fbset \
-"
-
-ELITO_COMMON_DIAGNOSIS_TOOLS-usbhost = "\
-  usbutils \
+ELITO_COMMON_DIAGNOSIS_TOOLS-alsa = "\
+  alsa-utils-alsamixer \
+  alsa-utils-amixer \
+  alsa-utils-aplay \
+  alsa-utils-alsactl \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS-can = "\
@@ -155,27 +159,23 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-mtd = "\
   mtd-utils \
 "
 
-ELITO_COMMON_DIAGNOSIS_TOOLS-alsa = "\
-  alsa-utils-alsamixer \
-  alsa-utils-amixer \
-  alsa-utils-aplay \
-  alsa-utils-alsactl \
+ELITO_COMMON_DIAGNOSIS_TOOLS-screen = "\
+  elito-fbtest \
+  fbset \
+"
+
+ELITO_COMMON_DIAGNOSIS_TOOLS-touchscreen = "\
+  tslib-calibrate \
+  tslib-tests \
+"
+
+ELITO_COMMON_DIAGNOSIS_TOOLS-usbhost = "\
+  usbutils \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS-v4l = "\
   media-ctl \
   v4l-utils \
-"
-
-ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
-  kernel-module-ucb1400-core	\
-  kernel-module-ucb1400-gpio	\
-  kernel-module-snd-soc-ucb1400 \
-  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-ucb1400-ts', '', d)} \
-"
-
-ELITO_COMMON_KERNEL_MODULES-wm97xx += "\
-  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-wm97xx_ts', '', d)} \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS-core = "\
@@ -224,25 +224,55 @@ ELITO_COMMON_SERVERS = "${@elito_common_expand('ELITO_COMMON_SERVERS',d)}"
 
 ######
 
-ELITO_COMMON_PROGRAMS-v4l = "\
-  gst-plugins-bad-fbdevsink	\
-  gst-plugins-base-ffmpegcolorspace \
-  gst-plugins-good-video4linux2	\
-  gst-plugins-base-typefindfunctions \
-  gst-plugins-base-apps		\
+ELITO_COMMON_PROGRAMS-ext2 = "\
+  e2fsprogs \
+  e2fsprogs-e2fsck \
+  e2fsprogs-mke2fs \
+  e2fsprogs-tune2fs \
+  e2fsprogs-badblocks \
 "
 
-ELITO_COMMON_PROGRAMS-wifi = "\
-  wireless-tools			\
-  wpa-supplicant			\
+ELITO_COMMON_PROGRAMS-hdd = "\
+  hdparm \
 "
 
 ELITO_COMMON_PROGRAMS-mobm320 = "\
   mobm320-tools \
 "
 
+ELITO_COMMON_PROGRAMS-nfs = "\
+  nfs-utils \
+"
+
+ELITO_COMMON_PROGRAMS-pci = "\
+  pciutils \
+  pciutils-ids \
+"
+
+ELITO_COMMON_PROGRAMS-v4l = "\
+  gst-plugins-bad-fbdevsink \
+  gst-plugins-base-ffmpegcolorspace \
+  gst-plugins-good-video4linux2 \
+  gst-plugins-base-typefindfunctions \
+  gst-plugins-base-apps \
+"
+
+ELITO_COMMON_PROGRAMS-wifi = "\
+  wireless-tools \
+  wpa-supplicant \
+"
+
+ELITO_COMMON_PROGRAMS-x11 = "\
+  xhost \
+  xrandr \
+  xset \
+  xorg-minimal-fonts \
+  xserver-xorg \
+  xserver-common \
+  mesa-dri \
+"
+
 ELITO_COMMON_PROGRAMS-core = "\
-  opkg \
   tzdata \
   tzdata-europe \
 "
