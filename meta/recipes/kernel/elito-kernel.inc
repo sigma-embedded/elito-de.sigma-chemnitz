@@ -85,7 +85,10 @@ EOF
 	fi
 
 	if ${@base_contains('IMAGE_INIT_MANAGER','systemd','true','false',d)}; then
-		sed -i -e 's/^# \(CONFIG_AUTOFS4_FS\|CONFIG_CGROUPS\) is not set/\1=m/' .config
+		sed -i \
+		    -e 's/^# \(CONFIG_AUTOFS4_FS\|CONFIG_CGROUPS\) is not set/\1=m/' \
+		    -e 's/^# \(CONFIG_SECURITYFS\) is not set/\1=y/' \
+		    .config
 	fi
 
 	do_configure_extra_local
