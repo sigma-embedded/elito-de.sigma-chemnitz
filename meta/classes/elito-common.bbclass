@@ -155,12 +155,15 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-can = "\
   can-test \
 "
 
+ELITO_COMMON_DIAGNOSIS_TOOLS-fb = "\
+  elito-fbtest \
+"
+
 ELITO_COMMON_DIAGNOSIS_TOOLS-mtd = "\
   mtd-utils \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS-screen = "\
-  elito-fbtest \
   fbset \
 "
 
