@@ -1,7 +1,7 @@
 # --*- python -*--
 GCCVERSION ?= "${@elito_base_switch(d, 'TARGET_CPU',   \
                  'iwmmxt', '4.3.4', \
-                 '4.6%')}"
+                 '4.7%')}"
 
 LINUXLIBCVERSION = "${MACHINE_KERNEL_VERSION}"
 BINUVERSION ?= "2.22%"
