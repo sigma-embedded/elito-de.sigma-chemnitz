@@ -13,3 +13,7 @@ ELITO_COMMON_KERNEL_MODULES-core += "\
   kernel-module-omap-wdt \
   kernel-module-omap2-mcspi \
 "
+
+ELITO_COMMON_KERNEL_MODULES-v4l += "\
+  kernel-module-omap3-isp \
+"

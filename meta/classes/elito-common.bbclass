@@ -105,6 +105,9 @@ ELITO_COMMON_KERNEL_MODULES-irda = "\
   kernel-module-sir-dev		\
 "
 
+ELITO_COMMON_KERNEL_MODULES-v4l = "\
+"
+
 ELITO_COMMON_KERNEL_MODULES-wifi = "\
   kernel-module-arc4 \
 "
