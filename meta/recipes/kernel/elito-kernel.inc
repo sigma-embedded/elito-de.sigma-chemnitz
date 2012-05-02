@@ -107,6 +107,8 @@ do_install_prepend() {
 
 do_install_append() {
 	find ${D}/lib/modules -type f -name '*.ko' -print0 | xargs -0r chmod a+x
+	# ignore errors; firmware directory might be non-empty
+	rmdir ${D}/lib/firmware || :
 }
 
 do_uboot_mkimage() {
