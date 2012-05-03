@@ -53,10 +53,15 @@ apply() {
 	    $GIT fetch "$1/bundle" "$fail_fetch"
 	fi
 
-	if $is_new && ! $is_bare; then
-	    $GIT checkout "${branch##refs/heads/}"
-	    is_new=false
-	fi
+	case $branch in
+	  refs/heads/*)
+		# checkout branches only; not tags
+		if $is_new && ! $is_bare; then
+		    $GIT checkout "${branch##refs/heads/}"
+		    is_new=false
+		fi
+		;;
+	esac
     done
 
     while read ref branch; do
