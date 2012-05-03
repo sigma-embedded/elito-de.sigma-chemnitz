@@ -3,6 +3,8 @@
 set -e
 P=$1
 
+API=1
+
 : ${GIT:=git}
 
 apply() {
@@ -70,6 +72,12 @@ t=$(mktemp -t -d update-pack.XXXXXX)
 trap "rm -rf $t" EXIT
 
 tar xf "$P" -C $t
+
+read api < $t/api &>/dev/null || api=0
+test "$API" -ge "$api" || {
+  echo "apply-update-pack is too old (api $api requested, api $API available)" >&2
+  exit 1
+}
 
 for i in $t/*; do
     test -d "$i" || continue
