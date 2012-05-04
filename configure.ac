@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(elito, 0.8.1, [ELiTo Support <elito@sigma-chemnitz.de>])
+AC_INIT(elito, 0.9.0, [ELiTo Support <elito@sigma-chemnitz.de>])
 
 AC_MSG_NOTICE([toolchain version AC_PACKAGE_VERSION])
 
