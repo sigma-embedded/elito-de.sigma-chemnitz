@@ -1,10 +1,13 @@
 CONFIGURE =	./configure
-LOCALGOALS =	printcmd configure
+LOCALGOALS =	printcmd configure autoreconf
+
+LIBTOOL_SYSROOT = --with-libtool-sysroot='${STAGING_DIR_HOST}'
 
 _cmdline = \
 	--build=${BUILD_SYS} \
 	--host=${HOST_SYS} \
 	--target=${TARGET_SYS} \
+	${LIBTOOL_SYSROOT} \
 	PATH='${PATH}' \
 	CC='${CC}' \
 	CFLAGS='${CFLAGS}' \
@@ -16,6 +19,9 @@ _cmdline = \
 
 printcmd:
 	@echo "${_cmdline}"
+
+autoreconf:
+	autoreconf -i -f ${C}
 
 configure:
 	sh ${CONFIGURE} ${_cmdline} ${C}
