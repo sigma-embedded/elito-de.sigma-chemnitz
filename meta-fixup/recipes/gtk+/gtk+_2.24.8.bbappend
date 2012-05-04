@@ -1,1 +1,1 @@
-__SKIPPED := "${@base_contains('DISTRO_DERIVED_FEATURES', 'gtk-supported', '', '1', d)}"
+__SKIPPED_pn-gtk+ := "${@base_contains('DISTRO_DERIVED_FEATURES', 'gtk-supported', '', 'gtk-not-supported', d)}"
