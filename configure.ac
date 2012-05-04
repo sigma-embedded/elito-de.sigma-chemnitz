@@ -4,6 +4,8 @@
 AC_PREREQ(2.59)
 AC_INIT(elito, 0.8.1, [ELiTo Support <elito@sigma-chemnitz.de>])
 
+AC_MSG_NOTICE([toolchain version AC_PACKAGE_VERSION])
+
 : ${PWD_P:=pwd -P}
 AC_ARG_VAR([PWD_P],[Command to determine current directory])
 
