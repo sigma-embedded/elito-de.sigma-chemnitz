@@ -1,7 +1,7 @@
 # based upon OpenEmbedded's 'helloworld.bb'
 DESCRIPTION = "Sample Hello world! program"
 LICENSE = "GPLv3"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=2c12447f794c304d9cd353f87a432c9ev3"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 PR = "r0"
 PV = "99"
 
