@@ -7,6 +7,33 @@ API=1
 
 : ${GIT:=git}
 
+verify() {
+    test -e "$1/bundle" || return 0
+
+    read dir < "$1"/dir
+
+    if ! test -d "$dir" || test x"$dir" = x. -a ! -d "$dir/.git"; then
+	# new repository; nothing to validate...
+	return
+    fi
+
+    cd "$dir"
+
+    case x`$GIT config core.bare` in
+      (xtrue)	is_bare=true ;;
+      (*)	is_bare=false ;;
+    esac
+
+    # Check for uncommitted changes
+    if ! $is_bare && git diff-index --name-only HEAD -- | read dummy; then
+	echo "*** Uncommitted changes in '$dir' repository; commit, stash or revert them before applying the update!" >&2
+	git status | sed -e 's!^!    !' >&2
+	test -n "$UPDATE_DIRTY_NOT_FATAL" || return 1
+    fi
+
+    return 0
+}
+
 apply() {
     is_new=false
     test -e "$1/bundle" || return 0
@@ -83,6 +110,14 @@ test "$API" -ge "$api" || {
   echo "apply-update-pack is too old (api $api requested, api $API available)" >&2
   exit 1
 }
+
+failed=false
+for i in $t/*; do
+    test -d "$i" || continue
+
+    ( verify "$i" ) || failed=true
+done
+! $failed || exit 1
 
 for i in $t/*; do
     test -d "$i" || continue
