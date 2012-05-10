@@ -29,7 +29,7 @@ tftp-m:	tftp
 include ${ELITO_TOPDIR}/mk/kernel_boot-${KERNEL_BOOT_VARIANT}.mk
 endif
 
-$(filter-out $(LOCALGOALS),${MAKECMDGOALS}) ${XTRA_GOALS}:	__force
+$(sort $(filter-out $(LOCALGOALS),${MAKECMDGOALS}) ${XTRA_GOALS}):	__force
 	+$(_build_cmd) $@
 
 _all_:
