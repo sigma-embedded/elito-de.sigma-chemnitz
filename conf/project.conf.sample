@@ -14,9 +14,10 @@ BBMASK			 = "${BBMASK_DISTRO}"
 #PROJECT_EXTRA_RRECOMMENDS = ""
 
 # Override default user classes
-#USER_CLASSES		= "rm_work image-prelink"
+#USER_CLASSES		 = "rm_work image-prelink"
 
-#IMAGE_LINGUAS            = "de-de en-gb en-us fr-fr"
+#IMAGE_LINGUAS		 = "de-de en-gb en-us fr-fr"
+#DEFAULT_TIMEZONE	 = "Europe/Berlin"
 
 # The EXTRA_IMAGE_FEATURES variable allows extra packages to be added
 # to the generated
