@@ -1,27 +1,19 @@
-# based upon OpenEmbedded's 'helloworld.bb'
 DESCRIPTION = "Sample Hello world! program"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
-PR = "r0"
-PV = "99"
 
+PV = "0.0.1"
+PR = "r0"
+
+SRC_URI = "file://helloworld.c"
+
+EXTRA_OEMAKE = "VPATH=${WORKDIR}"
 S = "${WORKDIR}/${P}"
 
-do_fetch () {
-	mkdir -p ${WORKDIR}/${P}
-	cd ${WORKDIR}/${P}
-	printf "#include <stdio.h>\nint main(void)\n{\n\tprintf(\"Hello world!\\\n\");\twhile(1);\n\treturn 0;\n}\n" >helloworld.c
-}
-
 do_compile () {
-	${CC} -o helloworld helloworld.c -static
+	oe_runmake helloworld
 }
 
 do_install () {
-	install -d ${D}${bindir}
-	install -m 0755 helloworld ${D}${bindir}/
-	# /bin/init is on purpose, it is tried after /sbin/init and /etc/init
-	# so if a sysvinit is installed, it will be used instead of helloworld
-	install -d ${D}${base_bindir}
-	ln -sf ${bindir}/helloworld ${D}${base_bindir}/init
+	install -D -p -m 0755 helloworld ${D}${bindir}/helloworld
 }

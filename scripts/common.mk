@@ -54,7 +54,8 @@ CFG_FILES =		Makefile		\
 
 TEMPLATE_FILES =	conf/project.conf	\
 			.gitignore		\
-			recipes/helloworld/helloworld.bb
+			recipes/helloworld/helloworld.bb \
+			recipes/helloworld/files/helloworld.c
 
 PKGS_PREP =		opkg-utils-native	\
 			automake-native		\
