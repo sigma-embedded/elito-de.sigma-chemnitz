@@ -7,6 +7,7 @@ DEPENDS += "elito-develcomp"
 def elito_common_expand(v,d):
   machine_features = (d.getVar('MACHINE_FEATURES', True) or "").split()
   distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
+  blacklist = set((d.getVar('ELITO_COMMON_BLACKLIST', True) or "").split())
 
   features = set(machine_features + distro_features)
   initsys  = 'initsys-%s' % (d.getVar('IMAGE_INIT_MANAGER', True) or "none")
@@ -15,15 +16,19 @@ def elito_common_expand(v,d):
 
   res = set()
   for f in features:
-    xtra = d.getVar('%s-%s' % (v,f), False)
+    xtra = d.getVar('%s-%s' % (v,f), True)
     if xtra:
-      res.add(xtra)
+      res = res.union(xtra.split())
 
-    xtra = d.getVar('%s-%s_%s' % (v,f,initsys), False)
+    xtra = d.getVar('%s-%s_%s' % (v,f,initsys), True)
     if xtra:
-      res.add(xtra)
+      res = res.union(xtra.split())
 
-  return ' '.join(res)
+  return ' '.join(res - blacklist)
+
+######
+
+ELITO_COMMON_BLACKLIST ??= ""
 
 ######
 
