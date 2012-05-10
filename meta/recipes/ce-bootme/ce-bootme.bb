@@ -4,9 +4,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 
 _elito_skip := "${@elito_skip(d, 'ce-bootme')}"
 
-SRCREV = "4bb05f14163e75becb9ea010aa98bcec70b9a8b4"
-_pv = "0.1"
-PR = "r3"
+SRCREV = "3b206ae5d527b93b8ef9775d35c9f71364f95a0d"
+_pv = "0.6"
+PR = "r0"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
