@@ -81,6 +81,10 @@ ELITO_COMMON_KERNEL_MODULES-pcmcia = "\
   kernel-module-ide-cs \
 "
 
+ELITO_COMMON_KERNEL_MODULES-spi = "\
+  kernel-module-spidev \
+"
+
 ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
   kernel-module-ucb1400-core \
   kernel-module-ucb1400-gpio \
