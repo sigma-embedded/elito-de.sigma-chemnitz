@@ -167,6 +167,9 @@ inc-build-num:		FORCE | $W
 			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
 			echo $$(( v + 1 )) > ${W}/build-num
 
+sources-tar:
+			$(if $L,env L=${L}) ${abs_top_srcdir}/scripts/create-sources-tar $(CACHE_DIR)
+
 ###### top level targets }}} ########
 
 

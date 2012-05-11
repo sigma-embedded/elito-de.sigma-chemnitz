@@ -1,0 +1,67 @@
+#! /bin/bash
+
+declare -r D=$1
+declare -r LEVEL=${L:-1}
+
+t=`mktemp -d -t create-sources.XXXXXX` || exit 1
+trap "rm -rf $t" EXIT
+
+incfile=$D/.source-tar.inc-$LEVEL
+rm -f $incfile
+
+if test $LEVEL -gt 0; then
+    l=$LEVEL
+    while test $l -gt 0; do
+	let --l
+	f=$D/.source-tar.inc-$l
+	test -e $f || continue
+
+	cp -a "$f" "$incfile"
+	break;
+    done
+fi
+
+(
+  cd $D
+  find sources/ -maxdepth 1 -type l \
+    ! -name '*.done' ! -name '*.lock' ! -name 'git2_.*' \
+  > $t/sources-l
+
+  find local/ -maxdepth 1 \( -type f -o -type l \) \
+  > $t/local
+
+  for i in bitbake-*.bundle setuptools*; do
+      test -e "$i" || continue
+      test "$incfile" -nt "$i" && continue
+      echo $i
+  done > $t/xtra
+)
+
+export LANG=C
+tar chf - \
+    --no-recursion \
+    --listed-incremental=$incfile \
+    --level=$LEVEL \
+    -C $D \
+    local sources \
+    -T $t/xtra \
+    --exclude '*.done' \
+    --exclude '*.lock' \
+    --exclude 'git2_.*' \
+| tar tf - | grep -v '.*/$' > $t/files
+
+t0=`stat -c '%Y' $D/sources`
+t1=`stat -c '%Y' $D/local`
+
+let tm='t0 > t1 ? t0 : t1'
+tarname=$D/sources-`date +%Y%m%dT%H%M%S -d @$tm`_$LEVEL.tar
+
+tar chf $tarname  \
+    --transform='s,sources/,local/,' \
+    -C $D \
+    -T $t/files \
+    --no-recursion \
+    --exclude-from=$t/sources-l \
+    --owner root --group root --mode go-w,a+rX
+
+tar tvf $tarname

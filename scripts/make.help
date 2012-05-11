@@ -25,6 +25,11 @@ Supported targets:
                      invokes the corresponding 'opkg' operation on the
                      given package <pkg>
 
+  sources-tar [L=<lvl>] ...
+                     creates an incremental tarball of level <lvl> of
+                     the downloaded sources. When not specified, a
+                     level of '1' will be assumed
+
 
 Supported options:
 
