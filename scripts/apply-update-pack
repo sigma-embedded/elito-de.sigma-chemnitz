@@ -24,6 +24,15 @@ verify() {
       (*)	is_bare=false ;;
     esac
 
+    # Check if repository is in an attached state; atm, checked for
+    # the top directory only
+    if ! $is_bare && test x"$dir" = x. && \
+       env LANG=C git branch | grep -q '^\* (no branch)'; then
+	echo "*** Repository '$dir' is in a detached state; please checkout a valid branch!" >&2
+	git branch | sed -e 's!^!    !' >&2
+	test -n "$UPDATE_DETACHED_NOT_FATAL" || return 1
+    fi
+
     # Check for uncommitted changes
     if ! $is_bare && git diff-index --name-only HEAD -- | read dummy; then
 	echo "*** Uncommitted changes in '$dir' repository; commit, stash or revert them before applying the update!" >&2
