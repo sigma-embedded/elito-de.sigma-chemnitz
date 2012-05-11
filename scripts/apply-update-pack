@@ -24,6 +24,12 @@ verify() {
       (*)	is_bare=false ;;
     esac
 
+    $GIT bundle verify $1/bundle &>/dev/null || {
+      echo "*** Bundle for directory '$dir' broken!" >&2
+      $GIT bundle verify $1/bundle 2>&1 | sed -e 's!^!    !' >&2
+      return 1
+    }
+
     # Check if repository is in an attached state; atm, checked for
     # the top directory only
     if ! $is_bare && test x"$dir" = x. && \
@@ -76,8 +82,6 @@ apply() {
                       sed '1s/[[:blank:]].*//p;d'`
 	fi
     fi
-
-    $GIT bundle verify $1/bundle &>/dev/null
 
     $GIT ls-remote $1/bundle | while read ref branch; do
 	fail_fetch=+$branch:refs/heads/failed/${branch##refs/heads/}
