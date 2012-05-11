@@ -14,7 +14,7 @@ _build_cmd = \
             $(if $(TFTP_IMAGE),FLASH_FILENAME='$(TFTP_IMAGE)') \
             $(if $(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=$(KERNEL_SIZE)') \
 
-LOCALGOALS += _all_ exec shell
+LOCALGOALS += _all_ exec shell printcmd
 XTRA_GOALS += modules modules_install _all
 
 ifdef KERNEL_BOOT_VARIANT
@@ -31,6 +31,9 @@ endif
 
 $(sort $(filter-out $(LOCALGOALS),${MAKECMDGOALS}) ${XTRA_GOALS}):	__force
 	+$(_build_cmd) $@
+
+printcmd:
+	@echo make -C "`pwd`" -f $(firstword $(MAKEFILE_LIST))
 
 _all_:
 	+$(_build_cmd)
