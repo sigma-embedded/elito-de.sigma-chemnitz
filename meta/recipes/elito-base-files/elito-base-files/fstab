@@ -1,3 +1,4 @@
+rootfs			/			rootfs		defaults	1 1
 none			/sys			sysfs		noauto
 none			/proc			proc		noauto
 none			/var/volatile		tmpfs		size=@TMPFS_SIZE@,mode=0755
