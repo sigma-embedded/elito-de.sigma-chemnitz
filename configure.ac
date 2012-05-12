@@ -569,7 +569,7 @@ PKG_CHECK_MODULES(DBUS_GLIB, [dbus-glib-1], [ELITO_ASSUME(70, dbus_glib, true, d
 PKG_CHECK_MODULES(ORBIT2,    [ORBit-2.0],   [ELITO_ASSUME(70, orbit2,    true)], [true])
 PKG_CHECK_MODULES(SQLITE3,   [sqlite3 > 3.6],    [ELITO_ASSUME(50, sqlite3,   true)], [true])
 PKG_CHECK_MODULES(LIBXSLT,   [libxslt > 1.1.20], [ELITO_ASSUME(10, libxslt,   true)], [true])
-PKG_CHECK_MODULES(LIBXML2,   [libxml-2.0 > 2.7], [ELITO_ASSUME(10, libxml2,   true)], [true])
+PKG_CHECK_MODULES(LIBXML2,   [libxml-2.0 > 2.7], [ELITO_ASSUME(20, libxml2,   true)], [true])
 PKG_CHECK_MODULES(OPENSSL,   [openssl libssl libcrypto],
 		  [ELITO_ASSUME(0, openssl, true)], [true])
 
