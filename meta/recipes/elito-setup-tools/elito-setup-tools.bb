@@ -4,9 +4,9 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-_pv = "0.10"
-PR = "r0"
-SRCREV = "efceb4b715b822c1f615b34cb55fbaa9730906bc"
+_pv = "0.11"
+PR = "r5"
+SRCREV = "e0e915f5128d6fe32e638c24f09131c43801122d"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
@@ -16,19 +16,25 @@ S = "${WORKDIR}/git"
 
 inherit gitpkgv update-alternatives
 
-bindir = "/bin"
-sbindir = "/sbin"
-
+PACKAGES =+ "${PN}-extra"
 RCONFLICTS_${PN} = "sysvinit"
 FILES_${PN} = " \
-  ${sbindir}/* \
+  ${base_sbindir}/* \
+  ${base_bindir}/* \
+"
+
+FILES_${PN}-extra = "\
   ${bindir}/* \
 "
 
 OVERRIDES .= "${@base_conditional('IMAGE_INIT_MANAGER','systemd',':systemd','',d)}"
-OVERRIDES .= "${@base_contains('DISTRO_FEATURES','dietlibc',':dietlibc','',d)}"
+OVERRIDES .= "${@base_contains('DISTRO_FEATURES','initrd',':dietlibc','',d)}"
 
 DEPENDS_append_dietlibc += "dietlibc-cross"
+EXTRA_OEMAKE = "\
+  bindir='${base_bindir}' \
+  sbindir='${base_sbindir}' \
+"
 EXTRA_OEMAKE_append_dietlibc += "DIET=diet"
 
 CPPFLAGS_append_systemd = '\
@@ -42,9 +48,18 @@ do_compile() {
 
 do_install() {
     oe_runmake DESTDIR=${D} install
+
+    install -d -m 0755 ${D}${bindir}
+    mv ${D}${base_bindir}/elito-mmc-boot ${D}${bindir}/
 }
 
+sysroot_extraprogs() {
+    install -D -p -m 0755 ${D}${bindir}/elito-mmc-boot ${SYSROOT_DESTDIR}${bindir}/elito-mmc-boot
+}
+
+SYSROOT_PREPROCESS_FUNCS += "sysroot_extraprogs"
+
 ALTERNATIVE_NAME = "init"
-ALTERNATIVE_PATH = "${sbindir}/init.wrapper"
-ALTERNATIVE_LINK = "${sbindir}/init"
+ALTERNATIVE_PATH = "${base_sbindir}/init.wrapper"
+ALTERNATIVE_LINK = "${base_sbindir}/init"
 ALTERNATIVE_PRIORITY = "900"
