@@ -20,7 +20,7 @@ BBMASK			 = "${BBMASK_DISTRO}"
 #DEFAULT_TIMEZONE	 = "Europe/Berlin"
 
 # The EXTRA_IMAGE_FEATURES variable allows extra packages to be added
-# to the generated
+# to the generated image
 #EXTRA_IMAGE_FEATURES	 = " \
 #  debug-tweaks tools-debug package-management ssh-server-dropbear \
 #  apps-console-core"
