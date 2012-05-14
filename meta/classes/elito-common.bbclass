@@ -248,6 +248,10 @@ ELITO_COMMON_PROGRAMS-hdd = "\
   hdparm \
 "
 
+ELITO_COMMON_PROGRAMS-initrd_initsys-systemd = "\
+  systemd-remount-rootfs \
+"
+
 ELITO_COMMON_PROGRAMS-mobm320 = "\
   mobm320-tools \
 "
