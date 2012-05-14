@@ -1,4 +1,4 @@
-From c17799c3077a412b382ed140a0fd4b95fc7d5fe6 Mon Sep 17 00:00:00 2001
+From fb90911fd2dbb3a6e64a842c4dc37dd267dc5d62 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:48 +0200
 Subject: [PATCH 13/16] install ply + progressbar modules
@@ -8,7 +8,7 @@ Subject: [PATCH 13/16] install ply + progressbar modules
  1 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index e103779..837835c 100755
+index 5c6c55c..9e6eae6 100755
 --- a/setup.py
 +++ b/setup.py
 @@ -53,9 +53,10 @@ setup(name='bitbake',
@@ -18,10 +18,10 @@ index e103779..837835c 100755
 -      packages = ["bb.server", "bb.parse.parse_py", "bb.parse", 
 +      packages = ["ply",
 +                  "bb.server", "bb.parse.parse_py", "bb.parse",
-                   "bb.fetch2", "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb", "prserv"],
+                   "bb.fetch2", "bb.ui.crumbs", "bb.ui", "bb.pysh", "bb", "prserv", "bb.tests"],
 -      py_modules = ["codegen"],
 +      py_modules = ["codegen", "progressbar"],
-       scripts = ["bin/bitbake", "bin/bitbake-layers", "bin/bitbake-diffsigs", "bin/bitbake-prserv"],
+       scripts = ["bin/bitbake", "bin/bitbake-layers", "bin/bitbake-diffsigs", "bin/bitbake-prserv", "bin/bitbake-selftest"],
        data_files = [("share/bitbake", glob("conf/*") + glob("classes/*")),
                    ("share/doc/bitbake-%s/manual" % __version__, glob("doc/manual/html/*"))],
 -- 

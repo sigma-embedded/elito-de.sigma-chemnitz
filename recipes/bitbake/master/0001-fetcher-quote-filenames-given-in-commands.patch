@@ -1,4 +1,4 @@
-From 5fc8191aef462624b23990fe8bc0aea666c35d5c Mon Sep 17 00:00:00 2001
+From f71f95b92d14472b0770fbe253264a5e6db42712 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 6 Apr 2012 16:53:30 +0200
 Subject: [PATCH 01/16] fetcher: quote filenames given in commands
@@ -24,7 +24,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 files changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 414cc2b..9afbc4f 100644
+index 670afb1..b209886 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -29,6 +29,7 @@ from __future__ import print_function
@@ -107,13 +107,14 @@ index 414cc2b..9afbc4f 100644
  
          if not cmd:
              return
-@@ -782,9 +784,11 @@ class FetchMethod(object):
-             bb.utils.mkdirhier(newdir)
+@@ -783,10 +785,12 @@ class FetchMethod(object):
              os.chdir(newdir)
  
--        cmd = "PATH=\"%s\" %s" % (data.getVar('PATH', True), cmd)
+         path = data.getVar('PATH', True)
 +        new_env = os.environ.copy()
-+        new_env['PATH'] = data.getVar('PATH', True)
+         if path:
+-            cmd = "PATH=\"%s\" %s" % (path, cmd)
++            new_env['PATH'] = path
          bb.note("Unpacking %s to %s/" % (file, os.getcwd()))
 -        ret = subprocess.call(cmd, preexec_fn=subprocess_setup, shell=True)
 +        ret = subprocess.call(cmd, preexec_fn=subprocess_setup,

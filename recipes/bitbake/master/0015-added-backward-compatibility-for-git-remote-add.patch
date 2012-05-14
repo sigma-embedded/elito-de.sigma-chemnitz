@@ -1,29 +1,33 @@
-From 1b1eb9a7c8db5929c2d910442b1d6ef1374f12fb Mon Sep 17 00:00:00 2001
+From f1ace54e00331052e310fd069b03f8a1da0c24af Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 8 Oct 2011 12:57:24 +0200
 Subject: [PATCH 15/16] added backward compatibility for 'git remote add'
 
 ---
- lib/bb/fetch2/git.py |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+ lib/bb/fetch2/git.py |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index c1b6904..86140be 100644
+index 40a6e61..08b97ef 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
-@@ -202,7 +202,11 @@ class Git(FetchMethod):
+@@ -116,6 +116,7 @@ class Git(FetchMethod):
+             ud.branches[name] = branch
+ 
+         ud.basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
++        ud.mirroropt = data.getVar("FETCHCMD_OPT_GIT_MIRROR", d, True) or "--mirror=fetch"
+         ud.runfetch = lambda args,d,**opts: runfetchcmd2(ud.basecmd, args, d, **opts)
+ 
+         ud.write_tarballs = ((data.getVar("BB_GENERATE_MIRROR_TARBALLS", d, True) or "0") != "0") or ud.rebaseable
+@@ -205,7 +206,7 @@ class Git(FetchMethod):
              except bb.fetch2.FetchError:
                  logger.debug(1, "No Origin")
  
 -            ud.runfetch(['remote', 'add', '--mirror=fetch', 'origin', repourl], d)
-+            try:
-+                ud.runfetch(['remote', 'add', '--mirror=fetch', 'origin', repourl], d)
-+            except bb.fetch2.FetchError:
-+                ud.runfetch(['remote', 'add', '--mirror', 'origin', repourl], d)
-+
++            ud.runfetch(['remote', 'add', ud.mirroropt, 'origin', repourl], d)
              fetch_cmd = ['fetch', '-f', '--prune', repourl, 'refs/*:refs/*']
-             bb.fetch2.check_network_access(d, fetch_cmd, base_cmd = ud.basecmd, url = ud.url)
-             ud.runfetch(fetch_cmd, d)
+             if ud.proto.lower() != 'file':
+                 bb.fetch2.check_network_access(d, fetch_cmd, base_cmd = ud.basecmd, url = ud.url)
 -- 
 1.7.7.6
 
