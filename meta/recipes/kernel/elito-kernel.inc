@@ -46,6 +46,36 @@ _configdisable-opts = ' \
 _configdisable-opts-re = \
   "\(CONFIG_\(${@'\\|'.join('${_configdisable-opts}'.split())}\)\)"
 
+# {{{ generate-initramfs
+ELITO_LINUXRC_PROGRAM ??= "${STAGING_BINDIR}/elito-mmc-boot"
+ELITO_LINUXRC_TASK ??= "elito-setup-tools"
+
+do_generate_initramfs_source[depends] += "${ELITO_LINUXRC_TASK}:do_populate_sysroot"
+do_generate_initramfs_source() {
+	# copy our program into a temporary location and remove
+	# debugging symbols
+	install -D -p -m 0755 ${ELITO_LINUXRC_PROGRAM} ${S}/.initramfs/init
+	${STRIP} --remove-section=.comment --remove-section=.note --preserve-dates ${S}/.initramfs/init
+
+	# create devices.txt
+	rm -f ${S}/devices.txt
+	cat << EOF > ${S}/devices.txt
+file /init ${S}/.initramfs/init	0755 0 0
+
+dir  /mnt  0755 0 0
+dir  /dev  0755 0 0
+dir  /sys  0755 0 0
+dir  /run  0755 0 0
+dir  /proc 0755 0 0
+
+nod  /dev/console 0644 0 0 c 5 1
+EOF
+}
+addtask do_generate_initramfs_source after do_unpack
+do_configure[depends] += "${@base_contains('DISTRO_FEATURES','initrd','${PN}:do_generate_initramfs_source','', d)}"
+# }}} generate-initramfs
+
+# {{{ do_configure
 do_configure_extra_local() {
 	:
 }
@@ -70,6 +100,17 @@ do_configure_prepend() {
 CONFIG_CMDLINE="${KERNEL_CMDLINE}"
 EOF
         fi
+
+	if ${@base_contains('DISTRO_FEATURES','initrd','true','false',d)}; then
+	        sed -i \
+		    -e '/^\(# \)\?CONFIG_INITRAMFS_SOURCE=/d' \
+		    -e 's/^# \(CONFIG_BLK_DEV_INITRD\) is not set/\1=y/' \		
+		.config
+
+		cat <<EOF >> .config
+CONFIG_INITRAMFS_SOURCE="devices.txt"
+EOF
+	fi
 
         if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d)}; then
 		sed -i -e '/^CONFIG_DANGEROUS=/d' .config
@@ -99,6 +140,7 @@ EOF
 
 	cmp .config .config-ref || oe_runmake oldconfig < /dev/null
 }
+# }}} do_configure
 
 do_compile_prepare() {
 	oe_runmake prepare
