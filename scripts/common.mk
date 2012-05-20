@@ -102,9 +102,11 @@ define _xterm_info
 endef
 
 define _call_cmd
-@$(call ${XTERM_INFO},$2)
-@${_ECHO} $1
-@$1 && ( $(call ${XTERM_INFO},!DONE!); : ) || ( $(call ${XTERM_INFO},!FAILED!); false )
+{ \
+	( $(call ${XTERM_INFO},$2) ); \
+	${_ECHO} $1; \
+	$1 && ( $(call ${XTERM_INFO},!DONE!); : ) || ( $(call ${XTERM_INFO},!FAILED!); false ); \
+}
 endef
 
 define _download
@@ -128,7 +130,7 @@ prep:			$(_wstampdir)/.prep.stamp Makefile | bitbake-validate $W/cache/ccache
 image release-image:	FORCE prep inc-build-num
 
 _image image release-image:
-			$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
+			@$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
 
 build release-build:	FORCE
 ifeq (${R},)
@@ -139,7 +141,7 @@ ifeq (${R},)
 			} >&2
 			@false
 endif
-			$(call _call_cmd,$(BITBAKE) -b $(R) $(BO),>$(R)<)
+			@$(call _call_cmd,$(BITBAKE) -b $(R) $(BO),>$(R)<)
 
 pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell: \
 			$(W)/Makefile.develcomp FORCE
@@ -160,7 +162,7 @@ $(W)/Makefile.develcomp:
 fetch-all fetchall:	FORCE init | bitbake-validate
                         ## call it twice; first step might fail when
                         ## downloading git sources from http mirrors
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
+			@$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
 			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources)
 
 help:			FORCE $(abs_top_srcdir)/scripts/make.help
@@ -230,7 +232,7 @@ $W/cache/ccache:
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
 $(_wstampdir)/.prep.stamp:	| $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp bitbake-validate
-			$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
+			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
 			fi
@@ -293,13 +295,13 @@ $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitb
 
 $(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
 			@rm -f $@ $@.tmp
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
+			@$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
 			@mv $@.tmp $@
 .SECONDARY:		$(_tmpdir)/bitbake.env
 
 $(_tmpdir)/pseudo.env:	$(_tmpdir)/bitbake.env $(abs_top_srcdir)/scripts/generate-pseudo-env
 			@rm -f $@ $@.tmp
-			$(call _call_cmd,$(abs_top_srcdir)/scripts/generate-pseudo-env '$<' '${abs_top_builddir}' >$@.tmp)
+			@$(call _call_cmd,$(abs_top_srcdir)/scripts/generate-pseudo-env '$<' '${abs_top_builddir}' >$@.tmp)
 			@mv $@.tmp $@
 .SECONDARY:		$(_tmpdir)/pseudo.env
 
@@ -314,7 +316,7 @@ ifneq ($(wildcard $(_stampdir)/.pseudo.stamp),)
 			rm -f $(_stampdir)/.pseudo.stamp
 else
 			test ! -d $W/stamps
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
+			@$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
 			rm -rf $W/stamps
 			rm -f $W/cache/bb_*
 endif
