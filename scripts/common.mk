@@ -14,6 +14,9 @@ NOW :=			$(shell date +%Y%m%dT%H%M%S)
 ELITO_SPACE_MIN =	15
 ELITO_SPACE_FULL =	30
 
+CCACHE ?=		ccache
+ELITO_CCACHE_SIZE ?=	3G
+
 TARGETS =		elito-image
 BO ?=
 
@@ -219,8 +222,12 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			exit 1; \
 			} >&2
 
-$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W $W/cache/ccache:
+$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W:
 			mkdir -p $@
+
+$W/cache/ccache:
+			mkdir -p $@
+			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
 $(_wstampdir)/.prep.stamp:	| $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp bitbake-validate
 			$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
