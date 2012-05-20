@@ -97,7 +97,8 @@ do_install[prefuncs] += "do_elito_set_home"
 
 BB_HASHCONFIG_WHITELIST += "\
  ftp_proxy http_proxy https_proxy no_proxy DISPLAY ELITO_BUILD_NUMBER \
- KRB5CCNAME DESKTOP_STARTUP_ID GNOME_KEYRING_PID GPG_AGENT_INFO"
+ KRB5CCNAME DESKTOP_STARTUP_ID GNOME_KEYRING_PID GPG_AGENT_INFO \
+ BITBAKE_UI"
 
 ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
 ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"

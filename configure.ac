@@ -264,6 +264,14 @@ esac
 AC_MSG_RESULT([$with_bitbake_version])
 AC_SUBST([BITBAKE_BRANCH],[$with_bitbake_version])
 
+AC_MSG_CHECKING([for default bitbake ui])
+AC_ARG_WITH([bitbake-ui],
+        AS_HELP_STRING([--with-bitbake-ui=<ui>],[default bitbake userinterface]),
+	[], [with_bitbake_ui=knotty2])
+AC_MSG_RESULT([$with_bitbake_ui])
+AC_SUBST([BITBAKE_UI],[$with_bitbake_ui])
+
+
 AC_ARG_ENABLE(ipkg,
 	AS_HELP_STRING([--disable-ipkg],
 		[disable build of 'ipkg' packages]),

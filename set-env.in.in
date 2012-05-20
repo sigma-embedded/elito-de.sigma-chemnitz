@@ -9,6 +9,7 @@ esac
 
 _s=$W_/sysroots/`uname -m`-linux
 : ${PYTHON:='@PYTHON@'}
+: ${BITBAKE_UI='@BITBAKE_UI@'}
 PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=$W_/cache/ccache
 INSTALL='@INSTALL@'
@@ -30,6 +31,7 @@ for i in "${!_@}" \
 	eval unset "$i"
 done
 
+export BITBAKE_UI
 export ELITO_METRICS_ID
 export CCACHE_DIR BBPATH
 
