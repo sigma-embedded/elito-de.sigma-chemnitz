@@ -228,6 +228,22 @@ def __handle_complete(e, prefix, name, fn):
 
     fn(res_start, res_end)
 
+def __write_ccache_stats(e, stage):
+    import oe.process
+
+    ccache = e.data.getVar("CCACHE", True) or "ccache"
+
+    try:
+        data = oe.process.run(ccache + " -s")
+    except Exception, exc:
+        data = "    ... unavailable (%s)\n" % exc
+
+    # todo: split it into machine readable xml
+    __write(e.data,
+            '  <ccache stage="%s"><![CDATA[\n' % stage +
+            data +
+            '  ]]></ccache>\n')
+
 def eventhandler (e):
     from bb import note, error
     from bb.event import getName
@@ -248,11 +264,12 @@ def eventhandler (e):
         except OSError:
             pass
 
-        __write(e.data, '')
+        __write_ccache_stats(e, name)
 
     if name == "BuildStarted":
         __record_resources('build_start', e)
     elif name in "BuildCompleted":
+        __write_ccache_stats(e, name)
         __handle_complete(e, 'build', 'BuildCompleted',
                           lambda res_start, res_end: 
                           __write_build_complete(e, res_start, res_end,
