@@ -1,0 +1,33 @@
+From a2328d3dbc44aae453840f0c56d0b9b981ece108 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Sun, 20 May 2012 15:52:06 +0200
+Subject: [PATCH 18/20] parse: get_file_depends(): return deterministic result
+
+The output of get_file_depends() concatenates elements of a set.  Result
+of this operation is not deterministic because it is calculated by
+parallel running parsing threads.
+
+Because result of get_file_depends() is stored into BBINCLUDED which
+goes in into various hash calculations, this can cause unwanted rebuilds
+or cache or recipes.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ lib/bb/parse/__init__.py |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/lib/bb/parse/__init__.py b/lib/bb/parse/__init__.py
+index 7b9c47e..1e69778 100644
+--- a/lib/bb/parse/__init__.py
++++ b/lib/bb/parse/__init__.py
+@@ -138,6 +138,6 @@ def get_file_depends(d):
+     depends = depends.union(d.getVar('__base_depends', True) or set())
+     for (fn, _) in depends:
+         dep_files.append(os.path.abspath(fn))
+-    return " ".join(dep_files)
++    return " ".join(sorted(dep_files))
+ 
+ from bb.parse.parse_py import __version__, ConfHandler, BBHandler
+-- 
+1.7.7.6
+

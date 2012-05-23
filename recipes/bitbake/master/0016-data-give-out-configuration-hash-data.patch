@@ -1,21 +1,24 @@
-From b0246b87d74f1934b9ef3c4413ddfb751958808f Mon Sep 17 00:00:00 2001
+From 19107478a53fe327d7dbf76c742ff13f9fd6b9b1 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Mon, 2 Apr 2012 15:43:06 +0200
-Subject: [PATCH 16/16] data: give out configuration hash data
+Subject: [PATCH 16/20] data: give out configuration hash data
 
 this helps to debug problems
 ---
- lib/bb/data_smart.py |   10 ++++++++++
- 1 files changed, 10 insertions(+), 0 deletions(-)
+ lib/bb/data_smart.py |   14 ++++++++++++--
+ 1 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index 9d8587e..a72ee0c 100644
+index 9d8587e..04feacd 100644
 --- a/lib/bb/data_smart.py
 +++ b/lib/bb/data_smart.py
-@@ -474,4 +474,14 @@ class DataSmart(MutableMapping):
+@@ -473,5 +473,15 @@ class DataSmart(MutableMapping):
+             value = self.getVar(key, False) or ""
              data.update({key:value})
  
-         data_str = str([(k, data[k]) for k in sorted(data.keys())])
+-        data_str = str([(k, data[k]) for k in sorted(data.keys())])
+-        return hashlib.md5(data_str).hexdigest()
++        data_str = [(k, data[k]) for k in sorted(data.keys())]
 +
 +        if logger.level >= 0:
 +            fname = os.path.join(self.getVar("TMPDIR", True) or ".",
@@ -24,9 +27,9 @@ index 9d8587e..a72ee0c 100644
 +            if os.access(fname + ".curr", os.F_OK):
 +                utils.movefile(fname + ".curr", fname + ".prev")
 +
-+            open(fname + ".curr","w").write(data_str)
++            open(fname + ".curr","w").write('\n'.join(map(lambda x: '%s="%s"' % x, data_str)))
 +
-         return hashlib.md5(data_str).hexdigest()
++        return hashlib.md5(str(data_str)).hexdigest()
 -- 
 1.7.7.6
 

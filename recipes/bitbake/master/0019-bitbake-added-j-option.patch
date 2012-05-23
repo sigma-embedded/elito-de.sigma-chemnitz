@@ -1,0 +1,68 @@
+From e95ec14311261e370db07dc51fd778c7edb03f32 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Sun, 20 May 2012 16:23:30 +0200
+Subject: [PATCH 19/20] bitbake: added -j option
+
+This patch adds an -j option which overrides/sets BB_NUMBER_THREADS.
+For some use cases like '-c fetchall' it might be useful to modify
+temporarily the number of parallel running tasks without editing
+bitbake.conf.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ bin/bitbake      |    4 ++++
+ doc/bitbake.1    |    4 ++++
+ lib/bb/cooker.py |    7 +++++++
+ 3 files changed, 15 insertions(+), 0 deletions(-)
+
+diff --git a/bin/bitbake b/bin/bitbake
+index 478ac06..b29fae9 100755
+--- a/bin/bitbake
++++ b/bin/bitbake
+@@ -171,6 +171,10 @@ Default BBFILES are the .bb files in the current directory.""")
+ 
+     parser.add_option("-B", "--bind", help = "The name/address for the bitbake server to bind to",
+                action = "store", dest = "bind", default = False)
++
++    parser.add_option("-j", "--jobs", help = "The number of threads BitBake should run at once",
++                      action = "store", dest = "number_threads", default = None)
++
+     options, args = parser.parse_args(sys.argv)
+ 
+     configuration = BBConfiguration(options)
+diff --git a/doc/bitbake.1 b/doc/bitbake.1
+index d9d3902..d1f1a40 100644
+--- a/doc/bitbake.1
++++ b/doc/bitbake.1
+@@ -103,6 +103,10 @@ Show debug logging for the specified logging domains
+ .TP
+ .B \-P, \-\-profile
+ profile the command and print a report
++.TP
++.B \-j\fR [\fIjobs\fR], \fB\-\-jobs\fR[=\fIjobs\fR]
++The number of threads BitBake should run at once.  This option
++overrides the \fI${BB_NUMBER_THREADS}\fR configuration variable.
+ 
+ .SH ENVIRONMENT VARIABLES
+ bitbake uses the following environment variables to control its
+diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
+index 123d0c1..a1e2347 100644
+--- a/lib/bb/cooker.py
++++ b/lib/bb/cooker.py
+@@ -142,6 +142,13 @@ class BBCooker:
+         self.configuration.data = None
+         self.loadConfigurationData()
+ 
++        if self.configuration.number_threads != None:
++            num = int(self.configuration.number_threads)
++            if num == 0:
++                num = multiprocessing.cpu_count()
++
++            self.configuration.data.setVar("BB_NUMBER_THREADS", str(num))
++
+         # Take a lock so only one copy of bitbake can run against a given build
+         # directory at a time
+         lockfile = self.configuration.data.expand("${TOPDIR}/bitbake.lock")
+-- 
+1.7.7.6
+
