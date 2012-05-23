@@ -1,17 +1,17 @@
-From f1ace54e00331052e310fd069b03f8a1da0c24af Mon Sep 17 00:00:00 2001
+From f681abbc48f69f5355c4cb44ad5ea98c491acbe2 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 8 Oct 2011 12:57:24 +0200
-Subject: [PATCH 15/16] added backward compatibility for 'git remote add'
+Subject: [PATCH 15/19] added backward compatibility for 'git remote add'
 
 ---
  lib/bb/fetch2/git.py |    3 ++-
  1 files changed, 2 insertions(+), 1 deletions(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 40a6e61..08b97ef 100644
+index e5cae24..11946e3 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
-@@ -116,6 +116,7 @@ class Git(FetchMethod):
+@@ -119,6 +119,7 @@ class Git(FetchMethod):
              ud.branches[name] = branch
  
          ud.basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
@@ -19,7 +19,7 @@ index 40a6e61..08b97ef 100644
          ud.runfetch = lambda args,d,**opts: runfetchcmd2(ud.basecmd, args, d, **opts)
  
          ud.write_tarballs = ((data.getVar("BB_GENERATE_MIRROR_TARBALLS", d, True) or "0") != "0") or ud.rebaseable
-@@ -205,7 +206,7 @@ class Git(FetchMethod):
+@@ -208,7 +209,7 @@ class Git(FetchMethod):
              except bb.fetch2.FetchError:
                  logger.debug(1, "No Origin")
  

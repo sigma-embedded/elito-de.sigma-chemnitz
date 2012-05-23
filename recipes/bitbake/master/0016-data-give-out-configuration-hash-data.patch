@@ -1,7 +1,7 @@
-From 19107478a53fe327d7dbf76c742ff13f9fd6b9b1 Mon Sep 17 00:00:00 2001
+From 152f277bb01790a3ffc8586c86b206b3d6eeca35 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Mon, 2 Apr 2012 15:43:06 +0200
-Subject: [PATCH 16/20] data: give out configuration hash data
+Subject: [PATCH 16/19] data: give out configuration hash data
 
 this helps to debug problems
 ---

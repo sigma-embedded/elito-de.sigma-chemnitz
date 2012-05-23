@@ -1,7 +1,7 @@
-From e95ec14311261e370db07dc51fd778c7edb03f32 Mon Sep 17 00:00:00 2001
+From a41e6dc7996702efd686c8cd2fd0c8d70c272c20 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Sun, 20 May 2012 16:23:30 +0200
-Subject: [PATCH 19/20] bitbake: added -j option
+Subject: [PATCH 18/19] bitbake: added -j option
 
 This patch adds an -j option which overrides/sets BB_NUMBER_THREADS.
 For some use cases like '-c fetchall' it might be useful to modify
@@ -46,7 +46,7 @@ index d9d3902..d1f1a40 100644
  .SH ENVIRONMENT VARIABLES
  bitbake uses the following environment variables to control its
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 123d0c1..a1e2347 100644
+index 5f1d665..f8c18fa 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
 @@ -142,6 +142,13 @@ class BBCooker:

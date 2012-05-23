@@ -1,7 +1,7 @@
-From a2328d3dbc44aae453840f0c56d0b9b981ece108 Mon Sep 17 00:00:00 2001
+From e85bb787d441f0c9614af1682bbf37347d528670 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Sun, 20 May 2012 15:52:06 +0200
-Subject: [PATCH 18/20] parse: get_file_depends(): return deterministic result
+Subject: [PATCH 17/19] parse: get_file_depends(): return deterministic result
 
 The output of get_file_depends() concatenates elements of a set.  Result
 of this operation is not deterministic because it is calculated by
