@@ -1,0 +1,2 @@
+OELAYOUT_ABI	     = "8"
+BB_SIGNATURE_HANDLER = 'OEBasicHash'

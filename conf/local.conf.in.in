@@ -8,6 +8,7 @@ PROJECT_NAME	:= "@PROJECT_NAME@"
 TMPDIR		:= "${@os.path.normpath(os.path.join('${PROJECT_TOPDIR}',os.environ.get('W','tmp')))}"
 OECORE_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.core"
 OEMETA_TOPDIR	?= "${ELITO_ROOTDIR}/org.openembedded.meta"
+ELITO_SIGNATURE_HANDLER = "@SIGNATURE_STYLE@"
 
 SECWRAP_CMD = "@SECWRAP_CMD@"
 

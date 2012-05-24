@@ -1,0 +1,2 @@
+OELAYOUT_ABI	     = "7"
+BB_SIGNATURE_HANDLER = 'OEBasic'
