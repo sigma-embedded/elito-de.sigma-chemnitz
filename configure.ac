@@ -180,6 +180,7 @@ case $enable_cgroups in
 esac
 ELITO_TRUE_FALSE([ENABLE_CGROUPS],[test x"$enable_cgroups" = xyes])
 
+
 _default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/toolchain-layer'
 
 dnl {{{ --enable-systemd
@@ -196,6 +197,8 @@ AS_CASE([$enable_systemd],
 AC_MSG_RESULT([$enable_systemd])
 dnl }}} --enable-systemd
 
+
+dnl {{{ --enable-layers
 AC_ARG_ENABLE(layers,
 	AS_HELP_STRING([--enable-layers=<dir>[,<dir>]*],
 		       [enable additional layers]),
@@ -238,6 +241,7 @@ for i; do
 done
 
 AC_SUBST([LAYER_DEFINITIONS],[$layer_str])
+dnl }}} --enable-layers
 
 dnl -----------------
 
