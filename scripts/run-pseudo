@@ -31,6 +31,21 @@ case x$PSEUDO_BUILD in
   (x1)
 	;;
 
+  (xauto)
+	(
+	  . "$1/.tmp/pseudo.env" && \
+	  test -x "$PSEUDO"
+	) 2>/dev/null && _have_pseudo=true || _have_pseudo=false
+
+	if $_have_pseudo; then
+	    PSEUDO_BUILD=2
+	    . "$1/.tmp/pseudo.env"
+	else
+	    PSEUDO_BUILD=1
+	fi
+
+	;;
+
   (x|x*)
 	PSEUDO_BUILD=2
 	test -e "$1/.tmp/pseudo.env" || {
