@@ -162,8 +162,8 @@ $(W)/Makefile.develcomp:
 fetch-all fetchall:	FORCE init | bitbake-validate
                         ## call it twice; first step might fail when
                         ## downloading git sources from http mirrors
-			@$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
-			$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources)
+			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
+			$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources)
 
 help:			FORCE $(abs_top_srcdir)/scripts/make.help
 			@cat $<
@@ -295,7 +295,7 @@ $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitb
 
 $(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
 			@rm -f $@ $@.tmp
-			@$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
+			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
 			@mv $@.tmp $@
 .SECONDARY:		$(_tmpdir)/bitbake.env
 
@@ -316,7 +316,7 @@ ifneq ($(wildcard $(_stampdir)/.pseudo.stamp),)
 			rm -f $(_stampdir)/.pseudo.stamp
 else
 			test ! -d $W/stamps
-			@$(call _call_cmd,env PSEUDO_BUILD=1 $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
+			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
 			rm -rf $W/stamps
 			rm -f $W/cache/bb_*
 endif
