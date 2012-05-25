@@ -1,0 +1,26 @@
+commit 49dd5da70f3d2974a01432a062f5c18060cbf692
+Author: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date:   Tue May 22 17:34:24 2012 +0200
+
+    added some pixelformats
+
+diff --git a/src/v4l2subdev.c b/src/v4l2subdev.c
+index a2ab0c4..07ce37c 100644
+--- a/src/v4l2subdev.c
++++ b/src/v4l2subdev.c
+@@ -554,6 +554,15 @@ static struct {
+ 	{ "SGBRG12", V4L2_MBUS_FMT_SGBRG12_1X12 },
+ 	{ "SGRBG12", V4L2_MBUS_FMT_SGRBG12_1X12 },
+ 	{ "SRGGB12", V4L2_MBUS_FMT_SRGGB12_1X12 },
++	{ "YVYU8_2X8", V4L2_MBUS_FMT_YVYU8_2X8 },
++	{ "VYUY8_2X8", V4L2_MBUS_FMT_VYUY8_2X8 },
++	{ "RGB555_2X8_PADHI_LE", V4L2_MBUS_FMT_RGB555_2X8_PADHI_LE },
++	{ "RGB555_2X8_PADHI_BE", V4L2_MBUS_FMT_RGB555_2X8_PADHI_BE },
++	{ "RGB565_2X8_LE", V4L2_MBUS_FMT_RGB565_2X8_LE },
++	{ "RGB565_2X8_BE", V4L2_MBUS_FMT_RGB565_2X8_BE },
++	{ "BGR565_2X8_LE", V4L2_MBUS_FMT_BGR565_2X8_LE },
++	{ "BGR565_2X8_BE", V4L2_MBUS_FMT_BGR565_2X8_BE },
++	{ "SBGGR10_2X8_PADHI_LE", V4L2_MBUS_FMT_SBGGR10_2X8_PADHI_LE },
+ };
+ 
+ const char *v4l2_subdev_pixelcode_to_string(enum v4l2_mbus_pixelcode code)
