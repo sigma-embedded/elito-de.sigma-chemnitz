@@ -109,6 +109,12 @@ define _call_cmd
 }
 endef
 
+_show_help = $(SED) \
+-e 's!@'STAMPFILE'@!$@!g' \
+-e 's!@'CURDIR'@!$(abspath .)!g' \
+"$(abs_top_srcdir)/scripts/$1.help"
+
+
 define _download
 @rm -f '$@.tmp'
 $(WGET) '$1' -O '$@.tmp'
@@ -315,10 +321,26 @@ ifneq ($(wildcard $(_stampdir)/.pseudo.stamp),)
 			@echo "Old pseudo stamp found; assuming transition from old installation"
 			rm -f $(_stampdir)/.pseudo.stamp
 else
-			test ! -d $W/stamps
+			@rm -f $@.override
+			@test ! -d $W/stamps || { \
+				$(call _show_help,make-err-pseudo) >&2; \
+				echo; \
+				echo -n "Continue build [y|N]? "; \
+				read; \
+				case $$REPLY in \
+				([yYtT1]*) \
+					touch $@.override \
+					;; \
+				(*) \
+					exit 1 \
+					;; \
+				esac \
+			}
+
 			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
-			rm -rf $W/stamps
-			rm -f $W/cache/bb_*
+			test -e $@.override || rm -rf $W/stamps
+			test -e $@.override || rm -f $W/cache/bb_*
+			rm -f $@.override
 endif
 			@touch $@
 

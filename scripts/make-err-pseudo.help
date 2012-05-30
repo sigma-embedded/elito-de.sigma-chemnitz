@@ -1,0 +1,24 @@
+****
+**** Inconsistent build state detected; although 'pseudo' does not seem to
+**** have been built yet, other recipes were built.
+**** There are the following options:
+****
+**** 1. Skip this build step and assume that pseudo has been built:
+****
+          touch @STAMPFILE@
+****
+****    This will bring the build system in an unusable state when
+****    'pseudo' was not built yet. Answer 'N' to the question below.
+****
+**** 2. Continue build by answering question below with 'Y'.  This
+****    might bring the build system in a corrupted state when
+****    'pseudo' was built.
+****
+**** 3. Cleanup the buildsystem:
+****
+         make -C @CURDIR@ mrproper
+****
+****    This will remove all temporary files and every built package. This
+****    is the most expensive option and will also help when buildsystem
+****    was corrupted by options 1 or 2.
+****
