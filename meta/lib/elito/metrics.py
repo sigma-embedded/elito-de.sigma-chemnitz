@@ -229,12 +229,12 @@ def __handle_complete(e, prefix, name, fn):
     fn(res_start, res_end)
 
 def __write_ccache_stats(e, stage):
-    import oe.process
+    import bb.process
 
     ccache = e.data.getVar("CCACHE", True) or "ccache"
 
     try:
-        data = oe.process.run(ccache + " -s")
+        data = bb.process.run(ccache + " -s")[0]
     except Exception, exc:
         data = "    ... unavailable (%s)\n" % exc
 
