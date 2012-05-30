@@ -127,11 +127,20 @@ AC_ARG_WITH(cache-dir,
 	[CACHE_DIR=$withval], [CACHE_DIR=\${abs_top_builddir}/../cache])
 AC_SUBST(_CACHE_DIR, [$CACHE_DIR])
 
+dnl {{{ ccache
+AC_MSG_CHECKING([whether to enable ccache])
 AC_ARG_ENABLE(ccache,
 	AS_HELP_STRING([--enable-ccache],
-		       [Enable ccache support (default:detected)]),
+		       [Enable ccache support (default:yes)]),
 	[],
-	[enable_ccache=auto])
+	[enable_ccache=yes])
+AC_MSG_RESULT([$enable_ccache])
+
+AS_CASE([$enable_ccache],
+	[yes],[ELITO_TRUE_FALSE([ENABLE_CCACHE], true)],
+	[no], [ELITO_TRUE_FALSE([ENABLE_CCACHE], false)],
+	[AC_MSG_ERROR([invalid value for --enable-ccache option])])
+dnl }}} ccache
 
 AC_ARG_WITH(kernel-reference-repo,
 	AS_HELP_STRING([--with-kernel-reference-repo=<dir>],
