@@ -12,4 +12,6 @@ PKGV = "${_pv}+gitr${GITPKGV}"
 SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/pub/arnoldboot.git', d)};protocol=git"
 S = "${WORKDIR}/git"
 
-inherit native gitpkgv
+inherit native gitpkgv autotools
+
+EXTRA_OEMAKE += "prefix=${prefix}"
