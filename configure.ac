@@ -189,6 +189,20 @@ case $enable_cgroups in
 esac
 ELITO_TRUE_FALSE([ENABLE_CGROUPS],[test x"$enable_cgroups" = xyes])
 
+dnl {{{ --enable-oom-adjust
+AC_MSG_CHECKING([whether to lower oom adjust])
+AC_ARG_ENABLE([oom-adjust],
+	AS_HELP_STRING([--enable-oom-adjust],
+		       [Adjust oom value so that build processes are killed more likely in out-of-memory conditions (default: yes)]),
+        [],[enable_oom_adjust=yes])
+AC_MSG_RESULT([$enable_oom_adjust])
+
+AS_CASE([$enable_oom_adjust],
+	[yes],[ AC_SUBST([ELITO_OOM_ADJUST],[true]) ],
+	[no], [ AC_SUBST([ELITO_OOM_ADJUST],[false]) ],
+	[AC_MSG_ERROR([invalid value for --enable-oom-adjust option])])
+dnl }}} --enable-oom-adjust
+
 
 _default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/toolchain-layer'
 
