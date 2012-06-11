@@ -287,6 +287,25 @@ ELITO_TRUE_FALSE([FETCHCMD_OPT_GIT_MIRROR],
                  [test $ensc_cv_git_mirror_parameter = yes])
 dnl }}} git --mirror
 	
+dnl {{{ --with-parallel-download
+AC_MSG_CHECKING([how much threads are to be used for fetching sources])
+AC_ARG_WITH([with-parallel-download],
+	AS_HELP_STRING([--with-parallel-download],
+                       [number of threads used by 'make fetchall' (default: memory/200M, not more than 10)]),
+        [],[with_parallel_download=auto])
+AS_CASE([$with_parallel_download],
+	[auto|0],[
+	  mem=`sed '/^MemTotal:/s/MemTotal:[[[:space:]]]\+\([[0-9]]\+\)[[[:space:]]].*/\1/p;d' /proc/meminfo`
+	  with_parallel_download=$(( mem / 200 / 1024 )) || with_parallel_download=2
+	  with_parallel_download=$(( with_parallel_download > 10 ? 10 : with_parallel_download ))
+	  with_parallel_download=$(( with_parallel_download <  1 ?  1 : with_parallel_download ))
+	],
+        [no],[with_parallel_download=1],
+        [default],[with_parallel_download=],[])
+AC_MSG_RESULT([$with_parallel_download])
+AC_SUBST([ELITO_FETCH_THREADS],[$with_parallel_download])
+dnl }}} --with-parallel-download
+
 
 dnl -----------------
 

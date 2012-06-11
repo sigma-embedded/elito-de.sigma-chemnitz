@@ -165,11 +165,13 @@ $(W)/Makefile.develcomp:
 			} >&2
 			@false
 
+_fetchenv = env PSEUDO_BUILD=auto $(if $ELITO_FETCH_THREADS,BB_NUMBER_THREADS=${ELITO_FETCH_THREADS})
+
 fetch-all fetchall:	FORCE init | bitbake-validate
                         ## call it twice; first step might fail when
                         ## downloading git sources from http mirrors
-			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
-			$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources)
+			@$(call _call_cmd,$(_fetchenv) $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
+			$(call  _call_cmd,$(_fetchenv) $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources)
 
 help:			FORCE $(abs_top_srcdir)/scripts/make.help
 			@cat $<
