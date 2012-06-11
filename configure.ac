@@ -266,6 +266,28 @@ done
 AC_SUBST([LAYER_DEFINITIONS],[$layer_str])
 dnl }}} --enable-layers
 
+dnl {{{ git --mirror
+AC_CHECK_PROGS([GIT], git)
+
+AC_MSG_CHECKING([whether git's --mirror option accepts a parameter])
+AC_CACHE_VAL([ensc_cv_git_mirror_parameter],[
+	tmp=
+	AS_TMPDIR([gitmirror])
+	if ( cd $tmp && \
+             $GIT init && \
+             $GIT remote add --mirror=fetch foo bar ) >/dev/null; then
+	   ensc_cv_git_mirror_parameter=yes
+	else
+	   ensc_cv_git_mirror_parameter=no
+	fi
+	test -d "$tmp" && rm -rf "$tmp"
+])
+AC_MSG_RESULT([$ensc_cv_git_mirror_parameter])
+ELITO_TRUE_FALSE([FETCHCMD_OPT_GIT_MIRROR],
+                 [test $ensc_cv_git_mirror_parameter = yes])
+dnl }}} git --mirror
+	
+
 dnl -----------------
 
 AC_PATH_PROGS([PYTHON], python)
