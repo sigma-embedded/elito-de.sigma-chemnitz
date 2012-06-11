@@ -639,7 +639,7 @@ AC_CHECK_HEADER(bzlib.h,     [ELITO_ASSUME(0,  bzip2-full,true)])
 AC_CHECK_HEADER(readline/readline.h, [ELITO_ASSUME(10, readline,true)])
 AC_CHECK_HEADER(linux/version.h, [ELITO_ASSUME(0,  linux-libc-headers,true)])
 
-if test x$enable_pkg_rpm = xyes; then
+if $enable_pkg_rpm; then
   AC_CHECK_HEADER(popt.h,    [ELITO_ASSUME(10, popt,true)])
   AC_CHECK_HEADER(db.h,      [ELITO_ASSUME(10, db,true)])
 fi
