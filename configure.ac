@@ -639,7 +639,7 @@ ELITO_CHECK_PROGRAM(20, RPM,        rpm)
 ELITO_CHECK_PROGRAM( 0, FONTFORGE,  fontforge)
 ELITO_CHECK_PROGRAM( 0, DOXYGEN,    doxygen)
 ELITO_CHECK_PROGRAM( 0, MKISOFS,    mkisofs)
-ELITO_CHECK_PROGRAM( 0, BISON,      bison)
+ELITO_CHECK_PROGRAM(20, BISON,      bison)
 
 if $enable_pkg_bison; then
    # bison depends on m4 binary in sysroot
