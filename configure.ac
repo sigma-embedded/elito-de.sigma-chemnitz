@@ -648,7 +648,7 @@ fi
 
 
 AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
-AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(10, zlib,true)])
+AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(20, zlib,true)])
 AC_CHECK_HEADER(mpfr.h,      [ELITO_ASSUME(20, mpfr,true)])
 AC_CHECK_HEADER(ncurses.h,   [ELITO_ASSUME(10, ncurses,true)])
 AC_CHECK_HEADER(expat.h,     [ELITO_ASSUME(10, expat,true)])
