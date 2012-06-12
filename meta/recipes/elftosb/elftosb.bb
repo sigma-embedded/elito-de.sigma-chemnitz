@@ -4,10 +4,12 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://COPYING;md5=172ede34353056ebec7a597d8459f029"
 
 PV = "11.09.01"
+PR = "r1"
 
 SRC_URI = " \
 	http://foss.doredevelopment.dk/mirrors/imx/elftosb-${PV}.tar.gz \
 	file://buildflags.patch \
+	file://stdc.patch \
 "
 
 SRC_URI[md5sum] = "10deccaf1af9e9d396ffbf51e7d320c0"
