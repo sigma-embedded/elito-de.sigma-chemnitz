@@ -23,3 +23,6 @@ FILES_${PN} = "${datadir}/sounds/*"
 
 SRC_URI[sounds.md5sum] = "13f8df2fdcefded5331c7656c0d7abb1"
 SRC_URI[sounds.sha256sum] = "a126f388ba5a86eec25b61b85c64790f31c6b759b8d0c504546f3f3ed108ea35"
+
+SRC_URI[fssogg.md5sum] = "f95216296abb48f8ef5568982b4f0085"
+SRC_URI[fssogg.sha256sum] = "07fee9d4305565fafdedc322187cbe9c16e93feb42242ccdad2b6a831e6c9059"
