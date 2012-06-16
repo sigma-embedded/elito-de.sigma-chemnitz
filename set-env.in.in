@@ -43,5 +43,10 @@ for f in '@abs_top_builddir@'/set-env.local $HOME/.elito-set-env; do
 done
 
 exec_secure() {
-    exec @SECWRAP_CMD@ "$@"
+    if test -z "ELITO_NO_SECWRAP_CMD"; then
+	exec @SECWRAP_CMD@ "$@"
+    else
+	unset ELITO_NO_SECWRAP_CMD
+	exec "$@"
+    fi
 }

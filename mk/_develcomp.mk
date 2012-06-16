@@ -11,7 +11,7 @@ _nfs_server	?= $(_tftp_server)
 PS1     = [\[\033[1;34m\]${PROJECT_NAME}\[\033[0;39m\]|\u@\h \W]\044$
 
 _bad_env = MAKELEVEL MAKEFILES MAKEFILE_LIST
-_start	= env $(addprefix -u ,$(_bad_env)) $(ENV) $(_secwrap)
+_start	= env $(addprefix -u ,$(_bad_env)) $(ENV) ELITO_NO_SECWRAP_CMD=1 $(_secwrap)
 
 define __include_cfg
 -include $${PROJECT_TOPDIR}/mk/common.mk
