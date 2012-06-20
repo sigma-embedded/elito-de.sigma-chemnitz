@@ -19,12 +19,10 @@ inherit gitpkgv
 
 S = "${WORKDIR}/git"
 
-CFLAGS += "-fno-builtin-putc -fno-builtin-printf -ffunction-sections"
+CFLAGS += "-fno-builtin-putc -fno-builtin-printf"
 CFLAGS += "-mno-thumb-interwork -fomit-frame-pointer"
-LDFLAGS += "-gc-sections"
-
-#CFLAGS += "-fno-eliminate-unused-debug-types -fno-function-sections"
-#CFLAGS += "-fuse-linker-plugin -flto -g2"
+CFLAGS += "-fuse-linker-plugin -flto"
+LDFLAGS += "-Wl,-gc-sections -fuse-linker-plugin -flto"
 
 EXTRA_OEMAKE = " \
   BOARD=iMX28_EVK \
