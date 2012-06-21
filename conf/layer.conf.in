@@ -4,6 +4,7 @@ BBFILES += " \
   ${_abs_project_dir}/recipes/*/*.bb \
   ${_abs_project_dir}/recipes/*/*.bbappend \
   ${_abs_project_dir}/files/*/*.bbappend \
+  ${TMPDIR}/recipes/*.bbappend \
 "
 
 BBFILE_COLLECTIONS     += "project"

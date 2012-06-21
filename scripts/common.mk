@@ -180,6 +180,14 @@ inc-build-num:		FORCE | $W
 			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
 			echo $$(( v + 1 )) > ${W}/build-num
 
+inc-pr:			FORCE | $W/recipes
+ifeq ($(R),)
+			@echo "*** Recipename R=<recipe> missing. ***" >&2
+			@exit 1
+endif
+			@echo "PRINC := \"\$${@int('\$${PRINC}') + 1}\"" > '$W/recipes/$R.bbappend'
+
+
 sources-tar:
 			$(if $L,env L=${L}) ${abs_top_srcdir}/scripts/create-sources-tar $(CACHE_DIR)
 
@@ -232,7 +240,7 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			exit 1; \
 			} >&2
 
-$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W:
+$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W $W/recipes:
 			mkdir -p $@
 
 $W/cache/ccache:
