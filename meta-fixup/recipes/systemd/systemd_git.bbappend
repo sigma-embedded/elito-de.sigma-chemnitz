@@ -1,4 +1,6 @@
 # --*- python -*--
+PRINC := "${@int('${PRINC}') + 1}"
+
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
 _headless-pkgs := "${@'${PACKAGES}'.replace(' ${PN}-analyze', ' ')}"
@@ -19,6 +21,7 @@ EXTRA_OECONF += "\
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
+    rmdir ${D}${localstatedir}/log/journal
 }
 
 do_install_append_headless() {
