@@ -41,7 +41,6 @@ export LANG=C
 tar chf - \
     --no-recursion \
     --listed-incremental=$incfile \
-    --level=$LEVEL \
     -C $D \
     local sources \
     -T $t/xtra \
