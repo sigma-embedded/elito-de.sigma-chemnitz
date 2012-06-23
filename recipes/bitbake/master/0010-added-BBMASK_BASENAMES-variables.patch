@@ -1,14 +1,14 @@
-From b0f724986d5969fc5dfd8f28a4001980b293574f Mon Sep 17 00:00:00 2001
+From 8815dd4f07fd1dcadbae275807d998db06c004dd Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:46 +0200
-Subject: [PATCH 10/16] added BBMASK_BASENAMES variables
+Subject: [PATCH 10/19] added BBMASK_BASENAMES variables
 
 ---
  lib/bb/cooker.py |   15 ++++++++++++++-
- 1 files changed, 14 insertions(+), 1 deletions(-)
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 9b6412f..7297cf4 100644
+index 9ea65dd..c0b014a 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
 @@ -1339,6 +1339,8 @@ class BBCooker:
@@ -46,5 +46,5 @@ index 9b6412f..7297cf4 100644
                  if collectlog.level >= 1:
                      maskedfiles.append(f)
 -- 
-1.7.7.6
+1.7.10.2
 

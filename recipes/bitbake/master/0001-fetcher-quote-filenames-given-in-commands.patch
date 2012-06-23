@@ -1,4 +1,4 @@
-From ec52c477e9ca087c2bc713399272c6057ed1b956 Mon Sep 17 00:00:00 2001
+From 3a6c04e5928dfc6e6d9ff53c96b3789729d64974 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 6 Apr 2012 16:53:30 +0200
 Subject: [PATCH 01/19] fetcher: quote filenames given in commands
@@ -21,10 +21,10 @@ but most fetchers need similar adaptations too.
 Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 ---
  lib/bb/fetch2/__init__.py |   38 +++++++++++++++++++++-----------------
- 1 files changed, 21 insertions(+), 17 deletions(-)
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index d4b6c3e..06feb80 100644
+index 1b99a0f..26eb3f8 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -30,6 +30,7 @@ from __future__ import print_function
@@ -35,7 +35,7 @@ index d4b6c3e..06feb80 100644
  import bb.persist_data, bb.utils
  import bb.checksum
  from bb import data
-@@ -829,38 +830,39 @@ class FetchMethod(object):
+@@ -878,38 +879,39 @@ class FetchMethod(object):
          cmd = None
  
          if unpack:
@@ -87,7 +87,7 @@ index d4b6c3e..06feb80 100644
  
          if not unpack or not cmd:
              # If file == dest, then avoid any copies, as we already put the file into dest!
-@@ -876,8 +878,8 @@ class FetchMethod(object):
+@@ -925,8 +927,8 @@ class FetchMethod(object):
                              destdir = "."
                          elif not os.access("%s/%s" % (rootdir, destdir), os.F_OK):
                              os.makedirs("%s/%s" % (rootdir, destdir))
@@ -98,7 +98,7 @@ index d4b6c3e..06feb80 100644
                  else:
                      # The "destdir" handling was specifically done for FILESPATH
                      # items.  So, only do so for file:// entries.
-@@ -886,7 +888,7 @@ class FetchMethod(object):
+@@ -935,7 +937,7 @@ class FetchMethod(object):
                      else:
                         destdir = "."
                      bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))
@@ -107,7 +107,7 @@ index d4b6c3e..06feb80 100644
  
          if not cmd:
              return
-@@ -900,10 +902,12 @@ class FetchMethod(object):
+@@ -949,10 +951,12 @@ class FetchMethod(object):
              os.chdir(newdir)
  
          path = data.getVar('PATH', True)
@@ -123,5 +123,5 @@ index d4b6c3e..06feb80 100644
          os.chdir(save_cwd)
  
 -- 
-1.7.7.6
+1.7.10.2
 

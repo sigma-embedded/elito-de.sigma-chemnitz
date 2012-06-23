@@ -1,14 +1,14 @@
-From bb926b41b45e66c2c1a4a8678d2815285750c850 Mon Sep 17 00:00:00 2001
+From 0f6020d602984f5921c4285c0a49247a9579f4f7 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:40 +0200
-Subject: [PATCH 04/16] added BB_SVN_TUNNEL variable
+Subject: [PATCH 04/19] added BB_SVN_TUNNEL variable
 
 It allows to rewrite svn:// uris for example to svn+proxy://.  This
 makes it possible to use a 'proxy' tunnel which pipes the connection
 through a https proxy.
 ---
  lib/bb/fetch2/svn.py |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ 1 file changed, 4 insertions(+)
 
 diff --git a/lib/bb/fetch2/svn.py b/lib/bb/fetch2/svn.py
 index 59d7ccb..faf064f 100644
@@ -29,5 +29,5 @@ index 59d7ccb..faf064f 100644
          if proto == "svn+ssh" and "rsh" in ud.parm:
              svn_rsh = ud.parm["rsh"]
 -- 
-1.7.7.6
+1.7.10.2
 

@@ -1,15 +1,15 @@
-From 77066fa81876ca1792a0029d076dbd5208feab13 Mon Sep 17 00:00:00 2001
+From 2e7280372e955adb13363f096142ca65e813194e Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:45 +0200
-Subject: [PATCH 09/16] fill _BBMASKED variable with name of files being
+Subject: [PATCH 09/19] fill _BBMASKED variable with name of files being
  masked out
 
 ---
  lib/bb/cooker.py |   16 +++++++++++++++-
- 1 files changed, 15 insertions(+), 1 deletions(-)
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index d2f8404..9b6412f 100644
+index 35cd73c..9ea65dd 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
 @@ -1349,9 +1349,12 @@ class BBCooker:
@@ -52,5 +52,5 @@ index d2f8404..9b6412f 100644
      def __init__(self, cooker, filelist, masked):
          self.filelist = filelist
 -- 
-1.7.7.6
+1.7.10.2
 

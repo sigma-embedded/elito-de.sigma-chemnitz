@@ -1,4 +1,4 @@
-From 587dca130fce0da11b53cc8637cba317ba123ffb Mon Sep 17 00:00:00 2001
+From 013702e50720115f6111e504eaad3f25374db689 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 14:14:09 +0200
 Subject: [PATCH 14/19] add file:// schema when cloning
@@ -7,13 +7,13 @@ Command will fail else when clonedir contains a ':' (e.g. in
 'host:portnumber')
 ---
  lib/bb/fetch2/git.py |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index c8708de..e5cae24 100644
+index 6491bb0..55f1284 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
-@@ -245,7 +245,7 @@ class Git(FetchMethod):
+@@ -247,7 +247,7 @@ class Git(FetchMethod):
          if ud.bareclone:
              cloneflags.append("--mirror")
  
@@ -23,5 +23,5 @@ index c8708de..e5cae24 100644
  
          if not ud.nocheckout:
 -- 
-1.7.7.6
+1.7.10.2
 
