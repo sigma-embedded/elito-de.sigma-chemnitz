@@ -501,7 +501,10 @@ mrproper:		clean clean-metrics
 $(AUTOCONF_FILES): %:	config.status %.in
 			$(abspath $<)
 
-config.status:		$(abs_top_srcdir)/configure
+$(_stampdir)/.config.status.stamp: | $(_stampdir)
+			@touch $@
+
+config.status:		$(abs_top_srcdir)/configure | $(_stampdir)/.config.status.stamp
 			$(abspath $@) --recheck
 
 ############ autoconf stuff }}} #########
