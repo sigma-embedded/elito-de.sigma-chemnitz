@@ -342,7 +342,14 @@ AC_SUBST([BITBAKE_UI],[$with_bitbake_ui])
 AC_MSG_CHECKING([for signature style])
 AC_ARG_WITH([signature-style],
 	AS_HELP_STRING([--with-signature-style=<style>],[BitBake signature style]),
-	[], [with_signature_style=basic])
+	[], [
+	cur_abi=`cat tmp/abi_version 2>/dev/null` || cur_abi=-1
+	AS_CASE([$cur_abi],
+	        [7],[with_signature_style=basic],
+		[8],[with_signature_style=hash],
+		[-1],[with_signature_style=hash], dnl the default
+		[AC_MSG_WARN([Unknown ABI version $cur_abi detected; assuming 'hash'])
+		 with_signature_style=hash])])
 AC_MSG_RESULT([$with_signature_style])
 AC_SUBST([SIGNATURE_STYLE],[$with_signature_style])
 
