@@ -49,7 +49,7 @@ index 07d722a..6491bb0 100644
              if repourl.startswith("file://"):
                  repourl = repourl[7:]
 -            clone_cmd = "%s clone -l --bare --mirror %s %s" % (ud.basecmd, repourl, ud.clonedir)
-+            clone_cmd = ['clone', '-l', '--bare', '--mirror', repourl, ud.clonedir]
++            clone_cmd = ['clone', '--bare', '--mirror', repourl, ud.clonedir]
              if ud.proto.lower() != 'file':
 -                bb.fetch2.check_network_access(d, clone_cmd)
 -            runfetchcmd(clone_cmd, d)
