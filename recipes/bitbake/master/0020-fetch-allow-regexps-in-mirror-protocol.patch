@@ -1,0 +1,33 @@
+From 8f59f3c1d10912c61a924b34249ac74a41d6f3df Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Sun, 24 Jun 2012 21:41:44 +0200
+Subject: [PATCH 20/20] fetch: allow regexps in mirror protocol
+
+Last mirror rewrite caused a regression not accepting
+
+   .*://.*/.* file://${DL_DIR}/../local/
+
+like specifications anymore. Patch restores old behavior by using regexp
+matching when checking protocol.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ lib/bb/fetch2/__init__.py |    2 +-
+ 1 Datei geändert, 1 Zeile hinzugefügt(+), 1 Zeile entfernt(-)
+
+diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
+index 6f3d88c..75ce01b 100644
+--- a/lib/bb/fetch2/__init__.py
++++ b/lib/bb/fetch2/__init__.py
+@@ -207,7 +207,7 @@ def uri_replace(ud, uri_find, uri_replace, d):
+         elif loc == 0:
+             # Principle of least surprise. We could end up with https matching against http and 
+             # generating "files://" urls if we use the regexp engine below.
+-            if i != uri_decoded[loc]:
++            if not re.match(i, uri_decoded[loc]):
+                 return None
+             result_decoded[loc] = uri_replace_decoded[loc]
+         elif (re.match(i, uri_decoded[loc])):
+-- 
+1.7.10.2
+
