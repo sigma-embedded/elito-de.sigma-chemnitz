@@ -83,8 +83,10 @@ ifeq ($(ELITO_OFFLINE),strict)
 http_proxy =	http://localhost:0
 https_proxy =	$(http_proxy)
 ftp_proxy =	$(http_proxy)
+BB_NO_NETWORK =	1
+BB_FETCH_PREMIRRORONLY = 1
 
-export http_proxy https_proxy ftp_proxy
+export http_proxy https_proxy ftp_proxy BB_NO_NETWORK BB_FETCH_PREMIRRORONLY
 endif
 
 .DEFAULT_GOAL :=	config
