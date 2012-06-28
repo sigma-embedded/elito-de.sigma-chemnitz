@@ -20,6 +20,8 @@ ELITO_CCACHE_SIZE ?=	3G
 TARGETS =		elito-image
 BO ?=
 
+TARGET_IMAGES =
+
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
 
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.bundle
@@ -136,7 +138,8 @@ config:			$(CFG_FILES)
 init:			bitbake-fetch | $W/cache/ccache
 image release-image:	FORCE $(_wstampdir)/.prep.stamp inc-build-num | bitbake-validate
 
-_image image release-image:
+$(TARGET_IMAGES):	$(_wstampdir)/.prep.stamp
+$(TARGET_IMAGES) _image image release-image:
 			@$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
 
 build release-build:	FORCE
