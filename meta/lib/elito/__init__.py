@@ -32,3 +32,9 @@ def test_skip(d, feature_pos, feature_neg = None, var_name = "MACHINE_FEATURES")
         raise bb.parse.SkipPackage('Package %s not available for this machine' % pn)
     if (feature_pos == None and feature_neg == None):
         raise bb.parse.ParseError('No feature given in package %s' % pn)
+
+def repo(remote, local, d):
+    r = "${ELITO_GIT_REPO}/" + remote
+    l = "git://${ELITO_WORKSPACE_DIR}/%s;protocol=file" % local
+
+    return "%-40s\t%s\n" % (r,l)

@@ -87,6 +87,10 @@ def elito_build_number(d):
 	except:
 		return 0
 
+def elito_repo(local, remote, d):
+	import elito
+	return elito.repo(local, remote, d)
+
 python do_elito_set_home() {
 	d.setVar("HOME", "${WORKDIR}/.home");
 	d.setVarFlag("HOME", "export", True);
