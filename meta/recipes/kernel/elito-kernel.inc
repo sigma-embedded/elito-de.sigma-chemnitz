@@ -119,6 +119,12 @@ EOF
 EOF
         fi
 
+	sed -i -e '/^CONFIG_INITRAMFS_ROOT_\(UID\|GID\)=.*/d' .config
+	cat <<EOF >> .config
+CONFIG_INITRAMFS_ROOT_UID=`id -u`
+CONFIG_INITRAMFS_ROOT_GID=`id -g`
+EOF
+
 	cp -a .config .config-ref1
 
 	if ${@base_contains('DISTRO_FEATURES','ipv6','true','false',d)}; then
