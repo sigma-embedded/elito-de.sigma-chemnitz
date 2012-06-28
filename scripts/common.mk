@@ -134,8 +134,7 @@ endef
 config:			$(CFG_FILES)
 
 init:			bitbake-fetch | $W/cache/ccache
-prep:			$(_wstampdir)/.prep.stamp Makefile | bitbake-validate $W/cache/ccache
-image release-image:	FORCE prep inc-build-num
+image release-image:	FORCE $(_wstampdir)/.prep.stamp inc-build-num | bitbake-validate
 
 _image image release-image:
 			@$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
@@ -249,7 +248,7 @@ $W/cache/ccache:
 			mkdir -p $@
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
-$(_wstampdir)/.prep.stamp:	| $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp bitbake-validate
+$(_wstampdir)/.prep.stamp:	| Makefile $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp bitbake-validate $W/cache/ccache
 			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
