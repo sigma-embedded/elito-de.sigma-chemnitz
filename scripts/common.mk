@@ -189,7 +189,7 @@ ifeq ($(R),)
 			@echo "*** Recipename R=<recipe> missing. ***" >&2
 			@exit 1
 endif
-			@echo "PRINC := \"\$${@int('\$${PRINC}') + 1}\"" > '$W/recipes/$R.bbappend'
+			@echo "PRINC := \"\$${@int('\$${PRINC}') + 1}\"" >> '$W/recipes/$R.bbappend'
 
 
 sources-tar:
