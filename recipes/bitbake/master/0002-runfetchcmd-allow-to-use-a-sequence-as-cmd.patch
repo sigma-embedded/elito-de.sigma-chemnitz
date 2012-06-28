@@ -1,7 +1,7 @@
-From de2b063eb9effbc92a895b279d0b2e9a63e30623 Mon Sep 17 00:00:00 2001
+From 129c7342e58bd5c3bfce375d9fa7d7244f2b3bd0 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 13 Apr 2012 13:06:00 +0200
-Subject: [PATCH 02/19] runfetchcmd(): allow to use a sequence as cmd
+Subject: [PATCH 02/20] runfetchcmd(): allow to use a sequence as cmd
 
 Patch removes the explicit 'shell=True' from the bb.process.run() call
 and modifies the environment directly.  This allows to use a sequence as
@@ -28,10 +28,10 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 26eb3f8..58d4bf3 100644
+index ae9e7a5..b20cb2b 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -443,10 +443,11 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -444,10 +444,11 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
                    'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME',
                    'GIT_PROXY_IGNORE', 'SOCKS5_USER', 'SOCKS5_PASSWD']
  
@@ -44,7 +44,7 @@ index 26eb3f8..58d4bf3 100644
  
      logger.debug(1, "Running %s", cmd)
  
-@@ -454,7 +455,7 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -455,7 +456,7 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
      error_message = ""
  
      try:
@@ -53,7 +53,7 @@ index 26eb3f8..58d4bf3 100644
          success = True
      except bb.process.NotFoundError as e:
          error_message = "Fetch command %s" % (e.command)
-@@ -473,14 +474,29 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -474,14 +475,29 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
  
      return output
  
