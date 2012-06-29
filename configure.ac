@@ -275,7 +275,7 @@ AC_CACHE_VAL([ensc_cv_git_mirror_parameter],[
 	AS_TMPDIR([gitmirror])
 	if ( cd $tmp && \
              $GIT init && \
-             $GIT remote add --mirror=fetch foo bar ) >/dev/null; then
+             $GIT remote add --mirror=fetch foo bar ) >/dev/null 2>/dev/null; then
 	   ensc_cv_git_mirror_parameter=yes
 	else
 	   ensc_cv_git_mirror_parameter=no
