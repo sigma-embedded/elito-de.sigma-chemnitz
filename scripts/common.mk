@@ -136,7 +136,7 @@ endef
 config:			$(CFG_FILES)
 
 init:			bitbake-fetch | $W/cache/ccache
-image release-image:	FORCE $(_wstampdir)/.prep.stamp inc-build-num | bitbake-validate
+image release-image:	FORCE bitbake-validate $(_wstampdir)/.prep.stamp inc-build-num
 
 $(TARGET_IMAGES):	$(_wstampdir)/.prep.stamp
 $(TARGET_IMAGES) _image image release-image:
@@ -171,7 +171,7 @@ $(W)/Makefile.develcomp:
 
 _fetchenv = env PSEUDO_BUILD=auto $(if $ELITO_FETCH_THREADS,BB_NUMBER_THREADS=${ELITO_FETCH_THREADS})
 
-fetch-all fetchall:	FORCE init | bitbake-validate
+fetch-all fetchall:	FORCE bitbake-validate init
                         ## call it twice; first step might fail when
                         ## downloading git sources from http mirrors
 			@$(call _call_cmd,$(_fetchenv) $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
@@ -251,7 +251,7 @@ $W/cache/ccache:
 			mkdir -p $@
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
-$(_wstampdir)/.prep.stamp:	| Makefile $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp bitbake-validate $W/cache/ccache
+$(_wstampdir)/.prep.stamp:	| bitbake-validate Makefile $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp $W/cache/ccache
 			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
