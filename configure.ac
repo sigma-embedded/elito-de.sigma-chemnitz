@@ -314,7 +314,7 @@ AC_PATH_PROGS([PYTHON], python)
 AC_MSG_CHECKING([for bitbake version])
 AC_ARG_WITH([bitbake-version],
 	AS_HELP_STRING([--with-bitbake-version],
-		[bitbake version which shall be used; valid values are 1.12 (default: auto)]),
+		[bitbake version which shall be used; valid values are 'master' (default: auto)]),
 	[], [with_bitbake_version=auto])
 
 case $with_bitbake_version in
@@ -322,7 +322,6 @@ case $with_bitbake_version in
 	AC_CACHE_VAL([ensc_cv_BITBAKE_VERSION],[
 		$PYTHON -c 'import sys; sys.exit(sys.hexversion >= 0x2060000)'
 		case $? in
-		     (0)	ensc_cv_BITBAKE_VERSION=1.8;;
 		     (*)	ensc_cv_BITBAKE_VERSION=master;;
 		esac
 		])
