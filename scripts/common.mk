@@ -251,7 +251,7 @@ $W/cache/ccache:
 			mkdir -p $@
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
-$(_wstampdir)/.prep.stamp:	| bitbake-validate Makefile $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp $W/cache/ccache
+$(_wstampdir)/.prep.stamp:	| bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp $W/cache/ccache
 			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
 			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
 				$(MAKE) _image BO= TARGETS=elito-prep; \
