@@ -214,11 +214,15 @@ do_deploy_append() {
         elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
 		cd "${S}"
 		install -p -m 0644 arch/${ARCH}/boot/ceImage \
-			${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}-ce.bin
+			${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.ce
 
 		cd "${DEPLOYDIR}"
+		rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.ce
+		ln -sf ${KERNEL_IMAGE_BASE_NAME}.ce ${KERNEL_IMAGE_SYMLINK_NAME}.ce
+
+		# REMOVE ME after 2013-07-01
+		# remove old stylish named file
 		rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
-		ln -sf ${KERNEL_IMAGE_BASE_NAME}-ce.bin ${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
 	fi
 }
 
