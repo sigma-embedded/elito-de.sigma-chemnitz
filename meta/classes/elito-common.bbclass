@@ -230,6 +230,7 @@ ELITO_COMMON_SERVERS-core = "\
   ${@base_contains('DISTRO_FEATURES','wifi','connman-plugin-wifi','', d)} \
   connman-tools \
   dropbear \
+  openssh-sftp-server \
 "
 
 ELITO_COMMON_SERVERS = "${@elito_common_expand('ELITO_COMMON_SERVERS',d)}"
