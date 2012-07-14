@@ -35,16 +35,55 @@ _configdebug-opts='\
   SHIRQ OBJECTS_TIMERS NOTIFIERS \
 '
 
-_configdebug-opts-re = \
-  "\(CONFIG_DEBUG_\(${@'\\|'.join('${_configdebug-opts}'.split())}\)\)"
-
 _configdisable-opts = ' \
   LOCKDEP PROVE_RCU SLUB_DEBUG_ON SCHED_DEBUG SLUB_STATS \
   PROVE_LOCKING LOCK_STAT \
 '
 
-_configdisable-opts-re = \
-  "\(CONFIG_\(${@'\\|'.join('${_configdisable-opts}'.split())}\)\)"
+def kernel_early_options(d):
+	import elito.kernel_feature
+	is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
+
+	o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
+	      [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
+		'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
+	      [ True,
+		[ 'BLK_DEV_INITRD', is_feature('initrd') ],
+                [ 'INITRAMFS_SOURCE', 'devices.txt' ],
+		[ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
+		[ 'INITRAMFS_ROOT_UID',  os.getuid() ],
+		[ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
+	      ]
+
+	o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
+	o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts').split()))
+
+	for f in (d.getVar('KERNEL_EARLY_OPTIONS_FUNCS', True) or '').split():
+		o = bb.build.exec_func(f, d, o)
+
+	return elito.kernel_feature.sed_cmd(o)
+
+def kernel_options(d):
+	import elito.kernel_feature
+	is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
+
+	o = [ [ True,
+		[ 'IPV6',        is_feature('ipv6') ],
+		[ 'MMC',         is_feature('mmc') ],
+		[ 'USB',         is_feature('usbhost') ],
+		[ 'USB_GADGET',  is_feature('usbclient') ],
+		],
+	      [ is_feature('headless'),
+		[ 'FB',         False ] ],
+	      [ d.getVar('IMAGE_INIT_MANAGER') == 'systemd',
+		[ 'AUTOFS4_FS', True ],
+		[ 'CGROUPS',    True ] ],
+	      ]
+
+	for f in (d.getVar('KERNEL_OPTIONS_FUNCS', True) or '').split():
+		o = bb.build.exec_func(f, d, o)
+
+	return elito.kernel_feature.sed_cmd(o)
 
 # {{{ generate-initramfs
 ELITO_LINUXRC_PROGRAM ??= "${STAGING_BINDIR}/elito-mmc-boot"
@@ -86,65 +125,26 @@ do_configure_prepend() {
 		oe_runmake "${_defconfig}"
 	fi
 
-	cp -a .config .config-ref
+	cp -a .config .config-orig
 
-	sed -e 's!^\(${_configdebug-opts-re}\|${_configdisable-opts-re}\)=.*!# \1 is not set!' .config > .config-nodebug
-	if ! cmp .config .config-nodebug; then
-		cat .config-nodebug > .config
-	fi
-	#rm -f .config-nodebug
-
-        if test -n "${OVERRIDE_KERNEL_CMDLINE}" -a -n "${KERNEL_CMDLINE}"; then
-		sed -i -e '/^CONFIG_CMDLINE=/d' .config
-		cat <<EOF >> .config
-CONFIG_CMDLINE="${KERNEL_CMDLINE}"
-EOF
-        fi
-
-	if ${@base_contains('DISTRO_FEATURES','initrd','true','false',d)}; then
-	        sed -i \
-		    -e '/^\(# \)\?CONFIG_INITRAMFS_SOURCE=/d' \
-		    -e 's/^# \(CONFIG_BLK_DEV_INITRD\) is not set/\1=y/' \		
-		.config
-
-		cat <<EOF >> .config
-CONFIG_INITRAMFS_SOURCE="devices.txt"
-EOF
-	fi
-
-        if ${@base_conditional("DISTRO_TYPE", "release", "true", "false",d)}; then
-		sed -i -e '/^CONFIG_DANGEROUS=/d' .config
-		cat <<EOF >> .config
-# CONFIG_DANGEROUS is not set
-EOF
-        fi
-
-	sed -i -e '/^CONFIG_INITRAMFS_ROOT_\(UID\|GID\)=.*/d' .config
-	cat <<EOF >> .config
-CONFIG_INITRAMFS_ROOT_UID=`id -u`
-CONFIG_INITRAMFS_ROOT_GID=`id -g`
+cat <<"EOF" | sed -f - .config-orig > .config
+${@kernel_early_options(d)}
 EOF
 
-	cp -a .config .config-ref1
+	oe_runmake oldconfig < /dev/null
+	cp -a .config .config-early
 
-	if ${@base_contains('DISTRO_FEATURES','ipv6','true','false',d)}; then
-		sed -i -e 's/^# CONFIG_IPV6 is not set/CONFIG_IPV6=m/' .config
-	fi
-
-	if ${@base_contains('IMAGE_INIT_MANAGER','systemd','true','false',d)}; then
-		sed -i \
-		    -e 's/^# \(CONFIG_AUTOFS4_FS\|CONFIG_CGROUPS\) is not set/\1=m/' \
-		    -e 's/^# \(CONFIG_SECURITYFS\) is not set/\1=y/' \
-		    .config
-	fi
+cat <<"EOF" | sed -f - .config-early > .config
+${@kernel_options(d)}
+EOF
 
 	do_configure_extra_local
 
-	if ! diff -u .config-ref1 .config; then
+	cmp .config .config-orig || oe_runmake oldconfig < /dev/null
+
+	if ! diff -u .config-early .config; then
 		bbwarn "Default kernel configuration does not fulfill image/distro requirements; configuration was adjusted but should be rechecked"
 	fi
-
-	cmp .config .config-ref || oe_runmake oldconfig < /dev/null
 }
 # }}} do_configure
 
