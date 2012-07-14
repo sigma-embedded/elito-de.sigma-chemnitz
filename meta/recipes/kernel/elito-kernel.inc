@@ -157,7 +157,6 @@ do_install_prepend() {
 }
 
 do_install_append() {
-	find ${D}/lib/modules -type f -name '*.ko' -print0 | xargs -0r chmod a+x
 	# ignore errors; firmware directory might be non-empty
 	rmdir ${D}/lib/firmware || :
 }
@@ -235,13 +234,3 @@ def kernel_maxsize(mtdsize_var, xtra, d):
 
 do_compile_prepare[dirs] = "${S}"
 addtask compile_prepare before do_compile after do_configure
-
-FILES_${PN}-dbg += "\
-  /lib/modules/*/*/.debug \
-  /lib/modules/*/*/*/.debug \
-  /lib/modules/*/*/*/*/.debug \
-  /lib/modules/*/*/*/*/*/.debug \
-  /lib/modules/*/*/*/*/*/*/.debug \
-  /lib/modules/*/*/*/*/*/*/*/.debug \
-  /lib/modules/*/*/*/*/*/*/*/*/.debug \
-"
