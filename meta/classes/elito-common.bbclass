@@ -196,13 +196,13 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-core = "\
   lsof \
   i2c-tools \
   tcpdump \
-  minicom \
   evtest \
   ldd \
   gdbserver \
   iproute2 \
   devmem2 \
   catchsegv \
+  trace-cmd \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS = "${@elito_common_expand('ELITO_COMMON_DIAGNOSIS_TOOLS',d)}"
