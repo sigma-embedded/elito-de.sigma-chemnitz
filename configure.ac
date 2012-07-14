@@ -538,8 +538,8 @@ AC_DEFUN([_file_check_version],[
 	AC_MSG_CHECKING([for file version >= ELITO_VERSION_TO_STRING($2)])
 
 	ELITO_VERSION_CHECK([$2],2,
-			    [${$1} --version | \
-			     sed -e'1s/.*[[[- ]]]\([[[0-9.]]]\+\).*/\1/p;d'],
+			    [${$1} --version 2>&1 | \
+			     sed '1s/.*[[[- ]]]\([[[0-9.]]]\+\).*/\1/p;d'],
 			    [-eq])
 ])
 
