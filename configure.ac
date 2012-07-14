@@ -552,12 +552,20 @@ AC_DEFUN([_cmake_check_version],[
 ])
 
 AC_DEFUN([_file_check_version],[
-	AC_MSG_CHECKING([for file version = ELITO_VERSION_TO_STRING($2)])
+	AC_MSG_CHECKING([for file version >= ELITO_VERSION_TO_STRING($2)])
 
 	ELITO_VERSION_CHECK([$2],2,
 			    [${$1} --version | \
 			     sed -e'1s/.*[[[- ]]]\([[[0-9.]]]\+\).*/\1/p;d'],
 			    [-eq])
+])
+
+AC_DEFUN([_svn_check_version],[
+	AC_MSG_CHECKING([for svn version = ELITO_VERSION_TO_STRING($2)])
+
+	ELITO_VERSION_CHECK([$2],2,
+			    [${$1} --version | \
+			     sed -e'1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
 ])
 
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
@@ -617,6 +625,7 @@ ELITO_CHECK_PROGRAM( 0, UNZIP,      unzip)
 ELITO_CHECK_PROGRAM(80, CURL,       curl)
 ELITO_CHECK_PROGRAM( 0, GIT,        git)
 ELITO_CHECK_PROGRAM( 0, HG,         hg)
+ELITO_CHECK_PROGRAM( 0, SUBVERSION, svn, subversion,[_svn_check_version], 0x010700)
 ELITO_CHECK_PROGRAM(50, PAX,        pax, pax-utils)
 ELITO_CHECK_PROGRAM( 0, INSTALL,    install)
 ELITO_CHECK_PROGRAM( 0, COREUTILS,  basename, coreutils)
