@@ -44,7 +44,7 @@ index edd98fc..06adb59 100644
          taint = self.read_taint(fn, task, dataCache.stamp[fn])
          if taint:
              data = data + taint
-+            cont.append(['TAINT', cs])
++            cont.append(['TAINT', taint])
  
          h = hashlib.md5(data).hexdigest()
          self.taskhash[k] = h
