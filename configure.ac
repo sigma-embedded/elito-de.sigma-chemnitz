@@ -180,7 +180,7 @@ case $enable_cgroups in
 	   enable_cgroups=yes
         else
 	   enable_cgroups=no
-	fi	
+	fi
 	AC_MSG_RESULT([$enable_cgroups (auto)])
 	;;
      *)
@@ -286,7 +286,7 @@ AC_MSG_RESULT([$ensc_cv_git_mirror_parameter])
 ELITO_TRUE_FALSE([FETCHCMD_OPT_GIT_MIRROR],
                  [test $ensc_cv_git_mirror_parameter = yes])
 dnl }}} git --mirror
-	
+
 dnl {{{ --with-parallel-download
 AC_MSG_CHECKING([how much threads are to be used for fetching sources])
 AC_ARG_WITH([with-parallel-download],
@@ -344,7 +344,7 @@ AC_ARG_WITH([signature-style],
 	[], [
 	cur_abi=`cat tmp/abi_version 2>/dev/null` || cur_abi=-1
 	AS_CASE([$cur_abi],
-	        [7],[with_signature_style=basic],
+		[7],[with_signature_style=basic],
 		[8],[with_signature_style=hash],
 		[-1],[with_signature_style=hash], dnl the default
 		[AC_MSG_WARN([Unknown ABI version $cur_abi detected; assuming 'hash'])
