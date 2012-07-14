@@ -1,4 +1,4 @@
-SRCREV = "cd0fe2231fdb3b418bda9e90a45a3c6364233d01"
+SRCREV = "cf50b2f65188129769737cdc670eeb54ab28fb23"
 _pv = "0.32"
 PR = "r0"
 
