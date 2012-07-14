@@ -23,21 +23,18 @@ _f=$HOME/.bitbake.elito.conf
 AC_ARG_WITH([global-bitbake-conf],
 	[AS_HELP_STRING([--with-global-bitbake-conf=<file>],
 		[global bitbake configuration file (default: ~/.bitbake.elito.conf (when exists))])],
-	[case $withval in
-		(yes)	withval=yes;;
-		(no)	withval=no;;
-		(*)	_f=$withval; withval=yes;;
-	 esac],
+	[AS_CASE([$withval],
+		[yes|no], [],
+		[f=$withval; withval=yes])],
 	[ withval=auto ])
 
-case $withval in
-	(yes)	if ! test -r "$_f"; then
+AS_CASE([$withval],
+	[yes],	[if ! test -r "$_f"; then
 			AC_MSG_ERROR([can not find global bitbake.conf file '$_f'])
-		fi
-		;;
-	(no)	_f=;;
-	(auto)	test -r "$_f" || _f=;;
-esac
+		fi],
+	[no],	[_f=],
+	[auto],	[test -r "$_f" || _f=],
+	[])
 
 AC_SUBST([GLOBAL_BITBAKE_CONF],[$_f])
 ELITO_TRUE_FALSE([HAVE_GLOBAL_BITBAKE_CONF], [test -n "$_f"])
@@ -45,20 +42,17 @@ ELITO_TRUE_FALSE([HAVE_GLOBAL_BITBAKE_CONF], [test -n "$_f"])
 AC_ARG_WITH([local-bitbake-conf],
 	[AS_HELP_STRING([--with-local-bitbake-conf=<file>],
 		[local bitbake configuration file (default: conf/local-<domain>.conf (when exists))])],
-	[case $withval in
-		(yes)	withval=yes;;
-		(no)	withval=no;;
-		(*)	_f=$withval; withval=yes;;
-	 esac],
+	[AS_CASE([$withval],
+		[yes|no], [],
+		[f=$withval; withval=yes])],
 	[ withval=auto ])
 
-case $withval in
-	(yes)	if ! test -r "$_f"; then
+AS_CASE([$withval],
+	[yes],	[if ! test -r "$_f"; then
 			AC_MSG_ERROR([can not find local bitbake.conf file '$_f'])
-		fi
-		;;
-	(no)	_f=;;
-	(auto)	_d=`hostname -f`
+		fi],
+	[no],	[_f=],
+	[auto],	[_d=`hostname -f`
 		_f=
 		while test -n "$_d"; do
 		      _f=conf/local-"$_d".conf
@@ -69,9 +63,8 @@ case $withval in
 		      else
 			 _d=${_d@%:@*.}
 		      fi
-		done
-		;;
-esac
+		done],
+	[])
 
 AC_SUBST([LOCAL_BITBAKE_CONF],[$_f])
 ELITO_TRUE_FALSE([HAVE_LOCAL_BITBAKE_CONF], [test -n "$_f"])
@@ -105,12 +98,11 @@ AC_MSG_CHECKING([whether to enable offline mode])
 AC_ARG_ENABLE(offline-mode,
 	AS_HELP_STRING([--enable-offline-mode],
 		[offline mode; use locally cached sources instead of fetching them from network]),
-	[case $enableval in
-	      yes)	ELITO_OFFLINE=true;;
-	      no)	;;
-	      *)	AC_MSG_ERROR([invalid value for --enable-offline-mode]);;
-         esac],[
-	ELITO_OFFLINE=])
+	[AS_CASE([$enableval],
+	      [yes],	[ELITO_OFFLINE=true],
+	      [no],	[],
+	      [AC_MSG_ERROR([invalid value for --enable-offline-mode])])],
+	[ELITO_OFFLINE=])
 
 if test -n "$ELITO_OFFLINE"; then
    AC_MSG_RESULT([yes])
@@ -171,22 +163,17 @@ AC_ARG_ENABLE([cgroups],
 		       [If enabled, place build process into own (systemd) cgroup. Default: auto]),
         [],[enable_cgroups=auto])
 
-case $enable_cgroups in
-     yes|no)
-	AC_MSG_RESULT([$enable_cgroups])
-	;;
-     auto)
+AS_CASE([$enable_cgroups],
+     [yes|no], [AC_MSG_RESULT([$enable_cgroups])],
+     [auto], [
 	if test -d /sys/fs/cgroup/systemd; then
 	   enable_cgroups=yes
         else
 	   enable_cgroups=no
 	fi
 	AC_MSG_RESULT([$enable_cgroups (auto)])
-	;;
-     *)
-	AC_MSG_ERROR([unsupported value '$enable_cgroups' for --enable-cgroups])
-	;;
-esac
+     ],
+     [AC_MSG_ERROR([unsupported value '$enable_cgroups' for --enable-cgroups])])
 ELITO_TRUE_FALSE([ENABLE_CGROUPS],[test x"$enable_cgroups" = xyes])
 
 dnl {{{ --enable-oom-adjust
@@ -317,17 +304,14 @@ AC_ARG_WITH([bitbake-version],
 		[bitbake version which shall be used; valid values are 'master' (default: auto)]),
 	[], [with_bitbake_version=auto])
 
-case $with_bitbake_version in
-    (auto)
+AS_CASE([$with_bitbake_version],
+    [auto], [
 	AC_CACHE_VAL([ensc_cv_BITBAKE_VERSION],[
 		$PYTHON -c 'import sys; sys.exit(sys.hexversion >= 0x2060000)'
-		case $? in
-		     (*)	ensc_cv_BITBAKE_VERSION=master;;
-		esac
-		])
+		AS_CASE([$?],
+			[ensc_cv_BITBAKE_VERSION=master])])
 	with_bitbake_version=$ensc_cv_BITBAKE_VERSION
-	;;
-esac
+	])
 AC_MSG_RESULT([$with_bitbake_version])
 AC_SUBST([BITBAKE_BRANCH],[$with_bitbake_version])
 
@@ -479,11 +463,10 @@ AC_DEFUN([ELITO_ASSUME],[
 			enableval=no;
 		fi])
 
-	case $enableval in
-	(auto)		force=$3;;
-	(no|builtin)	force=false;;
-	(yes|system)	force=true;;
-	esac
+	AS_CASE([$enableval],
+		[auto],		[force=$3],
+		[no|builtin],	[force=false],
+		[yes|system],	[force=true])
 
 	enable_pkg_[]translit($2,-,_)=$force
 	$force && elito_assumed="$elito_assumed ^ifelse($4,,$2-native,$4)\$"
