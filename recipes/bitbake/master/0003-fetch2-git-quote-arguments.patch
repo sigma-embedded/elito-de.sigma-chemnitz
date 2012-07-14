@@ -1,4 +1,4 @@
-From 8d295abe567582ff736d18e240ce3f9cf0f8eed8 Mon Sep 17 00:00:00 2001
+From dde99679e18589d631d55810e69cf15cb96b20e1 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 13 Apr 2012 14:05:11 +0200
 Subject: [PATCH 03/20] fetch2/git: quote arguments
@@ -13,7 +13,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 file changed, 29 insertions(+), 24 deletions(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 3676cc3..b51962e 100644
+index 384007c..5c6db6c 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
 @@ -65,8 +65,9 @@ import os
@@ -58,7 +58,7 @@ index 3676cc3..b51962e 100644
  
          os.chdir(ud.clonedir)
          # Update the checkout if needed
-@@ -209,11 +211,11 @@ class Git(FetchMethod):
+@@ -208,11 +210,11 @@ class Git(FetchMethod):
              except bb.fetch2.FetchError:
                  logger.debug(1, "No Origin")
  
@@ -74,7 +74,7 @@ index 3676cc3..b51962e 100644
              runfetchcmd("%s prune-packed" % ud.basecmd, d)
              runfetchcmd("%s pack-redundant --all | xargs -r rm" % ud.basecmd, d)
              ud.repochanged = True
-@@ -223,8 +225,8 @@ class Git(FetchMethod):
+@@ -222,8 +224,8 @@ class Git(FetchMethod):
          if ud.write_tarballs and (ud.repochanged or not os.path.exists(ud.fullmirror)):
              os.chdir(ud.clonedir)
              logger.info("Creating tarball of git repository")
@@ -85,7 +85,7 @@ index 3676cc3..b51962e 100644
  
      def unpack(self, ud, destdir, d):
          """ unpack the downloaded src to destdir"""
-@@ -242,18 +244,20 @@ class Git(FetchMethod):
+@@ -241,18 +243,20 @@ class Git(FetchMethod):
          if os.path.exists(destdir):
              bb.utils.prunedir(destdir)
  
@@ -111,7 +111,7 @@ index 3676cc3..b51962e 100644
          return True
  
      def clean(self, ud, d):
-@@ -267,7 +271,7 @@ class Git(FetchMethod):
+@@ -266,7 +270,7 @@ class Git(FetchMethod):
  
      def _contains_ref(self, tag, d):
          basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
@@ -120,7 +120,7 @@ index 3676cc3..b51962e 100644
          output = runfetchcmd(cmd, d, quiet=True)
          if len(output.split()) > 1:
              raise bb.fetch2.FetchError("The command '%s' gave output with more then 1 line unexpectedly, output: '%s'" % (cmd, output))
-@@ -289,11 +293,13 @@ class Git(FetchMethod):
+@@ -288,11 +292,13 @@ class Git(FetchMethod):
              username = ""
  
          basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
@@ -138,7 +138,7 @@ index 3676cc3..b51962e 100644
          if not output:
              raise bb.fetch2.FetchError("The command %s gave empty output unexpectedly" % cmd, url)
          return output.split()[0]
-@@ -326,7 +332,7 @@ class Git(FetchMethod):
+@@ -325,7 +331,7 @@ class Git(FetchMethod):
          if not self._contains_ref(rev, d):
              self.download(None, ud, d)
  
@@ -147,7 +147,7 @@ index 3676cc3..b51962e 100644
          os.chdir(cwd)
  
          buildindex = "%s" % output.split()[0]
-@@ -334,9 +340,8 @@ class Git(FetchMethod):
+@@ -333,9 +339,8 @@ class Git(FetchMethod):
          return buildindex
  
      def checkstatus(self, uri, ud, d):
@@ -159,5 +159,5 @@ index 3676cc3..b51962e 100644
          except FetchError:
              return False
 -- 
-1.7.10.2
+1.7.10.4
 

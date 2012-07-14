@@ -1,4 +1,4 @@
-From e77810ab963eca3286c4aed029263e0cf59c3405 Mon Sep 17 00:00:00 2001
+From 1a55e637142589f2a37610123df0db30a0b5cc02 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Wed, 27 Jun 2012 19:41:59 +0200
 Subject: [PATCH 20/20] fetch2: try PREMIRRORS when calculating
@@ -9,7 +9,7 @@ Subject: [PATCH 20/20] fetch2: try PREMIRRORS when calculating
  1 file changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index e3e03e5..2da5e99 100644
+index 42f56d1..4ba0773 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -616,6 +616,29 @@ def try_mirrors(d, origud, mirrors, check = False):
@@ -52,5 +52,5 @@ index e3e03e5..2da5e99 100644
      return rev
  
 -- 
-1.7.10.2
+1.7.10.4
 

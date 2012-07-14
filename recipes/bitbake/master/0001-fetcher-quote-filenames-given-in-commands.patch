@@ -1,4 +1,4 @@
-From ea25f529cf378de518ced44106375821b9f06f65 Mon Sep 17 00:00:00 2001
+From 1ca4252070e852a91f75bdf139e0e2bedd09d2d7 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 6 Apr 2012 16:53:30 +0200
 Subject: [PATCH 01/20] fetcher: quote filenames given in commands
@@ -24,7 +24,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 file changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 52e12a0..ae9e7a5 100644
+index fa963be..2c08381 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -30,6 +30,7 @@ from __future__ import print_function
@@ -35,7 +35,7 @@ index 52e12a0..ae9e7a5 100644
  import bb.persist_data, bb.utils
  import bb.checksum
  from bb import data
-@@ -895,38 +896,39 @@ class FetchMethod(object):
+@@ -899,38 +900,39 @@ class FetchMethod(object):
          cmd = None
  
          if unpack:
@@ -87,7 +87,7 @@ index 52e12a0..ae9e7a5 100644
  
          if not unpack or not cmd:
              # If file == dest, then avoid any copies, as we already put the file into dest!
-@@ -942,8 +944,8 @@ class FetchMethod(object):
+@@ -946,8 +948,8 @@ class FetchMethod(object):
                              destdir = "."
                          elif not os.access("%s/%s" % (rootdir, destdir), os.F_OK):
                              os.makedirs("%s/%s" % (rootdir, destdir))
@@ -98,7 +98,7 @@ index 52e12a0..ae9e7a5 100644
                  else:
                      # The "destdir" handling was specifically done for FILESPATH
                      # items.  So, only do so for file:// entries.
-@@ -952,7 +954,7 @@ class FetchMethod(object):
+@@ -956,7 +958,7 @@ class FetchMethod(object):
                      else:
                         destdir = "."
                      bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))
@@ -107,7 +107,7 @@ index 52e12a0..ae9e7a5 100644
  
          if not cmd:
              return
-@@ -966,10 +968,12 @@ class FetchMethod(object):
+@@ -970,10 +972,12 @@ class FetchMethod(object):
              os.chdir(newdir)
  
          path = data.getVar('PATH', True)
@@ -123,5 +123,5 @@ index 52e12a0..ae9e7a5 100644
          os.chdir(save_cwd)
  
 -- 
-1.7.10.2
+1.7.10.4
 

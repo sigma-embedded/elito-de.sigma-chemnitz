@@ -1,4 +1,4 @@
-From 4d84b44405c23be2d040d68a8e608d27688281a6 Mon Sep 17 00:00:00 2001
+From a4647f386b86ca57f9ca7f7113f43b1239fd1aa7 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 8 Oct 2011 12:57:24 +0200
 Subject: [PATCH 15/20] added backward compatibility for 'git remote add'
@@ -8,7 +8,7 @@ Subject: [PATCH 15/20] added backward compatibility for 'git remote add'
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 733f589..8544860 100644
+index 0edfd1c..c5ccdfd 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
 @@ -119,6 +119,7 @@ class Git(FetchMethod):
@@ -19,7 +19,7 @@ index 733f589..8544860 100644
          ud.runfetch = lambda args,d,**opts: runfetchcmd2(ud.basecmd, args, d, **opts)
  
          ud.write_tarballs = ((data.getVar("BB_GENERATE_MIRROR_TARBALLS", d, True) or "0") != "0") or ud.rebaseable
-@@ -211,7 +212,7 @@ class Git(FetchMethod):
+@@ -210,7 +211,7 @@ class Git(FetchMethod):
              except bb.fetch2.FetchError:
                  logger.debug(1, "No Origin")
  
@@ -29,5 +29,5 @@ index 733f589..8544860 100644
              if ud.proto.lower() != 'file':
                  bb.fetch2.check_network_access(d, fetch_cmd, base_cmd = ud.basecmd, url = ud.url)
 -- 
-1.7.10.2
+1.7.10.4
 

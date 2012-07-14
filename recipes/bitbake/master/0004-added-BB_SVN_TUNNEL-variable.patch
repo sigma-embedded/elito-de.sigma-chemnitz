@@ -1,7 +1,7 @@
-From 0f6020d602984f5921c4285c0a49247a9579f4f7 Mon Sep 17 00:00:00 2001
+From 0cb8e54b4684cb54594ff3c0a59f2a727ecdaa7e Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:40 +0200
-Subject: [PATCH 04/19] added BB_SVN_TUNNEL variable
+Subject: [PATCH 04/20] added BB_SVN_TUNNEL variable
 
 It allows to rewrite svn:// uris for example to svn+proxy://.  This
 makes it possible to use a 'proxy' tunnel which pipes the connection
@@ -11,23 +11,27 @@ through a https proxy.
  1 file changed, 4 insertions(+)
 
 diff --git a/lib/bb/fetch2/svn.py b/lib/bb/fetch2/svn.py
-index 59d7ccb..faf064f 100644
+index bc5b96b..9f6977c 100644
 --- a/lib/bb/fetch2/svn.py
 +++ b/lib/bb/fetch2/svn.py
-@@ -70,9 +70,13 @@ class Svn(FetchMethod):
-         """
+@@ -50,6 +50,7 @@ class Svn(FetchMethod):
+             raise MissingParameterError('module', ud.url)
  
-         basecmd = data.expand('${FETCHCMD_svn}', d)
-+        tunnel  = data.getVar('BB_SVN_TUNNEL', d, True) or ""
+         ud.basecmd = d.getVar('FETCHCMD_svn', True)
++        ud.tunnel  = data.getVar('BB_SVN_TUNNEL', d, True) or ""
+ 
+         ud.module = ud.parm["module"]
+ 
+@@ -73,6 +74,9 @@ class Svn(FetchMethod):
  
          proto = ud.parm.get('proto', 'svn')
  
 +        if proto == "svn":
-+            proto = proto + tunnel
++            proto = proto + ud.tunnel
 +
          svn_rsh = None
          if proto == "svn+ssh" and "rsh" in ud.parm:
              svn_rsh = ud.parm["rsh"]
 -- 
-1.7.10.2
+1.7.10.4
 
