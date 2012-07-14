@@ -381,7 +381,7 @@ $(_template_files):$(abs_top_builddir)/%:
 			cp --preserve=mode,timestamps ${abs_top_srcdir}/$*.sample $@
 
 $(_project_task_dir)/.stamp:
-			mkdir -p '$(@D)' '$(@D)/rootfs' '$(@D)/rootfs/etc/network'
+			mkdir -p '$(@D)' '$(@D)/rootfs'
 			$(INSTALL_DATA) $(_samples_dir)/Makefile          $(@D)/Makefile
 			$(INSTALL_DATA) $(_samples_dir)/.gitignore.sample $(@D)/.gitignore
 			touch $@
