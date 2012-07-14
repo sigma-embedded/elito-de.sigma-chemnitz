@@ -159,6 +159,7 @@ do_install_prepend() {
 do_install_append() {
 	# ignore errors; firmware directory might be non-empty
 	rmdir ${D}/lib/firmware || :
+	rm -f $kerneldir/scripts/kconfig/kxgettext.o
 }
 
 do_uboot_mkimage() {
