@@ -2,7 +2,7 @@ require mobm320-common.inc
 _elito_skip := "${@elito_skip(d, 'mobm320')}"
 
 PROVIDES          = "virtual/bootloader-ibl"
-DEPENDS           = "linux-libc-headers mtd-utils mobm320-native"
+DEPENDS           = "linux-libc-headers mtd-utils mobm320-native virtual/kernel"
 
 PACKAGES         += "${PN}-tools"
 FILES_${PN}       = "/boot/*.img"
@@ -11,10 +11,14 @@ FILES_${PN}-dbg  += "${datadir}/elito-mobm320/${MOBM320_IMAGE}.elf"
 
 MOBM320_ARGS_prepend = "IMAGES='${MOBM320_IMAGE}' IMAGE_KIND='img elf bin' "
 
+CFLAGS += "-I."
+
 do_configure() {
 	if test x"${MOBM320_IMAGE}" = x; then
 		oefatal "MOBM320_IMAGE not set"
 	fi
+
+	ln -s ${STAGING_KERNEL_DIR}/drivers/mtd/ubi mtd
 }
 
 do_compile() {
