@@ -548,7 +548,7 @@ AC_DEFUN([_svn_check_version],[
 
 	ELITO_VERSION_CHECK([$2],2,
 			    [${$1} --version | \
-			     sed -e'1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
+			     sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
 ])
 
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
