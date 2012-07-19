@@ -101,16 +101,16 @@ _pkginfo = "{ \
 PACKAGES_DYNAMIC += 'firmware-.*'
 
 python populate_packages_prepend() {
-	v = eval(bb.data.getVar('_pkginfo', d, 1))
-	pkgs = ''
-	for (n,f) in v.items():
-		pname = 'firmware-%s' % n
-		pkgs += ' ' + pname
-		bb.data.setVar('FILES_' + pname, ' '.join(map(lambda x: '/lib/firmware/' + x, f)), d)
+    v = eval(bb.data.getVar('_pkginfo', d, 1))
+    pkgs = ''
+    for (n,f) in v.items():
+        pname = 'firmware-%s' % n
+        pkgs += ' ' + pname
+        bb.data.setVar('FILES_' + pname, ' '.join(map(lambda x: '/lib/firmware/' + x, f)), d)
 
-		print pname, f, bb.data.getVar('FILES_' + pname, d, 1)
+        print pname, f, bb.data.getVar('FILES_' + pname, d, 1)
 
-	bb.data.setVar('PACKAGES', pkgs, d)
+    bb.data.setVar('PACKAGES', pkgs, d)
 }
 
 PV_pn_firmware-dvb-usb-af9015 = "4.95.0"

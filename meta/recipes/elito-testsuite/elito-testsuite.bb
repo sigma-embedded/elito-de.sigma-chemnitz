@@ -25,5 +25,5 @@ RDEPENDS_${PN} += "make"
 FILES_${PN}-dbg += "${libexecdir}/*/.debug"
 
 python populate_packages_prepend () {
-	d.appendVar("RRECOMMENDS_${PN}", " virtual/elito-testsuite")
+    d.appendVar("RRECOMMENDS_${PN}", " virtual/elito-testsuite")
 }

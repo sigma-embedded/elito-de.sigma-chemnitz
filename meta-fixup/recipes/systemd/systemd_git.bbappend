@@ -29,46 +29,46 @@ do_install_append_headless() {
 }
 
 python populate_packages_prepend () {
-	pkg_info = {
-	'binfmt' : ['systemd-binfmt.service'],
-	'remount-rootfs' : ['remount-rootfs.service'],
-	'swap' : ['swap.target'],
-	'tmpfs' : ['tmp.mount'],
-	'cryptsetup' : ['cryptsetup.target'],
-	'logind' : ['systemd-logind.service',
+    pkg_info = {
+        'binfmt' : ['systemd-binfmt.service'],
+        'remount-rootfs' : ['remount-rootfs.service'],
+        'swap' : ['swap.target'],
+        'tmpfs' : ['tmp.mount'],
+        'cryptsetup' : ['cryptsetup.target'],
+        'logind' : ['systemd-logind.service',
                     'dbus-org.freedesktop.login1.service'],
-	'vconsole' : ['systemd-vconsole-setup.service'],
+        'vconsole' : ['systemd-vconsole-setup.service'],
         'user-sessions' : ['systemd-user-sessions.service',
                            'systemd-ask-password-wall.path'],
         'random-seed' : ['systemd-random-seed-load.service',
                          'systemd-random-seed-save.service'],
         'binfmt' : ['proc-sys-fs-binfmt_misc.mount',
                     'proc-sys-fs-binfmt_misc.automount'],
-	}
-
-        xtra_paths = {
-        'binfmt' : ['${base_libdir}/systemd/systemd-binfmt',
-                    '${libdir}/binfmt.d'],
         }
 
-	pkgs = ''
-	pn = bb.data.getVar('PN', d, 1)
-	for (_p,i) in pkg_info.items():
-		p = '%s-%s' % (pn, _p)
-		files = map(lambda x:
-                            '${base_libdir}/systemd/system/%s' % x, i)
-		files += map(lambda x:
-                            '${base_libdir}/systemd/system/*/%s' % x, i)
-		files += map(lambda x:
-                             x, (xtra_paths.get(_p) or []))
+    xtra_paths = {
+        'binfmt' : ['${base_libdir}/systemd/systemd-binfmt',
+                    '${libdir}/binfmt.d'],
+    }
 
-		pkgs = pkgs + ' ' + p
+    pkgs = ''
+    pn = bb.data.getVar('PN', d, 1)
+    for (_p,i) in pkg_info.items():
+        p = '%s-%s' % (pn, _p)
+        files = map(lambda x:
+                        '${base_libdir}/systemd/system/%s' % x, i)
+        files += map(lambda x:
+                         '${base_libdir}/systemd/system/*/%s' % x, i)
+        files += map(lambda x:
+                         x, (xtra_paths.get(_p) or []))
 
-		bb.data.setVar('FILES_' + p, ' '.join(files), d)
-		bb.data.setVar('RDEPENDS_' + p, 'systemd (= ${EXTENDPKGV})', d)
+        pkgs = pkgs + ' ' + p
 
-	bb.data.setVar('PACKAGES',
-                       pkgs + ' ' + bb.data.getVar('PACKAGES', d, 0), d)
+        bb.data.setVar('FILES_' + p, ' '.join(files), d)
+        bb.data.setVar('RDEPENDS_' + p, 'systemd (= ${EXTENDPKGV})', d)
+
+    bb.data.setVar('PACKAGES',
+                   pkgs + ' ' + bb.data.getVar('PACKAGES', d, 0), d)
 }
 
 PACKAGES_DYNAMIC = "systemd-.*"

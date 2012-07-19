@@ -43,11 +43,11 @@ do_install_append() {
 }
 
 python populate_packages_prepend () {
-	plugindir = bb.data.expand("${libdir}/imlib2/filters", d)
-        do_split_packages(d, plugindir, '^(.*)\.so$', 'imlib2-filter-%s', '%s filter for imlib2', prepend=True, extra_depends = '')
+    plugindir = bb.data.expand("${libdir}/imlib2/filters", d)
+    do_split_packages(d, plugindir, '^(.*)\.so$', 'imlib2-filter-%s', '%s filter for imlib2', prepend=True, extra_depends = '')
 
-	plugindir = bb.data.expand("${libdir}/imlib2/loaders", d)
-        do_split_packages(d, plugindir, '^(.*)\.so$', 'imlib2-loaders-%s', '%s loader for imlib2', prepend=True, extra_depends = '')
+    plugindir = bb.data.expand("${libdir}/imlib2/loaders", d)
+    do_split_packages(d, plugindir, '^(.*)\.so$', 'imlib2-loaders-%s', '%s loader for imlib2', prepend=True, extra_depends = '')
 }
 
 FILES_${PN}-dbg += "${libdir}/imlib2/*/.debug"

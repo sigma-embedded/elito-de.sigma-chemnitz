@@ -44,11 +44,11 @@ EXTRA_OEMAKE = "'LIBTOOL=${LIBTOOL}'"
 PACKAGES_DYNAMIC = "libxine-plugin-* libxine-font-*"
 
 #python populate_packages_append () {
-#	bb.data.setVar('PKG_libxine', 'libxine', d)
+#    bb.data.setVar('PKG_libxine', 'libxine', d)
 #
-#	plugindirdbg = bb.data.expand('${libdir}/xine/plugins/${PPDIR}/.debug', d)
-#       do_split_packages(d, plugindirdbg, '^xineplug_(.*)\.so$', 'libxine-plugin-%s-dbg', 'Xine plugin for %s debugversion', extra_depends='' )
+#    plugindirdbg = bb.data.expand('${libdir}/xine/plugins/${PPDIR}/.debug', d)
+#    do_split_packages(d, plugindirdbg, '^xineplug_(.*)\.so$', 'libxine-plugin-%s-dbg', 'Xine plugin for %s debugversion', extra_depends='' )
 #
-#	postdirdbg = bb.data.expand('${libdir}/xine/plugins/${PPDIR}/post/.debug', d)
-#        do_split_packages(d, postdirdbg, '^xineplug_(.*)\.so$', 'libxine-plugin-%s-dbg', 'Xine plugin for %s debugversion', extra_depends='' )
+#    postdirdbg = bb.data.expand('${libdir}/xine/plugins/${PPDIR}/post/.debug', d)
+#    do_split_packages(d, postdirdbg, '^xineplug_(.*)\.so$', 'libxine-plugin-%s-dbg', 'Xine plugin for %s debugversion', extra_depends='' )
 #}

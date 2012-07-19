@@ -41,49 +41,49 @@ _configdisable-opts = ' \
 '
 
 def kernel_early_options(d):
-	import elito.kernel_feature
-	is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
+    import elito.kernel_feature
+    is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
 
-	o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
-	      [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
-		'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
-	      [ True,
-		[ 'BLK_DEV_INITRD', is_feature('initrd') ],
-                [ 'INITRAMFS_SOURCE', 'devices.txt' ],
-		[ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
-		[ 'INITRAMFS_ROOT_UID',  os.getuid() ],
-		[ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
-	      ]
+    o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
+          [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
+            'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
+          [ True,
+            [ 'BLK_DEV_INITRD', is_feature('initrd') ],
+            [ 'INITRAMFS_SOURCE', 'devices.txt' ],
+            [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
+            [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
+            [ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
+          ]
 
-	o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
-	o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts').split()))
+    o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
+    o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts').split()))
 
-	for f in (d.getVar('KERNEL_EARLY_OPTIONS_FUNCS', True) or '').split():
-		o = bb.build.exec_func(f, d, o)
+    for f in (d.getVar('KERNEL_EARLY_OPTIONS_FUNCS', True) or '').split():
+        o = bb.build.exec_func(f, d, o)
 
-	return elito.kernel_feature.sed_cmd(o)
+    return elito.kernel_feature.sed_cmd(o)
 
 def kernel_options(d):
-	import elito.kernel_feature
-	is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
+    import elito.kernel_feature
+    is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
 
-	o = [ [ True,
-		[ 'IPV6',        is_feature('ipv6') ],
-		[ 'MMC',         is_feature('mmc') ],
-		[ 'USB',         is_feature('usbhost') ],
-		[ 'USB_GADGET',  is_feature('usbclient') ],
-		],
-	      [ is_feature('headless'),
-		[ 'FB',         False ] ],
-	      [ d.getVar('IMAGE_INIT_MANAGER') == 'systemd',
-		[ 'AUTOFS4_FS', True ],
-		[ 'CGROUPS',    True ] ],
-	      ]
+    o = [ [ True,
+            [ 'IPV6',        is_feature('ipv6') ],
+            [ 'MMC',         is_feature('mmc') ],
+            [ 'USB',         is_feature('usbhost') ],
+            [ 'USB_GADGET',  is_feature('usbclient') ],
+            ],
+          [ is_feature('headless'),
+            [ 'FB',         False ] ],
+          [ d.getVar('IMAGE_INIT_MANAGER') == 'systemd',
+            [ 'AUTOFS4_FS', True ],
+            [ 'CGROUPS',    True ] ],
+          ]
 
-	for f in (d.getVar('KERNEL_OPTIONS_FUNCS', True) or '').split():
-		o = bb.build.exec_func(f, d, o)
+    for f in (d.getVar('KERNEL_OPTIONS_FUNCS', True) or '').split():
+        o = bb.build.exec_func(f, d, o)
 
-	return elito.kernel_feature.sed_cmd(o)
+    return elito.kernel_feature.sed_cmd(o)
 
 # {{{ generate-initramfs
 ELITO_LINUXRC_PROGRAM ??= "${STAGING_BINDIR}/elito-mmc-boot"
@@ -227,11 +227,11 @@ do_deploy_append() {
 }
 
 def kernel_maxsize(mtdsize_var, xtra, d):
-	mtdsize = bb.data.getVar(mtdsize_var, d, True)
-        if mtdsize:
-		return "%s" % (int(mtdsize) - xtra)
-        else:
-		return ""
+    mtdsize = bb.data.getVar(mtdsize_var, d, True)
+    if mtdsize:
+        return "%s" % (int(mtdsize) - xtra)
+    else:
+        return ""
 
 do_compile_prepare[dirs] = "${S}"
 addtask compile_prepare before do_compile after do_configure
