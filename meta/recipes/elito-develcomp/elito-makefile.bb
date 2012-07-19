@@ -105,11 +105,10 @@ python __anonymous () {
     res  = map(lambda v:
                (lambda k,v: '%s%s = %s' % (['','export '][k[0] == '+'],
                                            [k, k[1:]][k[0] == '+'],
-                                           v))(v,
-                                               bb.data.getVar(v.lstrip('+'),
-                                                              d, 1)),
-               filter(lambda k: bb.data.getVar(k.lstrip('+'), d, 0)
-                      != None, vars))
+                                           v))
+               (v, bb.data.getVar(v.lstrip('+'), d, 1)),
+               filter(lambda k: bb.data.getVar(k.lstrip('+'), d, 0) != None,
+                      vars))
 
     bb.data.setVar('_export_vars_gen', '\n'.join(res), d)
 }
