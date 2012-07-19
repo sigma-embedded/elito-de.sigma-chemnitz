@@ -24,7 +24,7 @@ index bc5b96b..9f6977c 100644
  
 @@ -73,6 +74,9 @@ class Svn(FetchMethod):
  
-         proto = ud.parm.get('proto', 'svn')
+         proto = ud.parm.get('protocol', 'svn')
  
 +        if proto == "svn":
 +            proto = proto + ud.tunnel
