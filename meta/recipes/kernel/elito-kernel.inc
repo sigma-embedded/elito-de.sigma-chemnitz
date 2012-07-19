@@ -42,13 +42,16 @@ _configdisable-opts = ' \
 
 def kernel_early_options(d):
     import elito.kernel_feature
+
+    YES = elito.kernel_feature.YES
+
     is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
 
     o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
             'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
           [ True,
-            [ 'BLK_DEV_INITRD', is_feature('initrd') ],
+            [ 'BLK_DEV_INITRD', [False, YES][is_feature('initrd')] ],
             [ 'INITRAMFS_SOURCE', 'devices.txt' ],
             [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
             [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
