@@ -1,0 +1,1 @@
+INITSCRIPT_PACKAGES = "${PN}-sysv"
