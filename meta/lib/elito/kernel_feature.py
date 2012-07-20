@@ -4,6 +4,7 @@ class KConfigValue:
 
 YES = KConfigValue('y')
 MOD = KConfigValue('m')
+OFF = KConfigValue('o')
 
 def sed_cmd(all_options):
     options = []
@@ -28,7 +29,8 @@ def sed_cmd(all_options):
         raise Exception("kernel option conflict: %s" % interset)
 
     res = []
-    new = []
+    new = [ '$a' ]
+    pre = [ '1i' ]
     res.append(r's/^\(CONFIG_\(%s\)\)=.*/# \1 is not set/' %
                '|'.join(map(lambda x: x[0], disable_opts)))
 
@@ -41,6 +43,8 @@ def sed_cmd(all_options):
             pass                        # handled above
         elif newval == True:
             pass                        # handled above
+        elif newval == OFF:
+            pre.append("# CONFIG_%s is not set" % name)
         elif isinstance(newval, KConfigValue):
             new.append("CONFIG_%s=%s" % (name, newval.v))
         elif isinstance(newval, basestring):
@@ -50,7 +54,8 @@ def sed_cmd(all_options):
         else:
             raise Exception("unsupported value '%s'" % newval)
 
-    res.append('$a\\')
+    res.extend(map(lambda x: x + '\\', pre))
+    res.append('')
     res.extend(map(lambda x: x + '\\', new))
     res.append('')
 
