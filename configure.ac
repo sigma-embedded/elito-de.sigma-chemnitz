@@ -544,9 +544,10 @@ AC_DEFUN([_file_check_version],[
 ])
 
 AC_DEFUN([_svn_check_version],[
-	AC_MSG_CHECKING([for svn version = ELITO_VERSION_TO_STRING($2)])
+	AC_MSG_CHECKING([for svn version >= ELITO_VERSION_TO_STRING($2)])
 
-	ELITO_VERSION_CHECK([$2],2,
+	ELITO_VERSION_CHECK([$2],3
+,
 			    [${$1} --version | \
 			     sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
 ])
