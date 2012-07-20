@@ -37,13 +37,14 @@ _configdebug-opts='\
 
 _configdisable-opts = ' \
   LOCKDEP PROVE_RCU SLUB_DEBUG_ON SCHED_DEBUG SLUB_STATS \
-  PROVE_LOCKING LOCK_STAT \
+  PROVE_LOCKING LOCK_STAT USB_DEBUG \
 '
 
 def kernel_early_options(d):
     import elito.kernel_feature
 
     YES = elito.kernel_feature.YES
+    OFF = elito.kernel_feature.OFF
 
     is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
 
@@ -51,12 +52,14 @@ def kernel_early_options(d):
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
             'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
           [ True,
-            [ 'BLK_DEV_INITRD', [False, YES][is_feature('initrd')] ],
-            [ 'INITRAMFS_SOURCE', 'devices.txt' ],
-            [ 'DEFAULT_HOSTNAME', "${MACHINE}" ],
+            [ 'BLK_DEV_INITRD',      [False, YES][is_feature('initrd')] ],
+            [ 'DEFAULT_HOSTNAME',    "${MACHINE}" ],
             [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
             [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
             [ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
+          [ is_feature('initrd'),
+            [ 'INITRAMFS_COMPRESSION_XZ', YES ],
+            [ 'INITRAMFS_SOURCE', 'devices.txt' ] ],
           ]
 
     o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
@@ -131,14 +134,15 @@ do_configure_prepend() {
 
 	cp -a .config .config-orig
 
-cat <<"EOF" | sed -f - .config-orig > .config
+sed -f - .config-orig > .config << "EOF"
 ${@kernel_early_options(d)}
 EOF
 
+	cp -a .config .config-early_
 	oe_runmake oldconfig < /dev/null
 	cp -a .config .config-early
 
-cat <<"EOF" | sed -f - .config-early > .config
+sed -f - .config-early > .config << "EOF"
 ${@kernel_options(d)}
 EOF
 
