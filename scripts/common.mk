@@ -157,9 +157,6 @@ pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell: \
 			$(W)/Makefile.develcomp FORCE
 			$(SECWRAP_CMD) env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
-find-dups:		FORCE init
-			./bitbake -l Collection -c find_dups $(TARGETS)
-
 $(W)/Makefile.develcomp:
 			@{ \
 			echo "***" ; \
