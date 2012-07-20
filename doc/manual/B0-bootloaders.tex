@@ -26,6 +26,30 @@ boot mmc rootfs.img
 tftp
 \end{verbatim}
 
+\section{Keith\&Koep ``e-boot'' (TrizepsVI)}
+
+Four parts
+
+\begin{description}
+\item[\texttt{autoboot.bat}] To be copied into the e-boot boot
+  partition. Adjust it to local requirements
+\begin{lstlisting}[language=sh]
+:) bfmt                     # optionally; erases previous boot partition
+:) mount nanddisk
+:) del autoboot.bat
+:) store mmc2 autoboot.bat  # 'mmc'  ... external slot,
+                            # 'mmc2' ... on-module slot
+\end{lstlisting}
+\item[\texttt{boot.bin}] First stage bootloader; to be copied into the first
+  (*FAT) partition of the sd-card
+\item[\texttt{zImage-kk-trizeps6.bin}] Flat linux kernel; to be copied
+  into the first first (*FAT) partition of the sd-card and renamed to
+  \texttt{linux.ram}
+\item[\texttt{elito-image-kk-trizeps6.tar.bz2}] RootFS; to be
+  extracted into an ext4 partition of the sd-card. Extraction must be
+  done as root to set correct file ownership.
+\end{description}
+
 \section{Toradex Bootloader (Colibri270)}
 
 \paragraph{NOTE:} Content of this section is preliminary and consists
