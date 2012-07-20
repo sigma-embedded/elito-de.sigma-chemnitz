@@ -53,6 +53,7 @@ def kernel_early_options(d):
           [ True,
             [ 'BLK_DEV_INITRD', [False, YES][is_feature('initrd')] ],
             [ 'INITRAMFS_SOURCE', 'devices.txt' ],
+            [ 'DEFAULT_HOSTNAME', "${MACHINE}" ],
             [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
             [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
             [ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
