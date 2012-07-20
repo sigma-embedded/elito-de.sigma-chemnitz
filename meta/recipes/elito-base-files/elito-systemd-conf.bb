@@ -3,8 +3,8 @@ SECTION = "base"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-SRCREV = "0309cfa388ee58556c00f979f2a84003c5744bb4"
-_pv = "0.3"
+SRCREV = "dbcc93880cf7da896b3b0bc7d1a03d9f7a864d2c"
+_pv = "0.4"
 PR = "r0"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
@@ -15,7 +15,7 @@ PKGV = "${_pv}+gitr${GITPKGV}"
 inherit gitpkgv
 
 SRC_URI		= " \
-  ${@elito_uri('${ELITO_GIT_REPO}/pub/elito-systemd-conf.git',d)} \
+  ${ELITO_GIT_REPO}/pub/elito-systemd-conf.git \
   file://00-elito.conf \
   file://systemd.profile \
 "
