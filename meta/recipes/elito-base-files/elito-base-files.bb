@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r20"
+PR		= "r21"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
@@ -42,8 +42,6 @@ do_install() {
 
         install -D -p -m 0644 interfaces ${D}${sysconfdir}/network/interfaces
 
-	echo ${MACHINE} > ${D}${sysconfdir}/hostname
-
 	c1='-e /[[:space:]]debugfs[[:space:]]/d'
 	c2='-e /[[:space:]]selinuxfs[[:space:]]/d'
 	c3='-e /[[:space:]]unionfs[[:space:]]/d'
@@ -69,6 +67,6 @@ RDEPENDS_${PN}  = "elito-filesystem"
 CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hosts \
 	${sysconfdir}/nsswitch.conf ${sysconfdir}/sysctl.conf	\
 	${sysconfdir}/resolv.conf.static ${sysconfdir}/ntpd.conf.static	\
-	${sysconfdir}/hostname ${sysconfdir}/network/interfaces"
+	${sysconfdir}/network/interfaces"
 
 FILES_${PN}     = "${sysconfdir}/* ${datadir}/doc/licenses"
