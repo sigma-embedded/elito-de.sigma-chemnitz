@@ -2,7 +2,7 @@ require dietlibc-common.inc
 
 INHIBIT_DEFAULT_DEPS = "1"
 DEPENDS += "gcc-native virtual/${TARGET_PREFIX}gcc \
-            virtual/${TARGET_PREFIX}binutils"
+            virtual/${TARGET_PREFIX}binutils libgcc"
 
 CFLAGS += "-fno-exceptions -std=gnu99 -Os -Wall -Wmissing-prototypes"
 _target_test_cflags = "${CFLAGS} -L ${S}/bin-${DIETLIBC_TARGET_ARCH} \
