@@ -18,6 +18,8 @@ EXTRA_OECONF += "\
   --with-sysvrcd-path= \
 "
 
+ROOT_HOME = "/root"
+
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
