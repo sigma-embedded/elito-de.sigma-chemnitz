@@ -67,6 +67,8 @@ python populate_packages_prepend () {
         files = map(lambda x:
                         '${base_libdir}/systemd/system/%s' % x, i)
         files += map(lambda x:
+                        '${base_libdir}/systemd/system/%s.wants' % x, i)
+        files += map(lambda x:
                          '${base_libdir}/systemd/system/*/%s' % x, i)
         files += map(lambda x:
                          x, (xtra_paths.get(_p) or []))
