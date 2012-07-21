@@ -63,7 +63,7 @@ index 02a4268..305acb3 100644
 +                stream.write(''.join(map(lambda x: '%s: %s\n' %
 +                                         (x[0],x[1]), self.taskhash_cont[k])))
 +            os.chmod(tmpfile, 0664)
-+            os.rename(tmpfile, sigfile + ".txt")
++            os.rename(tmpfile, sigfile.replace('.sigdata.', '.sigtext.').replace('.sigbasedata.', '.sigbasetext.'))
 +        finally:
 +            bb.utils.remove(tmpfile)
 +
