@@ -24,6 +24,10 @@ do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
     rmdir ${D}${localstatedir}/log/journal
+
+    t=${@base_contains('DISTRO_FEATURES', 'x11', 'graphical', 'multi-user', d)}
+    rm -f ${D}${base_libdir}/systemd/system/default.target
+    ln -s $t.target ${D}${base_libdir}/systemd/system/default.target
 }
 
 do_install_append_headless() {
@@ -46,6 +50,9 @@ python populate_packages_prepend () {
                          'systemd-random-seed-save.service'],
         'binfmt' : ['proc-sys-fs-binfmt_misc.mount',
                     'proc-sys-fs-binfmt_misc.automount'],
+        'graphical' : ['display-manager.service',
+                       'graphical.target',
+                       'runlevel5.target'],
         }
 
     xtra_paths = {
