@@ -1,5 +1,5 @@
 # --*- python -*--
-PRINC := "${@int('${PRINC}') + 1}"
+PRINC := "${@int('${PRINC}') + 2}"
 
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
@@ -10,6 +10,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 SRC_URI += "\
   file://embedded.patch \
+  file://platform-path.patch \
 "
 
 EXTRA_OECONF += "\
