@@ -325,7 +325,7 @@ $(_tmpdir)/pseudo.env:	$(_tmpdir)/bitbake.env $(abs_top_srcdir)/scripts/generate
 $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_tmpdir)/pseudo.env
 			@touch $@
 
-$(_wstampdir)/.pseudo.stamp:	| $(_wstampdir) $(_stampdir)/.bitbake.stamp $(_tmpdir)/pseudo.env $W
+$(_wstampdir)/.pseudo.stamp:	| $(_wstampdir) $(_stampdir)/.bitbake.stamp $(_tmpdir)/pseudo.env $W $W/cache/ccache
 ## HACK: allow soft transition from old installations;
 ## remove me after 2014-01-01
 ifneq ($(wildcard $(_stampdir)/.pseudo.stamp),)
