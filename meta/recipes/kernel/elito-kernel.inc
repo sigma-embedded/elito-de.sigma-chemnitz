@@ -22,7 +22,7 @@ KERNEL_DEPENDS ?= ""
 DEPENDS += '\
 	kernel-makefile \
 	${KERNEL_DEPENDS} \
-	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native","",d)} \
+	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native virtual/ce-preloader","",d)} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","virtual/u-boot-mkimage-native","",d)}'
 
@@ -180,7 +180,7 @@ do_uboot_mkimage() {
                 done
 		have_tftp_image=false
         elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
-		oe_runmake ce-boot
+		oe_runmake ceImage
 		have_tftp_image=false
 	fi
 
