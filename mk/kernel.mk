@@ -20,11 +20,20 @@ XTRA_GOALS += modules modules_install _all
 ifdef KERNEL_BOOT_VARIANT
 LOCALGOALS += tftp tftp-m
 
+_kernel_image_types = bzImage zImage uImage
+_kernel_image_files = $(addprefix arch/$(ARCH)/boot/,$(_kernel_image_types))
+LOCALGOALS += $(_kernel_image_files)
+
 override _k_all_target =
 
 tftp-m:	_k_all_target=_all
 tftp-m:	tftp
 	+$(_build_cmd) modules_install
+
+$(_kernel_image_files):arch/$(ARCH)/boot/%:
+	+$(_build_cmd) ${_k_all_target} $*
+
+.PHONY:	$(_kernel_image_files)
 
 include ${ELITO_TOPDIR}/mk/kernel_boot-${KERNEL_BOOT_VARIANT}.mk
 endif
