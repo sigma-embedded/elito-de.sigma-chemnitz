@@ -72,6 +72,10 @@ def elito_upstart_job(d, pkg, job_files, rdepends = None, extra_files = [], \
 
     return p
 
+def elito_quote(s):
+    import pipes
+    return pipes.quote(s)
+
 def elito_glob(pathname):
     import glob
     return glob.glob(pathname)
