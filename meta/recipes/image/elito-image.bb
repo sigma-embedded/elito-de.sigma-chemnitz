@@ -18,3 +18,4 @@ do_rootfs_prepend () {
 
 require elito-image.inc
 inherit ubi arnoldboot elito-final
+inherit elito-image
