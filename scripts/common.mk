@@ -76,6 +76,14 @@ export W
 endif
 
 ifeq ($(ELITO_OFFLINE),)
+else ifeq ($(ELITO_OFFLINE),strict)
+else ifeq ($(ELITO_OFFLINE),true)
+else
+$(error Unsupported value for ELITO_OFFLINE; only <empty>, \
+	'strict' and 'true' are supported)
+endif
+
+ifeq ($(ELITO_OFFLINE),)
 _GITR	=		$(GIT)
 else
 _GITR	=		:
