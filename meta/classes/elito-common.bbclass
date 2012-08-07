@@ -46,6 +46,7 @@ ELITO_COMMON_DEPENDS = "${@elito_common_expand('ELITO_COMMON_DEPENDS',d)}"
 #####
 
 ELITO_COMMON_KERNEL_MODULES-alsa = "\
+  kernel-module-snd-pxa2xx-ac97 \
 "
 
 ELITO_COMMON_KERNEL_MODULES-can = "\
@@ -103,6 +104,7 @@ ELITO_COMMON_KERNEL_MODULES-usbclient = "\
 
 ELITO_COMMON_KERNEL_MODULES-usbhost = "\
   kernel-module-ehci-hcd \
+  kernel-module-ohci-hcd \
   kernel-module-usb-serial \
   kernel-module-usb-storage \
   kernel-module-usbhid \
@@ -141,12 +143,15 @@ ELITO_COMMON_KERNEL_MODULES-core = "\
   kernel-module-i2c-dev \
   kernel-module-iptable-filter \
   kernel-module-iptable-nat \
+  kernel-module-ip-tables \
   kernel-module-loop \
   kernel-module-leds-gpio \
   kernel-module-ledtrig-gpio \
   kernel-module-ledtrig-heartbeat \
   kernel-module-ledtrig-timer \
   kernel-module-ledtrig-default-on \
+  kernel-module-gpio-wdt \
+  kernel-module-pxa2xx-wdt \
 "
 
 ELITO_COMMON_KERNEL_MODULES = "${@elito_common_expand('ELITO_COMMON_KERNEL_MODULES',d)}"
