@@ -318,7 +318,7 @@ AC_SUBST([BITBAKE_BRANCH],[$with_bitbake_version])
 AC_MSG_CHECKING([for default bitbake ui])
 AC_ARG_WITH([bitbake-ui],
         AS_HELP_STRING([--with-bitbake-ui=<ui>],[default bitbake userinterface]),
-	[], [with_bitbake_ui=knotty2])
+	[], [with_bitbake_ui=knotty])
 AC_MSG_RESULT([$with_bitbake_ui])
 AC_SUBST([BITBAKE_UI],[$with_bitbake_ui])
 
