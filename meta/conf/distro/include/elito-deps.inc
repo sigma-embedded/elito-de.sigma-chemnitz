@@ -1,12 +1,5 @@
 # --*- python -*--
 
-RRECOMMENDS_dropbear_append  = " ${@elito_base_switch(d, 'IMAGE_INIT_MANAGER', \
-	'upstart', 'upstart-setup-dropbear', '')}"
-
-RRECOMMENDS_dbus_append = " ${@elito_base_switch(d, 'IMAGE_INIT_MANAGER', \
-	'upstart', 'upstart-setup-dbus', '')} \
-	elito-dbus-base"
-
 RRECOMMENDS_kernel-module-rt73usb_append = " \
         wireless-tools rt73-firmware	\
         kernel-module-arc4 kernel-module-ecb kernel-module-cryptomgr"
