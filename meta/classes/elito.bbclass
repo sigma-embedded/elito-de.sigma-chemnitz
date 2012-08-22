@@ -1,12 +1,15 @@
 # --*- python -*--
 
-def get_filedate(filename):
+def get_filedate(filename, dflt=None):
     import os, time
 
     try:
         st = os.stat(filename)
     except:
-        st = None
+        if dflt != None:
+            st = ( 0,0,0,0, 0,0,0,0, dflt )
+        else:
+            st = None
 
     if st == None:
         raise Exception("can not stat file")
