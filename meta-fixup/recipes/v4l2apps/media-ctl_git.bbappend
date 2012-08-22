@@ -4,5 +4,4 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/media-ctl:"
 
 SRC_URI += "\
   file://pixelformats.patch \
-  file://automake.patch \
 "
