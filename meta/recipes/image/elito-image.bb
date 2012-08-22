@@ -1,16 +1,11 @@
 PROVIDES = "virtual/elito-image"
 
-DEPENDS = "	\
+EXTRA_IMAGEDEPENDS = "	\
 	${MACHINE_TASK_PROVIDER}	\
-	${IMAGE_DEPENDS}		\
 "
 
 IMAGE_INSTALL = "${MACHINE_TASK_PROVIDER}"
 IMAGE_BOOT    = ""
-
-export OVERRIDES
-export DEPENDS
-export IMAGE_DEPENDS
 
 do_rootfs_prepend () {
 	PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin

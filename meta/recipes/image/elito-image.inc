@@ -10,9 +10,9 @@ OVERRIDES .= "${@base_contains('MACHINE_FEATURES','arnoldboot',':fs-arnoldboot',
 
 IMAGE_FSTYPES_append_fs-mobm320	   = " bootenv"
 
-IMAGE_DEPENDS_append_fs-u-boot     = " u-boot"
-IMAGE_DEPENDS_append_fs-barebox    = " barebox"
-IMAGE_DEPENDS_append_fs-arnoldboot = " arnoldboot-native"
-IMAGE_DEPENDS_append_fs-mobm320    = " mobm320 mobm320-native"
+EXTRA_IMAGEDEPENDS_append_fs-u-boot     = " u-boot"
+EXTRA_IMAGEDEPENDS_append_fs-barebox    = " barebox"
+EXTRA_IMAGEDEPENDS_append_fs-arnoldboot = " arnoldboot-native"
+EXTRA_IMAGEDEPENDS_append_fs-mobm320    = " mobm320 mobm320-native"
 
 inherit core-image
