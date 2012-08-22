@@ -1,40 +1,40 @@
 def ubi_get_nand_leb_size(d):
-	import bb
-	bsize = int(d.getVar('NAND_BLOCKSIZE', True),0)
-	psize = int(d.getVar('NAND_PAGESIZE',  True),0)
-	return bsize - 2*psize
+    import bb
+    bsize = int(d.getVar('NAND_BLOCKSIZE', True),0)
+    psize = int(d.getVar('NAND_PAGESIZE',  True),0)
+    return bsize - 2*psize
 
 def ubi_gen_ini_data(info_name,d):
-	import bb
-	import os.path
+    import bb
+    import os.path
 
-	deploy_dir = d.getVar('DEPLOY_DIR', True)
-	space	   = d.getVar('FLASH_SIZE', True)
-	info	   = d.getVar(info_name, True)
+    deploy_dir = d.getVar('DEPLOY_DIR', True)
+    space      = d.getVar('FLASH_SIZE', True)
+    info       = d.getVar(info_name, True)
 
-	if not info:
-		return ""
+    if not info:
+        return ""
 
-	vols = [v.split() for v in info.split(',')]
-	pos  = 0
-	res  = []
+    vols = [v.split() for v in info.split(',')]
+    pos  = 0
+    res  = []
 
-	for (name, type, image, size) in vols:
-		res.extend((
-			'[%s-volume]' % name,
-			'mode=ubi',
-			'image=%s' % os.path.join(deploy_dir, 'images', image),
-			'vol_id=%i' % pos,
-			'vol_size=%i' % int(size,0),
-			'vol_type=%s' % type,
-			'vol_name=%s' % name, ''))
-		pos = pos+1
-	return '\n'.join(res)
+    for (name, type, image, size) in vols:
+        res.extend((
+            '[%s-volume]' % name,
+            'mode=ubi',
+            'image=%s' % os.path.join(deploy_dir, 'images', image),
+            'vol_id=%i' % pos,
+            'vol_size=%i' % int(size,0),
+            'vol_type=%s' % type,
+            'vol_name=%s' % name, ''))
+        pos = pos+1
+    return '\n'.join(res)
 
 def ubi_byte_to_leb(var_name, d):
-	import bb
-	src = int(d.getVar(var_name, True), 0)
-	return src/ubi_get_nand_leb_size(d)
+    import bb
+    src = int(d.getVar(var_name, True), 0)
+    return src/ubi_get_nand_leb_size(d)
 
 ubi_gen_ini() {
 	cat << EOF > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubi.ini
