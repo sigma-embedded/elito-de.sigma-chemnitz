@@ -1,12 +1,12 @@
-Index: busybox-1.19.3/miscutils/fbsplash.c
+Index: busybox-1.20.2/miscutils/fbsplash.c
 ===================================================================
---- busybox-1.19.3.orig/miscutils/fbsplash.c
-+++ busybox-1.19.3/miscutils/fbsplash.c
-@@ -103,17 +103,25 @@ static void fb_open(const char *strfb_de
+--- busybox-1.20.2.orig/miscutils/fbsplash.c
++++ busybox-1.20.2/miscutils/fbsplash.c
+@@ -153,24 +153,30 @@ static void fb_open(const char *strfb_de
  	close(fbfd);
  }
  
-+static unsigned int fb_reduce_color(uint8_t c, unsigned int num)
++inline static unsigned int fb_reduce_color(uint8_t c, unsigned int num)
 +{
 +	unsigned int	tmp = c + (1 << (8-num)) / 2;
 +
@@ -21,14 +21,27 @@ Index: busybox-1.19.3/miscutils/fbsplash.c
   */
  static unsigned fb_pixel_value(unsigned r, unsigned g, unsigned b)
  {
- 	if (G.bytes_per_pixel == 2) {
--		r >>= 3;  // 5-bit red
--		g >>= 2;  // 6-bit green
--		b >>= 3;  // 5-bit blue
--		return b + (g << 5) + (r << (5+6));
-+        return ((fb_reduce_color(r,5) << 11) |
-+                (fb_reduce_color(g,6) <<  5) |
-+                (fb_reduce_color(b,5) <<  0));
- 	}
+-	if (G.bytes_per_pixel == 1) {
+-		r = r        & 0xe0; // 3-bit red
+-		g = (g >> 3) & 0x1c; // 3-bit green
+-		b =  b >> 6;         // 2-bit blue
+-		return r + g + b;
+-	}
+-	if (G.bytes_per_pixel == 2) {
+-		r = (r & 0xf8) << 8; // 5-bit red
+-		g = (g & 0xfc) << 3; // 6-bit green
+-		b =  b >> 3;         // 5-bit blue
+-		return r + g + b;
+-	}
++	if (G.bytes_per_pixel == 1)
++		return ((fb_reduce_color(r,3) << 5) |
++			(fb_reduce_color(g,3) << 2) |
++			(fb_reduce_color(b,2) << 0));
++	if (G.bytes_per_pixel == 2)
++		return ((fb_reduce_color(r,5) << 11) |
++			(fb_reduce_color(g,6) <<  5) |
++			(fb_reduce_color(b,5) <<  0));
++
  	// RGB 888
  	return b + (g << 8) + (r << 16);
+ }
