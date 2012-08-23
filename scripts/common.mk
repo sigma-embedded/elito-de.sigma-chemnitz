@@ -196,6 +196,15 @@ ifeq ($(R),)
 endif
 			@echo "PRINC := \"\$${@int('\$${PRINC}') + 1}\"" >> '$W/recipes/$R.bbappend'
 
+taint:			FORCE | $W/recipes
+ifeq ($(R),)
+			@echo "*** Recipename R=<recipe> missing. ***" >&2
+			@exit 1
+endif
+			touch "$W/recipes/$R.bbappend"
+			sed -i -e '/^ELITO_RECIPE_TAINT.*/d' "$W/recipes/$R.bbappend"
+			echo "ELITO_RECIPE_TAINT = \"`uuidgen`\"" >> "$W/recipes/$R.bbappend"
+
 
 sources-tar:
 			$(if $L,env L=${L}) ${abs_top_srcdir}/scripts/create-sources-tar $(CACHE_DIR)
