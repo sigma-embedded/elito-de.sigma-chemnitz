@@ -3,7 +3,7 @@ SED ?= sed
 _sed_cmd = $(SED) \
 	-e 's!${STAGING_DIR_TARGET}/\+!\$${T_TARGET}/!g' \
 	-e 's!${STAGING_DIR_NATIVE}/\+!\$${T_NATIVE}/!g' \
-	-e 's!${TOOLCHAIN_PATH}/\+!\$${T_CROSS}/!g' \
+	-e 's!${STAGING_BINDIR_TOOLCHAIN}/\+!\$${T_CROSS}/!g' \
 	-e 's!${_tmpdir}/!\$${T}/!g' \
 	-e 's!${_CROSS}!\$${CROSS}!g'
 
@@ -34,7 +34,8 @@ info:
 	echo '    CROSS: ${_CROSS}'
 	echo '    DESTDIR: ${DESTDIR}'
 	echo '    T: ${_tmpdir}'
-	echo '    T_CROSS: ${TOOLCHAIN_PATH}' | ${_sed_cmd1}
+	echo '    T_CROSS: ${STAGING_BINDIR_TOOLCHAIN}' | ${_sed_cmd1}
+	echo '           # ${STAGING_BINDIR_TOOLCHAIN}'
 	echo '    T_TARGET: ${STAGING_DIR_TARGET}' | ${_sed_cmd1}
 	echo '    T_NATIVE: ${STAGING_DIR_NATIVE}' | ${_sed_cmd1}
 	echo '    CC: ${CC}' | ${_sed_cmd}
