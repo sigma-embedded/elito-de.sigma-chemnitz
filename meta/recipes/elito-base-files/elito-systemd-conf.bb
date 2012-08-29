@@ -3,14 +3,16 @@ SECTION = "base"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-SRCREV = "536c55710b0ca637da89f68ab9cdd098e080d9ea"
-_pv = "0.4.1"
-PR = "r0"
+SRCREV = "d71f145e51b2e52e6ba818de2d1d553d663e5f00"
+_pv = "0.4.3"
+PR = "r1"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
+
+BOOTDEVICE = "eth0"
 
 inherit gitpkgv
 
@@ -19,6 +21,8 @@ SRC_URI		= " \
   file://00-elito.conf \
   file://systemd.profile \
 "
+
+S = "${WORKDIR}/git"
 
 RRECOMMENDS_${PN} += "${PN}-firstboot"
 RRECOMMENDS_${PN} += "${@base_contains('DISTRO_FEATURES','nfsroot','${PN}-nfs','', d)}"
@@ -38,6 +42,12 @@ FILES_${PN}-firstboot = "\
   ${systemd_unitdir}/system/firstboot* \
   ${systemd_unitdir}/system/*/firstboot* \
   /var/lib/firstboot"
+
+do_configure() {
+    sed -e 's!@prefix@!${prefix}!g' \
+        -e 's!@bootdev@!${BOOTDEVICE}!g' \
+        -i nfs/connman.service
+}
 
 do_install[dirs] = "${WORKDIR}"
 do_install() {
