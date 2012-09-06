@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
 do_distribute_sources() {
 }
 
-inherit task
+inherit packagegroup
 
 # !! DO NOT MOVE IT TO TOP !!
 # Else, the task class sets PACKAGE_ARCH to all which will override
