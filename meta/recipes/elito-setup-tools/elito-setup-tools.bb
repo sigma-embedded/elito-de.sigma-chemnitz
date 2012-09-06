@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 _pv = "0.11"
-PR = "r6"
+PR = "r7"
 SRCREV = "0d8f596dbcf63d37a4823a016189721fc7744c92"
 
 PV = "${_pv}+gitr${SRCPV}"
@@ -59,7 +59,8 @@ sysroot_extraprogs() {
 
 SYSROOT_PREPROCESS_FUNCS += "sysroot_extraprogs"
 
-ALTERNATIVE_NAME = "init"
-ALTERNATIVE_PATH = "${base_sbindir}/init.wrapper"
-ALTERNATIVE_LINK = "${base_sbindir}/init"
-ALTERNATIVE_PRIORITY = "900"
+ALTERNATIVE_${PN} = "init"
+
+ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
+ALTERNATIVE_TARGET[init]    = "${base_sbindir}/init.wrapper"
+ALTERNATIVE_PRIORITY[init]  = "900"
