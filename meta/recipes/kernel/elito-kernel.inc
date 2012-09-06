@@ -18,6 +18,7 @@ S            = "${WORKDIR}/git"
 EXTRA_OEMAKE_prepend = "-f '${TMPDIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1"
 
 KERNEL_DEPENDS ?= ""
+MACHINE_HOSTNAME ?= "${MACHINE}"
 
 DEPENDS += '\
 	kernel-makefile \
@@ -53,7 +54,7 @@ def kernel_early_options(d):
             'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
           [ True,
             [ 'BLK_DEV_INITRD',      [False, YES][is_feature('initrd')] ],
-            [ 'DEFAULT_HOSTNAME',    "${MACHINE}" ],
+            [ 'DEFAULT_HOSTNAME',    "${MACHINE_HOSTNAME}" ],
             [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
             [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
             [ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
