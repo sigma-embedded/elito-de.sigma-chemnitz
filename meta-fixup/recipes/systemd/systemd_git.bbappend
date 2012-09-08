@@ -10,7 +10,6 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 SRC_URI += "\
   file://embedded.patch \
-  file://platform-path.patch \
   file://readahead.patch \
 "
 
