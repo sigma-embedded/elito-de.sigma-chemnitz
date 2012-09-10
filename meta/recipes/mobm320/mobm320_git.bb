@@ -7,7 +7,7 @@ MOBM320_BRANCH ?= "${KERNEL_BRANCH}"
 
 #SRCREV  = "e7a58a0d93b125d6937e1c163ebe847ae4ad121d"
 SRCREV = "${AUTOREV}"
-SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/mobm320.git',d)};branch=${MOBM320_BRANCH}"
+SRC_URI = "${ELITO_GIT_REPO}/mobm320.git;branch=${MOBM320_BRANCH}"
 S = "${WORKDIR}/git"
 
 inherit gitpkgv
