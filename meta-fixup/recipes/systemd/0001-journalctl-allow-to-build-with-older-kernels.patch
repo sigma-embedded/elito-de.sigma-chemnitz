@@ -1,0 +1,27 @@
+From 7dd89770e054eccf85f7ba38ed1d667593186a83 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 10 Sep 2012 17:19:18 +0200
+Subject: [PATCH] journalctl: allow to build with older kernels
+
+---
+ src/journal/journalctl.c | 4 ++++
+ 1 Datei geändert, 4 Zeilen hinzugefügt(+)
+
+diff --git a/src/journal/journalctl.c b/src/journal/journalctl.c
+index 6aff1f1..aecbb6d 100644
+--- a/src/journal/journalctl.c
++++ b/src/journal/journalctl.c
+@@ -49,6 +49,10 @@
+ #include "journal-qrcode.h"
+ #include "fsprg.h"
+ 
++#ifndef FS_NOCOW_FL
++#  define FS_NOCOW_FL                        0x00800000 /* Do not cow file */
++#endif
++
+ #define DEFAULT_FSS_INTERVAL_USEC (15*USEC_PER_MINUTE)
+ 
+ static OutputMode arg_output = OUTPUT_SHORT;
+-- 
+1.7.11.4
+

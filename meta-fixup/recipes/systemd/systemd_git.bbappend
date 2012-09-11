@@ -1,5 +1,5 @@
 # --*- python -*--
-PRINC := "${@int('${PRINC}') + 3}"
+PRINC := "${@int('${PRINC}') + 4}"
 
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
@@ -11,6 +11,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 SRC_URI += "\
   file://embedded.patch \
   file://readahead.patch \
+  file://0001-journalctl-allow-to-build-with-older-kernels.patch \
 "
 
 EXTRA_OECONF += "\
