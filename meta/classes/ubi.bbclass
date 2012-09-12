@@ -12,12 +12,12 @@ def ubi_gen_ini_data(info_name,d):
     psize      = int(d.getVar('NAND_PAGESIZE',  True),0)
     deploy_dir = d.getVar('DEPLOY_DIR', True)
     space      = d.getVar('FLASH_SIZE', True)
-    info       = d.getVar(info_name, True)
+    info       = d.getVar(info_name, False)
 
     if not info:
         return ""
 
-    vols = [v.split() for v in info.split(',')]
+    vols = [map(lambda x: d.expand(x), v.split()) for v in info.split(',')]
     pos  = 0
     res  = []
 
