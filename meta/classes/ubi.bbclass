@@ -24,7 +24,9 @@ def ubi_gen_ini_data(info_name,d):
         res.extend((
             '[%s-volume]' % name,
             'mode=ubi',
-            'image=%s' % os.path.join(deploy_dir, 'images', image),
+            '%simage=%s' %
+            (['','#'][image == '/dev/null'],
+             os.path.join(deploy_dir, 'images', image)),
             'vol_id=%i' % pos,
             'vol_size=%i' % int(size,0),
             'vol_type=%s' % type,
