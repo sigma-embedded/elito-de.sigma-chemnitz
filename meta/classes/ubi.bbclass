@@ -1,3 +1,4 @@
+# --*- python -*--
 def ubi_get_nand_leb_size(d):
     import bb
     bsize = int(d.getVar('NAND_BLOCKSIZE', True),0)
