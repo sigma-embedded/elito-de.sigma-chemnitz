@@ -9,6 +9,7 @@ def ubi_gen_ini_data(info_name,d):
     import bb
     import os.path
 
+    psize      = int(d.getVar('NAND_PAGESIZE',  True),0)
     deploy_dir = d.getVar('DEPLOY_DIR', True)
     space      = d.getVar('FLASH_SIZE', True)
     info       = d.getVar(info_name, True)
@@ -21,6 +22,9 @@ def ubi_gen_ini_data(info_name,d):
     res  = []
 
     for (name, type, image, size) in vols:
+        size = int(size, 0)
+        size = (size + psize - 1) / psize * psize
+
         res.extend((
             '[%s-volume]' % name,
             'mode=ubi',
@@ -28,7 +32,7 @@ def ubi_gen_ini_data(info_name,d):
             (['','#'][image == '/dev/null'],
              os.path.join(deploy_dir, 'images', image)),
             'vol_id=%i' % pos,
-            'vol_size=%i' % int(size,0),
+            'vol_size=%u' % size,
             'vol_type=%s' % type,
             'vol_name=%s' % name, ''))
         pos = pos+1
