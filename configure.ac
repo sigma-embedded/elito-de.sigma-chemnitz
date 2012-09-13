@@ -18,6 +18,41 @@ AC_DEFUN([ELITO_TRUE_FALSE],
 	fi
 ])
 
+elito_validate_path() {
+    local old_IFS
+    local abs_i
+    local tmp
+
+    old_IFS=$IFS
+    IFS=:
+    set -- $PATH
+    IFS=$old_IFS
+
+    here=`${PWD_P}` || AC_MSG_ERROR([failed to determine current directory])
+
+    for i; do
+	abs_i=`cd "$i" && ${PWD_P} 2>/dev/null` || continue
+	tmp=${abs_i##$here}
+	test x"$tmp" != x"$abs_i" || continue
+
+	AS_CASE([$tmp],
+	[.tmp/*],[],
+	[AC_MSG_ERROR([
+************************************************************************
+\$PATH polluted by element pointing into build directory:
+
+  $abs_i
+
+This will cause misdetection of host tools.
+************************************************************************
+])])
+    done
+}
+
+AC_MSG_CHECKING([whether \$PATH is clean])
+elito_validate_path
+AC_MSG_RESULT([yes])
+
 _f=$HOME/.bitbake.elito.conf
 
 AC_ARG_WITH([global-bitbake-conf],
