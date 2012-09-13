@@ -60,7 +60,7 @@ AC_ARG_WITH([global-bitbake-conf],
 		[global bitbake configuration file (default: ~/.bitbake.elito.conf (when exists))])],
 	[AS_CASE([$withval],
 		[yes|no], [],
-		[f=$withval; withval=yes])],
+		[_f=$withval; withval=yes])],
 	[ withval=auto ])
 
 AS_CASE([$withval],
@@ -79,7 +79,7 @@ AC_ARG_WITH([local-bitbake-conf],
 		[local bitbake configuration file (default: conf/local-<domain>.conf (when exists))])],
 	[AS_CASE([$withval],
 		[yes|no], [],
-		[f=$withval; withval=yes])],
+		[_f=$withval; withval=yes])],
 	[ withval=auto ])
 
 AS_CASE([$withval],
