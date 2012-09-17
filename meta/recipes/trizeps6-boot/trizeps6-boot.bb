@@ -6,8 +6,8 @@ COMPATIBLE_MACHINE = "kk-trizeps6"
 
 PROVIDES += "virtual/ce-preloader"
 
-SRCREV = "27c817a0dedf9bf36b54023ccec17207c1e79279"
-_pv = "0.1.3"
+SRCREV = "1d2a8d9486c5b565daab54aee941ea9a4c756807"
+_pv = "0.1.4"
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
