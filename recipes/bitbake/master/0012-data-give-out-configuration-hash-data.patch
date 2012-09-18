@@ -1,15 +1,15 @@
-From 16e4edb011e92c7767b4c588930500cc8cacf195 Mon Sep 17 00:00:00 2001
+From a36cd659324e01104b96efb4178c4d31eda4e520 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Mon, 2 Apr 2012 15:43:06 +0200
-Subject: [PATCH 16/20] data: give out configuration hash data
+Subject: [PATCH 12/17] data: give out configuration hash data
 
 this helps to debug problems
 ---
- lib/bb/data_smart.py |   14 ++++++++++++--
+ lib/bb/data_smart.py | 14 ++++++++++++--
  1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index 25609fd..974d8c5 100644
+index a45e209..8175692 100644
 --- a/lib/bb/data_smart.py
 +++ b/lib/bb/data_smart.py
 @@ -481,5 +481,15 @@ class DataSmart(MutableMapping):
@@ -31,5 +31,5 @@ index 25609fd..974d8c5 100644
 +
 +        return hashlib.md5(str(data_str)).hexdigest()
 -- 
-1.7.10.4
+1.7.11.4
 

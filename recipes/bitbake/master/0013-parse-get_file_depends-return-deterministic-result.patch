@@ -1,7 +1,7 @@
-From 2a35fc2c042dada73b462f71e44bb2fcdd50bacd Mon Sep 17 00:00:00 2001
+From d2f01cfa0423f77ef18be55c757fffb0ab91067d Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Sun, 20 May 2012 15:52:06 +0200
-Subject: [PATCH 17/19] parse: get_file_depends(): return deterministic result
+Subject: [PATCH 13/17] parse: get_file_depends(): return deterministic result
 
 The output of get_file_depends() concatenates elements of a set.  Result
 of this operation is not deterministic because it is calculated by
@@ -13,7 +13,7 @@ or cache or recipes.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- lib/bb/parse/__init__.py |    2 +-
+ lib/bb/parse/__init__.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/bb/parse/__init__.py b/lib/bb/parse/__init__.py
@@ -29,5 +29,5 @@ index 7b9c47e..1e69778 100644
  
  from bb.parse.parse_py import __version__, ConfHandler, BBHandler
 -- 
-1.7.10.2
+1.7.11.4
 

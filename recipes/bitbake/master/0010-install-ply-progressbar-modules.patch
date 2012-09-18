@@ -1,10 +1,10 @@
-From 74fc99b3fafecef21df24e0c5ace3bb9c7568b4a Mon Sep 17 00:00:00 2001
+From 2478423766517bdaec9b06ed1645106788b3961c Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:48 +0200
-Subject: [PATCH 13/19] install ply + progressbar modules
+Subject: [PATCH 10/17] install ply + progressbar modules
 
 ---
- setup.py |    5 +++--
+ setup.py | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/setup.py b/setup.py
@@ -25,5 +25,5 @@ index 7f44bbf..554ee8b 100755
        data_files = [("share/bitbake", glob("conf/*") + glob("classes/*")),
                    ("share/doc/bitbake-%s/manual" % __version__, glob("doc/manual/html/*"))],
 -- 
-1.7.10.2
+1.7.11.4
 

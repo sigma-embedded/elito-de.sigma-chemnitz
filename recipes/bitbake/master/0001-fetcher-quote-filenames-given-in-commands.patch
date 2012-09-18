@@ -1,7 +1,7 @@
-From 1ca4252070e852a91f75bdf139e0e2bedd09d2d7 Mon Sep 17 00:00:00 2001
+From 14daa55cbd64cc080843522a6323ba84fab5e647 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 6 Apr 2012 16:53:30 +0200
-Subject: [PATCH 01/20] fetcher: quote filenames given in commands
+Subject: [PATCH 01/17] fetcher: quote filenames given in commands
 
 Filenames were given as-is to shell commands. This causes problems
 when names contain characters which have a special meaning. E.g. when
@@ -20,11 +20,11 @@ but most fetchers need similar adaptations too.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 ---
- lib/bb/fetch2/__init__.py |   38 +++++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 17 deletions(-)
+ lib/bb/fetch2/__init__.py | 39 ++++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index fa963be..2c08381 100644
+index 37f7d75..65aaf20 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -30,6 +30,7 @@ from __future__ import print_function
@@ -35,7 +35,7 @@ index fa963be..2c08381 100644
  import bb.persist_data, bb.utils
  import bb.checksum
  from bb import data
-@@ -899,38 +900,39 @@ class FetchMethod(object):
+@@ -917,38 +918,40 @@ class FetchMethod(object):
          cmd = None
  
          if unpack:
@@ -74,7 +74,7 @@ index fa963be..2c08381 100644
 -                cmd = "%s '%s'" % (cmd, file)
 +                    cmd.append('-a')
 +                cmd.append(file)
-             elif file.endswith('.src.rpm') or file.endswith('.srpm'):
+             elif file.endswith('.rpm') or file.endswith('.srpm'):
                  if 'extract' in urldata.parm:
                      unpack_file = urldata.parm.get('extract')
 -                    cmd = 'rpm2cpio.sh %s | cpio -i %s' % (file, unpack_file)
@@ -84,10 +84,11 @@ index fa963be..2c08381 100644
                  else:
 -                    cmd = 'rpm2cpio.sh %s | cpio -i' % (file)
 +                    cmd = 'rpm2cpio.sh %s | cpio -i' % qfile
++
+             elif file.endswith('.deb') or file.endswith('.ipk'):
+                 cmd = 'ar -p %s data.tar.gz | zcat | tar --no-same-owner -xpf -' % file
  
-         if not unpack or not cmd:
-             # If file == dest, then avoid any copies, as we already put the file into dest!
-@@ -946,8 +948,8 @@ class FetchMethod(object):
+@@ -966,8 +969,8 @@ class FetchMethod(object):
                              destdir = "."
                          elif not os.access("%s/%s" % (rootdir, destdir), os.F_OK):
                              os.makedirs("%s/%s" % (rootdir, destdir))
@@ -98,7 +99,7 @@ index fa963be..2c08381 100644
                  else:
                      # The "destdir" handling was specifically done for FILESPATH
                      # items.  So, only do so for file:// entries.
-@@ -956,7 +958,7 @@ class FetchMethod(object):
+@@ -976,7 +979,7 @@ class FetchMethod(object):
                      else:
                         destdir = "."
                      bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))
@@ -107,7 +108,7 @@ index fa963be..2c08381 100644
  
          if not cmd:
              return
-@@ -970,10 +972,12 @@ class FetchMethod(object):
+@@ -990,10 +993,12 @@ class FetchMethod(object):
              os.chdir(newdir)
  
          path = data.getVar('PATH', True)
@@ -123,5 +124,5 @@ index fa963be..2c08381 100644
          os.chdir(save_cwd)
  
 -- 
-1.7.10.4
+1.7.11.4
 
