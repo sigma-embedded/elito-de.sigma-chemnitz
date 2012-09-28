@@ -8,6 +8,7 @@ PV = "0.1"
 PR = "r0+b${ELITO_BUILD_NUMBER}"
 
 FILES_${PN} = "/"
+ALLOW_EMPTY_${PN} = "1"
 
 # for PROJECT_REVISION
 inherit elito-utils
