@@ -1,4 +1,4 @@
-From 5f83bde8735c9396c78143417d52fe056f01b48b Mon Sep 17 00:00:00 2001
+From 9042a1a60f27f13ccb962848fc4c23d02364ad64 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Wed, 22 Aug 2012 18:30:01 +0200
 Subject: [PATCH 17/17] ui/knotty: give out start time of task
@@ -14,10 +14,10 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/lib/bb/ui/knotty.py b/lib/bb/ui/knotty.py
-index 858cacf..60d5886 100644
+index 3799018..4adc8ea 100644
 --- a/lib/bb/ui/knotty.py
 +++ b/lib/bb/ui/knotty.py
-@@ -190,7 +190,8 @@ class TerminalFilter(object):
+@@ -191,7 +191,8 @@ class TerminalFilter(object):
              return
          tasks = []
          for t in runningpids:

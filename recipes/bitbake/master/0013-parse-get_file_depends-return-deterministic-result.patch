@@ -1,4 +1,4 @@
-From d2f01cfa0423f77ef18be55c757fffb0ab91067d Mon Sep 17 00:00:00 2001
+From 0cb2b47a73b529afe5575e44b86912a98e7c6669 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Sun, 20 May 2012 15:52:06 +0200
 Subject: [PATCH 13/17] parse: get_file_depends(): return deterministic result

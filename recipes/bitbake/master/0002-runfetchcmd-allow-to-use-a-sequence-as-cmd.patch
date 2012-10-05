@@ -1,7 +1,7 @@
-From 129c7342e58bd5c3bfce375d9fa7d7244f2b3bd0 Mon Sep 17 00:00:00 2001
+From d00440f4bcedaf41a9444d75b987efbcdbfd0ddc Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 13 Apr 2012 13:06:00 +0200
-Subject: [PATCH 02/20] runfetchcmd(): allow to use a sequence as cmd
+Subject: [PATCH 02/17] runfetchcmd(): allow to use a sequence as cmd
 
 Patch removes the explicit 'shell=True' from the bb.process.run() call
 and modifies the environment directly.  This allows to use a sequence as
@@ -24,14 +24,14 @@ optional argument was added which allows to specify the basecmd.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 ---
- lib/bb/fetch2/__init__.py |   26 +++++++++++++++++++++-----
+ lib/bb/fetch2/__init__.py | 26 +++++++++++++++++++++-----
  1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index ae9e7a5..b20cb2b 100644
+index 52462a1..66912e8 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -444,10 +444,11 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -456,10 +456,11 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
                    'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME',
                    'GIT_PROXY_IGNORE', 'SOCKS5_USER', 'SOCKS5_PASSWD']
  
@@ -44,7 +44,7 @@ index ae9e7a5..b20cb2b 100644
  
      logger.debug(1, "Running %s", cmd)
  
-@@ -455,7 +456,7 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -467,7 +468,7 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
      error_message = ""
  
      try:
@@ -53,7 +53,7 @@ index ae9e7a5..b20cb2b 100644
          success = True
      except bb.process.NotFoundError as e:
          error_message = "Fetch command %s" % (e.command)
-@@ -474,14 +475,29 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -492,14 +493,29 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
  
      return output
  
@@ -87,5 +87,5 @@ index ae9e7a5..b20cb2b 100644
  def build_mirroruris(origud, mirrors, ld):
      uris = []
 -- 
-1.7.10.2
+1.7.11.4
 

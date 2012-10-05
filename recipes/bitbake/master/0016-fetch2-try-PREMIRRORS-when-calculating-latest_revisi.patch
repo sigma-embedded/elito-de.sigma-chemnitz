@@ -1,4 +1,4 @@
-From 65299dbc28ea2e77fb5f622b44ccb66e3dd728c8 Mon Sep 17 00:00:00 2001
+From 97f08596abef752967ced10bef048b3be3070d2f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Wed, 27 Jun 2012 19:41:59 +0200
 Subject: [PATCH 16/17] fetch2: try PREMIRRORS when calculating
@@ -9,10 +9,10 @@ Subject: [PATCH 16/17] fetch2: try PREMIRRORS when calculating
  1 file changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index a746dca..5488615 100644
+index 7754b2a..f8f4625 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -634,6 +634,29 @@ def try_mirrors(d, origud, mirrors, check = False):
+@@ -640,6 +640,29 @@ def try_mirrors(d, origud, mirrors, check = False):
              return ret
      return None
  
@@ -42,7 +42,7 @@ index a746dca..5488615 100644
  def srcrev_internal_helper(ud, d, name):
      """
      Return:
-@@ -661,7 +684,7 @@ def srcrev_internal_helper(ud, d, name):
+@@ -667,7 +690,7 @@ def srcrev_internal_helper(ud, d, name):
      if rev == "INVALID":
          raise FetchError("Please set SRCREV to a valid value", ud.url)
      if rev == "AUTOINC":

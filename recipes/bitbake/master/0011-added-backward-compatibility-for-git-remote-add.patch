@@ -1,4 +1,4 @@
-From c1665532688a416ec7d7f849d7bd86231191a5f0 Mon Sep 17 00:00:00 2001
+From a349f50832381587835be817a26d4be21e9688de Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 8 Oct 2011 12:57:24 +0200
 Subject: [PATCH 11/17] added backward compatibility for 'git remote add'
@@ -8,7 +8,7 @@ Subject: [PATCH 11/17] added backward compatibility for 'git remote add'
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index a98d42c..b8b0b13 100644
+index 2475038..246659e 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
 @@ -119,6 +119,7 @@ class Git(FetchMethod):

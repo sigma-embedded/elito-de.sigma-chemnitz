@@ -1,17 +1,17 @@
-From c8c3d68eb7bd5e2a1a5a19f9e445307f99eed0ba Mon Sep 17 00:00:00 2001
+From c2005a5818f43d6153ddfc0e21ec6cf1dafbfbd3 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Mon, 21 May 2012 17:15:44 +0200
 Subject: [PATCH 15/17] siggen: dump sigdata content
 
 ---
- lib/bb/siggen.py | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ lib/bb/siggen.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/lib/bb/siggen.py b/lib/bb/siggen.py
-index 8fe59b9..c9a5ad7 100644
+index ff70d4f..d046321 100644
 --- a/lib/bb/siggen.py
 +++ b/lib/bb/siggen.py
-@@ -63,6 +63,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
+@@ -66,6 +66,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
      def __init__(self, data):
          self.basehash = {}
          self.taskhash = {}
@@ -19,7 +19,7 @@ index 8fe59b9..c9a5ad7 100644
          self.taskdeps = {}
          self.runtaskdeps = {}
          self.file_checksum_values = {}
-@@ -170,6 +171,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
+@@ -173,6 +174,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
      def get_taskhash(self, fn, task, deps, dataCache):
          k = fn + "." + task
          data = dataCache.basetaskhash[k]
@@ -27,7 +27,7 @@ index 8fe59b9..c9a5ad7 100644
          self.runtaskdeps[k] = []
          self.file_checksum_values[k] = {}
          recipename = dataCache.pkg_fn[fn]
-@@ -180,20 +182,24 @@ class SignatureGeneratorBasic(SignatureGenerator):
+@@ -183,6 +185,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
              if dep not in self.taskhash:
                  bb.fatal("%s is not in taskhash, caller isn't calling in dependency order?", dep)
              data = data + self.taskhash[dep]
@@ -35,13 +35,11 @@ index 8fe59b9..c9a5ad7 100644
              self.runtaskdeps[k].append(dep)
  
          if task in dataCache.file_checksums[fn]:
-             checksums = bb.fetch2.get_file_checksums(dataCache.file_checksums[fn][task], recipename)
+@@ -190,13 +193,16 @@ class SignatureGeneratorBasic(SignatureGenerator):
              for (f,cs) in checksums:
--                self.file_checksum_values[k][f] = cs
--                data = data + cs
-+               self.file_checksum_values[k][f] = cs
-+               data = data + cs
-+               cont.append([str(f), cs])
+                 self.file_checksum_values[k][f] = cs
+                 data = data + cs
++                cont.append([str(f), cs])
  
          taint = self.read_taint(fn, task, dataCache.stamp[fn])
          if taint:
@@ -54,7 +52,7 @@ index 8fe59b9..c9a5ad7 100644
          #d.setVar("BB_TASKHASH_task-%s" % task, taskhash[task])
          return h
  
-@@ -252,6 +258,17 @@ class SignatureGeneratorBasic(SignatureGenerator):
+@@ -255,6 +261,17 @@ class SignatureGeneratorBasic(SignatureGenerator):
                  pass
              raise err
  
