@@ -98,6 +98,10 @@ def elito_repo(local, remote, d):
     import elito
     return elito.repo(local, remote, d)
 
+def elito_get_distro_version(d):
+    import elito
+    return elito.update_build_info(d, get_layers_branch_rev)
+
 python do_elito_set_home() {
     d.setVar("HOME", "${WORKDIR}/.home");
     d.setVarFlag("HOME", "export", True);
