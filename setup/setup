@@ -82,7 +82,7 @@ fetch_repository() {
     ${GIT} remote add sigma git://${ELITO_GITHOST}/${ELITO_PROJECT_ID}.git || :
     ${GIT} config --add remote.sigma.fetch 'refs/tags/*:refs/tags/*'
     ${GIT} remote update || return 1
-    ${GIT} checkout --track -b master sigma/${branch}
+    ${GIT} checkout --track -b "${branch}" "sigma/${branch}"
 }
 
 do_it() {
