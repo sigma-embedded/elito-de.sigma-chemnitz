@@ -11,7 +11,7 @@ SOCAT_SSLFLAGS="method=TLS,cert=$ELITO_CRT,key=$ELITO_KEY"
 
 _find_proxy() {
     if ${ELITO_USE_LIBPROXY}; then
-	${ELITO_PROG_PROXY} "https://$1:$2"
+	${ELITO_PROG_PROXY} "https://$1:$2" 2>/dev/null
     else
 	echo "direct://"
     fi
