@@ -3,10 +3,11 @@ LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 PV = "0.3"
-PR = "r0+b${ELITO_BUILD_NUMBER}"
+PR = "r0"
 
 inherit packagegroup
 inherit elito-common
+inherit elito-rebuild
 
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"

@@ -5,13 +5,14 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 PV = "0.1"
-PR = "r0+b${ELITO_BUILD_NUMBER}"
+PR = "r0"
 
 FILES_${PN} = "/"
 ALLOW_EMPTY_${PN} = "1"
 
 # for PROJECT_REVISION
 inherit elito-utils
+inherit elito-rebuild
 
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"
