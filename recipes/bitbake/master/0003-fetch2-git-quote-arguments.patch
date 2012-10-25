@@ -109,7 +109,7 @@ index 0fd0b2f..2475038 100644
              os.chdir(destdir)
              if subdir != "":
 -                runfetchcmd("%s read-tree %s%s" % (ud.basecmd, ud.revisions[ud.names[0]], readpathspec), d)
-+                ud.runfetch(['read-tree', '%s%s' % ud.revisions[ud.names[0]], readpathspec])
++                ud.runfetch(['read-tree', '%s%s' % (ud.revisions[ud.names[0]], readpathspec)], d)
                  runfetchcmd("%s checkout-index -q -f -a" % ud.basecmd, d)
              else:
 -                runfetchcmd("%s checkout %s" % (ud.basecmd, ud.revisions[ud.names[0]]), d)
