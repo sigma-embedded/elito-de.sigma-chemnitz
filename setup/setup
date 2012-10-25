@@ -6,7 +6,7 @@ declare -r module=${3:-demo}
 declare -r branch=${4:-master}
 . ${srcdir}functions
 
-: ${ELITO_GITHOST:=git.sigma-chemnitz.de:4815}
+: ${ELITO_GITHOST:=git.sigma-chemnitz.de:443}
 
 if tty >/dev/null; then
     COL_SUCCESS=`echo -en '\\033[0;32m'`
