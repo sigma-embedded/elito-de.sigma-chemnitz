@@ -13,13 +13,20 @@ do_rm_old_work() {
 
       for f in "$d"/* "$d"/.*; do
 	  test -e "$f" || continue
+	  b=${f##$d/}
 
 	  case "$f" in
 	    */.|*/..)
 		  ;;
 
-	    */temp)
+	    */temp.tar.gz)
 		  ;;
+
+	    */temp)
+		  bbnote "Packing old $f"
+		  ( cd $d && tar czf "$b".tar.gz --remove-files "$b" )
+		  ;;
+
 	    *)
 		  bbnote "Removing old $f"
 		  rm -rf "$f"
