@@ -274,7 +274,7 @@ def eventhandler (e):
     from bb import note, error
     from bb.event import getName
 
-    if e.data is None or getName(e) in ("MsgNote", "RecipePreFinalise", 
+    if e.data is None or getName(e) in ("MsgNote", "RecipePreFinalise",
                                         "RecipeParsed", "ParseProgress", "StampUpdate"):
         return
 
@@ -297,7 +297,7 @@ def eventhandler (e):
     elif name in "BuildCompleted":
         __write_ccache_stats(e, name)
         __handle_complete(e, 'build', 'BuildCompleted',
-                          lambda res_start, res_end: 
+                          lambda res_start, res_end:
                           __write_build_complete(e, res_start, res_end,
                                                  e.data.getVar('METRICS_FILE', True)))
 
@@ -314,7 +314,7 @@ def eventhandler (e):
                           lambda res_start, res_end:
                               __write_stamp(e, res_start, res_end, 'parsing'))
     else:
-    	#bb.warn("Unsupported event %s" % name)
+        #bb.warn("Unsupported event %s" % name)
         pass
 
     return

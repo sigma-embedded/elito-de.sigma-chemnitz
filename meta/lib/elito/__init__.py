@@ -5,7 +5,7 @@ def uri(uri, d):
     if premirrors == None:
         premirrors = []
     else:
-        premirrors = filter(lambda x: x != '' and x[0] != '#', 
+        premirrors = filter(lambda x: x != '' and x[0] != '#',
                             map(lambda x: x.strip(),
                                 premirrors.split('\n')))
 
