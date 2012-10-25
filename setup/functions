@@ -46,6 +46,15 @@ msg_checking() {
     echo -n "${_i}checking $_m""$@"
 }
 
+msg_note() {
+    local _m
+    local _i
+
+    _msg_fmt "$@"
+    shift
+    echo "${_i}$_m""$@"
+}
+
 msg_action() {
     local _m
     local _i
