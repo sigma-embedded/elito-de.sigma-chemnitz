@@ -142,6 +142,10 @@ HAVE_LIBPROXY=false
 msg_checking "for libproxy..."
 if ! ${LDCONFIG} -p 2>/dev/null | grep -q '\<libproxy\.so'; then
     msg_warning " no"
+
+    msg_note " *** WARNING: download will not work when you are setting"
+    msg_note " *** WARNING: behind a proxy. Install libproxy development"
+    msg_note " *** WARNING: files to enable proxy detection!"
 else
     msg_success " yes"
 
