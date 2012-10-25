@@ -11,6 +11,20 @@ test_prog() {
     type "$1" >/dev/null 2>&1 || panic "Can not find '$1' program"
 }
 
+show_help() {
+    cat <<EOF
+Usage: elito-setup <directory> [<module> [<branch>]]
+
+  <directory>  ...  directory where ELiTo shall be installed
+  <module>     ...  user dependent module name
+  <branch>     ...  module dependent git branch
+
+EOF
+    exit 0
+}
+
+test x"$1" != x--help || show_help
+
 test_prog mktemp
 test_prog gunzip
 test_prog tar
