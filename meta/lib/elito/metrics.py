@@ -45,6 +45,22 @@ def __to_xml(who, res_a, res_b):
 
     return res
 
+def __calc_parallelization(start_info, end_info):
+    res = { 'duration' : end_info['time'] - start_info['time'],
+            'utime' : ((end_info['res_chld'].ru_utime -
+                        start_info['res_chld'].ru_utime) +
+                       (end_info['res_self'].ru_utime -
+                        start_info['res_self'].ru_utime)),
+            'stime' : ((end_info['res_chld'].ru_stime -
+                        start_info['res_chld'].ru_stime) +
+                       (end_info['res_self'].ru_stime -
+                        start_info['res_self'].ru_stime))
+            }
+
+    res['rate'] = (res['utime'] + res['stime']) / res['duration']
+    return res
+
+
 def __write_build_complete(e, start_info, end_info, fname):
     f_in_name = _metrics_tmpname(e.data)
 
@@ -99,6 +115,12 @@ def __write_build_complete(e, start_info, end_info, fname):
             if len(buf) == 0:
                 break
             f_out.write(buf)
+
+        par_rate = __calc_parallelization(start_info, end_info)
+
+        f_out.write('  <!-- parallelization = '
+                    '(%(utime)f+%(stime)f) : %(duration)f = %(rate)f -->\n' %
+                    par_rate)
 
         f_out.write('  <metrics>\n')
 
@@ -176,6 +198,8 @@ def __write_stamp(e, start_info, end_info, name):
         '  <stamp name="%(name)s" started="%(start_tm)s" ended="%(now)s" duration="%(total_time)f" ' \
         ' pid="%(pid)s">\n' % info
 
+    par_rate = __calc_parallelization(start_info, end_info)
+
     if end_info['duse'] != None:
         x = x + '    <info type="diskusage">%u</info>\n' % end_info['duse']
 
@@ -188,9 +212,11 @@ def __write_stamp(e, start_info, end_info, name):
             ''.join(map(lambda x: '    ' + x + '\n',
                         __to_xml("self", end_info['res_self'],
                                  start_info['res_self']))) +
-
+            ('  <!-- parallelization = '
+             '(%(utime)f+%(stime)f) : %(duration)f = %(rate)f -->\n' %
+             par_rate) +
             '  </stamp>\n')
-    
+
 
 
 def __get_duse(e):
