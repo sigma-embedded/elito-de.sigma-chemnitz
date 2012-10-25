@@ -38,3 +38,24 @@ def repo(remote, local, d):
     l = "git://${ELITO_WORKSPACE_DIR}/%s;protocol=file" % local
 
     return "%-40s\t%s\n" % (r,l)
+
+def update_build_info(d, oe_info_fn):
+    import bb.parse, time
+
+    f = d.expand("${TMPDIR}/build-info")
+
+    with bb.utils.fileslocked([f + ".lock"]):
+        try:
+            old_info = open(f).read()
+        except IOError:
+            old_info = ""
+
+	new_info = "\n".join(oe_info_fn(d)) + "\n"
+        if new_info != old_info:
+            open(f, "w").write(new_info)
+            bb.parse.update_mtime(f)
+
+    ftime = time.localtime(bb.parse.cached_mtime(f))
+
+    d.setVar("ELITO_BUILDINFO", new_info)
+    return "${DISTRO_VERSION_MAJOR}." + time.strftime("%Y%m%dT%H%M%S", ftime)
