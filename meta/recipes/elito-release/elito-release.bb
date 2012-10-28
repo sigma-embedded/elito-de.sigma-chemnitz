@@ -1,4 +1,5 @@
-DESCRIPTION	= "ELiTo release files"
+SUMMARY		= "ELiTo release files"
+DESCRIPTION	= "${ELITO_BUILDINFO}"
 SECTION		= "base"
 LICENSE		= "GPLv3"
 PV		= "${DISTRO_VERSION}"
@@ -23,6 +24,15 @@ RDEPENDS_${PN}        = "elito-filesystem"
 RRECOMMENDS_${PN}     = "${OPKG_FEEDS_PROVIDER}"
 
 FILES_${PN}-feeds     = "/etc/opkg/*.conf"
+
+python () {
+    import bb.parse
+    bb.parse.mark_dependency(d, d.expand("${TMPDIR}/build-info"))
+    try:
+        bb.parse.mark_dependency(d, d.expand("${TMPDIR}/build-num"))
+    except:
+        pass
+}
 
 do_compile() {
 	set -x
