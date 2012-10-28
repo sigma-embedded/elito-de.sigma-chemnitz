@@ -163,7 +163,7 @@ endif
 
 pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell pshell: \
 			$(W)/Makefile.develcomp FORCE
-			$(SECWRAP_CMD) env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
+			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
 $(W)/Makefile.develcomp:
 			@{ \
