@@ -69,7 +69,7 @@ def kernel_early_options(d):
     o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts').split()))
 
     for f in (d.getVar('KERNEL_EARLY_OPTIONS_FUNCS', True) or '').split():
-        o = bb.build.exec_func(f, d, o)
+        o = eval("%s(d, o)" % f)
 
     return elito.kernel_feature.sed_cmd(o)
 
