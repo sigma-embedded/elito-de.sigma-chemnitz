@@ -32,10 +32,10 @@ def sed_cmd(all_options):
     new = [ '$a' ]
     pre = [ '1i' ]
     res.append(r's/^\(CONFIG_\(%s\)\)=.*/# \1 is not set/' %
-               '|'.join(map(lambda x: x[0], disable_opts)))
+               r'\|'.join(map(lambda x: x[0], disable_opts)))
 
     res.append(r's/^# \(CONFIG_\(%s\)\) is not set/\1=m/' %
-               '|'.join(map(lambda x: x[0],
+               r'\|'.join(map(lambda x: x[0],
                             filter(lambda x: x[1] == True, enable_opts))))
 
     for (name, newval) in options:
