@@ -128,7 +128,17 @@ nod  /dev/console 0644 0 0 c 5 1
 EOF
 }
 addtask do_generate_initramfs_source after do_unpack
-do_configure[depends] += "${@base_contains('DISTRO_FEATURES','initrd','${PN}:do_generate_initramfs_source','', d)}"
+
+python () {
+    if oe.utils.contains('DISTRO_FEATURES','initrd', True, False, d):
+        d.setVarFlag("do_compile", "depends",
+                     d.expand('${PN}:do_generate_initramfs_source ') +
+                     (d.getVarFlag("do_compile", "depends") or ""))
+
+        d.setVarFlag("do_compile", "deps",
+                     ["do_generate_initramfs_source"] +
+                     (d.getVarFlag("do_compile", "deps") or []))
+}
 # }}} generate-initramfs
 
 # {{{ do_configure
