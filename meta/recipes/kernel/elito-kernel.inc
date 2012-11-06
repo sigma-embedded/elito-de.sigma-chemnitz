@@ -23,6 +23,8 @@ KERNEL_CMDLINE_SOURCE ?= "bootloader"
 KERNEL_DEPENDS ?= ""
 MACHINE_HOSTNAME ?= "${MACHINE}"
 
+INITRAMFS_SOURCE = "devices.txt"
+
 DEPENDS += '\
 	kernel-makefile \
 	${KERNEL_DEPENDS} \
@@ -67,7 +69,7 @@ def kernel_early_options(d):
             [ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
           [ is_feature('initrd'),
             [ 'INITRAMFS_COMPRESSION_XZ', YES ],
-            [ 'INITRAMFS_SOURCE', 'devices.txt' ] ],
+            [ 'INITRAMFS_SOURCE', '${INITRAMFS_SOURCE}' ] ],
           ]
 
     o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
