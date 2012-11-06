@@ -102,6 +102,12 @@ def elito_get_distro_version(d):
     import elito
     return elito.update_build_info(d, get_layers_branch_rev)
 
+def elito_intersect(var_a, var_b, d):
+    a = set((d.getVar(var_a, True) or "").split())
+    b = set((d.getVar(var_b, True) or "").split())
+    c = a.intersection(b)
+    return " ".join(c)
+
 python do_elito_set_home() {
     d.setVar("HOME", "${WORKDIR}/.home");
     d.setVarFlag("HOME", "export", True);
