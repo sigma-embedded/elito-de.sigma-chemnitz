@@ -1,0 +1,74 @@
+DESCRIPTION = "ELiTo base rescue utils"
+LICENSE      = "GPLv3"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
+
+PV = "0.1.1"
+PR = "r0"
+
+SRC_URI = "\
+  file://elito-rescue.conf \
+  file://init \
+  file://dhcp-notify \
+  file://rc.d/syslog \
+  file://rc.d/network-dhcp \
+  file://rc.d/httpd \
+  file://rc.d/tcpstream \
+  file://rc.d/blockdev \
+"
+
+python () {
+    rc_d = [ (20, "syslog", ""),
+             (25, "network-dhcp", ""),
+             (80, "blockdev", ""),
+             (80, "httpd", ""),
+             (80, "tcpstream", "") ]
+
+    def extend_var(name, new, prepend=False):
+        old  = d.getVar(name, False) or ""
+        if prepend:
+            v = new + " " + old
+        else:
+            v = old + " " + new
+
+        d.setVar(name, v)
+
+    pkgs = []
+    pn = d.getVar("PN", True)
+    for (prio,name, deps) in rc_d:
+        pkg = "%s-sysv-%s" % (pn, name)
+        fname = "rescue-" + name
+
+        pkgs.append(pkg)
+        d.setVar("INITSCRIPT_NAME_" + pkg, fname)
+        d.setVar("INITSCRIPT_PARAMS_" + pkg, "defaults %u %u" % (prio, 99-prio))
+        d.setVar("FILES_" + pkg, "${INIT_D_DIR}/" + fname)
+	d.setVar("RDEPENDS_" + pkg, "update-rc.d " + deps)
+        d.setVar("RPROVIDES_" + pkg, "virtual/rescue-init-%s" % name)
+
+    extend_var("INITSCRIPT_PACKAGES", " ".join(pkgs))
+    extend_var("PACKAGES", " ".join(pkgs), True)
+}
+
+UPDATERCPN = "dummy"
+
+inherit update-rc.d
+
+do_install() {
+    install -p -D -m 0755 ${WORKDIR}/init ${D}/init
+    install -p -D -m 0644 ${WORKDIR}/elito-rescue.conf ${D}${sysconfdir}/elito-rescue.conf
+
+    cd ${WORKDIR}/rc.d
+    for i in *; do
+    	install -p -D -m 0755 "$i" ${D}${INIT_D_DIR}/rescue-"$i"
+    done
+
+    install -p -D -m 0755 ${WORKDIR}/dhcp-notify ${D}${sysconfdir}/udhcpc.d/90notify
+}
+
+PACKAGES += "${PN}-dhcp-notify"
+RPROVIDES_${PN} += "virtual/rescue-conf"
+
+CONFFILES_${PN} = "${sysconfdir}/elito-rescue.conf"
+FILES_${PN} = "/init ${sysconfdir}/elito-rescue.conf"
+FILES_${PN}-dhcp-notify = "${sysconfdir}/udhcpc.d/90notify"
+RDEPENDS_${PN}-dhcp-notify = "virtual/rescue-init-network-dhcp"

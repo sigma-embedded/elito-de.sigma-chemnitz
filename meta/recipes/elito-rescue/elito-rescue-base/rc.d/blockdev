@@ -1,0 +1,17 @@
+#! /bin/sh
+
+BLOCKDEVS=
+. /etc/elito-rescue.conf
+
+test -n "$BLOCKDEVS" || exit 0
+
+case "$1" in
+  start)
+	success=false
+
+  	for i in $BLOCKDEVS; do
+	    echo -n "Looking for bootstream on $i'... "
+	    /usr/bin/rescue-blockdevice "$i" && success=true
+	    $success && break
+	done
+esac

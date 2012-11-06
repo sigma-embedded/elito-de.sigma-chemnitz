@@ -1,0 +1,16 @@
+#! /bin/sh
+
+notify() {
+    cat > /dev/console
+}
+
+case "$1" in
+     renew|bound)
+	notify <<EOF
+
+****
+****  Got IP address $ip ($interface)
+****
+
+EOF
+esac
