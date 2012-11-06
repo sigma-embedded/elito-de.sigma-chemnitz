@@ -19,6 +19,7 @@ S            = "${WORKDIR}/git"
 
 EXTRA_OEMAKE_prepend = "-f '${TMPDIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1"
 
+KERNEL_CMDLINE_SOURCE ?= "bootloader"
 KERNEL_DEPENDS ?= ""
 MACHINE_HOSTNAME ?= "${MACHINE}"
 
@@ -54,6 +55,10 @@ def kernel_early_options(d):
     o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
             'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
+          [ True,
+            [ 'CMDLINE_FROM_BOOTLOADER', [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'bootloader'] ],
+            [ 'CMDLINE_EXTEND',          [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'extend'] ],
+            [ 'CMDLINE_FORCE',           [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'force'] ] ],
           [ True,
             [ 'BLK_DEV_INITRD',      [False, YES][is_feature('initrd')] ],
             [ 'DEFAULT_HOSTNAME',    "${MACHINE_HOSTNAME}" ],
