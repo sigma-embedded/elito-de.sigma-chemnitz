@@ -34,10 +34,29 @@ def test_skip(d, feature_pos, feature_neg = None, var_name = "MACHINE_FEATURES")
         raise bb.parse.ParseError('No feature given in package %s' % pn)
 
 def repo(remote, local, d):
-    r = "${ELITO_GIT_REPO}/" + remote
-    l = "git://${ELITO_WORKSPACE_DIR}/%s;protocol=file" % local
+    search_path = (d.getVar("ELITO_REPOSITORY_SEARCH_PATH", True) or
+                   d.getVar("ELITO_WORKSPACE_DIR", True) or
+                   "").split()
 
-    return "%-40s\t%s\n" % (r,l)
+    r = "${ELITO_GIT_REPO}/" + remote
+    path = None
+
+    for p in search_path:
+        for abs_path in ("%s/%s" % (p, local),
+                         "%s/%s.git" % (p, local)):
+            abs_path = os.path.normpath(abs_path)
+            if os.path.isdir(abs_path):
+                path = abs_path
+                break
+
+        if path != None:
+            break
+
+    if path == None:
+        return ""
+    else:
+        l = "git://%s;protocol=file" % os.path.normpath(path)
+        return "%-40s\t%s\n" % (r,l)
 
 def update_build_info(d, oe_info_fn):
     import bb.parse, time
