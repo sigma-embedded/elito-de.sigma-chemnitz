@@ -1,6 +1,7 @@
 abs_top_srcdir :=	$(abspath @abs_top_srcdir@)
 abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
+MACHINE =		@MACHINE@
 PROJECT_NAME =		@PROJECT_NAME@
 ELITO_OFFLINE :=	@ELITO_OFFLINE@
 CACHE_DIR :=		$(abspath @_CACHE_DIR@)
