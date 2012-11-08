@@ -18,8 +18,10 @@ CCACHE ?=		ccache
 ELITO_CCACHE_SIZE ?=	3G
 
 TARGETS =		elito-image
+TARGETS_rescue ?=	elito-rescue-kernel elito-image-stream-native
 BO ?=
 
+IMAGEDIR =		$(abspath ${W}/deploy/images)
 TARGET_IMAGES =
 
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
@@ -34,6 +36,7 @@ BITBAKE_ENV =		env $(addprefix -u ,\
 BITBAKE :=		$(BITBAKE_ENV) $(abs_top_builddir)/bitbake
 
 ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
+
 
 SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
@@ -210,6 +213,22 @@ sources-tar:
 			$(if $L,env L=${L}) ${abs_top_srcdir}/scripts/create-sources-tar $(CACHE_DIR)
 
 ###### top level targets }}} ########
+
+###### {{{ image-stream targets #######
+
+ifneq (${IMAGE_STREAM},)
+all-images:		TARGETS += ${TARGETS_rescue}
+all-images:		image
+
+image-stream:		${IMAGE_STREAM}
+
+${IMAGE_STREAM}:	${IMAGE_STREAM_deps} | $(W)/Makefile.develcomp
+			@rm -f $@ $@.tmp
+			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true $(MAKE) -f $(W)/Makefile.develcomp CFG=image-stream IMAGEDIR="${IMAGEDIR}" ${IMAGE_STREAM_args} image-stream O=$@.tmp _secwrap=
+			@mv $@.tmp $@
+endif
+
+###### }}} image-stream targets #######
 
 
 ############ {{{ Bitbake and general setup section ##########
