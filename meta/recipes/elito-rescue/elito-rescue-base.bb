@@ -3,12 +3,15 @@ LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 PV = "0.1.1"
-PR = "r0"
+PR = "r5"
 
 SRC_URI = "\
   file://elito-rescue.conf \
   file://init \
   file://dhcp-notify \
+  file://dhcp-ntpd \
+  file://set-time \
+  file://rc.d/scan-blockdev \
   file://rc.d/syslog \
   file://rc.d/network-dhcp \
   file://rc.d/httpd \
@@ -18,6 +21,7 @@ SRC_URI = "\
 
 python () {
     rc_d = [ (20, "syslog", ""),
+             (21, "scan-blockdev", ""),
              (25, "network-dhcp", ""),
              (80, "blockdev", ""),
              (80, "httpd", ""),
@@ -62,13 +66,17 @@ do_install() {
     	install -p -D -m 0755 "$i" ${D}${INIT_D_DIR}/rescue-"$i"
     done
 
+    install -p -D -m 0755 ${WORKDIR}/set-time    ${D}${bindir}/rescue-set-time
+    install -p -D -m 0755 ${WORKDIR}/dhcp-ntpd   ${D}${sysconfdir}/udhcpc.d/80ntpd
     install -p -D -m 0755 ${WORKDIR}/dhcp-notify ${D}${sysconfdir}/udhcpc.d/90notify
 }
 
-PACKAGES += "${PN}-dhcp-notify"
+PACKAGES += "${PN}-dhcp-notify ${PN}-dhcp-ntpd"
 RPROVIDES_${PN} += "virtual/rescue-conf"
 
 CONFFILES_${PN} = "${sysconfdir}/elito-rescue.conf"
 FILES_${PN} = "/init ${sysconfdir}/elito-rescue.conf"
 FILES_${PN}-dhcp-notify = "${sysconfdir}/udhcpc.d/90notify"
 RDEPENDS_${PN}-dhcp-notify = "virtual/rescue-init-network-dhcp"
+
+FILES_${PN}-dhcp-ntpd = "${sysconfdir}/udhcpc.d/80ntpd ${bindir}/rescue-set-time"
