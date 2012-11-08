@@ -15,7 +15,7 @@ UBOOT_MACHINE   ?= "${KERNEL_DEFCONFIG}"
 PV = "${UBOOT_VERSION}+gitr${SRCPV}"
 PKGV = "${UBOOT_VERSION}+gitr${GITPKGV}"
 
-SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/u-boot.git',d)};${UBOOT_REV}"
+SRC_URI = "${ELITO_GIT_REPO}/u-boot.git;protocol=git;${UBOOT_REV}"
 
 OVERRIDES .= "${@base_contains('MACHINE_FEATURES', 'imx-bootlets',':img-imx-bootlets','',d)}"
 
