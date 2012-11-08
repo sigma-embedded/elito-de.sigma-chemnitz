@@ -1,21 +1,31 @@
 SUMMARY = "Keith & Koep Trizeps6 boot helper"
 LICENSE = "GPLv3"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
-
+LIC_FILES_CHKSUM   = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 COMPATIBLE_MACHINE = "kk-trizeps6"
 
+_pv = "0.1.6"
+PR  = "r0"
+
+SRCREV    = "330bc8aa07e2e6e7318667a3815d696ef0181ce2"
+PV        = "${_pv}+gitr${SRCPV}"
+PKGV      = "${_pv}+gitr${GITPKGV}"
 PROVIDES += "virtual/ce-preloader"
 
-SRCREV = "1d2a8d9486c5b565daab54aee941ea9a4c756807"
-_pv = "0.1.4"
-PV = "${_pv}+gitr${SRCPV}"
-PKGV = "${_pv}+gitr${GITPKGV}"
-
-SRC_URI = "${ELITO_GIT_REPO}/pub/trizeps6-boot.git;protocol=git"
+SRC_URI   = "${ELITO_GIT_REPO}/pub/trizeps6-boot.git;protocol=git"
+S         = "${WORKDIR}/git"
 
 inherit gitpkgv deploy
 
-S = "${WORKDIR}/git"
+TRIZEPS6_PARTITION  ??= "sdhci-pxav2.1!2"
+TRIZEPS6_BOOTDEVICE ??= "mmc"
+
+do_configure() {
+    sed -i \
+        -e 's:@TRIZEPS6_PARTITION@:${TRIZEPS6_PARTITION}:' \
+        -e 's:@TRIZEPS6_BOOTDEVICE@:${TRIZEPS6_BOOTDEVICE}:' \
+        -e 's:@KERNEL_CONSOLE@:${KERNEL_CONSOLE}:' \
+        autoboot.bat
+}
 
 do_compile() {
     oe_runmake
