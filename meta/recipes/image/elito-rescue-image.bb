@@ -2,7 +2,7 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 PV = "0.1.0"
-PR = "r0"
+PR = "r1"
 
 OVERRIDES .= "${@base_contains('MACHINE_FEATURES', 'imx-bootlets', \
                                ':img-imx-bootlets','',d)}"
@@ -68,7 +68,11 @@ l3:3:wait:/etc/init.d/rc 3
 S:2345:respawn:/sbin/getty ${SERIAL_CONSOLE}
 EOF
 
+    ln -s ../proc/mounts etc/mtab
+
     install -d -m 0755 dev proc sys mnt media run tmp var/log var/lock root
+
+    mknod -m 0600 dev/console c 5 1
 
     cd -
 }
