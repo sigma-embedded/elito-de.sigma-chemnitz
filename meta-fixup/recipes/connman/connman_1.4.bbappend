@@ -6,9 +6,9 @@ do_install_append() {
 
 #### remove me when upstream is at 1.6 ####
 
-PV = "1.6"
+PV = "1.9"
 
-SRCREV = "7e151a7520740b586fe4f2adad1aa21864ef5321"
+SRCREV = "4bf217329babf4f7792b43d70228af8269c3332c"
 
 IGNORE_PATCHES = " \
             file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
