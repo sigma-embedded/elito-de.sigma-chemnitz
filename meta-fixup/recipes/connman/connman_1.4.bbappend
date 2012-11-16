@@ -8,7 +8,10 @@ do_install_append() {
 
 PV = "1.9"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
 SRCREV = "4bf217329babf4f7792b43d70228af8269c3332c"
+SRC_URI += "file://0001-added-noipconfig-option.patch"
 
 IGNORE_PATCHES = " \
             file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
