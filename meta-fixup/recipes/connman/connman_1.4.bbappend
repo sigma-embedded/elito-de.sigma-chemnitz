@@ -17,6 +17,9 @@ IGNORE_PATCHES = " \
             file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
             file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
 
+EXTRA_OECONF += "--enable-client"
+DEPENDS += "readline"
+
 def filter_patches(d):
     src_uri = d.getVar('SRC_URI', True).split()
     ignore  = set(d.getVar('IGNORE_PATCHES', True).split())
@@ -25,3 +28,10 @@ def filter_patches(d):
     return ' '.join(res)
 
 SRC_URI := "${@filter_patches(d)}"
+
+do_install_append() {
+    install -D -p -m 0755 client/connmanctl ${D}${bindir}/connmanctl
+}
+
+PACKAGES =+ "${PN}-client"
+FILES_${PN}-client += "${bindir}/connmanctl"
