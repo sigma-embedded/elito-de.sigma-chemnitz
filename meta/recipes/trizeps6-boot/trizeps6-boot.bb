@@ -3,10 +3,10 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM   = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 COMPATIBLE_MACHINE = "kk-trizeps6"
 
-_pv = "0.1.6"
+_pv = "0.1.7"
 PR  = "r0"
 
-SRCREV    = "330bc8aa07e2e6e7318667a3815d696ef0181ce2"
+SRCREV    = "933a98b43a77ab7201da10182881e84c94c45d39"
 PV        = "${_pv}+gitr${SRCPV}"
 PKGV      = "${_pv}+gitr${GITPKGV}"
 PROVIDES += "virtual/ce-preloader"
