@@ -1,4 +1,4 @@
-From cb10245e4c69e4f818c9fa75598b681165e38673 Mon Sep 17 00:00:00 2001
+From 209065dbaa374ce885caac89e98e04ce1287074c Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:48 +0200
 Subject: [PATCH 10/17] install ply + progressbar modules
@@ -25,5 +25,5 @@ index 7f44bbf..554ee8b 100755
        data_files = [("share/bitbake", glob("conf/*") + glob("classes/*")),
                    ("share/doc/bitbake-%s/manual" % __version__, glob("doc/manual/html/*"))],
 -- 
-1.7.11.4
+1.7.11.7
 

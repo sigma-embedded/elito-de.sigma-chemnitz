@@ -1,4 +1,4 @@
-From a349f50832381587835be817a26d4be21e9688de Mon Sep 17 00:00:00 2001
+From 9efaf6386b3491279443477e24d944b16bfbd775 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 8 Oct 2011 12:57:24 +0200
 Subject: [PATCH 11/17] added backward compatibility for 'git remote add'
@@ -8,7 +8,7 @@ Subject: [PATCH 11/17] added backward compatibility for 'git remote add'
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 2475038..246659e 100644
+index de49ab0..305996d 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
 @@ -119,6 +119,7 @@ class Git(FetchMethod):
@@ -29,5 +29,5 @@ index 2475038..246659e 100644
              if ud.proto.lower() != 'file':
                  bb.fetch2.check_network_access(d, fetch_cmd, base_cmd = ud.basecmd, url = ud.url)
 -- 
-1.7.11.4
+1.7.11.7
 

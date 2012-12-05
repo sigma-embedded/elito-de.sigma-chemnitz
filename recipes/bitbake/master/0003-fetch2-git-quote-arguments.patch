@@ -1,4 +1,4 @@
-From b91cf182f9157bff5f27bb111209721d7785c298 Mon Sep 17 00:00:00 2001
+From 64281a2721728357f9b7ad7940693aa13499a56c Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 13 Apr 2012 14:05:11 +0200
 Subject: [PATCH 03/17] fetch2/git: quote arguments
@@ -13,7 +13,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 file changed, 29 insertions(+), 24 deletions(-)
 
 diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index 0fd0b2f..2475038 100644
+index 0fd0b2f..de49ab0 100644
 --- a/lib/bb/fetch2/git.py
 +++ b/lib/bb/fetch2/git.py
 @@ -65,8 +65,9 @@ import os
@@ -165,5 +165,5 @@ index 0fd0b2f..2475038 100644
          except FetchError:
              return False
 -- 
-1.7.11.4
+1.7.11.7
 

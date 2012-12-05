@@ -1,4 +1,4 @@
-From f8c6ca84e328210445a0ebe9b9b800c8ff4354a9 Mon Sep 17 00:00:00 2001
+From 6dfcf60d0c77789bc2eedec2f3a47a4d85e72296 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 6 Apr 2012 16:53:30 +0200
 Subject: [PATCH 01/17] fetcher: quote filenames given in commands
@@ -24,7 +24,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 file changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index ea52874..52462a1 100644
+index 81964f1..8ad22dc 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -30,6 +30,7 @@ from __future__ import print_function
@@ -87,18 +87,18 @@ index ea52874..52462a1 100644
              elif file.endswith('.deb') or file.endswith('.ipk'):
                  cmd = 'ar -p %s data.tar.gz | zcat | tar --no-same-owner -xpf -' % file
  
-@@ -972,8 +974,8 @@ class FetchMethod(object):
-                             destdir = "."
-                         elif not os.access("%s/%s" % (rootdir, destdir), os.F_OK):
-                             os.makedirs("%s/%s" % (rootdir, destdir))
+@@ -975,8 +977,8 @@ class FetchMethod(object):
+                         destdir = destdir.strip('/')
+                     if destdir != "." and not os.access("%s/%s" % (rootdir, destdir), os.F_OK):
+                         os.makedirs("%s/%s" % (rootdir, destdir))
 -                    cmd = 'cp -pPR %s %s/%s/' % (file, rootdir, destdir)
 -                    #cmd = 'tar -cf - -C "%d" -ps . | tar -xf - -C "%s/%s/"' % (file, rootdir, destdir)
 +                    cmd = ['cp', '-pPR', file, '%s/%s/' % (rootdir, destdir)]
-+                    #cmd = 'tar -cf - -C "%d" -ps . | tar -xf - -C "%s/%s/"' % (pipes.quote(file), pipes.quote(rootdir), pipes.quote(destdir))
++                    #cmd = 'tar -cf - -C %d -ps . | tar -xf - -C %s/%s/' % (pipes.quote(file), pipes.quote(rootdir), pipes.quote(destdir))
                  else:
                      # The "destdir" handling was specifically done for FILESPATH
                      # items.  So, only do so for file:// entries.
-@@ -982,7 +984,7 @@ class FetchMethod(object):
+@@ -985,7 +987,7 @@ class FetchMethod(object):
                      else:
                         destdir = "."
                      bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))
@@ -107,7 +107,7 @@ index ea52874..52462a1 100644
  
          if not cmd:
              return
-@@ -996,10 +998,12 @@ class FetchMethod(object):
+@@ -999,10 +1001,12 @@ class FetchMethod(object):
              os.chdir(newdir)
  
          path = data.getVar('PATH', True)
@@ -123,5 +123,5 @@ index ea52874..52462a1 100644
          os.chdir(save_cwd)
  
 -- 
-1.7.11.4
+1.7.11.7
 

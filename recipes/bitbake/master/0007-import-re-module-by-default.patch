@@ -1,4 +1,4 @@
-From 144cb238a74c07e48e1e0a87f24e04d62daff22a Mon Sep 17 00:00:00 2001
+From 1af3f1631915794de927aa1c92829b29376c3405 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:44 +0200
 Subject: [PATCH 07/17] import 're' module by default
@@ -20,5 +20,5 @@ index cef0fdd..42acab6 100644
  
  def explode_version(s):
 -- 
-1.7.11.4
+1.7.11.7
 

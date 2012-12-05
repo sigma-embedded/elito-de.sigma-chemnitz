@@ -1,19 +1,19 @@
-From ea488ecc0bcc9c17057fb181219e5ef74cca0477 Mon Sep 17 00:00:00 2001
+From 1ba053776c801b0b52085e849563e0990978bb91 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Mon, 2 Apr 2012 15:43:06 +0200
 Subject: [PATCH 12/17] data: give out configuration hash data
 
 this helps to debug problems
 ---
- lib/bb/data_smart.py | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ lib/bb/data_smart.py | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index b445834..e5f466c 100644
+index 739864d..013d8b2 100644
 --- a/lib/bb/data_smart.py
 +++ b/lib/bb/data_smart.py
-@@ -484,5 +484,15 @@ class DataSmart(MutableMapping):
-             value = self.getVar(key, False) or ""
+@@ -488,5 +488,16 @@ class DataSmart(MutableMapping):
+             value = d.getVar(key, False) or ""
              data.update({key:value})
  
 -        data_str = str([(k, data[k]) for k in sorted(data.keys())])
@@ -27,9 +27,10 @@ index b445834..e5f466c 100644
 +            if os.access(fname + ".curr", os.F_OK):
 +                utils.movefile(fname + ".curr", fname + ".prev")
 +
-+            open(fname + ".curr","w").write('\n'.join(map(lambda x: '%s="%s"' % x, data_str)))
++            open(fname + ".curr","w").write(
++                '\n'.join(map(lambda x: '%s="%s"' % x, data_str)))
 +
 +        return hashlib.md5(str(data_str)).hexdigest()
 -- 
-1.7.11.4
+1.7.11.7
 

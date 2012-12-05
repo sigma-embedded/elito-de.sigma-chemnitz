@@ -1,14 +1,14 @@
-From c2005a5818f43d6153ddfc0e21ec6cf1dafbfbd3 Mon Sep 17 00:00:00 2001
+From 6a39f123e51037792eb4e28f039ec3899811cc78 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Mon, 21 May 2012 17:15:44 +0200
-Subject: [PATCH 15/17] siggen: dump sigdata content
+Subject: [PATCH 14/17] siggen: dump sigdata content
 
 ---
  lib/bb/siggen.py | 17 +++++++++++++++++
  1 file changed, 17 insertions(+)
 
 diff --git a/lib/bb/siggen.py b/lib/bb/siggen.py
-index ff70d4f..d046321 100644
+index ba14940..d0bd124 100644
 --- a/lib/bb/siggen.py
 +++ b/lib/bb/siggen.py
 @@ -66,6 +66,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
@@ -71,5 +71,5 @@ index ff70d4f..d046321 100644
          for fn in self.taskdeps:
              for task in self.taskdeps[fn]:
 -- 
-1.7.11.4
+1.7.11.7
 

@@ -1,4 +1,4 @@
-From d00440f4bcedaf41a9444d75b987efbcdbfd0ddc Mon Sep 17 00:00:00 2001
+From 4b86b05ae69f0f34dd5bc92fc5ec49de555ba143 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Fri, 13 Apr 2012 13:06:00 +0200
 Subject: [PATCH 02/17] runfetchcmd(): allow to use a sequence as cmd
@@ -28,7 +28,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
  1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 52462a1..66912e8 100644
+index 8ad22dc..db16ed4 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -456,10 +456,11 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
@@ -87,5 +87,5 @@ index 52462a1..66912e8 100644
  def build_mirroruris(origud, mirrors, ld):
      uris = []
 -- 
-1.7.11.4
+1.7.11.7
 

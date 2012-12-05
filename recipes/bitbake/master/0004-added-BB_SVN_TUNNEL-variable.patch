@@ -1,4 +1,4 @@
-From afbc07d8fb1a3b3c811b4ccd04aae3c1c5315a25 Mon Sep 17 00:00:00 2001
+From 784931ca64245f9b419e867a13be055b5ab46299 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:40 +0200
 Subject: [PATCH 04/17] added BB_SVN_TUNNEL variable
@@ -33,5 +33,5 @@ index ea5902e..d9dd5a8 100644
          if proto == "svn+ssh" and "rsh" in ud.parm:
              svn_rsh = ud.parm["rsh"]
 -- 
-1.7.11.4
+1.7.11.7
 

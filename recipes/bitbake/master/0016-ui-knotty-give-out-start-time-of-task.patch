@@ -1,7 +1,7 @@
-From 9042a1a60f27f13ccb962848fc4c23d02364ad64 Mon Sep 17 00:00:00 2001
+From 0060f327e0a46790d130973941a89ded9c28ea9f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Wed, 22 Aug 2012 18:30:01 +0200
-Subject: [PATCH 17/17] ui/knotty: give out start time of task
+Subject: [PATCH 16/17] ui/knotty: give out start time of task
 
 For long running tasks like compiling qt it might be interesting to know
 when the task has been started.  Patch prints this information by using
@@ -14,10 +14,10 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/lib/bb/ui/knotty.py b/lib/bb/ui/knotty.py
-index 3799018..4adc8ea 100644
+index be63e73..c07810b 100644
 --- a/lib/bb/ui/knotty.py
 +++ b/lib/bb/ui/knotty.py
-@@ -191,7 +191,8 @@ class TerminalFilter(object):
+@@ -193,7 +193,8 @@ class TerminalFilter(object):
              return
          tasks = []
          for t in runningpids:
@@ -28,7 +28,7 @@ index 3799018..4adc8ea 100644
          if self.main.shutdown:
              content = "Waiting for %s running tasks to finish:" % len(activetasks)
 diff --git a/lib/bb/ui/uihelper.py b/lib/bb/ui/uihelper.py
-index e408b04..ae97c78 100644
+index a703387..7027351 100644
 --- a/lib/bb/ui/uihelper.py
 +++ b/lib/bb/ui/uihelper.py
 @@ -18,6 +18,7 @@
@@ -50,5 +50,5 @@ index e408b04..ae97c78 100644
              self.needUpdate = True
          if isinstance(event, bb.build.TaskSucceeded):
 -- 
-1.7.11.4
+1.7.11.7
 

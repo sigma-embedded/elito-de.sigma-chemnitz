@@ -1,4 +1,4 @@
-From a5bc606791d3c7b598fe684a3bb38b4fdb9b9af0 Mon Sep 17 00:00:00 2001
+From 13e3f4a5fc5bc4a26c089637df17abf13af25144 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:43 +0200
 Subject: [PATCH 06/17] do not bail out on SkipPackage exceptions
@@ -10,7 +10,7 @@ set __SKIPPED instead of
  2 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/data_smart.py b/lib/bb/data_smart.py
-index ec3c04e..b445834 100644
+index fb8d9d5..739864d 100644
 --- a/lib/bb/data_smart.py
 +++ b/lib/bb/data_smart.py
 @@ -141,6 +141,8 @@ class DataSmart(MutableMapping):
@@ -42,5 +42,5 @@ index 2e0647b..f2d3034 100644
      if ext == ".bbclass":
          classes.remove(__classname__)
 -- 
-1.7.11.4
+1.7.11.7
 

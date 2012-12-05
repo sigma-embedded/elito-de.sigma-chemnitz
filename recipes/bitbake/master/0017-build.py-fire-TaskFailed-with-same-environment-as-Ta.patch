@@ -1,7 +1,7 @@
-From 073285ee5c970074be6b31769e7ade9f3f1c3d71 Mon Sep 17 00:00:00 2001
+From 9fc809a812ac4bd58f7719e4138a49a05f20ff81 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Fri, 2 Nov 2012 18:09:04 +0100
-Subject: [PATCH 18/18] build.py: fire TaskFailed with same environment as
+Subject: [PATCH 17/17] build.py: fire TaskFailed with same environment as
  TaskStarted
 
 The task-failed event handler can require task specific data or data
@@ -16,10 +16,10 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/lib/bb/build.py b/lib/bb/build.py
-index 85af42c..d906ff4 100644
+index 43790a6..6783e9d 100644
 --- a/lib/bb/build.py
 +++ b/lib/bb/build.py
-@@ -291,20 +291,14 @@ def _task_data(fn, task, d):
+@@ -292,20 +292,14 @@ def _task_data(fn, task, d):
      data.expandKeys(localdata)
      return localdata
  
@@ -41,7 +41,7 @@ index 85af42c..d906ff4 100644
      tempdir = localdata.getVar('T', True)
      if not tempdir:
          bb.fatal("T variable not set, unable to build")
-@@ -423,19 +417,26 @@ def _exec_task(fn, task, d, quieterr):
+@@ -424,19 +418,26 @@ def _exec_task(fn, task, d, quieterr):
      return 0
  
  def exec_task(fn, task, d):
