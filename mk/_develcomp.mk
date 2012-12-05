@@ -2,6 +2,10 @@ export DESTDIR  = ${IMAGE_ROOTFS}
 export _CROSS	= ${TARGET_PREFIX}
 export _ARCH	= ${TARGET_ARCH}
 
+export HISTFILE		= ${_tmpdir}/.lesshst
+export LESSHISTFILE	= ${_tmpdir}/.bash_history
+export GDBHISTFILE	= ${_tmpdir}/.gdb_history
+
 SH		?= /bin/bash
 
 _secwrap         = ${SECWRAP_CMD}
