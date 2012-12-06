@@ -48,14 +48,17 @@ find_proxy() {
 
 socat_listen=-
 socat_proxyauth=
+_auth=
 
 while true; do
     case $1 in
       #--listen)	socat_listen=TCP-LISTEN:$2,reuseaddr,fork; shift 2;;
       --proxyauth)
-	    echo -n "Proxy authentication (<username>:<password>): "
-	    read socat_proxyauth
-	    ! tty -s || clear
+	    _auth=$2
+	    shift 2
+	    ;;
+      --proxyauth=*)
+	    _auth=${1##--proxyauth=}
 	    shift
 	    ;;
       --)	shift; break;;
@@ -63,6 +66,21 @@ while true; do
       *)	break;;
     esac
 done
+
+case $_auth in
+  ENV:*)
+	eval socat_proxyauth=\${${_auth##ENV:}}
+	;;
+  FILE:*)
+	eval read socat_proxyauth \< ${_auth##FILE:}
+	;;
+  STRING:*)
+	socat_proxyauth=${_auth##STRING:}
+	;;
+  *)
+	socat_proxyauth=$_auth
+	;;
+esac
 
 find_proxy socat_proxy "$@"
 
