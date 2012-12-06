@@ -2,7 +2,7 @@ do_rm_old_work() {
   b=`dirname "${WORKDIR}"`
   pn='${PN}'
 
-  for d in "$b/$pn"/*; do
+  for d in "$b"/*; do
       test -d "$d" || continue
       test x"$d" != x"${WORKDIR}" || continue
 
