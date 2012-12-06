@@ -1,5 +1,5 @@
 # --*- python -*--
-PRINC := "${@int('${PRINC}') + 4}"
+PRINC := "${@int('${PRINC}') + 5}"
 
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
@@ -98,10 +98,10 @@ python() {
     bb.data.setVar('RRECOMMENDS_systemd', r, d)
 }
 
-pkg_postinst_append_systemd () {
-update-alternatives --install ${base_sbindir}/init.wrapped init.wrapped ${systemd_unitdir}/systemd 300
-}
+inherit update-alternatives
 
-pkg_prerm_append_systemd () {
-update-alternatives --remove init.wrapped ${systemd_unitdir}/systemd
-}
+ALTERNATIVE_${PN} += "init.wrapped"
+
+ALTERNATIVE_LINK_NAME[init.wrapped] = "${base_sbindir}/init.wrapped"
+ALTERNATIVE_TARGET[init.wrapped]    = "${systemd_unitdir}/systemd"
+ALTERNATIVE_PRIORITY[init.wrapped]  = "300"
