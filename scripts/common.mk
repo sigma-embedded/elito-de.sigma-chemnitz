@@ -11,9 +11,6 @@ _DOMAIN =		$(shell hostname -d)
 VPATH ?=		$(abs_top_srcdir)
 NOW :=			$(shell date +%Y%m%dT%H%M%S)
 
-ELITO_SPACE_MIN =	15
-ELITO_SPACE_FULL =	30
-
 CCACHE ?=		ccache
 ELITO_CCACHE_SIZE ?=	3G
 
@@ -247,8 +244,6 @@ _bitbake-bundle =		$(CACHE_DIR)/bitbake-${_bitbake_rev_s}.bundle
 _bitbake_setuptools_cached =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
 _bitbake_setuptools =		$(_tmpdir)/$(notdir ${BITBAKE_SETUPTOOLS})
 
-_space_check =			${ELITO_STATVFS} '${abs_top_builddir}/${W}'
-
 .SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools_cached)
 
 config:			bitbake-validate
@@ -286,9 +281,6 @@ $W/cache/ccache:
 
 $(_wstampdir)/.prep.stamp:	| bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp $W/cache/ccache
 			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
-			if ! ${_space_check} ${ELITO_SPACE_FULL}; then \
-				$(MAKE) _image BO= TARGETS=elito-prep; \
-			fi
 			@touch $@
 
 ifeq ($(ELITO_OFFLINE),)
