@@ -21,6 +21,8 @@ FILES_${PN}-headers = "${pkglibdir}/include"
 FILES_${PN}-dev = "${pkgarchdir}/*"
 FILES_${PN}-dbg += "${pkgarchdir}/.debug"
 
+INSANE_SKIP_${PN}-dev += "staticdev"
+
 export DIETLIBC_BUILD_ARCH="${@re.sub('i[0-9]86','i386','${BUILD_ARCH}')}"
 export DIETLIBC_TARGET_ARCH="${@re.sub('i[0-9]86','i386','${TARGET_ARCH}')}"
 
