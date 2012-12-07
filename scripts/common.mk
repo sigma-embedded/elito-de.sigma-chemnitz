@@ -517,7 +517,7 @@ clean-sources:
 
 mrproper:		clean clean-metrics
 			rm -rf $W $(_tmpdir)
-			rm -f config/sanity_info
+			rm -f conf/sanity_info
 ############ 'clean' rules }}} ##########
 
 
