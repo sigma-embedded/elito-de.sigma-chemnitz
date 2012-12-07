@@ -13,6 +13,7 @@ NOW :=			$(shell date +%Y%m%dT%H%M%S)
 
 CCACHE ?=		ccache
 ELITO_CCACHE_SIZE ?=	3G
+ELITO_LOGDIR ?=		.log
 
 TARGETS =		elito-image
 TARGETS_rescue ?=	elito-rescue-kernel elito-image-stream-native
@@ -272,7 +273,7 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			exit 1; \
 			} >&2
 
-$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W $W/recipes:
+$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR):
 			mkdir -p $@
 
 $W/cache/ccache:
@@ -493,10 +494,10 @@ clean:
 			rm -f config.log Packages.filelist bitbake.lock
 
 ifneq ($(wildcard metrics),)
-clean-metrics:		metrics-$(NOW).gz
+clean-metrics:		$(ELITO_LOGDIR)/metrics-$(NOW).gz
 endif
 
-metrics-%.gz:		metrics
+$(ELITO_LOGDIR)/metrics-%.gz:		metrics | $(ELITO_LOGDIR)
 			rm -f $@.tmp
 			$(GZIP) -c $< > $@.tmp
 			mv $@.tmp $@
