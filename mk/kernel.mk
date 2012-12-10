@@ -4,6 +4,10 @@ export ARCH = $(TARGET_ARCH)
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 export CROSS_COMPILE
 
+# there are various problems when using the gold linker; fallback to
+# .bfd for now
+KERNEL_LDSUFFIX = .bfd
+
 TFTP_IMAGE ?= $(KERNEL_TFTP_IMAGE)
 
 _bad_env += CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE _secwrap
