@@ -1,0 +1,36 @@
+From ba22cdd23eb48ae88dd5951213a897bc78a7d072 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Date: Mon, 24 Dec 2012 14:08:48 +0100
+Subject: [PATCH] hack: throttle timer-changed messages
+
+---
+ src/core/timer.c | 7 ++++++-
+ 1 Datei geändert, 6 Zeilen hinzugefügt(+), 1 Zeile entfernt(-)
+
+diff --git a/src/core/timer.c b/src/core/timer.c
+index bd27970..d60629f 100644
+--- a/src/core/timer.c
++++ b/src/core/timer.c
+@@ -529,13 +529,18 @@ static void timer_reset_failed(Unit *u) {
+ 
+ static void timer_time_change(Unit *u) {
+         Timer *t = TIMER(u);
++        static Unit *last_u = NULL;
+ 
+         assert(u);
+ 
+         if (t->state != TIMER_WAITING)
+                 return;
+ 
+-        log_info("%s: time change, recalculating next elapse.", u->id);
++        if (last_u != u) {
++                log_info("%s: time change, recalculating next elapse.", u->id);
++                last_u = u;
++        }
++
+         timer_enter_waiting(t, false);
+ }
+ 
+-- 
+1.7.11.7
+

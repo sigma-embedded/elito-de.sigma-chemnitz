@@ -12,6 +12,7 @@ SRC_URI += "\
   file://embedded.patch \
   file://readahead.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
+  file://0001-hack-throttle-timer-changed-messages.patch \
 "
 
 EXTRA_OECONF += "\
