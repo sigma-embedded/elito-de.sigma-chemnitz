@@ -1,5 +1,5 @@
 # --*- python -*--
-PRINC := "${@int('${PRINC}') + 5}"
+PRINC := "${@int('${PRINC}') + 6}"
 
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
@@ -20,8 +20,6 @@ EXTRA_OECONF += "\
   --with-sysvinit-path= \
   --with-sysvrcd-path= \
 "
-
-ROOT_HOME = "/root"
 
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
