@@ -2,7 +2,7 @@ DESCRIPTION = "ELiTo makefile"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-PR = "r6"
+PR = "r7"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -89,6 +89,8 @@ _export_vars = " \
 	TARGET_SYS	\
 \
 	STAGING_ETCDIR_NATIVE	\
+	STAGING_DIR	\
+	STAGING_LIBDIR	\
 	STAGING_DIR_HOST \
 	STAGING_DIR_NATIVE \
 	STAGING_DIR_TARGET \
@@ -103,7 +105,6 @@ _export_vars = " \
 	PACKAGE_ARCHS	\
 	DEPLOY_DIR_IPK	\
 	DEPLOY_DIR_IMAGE \
-	STAGING_DIR	\
 "
 
 python __anonymous () {
