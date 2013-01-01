@@ -1,5 +1,5 @@
 # --*- python -*--
-PRINC := "${@int('${PRINC}') + 7}"
+PRINC := "${@int('${PRINC}') + 6}"
 
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
@@ -13,7 +13,6 @@ SRC_URI += "\
   file://readahead.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
   file://0001-hack-throttle-timer-changed-messages.patch \
-  file://0001-lock-fsck-internally-and-added-some-debugging.patch \
 "
 
 EXTRA_OECONF += "\
