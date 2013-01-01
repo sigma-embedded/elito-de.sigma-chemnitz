@@ -1,6 +1,7 @@
 [Unit]
 Description=SSH Key Generation
-ConditionPathExists=|!/etc/dropbear/dropbear_rsa_host_key
+ConditionFileNotEmpty=|!/etc/dropbear/dropbear_rsa_host_key
+After=etc-dropbear-dropbear-rsa_host_key.mount etc-dropbear.mount etc.mount
 
 [Service]
 Type = oneshot
