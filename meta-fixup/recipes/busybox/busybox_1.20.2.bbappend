@@ -26,7 +26,8 @@ OE_DEL += "${@elito_bitbake_generate_del(d)}"
 OE_FEATURES += "${@elito_bitbake_generate_append(d)}"
 
 do_install_append() {
-    rm -f ${D}${base_libdir}/systemd/system/syslog.service
+    rm -f ${D}${systemd_unitdir}/system/syslog.service
+    rm -f ${D}${systemd_unitdir}/system/busybox-klogd.service
     ln -s busybox-syslog.service ${D}${base_libdir}/systemd/system/syslog.service
 }
 
