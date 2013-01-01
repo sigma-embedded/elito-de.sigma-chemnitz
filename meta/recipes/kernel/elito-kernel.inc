@@ -53,6 +53,9 @@ def kernel_early_options(d):
     OFF = elito.kernel_feature.OFF
 
     is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
+    have_initrd = (is_feature('initrd') or
+                   ('cpio' in set(map(lambda x: x.split('.')[0],
+                                      d.getVar('IMAGE_FSTYPES', True).split()))))
 
     o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
@@ -62,7 +65,7 @@ def kernel_early_options(d):
             [ 'CMDLINE_EXTEND',          [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'extend'] ],
             [ 'CMDLINE_FORCE',           [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'force'] ] ],
           [ True,
-            [ 'BLK_DEV_INITRD',      [False, YES][is_feature('initrd')] ],
+            [ 'BLK_DEV_INITRD',      [False, YES][have_initrd] ],
             [ 'DEFAULT_HOSTNAME',    "${MACHINE_HOSTNAME}" ],
             [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
             [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
