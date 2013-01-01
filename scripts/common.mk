@@ -183,8 +183,9 @@ fetch-all fetchall:	FORCE bitbake-validate init
 			@$(call _call_cmd,$(_fetchenv) $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources) || \
 			$(call  _call_cmd,$(_fetchenv) $(BITBAKE) $(TARGETS) -c fetchall -k,fetching sources)
 
-help:			FORCE $(abs_top_srcdir)/scripts/make.help
+help:			$(abs_top_srcdir)/scripts/make.help
 			@cat $<
+.PHONY:			help
 
 inc-build-num:		FORCE | $W
 			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
