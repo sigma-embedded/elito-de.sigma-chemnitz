@@ -46,8 +46,18 @@ elito_add_devel_sshkey() {
 	done
 }
 
+elito_set_rootbash() {
+	f=${IMAGE_ROOTFS}/etc/passwd
+	if test -x "${IMAGE_ROOTFS}/bin/bash" -a -w "$f"; then
+		sed -i -e 's!^\(root:.*:\)/bin/sh$!\1/bin/bash!' "$f"
+	fi
+}
+
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-history", \
 		                 "elito_add_devel_history", "", d)}"
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-sshkey", \
 		                 "elito_add_devel_sshkey", "", d)}"
+
+ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "no-root-bash", \
+			         "", "elito_set_rootbash", d)}"
