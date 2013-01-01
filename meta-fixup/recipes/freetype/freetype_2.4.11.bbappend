@@ -1,4 +1,4 @@
-ur-FILESEXTRAPATHS_prepend := "${THISDIR}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 SRC_URI += " \
   ${@base_conditional('ENTERPRISE_DISTRO','1','','file://bytecode-interpreter.patch',d)} \
