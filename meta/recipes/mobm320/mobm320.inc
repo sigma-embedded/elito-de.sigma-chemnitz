@@ -1,5 +1,4 @@
 require mobm320-common.inc
-_elito_skip := "${@elito_skip(d, 'mobm320')}"
 
 PROVIDES          = "virtual/bootloader-ibl"
 DEPENDS           = "linux-libc-headers mtd-utils mobm320-native virtual/kernel"

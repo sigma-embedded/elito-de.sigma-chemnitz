@@ -1,3 +1,5 @@
+_elito_skip := "${@elito_skip(d, 'mobm320')}"
+
 require mobm320-common.inc
 inherit native
 
