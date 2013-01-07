@@ -1,7 +1,7 @@
-From 0060f327e0a46790d130973941a89ded9c28ea9f Mon Sep 17 00:00:00 2001
+From 640b81043b7b7a10c0df0fbe4edeb9f9b080fa81 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Wed, 22 Aug 2012 18:30:01 +0200
-Subject: [PATCH 16/17] ui/knotty: give out start time of task
+Subject: [PATCH 15/17] ui/knotty: give out start time of task
 
 For long running tasks like compiling qt it might be interesting to know
 when the task has been started.  Patch prints this information by using
@@ -14,7 +14,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/lib/bb/ui/knotty.py b/lib/bb/ui/knotty.py
-index be63e73..c07810b 100644
+index a2983ca..5b764b7 100644
 --- a/lib/bb/ui/knotty.py
 +++ b/lib/bb/ui/knotty.py
 @@ -193,7 +193,8 @@ class TerminalFilter(object):

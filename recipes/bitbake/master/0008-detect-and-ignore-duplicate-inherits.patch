@@ -1,14 +1,14 @@
-From 80aaa8ea0700bd3bc1c8f74d353509851887fc9e Mon Sep 17 00:00:00 2001
+From 460677d83b5d0451d90b4088e349d7f3595b50f6 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
-Subject: [PATCH 09/17] detect and ignore duplicate inherits
+Subject: [PATCH 08/17] detect and ignore duplicate inherits
 
 ---
  lib/bb/cooker.py | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 6b58f91..d920f0d 100644
+index 1d38164..f1bcbd5 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
 @@ -874,7 +874,13 @@ class BBCooker:

@@ -1,7 +1,7 @@
-From 592b6c832838964239d9171e66391bc4600d88ca Mon Sep 17 00:00:00 2001
+From d1e686484dd77751b0cc5cc13e8cca3aedf57e6a Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Mon, 21 May 2012 17:15:44 +0200
-Subject: [PATCH 14/17] siggen: dump sigdata content
+Subject: [PATCH 13/17] siggen: dump sigdata content
 
 ---
  lib/bb/siggen.py | 18 ++++++++++++++++++

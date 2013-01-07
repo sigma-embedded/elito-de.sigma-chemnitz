@@ -1,7 +1,7 @@
-From a0e629044cd605cf43da53f611c419b9abd81d0e Mon Sep 17 00:00:00 2001
+From 7e64bf02a94641004e1284a15afec85d2f6ed15b Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
-Subject: [PATCH 08/17] do not execute the 'make doc' target
+Subject: [PATCH 07/17] do not execute the 'make doc' target
 
 ---
  setup.py | 2 +-
