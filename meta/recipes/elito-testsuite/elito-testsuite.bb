@@ -2,9 +2,13 @@ DESCRIPTION = "ELiTo testsuite"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
+
 SRCREV = "3a702f9ca3b8b74669757cb87a9b354523524241"
-PV = "0.0.1+gitr${SRCPV}"
+_pv = "0.0.1"
 PR = "r0"
+
+PV = "${_pv}+gitr${SRCPV}"
+PKGV = "${_pv}+gitr${GITPKGV}"
 
 inherit gitpkgv
 
