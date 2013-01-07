@@ -14,7 +14,7 @@ EXTRA_OEMAKE = "\
 "
 
 PACKAGES += "${PN}-headers"
-RDEPENDS_${PN}-dev += "${PN}-headers (= ${EXTENDPV})"
+RDEPENDS_${PN}-dev += "${PN}-headers (= ${EXTENDPKGV})"
 
 FILES_${PN} = "${bindir}/*"
 FILES_${PN}-headers = "${pkglibdir}/include"
