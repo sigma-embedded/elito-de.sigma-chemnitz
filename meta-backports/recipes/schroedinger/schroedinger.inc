@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "\
 
 INC_PR = "r0"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/schroedinger:"
+
 SRC_URI = "http://www.diracvideo.org/download/schroedinger/${P}.tar.gz;name=schroedingertargz"
 SRC_URI += "file://configure.ac.patch"
 
