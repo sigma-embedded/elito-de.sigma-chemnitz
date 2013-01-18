@@ -27,12 +27,14 @@ do_configure() {
 
 bootletspath = "${STAGING_DIR_TARGET}${libdir}/imx-bootlets"
 
+ELFTOSB_FLAGS = "\
+  -z -f '${FREESCALE_SBARCH}' \
+  -p '${bootletspath}' \
+  -c '${bootletspath}/uboot_ivt.bd' \
+"
+
 do_builddeploy_img-imx-bootlets() {
-	freescale-elftosb -z -f "${FREESCALE_SBARCH}" \
-		-p "${bootletspath}" \
-                -c "${bootletspath}/uboot_ivt.bd" \
-		-o barebox.sb \
-		barebox
+	freescale-elftosb ${ELFTOSB_FLAGS} -o barebox.sb barebox
 }
 
 do_install() {
