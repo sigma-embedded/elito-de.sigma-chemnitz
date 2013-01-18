@@ -282,7 +282,7 @@ $W/cache/ccache:
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
 $(_wstampdir)/.prep.stamp:	| bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp $W/cache/ccache
-			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP),prep)
+			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP) $(BO),prep)
 			@touch $@
 
 ifeq ($(ELITO_OFFLINE),)
@@ -378,7 +378,7 @@ else
 				esac \
 			}
 
-			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) pseudo-native -c populate_sysroot,populate_sysroot)
+			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) pseudo-native -c populate_sysroot $(BO),populate_sysroot)
 			test -e $@.override || rm -rf $W/stamps
 			test -e $@.override || rm -f $W/cache/bb_*
 			rm -f $@.override
