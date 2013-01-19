@@ -113,7 +113,7 @@ python populate_packages_prepend () {
     for (p,i) in pkg_info.items():
         elito_upstart_job(d, '${PN}-%s' % p,
                           job_files   = i.job_files,
-                          rdepends    = i.rdepends + ' ${PN} (= ${PV}-${PR})',
+                          rdepends    = i.rdepends + ' ${PN} (= ${EXTENDPKGV})',
                           extra_files = i.extra_files,
                           rrecommends = i.rrecommends)
 }
