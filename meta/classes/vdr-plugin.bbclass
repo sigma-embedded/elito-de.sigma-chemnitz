@@ -38,7 +38,7 @@ vdr_runmake() {
 }
 
 do_compile() {
-    vdr_runmake
+    vdr_runmake all
 }
 
 do_install() {
@@ -49,7 +49,7 @@ do_install() {
 }
 
 RPROVIDES_${PN}	       = "vdr-plugin-${PLUGINNAME}"
-FILES_${PN}            = "${VDR_PLUGINDIR}/libvdr-*.so*"
+FILES_${PN}            = "${VDR_PLUGINDIR}/libvdr-*.so.1.*"
 FILES_${PN}-dbg       .= " ${VDR_PLUGINDIR}/.debug/*"
 
 inherit gettext elito-normalize-po
