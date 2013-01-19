@@ -519,6 +519,11 @@ clean-sources:
 mrproper:		clean clean-metrics
 			rm -rf $W $(_tmpdir)
 			rm -f conf/sanity_info
+
+_sstate_cache_mgmt =	$(ELITO_ROOTDIR)/org.openembedded.core/scripts/sstate-cache-management.sh
+gc:			FORCE
+			bash $(_sstate_cache_mgmt) --cache-dir='$(W)/sstate-cache' --stamps-dir='$(W)/stamps' -y -L || :
+
 ############ 'clean' rules }}} ##########
 
 
