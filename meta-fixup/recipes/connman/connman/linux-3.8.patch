@@ -1,0 +1,12 @@
+Index: git/src/tethering.c
+===================================================================
+--- git.orig/src/tethering.c
++++ git/src/tethering.c
+@@ -34,6 +34,7 @@
+ #include <linux/sockios.h>
+ #include <string.h>
+ #include <fcntl.h>
++#include <netinet/ip6.h>
+ #include <linux/if_tun.h>
+ #include <linux/if_bridge.h>
+ 

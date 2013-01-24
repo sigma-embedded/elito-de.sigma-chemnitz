@@ -6,7 +6,10 @@ do_install_append() {
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI += "file://0001-added-noipconfig-option.patch"
+SRC_URI += "\
+  file://0001-added-noipconfig-option.patch \
+  file://linux-3.8.patch \
+"
 
 EXTRA_OECONF += "--enable-client"
 DEPENDS += "readline"
