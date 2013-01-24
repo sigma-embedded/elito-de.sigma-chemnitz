@@ -33,8 +33,10 @@ ELFTOSB_FLAGS = "\
   -c '${bootletspath}/uboot_ivt.bd' \
 "
 
+ELFTOSB_EXTRA_SOURCES ?= ""
+
 do_builddeploy_img-imx-bootlets() {
-	freescale-elftosb ${ELFTOSB_FLAGS} -o barebox.sb barebox
+	freescale-elftosb ${ELFTOSB_FLAGS} -o barebox.sb barebox ${ELFTOSB_EXTRA_SOURCES}
 }
 
 do_install() {
