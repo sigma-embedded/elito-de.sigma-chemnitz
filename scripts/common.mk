@@ -521,8 +521,12 @@ mrproper:		clean clean-metrics
 			rm -f conf/sanity_info
 
 _sstate_cache_mgmt =	$(ELITO_ROOTDIR)/org.openembedded.core/scripts/sstate-cache-management.sh
+_sstate_cache_mgmt_opts =	 --cache-dir='$(W)/sstate-cache' -y -L \
+			$(if $(V),--debug)
+
 gc:			FORCE
-			bash $(_sstate_cache_mgmt) --cache-dir='$(W)/sstate-cache' --stamps-dir='$(W)/stamps' -y -L || :
+			bash $(_sstate_cache_mgmt) $(_sstate_cache_mgmt_opts) --remove-duplicated || :
+			bash $(_sstate_cache_mgmt) $(_sstate_cache_mgmt_opts) --stamps-dir='$(W)/stamps' || :
 
 ############ 'clean' rules }}} ##########
 
