@@ -32,9 +32,9 @@ index 81964f1..8ad22dc 100644
  import logging
  import urllib
 +import pipes
+ import operator
  import bb.persist_data, bb.utils
  import bb.checksum
- from bb import data
 @@ -923,38 +924,39 @@ class FetchMethod(object):
          cmd = None
  
