@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 PV = "0.1.1"
 PR = "r5"
 
-INIT_D_DIR = "${sysconfdir}/init.d"
+DISTRO_FEATURES += "sysvinit"
+DISTRO_FEATURES_INITMAN = "sysvinit"
 
 SRC_URI = "\
   file://elito-rescue.conf \
