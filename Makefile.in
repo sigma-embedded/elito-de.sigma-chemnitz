@@ -21,6 +21,8 @@ GZIP =			@GZIP@
 SECWRAP_CMD =		@SECWRAP_CMD@
 TFTPBOOT_DIR =		@tftpbootdir@
 
+@ENABLE_SSTATE_DIR_TRUE@SSTATE_DIR =		@SSTATE_DIR@
+
 include $(abs_top_srcdir)/scripts/common.mk
 
 @ENABLE_MAINTAINER_MODE_TRUE@$(abs_top_srcdir)/configure:	$(abs_top_srcdir)/configure.ac

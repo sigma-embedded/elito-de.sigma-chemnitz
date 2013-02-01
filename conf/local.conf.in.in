@@ -3,6 +3,7 @@ MACHINE		 = "@MACHINE@"
 
 ELITO_WORKSPACE_DIR = "@ELITO_WORKSPACE_DIR@"
 DL_DIR		 = "@CACHE_DIR@/sources"
+@ENABLE_SSTATE_DIR_TRUE@SSTATE_DIR	 = "@SSTATE_DIR@"
 
 PROJECT_NAME	:= "@PROJECT_NAME@"
 TMPDIR		:= "${@os.path.normpath(os.path.join('${PROJECT_TOPDIR}',os.environ.get('W','tmp')))}"

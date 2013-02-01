@@ -154,6 +154,23 @@ AC_ARG_WITH(cache-dir,
 	[CACHE_DIR=$withval], [CACHE_DIR=\${abs_top_builddir}/../cache])
 AC_SUBST(_CACHE_DIR, [$CACHE_DIR])
 
+dnl {{{ sstate-dir
+AC_MSG_CHECKING([for sstate directory])
+AC_ARG_WITH(sstate-dir,
+	AS_HELP_STRING([--with-sstate-dir=<dir>],
+		       [sstate directory]),
+	[],[with_sstate_dir='${TMPDIR}/sstate-cache'])
+
+AS_CASE([x$with_sstate_dir],
+	[x|xdefault],
+	     [ELITO_TRUE_FALSE([ENABLE_SSTATE_DIR], false)
+	      AC_MSG_RESULT([<OE default>])],
+
+	[AC_SUBST([SSTATE_DIR],[$with_sstate_dir])
+	 ELITO_TRUE_FALSE([ENABLE_SSTATE_DIR], true)
+	 AC_MSG_RESULT([$withval])])
+dnl }}} sstate-dir
+
 dnl {{{ ccache
 AC_MSG_CHECKING([whether to enable ccache])
 AC_ARG_ENABLE(ccache,
