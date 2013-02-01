@@ -32,15 +32,22 @@ find_proxy() {
     # skip // from proto://...
     shift 2
 
+    # strip proxyauth
+    _p=${1#*@}
+    _a=${1%$_p}
+    _a=${_a%@}
+    shift
+
     IFS=:
-    set -- $*
+    set -- $_p $*
     IFS=$old_IFS
 
+    socat_proxyauth=${socat_proxyauth:-$_a}
 
     _res=
     case $proto in
       direct:)	_res=TCP:$_dsthost:$_dstport;;
-      http:)	_res=PROXY:$1:$_dsthost:$_dstport,proxyport=$2${socat_proxyauth:+,proxyauth="$socat_proxyauth"};;
+      http:)	_res=PROXY:$1:$_dsthost:$_dstport${2:+,proxyport=$2}${socat_proxyauth:+,proxyauth="$socat_proxyauth"};;
     esac
 
     eval $_varname=\$_res
