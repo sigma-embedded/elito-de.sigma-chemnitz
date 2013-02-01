@@ -7,11 +7,11 @@ Subject: [PATCH] hack: throttle timer-changed messages
  src/core/timer.c | 7 ++++++-
  1 Datei geändert, 6 Zeilen hinzugefügt(+), 1 Zeile entfernt(-)
 
-diff --git a/src/core/timer.c b/src/core/timer.c
-index bd27970..d60629f 100644
---- a/src/core/timer.c
-+++ b/src/core/timer.c
-@@ -529,13 +529,18 @@ static void timer_reset_failed(Unit *u) {
+Index: systemd-197/src/core/timer.c
+===================================================================
+--- systemd-197.orig/src/core/timer.c
++++ systemd-197/src/core/timer.c
+@@ -542,6 +542,7 @@ static void timer_reset_failed(Unit *u)
  
  static void timer_time_change(Unit *u) {
          Timer *t = TIMER(u);
@@ -19,18 +19,16 @@ index bd27970..d60629f 100644
  
          assert(u);
  
-         if (t->state != TIMER_WAITING)
-                 return;
+@@ -550,6 +551,12 @@ static void timer_time_change(Unit *u) {
  
--        log_info("%s: time change, recalculating next elapse.", u->id);
+         log_info_unit(u->id,
+                       "%s: time change, recalculating next elapse.", u->id);
 +        if (last_u != u) {
-+                log_info("%s: time change, recalculating next elapse.", u->id);
++                log_info_unit(u->id,
++                              "%s: time change, recalculating next elapse.", u->id);
 +                last_u = u;
 +        }
 +
          timer_enter_waiting(t, false);
  }
  
--- 
-1.7.11.7
-

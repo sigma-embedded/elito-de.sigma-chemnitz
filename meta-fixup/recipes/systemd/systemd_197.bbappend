@@ -1,5 +1,5 @@
 # --*- python -*--
-PRINC := "${@int('${PRINC}') + 6}"
+PRINC := "${@int('${PRINC}') + 1}"
 
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
@@ -16,9 +16,8 @@ SRC_URI += "\
 "
 
 EXTRA_OECONF += "\
-  --with-distro=other \
   --with-sysvinit-path= \
-  --with-sysvrcd-path= \
+  --with-sysvrcnd-path= \
 "
 
 do_install_append() {
