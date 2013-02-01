@@ -146,6 +146,8 @@ else
 fi
 AC_SUBST([ELITO_OFFLINE])
 
+dnl {{{ cache-dir
+AC_MSG_CHECKING([for cache directory])
 AC_ARG_WITH(cache-dir,
 	AS_HELP_STRING([--with-cache-dir=<dir>],
 		       [Directory where to place downloaded sources. This
@@ -153,6 +155,8 @@ AC_ARG_WITH(cache-dir,
 		       ../cache]),
 	[CACHE_DIR=$withval], [CACHE_DIR=\${abs_top_builddir}/../cache])
 AC_SUBST(_CACHE_DIR, [$CACHE_DIR])
+AC_MSG_RESULT([$CACHE_DIR])
+dnl }}} cache-dir
 
 dnl {{{ sstate-dir
 AC_MSG_CHECKING([for sstate directory])
