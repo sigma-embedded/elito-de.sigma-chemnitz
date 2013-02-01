@@ -1,7 +1,7 @@
-From fe9bdbbe9b4c1da43493282d877a2b732e32ec62 Mon Sep 17 00:00:00 2001
+From d2dd0754ff4bcad57b23585c3f24a7e2770c8cc1 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Fri, 2 Nov 2012 18:09:04 +0100
-Subject: [PATCH 16/17] build.py: fire TaskFailed with same environment as
+Subject: [PATCH 14/15] build.py: fire TaskFailed with same environment as
  TaskStarted
 
 The task-failed event handler can require task specific data or data
@@ -12,11 +12,11 @@ holds.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- lib/bb/build.py | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ lib/bb/build.py | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/lib/bb/build.py b/lib/bb/build.py
-index 43790a6..6783e9d 100644
+index 5f5a007..27bd552 100644
 --- a/lib/bb/build.py
 +++ b/lib/bb/build.py
 @@ -292,20 +292,14 @@ def _task_data(fn, task, d):
@@ -41,10 +41,10 @@ index 43790a6..6783e9d 100644
      tempdir = localdata.getVar('T', True)
      if not tempdir:
          bb.fatal("T variable not set, unable to build")
-@@ -424,19 +418,26 @@ def _exec_task(fn, task, d, quieterr):
+@@ -424,6 +418,13 @@ def _exec_task(fn, task, d, quieterr):
      return 0
  
- def exec_task(fn, task, d):
+ def exec_task(fn, task, d, profile = False):
 +    if not data.getVarFlag(task, 'task', d):
 +        event.fire(TaskInvalid(task, d), d)
 +        logger.error("No such task: %s" % task)
@@ -55,10 +55,21 @@ index 43790a6..6783e9d 100644
      try: 
          quieterr = False
          if d.getVarFlag(task, "quieterrors") is not None:
-             quieterr = True
+@@ -436,21 +437,22 @@ def exec_task(fn, task, d, profile = False):
+             except:
+                 import profile
+             prof = profile.Profile()
+-            ret = profile.Profile.runcall(prof, _exec_task, fn, task, d, quieterr)
++            ret = profile.Profile.runcall(prof, _exec_task, fn, task,
++                                          localdata, quieterr)
+             prof.dump_stats(profname)
+             bb.utils.process_profilelog(profname)
  
--        return _exec_task(fn, task, d, quieterr)
-+        return _exec_task(fn, task, localdata, quieterr)
+             return ret
+         else:
+-            return _exec_task(fn, task, d, quieterr)
++            return _exec_task(fn, task, localdata, quieterr)
+ 
      except Exception:
          from traceback import format_exc
          if not quieterr:
