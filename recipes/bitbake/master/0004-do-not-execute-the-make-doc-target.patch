@@ -1,14 +1,14 @@
-From 7e64bf02a94641004e1284a15afec85d2f6ed15b Mon Sep 17 00:00:00 2001
+From 039b819951405d14b863f00185a1b6600bfe5c16 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:47 +0200
-Subject: [PATCH 07/17] do not execute the 'make doc' target
+Subject: [PATCH 04/12] do not execute the 'make doc' target
 
 ---
  setup.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index d5c70bc..7f44bbf 100755
+index 8c26a9b..f760e88 100755
 --- a/setup.py
 +++ b/setup.py
 @@ -43,7 +43,7 @@ class Build(build):

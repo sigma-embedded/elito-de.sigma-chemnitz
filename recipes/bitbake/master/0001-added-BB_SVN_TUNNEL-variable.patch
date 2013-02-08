@@ -1,7 +1,7 @@
-From 784931ca64245f9b419e867a13be055b5ab46299 Mon Sep 17 00:00:00 2001
+From 8c064a82659b2281fc906228f5a3e9525fc4f740 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:40 +0200
-Subject: [PATCH 04/17] added BB_SVN_TUNNEL variable
+Subject: [PATCH 01/12] added BB_SVN_TUNNEL variable
 
 It allows to rewrite svn:// uris for example to svn+proxy://.  This
 makes it possible to use a 'proxy' tunnel which pipes the connection

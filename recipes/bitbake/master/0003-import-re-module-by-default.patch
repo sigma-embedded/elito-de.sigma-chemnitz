@@ -1,14 +1,14 @@
-From 479cfdd736375735d0eb9236f3a03a4a78a3362c Mon Sep 17 00:00:00 2001
+From 89c8ae5e1ca8adff92de4ac2e61f9a0c6bbcfa4b Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:44 +0200
-Subject: [PATCH 06/17] import 're' module by default
+Subject: [PATCH 03/12] import 're' module by default
 
 ---
  lib/bb/utils.py | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/lib/bb/utils.py b/lib/bb/utils.py
-index cef0fdd..42acab6 100644
+index 484fb2d..8971681 100644
 --- a/lib/bb/utils.py
 +++ b/lib/bb/utils.py
 @@ -37,6 +37,7 @@ _context = {

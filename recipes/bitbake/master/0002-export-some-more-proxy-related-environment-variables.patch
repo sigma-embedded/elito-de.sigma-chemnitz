@@ -1,26 +1,26 @@
-From e8d1384cf141b4f22648e719d3e62727bc4ebd5d Mon Sep 17 00:00:00 2001
+From 9d75a60b0aa4d9e57d695ee0242769c298644cee Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:42 +0200
-Subject: [PATCH 05/17] export some more proxy related environment variables
+Subject: [PATCH 02/12] export some more proxy related environment variables
 
 ---
  lib/bb/fetch2/__init__.py | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index db16ed4..4e179e4 100644
+index 21f576e..dc9dec4 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -456,6 +456,9 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
-                   'SSH_AUTH_SOCK', 'SSH_AGENT_PID', 'HOME',
-                   'GIT_PROXY_IGNORE', 'SOCKS5_USER', 'SOCKS5_PASSWD']
+@@ -469,6 +469,9 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+                   'SSH_AUTH_SOCK', 'SSH_AGENT_PID',
+                   'SOCKS5_USER', 'SOCKS5_PASSWD']
  
 +    exportvars.extend(['ELITO_CRT', 'ELITO_KEY', 'ELITO_PROG_SSL_CLIENT',
 +                       'ELITO_PROG_PROXY', 'ELITO_USE_LIBPROXY'])
 +
-     new_env = os.environ.copy()
      for var in exportvars:
          val = d.getVar(var, True)
+         if val:
 -- 
 1.7.11.7
 

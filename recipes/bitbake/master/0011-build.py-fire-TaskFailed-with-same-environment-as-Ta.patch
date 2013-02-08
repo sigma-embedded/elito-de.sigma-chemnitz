@@ -1,7 +1,7 @@
-From d2dd0754ff4bcad57b23585c3f24a7e2770c8cc1 Mon Sep 17 00:00:00 2001
+From 9c942e7b250943ab4883056223f04e63cd45658d Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Fri, 2 Nov 2012 18:09:04 +0100
-Subject: [PATCH 14/15] build.py: fire TaskFailed with same environment as
+Subject: [PATCH 11/12] build.py: fire TaskFailed with same environment as
  TaskStarted
 
 The task-failed event handler can require task specific data or data

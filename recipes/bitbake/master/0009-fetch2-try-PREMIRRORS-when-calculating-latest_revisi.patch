@@ -1,7 +1,7 @@
-From c82cd659e54cb2da01ee1780ad92033e25082f6d Mon Sep 17 00:00:00 2001
+From 1bc776e78eb9c93c5110d4dc682e8bd391dc0bc6 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Wed, 27 Jun 2012 19:41:59 +0200
-Subject: [PATCH 14/17] fetch2: try PREMIRRORS when calculating
+Subject: [PATCH 09/12] fetch2: try PREMIRRORS when calculating
  latest_revision
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 14/17] fetch2: try PREMIRRORS when calculating
  1 file changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 9c199bf..96e5510 100644
+index dc9dec4..7ce19e0 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -648,6 +648,29 @@ def try_mirrors(d, origud, mirrors, check = False):
+@@ -637,6 +637,29 @@ def try_mirrors(d, origud, mirrors, check = False):
              return ret
      return None
  
@@ -42,9 +42,9 @@ index 9c199bf..96e5510 100644
  def srcrev_internal_helper(ud, d, name):
      """
      Return:
-@@ -675,7 +698,7 @@ def srcrev_internal_helper(ud, d, name):
-     if rev == "INVALID":
-         raise FetchError("Please set SRCREV to a valid value", ud.url)
+@@ -667,7 +690,7 @@ def srcrev_internal_helper(ud, d, name):
+             var = "SRCREV_%s_pn-%s" % (name, pn)
+         raise FetchError("Please set %s to a valid value" % var, ud.url)
      if rev == "AUTOINC":
 -        rev = ud.method.latest_revision(ud.url, ud, d, name)
 +        rev = latest_revision(ud, d, name)
