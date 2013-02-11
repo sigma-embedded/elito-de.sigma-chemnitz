@@ -81,7 +81,6 @@ do_deploy_setscene[nostamp] = "1"
 
 do_install[noexec]	    = "1"
 do_populate_sysroot[noexec]  = "1"
-do_package[noexec]	     = "1"
 do_package_write_ipk[noexec] = "1"
 do_package_write_deb[noexec] = "1"
 do_package_write_rpm[noexec] = "1"
