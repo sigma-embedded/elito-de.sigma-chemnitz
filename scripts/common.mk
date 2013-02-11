@@ -217,7 +217,6 @@ sources-tar:
 
 ifneq (${IMAGE_STREAM},)
 all-images:		TARGETS += ${TARGETS_rescue}
-all-images:		image
 
 image-stream:		${IMAGE_STREAM}
 
@@ -226,6 +225,8 @@ ${IMAGE_STREAM}:	${IMAGE_STREAM_deps} | $(W)/Makefile.develcomp
 			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true $(MAKE) -f $(W)/Makefile.develcomp CFG=image-stream IMAGEDIR="${IMAGEDIR}" ${IMAGE_STREAM_args} image-stream O=$@.tmp _secwrap=
 			@mv $@.tmp $@
 endif
+
+all-images:		image
 
 ###### }}} image-stream targets #######
 
