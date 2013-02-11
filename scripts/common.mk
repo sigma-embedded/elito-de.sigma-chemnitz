@@ -17,7 +17,6 @@ ELITO_LOGDIR ?=		.log
 
 TARGETS =		elito-image
 TARGETS_rescue ?=	elito-rescue-kernel elito-image-stream-native
-BO ?=
 
 IMAGEDIR =		$(abspath ${W}/deploy/images)
 TARGET_IMAGES =
@@ -557,6 +556,12 @@ ifeq ($(filter $(MAKEFLAGS),s),)
 _ECHO := echo
 else
 _ECHO := :
+endif
+
+ifeq ($(filter $(MAKEFLAGS),k),)
+BO ?= -k
+else
+BO ?=
 endif
 
 # do not export any variable set here by default
