@@ -24,7 +24,7 @@ PACKAGES        = "${PN}"
 CONFFILES_${PN} = "${sysconfdir}/rpc ${sysconfdir}/protocols \
 	${sysconfdir}/services"
 RPROVIDES_${PN} = "netbase"
-RCONFLICTS	= "netbase"
+RCONFLICTS_${PN} = "netbase"
 
 SRC_URI[md5sum] = "a56cb362ece358a5b3b8972e5c7be534"
 SRC_URI[sha256sum] = "dea29d60b3d751f0c5669b5299af312ad269c48e6440e0072d0d68d9544ebad3"
