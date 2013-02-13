@@ -260,10 +260,9 @@ ifeq ($(ELITO_OFFLINE),)
 			rm -f $(_bitbake-bundle)
 endif
 
-bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
-			@f=$(_stampdir)/.bitbake.fetch.stamp; \
-			test ! -e "$$f" || { \
-			v=$$(cat $$f); test x"$$v" = x${_bitbake_rev}/${_bitbake_rev_r}; } || { \
+# bitbake-validate
+ifeq (${FORCE_BITBAKE},)
+_bitbake_validate_bad = { \
 			echo "****"; \
 			echo "**** BITBAKE revision mismatch; you have '$$v'"; \
 			echo "**** but '${_bitbake_rev}/${_bitbake_rev_r}' is expected; please execute"; \
@@ -273,7 +272,17 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			echo "**** triple click and to paste it with the middle mouse button"; \
 			exit 1; \
 			} >&2
+else
+_bitbake_validate_bad = { $(MAKE) bitbake-clean && $(MAKE) init; }
+endif
 
+bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
+			@f=$(_stampdir)/.bitbake.fetch.stamp; \
+			test ! -e "$$f" || { \
+			v=$$(cat $$f); test x"$$v" = x${_bitbake_rev}/${_bitbake_rev_r}; } || \
+			${_bitbake_validate_bad}
+
+# directory creation
 $(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR):
 			mkdir -p $@
 
