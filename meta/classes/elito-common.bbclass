@@ -215,7 +215,6 @@ ELITO_COMMON_DIAGNOSIS_TOOLS = "${@elito_common_expand('ELITO_COMMON_DIAGNOSIS_T
 #####
 
 ELITO_COMMON_SERVERS-zeroconf_initsys-systemd = "\
-  avahi-systemd \
 "
 
 ELITO_COMMON_SERVERS-zeroconf = "\
@@ -224,8 +223,6 @@ ELITO_COMMON_SERVERS-zeroconf = "\
 "
 
 ELITO_COMMON_SERVERS-initsys-systemd = "\
-  connman-systemd \
-  dropbear-systemd \
 "
 
 ELITO_COMMON_SERVERS-core = "\
