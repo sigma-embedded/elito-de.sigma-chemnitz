@@ -30,7 +30,7 @@ IMAGE_INSTALL = "\
 
 ROOTFS_POSTINSTALL_COMMAND += "rescue_fixup_rootfs"
 IMAGE_PREPROCESS_COMMAND += "rescue_cleanup_rootfs"
-BAD_RECOMMENDATIONS += "busybox-syslog-systemd"
+BAD_RECOMMENDATIONS += "busybox-syslog-systemd systemd"
 
 inherit image elito-image
 
@@ -47,6 +47,8 @@ rescue_fixup_rootfs() {
     cd ${IMAGE_ROOTFS}
 
     rm -rf dev
+
+    ! test -e lib/systemd
 
     for i in run-postinsts stop-bootlogd syslog busybox-udhcpc busybox-cron syslog.busybox; do
 	rm -f etc/init.d/$i etc/rc*.d/[SK][0-9][0-9]$i
@@ -69,8 +71,10 @@ S:2345:respawn:/sbin/getty ${SERIAL_CONSOLE}
 EOF
 
     ln -s ../proc/mounts etc/mtab
+    rm -f tmp var/tmp
 
     install -d -m 0755 dev proc sys mnt media run tmp var/log var/lock root
+    ln -s ../tmp var/tmp
 
     mknod -m 0600 dev/console c 5 1
 
