@@ -34,7 +34,7 @@ do_install_append_headless() {
     rm -f ${D}${bindir}/systemd-analyze
 }
 
-python populate_packages_prepend () {
+python systemd_elito_populate_packages () {
     pkg_info = {
         'binfmt' : ['systemd-binfmt.service'],
         'remount-rootfs' : ['remount-rootfs.service'],
@@ -81,6 +81,7 @@ python populate_packages_prepend () {
     bb.data.setVar('PACKAGES',
                    pkgs + ' ' + bb.data.getVar('PACKAGES', d, 0), d)
 }
+PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages"
 
 PACKAGES_DYNAMIC = "systemd-.*"
 RDEPENDS_systemd := "${@(bb.data.getVar('RDEPENDS_systemd', d, True) or '')\
