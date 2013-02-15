@@ -51,7 +51,7 @@ do_configure() {
 
 do_install[dirs] = "${WORKDIR}"
 do_install() {
-    install -D -p -m 0644 00-elito.conf ${D}${libdir}/tmpfiles.d/00-elito.conf
+    install -D -p -m 0644 05-elito.conf ${D}${libdir}/tmpfiles.d/05-elito.conf
     install -D -p -m 0644 systemd.profile ${D}${sysconfdir}/profile.d/systemd.sh
 
     install -d -m 0755 ${D}${_d} ${D}${systemd_unitdir}/system ${D}/var/lib/firstboot
