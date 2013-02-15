@@ -31,4 +31,12 @@ do_install_append() {
     ln -s busybox-syslog.service ${D}${base_libdir}/systemd/system/syslog.service
 }
 
-FILES_${PN}-syslog-systemd += "${D}${base_libdir}/system/system/syslog.service"
+PACKAGES =+ "${SYSTEMD_PACKAGES}"
+SYSTEMD_PACKAGES = "${PN}-syslog-systemd"
+SYSTEMD_SERVICE_${PN}-syslog-systemd = "syslog.service"
+RRECOMMENDS_${PN}-syslog = "${PN}-syslog-systemd"
+
+FILES_${PN}-syslog-systemd += "\
+  ${systemd_unitdir}/system/syslog.service \
+  ${systemd_unitdir}/system/busybox-syslog.service \
+"
