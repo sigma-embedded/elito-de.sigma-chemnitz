@@ -18,7 +18,7 @@ inherit gitpkgv
 
 SRC_URI		= " \
   ${ELITO_GIT_REPO}/pub/elito-systemd-conf.git \
-  file://00-elito.conf \
+  file://05-elito.conf \
   file://systemd.profile \
 "
 
