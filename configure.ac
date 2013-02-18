@@ -271,7 +271,7 @@ AC_ARG_ENABLE(layers,
         [],[enable_layers=DEFAULT])
 
 old_IFS=$IFS
-IFS=,
+IFS=', '
 set -- $enable_layers
 IFS=$old_IFS
 
