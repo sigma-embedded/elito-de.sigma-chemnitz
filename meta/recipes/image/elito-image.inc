@@ -15,4 +15,11 @@ EXTRA_IMAGEDEPENDS_append_fs-barebox    = " barebox"
 EXTRA_IMAGEDEPENDS_append_fs-arnoldboot = " arnoldboot-native"
 EXTRA_IMAGEDEPENDS_append_fs-mobm320    = " mobm320 mobm320-native"
 
+BAD_RECOMMENDATIONS += "\
+  udev-extraconf \
+  util-linux-swaponoff util-linux-cfdisk util-linux-readprofile \
+  ${@base_contains('MACHINE_FEATURES','pci','','pciutils-ids', d)} \
+  ${@base_contains('DISTRO_FEATURES','usb','','usbutils-ids', d)} \
+"
+
 inherit core-image
