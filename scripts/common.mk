@@ -561,13 +561,13 @@ config.status:		$(abs_top_srcdir)/configure | $(_stampdir)/.config.status.stamp
 FORCE:
 .PHONY:		FORCE
 
-ifeq ($(filter $(MAKEFLAGS),s),)
+ifeq ($(filter s% -s%,$(MAKEFLAGS)),)
 _ECHO := echo
 else
 _ECHO := :
 endif
 
-ifeq ($(filter $(MAKEFLAGS),k),)
+ifneq ($(filter k% -k%,$(MAKEFLAGS)),)
 BO ?= -k
 else
 BO ?=
