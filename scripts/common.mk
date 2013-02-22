@@ -215,6 +215,8 @@ sources-tar:
 ###### {{{ image-stream targets #######
 
 ifneq (${IMAGE_STREAM},)
+IMAGE_STREAM_deps ?=	FORCE
+
 all-images:		TARGETS += ${TARGETS_rescue}
 
 image-stream:		${IMAGE_STREAM}
