@@ -1,0 +1,22 @@
+#! /bin/sh
+
+d=
+
+case $1 in
+     0|fsm) d=fsm-demo;;
+     1|pinchzoom) d=demo-pinchzoom;;
+     2|fingerpaint) d=demo-fingerpaint;;
+     3|qtdemoE) d=demo-qtdemoE;;
+     X) d=;;
+     *)
+	echo "Invalid mode" >&2
+	exit 1
+	;;
+esac
+
+for i in fsm-demo demo-pinchzoom demo-fingerpaint demo-qtdemoE; do
+    test x"$i" != x"$d" || continue
+    systemctl stop "$i".service 2>/dev/null || :
+done
+
+test -z "$d" || systemctl start "$d".service

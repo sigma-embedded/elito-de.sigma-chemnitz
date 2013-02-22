@@ -1,0 +1,13 @@
+# -*- conf -*-
+[Unit]
+Description = QT Pinchzoom Demo
+After = device-touchscreen.target
+Wants = device-touchscreen.target
+
+[Service]
+Restart = always
+Environment = QWS_MOUSE_PROTO=LinuxMT:/dev/input/event-touchscreen0
+ExecStart = /usr/bin/qtopia/examples/touch/pinchzoom/pinchzoom -qws
+
+[Install]
+WantedBy = multi-user.target

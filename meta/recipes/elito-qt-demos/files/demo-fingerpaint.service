@@ -1,0 +1,13 @@
+# -*- conf -*-
+[Unit]
+Description = QT Fingerpaint Demo
+After = device-touchscreen.target
+Wants = device-touchscreen.target
+
+[Service]
+Restart = always
+Environment = QWS_MOUSE_PROTO=LinuxMT:/dev/input/event-touchscreen0
+ExecStart = /usr/bin/qtopia/examples/touch/fingerpaint/fingerpaint -qws
+
+#[Install]
+#WantedBy = multi-user.target
