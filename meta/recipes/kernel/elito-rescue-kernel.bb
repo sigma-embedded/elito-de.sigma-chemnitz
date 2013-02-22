@@ -33,6 +33,7 @@ KERNEL_IMAGE_BASE_NAME = "rescue-${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DA
 KERNEL_IMAGE_SYMLINK_NAME = "rescue-${KERNEL_IMAGETYPE}-${MACHINE}"
 
 KERNEL_CONFIG_DISABLE_OPTS ="\
+  RD_GZIP RD_LZMA RD_LZO \
   MODULES NETWORK_FILESYSTEMS SUNRPC MEDIA_SUPPORT CAN FTRACE DYNAMIC_DEBUG SOUND \
   AUTOFS4_FS FUSE_FS CUSE INPUT_TOUCHSCREEN WIRELESS WLAN PPP BT \
   USB_GADGET USB_ACM USB_PRINTER USB_SDM USB_TMC USB_ETH USB_MON \
@@ -40,7 +41,7 @@ KERNEL_CONFIG_DISABLE_OPTS ="\
 
 KERNEL_EARLY_OPTIONS_FUNCS += "elito_kernel_rescue_early_options"
 
-RESCUE_IMAGE_NAME ?= "${DEPLOY_DIR_IMAGE}/elito-rescue-image-${MACHINE}.cpio"
+RESCUE_IMAGE_NAME ?= "${DEPLOY_DIR_IMAGE}/elito-rescue-image-${MACHINE}.cpio.xz"
 
 def elito_kernel_rescue_early_options(d, o):
     import elito
@@ -49,6 +50,9 @@ def elito_kernel_rescue_early_options(d, o):
 
     o.extend(map(lambda x: [True, x, False],
                  d.getVar('KERNEL_CONFIG_DISABLE_OPTS').split()))
+
+    o.append([True,
+              [ 'UEVENT_HELPER_PATH', '/sbin/hotplug' ]])
 
     return o
 
