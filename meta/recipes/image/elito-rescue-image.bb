@@ -15,7 +15,7 @@ IMAGE_RESCUE_ROOTFS ?= "${_default_image_rescue_rootfs}"
 IMAGE_LINGUAS := ""
 IMAGE_FEATURES := "${@elito_intersect('IMAGE_FEATURES', 'SUPPORTED_IMAGE_FEATURES', d)}"
 IMAGE_ROOTFS := "${IMAGE_RESCUE_ROOTFS}"
-IMAGE_FSTYPES = "cpio"
+IMAGE_FSTYPES = "cpio.xz"
 
 imagedeps = ""
 imagedeps_img-imx-bootlets = "imx-bootlets elftosb-native"
