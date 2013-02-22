@@ -93,6 +93,10 @@ ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
   ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-ucb1400-ts', '', d)} \
 "
 
+ELITO_COMMON_KERNEL_MODULES-touchscreen += "\
+  kernel-module-edt-ft5x06 \
+"
+
 ELITO_COMMON_KERNEL_MODULES-usbclient = "\
   kernel-module-g-ether \
   kernel-module-g-serial \
@@ -128,6 +132,10 @@ ELITO_COMMON_KERNEL_MODULES-vfat = "\
 
 ELITO_COMMON_KERNEL_MODULES-wifi = "\
   kernel-module-arc4 \
+"
+
+ELITO_COMMON_KERNEL_MODULES-screen = "\
+  kernel-module-pwm-bl \
 "
 
 ELITO_COMMON_KERNEL_MODULES-wm97xx += "\
@@ -274,6 +282,10 @@ ELITO_COMMON_PROGRAMS-nfs = "\
 ELITO_COMMON_PROGRAMS-pci = "\
   pciutils \
   pciutils-ids \
+"
+
+ELITO_COMMON_PROGRAMS-touchscreen = "\
+  pointercal \
 "
 
 ELITO_COMMON_PROGRAMS-v4l = "\
