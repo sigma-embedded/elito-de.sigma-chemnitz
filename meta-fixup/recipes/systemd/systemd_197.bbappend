@@ -8,6 +8,8 @@ PACKAGES_headless = "${_headless-pkgs}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
+WATCHDOG_TIMEOUT ?= "60"
+
 SRC_URI += "\
   file://embedded.patch \
   file://readahead.patch \
@@ -19,6 +21,13 @@ EXTRA_OECONF += "\
   --with-sysvinit-path= \
   --with-sysvrcnd-path= \
 "
+
+do_configure_append() {
+    grep '#RuntimeWatchdogSec=0' src/core/system.conf
+    if test -n "${WATCHDOG_TIMEOUT}"; then
+    	echo 'RuntimeWatchdogSec=${WATCHDOG_TIMEOUT}' >> src/core/system.conf
+    fi
+}
 
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
