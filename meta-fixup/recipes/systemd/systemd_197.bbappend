@@ -14,7 +14,7 @@ SRC_URI += "\
   file://embedded.patch \
   file://readahead.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
-  file://0001-hack-throttle-timer-changed-messages.patch \
+  file://0001-remove-timer-fd-explicitly-from-epoll.patch \
 "
 
 EXTRA_OECONF += "\
