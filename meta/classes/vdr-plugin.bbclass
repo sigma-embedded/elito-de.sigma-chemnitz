@@ -1,40 +1,53 @@
 PLUGINNAME = "${@bb.data.getVar('PN',d,1).replace('vdr-','',1)}"
 S = "${WORKDIR}/${PLUGINNAME}-${PV}"
 
-VDR_DEV_DVBBASE ?= "/dev/bus/dvb/"
-
 VDR_PLUGINDIR = "${libdir}/vdr"
 VDR_CONFIGDIR = "${localstatedir}/lib/vdr/etc"
 
 DEPENDS += "vdr"
-PLUGINS ?= "lib${PN}.so.*"
 
-vdr_fixldflags() {
-    cat <<"EOF" >> "$1"
-CXXFLAGS = $(CXXFLAGS_) $(CPPFLAGS_)
-CFLAGS = $(CFLAGS_) $(CPPFLAGS_)
+VDR_LEGACY_PLUGIN ?= "false"
+VDR_LEGACY_PLUGIN[type] = "boolean"
 
-%.so:	CXXFLAGS:=$(CXXFLAGS) $(LDFLAGS)
-%.so:	CFLAGS:=$(CFLAGS) $(LDFLAGS)
+OVERRIDES .= "${@['', ':vdr-legacy'][oe.data.typed_value('VDR_LEGACY_PLUGIN', d)]}"
+
+do_configure_prepend_vdr-legacy() {
+    mkdir -p .vdr-hack .vdr-lib
+    cat << "EOF" > .vdr-hack/Make.config
+
+CFLAGS =	$(shell pkg-config --variable=cflags vdr)
+CXXFLAGS =	$(shell pkg-config --variable=cxxflags vdr)
+LIBDIR =    	${S}/.vdr-lib
+
+XAPIVERSION =	$(shell pkg-config --variable=apiversion vdr)
+XVDRVERSION =	$(shell pkg-config --modversion vdr)
+
+export CFLAGS CXXFLAGS LIBDIR
 EOF
 }
 
-do_fixldflags() {
-    vdr_fixldflags Makefile
+vdr_runmake_vdr-legacy() {
+    unset CFLAGS CXXFLAGS
+    oe_runmake STRIP=/bin/true \
+	APIVERSION='$(XAPIVERSION)' VDRVERSION='$(XVDRVERSION)' \
+	VDRDIR='${S}/.vdr-hack' \
+	"$@"
 }
 
-addtask fixldflags after do_patch before do_compile
+do_install_vdr-legacy() {
+    vdr_runmake i18n LOCALEDIR=${D}${datadir}/locale
+
+    cd .vdr-lib
+    for i in *.so.*; do
+        install -D -p -m 0755 $i ${D}${VDR_PLUGINDIR}/$i
+    done
+    cd -
+}
+
 
 vdr_runmake() {
-    CPPFLAGS_='-DDEV_DVBBASE=\"${VDR_DEV_DVBBASE}\"'
-    eval CXXFLAGS_=\$\{CXXFLAGS\}\\ -fPIC
-    eval CFLAGS_=\$\{CFLAGS\}\\ -fPIC
-    unset CXXFLAGS CFLAGS
-    export CXXFLAGS_ CFLAGS_ CPPFLAGS_
-
-    oe_runmake \
-	LIBDIR=. LOCALEDIR=./locale VDRDIR=${STAGING_LIBDIR}/vdr \
-	STRIP=/bin/true "$@"
+    unset CFLAGS CXXFLAGS
+    oe_runmake STRIP=/bin/true "$@"
 }
 
 do_compile() {
@@ -42,10 +55,7 @@ do_compile() {
 }
 
 do_install() {
-    install -d -m 0755 ${D}${VDR_PLUGINDIR}
-    install -p -m 0755 ${PLUGINS} ${D}${VDR_PLUGINDIR}/
-
-    vdr_runmake i18n LOCALEDIR=${D}${datadir}/locale
+    vdr_runmake install DESTDIR="${D}"
 }
 
 RPROVIDES_${PN}	       = "vdr-plugin-${PLUGINNAME}"
