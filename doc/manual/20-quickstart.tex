@@ -21,6 +21,7 @@ required for bootstrapping and download tasks:
 \item gnutls development files
 \item help2man, diffstat, texi2html, makeinfo
 \item python-libxml2 bindings
+\item proxy tool for determining local proxy setup (recommended)
 \end{itemize}
 
 \subsection*{Ubuntu 10.04}
@@ -30,14 +31,7 @@ sudo aptitude install \
    gcc g++ pkg-config \
    socat git-core cvs subversion autoconf libtool wget \
    libgnutls-dev help2man diffstat texi2html texinfo \
-   python-libxml2
-\end{lstlisting}
-
-Some parts of OpenEmbedded require \texttt{/bin/sh} to be a bash.
-Ubuntu uses \texttt{dash} as the default shell which requires a manual
-reconfiguration by
-\begin{lstlisting}[language={}]
-dpkg-reconfigure dash
+   python-libxml2 libproxy-tools
 \end{lstlisting}
 
 
