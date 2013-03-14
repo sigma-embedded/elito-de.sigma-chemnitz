@@ -103,7 +103,7 @@ endif
 
 XTERM_INFO =		_xterm_info
 
-_gitdate =		$(shell $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
+_gitdate =		$(shell env LANG=C $(GIT) show --pretty='format:%ct-%h' | $(SED) '1p;d')
 _tmpdir :=		$(abs_top_builddir)/.tmp
 _stampdir :=		$(_tmpdir)/stamps
 _wstampdir :=		$(_tmpdir)/stamps/$(subst /,_,$W)
