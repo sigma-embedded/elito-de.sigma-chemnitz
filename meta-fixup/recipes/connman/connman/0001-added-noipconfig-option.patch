@@ -15,7 +15,7 @@ Index: git/include/inet.h
 ===================================================================
 --- git.orig/include/inet.h
 +++ git/include/inet.h
-@@ -83,6 +83,7 @@ int connman_inet_ipv6_get_dest_addr(int
+@@ -82,6 +82,7 @@ int connman_inet_ipv6_get_dest_addr(int
  int connman_inet_check_ipaddress(const char *host);
  connman_bool_t connman_inet_check_hostname(const char *ptr, size_t len);
  connman_bool_t connman_inet_is_ipv6_supported();
@@ -27,7 +27,7 @@ Index: git/src/connman.h
 ===================================================================
 --- git.orig/src/connman.h
 +++ git/src/connman.h
-@@ -470,7 +470,8 @@ void __connman_technology_notify_regdom_
+@@ -471,7 +471,8 @@ void __connman_technology_notify_regdom_
  
  #include <connman/device.h>
  
@@ -41,7 +41,7 @@ Index: git/src/device.c
 ===================================================================
 --- git.orig/src/device.c
 +++ git/src/device.c
-@@ -31,6 +31,7 @@
+@@ -37,6 +37,7 @@
  static GSList *device_list = NULL;
  static gchar **device_filter = NULL;
  static gchar **nodevice_filter = NULL;
@@ -49,8 +49,8 @@ Index: git/src/device.c
  
  enum connman_pending_type {
  	PENDING_NONE	= 0,
-@@ -1132,6 +1133,20 @@ int __connman_device_request_hidden_scan
- 					identity, passphrase, user_data);
+@@ -1302,6 +1303,20 @@ done:
+ 	return device;
  }
  
 +static connman_bool_t __connman_device_noipconfig(const char *devname)
@@ -70,7 +70,7 @@ Index: git/src/device.c
  connman_bool_t __connman_device_isfiltered(const char *devname)
  {
  	char **pattern;
-@@ -1214,6 +1229,9 @@ static void cleanup_devices(void)
+@@ -1384,6 +1399,9 @@ static void cleanup_devices(void)
  		if (index < 0)
  			continue;
  
@@ -80,7 +80,7 @@ Index: git/src/device.c
  		DBG("cleaning up %s index %d", interfaces[i], index);
  
  		connman_inet_ifdown(index);
-@@ -1227,7 +1245,8 @@ static void cleanup_devices(void)
+@@ -1397,7 +1415,8 @@ static void cleanup_devices(void)
  	g_strfreev(interfaces);
  }
  
@@ -90,7 +90,7 @@ Index: git/src/device.c
  {
  	DBG("");
  
-@@ -1237,6 +1256,9 @@ int __connman_device_init(const char *de
+@@ -1407,6 +1426,9 @@ int __connman_device_init(const char *de
  	if (nodevice != NULL)
  		nodevice_filter = g_strsplit(nodevice, ",", -1);
  
@@ -186,7 +186,7 @@ Index: git/src/inet.c
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0)
  		return -errno;
-@@ -682,6 +736,11 @@ int connman_inet_add_network_route(int i
+@@ -517,6 +571,11 @@ int connman_inet_add_network_route(int i
  	DBG("index %d host %s gateway %s netmask %s", index,
  		host, gateway, netmask);
  
@@ -196,9 +196,9 @@ Index: git/src/inet.c
 +	}
 +
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
- 		return -1;
-@@ -746,6 +805,11 @@ int connman_inet_del_network_route(int i
+ 	if (sk < 0) {
+ 		err = -errno;
+@@ -587,6 +646,11 @@ int connman_inet_del_network_route(int i
  
  	DBG("index %d host %s", index, host);
  
@@ -208,9 +208,9 @@ Index: git/src/inet.c
 +	}
 +
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
- 		return -1;
-@@ -788,6 +852,11 @@ int connman_inet_del_ipv6_network_route(
+ 	if (sk < 0) {
+ 		err = -errno;
+@@ -635,6 +699,11 @@ int connman_inet_del_ipv6_network_route(
  
  	DBG("index %d host %s", index, host);
  
@@ -222,7 +222,7 @@ Index: git/src/inet.c
  	if (host == NULL)
  		return -EINVAL;
  
-@@ -834,6 +903,11 @@ int connman_inet_add_ipv6_network_route(
+@@ -685,6 +754,11 @@ int connman_inet_add_ipv6_network_route(
  
  	DBG("index %d host %s gateway %s", index, host, gateway);
  
@@ -234,7 +234,7 @@ Index: git/src/inet.c
  	if (host == NULL)
  		return -EINVAL;
  
-@@ -884,6 +958,11 @@ int connman_inet_set_ipv6_gateway_addres
+@@ -780,6 +854,11 @@ int connman_inet_clear_ipv6_gateway_addr
  
  	DBG("index %d gateway %s", index, gateway);
  
@@ -246,19 +246,7 @@ Index: git/src/inet.c
  	if (gateway == NULL)
  		return -EINVAL;
  
-@@ -921,6 +1000,11 @@ int connman_inet_clear_ipv6_gateway_addr
- 
- 	DBG("index %d gateway %s", index, gateway);
- 
-+	if (__connman_inet_is_disabled_index(index)) {
-+		connman_info("index disabled; skipping clear_ipv6_gateway operation");
-+		return 0;
-+	}
-+
- 	if (gateway == NULL)
- 		return -EINVAL;
- 
-@@ -960,6 +1044,11 @@ int connman_inet_set_gateway_address(int
+@@ -823,6 +902,11 @@ int connman_inet_set_gateway_address(int
  
  	DBG("index %d gateway %s", index, gateway);
  
@@ -268,21 +256,21 @@ Index: git/src/inet.c
 +	}
 +
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
- 		return -1;
-@@ -1011,6 +1100,11 @@ int connman_inet_set_gateway_interface(i
+ 	if (sk < 0) {
+ 		err = -errno;
+@@ -879,6 +963,11 @@ int connman_inet_set_gateway_interface(i
+ 	int sk, err = 0;
  
  	DBG("index %d", index);
- 
++ 
 +	if (__connman_inet_is_disabled_index(index)) {
 +		connman_info("index disabled; skipping %s", __func__);
 +		return 0;
 +	}
-+
+ 
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
- 		return -1;
-@@ -1057,6 +1151,11 @@ int connman_inet_set_ipv6_gateway_interf
+ 	if (sk < 0) {
+@@ -933,6 +1022,11 @@ int connman_inet_set_ipv6_gateway_interf
  
  	DBG("index %d", index);
  
@@ -292,9 +280,9 @@ Index: git/src/inet.c
 +	}
 +
  	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
- 		return -1;
-@@ -1102,6 +1201,12 @@ int connman_inet_clear_gateway_address(i
+ 	if (sk < 0) {
+ 		err = -errno;
+@@ -985,6 +1079,11 @@ int connman_inet_clear_gateway_address(i
  
  	DBG("index %d gateway %s", index, gateway);
  
@@ -303,11 +291,10 @@ Index: git/src/inet.c
 +		return 0;
 +	}
 +
-+
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
- 		return -1;
-@@ -1153,6 +1258,11 @@ int connman_inet_clear_gateway_interface
+ 	if (sk < 0) {
+ 		err = -errno;
+@@ -1042,6 +1141,11 @@ int connman_inet_clear_gateway_interface
  
  	DBG("index %d", index);
  
@@ -317,9 +304,9 @@ Index: git/src/inet.c
 +	}
 +
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
- 		return -1;
-@@ -1199,6 +1309,11 @@ int connman_inet_clear_ipv6_gateway_inte
+ 	if (sk < 0) {
+ 		err = -errno;
+@@ -1095,6 +1199,11 @@ int connman_inet_clear_ipv6_gateway_inte
  
  	DBG("index %d", index);
  
@@ -329,13 +316,49 @@ Index: git/src/inet.c
 +	}
 +
  	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
- 	if (sk < 0)
+ 	if (sk < 0) {
+ 		err = -errno;
+@@ -1155,6 +1264,11 @@ connman_bool_t connman_inet_compare_subn
  		return -1;
+ 	host_addr = _host_addr.s_addr;
+ 
++	if (__connman_inet_is_disabled_index(index)) {
++		connman_info("index disabled; skipping %s", __func__);
++		return 0;
++	}
++
+ 	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
+ 	if (sk < 0)
+ 		return FALSE;
+@@ -1255,6 +1369,11 @@ int connman_inet_set_mtu(int index, int
+ 	struct ifreq ifr;
+ 	int sk, err;
+ 
++	if (__connman_inet_is_disabled_index(index)) {
++		connman_info("index disabled; skipping %s", __func__);
++		return 0;
++	}
++
+ 	sk = socket(AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
+ 	if (sk < 0)
+ 		return sk;
+@@ -2377,6 +2496,11 @@ connman_bool_t connman_inet_is_ipv6_supp
+ {
+ 	int sk;
+ 
++	if (__connman_inet_is_disabled_index(index)) {
++		connman_info("index disabled; skipping %s", __func__);
++		return 0;
++	}
++
+ 	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
+ 	if (sk < 0)
+ 		return FALSE;
 Index: git/src/main.c
 ===================================================================
 --- git.orig/src/main.c
 +++ git/src/main.c
-@@ -360,6 +360,7 @@ static gchar *option_debug = NULL;
+@@ -426,6 +426,7 @@ static gchar *option_debug = NULL;
  static gchar *option_device = NULL;
  static gchar *option_plugin = NULL;
  static gchar *option_nodevice = NULL;
@@ -343,7 +366,7 @@ Index: git/src/main.c
  static gchar *option_noplugin = NULL;
  static gchar *option_wifi = NULL;
  static gboolean option_detach = TRUE;
-@@ -389,6 +390,8 @@ static GOptionEntry options[] = {
+@@ -455,6 +456,8 @@ static GOptionEntry options[] = {
  			"Specify networking device or interface", "DEV" },
  	{ "nodevice", 'I', 0, G_OPTION_ARG_STRING, &option_nodevice,
  			"Specify networking interface to ignore", "DEV" },
@@ -352,12 +375,12 @@ Index: git/src/main.c
  	{ "plugin", 'p', 0, G_OPTION_ARG_STRING, &option_plugin,
  				"Specify plugins to load", "NAME,..." },
  	{ "noplugin", 'P', 0, G_OPTION_ARG_STRING, &option_noplugin,
-@@ -562,7 +565,7 @@ int main(int argc, char *argv[])
+@@ -629,7 +632,7 @@ int main(int argc, char *argv[])
  	__connman_service_init();
  	__connman_provider_init();
  	__connman_network_init();
 -	__connman_device_init(option_device, option_nodevice);
 +	__connman_device_init(option_device, option_nodevice, option_noipconfig);
  
- 	__connman_agent_init();
  	__connman_ippool_init();
+ 	__connman_iptables_init();
