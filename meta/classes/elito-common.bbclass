@@ -308,7 +308,7 @@ ELITO_COMMON_PROGRAMS-x11 = "\
   xorg-minimal-fonts \
   xserver-xorg \
   xserver-common \
-  mesa-dri \
+  mesa \
 "
 
 ELITO_COMMON_PROGRAMS-core = "\
