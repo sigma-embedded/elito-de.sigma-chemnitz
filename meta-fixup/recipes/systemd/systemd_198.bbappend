@@ -14,7 +14,6 @@ SRC_URI += "\
   file://embedded.patch \
   file://readahead.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
-  file://0001-remove-timer-fd-explicitly-from-epoll.patch \
 "
 
 EXTRA_OECONF += "\
@@ -90,7 +89,7 @@ python systemd_elito_populate_packages () {
     bb.data.setVar('PACKAGES',
                    pkgs + ' ' + bb.data.getVar('PACKAGES', d, 0), d)
 }
-PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages"
+PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages "
 
 PACKAGES_DYNAMIC = "systemd-.*"
 RDEPENDS_systemd := "${@(bb.data.getVar('RDEPENDS_systemd', d, True) or '')\
@@ -100,10 +99,17 @@ RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
 
 python() {
     r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""
-    for x in ['util-linux-swaponoff']:
+    for x in ['util-linux-swaponoff', 'systemd-compat-units',
+              'e2fsprogs-e2fsck', 'util-linux-fsck']:
         r = r.replace(x,'')
     r = ' '.join(r.split())
     bb.data.setVar('RRECOMMENDS_systemd', r, d)
+
+    r = bb.data.getVar('RRECOMMENDS_udev', d, True) or ""
+    for x in ['udev-hwdb', 'udev-extraconf']:
+        r = r.replace(x,'')
+    r = ' '.join(r.split())
+    bb.data.setVar('RRECOMMENDS_udev', r, d)
 }
 
 inherit update-alternatives
