@@ -164,7 +164,7 @@ do_sizecheck[noexec] = "1"
 do_deploy[noexec] = "1"
 do_uboot_mkimage[noexec] = "1"
 
-addtask do_setup_makefile before do_populate_sysroot after do_configure
+addtask do_setup_makefile before do_populate_sysroot do_build after do_configure
 
 ###########
 

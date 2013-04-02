@@ -48,4 +48,4 @@ do_create_link() {
         ln -sf "${TMPDIR}/Makefile.kernel" "${KERNEL_MAKEFILE}"
 }
 
-addtask create_link before do_populate_sysroot after do_setup_makefile
+addtask create_link before do_populate_sysroot do_build after do_setup_makefile
