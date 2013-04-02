@@ -31,6 +31,7 @@ EXTRA_OEMAKE = " \
   LDFLAGS='${LDFLAGS}' \
   LD='${CC}' \
   AR='${AR}' \
+  MACHINE='${MACHINE}' \
 "
 
 pkgdatadir = "${libdir}/${PN}"

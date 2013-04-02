@@ -10,3 +10,4 @@ OPTS = \
 	LD:='$(LD)' NM:='$(NM)' STRIP:='$(STRIP)' \
 	CFLAGS:='${CFLAGS}' \
 	LDFLAGS:='${LDFLAGS}' \
+	MACHINE:='${MACHINE}' \
