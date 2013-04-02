@@ -1,0 +1,455 @@
+#! /bin/bash
+# Copyright (C) 2013 Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+declare -r DEFS=$1
+declare -r SETUP=$2
+declare -r MODE=${3:-bootlets}
+
+declare -r MUXBASE=0x100
+
+BAD_PINDEFS=(
+  duart@0 duart@1 duart-4pins@0 gpmi-nand@0 auart0@0 auart0-2pins@0
+  auart1@0 auart1-2pins@0 auart2-2pins@0 auart3@0 auart3-2pins@0 mac0@0
+  mac1@0 mmc0-8bit@0 mmc0-4bit@0 i2c0@0 i2c0@1 i2c1@0 saif0@0 saif1@0
+  pwm0@0 pwm2@0 pwm3@0 pwm4@0 lcdif-24bit@0 lcdif-16bit@0 can0@0 can1@0
+  spi2@0 usbphy0@0 usbphy0@1 usbphy1@0
+)
+  
+
+set -e
+D=`mktemp -d -t pinctrl.XXXXXX`
+trap "rm -rf $D" EXIT
+
+mkdir $D/r $D/s $D/d
+
+function panic() {
+    echo "$*" >&2
+    exit 1
+}
+
+function warning() {
+    echo "$*" >&2
+}
+
+function read_defs() {
+    local bank
+    local num
+    local old_IFS=$IFS
+    local IFS
+
+    cd "$D"
+    while read pin mux pull dtree extra; do
+	IFS=,
+	set -- $mux
+	MUX=( "$@" )
+
+	set -- $dtree
+	DTREE=( "$@" )
+	IFS=$old_IFS
+
+	case x$pin in
+	  (x--)
+		bank=${MUX[0]}
+		num=${MUX[1]}
+		;;
+	  (x|x#*)
+		;;
+
+	  (*)
+		echo $bank > r/$pin:bank
+		echo $num > r/$pin:num
+
+		af=0
+		afpos=$[ (num * 2) % 32 ]
+		for m in "${MUX[@]}"; do
+		    afmask=$[ $af << $afpos ]
+		    dtree=${DTREE[$af]}
+		    let ++af
+
+		    case $m in
+		      (\$)
+			    m=$pin
+			    ;;
+		      (-)
+			    continue
+			    ;;
+		    esac
+
+		    f=$pin-$m
+		    printf '0x%08x\n' "$afmask"     > r/"$f":afmask
+		    printf '%u\n'     "$[ af - 1 ]" > r/"$f":af
+		    test x"$dtree" = x- -o -z "$dtree" || printf "%s\n" "$dtree" > r/"$f":dtree 
+		done
+
+		case $pull in
+		  (PU)
+			touch r/$pin:pu
+			;;
+		  (BK)
+			touch r/$pin:bk
+			;;
+		  (*)
+			echo "Bad 'pull' value '$pull'" >&2
+			exit 1
+		esac
+			
+
+		let --num || :
+	esac
+    done
+    cd -
+}
+
+function setup_pin() {
+    declare -r PIN=$1
+    local MUX=$2
+    local VOLT=$3
+    local DRIVE=$4
+    local PULL=$5
+    local DTREE=$6
+
+    shift 6
+
+    test -e r/$PIN:bank || {
+      echo "No such pin '$PIN'" >&2
+      return 1
+    }
+
+    local is_pullup=false
+    local is_bitkeeper=false
+
+    test -e r/$PIN:pu && is_pullup=true
+    test -e r/$PIN:bk && is_bitkeeper=true
+
+    test $is_pullup = $is_bitkeeper && {
+      echo "conflicting pullup setup for pin '$PIN'" >&2
+      return 1
+    }
+
+    if test x"$MUX" = xnc; then
+	MUX=GPIO
+	: ${VOLT:=3V3}
+	: ${DRIVE:=4MA}
+	$is_bitkeeper && PULL=BK
+	$is_pullup && PULL=PU
+    fi
+
+    local dir=
+    local lvl=
+    case $MUX in
+      GPIO_lo)
+	    MUX=GPIO
+	    dir=1
+	    lvl=0
+	    ;;
+      GPIO_hi)
+	    MUX=GPIO
+	    dir=1
+	    lvl=1
+	    ;;
+      GPIO)
+	    dir=0
+	    ;;
+    esac
+
+    test -e r/$PIN-$MUX:afmask || {
+      echo "No such af '$MUX' for pin '$PIN'" >&2
+      return 1
+    }
+
+    case $PULL in
+      PU)	
+	    ! $is_pullup && panic "Pin '$PIN' does support pullup"
+	    pullval=1
+	    ;;
+      BK)
+	    ! $is_bitkeeper && panic "Pin '$PIN' does support pullup"
+	    pullval=0
+	    ;;
+      FLOAT)
+	    pullval=X
+	    $is_bitkeeper && pullval=1
+	    $is_pullup    && pullval=0
+	    ;;
+      *)
+	    panic "Unsupported pull value '$PULL' for pin '$PIN'"
+	    ;;
+    esac
+
+    case $DRIVE in
+      4MA)	drive_ma=0;;
+      8MA)	drive_ma=1;;
+      12MA)	drive_ma=2;;
+      *)
+	    echo "Unknown drive strength '$DRIVE' for pin '$PIN'" >&2
+	    return 1
+    esac
+
+    case $VOLT in
+      3V3)	drive_volt=1;;
+      1V8)	drive_volt=0;;
+      *)
+	    echo "Unknown voltage '$VOLT' for pin '$PIN'" >&2
+	    return 1
+    esac
+
+    case $DTREE in
+      -|\#)	DTREE=;;
+    esac
+
+    read bank   < r/$PIN:bank
+    read num    < r/$PIN:num
+    read afmask < r/$PIN-$MUX:afmask
+    read af     < r/$PIN-$MUX:af
+
+    if test -n "$DTREE"; then
+	dtree=$DTREE
+    elif test -e r/$PIN-$MUX:dtree; then
+	read dtree < r/$PIN-$MUX:dtree
+	test -z "$DTREE" -o x"$dtree" = x"$DTREE" || \
+	    warning "dtree mismatch for pin '$PIN': '$dtree' vs. '$DTREE'"
+    else
+	warning "missing device tree setup for '$PIN'"
+	dtree=
+    fi
+    
+
+    local muxidx=$[ bank * 2 + num/16 ]
+    local driveidx=$[ bank * 4 + num / 8 ]
+    local drive="$[ ((drive_volt << 2) | drive_ma) << ((num % 8) * 4) ]"
+    local dirval=
+
+    printf '0x%08x %s\n' "$afmask" "$PIN-$MUX"    >> s/MUXSEL${muxidx}
+    printf '0x%08x %s\n' "$drive"  "$PIN-$MUX ($DRIVE $VOLT)" >> s/DRIVE${driveidx}
+    printf '0x%08x %s\n' "$[ pullval << num]" "$PIN-$MUX ($PULL)" >> s/PULL${bank}
+
+    case $dir in
+      1)
+	    printf '0x%08x %s\n' "$[ dir << num]" "$PIN ($bank,$num)" >> s/DOE${bank}
+	    printf '0x%08x %s\n' "$[ lvl << num]" "$PIN ($bank,$num)" >> s/DOUT${bank}
+	    ;;
+
+      0)
+	    printf '0x%08x %s\n' "$[ dir << num]" "$PIN ($bank,$num)" >> s/DOE${bank}
+	    ;;
+    esac
+
+    if test -n "$dtree"; then
+	mkdir -p d/"$dtree"
+	touch d/"$dtree"/$pullval:pull
+	touch d/"$dtree"/$VOLT:volt
+	touch d/"$dtree"/$DRIVE:drive
+	printf '0x%08x\n' "$[ (bank << 12) | (num << 4) | af ]" > d/"$dtree"/"$PIN-$MUX:id"
+    fi
+}
+
+function read_setup() {
+    cd "$D"
+    while read pin mux volt drive pull dtree extra; do
+	case x$pin in
+	  (x|x#*)
+		;;
+
+	  (*)
+		setup_pin "$pin" "$mux" "$volt" "$drive" "$pull" "$dtree" "$extra"
+		;;
+	esac
+    done
+    cd -
+}
+
+function emit_single_register() {
+    declare -r F=$1
+
+    test -e $F || return 0
+
+    printf "\tHW_PINCTRL_%s_WR(\n" "$F"
+    while read val desc; do
+	printf "\t\t0x%08x | /* %s */\n" "$[ val ]" "$desc"
+    done < "$F"
+
+    printf "\t\t0);\n"
+}
+
+function emit_registers() {
+    cd "$D/s"
+
+    {
+      echo "#ifndef H_IMX_BOOTLETS_SETUP_PINS_H"
+      echo "#define H_IMX_BOOTLETS_SETUP_PINS_H"
+
+      echo "inline static void setup_pins(void)"
+      echo "{"
+
+      for i in `seq 0 19`; do
+	  emit_single_register DRIVE$i
+      done
+
+    # TODO: configure EMI pins? (--> 6)
+      for i in `seq 0 4`; do
+	  emit_single_register PULL$i
+      done
+
+    # TODO: configure EMI pins? (--> 13)
+      for i in `seq 0 10`; do
+	  emit_single_register MUXSEL$i
+      done
+
+      for i in `seq 0 4`; do
+	  emit_single_register DOUT$i
+	  emit_single_register DOE$i
+      done
+
+      echo "}"
+      echo "#endif"
+    } >&3
+
+    cd -
+}
+
+function emit_dtree_pinctrl() {
+    local I=$1
+    local i
+    local af
+    local PIN=$2
+    local OLDPWD
+
+    cd "$PIN"
+
+    printf "$I""reg = <0>;\n"
+
+    local seen=false
+    for i in *:pull; do
+	test -e "$i" || panic "Missing pull setup for '$PIN'"
+	$seen && panic "Conflicting pull setup for '$PIN'"
+
+	case $i in
+	  1:pull)
+		printf "$I""fsl,pull-up = <0x00000001>;\n"
+		;;
+	  0:pull)
+		printf "$I""fsl,pull-up = <0x00000000>;\n"
+		;;
+	  *)
+		panic "Bad pull setup '$i' for '$PIN'"
+		;;
+	esac
+	seen=true
+    done
+
+    local seen=false
+    for i in *:volt; do
+	test -e "$i" || panic "Missing voltage for '$PIN'"
+	$seen && panic "Conflicting voltage setup for '$PIN'"
+
+	case $i in
+	  3V3:volt)
+		printf "$I""fsl,voltage = <0x00000001>;\n"
+		;;
+	  1V8:volt)
+		printf "$I""fsl,voltage = <0x00000000>;\n"
+		;;
+	  *)
+		panic "Bad voltage setup '$i' for '$PIN'"
+		;;
+	esac
+	seen=true
+    done
+
+    local seen=false
+    for i in *:drive; do
+	test -e "$i" || panic "Missing drive setup for '$PIN'"
+	$seen && panic "Conflicting drive setup for '$PIN'"
+
+	case $i in
+	  4MA:drive)
+		printf "$I""fsl,drive-strength = <0x00000000>;\n"
+		;;
+	  8MA:drive)
+		printf "$I""fsl,drive-strength = <0x00000001>;\n"
+		;;
+	  12MA:drive)
+		printf "$I""fsl,drive-strength = <0x00000002>;\n"
+		;;
+	  *)
+		panic "Bad drive setup '$i' for '$PIN'"
+		;;
+	esac
+	seen=true
+    done
+
+    printf "$I""fsl,pinmux-ids = <\n"
+    for i in *:id; do
+	test -e "$i" || { warning "No pins for '$PIN'"; continue; }
+	read af < "$i"
+	printf "$I    0x%08x /* %s */\n" "$[ af ]" "${i%%:id}"
+    done
+    printf "$I"">;\n"
+
+    cd - >/dev/null
+}
+
+function emit_dtree() {
+    cd "$D/d"
+
+    {
+      cat <<EOF
+/ {
+    apb@80000000 {
+        apbh@80000000 {
+            pinctrl@80018000 {
+EOF
+
+      for b in "${BAD_PINDEFS[@]}"; do
+	  printf "/delete-node/ %s;\n" "$b"
+      done
+
+      I='                '
+      for i in *; do
+	  local l
+
+	  l=${i//-/_}
+	  l=${i//@/__}
+
+	  printf "$I""pin_$l: ${i//@/.} {\n"
+	  emit_dtree_pinctrl "$I    " "$i"
+	  printf "$I""};\n"
+      done
+
+      cat <<EOF
+            };
+        };
+    };
+};
+EOF
+    } >&3
+
+    cd -
+}
+
+read_defs < $DEFS   > /dev/null
+read_setup < $SETUP > /dev/null
+
+case $MODE in
+  bootlets)
+	emit_registers 3>&1 > /dev/null
+	;;
+  dtree)
+	emit_dtree 3>&1 > /dev/null
+	;;
+esac
+
+cd $D
+bash
