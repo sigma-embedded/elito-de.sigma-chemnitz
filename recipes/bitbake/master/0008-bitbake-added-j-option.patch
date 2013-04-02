@@ -1,4 +1,4 @@
-From 70bb2921d53c777bdb9b41536df3c74771f3103a Mon Sep 17 00:00:00 2001
+From ce6f9970ab48c5723c9ed4f3d4504b90bb09ec5f Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Sun, 20 May 2012 16:23:30 +0200
 Subject: [PATCH 08/12] bitbake: added -j option
@@ -16,7 +16,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  3 files changed, 15 insertions(+)
 
 diff --git a/bin/bitbake b/bin/bitbake
-index 8928905..2d6dcc4 100755
+index 40b50e1..e090aab 100755
 --- a/bin/bitbake
 +++ b/bin/bitbake
 @@ -184,6 +184,10 @@ Default BBFILES are the .bb files in the current directory.""")
@@ -31,22 +31,22 @@ index 8928905..2d6dcc4 100755
  
      configuration = BBConfiguration(options)
 diff --git a/doc/bitbake.1 b/doc/bitbake.1
-index d9d3902..d1f1a40 100644
+index 15a7f20..66642af 100644
 --- a/doc/bitbake.1
 +++ b/doc/bitbake.1
-@@ -103,6 +103,10 @@ Show debug logging for the specified logging domains
+@@ -98,6 +98,10 @@ emit the dependency trees of the specified packages in the dot syntax
+ Stop processing at the given list of dependencies when generating dependency
+ graphs. This can help to make the graph more appealing
  .TP
- .B \-P, \-\-profile
- profile the command and print a report
-+.TP
 +.B \-j\fR [\fIjobs\fR], \fB\-\-jobs\fR[=\fIjobs\fR]
 +The number of threads BitBake should run at once.  This option
 +overrides the \fI${BB_NUMBER_THREADS}\fR configuration variable.
- 
- .SH ENVIRONMENT VARIABLES
- bitbake uses the following environment variables to control its
++.TP
+ .B \-lDEBUG_DOMAINS, \-\-log-domains=DEBUG_DOMAINS
+ Show debug logging for the specified logging domains
+ .TP
 diff --git a/lib/bb/cooker.py b/lib/bb/cooker.py
-index 647a3b8..2c0a90b 100644
+index 4ee3881..c158710 100644
 --- a/lib/bb/cooker.py
 +++ b/lib/bb/cooker.py
 @@ -142,6 +142,13 @@ class BBCooker:
@@ -64,5 +64,5 @@ index 647a3b8..2c0a90b 100644
          # directory at a time
          lockfile = self.configuration.data.expand("${TOPDIR}/bitbake.lock")
 -- 
-1.7.11.7
+1.8.1.4
 
