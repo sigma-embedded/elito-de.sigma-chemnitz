@@ -24,7 +24,7 @@ do_compile() {
 }
 
 do_install() {
-    install -D -p -m 0755 load-linux ${D}${libdir}/${MACHINE}/load-linux
+    install -D -p -m 0644 load-linux ${D}${libdir}/${MACHINE}/load-linux
 }
 
 FILES_${PN} += "${libdir}/${MACHINE}/load-linux"
