@@ -121,6 +121,7 @@ python __anonymous () {
 }
 
 do_setup_makefile[dirs] = "${WORKDIR}/setup-makefile"
+do_setup_makefile[nostamp] = "1"
 do_setup_makefile() {
         set >&2
 
@@ -155,7 +156,6 @@ do_compile_kernelmodules[noexec] = "1"
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"
 do_patch[noexec] = "1"
-do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 do_install[noexec] = "1"
 do_compile_kernelmodules[noexec] = "1"
@@ -163,6 +163,10 @@ do_savedefconfig[noexec] = "1"
 do_sizecheck[noexec] = "1"
 do_deploy[noexec] = "1"
 do_uboot_mkimage[noexec] = "1"
+do_configure[noexec] = "1"
+do_package[noexec] = "1"
+do_packagedata[noexec] = "1"
+do_package_write_ipk[noexec] = "1"
 
 addtask do_setup_makefile before do_populate_sysroot do_build after do_configure
 
