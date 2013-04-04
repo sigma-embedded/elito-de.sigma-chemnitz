@@ -18,9 +18,11 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 DEPENDS += "elito-kernel dtc-native mx28-pins"
 
 do_configure() {
-    ln -sf ../Makefile '.'
-    ln -sf ../${MACHINE}.dts '.'
-    ln -sf ${STAGING_DATADIR}/mach-${MACHINE}/*.dtsi '.'
+    rm -f *.dts *.dtsi Makefile
+
+    ln -s ../Makefile '.'
+    ln -s ../*.dts* '.'
+    ln -s ${STAGING_DATADIR}/mach-${MACHINE}/*.dtsi '.'
 }
 
 do_install() {
