@@ -1,3 +1,4 @@
+SOC_FAMILY = mx28
 BOOTLETS_DIR = ${STAGING_DIR_TARGET}/usr/lib/imx-bootlets
 
 BAREBOX_SB_FILE = ${BOOTLETS_DIR}/uboot_ivt.bd
