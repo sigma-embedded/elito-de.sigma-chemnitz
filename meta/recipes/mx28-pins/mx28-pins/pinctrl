@@ -139,6 +139,16 @@ function setup_pin() {
     }
 
     if test x"$MUX" = xnc; then
+	case $VOLT in
+	  \#*)
+		set -- $DRIVE $PULL $DTREE
+		VOLT=
+		DRIVE=
+		PULL=
+		DTREE=
+		;;
+	esac
+
 	MUX=GPIO
 	: ${VOLT:=3V3}
 	: ${DRIVE:=4MA}
