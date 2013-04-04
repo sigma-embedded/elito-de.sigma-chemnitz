@@ -1,6 +1,8 @@
 # --*- python -*--
 PRINC := "${@int('${PRINC}') + 1}"
 
+DEPENDS += "libgcrypt"
+
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
 
 _headless-pkgs := "${@'${PACKAGES}'.replace(' ${PN}-analyze', ' ')}"
