@@ -8,10 +8,9 @@ IMAGE_ROOTIMG ?=	${IMAGEDIR}/elito-image-$(MACHINE).ext4
 SKIP_PRESCRIPT =
 SKIP_POSTSCRIPT =
 
-SKIP_BOOTBIN =
-SKIP_AUTOBOOT =
+SKIP_BOOTSTREAM0 =
+SKIP_BOOTSTREAM1 =
 SKIP_KERNEL =
-SKIP_RESCUE =
 SKIP_ROOTIMG =
 
 SKIP_ANDROID_SYSTEM = t
@@ -25,9 +24,9 @@ IMAGE_STREAM_deps = \
 	${IMAGE_ROOTIMG}
 
 ARGS = \
-  $(call genopts,0x20000,PRESCRIPT) \
+  $(call genopts,0x20000,PRESCRIPT,t) \
   $(call genopts,0x21000,BOOTSTREAM0) \
   $(call genopts,0x21001,BOOTSTREAM1) \
   $(call genopts,0x21002,KERNEL) \
   $(call genopts,0x22000,ROOTIMG) \
-  $(call genopts,0x20001,POSTSCRIPT) \
+  $(call genopts,0x20001,POSTSCRIPT,t) \

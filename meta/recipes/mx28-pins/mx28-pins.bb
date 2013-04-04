@@ -16,6 +16,7 @@ EXTRA_OEMAKE = "\
   VPATH=${WORKDIR} prefix=${prefix} datadir=${datadir} \
 "
 
+COMPATIBLE_MACHINE = "mx28"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_configure() {
