@@ -1,9 +1,9 @@
 IMAGE_PRESCRIPT ?=	${PROJECT_TOPDIR}/files/rescue-prescript
 IMAGE_POSTSCRIPT ?=	${PROJECT_TOPDIR}/files/rescue-postscript
-IMAGE_BOOTSTREAM0 ?=	${IMAGEDIR}/u-boot-kk-ipan4.sb
-IMAGE_BOOTSTREAM1 ?=	${IMAGEDIR}/rescue-zImage-kk-ipan4.sb
-IMAGE_KERNEL ?=		${IMAGEDIR}/uImage-kk-ipan4.bin
-IMAGE_ROOTIMG ?=	${IMAGEDIR}/elito-image-kk-ipan4.ext4
+IMAGE_BOOTSTREAM0 ?=	${IMAGEDIR}/u-boot-$(MACHINE).sb
+IMAGE_BOOTSTREAM1 ?=	${IMAGEDIR}/rescue-zImage-$(MACHINE).sb
+IMAGE_KERNEL ?=		${IMAGEDIR}/uImage-$(MACHINE).bin
+IMAGE_ROOTIMG ?=	${IMAGEDIR}/elito-image-$(MACHINE).ext4
 
 SKIP_PRESCRIPT =
 SKIP_POSTSCRIPT =
