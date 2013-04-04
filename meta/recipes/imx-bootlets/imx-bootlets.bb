@@ -24,6 +24,8 @@ CFLAGS += "-mno-thumb-interwork -fomit-frame-pointer"
 CFLAGS += "-fuse-linker-plugin -flto"
 LDFLAGS += "-Wl,-gc-sections -fuse-linker-plugin -flto"
 
+DEPENDS += "mx28-pins"
+
 EXTRA_OEMAKE = " \
   BOARD=iMX28_EVK \
   CC='${CC}' \
