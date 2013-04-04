@@ -14,6 +14,7 @@ PV   = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+COMPATIBLE_MACHINE = "mx28"
 
 inherit gitpkgv
 
