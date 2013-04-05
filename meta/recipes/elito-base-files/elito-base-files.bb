@@ -13,9 +13,9 @@ SRC_URI = "	\
 	file://hosts			\
 	file://nsswitch.conf		\
 	file://sysctl.conf		\
-	file://interfaces		\
 	file://licenses			\
 	file://profile			\
+        file://device-order.conf	\
 "
 
 RELEASE_FILES_PROVIDER ?= "elito-release"
@@ -24,12 +24,25 @@ RRECOMMENDS_${PN} = "${RELEASE_FILES_PROVIDER}"
 TMPFS_SIZE       ?= "8m"
 PTS_GID          ?= "5"
 
+def insert_soc_family(val, d):
+    if d.getVar('SOC_FAMILY', False) != None and val.endswith('${MACHINE}'):
+        val = val[0:-10] + '${SOC_FAMILY}:${MACHINE}'
+
+    return d.expand(val)
+
+MACHINEOVERRIDES := "${@insert_soc_family(d.getVar('MACHINEOVERRIDES', False), d)}"
+
 do_install() {
+	i() {
+            test -s "$1" || return 0
+	    install -D -p -m 0644 "$1" "${D}$2"
+	}
+
 	set -x
 	cd ${WORKDIR}
 	mkdir -p ${D}${sysconfdir} ${D}${datadir}/doc/
 
-	for i in hosts nsswitch.conf sysctl.conf profile; do
+	for i in hosts nsswitch.conf profile; do
 		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
 
@@ -40,7 +53,8 @@ do_install() {
 	ln -s ../run/resolv.conf ${D}/etc/resolv.conf
 	ln -s ../run/ntpd.conf ${D}/etc/ntpd.conf
 
-        install -D -p -m 0644 interfaces ${D}${sysconfdir}/network/interfaces
+        i device-order.conf ${sysconfdir}/modprobe.d/10-device-order.conf
+        i sysctl.conf       ${sysconfdir}/sysctl.d/10-elito.conf
 
 	c1='-e /[[:space:]]debugfs[[:space:]]/d'
 	c2='-e /[[:space:]]selinuxfs[[:space:]]/d'
@@ -65,8 +79,7 @@ do_install() {
 PACKAGES        = "${PN}"
 RDEPENDS_${PN}  = "elito-filesystem"
 CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hosts \
-	${sysconfdir}/nsswitch.conf ${sysconfdir}/sysctl.conf	\
-	${sysconfdir}/resolv.conf.static ${sysconfdir}/ntpd.conf.static	\
-	${sysconfdir}/network/interfaces"
+	${sysconfdir}/nsswitch.conf \
+	${sysconfdir}/resolv.conf.static ${sysconfdir}/ntpd.conf.static"
 
 FILES_${PN}     = "${sysconfdir}/* ${datadir}/doc/licenses"
