@@ -38,6 +38,8 @@ do_install_append() {
     t=${@base_contains('DISTRO_FEATURES', 'x11', 'graphical', 'multi-user', d)}
     rm -f ${D}${base_libdir}/systemd/system/default.target
     ln -s $t.target ${D}${base_libdir}/systemd/system/default.target
+
+    rm ${D}${sysconfdir}/udev/rules.d/modprobe.rules
 }
 
 do_install_append_headless() {
