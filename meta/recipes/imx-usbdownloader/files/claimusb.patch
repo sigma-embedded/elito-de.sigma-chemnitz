@@ -1,0 +1,42 @@
+Index: usbdownloader/libusb_handler.c
+===================================================================
+--- usbdownloader.orig/libusb_handler.c
++++ usbdownloader/libusb_handler.c
+@@ -147,21 +147,22 @@ int usb_write( int size, char * dataBuf)
+                 if(udev == NULL){
+                     retval = -ERR_NO_DEV;
+                     printf("\n%s: %s\n", __func__, usb_strerror());
+-                }else {
+-                    if(usb_claim_interface(udev, 0) != 0 ){
+-                        if(usb_detach_kernel_driver_np(udev, 0) != 0 ){
+-                            printf("\n%s: %s\n", __func__, usb_strerror());
+-                            retval = -ERR_DEV_BUSY;
+-                        } else {
+-                            retval = transferData( udev, size, dataBuf);
+-                            usb_release_interface(udev, 0);
+-                        }
+-                    }else{ 
+-                        retval = transferData( udev, size, dataBuf);
+-                        usb_release_interface(udev, 0);
+-                    }
+-                    usb_close (udev);
+-                }
++                } else if(usb_claim_interface(udev, 0) == 0 )
++		    retval = 0;
++		else if(usb_detach_kernel_driver_np(udev, 0) != 0 ){
++                    printf("\n%s: %s\n", __func__, usb_strerror());
++		    retval = -ERR_DEV_BUSY;
++		} else if (usb_claim_interface(udev, 0) != 0) {
++                    printf("\n%s: %s\n", __func__, usb_strerror());
++		    retval = -ERR_DEV_BUSY;
++		} else
++		    retval = 0;
++
++		if (retval == 0) {
++			retval = transferData( udev, size, dataBuf);
++			usb_release_interface(udev, 0);
++		}
++		usb_close (udev);
+             }
+ 
+         }

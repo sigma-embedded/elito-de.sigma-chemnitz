@@ -1,0 +1,106 @@
+Index: usbdownloader/main.c
+===================================================================
+--- usbdownloader.orig/main.c
++++ usbdownloader/main.c
+@@ -26,6 +26,9 @@
+ #include <sys/stat.h>
+ #include <sys/ioctl.h>
+ #include <errno.h>
++
++#include <libudev.h>
++
+ #include"main.h"
+ #include"libusb_handler.h"
+ 
+@@ -67,16 +70,62 @@ void checkargs(int argc, char * argv[],
+     }
+ }
+ 
++static int udev_wait(struct udev *udev)
++{
++	struct udev_monitor	*mon = udev_monitor_new_from_netlink(udev, "udev");
++	int			rc = -1;
++	int			fd;
++	struct udev_device	*dev = NULL;
++	fd_set			fds;
++
++	if (!mon)
++		goto out;
++
++	if ((rc = udev_monitor_filter_add_match_subsystem_devtype(mon, "hid",
++								  NULL)) < 0 ||
++	    (rc = udev_monitor_filter_update(mon) < 0) ||
++	    (rc = udev_monitor_enable_receiving(mon) < 0))
++		goto out;
++
++
++	rc = -1;
++	fd = udev_monitor_get_fd(mon);
++	if (fd < 0)
++		goto out;
++
++	FD_ZERO(&fds);
++	FD_SET(fd, &fds);
++	select(fd+1, &fds, NULL, NULL, NULL);
++
++	dev = udev_monitor_receive_device(mon);
++	if (!dev)
++		goto out;
++
++	rc = 0;
++
++out:
++	if (dev)
++		udev_device_unref(dev);
++
++	if (mon)
++		udev_monitor_unref(mon);
++
++	return rc;
++}
++
+ int main(int argc, char *argv[]){
+     FILE * infd;
+     void * data;
+     int retval;
+     unsigned int sz, bytesRead;
+     struct params params={""};
++    struct udev	*udev;
+ 
+ 
+     checkargs(argc, argv, &params);
++    udev = udev_new();
+ 
++again:
+     infd = fopen(params.file_name, "rb");
+     if(infd == NULL){
+         printf( "Error opening input file: %s\n", strerror( errno ) );
+@@ -99,8 +148,19 @@ int main(int argc, char *argv[]){
+     }
+ 
+     printf("attempting to write writing [%s] bootstream...", params.file_name);
++
+     retval=usb_write(sz, data);
+ 
++    free(data);
++    fclose(infd);
++
++    if (retval == -ERR_NO_DEV &&
++	udev != NULL &&
++	udev_wait(udev) >= 0)
++	    goto again;
++
++    udev_unref(udev);
++
+     switch(retval){
+         case -ERR_TX:
+         case -ERR_DEV_BUSY:
+@@ -114,8 +174,6 @@ int main(int argc, char *argv[]){
+             printf("Unknown error\n");
+     }
+ 
+-    free(data);
+-    fclose(infd);
+     return retval;
+ }
+ 
