@@ -1,12 +1,12 @@
 \documentclass[a4paper,12pt,english]{scrreprt}
 
-\newif\ifpdf
-        \ifx\pdfoutput\undefined
-        \pdffalse                       % we are not running pdflatex
-\else
-        \pdfoutput=1                    % we are running pdflatex
-        \pdftrue
-\fi
+% \newif\ifpdf
+%         \ifx\pdfoutput\undefined
+%         \pdffalse                       % we are not running pdflatex
+% \else
+%         \pdfoutput=1                    % we are running pdflatex
+%         \pdftrue
+% \fi
 
 \usepackage{babel}
 \selectlanguage{english}
@@ -17,15 +17,11 @@
 \usepackage{lmodern}
 \usepackage{fancyvrb}
 
-\ifpdf
-        \usepackage{thumbpdf}
-        \usepackage[pdftex, colorlinks=true]{hyperref}   % !! keine Links im  draft-Modus !!
-        \usepackage[pdftex]{graphicx}
-        \pdfcompresslevel=9             % compression level for text and image;
-\else
-        \usepackage[dvips]{graphicx}
-        \usepackage[dvips, colorlinks=false, pdfborder=0]{hyperref}             % die hyperref-Erweiterung
-\fi
+\usepackage{thumbpdf}
+\usepackage[pdftex, colorlinks=true]{hyperref}   % !! keine Links im  draft-Modus !!
+\usepackage[pdftex]{graphicx}
+\pdfcompresslevel=9             % compression level for text and image;
+
 \usepackage{dirtree}
 \usepackage{color,epsfig}
 \usepackage{epic,eepic}
