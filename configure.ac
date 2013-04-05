@@ -735,6 +735,8 @@ PKG_CHECK_MODULES(UUID,      [uuid >= 2.18], [
   ELITO_CHECK_PROGRAM( 0, UTIL_LINUX, mount, util-linux)
   ELITO_CHECK_PROGRAM( 0, UTIL_LINUX, mount, util-linux-ng)], [true])
 
+PKG_CHECK_MODULES(LIBUDEV,   [libudev], [ELITO_ASSUME(0, libudev, true)], [true])
+
 AC_CONFIG_FILES([Makefile
 		set-env.in
 		conf/bblayers.conf.in
