@@ -50,6 +50,64 @@ Four parts
   done as root to set correct file ownership.
 \end{description}
 
+\section{Keith\&Koep i-PAN4 + Trizeps MX28}
+
+\begin{enumerate}
+\item Build complete set of images (normal and rescue images plus the
+  resulting stream)
+  \begin{lstlisting}[language=sh]
+    make all-images
+    make image-stream
+  \end{lstlisting}
+  You will get two files
+  \begin{description}
+  \item [\texttt{tmp/deploy/images/rescue-zimage-\$PROJECT-image.sb}]
+    Freescale SB stream going to be downloaded by the
+    \texttt{imx-usbdownloader} tool below
+  \item [\texttt{tmp/deploy/images/\$PROJECT-image.stream}] A stream
+    containing kernel, bootloader, rootfs and other data; it can be
+    transmitted over TCP, HTTP or on SD Card to the rescue system
+    which writes theses parts at the right places.  Integrity of the
+    hunks can be guaranteed by x.509 signatures or simple hashes.
+  \end{description}
+\item Configure device to boot from USB
+  \begin{description}
+  \item[i-PAN4] Remove the SD Card
+  \item[Trizeps MX28] tbd; might be not possible withouth hardware
+    modifications atm (2013-04-05)
+  \end{description}
+\item Execute as root
+  \begin{lstlisting}[language=sh]
+    imx-usbdownloader -f .../tmp/deploy/images/rescue-zImage-kk-ipan4.sb
+  \end{lstlisting}
+
+  The \texttt{imx-usbdownloader} tool must be built either manually;
+  see a sample
+  \href{http://www.sigma-chemnitz.de/elito/sources/imx-usbdownloader-0.0.2-1.fc17x.src.rpm}{RPM}
+  for reference.  Alternatively, it can be built with
+  \begin{lstlisting}[language=sh]
+    ./bitbake imx-usbdownloader
+    ./bitbake imx-usbdownloader-native
+  \end{lstlisting}
+  The results of the first command are to be executed on the target
+  platform; the second command requires that the \texttt{libudev}
+  development files are installed on the host.
+\item Turn on the target device; it will use DHCP to obtain an IP
+  address so look into the logfiles of the dhcp server or dump the
+  network traffic to find out the address.  Alternatively, the ip
+  address will be given out on the DUART serial port (requires a
+  special flat cable and ttl/rs232 adapter).
+\item Transmit the image stream
+  \begin{lstlisting}[language=sh]
+    nc $IP 8000 < tmp/deploy/images/\$PROJECT-image.stream
+  \end{lstlisting}
+% $
+  Progress will be printed on stdout; see
+  \ref{app:log:mx28_rescue_system} for sample logs.
+\item Reset the device
+\end{enumerate}
+
+
 \section{Toradex Bootloader (Colibri270)}
 
 \paragraph{NOTE:} Content of this section is preliminary and consists

@@ -1,0 +1,31 @@
+$ nc 192.168.2.100 8000 < tmp/deploy/images/trizeps-mx28-image.stream
+Receiving data...
+Receiving data 'bootstream0'... done
+Receiving data 'bootstream1'... done
+0+56 records in
+0+56 records out
+56 bytes (56B) copied, 0.394937 seconds, 141B/s
+544+1 records in
+544+1 records out
+279008 bytes (272.5KB) copied, 1.658906 seconds, 164.2KB/s
+7591+0 records in
+7591+0 records out
+3886592 bytes (3.7MB) copied, 2.987782 seconds, 1.2MB/s
+Receiving data 'kernel'... done
+Mounting '/dev/sd-card-ext2'... done
+Copying data 'kernel' to 'uImage' (partition #2)... done
+Copying 'rootfs' stream to partition #3...done
+  | 0+835 records in
+  | 0+835 records out
+  | 60186624 bytes (57.4MB) copied, 31.036375 seconds, 1.8MB/s
+Resizing filesystem...
+resize2fs 1.42.7 (21-Jan-2013)
+Resizing the filesystem on /dev/sd-card-ext3 to 327680 (1k) blocks.
+Begin pass 2 (max = 8)
+Relocating blocks             XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Begin pass 3 (max = 8)
+Scanning inode table          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+The filesystem on /dev/sd-card-ext3 is now 327680 blocks long.
+
+ done
+ done
