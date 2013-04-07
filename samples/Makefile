@@ -1,7 +1,10 @@
 srcdir ?= .
 TARBALL = base-files.tar.bz2
 
-dist:	$(TARBALL)
+dist:		BASEDIR=$(srcdir)/rootfs
+dist-rescue:	BASEDIR=$(srcdir)/rootfs-rescue
 
-$(TARBALL):	$(srcdir)/rootfs
-	tar cjf $(TARBALL) -C $^ . --owner root --group root
+dist dist-rescue:	$(TARBALL)
+
+$(TARBALL):
+	tar cjf $(TARBALL) -C $(BASEDIR) . --owner root --group root
