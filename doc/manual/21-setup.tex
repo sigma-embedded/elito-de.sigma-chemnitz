@@ -42,7 +42,7 @@ CONFIGURE_OPTIONS += \
 \end{lstlisting}%$
   \texttt{NFSROOT} is either given on the make commandline
 \begin{lstlisting}[language=bash]
-$ make configure M=$project NFSROOT=/srv/sysroots
+$ make configure M=$project NFSROOT=/srv/elito/.sysroots
 \end{lstlisting}
 or set in global configuration files\footnote{\texttt{.config} files
   with domain and hostname suffixes are read in the toplevel
@@ -66,22 +66,22 @@ requires superuser permissions.
   \end{description}
 \item Add to \texttt{/etc/exports} an entry like
 \begin{verbatim}
-/srv/sysroots   *(ro,async,no_root_squash)
+/srv/elito/.sysroots   *(ro,async,no_root_squash)
 \end{verbatim} and reload it by
 \begin{lstlisting}[language=sh]
 # exportfs -ra
 \end{lstlisting}
 
-  Although later only the \texttt{/srv/sysroots/my-project} directory
-  is mounted, it is recommended to export the whole \texttt{NFSROOT}
-  hierarchy.
+  Although later only the \texttt{/srv/elito/.sysroots/my-project}
+  directory is mounted, it is recommended to export the whole
+  \texttt{NFSROOT} hierarchy.
 
 \end{enumerate}
 
 The installation can be checked by
 \begin{lstlisting}[language=sh]
 # mount -tnfs -oro,v3,nolock,tcp \
-  `hostname`:/srv/sysroots/my-project /mnt
+  `hostname`:/srv/elito/.sysroots/my-project /mnt
 $ ls -l /mnt
 \end{lstlisting}%$
   which will mount the rootfilesytem on the development machine in a
@@ -91,7 +91,7 @@ $ ls -l /mnt
   \item Configure the target device to use this location.  The exact
     procedure depends on the used bootloader but basically,
 \begin{verbatim}
-root=nfs ro nfsroot=<ip>:/srv/sysroots/my-project,v3,tcp,nolock
+root=nfs ro nfsroot=<ip>:/srv/elito/.sysroots/my-project,v3,tcp,nolock
 \end{verbatim}
     parameters must be added to the kernel cmdline:
 

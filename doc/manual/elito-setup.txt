@@ -1,4 +1,4 @@
-elito-release-201009@london:/srv/elito$ bash ../elito-setup `pwd` pub/elito/reference release-201009
+elito-release-201009@london:/srv/elito/bsp$ bash ../elito-setup `pwd` pub/elito/reference release-201009
 Core programs:
   checking for program tar... /bin/tar
   checking for program gzip... /bin/gzip
@@ -25,7 +25,7 @@ Libraries:
   checking for libproxy... no
 
 General questions:
-  Where to install ELiTo [/srv/elito]?
+  Where to install ELiTo [/srv/elito/bsp]?
 
 Proxy traversal/remote setup:
   checking for program sigma-ssl-client... no
@@ -34,7 +34,7 @@ Proxy traversal/remote setup:
     building sigma-ssl-client... ok
   location of ELiTo certificate [${HOME}/.elito.pem]?
   checking for program elito-proxy... no
-    creating /srv/elito/.bin/elito-proxy... done
+    creating /srv/elito/bsp/.bin/elito-proxy... done
   registering elito-proxy in git... done
   project repository [pub/elito/reference]?
 
@@ -70,14 +70,14 @@ From git://git.sigma-chemnitz.de:4815/u-boot
  * [new tag]         v2009.11.1 -> v2009.11.1
  * [new tag]         v2010.03   -> v2010.03
  * [new tag]         v2010.06   -> v2010.06
-Initialized empty Git repository in /srv/elito/de.sigma-chemnitz/.git/
+Initialized empty Git repository in /srv/elito/bsp/de.sigma-chemnitz/.git/
 remote: Counting objects: 4956, done.
 remote: Compressing objects: 100% (1936/1936), done.
 remote: Total 4956 (delta 3107), reused 4532 (delta 2819)
 Receiving objects: 100% (4956/4956), 627.98 KiB, done.
 Resolving deltas: 100% (3107/3107), done.
 Submodule path 'de.sigma-chemnitz': checked out '8829052485878a03c5321a54f5ed2481caefd3f8'
-Initialized empty Git repository in /srv/elito/org.openembedded/.git/
+Initialized empty Git repository in /srv/elito/bsp/org.openembedded/.git/
 remote: Counting objects: 376578, done.
 remote: Compressing objects: 100% (114544/114544), done.
 remote: Total 376578 (delta 256862), reused 372273 (delta 252593)
@@ -85,7 +85,7 @@ Receiving objects: 100% (376578/376578), 150.98 MiB | 10.11 MiB/s, done.
 Resolving deltas: 100% (256862/256862), done.
 Submodule path 'org.openembedded': checked out 'a7eb519e2c344f38751c736bba0f3a6f96c7ca8c'
 *******************************************
-Project has been downloaded; now go to /srv/elito, set parameters
+Project has been downloaded; now go to /srv/elito/bsp, set parameters
 in .config-<domain> or .config-<hostname> and execute
 
   make configure M=<project>
@@ -93,4 +93,4 @@ in .config-<domain> or .config-<hostname> and execute
 
  there.
 *******************************************
-elito-release-201009@london:/srv/elito$
+elito-release-201009@london:/srv/elito/bsp$

@@ -39,7 +39,7 @@ back into the main repository:
 
 \begin{lstlisting}[language=sh]
 #### clone + modify the kernel
-cd /srv/elito/workspace
+cd /srv/elito/bsp/workspace
 git clone -l -s kernel.git kernel-my.git
 cd kernel-my.git
 git checkout --track -b 2.6.31/my-branch origin/2.6.31/vendor/platform
@@ -56,7 +56,7 @@ git commit arch/arm/configs/platform_defconfig
 git push origin 2.6.31/my-branch
 
 #### register new branch
-cd /srv/elito/$project
+cd /srv/elito/bsp/$project
 vim conf/project.conf
 \end{lstlisting}
 

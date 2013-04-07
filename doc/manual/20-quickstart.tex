@@ -47,7 +47,7 @@ sudo aptitude install \
   recommended to have this directory on an NFS share.
 
   The following steps will call this place ``toplevel directory''
-  and assume that it is located at \texttt{/srv/elito}.
+  and assume that it is located at \texttt{/srv/elito/bsp}.
 \item\label{step:quickstart_elito-registration} After your
   registration\footnote{see \url{http://elito.sigma-chemnitz.de}} for
   ELiTo you will receive a message with an X.509 certificate and a
@@ -62,7 +62,7 @@ sudo aptitude install \
   the sources of an SSL tunnel program.
 \item\label{step:quickstart_elito-setup-call} Execute
 \begin{lstlisting}[language=bash]
-$ bash /tmp/elito-setup /srv/elito-setup <project> <branch>
+$ bash /tmp/elito-setup /srv/elito/bsp <project> <branch>
 \end{lstlisting}%$
   with \texttt{<project>} and \texttt{<branch>} being told in
   \autoref{step:quickstart_elito-registration}. See
@@ -85,7 +85,7 @@ $ bash /tmp/elito-setup /srv/elito-setup <project> <branch>
 \begin{enumerate}[resume]
 \item Choose and create directories for
   \begin{itemize}
-  \item the NFS exportable rootfilesystem (e.g. \texttt{/srv/sysroots})
+  \item the NFS exportable rootfilesystem (e.g. \texttt{/srv/elito/.sysroots})
   \item downloaded sources (e.g. \texttt{/srv/elito/.cache}).
   \end{itemize}
 
@@ -96,9 +96,9 @@ $ bash /tmp/elito-setup /srv/elito-setup <project> <branch>
     \texttt{.config} files in the toplevel directory; see
     \autoref{sec:XXX}} the project % TODO
 \begin{lstlisting}[language=bash]
-cd /srv/elito
+cd /srv/elito/bsp
 make M=$project configure \
-  NFSROOT=/srv/sysroots CACHEROOT=/srv/elito/.cache
+  NFSROOT=/srv/elito/.sysroots CACHEROOT=/srv/elito/.cache
 make M=$project init
 \end{lstlisting}
 
@@ -106,7 +106,7 @@ make M=$project init
 
 \item (optional) Fetch all sources
 \begin{lstlisting}[language=bash]
-cd /srv/elito/$project
+cd /srv/elito/bsp/$project
 ./bitbake elito-image -c fetchall
 \end{lstlisting}%$
 
@@ -117,7 +117,7 @@ cd /srv/elito/$project
   internet and placed into the \texttt{\$CACHEROOT}.
 \item (optional) Build an existing project
 \begin{lstlisting}[language=bash]
-cd /srv/elito
+cd /srv/elito/bsp
 make M=$project build
 \end{lstlisting}%$
 
@@ -145,7 +145,7 @@ EOF
   \end{lstlisting}
 \item Build the project from the toplevel directory
   \begin{lstlisting}[language=bash]
-cd /srv/elito
+cd /srv/elito/bsp
 make M=<path-to-new-project> build
   \end{lstlisting}
 \end{enumerate}

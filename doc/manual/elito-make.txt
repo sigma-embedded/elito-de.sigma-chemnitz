@@ -1,7 +1,7 @@
-elito-release-201009@london:/srv/elito$ make configure M=COLIBRI320 NFSROOT=/srv/sysroots CACHEROOT=/srv/cache
-make -C 'COLIBRI320' -f /srv/elito/Makefile configure _MODE=configure _topdir=/srv/elito
-make[1]: Entering directory `/srv/elito/COLIBRI320'
-/srv/elito/de.sigma-chemnitz/configure --enable-maintainer-mode --with-cache-dir='/srv/cache' --enable-machine=toradex-colibri320 --enable-nfs-root=/srv/sysroots/colibri320/evalboard --with-project-name=colibri320
+elito-release-201009@london:/srv/elito/bsp$ make configure M=COLIBRI320 NFSROOT=/srv/elito/.sysroots CACHEROOT=/srv/cache
+make -C 'COLIBRI320' -f /srv/elito/bsp/Makefile configure _MODE=configure _topdir=/srv/elito/bsp
+make[1]: Entering directory `/srv/elito/bsp/COLIBRI320'
+/srv/elito/bsp/de.sigma-chemnitz/configure --enable-maintainer-mode --with-cache-dir='/srv/cache' --enable-machine=toradex-colibri320 --enable-nfs-root=/srv/elito/.sysroots/colibri320/evalboard --with-project-name=colibri320
 checking whether 'sh' is 'bash'... yes
 checking whether to enable offline mode... no
 checking whether security wrapper works... yes
@@ -10,7 +10,7 @@ configure:   enabling component 'kernel'
 configure:   enabling component 'u-boot'
 checking for python... /usr/bin/python
 checking for bitbake version... 1.10
-checking whether to enable an NFS root directory... yes (/srv/sysroots/colibri320/evalboard)
+checking whether to enable an NFS root directory... yes (/srv/elito/.sysroots/colibri320/evalboard)
 checking for tftp server... 192.168.0.141
 checking for tftp root directory... /tftpboot
 checking whether 'type -p' works... yes
@@ -44,5 +44,5 @@ config.status: creating conf/local.conf.in
 config.status: creating bitbake
 config.status: executing config commands
 config.status: executing fixperm commands
-make[1]: Leaving directory `/srv/elito/COLIBRI320'
-elito-release-201009@london:/srv/elito$
+make[1]: Leaving directory `/srv/elito/bsp/COLIBRI320'
+elito-release-201009@london:/srv/elito/bsp$
