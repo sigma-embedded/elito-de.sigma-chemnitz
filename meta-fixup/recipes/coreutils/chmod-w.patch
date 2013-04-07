@@ -1,0 +1,31 @@
+From aa5387a7e21e26ea874dfb3814c5cfce16405d96 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Date: Sat, 6 Apr 2013 14:02:28 +0200
+Subject: [PATCH] build: use 'chmod a-w' instead of 'chmod -w'
+
+'chmod -w' is not portable and breaks the build:
+
+| WARNING: Cannot create proper 'hostid.1' man page, since perl is missing or
+| WARNING: inadequate on this system.  Creating a stub man page instead.
+| chmod: man/hostid.1-t: new permissions are r--rw-r--, not r--r--r--
+| make[2]: *** [man/hostid.1] Error 1
+
+Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+---
+ man/local.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/man/local.mk b/man/local.mk
+index b5e6e21..53debad 100644
+--- a/man/local.mk
++++ b/man/local.mk
+@@ -192,5 +192,5 @@ man/yes.1:       src/yes
+ 		     --output=$$t/$$name.1 $$t/$$name			\
+ 	  && sed 's|$*\.td/||g' $$t/$$name.1 > $@-t			\
+ 	  && rm -rf $$t							\
+-	  && chmod -w $@-t						\
++	  && chmod a-w $@-t						\
+ 	  && mv $@-t $@
+-- 
+1.8.1.4
+
