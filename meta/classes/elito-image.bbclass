@@ -54,10 +54,10 @@ elito_set_rootbash() {
 }
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-history", \
-		                 "elito_add_devel_history", "", d)}"
+		                 "elito_add_devel_history ;", "", d)}"
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-sshkey", \
-		                 "elito_add_devel_sshkey", "", d)}"
+		                 "elito_add_devel_sshkey ;", "", d)}"
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "no-root-bash", \
-			         "", "elito_set_rootbash", d)}"
+			         "", "elito_set_rootbash ;", d)}"
