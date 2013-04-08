@@ -46,8 +46,14 @@ sudo aptitude install \
   \texttt{root} permissions.  Due to performance reasons it is not
   recommended to have this directory on an NFS share.
 
-  The following steps will call this place ``toplevel directory''
-  and assume that it is located at \texttt{/srv/elito/bsp}.
+  The following steps will call this place ``toplevel directory'' and
+  assume that it is located at \texttt{/srv/elito/bsp}.  The exact
+  name and location does not matter (except that it should not be
+  excessively long to prevent \texttt{ENAMETOOLONG} errors) and you
+  might want to apply a custom naming scheme
+  (e.g. \texttt{/srv/elito/bsp-2013.0} or
+  \texttt{/srv/elito/myproduct-v1.0}) to allow multiple parallelly
+  used branches.
 \item\label{step:quickstart_elito-registration} After your
   registration\footnote{see \url{http://elito.sigma-chemnitz.de}} for
   ELiTo you will receive a message with an X.509 certificate and a
