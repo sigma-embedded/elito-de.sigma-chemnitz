@@ -36,10 +36,16 @@ do_install_append() {
     rmdir ${D}${localstatedir}/log/journal
 
     t=${@base_contains('DISTRO_FEATURES', 'x11', 'graphical', 'multi-user', d)}
-    rm -f ${D}${base_libdir}/systemd/system/default.target
-    ln -s $t.target ${D}${base_libdir}/systemd/system/default.target
+    rm -f ${D}${systemd_unitdir}/system/default.target
+    ln -s $t.target ${D}${systemd_unitdir}/system/default.target
 
     rm ${D}${sysconfdir}/udev/rules.d/modprobe.rules
+
+    mkdir -p ${D}${systemd_unitdir}/system/default.target.wants
+    ln -s \
+        ../systemd-readahead-replay.service \
+        ../systemd-readahead-collect.service \
+        ${D}${systemd_unitdir}/system/default.target.wants/
 }
 
 do_install_append_headless() {
@@ -65,11 +71,17 @@ python systemd_elito_populate_packages () {
         'graphical' : ['display-manager.service',
                        'graphical.target',
                        'runlevel5.target'],
+        'readahead' : ['systemd-readahead-done.timer',
+                       'systemd-readahead-drop.service',
+                       'systemd-readahead-done.service',
+                       'systemd-readahead-replay.service',
+                       'systemd-readahead-collect.service'],
         }
 
     xtra_paths = {
-        'binfmt' : ['${base_libdir}/systemd/systemd-binfmt',
+        'binfmt' : ['${systemd_unitdir}/systemd-binfmt',
                     '${libdir}/binfmt.d'],
+        'readahead' : ['${systemd_unitdir}/systemd-readahead'],
     }
 
     pkgs = ''
@@ -100,6 +112,7 @@ RDEPENDS_systemd := "${@(bb.data.getVar('RDEPENDS_systemd', d, True) or '')\
                        .replace('dbus-systemd', '')}"
 
 RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
+RRECOMMENDS_${PN} += "util-linux-mount systemd-readahead"
 
 python() {
     r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""
