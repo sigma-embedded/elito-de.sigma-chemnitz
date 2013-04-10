@@ -24,14 +24,6 @@ RRECOMMENDS_${PN} = "${RELEASE_FILES_PROVIDER}"
 TMPFS_SIZE       ?= "8m"
 PTS_GID          ?= "5"
 
-def insert_soc_family(val, d):
-    if d.getVar('SOC_FAMILY', False) != None and val.endswith('${MACHINE}'):
-        val = val[0:-10] + '${SOC_FAMILY}:${MACHINE}'
-
-    return d.expand(val)
-
-MACHINEOVERRIDES := "${@insert_soc_family(d.getVar('MACHINEOVERRIDES', False), d)}"
-
 do_install() {
 	i() {
             test -s "$1" || return 0
