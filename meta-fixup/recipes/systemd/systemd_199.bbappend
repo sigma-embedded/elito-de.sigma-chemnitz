@@ -23,6 +23,10 @@ EXTRA_OECONF += "\
   --with-sysvrcnd-path= \
 "
 
+do_configure_prepend() {
+    echo 'install-aliases-hook:	install-directories-hook' >> Makefile.am
+}
+
 do_configure_append() {
     grep '#RuntimeWatchdogSec=0' src/core/system.conf
     if test -n "${WATCHDOG_TIMEOUT}"; then
