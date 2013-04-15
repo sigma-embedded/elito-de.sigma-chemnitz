@@ -11,9 +11,3 @@ SRC_URI += "\
 "
 
 DEPENDS += "readline"
-
-SYSTEMD_PACKAGES = "${PN}-systemd"
-PACKAGES += "${SYSTEMD_PACKAGES}"
-FILES_${PN}-systemd += "${systemd_unitdir}/*"
-RDEPENDS_${PN}-systemd += "${PN} (= ${EXTENDPKGV})"
-RRECOMMENDS_${PN} += "${SYSTEMD_PACKAGES}"
