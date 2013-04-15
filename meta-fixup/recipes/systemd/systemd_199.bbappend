@@ -23,6 +23,8 @@ EXTRA_OECONF += "\
   --with-sysvrcnd-path= \
 "
 
+systemd_bindir = "${systemd_unitdir}"
+
 do_configure_prepend() {
     echo 'install-aliases-hook:	install-directories-hook' >> Makefile.am
 }
@@ -83,9 +85,9 @@ python systemd_elito_populate_packages () {
         }
 
     xtra_paths = {
-        'binfmt' : ['${systemd_unitdir}/systemd-binfmt',
+        'binfmt' : ['${systemd_bindir}/systemd-binfmt',
                     '${libdir}/binfmt.d'],
-        'readahead' : ['${systemd_unitdir}/systemd-readahead'],
+        'readahead' : ['${systemd_bindir}/systemd-readahead'],
     }
 
     pkgs = ''
@@ -93,11 +95,11 @@ python systemd_elito_populate_packages () {
     for (_p,i) in pkg_info.items():
         p = '%s-%s' % (pn, _p)
         files = map(lambda x:
-                        '${base_libdir}/systemd/system/%s' % x, i)
+                        '${systemd_unitdir}/system/%s' % x, i)
         files += map(lambda x:
-                        '${base_libdir}/systemd/system/%s.wants' % x, i)
+                        '${systemd_unitdir}/system/%s.wants' % x, i)
         files += map(lambda x:
-                         '${base_libdir}/systemd/system/*/%s' % x, i)
+                         '${systemd_unitdir}/system/*/%s' % x, i)
         files += map(lambda x:
                          x, (xtra_paths.get(_p) or []))
 
@@ -138,5 +140,5 @@ inherit update-alternatives
 ALTERNATIVE_${PN} += "init.wrapped"
 
 ALTERNATIVE_LINK_NAME[init.wrapped] = "${base_sbindir}/init.wrapped"
-ALTERNATIVE_TARGET[init.wrapped]    = "${systemd_unitdir}/systemd"
+ALTERNATIVE_TARGET[init.wrapped]    = "${systemd_bindir}/systemd"
 ALTERNATIVE_PRIORITY[init.wrapped]  = "300"
