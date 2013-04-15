@@ -46,8 +46,6 @@ do_install_append() {
     rm -f ${D}${systemd_unitdir}/system/default.target
     ln -s $t.target ${D}${systemd_unitdir}/system/default.target
 
-    rm ${D}${sysconfdir}/udev/rules.d/modprobe.rules
-
     mkdir -p ${D}${systemd_unitdir}/system/default.target.wants
     ln -s \
         ../systemd-readahead-replay.service \
