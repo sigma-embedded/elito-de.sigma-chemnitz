@@ -15,6 +15,7 @@ WATCHDOG_TIMEOUT ?= "60"
 SRC_URI += "\
   file://embedded.patch \
   file://readahead.patch \
+  file://read-only.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
 "
 
