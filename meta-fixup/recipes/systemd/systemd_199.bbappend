@@ -1,7 +1,6 @@
 # --*- python -*--
 PRINC := "${@int('${PRINC}') + 1}"
 
-DEPENDS += "libgcrypt"
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 WATCHDOG_TIMEOUT ?= "60"
