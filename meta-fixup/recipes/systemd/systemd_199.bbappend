@@ -2,12 +2,6 @@
 PRINC := "${@int('${PRINC}') + 1}"
 
 DEPENDS += "libgcrypt"
-
-OVERRIDES .= "${@base_contains('DISTRO_FEATURES', 'headless', ':headless', '', d)}"
-
-_headless-pkgs := "${@'${PACKAGES}'.replace(' ${PN}-analyze', ' ')}"
-PACKAGES_headless = "${_headless-pkgs}"
-
 FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 WATCHDOG_TIMEOUT ?= "60"
@@ -51,10 +45,6 @@ do_install_append() {
         ../systemd-readahead-replay.service \
         ../systemd-readahead-collect.service \
         ${D}${systemd_unitdir}/system/default.target.wants/
-}
-
-do_install_append_headless() {
-    rm -f ${D}${bindir}/systemd-analyze
 }
 
 python systemd_elito_populate_packages () {
