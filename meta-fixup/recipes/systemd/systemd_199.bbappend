@@ -123,8 +123,6 @@ python() {
     bb.data.setVar('RRECOMMENDS_udev', r, d)
 }
 
-inherit update-alternatives
-
 ALTERNATIVE_${PN} += "init.wrapped"
 
 ALTERNATIVE_LINK_NAME[init.wrapped] = "${base_sbindir}/init.wrapped"
