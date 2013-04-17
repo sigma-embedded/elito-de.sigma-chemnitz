@@ -17,7 +17,7 @@ EXTRA_OECONF += "\
   --with-sysvrcnd-path= \
 "
 
-systemd_bindir = "${base_sbindir}/systemd"
+systemd_bindir = "${systemd_unitdir}"
 
 do_configure_prepend() {
     echo 'install-aliases-hook:	install-directories-hook' >> Makefile.am
