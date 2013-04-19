@@ -16,7 +16,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 #
 # udev, devfsd, busybox-mdev or none
 #
-IMAGE_DEV_MANAGER ?= "${@base_contains('MACHINE_FEATURES', 'kernel26',  'udev','',d)} "
+IMAGE_DEV_MANAGER ?= "udev"
 
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'udev', ':udev', '', d)}"
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '', d)}"
