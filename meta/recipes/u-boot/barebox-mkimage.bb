@@ -21,5 +21,4 @@ do_install () {
 	ln -sf uboot-mkimage ${D}${bindir}/mkimage
 }
 
-NATIVE_INSTALL_WORKS = "1"
-BBCLASSEXTEND = "native"
+BBCLASSEXTEND = "native nativesdk"
