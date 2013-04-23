@@ -19,7 +19,7 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg += "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
-_make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
+_make = "${MAKE} -f '${TMPDIR}/Makefile.develcomp' \
 	CFG=u-boot _secwrap= \
 	STRIP=: BUILD_STRIP=: \
 	CFG_NONDEVEL=1 \

@@ -11,7 +11,7 @@ DEPENDS = "elito-makefile"
 
 include u-boot-common.inc
 
-_make = "${MAKE} -e -f '${TMPDIR}/Makefile.develcomp' \
+_make = "${MAKE} -f '${TMPDIR}/Makefile.develcomp' \
 	CFG=u-boot _secwrap= \
 	STRIP=: BUILD_STRIP=: \
 	CFG_NONDEVEL=1 \
