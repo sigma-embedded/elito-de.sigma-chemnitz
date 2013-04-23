@@ -1,3 +1,7 @@
+# there are various problems when using the gold linker; fallback to
+# .bfd for now
+KERNEL_LDSUFFIX = .bfd
+
 ENV = $(addprefix -u ,CPPFLAGS CFLAGS LDFLAGS \
 	HOSTCFLAGS HOSTCPPFLAGS HOSTLDFLAGS \
 	ARCH CPU BOARD VENDOR SOC \
