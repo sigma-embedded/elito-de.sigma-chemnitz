@@ -1,4 +1,5 @@
 # --*- python -*--
+GCCVERSION			?= "4.8%"
 LINUXLIBCVERSION		=  "${MACHINE_KERNEL_VERSION}"
 UCLIBCVERSION			?= "git"
 PREFERRED_VERSION_tslib		=  "1.0+git%"
