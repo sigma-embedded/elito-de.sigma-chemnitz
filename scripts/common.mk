@@ -68,6 +68,20 @@ PKGS_PREP =		opkg-utils-native	\
 			libtool-native		\
 			gettext-native
 
+_bad_update_file = ${ELITO_ROOTDIR}/.stamps/bad-update
+_error_msg =
+ifneq ($(wildcard $(_bad_update_file)),)
+_error_msg = critical$(shell printf "\
+*** A previous 'make update' failed and left the tree in an undefined,\n\
+*** bad state.  Either fix this error or remove\n\
+%s $(wildcard $(_bad_update_file))\n\
+*** when you think this message is incorrect\n" '     ' >&2)
+endif
+
+ifeq ($(_error_msg),critical)
+$(error aborting)
+endif
+
 ifeq ($(filter release-%,${MAKECMDGOALS}),)
 W ?=			tmp
 else
