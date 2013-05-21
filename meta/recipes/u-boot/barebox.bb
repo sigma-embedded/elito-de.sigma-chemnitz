@@ -18,6 +18,8 @@ FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg += "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
+_repo = "barebox"
+
 include u-boot-common.inc
 inherit deploy
 

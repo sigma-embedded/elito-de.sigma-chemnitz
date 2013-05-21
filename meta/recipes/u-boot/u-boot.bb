@@ -10,6 +10,8 @@ PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
 DEPENDS += "elito-makefile"
 
+_repo = "u-boot"
+
 include u-boot-common.inc
 inherit deploy
 
