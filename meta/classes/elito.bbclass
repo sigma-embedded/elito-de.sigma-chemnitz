@@ -147,7 +147,7 @@ def elito_rewrite_src_uri(fetch, d):
             break
 
     if old:
-        print "%s => %s" % (old, cur)
+        bb.logger.debug(1, "rewrite_uri: %s => %s" % (old, cur))
 
 do_compile[prefuncs] += "do_elito_set_home"
 do_install[prefuncs] += "do_elito_set_home"
