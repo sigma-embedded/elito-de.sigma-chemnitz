@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=057bf9e50e1ca857d0eb97bfe4ba8e5d"
 PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
 
-DEPENDS += "kernel-makefile"
-EXTRA_OEMAKE_prepend = "-f ${TMPDIR}/Makefile.kernel _secwrap= V=1 "
+DEPENDS += "elito-develcomp"
+EXTRA_OEMAKE_prepend = "-f ${TMPDIR}/Makefile.develcomp CFG=barebox _secwrap= V=1 "
 
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
 
