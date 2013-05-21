@@ -1,0 +1,47 @@
+From ca9dc37372780468676a9d7f6190ba403b32a804 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 21 May 2013 19:17:21 +0200
+Subject: [PATCH 13/13] fetcher: provide a way to rewrite the SRC_URI very
+ early
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ lib/bb/fetch2/__init__.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
+index bf71dc9..bdffe17 100644
+--- a/lib/bb/fetch2/__init__.py
++++ b/lib/bb/fetch2/__init__.py
+@@ -38,6 +38,7 @@ import operator
+ import bb.persist_data, bb.utils
+ import bb.checksum
+ from bb import data
++from bb import utils
+ 
+ __version__ = "2"
+ _checksum_cache = bb.checksum.FileChecksumCache()
+@@ -986,6 +987,7 @@ class FetchData(object):
+         self.basename = None
+         self.basepath = None
+         (self.type, self.host, self.path, self.user, self.pswd, self.parm) = decodeurl(data.expand(url, d))
++        self.__rewrite_url(d)
+         self.date = self.getSRCDate(d)
+         self.url = url
+         if not self.user and "user" in self.parm:
+@@ -1052,6 +1054,12 @@ class FetchData(object):
+         self.donestamp = basepath + '.done'
+         self.lockfile = basepath + '.lock'
+ 
++    def __rewrite_url(self, d):
++        fn = d.getVarFlag('SRC_URI', '_rewrite_fn', True, False)
++        if fn:
++            codeobj = compile("%s(data, d)" % fn, 'SRC_URI', 'eval')
++            utils.better_eval(codeobj, { 'd' : d, 'data' : self })
++
+     def setup_revisons(self, d):
+         self.revisions = {}
+         for name in self.names:
+-- 
+1.8.1.4
+
