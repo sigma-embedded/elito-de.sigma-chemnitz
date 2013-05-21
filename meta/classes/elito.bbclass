@@ -113,6 +113,42 @@ python do_elito_set_home() {
     d.setVarFlag("HOME", "export", True);
 }
 
+def elito_rewrite_src_uri(fetch, d):
+    cur   = [fetch.type, fetch.host, fetch.path, fetch.user, fetch.pswd, fetch.parm]
+    old   = None
+    rlist = (d.expand('${PROJECT_REPOSITORIES}', True) or '').split('\n')
+    repos = []
+    for r in rlist:
+        if r.strip() == '':
+            continue
+        (rem,loc) = r.split()
+        
+        matched = True
+
+        tmp = bb.fetch2.decodeurl(rem)
+        for i in xrange(0, len(tmp) - 1):
+            if tmp[i] != '' and tmp[i] != cur[i]:
+                matched = False
+                break
+
+        if matched:
+            tmp = bb.fetch2.decodeurl(loc)
+            old = list(cur)
+            old[5] = old[5].copy()
+
+            for i in xrange(0, len(tmp) - 1):
+                cur[i] = tmp[i]
+
+            cur[5].update(tmp[5])
+
+            (fetch.type, fetch.host, fetch.path, fetch.user,
+             fetch.pswd, fetch.parm) = cur
+
+            break
+
+    if old:
+        print "%s => %s" % (old, cur)
+
 do_compile[prefuncs] += "do_elito_set_home"
 do_install[prefuncs] += "do_elito_set_home"
 
@@ -125,3 +161,5 @@ BB_HASHCONFIG_WHITELIST += "\
 
 ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
 ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
+
+SRC_URI[_rewrite_fn] = "elito_rewrite_src_uri"
