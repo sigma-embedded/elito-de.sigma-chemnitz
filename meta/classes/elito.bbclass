@@ -163,3 +163,5 @@ ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
 ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
 
 SRC_URI[_rewrite_fn] = "elito_rewrite_src_uri"
+
+IMAGE_FEATURES[validitems] += "devel-history devel-sshkey no-root-bash"
