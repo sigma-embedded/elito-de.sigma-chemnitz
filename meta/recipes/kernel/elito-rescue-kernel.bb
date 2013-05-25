@@ -53,7 +53,10 @@ def elito_kernel_rescue_early_options(d, o):
                  d.getVar('KERNEL_CONFIG_DISABLE_OPTS').split()))
 
     o.append([True,
-              [ 'UEVENT_HELPER_PATH', '/sbin/hotplug' ]])
+              [ 'UEVENT_HELPER_PATH', '/sbin/hotplug' ],
+              [ 'CRYPTO', True ],
+              [ 'CRYPTO_USER_API_HASH', True ],
+              [ 'CRYPTO_SHA1', True ]])
 
     return o
 
