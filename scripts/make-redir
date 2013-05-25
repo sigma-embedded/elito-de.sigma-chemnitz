@@ -1,0 +1,14 @@
+#! /bin/bash
+
+m=$1
+shift
+
+case $1 in
+  -f)	f=$2; shift 2;;
+  -f*)	f=${1##-f}; shift 1;;
+  *)
+	echo "This make must be called with '-f <makefile>' as first argument" >&2
+	exit 1;;
+esac
+
+exec make -f "$m" _REDIR_MAKEFILE_="$f" _REDIR_OPTS_="$*" _redir_

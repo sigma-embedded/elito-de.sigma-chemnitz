@@ -38,7 +38,7 @@ $(MAKEFILE_LIST):
 
 ifeq ($(_SKIP_DEVELCOMP_RULES),)
 
-LOCALGOALS += __call _all_ exec shell pshell
+LOCALGOALS += __call _all_ _redir_ exec shell pshell
 
 $(filter-out $(LOCALGOALS),${MAKECMDGOALS}):	__force
 	+$(_start) $(MAKE) -e MAKELEVEL:=0 MAKEFILES:= $(OPTS) $@
@@ -48,6 +48,9 @@ __call:
 
 _all_:
 	+$(_start) $(MAKE) -e MAKELEVEL:=0 MAKEFILES:= $(OPTS)
+
+_redir_:
+	+$(_start) $(MAKE) -e MAKELEVEL:=0 MAKEFILES:= -f '$(_REDIR_MAKEFILE_)' $(_REDIR_OPTS_)
 
 exec:
 	$(_start) $(P)
@@ -59,7 +62,7 @@ pshell:
 	@${ELITO_TOPDIR}/scripts/run-pseudo "${PROJECT_TOPDIR}" /usr/bin/env FAKEROOTENV='${FAKEROOTENV}' FAKEROOTDIRS='${FAKEROOTDIRS}' PS1='$(PS1) ' $(SH) -
 
 __force:
-.PHONY:	__force __call _all_ exec shell pshell
+.PHONY:	__force __call _all_ _redir_ exec shell pshell
 
 endif
 

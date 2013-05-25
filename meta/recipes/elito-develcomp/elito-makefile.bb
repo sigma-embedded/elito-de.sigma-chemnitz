@@ -125,7 +125,7 @@ do_setup_makefile[nostamp] = "1"
 do_setup_makefile() {
         set >&2
 
-	rm -f "Makefile.develcomp"
+	rm -f "Makefile.develcomp" "make"
         cat << EOF | sed -e 's![[:space:]]*$!!' > "Makefile.develcomp"
 ## --*- makefile -*--    ${PV}-${PR}
 ## This file was created by the 'elito-develcomp' recipe.  Any manual
@@ -139,8 +139,14 @@ _tmpdir		= ${TMPDIR}
 include ${ELITO_TOPDIR}/mk/_develcomp.mk
 EOF
 
-        # make it read-only
+	cat << "EOF" > "make"
+#! /bin/sh
+exec ${ELITO_TOPDIR}/scripts/make-redir '${TMPDIR}/Makefile.develcomp' "$@"
+EOF
+
+        # fix perms and make it read-only
 	chmod a-w "Makefile.develcomp"
+	chmod a-w,a+rx "make"
 }
 
 SSTATETASKS += "do_setup_makefile"
