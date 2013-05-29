@@ -16,6 +16,7 @@ SRC_URI = "	\
 	file://licenses			\
 	file://profile			\
         file://device-order.conf	\
+	file://qt.env			\
 "
 
 RELEASE_FILES_PROVIDER ?= "elito-release"
@@ -37,6 +38,8 @@ do_install() {
 	for i in hosts nsswitch.conf profile; do
 		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
+
+	install -D -m 0644 qt.env ${D}${sysconfdir}/default/qt.env
 
 	for i in resolv.conf.static ntpd.conf.static; do
 		touch ${D}${sysconfdir}/$i
