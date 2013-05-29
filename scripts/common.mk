@@ -37,7 +37,7 @@ ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
 SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
-		-e 's!@'CACHE_DIR'@!$(CACHE_DIR)!g'		\
+		-e 's!@'ELITO_CACHE_DIR'@!$(ELITO_CACHE_DIR)!g'		\
 		-e 's!@'PYTHON'@!$(PYTHON)!g'			\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'	\
 		-e 's!@'TOP_BUILD_DIR'@!$(abs_top_builddir)!g'	\
@@ -222,7 +222,7 @@ endif
 
 
 sources-tar:
-			$(if $L,env L=${L}) ${abs_top_srcdir}/scripts/create-sources-tar $(CACHE_DIR)
+			$(if $L,env L=${L}) ${abs_top_srcdir}/scripts/create-sources-tar $(ELITO_CACHE_DIR)
 
 ###### top level targets }}} ########
 
@@ -258,8 +258,8 @@ _filesystem-dirs =		$(_stampdir) $(_wstampdir) $W/deploy $(_tmpdir)
 _bitbake-dirs =			$(_tmpdir)/bitbake
 _bitbake-xtraprogs =		bitbake-layers bitbake-diffsigs bitbake-prserv
 
-_bitbake-bundle =		$(CACHE_DIR)/bitbake-${_bitbake_rev_s}.bundle
-_bitbake_setuptools_cached =	$(CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
+_bitbake-bundle =		$(ELITO_CACHE_DIR)/bitbake-${_bitbake_rev_s}.bundle
+_bitbake_setuptools_cached =	$(ELITO_CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
 _bitbake_setuptools =		$(_tmpdir)/$(notdir ${BITBAKE_SETUPTOOLS})
 
 .SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools_cached)
@@ -299,7 +299,7 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			${_bitbake_validate_bad}
 
 # directory creation
-$(_filesystem-dirs) $(_bitbake-dirs) $(CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR):
+$(_filesystem-dirs) $(_bitbake-dirs) $(ELITO_CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR):
 			mkdir -p $@
 
 $W/cache/ccache:
@@ -311,10 +311,10 @@ $(_wstampdir)/.prep.stamp:	| bitbake-validate Makefile $(AUTOCONF_FILES) $(_stam
 			@touch $@
 
 ifeq ($(ELITO_OFFLINE),)
-$(_bitbake-bundle):	|  $(CACHE_DIR)
+$(_bitbake-bundle):	|  $(ELITO_CACHE_DIR)
 			$(call _download,$(BITBAKE_SNAPSHOT))
 
-$(_bitbake_setuptools_cached):	|  $(CACHE_DIR)
+$(_bitbake_setuptools_cached):	|  $(ELITO_CACHE_DIR)
 			$(call _download,$(BITBAKE_SETUPTOOLS))
 endif
 
@@ -532,14 +532,14 @@ clean-metrics:
 			rm -f metrics
 
 clean-sources:
-			rm -f ${CACHE_DIR}/sources/*_svn.*
-			rm -f ${CACHE_DIR}/sources/*_hg.*
-			rm -f ${CACHE_DIR}/sources/git_*
-			rm -f ${CACHE_DIR}/bitbake-*
-			rm -f ${CACHE_DIR}/setuptools-*
-			rm -f ${CACHE_DIR}/sources/*.md5
-			rm -f ${CACHE_DIR}/sources/*.lock
-			#find ${CACHE_DIR}/sources -maxdepth 1 -type f -atime +28 -print0 | xargs -0 rm -vf
+			rm -f ${ELITO_CACHE_DIR}/sources/*_svn.*
+			rm -f ${ELITO_CACHE_DIR}/sources/*_hg.*
+			rm -f ${ELITO_CACHE_DIR}/sources/git_*
+			rm -f ${ELITO_CACHE_DIR}/bitbake-*
+			rm -f ${ELITO_CACHE_DIR}/setuptools-*
+			rm -f ${ELITO_CACHE_DIR}/sources/*.md5
+			rm -f ${ELITO_CACHE_DIR}/sources/*.lock
+			#find ${ELITO_CACHE_DIR}/sources -maxdepth 1 -type f -atime +28 -print0 | xargs -0 rm -vf
 
 mrproper:		clean clean-metrics
 			rm -rf $W $(_tmpdir)

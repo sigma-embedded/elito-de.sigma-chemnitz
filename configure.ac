@@ -164,8 +164,8 @@ AC_ARG_WITH(sstate-dir,
 	AS_HELP_STRING([--with-sstate-dir=<dir>],
 		       [sstate directory]),
 	[AS_IF([test "x$withval" = "xdefault"],
-               [with_sstate_dir='${CACHE_DIR}/sstate-cache'])],
-	[with_sstate_dir='${CACHE_DIR}/sstate-cache'])
+               [with_sstate_dir='${ELITO_CACHE_DIR}/sstate-cache'])],
+	[with_sstate_dir='${ELITO_CACHE_DIR}/sstate-cache'])
 
 AS_CASE([x$with_sstate_dir],
 	[xno],[
