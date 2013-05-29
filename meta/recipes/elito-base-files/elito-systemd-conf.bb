@@ -20,6 +20,7 @@ SRC_URI		= " \
   ${ELITO_GIT_REPO}/pub/elito-systemd-conf.git \
   file://05-elito.conf \
   file://systemd.profile \
+  file://device-touchscreen.target \
 "
 
 S = "${WORKDIR}/git"
@@ -28,6 +29,7 @@ RRECOMMENDS_${PN} += "${PN}-firstboot"
 RRECOMMENDS_${PN} += "${@base_contains('DISTRO_FEATURES','nfsroot','${PN}-nfs','', d)}"
 
 FILES_${PN} = "\
+  ${systemd_unitdir}/system/device-touchscreen.target \
   ${libdir}/tmpfiles.d/*.conf \
   ${sysconfdir}/profile.d/systemd.sh"
 
@@ -53,6 +55,9 @@ do_install[dirs] = "${WORKDIR}"
 do_install() {
     install -D -p -m 0644 05-elito.conf ${D}${libdir}/tmpfiles.d/05-elito.conf
     install -D -p -m 0644 systemd.profile ${D}${sysconfdir}/profile.d/systemd.sh
+
+    install -D -p -m 0644 device-touchscreen.target \
+        ${D}${systemd_unitdir}/system/device-touchscreen.target
 
     install -d -m 0755 ${D}${_d} ${D}${systemd_unitdir}/system ${D}/var/lib/firstboot
     tar cf - -C git nfs --exclude=./.git --mode go-w,a+rX | tar xf - -C ${D}${_d}
