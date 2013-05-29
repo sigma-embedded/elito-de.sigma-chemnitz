@@ -10,19 +10,6 @@ PR = "r0"
 FILES_${PN} = "/"
 ALLOW_EMPTY_${PN} = "1"
 
-# for PROJECT_REVISION
-inherit elito-utils
-inherit elito-rebuild
+ELITO_COPY_TOPDIRS = "rootfs"
 
-do_fetch[noexec] = "1"
-do_unpack[noexec] = "1"
-do_distribute_sources[noexec] = "1"
-
-do_compile() {
-        make -C ${FILE_DIRNAME} dist TARBALL=`pwd`/base-files.tar.bz2
-}
-
-do_install() {
-        install -d ${D}
-        tar xjf base-files.tar.bz2 -C ${D}
-}
+inherit elito-copytree
