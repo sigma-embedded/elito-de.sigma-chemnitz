@@ -7,7 +7,6 @@ PR = "r0"
 
 inherit packagegroup
 inherit elito-common
-inherit elito-rebuild
 
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"
