@@ -163,16 +163,17 @@ AC_MSG_CHECKING([for sstate directory])
 AC_ARG_WITH(sstate-dir,
 	AS_HELP_STRING([--with-sstate-dir=<dir>],
 		       [sstate directory]),
-	[],[with_sstate_dir='${TMPDIR}/sstate-cache'])
+	[AS_IF([test "x$withval" = "xdefault"],
+               [with_sstate_dir='${CACHE_DIR}/sstate-cache'])],
+	[with_sstate_dir='${CACHE_DIR}/sstate-cache'])
 
 AS_CASE([x$with_sstate_dir],
-	[x|xdefault],
-	     [ELITO_TRUE_FALSE([ENABLE_SSTATE_DIR], false)
-	      AC_MSG_RESULT([<OE default>])],
-
+	[xno],[
+		ELITO_TRUE_FALSE([ENABLE_SSTATE_DIR], false)
+		AC_MSG_RESULT([<OE default>])],
 	[AC_SUBST([SSTATE_DIR],[$with_sstate_dir])
 	 ELITO_TRUE_FALSE([ENABLE_SSTATE_DIR], true)
-	 AC_MSG_RESULT([$withval])])
+	 AC_MSG_RESULT([$with_sstate_dir])])
 dnl }}} sstate-dir
 
 dnl {{{ ccache
