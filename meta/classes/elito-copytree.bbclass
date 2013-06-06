@@ -41,7 +41,7 @@ python() {
 elito_copytree_compile[vardeps] += "ELITO_COPY_TOPDIRS_HASH"
 elito_copytree_compile() {
     tar cf ${ELITO_COPY_TARBALL} ${ELITO_COPY_TARFLAGS} \
-        ${_ELITO_COPY_TAR_ARGS} -T /dev/null
+        ${ELITO_COPY_TAR_ARGS} -T /dev/null
 }
 
 elito_copytree_install() {
