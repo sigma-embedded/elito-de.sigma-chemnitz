@@ -1,24 +1,24 @@
-From 89c8ae5e1ca8adff92de4ac2e61f9a0c6bbcfa4b Mon Sep 17 00:00:00 2001
+From 8f39a72163320a77dd79d517bc0061b5d831f72a Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:44 +0200
-Subject: [PATCH 03/12] import 're' module by default
+Subject: [PATCH 03/10] import 're' module by default
 
 ---
  lib/bb/utils.py | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/lib/bb/utils.py b/lib/bb/utils.py
-index 484fb2d..8971681 100644
+index 7686602..8c9fd75 100644
 --- a/lib/bb/utils.py
 +++ b/lib/bb/utils.py
-@@ -37,6 +37,7 @@ _context = {
-     "os": os,
-     "bb": bb,
-     "time": time,
-+    "re": re,
- }
+@@ -41,6 +41,7 @@ def clean_context():
+         "os": os,
+         "bb": bb,
+         "time": time,
++        "re": re,
+     }
  
- def explode_version(s):
+ def get_context():
 -- 
-1.7.11.7
+1.8.1.4
 
