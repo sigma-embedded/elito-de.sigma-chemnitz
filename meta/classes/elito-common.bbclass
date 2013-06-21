@@ -5,26 +5,44 @@ OVERRIDES .= ":"
 DEPENDS += "elito-develcomp"
 
 def elito_common_expand(v,d):
-  machine_features = (d.getVar('MACHINE_FEATURES', True) or "").split()
-  distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
-  blacklist = set((d.getVar('ELITO_COMMON_BLACKLIST', True) or "").split())
+    implied_features = {
+        'ucb1400' : ( 'ac97', ),
+        'wm97xx'  : ( 'ac97', ),
+        'wm9712'  : ( 'wm97xx', ),
+        'wm9715'  : ( 'wm9712', ),
+    }
 
-  features = set(machine_features + distro_features)
-  initsys  = 'initsys-%s' % (d.getVar('IMAGE_INIT_MANAGER', True) or "none")
-  features.add(initsys)
-  features.add('core')
+    machine_features = (d.getVar('MACHINE_FEATURES', True) or "").split()
+    distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
+    blacklist = set((d.getVar('ELITO_COMMON_BLACKLIST', True) or "").split())
 
-  res = set()
-  for f in features:
-    xtra = d.getVar('%s-%s' % (v,f), True)
-    if xtra:
-      res = res.union(xtra.split())
+    features = set(machine_features + distro_features)
+    initsys  = 'initsys-%s' % (d.getVar('IMAGE_INIT_MANAGER', True) or "none")
+    features.add(initsys)
+    features.add('core')
+    cnt = len(features) + 1
 
-    xtra = d.getVar('%s-%s_%s' % (v,f,initsys), True)
-    if xtra:
-      res = res.union(xtra.split())
+    while cnt != len(features):
+        cnt = len(features)
+        for (base,impl) in implied_features.items():
+            if base in features:
+                features.update(impl)
 
-  return ' '.join(res - blacklist)
+    res  = set()
+    deps = set(["MACHINE_FEATURES", "DISTRO_FEATURES",
+                "ELITO_COMMON_BLACKLIST", "IMAGE_INIT_MANAGER"])
+    deps.update((d.getVarFlag(v, 'vardeps', True) or "").split())
+
+    for f in features:
+        for var in ['%s-%s' % (v,f), '%s-%s_%s' % (v,f,initsys)]:
+            xtra = d.getVar(var, True)
+            if xtra:
+                deps.add(var)
+                res = res.union(xtra.split())
+
+    d.setVarFlag(v, 'vardeps', ' '.join(sorted(deps)))
+
+    return ' '.join(res - blacklist)
 
 ######
 
