@@ -2,9 +2,9 @@ SUMMARY = "Sample programs demonstrating setup of connman"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-SRCREV = "af0952cf75d6e976115bf15c6859272009acda76"
+SRCREV = "00812bfb87be6275e91376f47127bbb3f7d8a435"
 
-_pv = "0.0.1"
+_pv = "0.0.2"
 PR = "r0"
 PV = "${_pv}+gitr${SRCPV}"
 
