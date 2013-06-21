@@ -57,9 +57,9 @@ do_install() {
 	c4='-e /[[:space:]]/boot[[:space:]]\+tmpfs[[:space:]]/d'
 
 	${@base_contains("PROJECT_FEATURES","no-kdebug",":","c1=",d)}
-	${@base_contains("MACHINE_FEATURES","selinux","c2=",':',d)}
-	${@base_contains("MACHINE_FEATURES","unionfs","c3=",':',d)}
-	${@base_contains("MACHINE_FEATURES","hasboot",":","c4=",d)}
+	${@base_contains("PROJECT_FEATURES","selinux","c2=",':',d)}
+	${@base_contains("PROJECT_FEATURES","unionfs","c3=",':',d)}
+	${@base_contains("PROJECT_FEATURES","hasboot",":","c4=",d)}
 
 	sed $c0 $c1 $c2 $3 $4	\
 		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
