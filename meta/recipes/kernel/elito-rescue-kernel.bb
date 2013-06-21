@@ -1,4 +1,4 @@
-_elito_skip := "${@elito_skip(d, 'rescuekernel', None)}"
+_elito_skip := "${@elito_skip(d, 'rescuekernel', None, 'PROJECT_FEATURES')}"
 
 DESCRIPTION = "ELiTo rescue kernel"
 SECTION = "kernel"
