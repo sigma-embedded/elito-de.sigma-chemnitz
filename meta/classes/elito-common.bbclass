@@ -63,10 +63,6 @@ ELITO_COMMON_DEPENDS = "${@elito_common_expand('ELITO_COMMON_DEPENDS',d)}"
 
 #####
 
-ELITO_COMMON_KERNEL_MODULES-alsa = "\
-  kernel-module-snd-pxa2xx-ac97 \
-"
-
 ELITO_COMMON_KERNEL_MODULES-can = "\
   kernel-module-can-bcm \
   kernel-module-can-raw \
@@ -109,6 +105,11 @@ ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
   kernel-module-ucb1400-gpio \
   kernel-module-snd-soc-ucb1400 \
   ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-ucb1400-ts', '', d)} \
+"
+
+ELITO_COMMON_KERNEL_MODULES-wm9712 += "\
+  kernel-module-snd-soc-wm9712 \
+  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-wm97xx-ts', '', d)} \
 "
 
 ELITO_COMMON_KERNEL_MODULES-touchscreen += "\
@@ -177,7 +178,6 @@ ELITO_COMMON_KERNEL_MODULES-core = "\
   kernel-module-ledtrig-timer \
   kernel-module-ledtrig-default-on \
   kernel-module-gpio-wdt \
-  kernel-module-pxa2xx-wdt \
 "
 
 ELITO_COMMON_KERNEL_MODULES = "${@elito_common_expand('ELITO_COMMON_KERNEL_MODULES',d)}"

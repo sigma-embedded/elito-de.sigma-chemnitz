@@ -9,9 +9,10 @@ ELITO_COMMON_KERNEL_MODULES-spi += " \
   kernel-module-spi-pxa2xx \
 "
 
-ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
-  kernel-module-snd-pxa2xx-ac97 \
-"
+ELITO_COMMON_KERNEL_MODULES-ac97 += "\
+  kernel-module-snd-soc-pxa2xx \
+  kernel-module-snd-soc-pxa-ac97 \
+ "
 
 ELITO_COMMON_KERNEL_MODULES-usbclient += " \
   kernel-module-mv-udc \
