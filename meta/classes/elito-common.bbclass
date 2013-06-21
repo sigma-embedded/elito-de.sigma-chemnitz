@@ -10,6 +10,8 @@ def elito_common_expand(v,d):
         'wm97xx'  : ( 'ac97', ),
         'wm9712'  : ( 'wm97xx', ),
         'wm9715'  : ( 'wm9712', ),
+        'captouch' : ( 'touchscreen', ),
+        'restouch' : ( 'touchscreen', ),
     }
 
     machine_features = (d.getVar('MACHINE_FEATURES', True) or "").split()
@@ -104,15 +106,14 @@ ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
   kernel-module-ucb1400-core \
   kernel-module-ucb1400-gpio \
   kernel-module-snd-soc-ucb1400 \
-  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-ucb1400-ts', '', d)} \
+  ${@base_contains('MACHINE_FEATURES', 'restouch', 'kernel-module-ucb1400-ts', '', d)} \
 "
 
 ELITO_COMMON_KERNEL_MODULES-wm9712 += "\
   kernel-module-snd-soc-wm9712 \
-  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-wm97xx-ts', '', d)} \
 "
 
-ELITO_COMMON_KERNEL_MODULES-touchscreen += "\
+ELITO_COMMON_KERNEL_MODULES-captouch += "\
   kernel-module-edt-ft5x06 \
 "
 
@@ -158,7 +159,7 @@ ELITO_COMMON_KERNEL_MODULES-screen = "\
 "
 
 ELITO_COMMON_KERNEL_MODULES-wm97xx += "\
-  ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'kernel-module-wm97xx_ts', '', d)} \
+  ${@base_contains('MACHINE_FEATURES', 'restouch', 'kernel-module-wm97xx_ts', '', d)} \
 "
 
 ELITO_COMMON_KERNEL_MODULES-core = "\
