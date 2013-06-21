@@ -41,7 +41,7 @@ RDEPENDS_${PN} += "\
     base-passwd \
     busybox \
     ${@base_contains("MACHINE_FEATURES", "ubifs",   "mtd-utils", "", d)} \
-    ${@base_contains("MACHINE_FEATURES", "modules", "module-init-tools",  "", d)} \
+    ${@base_contains("PROJECT_FEATURES", "modules", "module-init-tools",  "", d)} \
     update-alternatives \
     ${NETBASE_PROVIDER}	\
     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS} \
