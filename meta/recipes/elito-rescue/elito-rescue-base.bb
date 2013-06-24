@@ -26,9 +26,10 @@ python () {
     rc_d = [ (20, "syslog", ""),
              (21, "scan-blockdev", ""),
              (25, "network-dhcp", ""),
-             (80, "blockdev", ""),
              (80, "httpd", ""),
-             (80, "tcpstream", "") ]
+             (80, "tcpstream", ""),
+             (81, "blockdev", ""),
+         ]
 
     def extend_var(name, new, prepend=False):
         old  = d.getVar(name, False) or ""
