@@ -3,16 +3,18 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM   = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 COMPATIBLE_MACHINE = "kk-trizeps6"
 
-_pv = "0.1.9"
+_pv = "0.1.10"
 PR  = "r0"
 
-SRCREV    = "6da7abbb9e755605cca73d2cc9c5006300ddb36a"
+SRCREV    = "4a13a2b20306a9c9aabb9bb267500845a598cd12"
 PV        = "${_pv}+gitr${SRCPV}"
 PKGV      = "${_pv}+gitr${GITPKGV}"
 PROVIDES += "virtual/ce-preloader"
 
 SRC_URI   = "${ELITO_GIT_REPO}/pub/trizeps6-boot.git;protocol=git"
 S         = "${WORKDIR}/git"
+
+TRIZEPS6_RESCUE_DEVICE ?= "${TRIZEPS6_BOOTDEVICE}"
 
 inherit gitpkgv deploy
 
@@ -23,6 +25,7 @@ do_configure() {
     sed -i \
         -e 's:@TRIZEPS6_PARTITION@:${TRIZEPS6_PARTITION}:' \
         -e 's:@TRIZEPS6_BOOTDEVICE@:${TRIZEPS6_BOOTDEVICE}:' \
+        -e 's:@TRIZEPS6_RESCUE_DEVICE@:${TRIZEPS6_RESCUE_DEVICE}:' \
         -e 's:@KERNEL_CONSOLE@:${KERNEL_CONSOLE}:' \
         autoboot.bat
 }
