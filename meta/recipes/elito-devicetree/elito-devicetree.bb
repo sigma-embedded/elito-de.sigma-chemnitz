@@ -11,22 +11,32 @@ INHIBIT_DEFAULT_DEPS = "1"
 EXTRA_OEMAKE = "\
   MACHINE=${MACHINE} \
   VPATH=${WORKDIR} prefix=${prefix} datadir=${datadir} \
+  MACHINE_INCDIR=${STAGING_DATADIR}/mach-${MACHINE} \
 "
 
-COMPATIBLE_MACHINE = "mx28"
+EXTRA_OEMAKE_append_mx28 = " SOC_FAMILY=mx28"
+
+COMPATIBLE_MACHINE = "(mx28|mx6)"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-DEPENDS += "elito-kernel dtc-native mx28-pins"
+
+MACH_DEPENDS = ""
+MACH_DEPENDS_mx28 = "mx28-pins"
+
+DEPENDS += "elito-kernel dtc-native ${MACH_DEPENDS}"
+
+inherit deploy
 
 do_configure() {
     rm -f *.dts *.dtsi Makefile
-
     ln -s ../Makefile '.'
-    ln -s ../*.dts* '.'
-    ln -s ${STAGING_DATADIR}/mach-${MACHINE}/*.dtsi '.'
 }
 
 do_install() {
-    oe_runmake install DESTDIR=${D} 
+    oe_runmake install DESTDIR=${D}
+}
+
+do_deploy() {
+    install -D -p -m 0644 *.dtb ${DEPLOYDIR}/oftree
 }
 
 FILES_${PN}-dev += "${datadir}/mach-${MACHINE}/*.dtb"
