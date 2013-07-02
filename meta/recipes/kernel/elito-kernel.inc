@@ -187,6 +187,12 @@ do_compile_prepare() {
 	oe_runmake prepare
 }
 
+do_compile_append() {
+	"${@base_contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
+	"${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}" && \
+		install -D -p -m 0644 .config ${BUILDHISTORY_DIR_IMAGE}/kernel-config
+}
+
 do_install_prepend() {
 	mkdir -p ${D}/lib/firmware
 }
@@ -195,9 +201,6 @@ do_install_append() {
 	# ignore errors; firmware directory might be non-empty
 	rmdir ${D}/lib/firmware || :
 	rm -f $kerneldir/scripts/kconfig/kxgettext.o
-
-	"${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}" && \
-		install -D -p -m 0644 .config ${BUILDHISTORY_DIR_IMAGE}/kernel-config
 }
 
 do_uboot_mkimage() {
