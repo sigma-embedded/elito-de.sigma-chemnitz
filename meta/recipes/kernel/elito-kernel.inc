@@ -195,6 +195,9 @@ do_install_append() {
 	# ignore errors; firmware directory might be non-empty
 	rmdir ${D}/lib/firmware || :
 	rm -f $kerneldir/scripts/kconfig/kxgettext.o
+
+	"${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}" && \
+		install -D -p -m 0644 .config ${BUILDHISTORY_DIR_IMAGE}/kernel-config
 }
 
 do_uboot_mkimage() {
