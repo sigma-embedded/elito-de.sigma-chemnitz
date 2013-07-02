@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting to a prompt"
 LICENSE      = "GPLv3"
-PR           = "r12.${PROJECT_FILE_DATE}"
+PR           = "r13"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 do_distribute_sources() {
@@ -36,6 +36,7 @@ DEPENDS = "virtual/kernel"
 #
 # minimal set of packages - needed to boot
 #
+RDEPENDS_${PN}[vardeps] += "MACHINE_FEATURES PROJECT_FEATURES"
 RDEPENDS_${PN} += "\
     ${BASE_FILES_PROVIDER} \
     base-passwd \

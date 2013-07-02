@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r13.${PROJECT_FILE_DATE}"
+PR           = "r14"
 LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
 
 do_distribute_sources() {
@@ -18,6 +18,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 #
 IMAGE_DEV_MANAGER ?= "udev"
 
+OVERRIDES[vardeps] += "IMAGE_DEV_MANAGER"
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'udev', ':udev', '', d)}"
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '', d)}"
 
@@ -47,6 +48,7 @@ RDEPENDS_${PN} =+ " \
 #
 # minimal set of packages - needed to boot
 #
+RDEPENDS_${PN}[vardeps] += "MACHINE_FEATURES"
 RDEPENDS_${PN} += "\
     elito-task-boot			\
     ${@base_contains('MACHINE_FEATURES', 'ubifs', 'mtd-utils', '', d)} \
@@ -58,6 +60,7 @@ RDEPENDS_${PN} += "\
     ${_DEV_MANAGER_DEPS}		\
     "
 
+RRECOMMENDS_${PN}[vardeps] += "DISTRO_FEATURES DISTRO_TYPE"
 RRECOMMENDS_${PN} += "\
     ${@base_contains('DISTRO_FEATURES','ipv6','kernel-module-ipv6','', d)} \
     ${@elito_base_switch(d, 'DISTRO_TYPE','debug','elito-testsuite','')} \
