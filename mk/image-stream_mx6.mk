@@ -25,4 +25,7 @@ ARGS = \
   $(call genopts,0x21100,BOOTSTREAM0) \
   $(call genopts,0x21002,KERNEL) \
   $(call genopts,0x22000,ROOTIMG) \
+  $(call genopts,0x23000,ANDROID_SYSTEM) \
+  $(call genopts,0x23001,ANDROID_DATA) \
+  $(call genopts,0x23002,ANDROID_CACHE) \
   $(call genopts,0x20001,POSTSCRIPT,t) \
