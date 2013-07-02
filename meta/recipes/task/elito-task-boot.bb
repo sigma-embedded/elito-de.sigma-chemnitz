@@ -36,7 +36,6 @@ DEPENDS = "virtual/kernel"
 #
 # minimal set of packages - needed to boot
 #
-RDEPENDS_${PN}[vardeps] += "MACHINE_FEATURES PROJECT_FEATURES"
 RDEPENDS_${PN} += "\
     ${BASE_FILES_PROVIDER} \
     base-passwd \
