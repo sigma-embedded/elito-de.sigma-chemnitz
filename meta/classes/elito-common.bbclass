@@ -159,7 +159,7 @@ ELITO_COMMON_KERNEL_MODULES-screen = "\
 "
 
 ELITO_COMMON_KERNEL_MODULES-wm97xx += "\
-  ${@base_contains('MACHINE_FEATURES', 'restouch', 'kernel-module-wm97xx_ts', '', d)} \
+  ${@base_contains('MACHINE_FEATURES', 'restouch', 'kernel-module-wm97xx-ts', '', d)} \
 "
 
 ELITO_COMMON_KERNEL_MODULES-core = "\
