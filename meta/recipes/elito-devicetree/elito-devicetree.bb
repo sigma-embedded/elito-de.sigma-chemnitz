@@ -16,8 +16,9 @@ RREPLACES_${PN}-dev += "${OLDNAME}-dev"
 
 INHIBIT_DEFAULT_DEPS = "1"
 EXTRA_OEMAKE = "\
+  -f ${WORKDIR}/Makefile \
   MACHINE=${MACHINE} \
-  VPATH=${WORKDIR} prefix=${prefix} datadir=${datadir} \
+  prefix=${prefix} datadir=${datadir} \
   MACHINE_INCDIR=${STAGING_DATADIR}/mach-${MACHINE} \
 "
 
@@ -32,11 +33,6 @@ MACH_DEPENDS_mx28 = "mx28-pins"
 DEPENDS += "elito-kernel dtc-native ${MACH_DEPENDS}"
 
 inherit deploy
-
-do_configure() {
-    rm -f *.dts *.dtsi Makefile
-    ln -s ../Makefile '.'
-}
 
 do_install() {
     oe_runmake install DESTDIR=${D}
