@@ -7,6 +7,13 @@ SRC_URI = "\
   file://${MACHINE}.dts \
 "
 
+OLDNAME = ""
+OLDNAME_mx28 = "mx28-devicetree"
+
+PROVIDES_mx28 += "${OLDNAME}"
+REPLACES_mx28 += "${OLDNAME}"
+RREPLACES_${PN}-dev += "${OLDNAME}-dev"
+
 INHIBIT_DEFAULT_DEPS = "1"
 EXTRA_OEMAKE = "\
   MACHINE=${MACHINE} \
