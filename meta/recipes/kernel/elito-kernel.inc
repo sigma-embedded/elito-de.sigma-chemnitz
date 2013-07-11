@@ -188,8 +188,8 @@ do_compile_prepare() {
 }
 
 do_compile_append() {
-	"${@base_contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
-	"${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}" && \
+	"${@base_contains('INHERIT', 'buildhistory', 'false', 'true', d)}" || \
+	"${@base_contains('BUILDHISTORY_FEATURES', 'image', 'false', 'true', d)}" || \
 		install -D -p -m 0644 .config ${BUILDHISTORY_DIR_IMAGE}/kernel-config
 }
 
