@@ -39,7 +39,9 @@ do_install() {
 		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
 
-	install -D -m 0644 qt.env ${D}${sysconfdir}/default/qt.env
+	if test -s qt.env; then
+		install -D -m 0644 qt.env ${D}${sysconfdir}/default/qt.env
+	fi
 
 	for i in resolv.conf.static ntpd.conf.static; do
 		touch ${D}${sysconfdir}/$i
