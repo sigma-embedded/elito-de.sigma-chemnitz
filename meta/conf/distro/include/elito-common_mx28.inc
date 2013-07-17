@@ -20,7 +20,7 @@ ELITO_COMMON_KERNEL_MODULES-screen += "\
   kernel-module-pwm-mxs \
 "
 
-ELITO_COMMON_KERNEL_MODULES-res_touch += "\
+ELITO_COMMON_KERNEL_MODULES-restouch += "\
   kernel-module-mxs-lradc \
 "
 

@@ -1,5 +1,5 @@
 TSLIBCONF_PATH = "${@base_contains(\
-  'DISTRO_FEATURES','res_touch','','${THISDIR}/files-captouch:',d)}"
+  'DISTRO_FEATURES','restouch','','${THISDIR}/files-captouch:',d)}"
 FILESEXTRAPATHS_prepend := "${TSLIBCONF_PATH}${THISDIR}/files:"
 
 SRC_URI += "\
