@@ -44,6 +44,8 @@ do_install_append() {
         ../systemd-readahead-replay.service \
         ../systemd-readahead-collect.service \
         ${D}${systemd_unitdir}/system/default.target.wants/
+
+    ${@base_contains("PROJECT_FEATURES", "select-touch", "rm -f ${D}${sysconfdir}/udev/rules.d/touchscreen.rules", ":", d)}
 }
 
 python systemd_elito_populate_packages () {

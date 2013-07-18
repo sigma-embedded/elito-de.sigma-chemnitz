@@ -12,4 +12,5 @@ CPPFLAGS += "-DUSE_INPUT_API"
 
 do_install_append() {
     test -s ${D}${sysconfdir}/ts.conf || rm -f ${D}${sysconfdir}/ts.conf
+    ${@base_contains("PROJECT_FEATURES", "select-touch", "rm -f ${D}${sysconfdir}/ts.conf", "", d)}
 }

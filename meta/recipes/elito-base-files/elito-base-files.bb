@@ -39,7 +39,7 @@ do_install() {
 		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
 
-	if test -s qt.env; then
+	if ${@base_contains("PROJECT_FEATURES", "select-touch", "false", "test -s qt.env", d)}; then
 		install -D -m 0644 qt.env ${D}${sysconfdir}/default/qt.env
 	fi
 
