@@ -1,0 +1,51 @@
+#! /bin/sh
+
+type=$1
+prio=${2:-XX}
+#D=$OPKG_OFFLINE_ROOT
+
+set -e
+
+test -n "$type" -a -n "$prio" || {
+  echo "missing arguments" >&2
+  exit 1
+}
+
+test x"$prio" = xXX || \
+test 0 -le "$prio" -a 99 -gt "$prio" || {
+  echo "bad priority '$prio'" >&2
+  exit 1
+}
+
+if test x"$prio" = xXX; then
+    # manual mode
+    prio=99
+elif test -e $D@sysconfdir@/.touch; then
+    read curtype curprio < $D@sysconfdir@/.touch
+
+    test x"$curtype" = x"$type" -o "$curprio" -lt "$prio" || exit 0
+    test "$curprio" -ne "$prio" || exit 0
+else
+    :
+fi
+
+install_single_file() {
+    local fname=$1
+    local srcdir=$2
+    local dstdir=$3
+
+    rm -f $D$dstdir/$fname
+    mkdir -p -m 0755 $D$dstdir/
+    ln -s $srcdir/$fname.$type $D$dstdir/$fname
+}
+
+install_alternative_files() {
+    for i; do
+	install_single_file $i
+    done
+}
+
+install_alternative_files \
+  "99-touch.rules ../rules-local @sysconfdir@/udev/rules.d" \
+
+echo $type $prio > $D@sysconfdir@/.touch

@@ -1,0 +1,7 @@
+SUBSYSTEM=="input", DEVPATH=="*/i2c-0/0-0038/input*/event*", \
+  SYMLINK+="input/event-touchscreen0", TAG+="systemd", \
+  ENV{SYSTEMD_READY}="1", \
+  ENV{SYSTEMD_ALIAS}="/dev/input/event-touchscreen0", \
+  RUN{program}+="/bin/ln -sf /etc/pointercal.lradc     /run/pointercal", \
+  RUN{program}+="/bin/ln -sf /etc/ts.conf.lradc        /run/ts.conf", \
+  RUN{program}+="/bin/ln -sf /etc/default/qt.env.lradc /run/qt.env"

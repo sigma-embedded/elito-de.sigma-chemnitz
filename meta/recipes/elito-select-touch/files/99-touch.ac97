@@ -1,0 +1,17 @@
+SUBSYSTEM=="input", ATTR{../name}=="UCB1400 touchscreen interface", \
+  DEVPATH=="*/input*/event*", \
+  SYMLINK+="input/event-touchscreen0", TAG+="systemd", \
+  ENV{SYSTEMD_READY}="1", \
+  ENV{SYSTEMD_ALIAS}="/dev/input/event-touchscreen0", \
+  RUN{program}+="/bin/ln -sf /etc/pointercal.ucb1400     /run/pointercal", \
+  RUN{program}+="/bin/ln -sf /etc/ts.conf.ucb1400        /run/ts.conf", \
+  RUN{program}+="/bin/ln -sf /etc/default/qt.env.ucb1400 /run/qt.env"
+
+SUBSYSTEM=="input", ATTR{../name}=="wm97xx touchscreen", \
+  DEVPATH=="*/input*/event*", \
+  SYMLINK+="input/event-touchscreen0", TAG+="systemd", \
+  ENV{SYSTEMD_READY}="1", \
+  ENV{SYSTEMD_ALIAS}="/dev/input/event-touchscreen0", \
+  RUN{program}+="/bin/ln -sf /etc/pointercal.wm9715     /run/pointercal", \
+  RUN{program}+="/bin/ln -sf /etc/ts.conf.wm9715        /run/ts.conf", \
+  RUN{program}+="/bin/ln -sf /etc/default/qt.env.wm9715 /run/qt.env"
