@@ -167,6 +167,7 @@ ELITO_COMMON_KERNEL_MODULES-core = "\
   kernel-module-configs \
   kernel-module-evdev \
   kernel-module-gpio-keys \
+  kernel-module-gpio-keys-polled \
   kernel-module-hwmon \
   kernel-module-i2c-dev \
   kernel-module-iptable-filter \
