@@ -308,6 +308,12 @@ ELITO_COMMON_PROGRAMS-touchscreen = "\
   pointercal \
 "
 
+ELITO_COMMON_PROGRAMS-select-touch = " \
+  ${@base_contains('MACHINE_FEATURES','ucb1400', 'elito-select-touch-ucb1400','', d)} \
+  ${@base_contains('MACHINE_FEATURES','wm9715',  'elito-select-touch-wm9715', '', d)} \
+  ${@base_contains('MACHINE_FEATURES','captouch','elito-select-touch-edt',    '', d)} \
+"
+
 ELITO_COMMON_PROGRAMS-v4l = "\
   gst-plugins-bad-fbdevsink \
   gst-plugins-base-ffmpegcolorspace \
