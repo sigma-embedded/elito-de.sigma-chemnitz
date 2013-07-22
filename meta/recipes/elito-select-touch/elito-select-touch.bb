@@ -2,7 +2,7 @@ DESCRIPTION  = "Touchscreen selector helper"
 LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-_elito_skip := "${@elito_skip(d, 'select-touch')}"
+_elito_skip := "${@elito_skip(d, 'select-touch', None, 'PROJECT_FEATURES')}"
 
 PV = "0.2"
 PR = "r1"
