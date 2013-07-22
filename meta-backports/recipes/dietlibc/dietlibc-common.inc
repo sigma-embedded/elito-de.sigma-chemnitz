@@ -33,10 +33,10 @@ pkglibdir = "${libdir}/dietlibc"
 pkgarchdir = "${pkglibdir}/lib-${DIETLIBC_TARGET_ARCH}"
 
 do_configure () {
+    test -e dietfeatures-orig.h || mv dietfeatures.h dietfeatures-orig.h
+
     dietlibc_fix_features "${DIETLIBC_BUILD_ARCH}" dietfeatures-build.h
     dietlibc_fix_features "${DIETLIBC_TARGET_ARCH}" dietfeatures-target.h
-
-    rm -f dietfeatures.h
 
     test -e test/runtests-X.sh || \
         install -p -m 0755 ${WORKDIR}/runtests-X.sh test/runtests-X.sh
@@ -60,7 +60,7 @@ dietlibc_fix_features () {
         -e '}'
     esac
 
-    sed "$@" dietfeatures.h > "$dst"
+    sed "$@" dietfeatures-orig.h > "$dst"
 }
 
 dietlibc_install_dev () {
