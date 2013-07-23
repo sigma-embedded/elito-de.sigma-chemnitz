@@ -24,7 +24,7 @@ elito-setup:	elito-setup.skel elito-setup.tar.gz
 	chmod 0755 $@
 
 elito-setup.tar:	$(STATIC_CONTENT) $(_downloads)
-	$(TAR) cf $@ $^
+	$(TAR) cf $@ --owner root --group root --mode go-w,a+rX $^
 
 %.gz:		%
 	rm -f $@ $@.tmp
