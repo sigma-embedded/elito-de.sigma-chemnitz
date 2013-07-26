@@ -123,6 +123,12 @@ AC_ARG_ENABLE(distro,
 	[DISTRO_TYPE=$enableval], [DISTRO_TYPE=debug])
 AC_SUBST(DISTRO_TYPE)
 
+AC_ARG_WITH([release],
+        AS_HELP_STRING([--with-release=<release>],
+                       [Release number of distribution or project]),
+        [DISTRO_RELEASE=$withval], [DISTRO_RELEASE=])
+AC_SUBST([DISTRO_RELEASE])
+
 AC_ARG_ENABLE(machine,
 	AS_HELP_STRING([--enable-machine=<machine>],
 		[(mandatory) use configuration for given machine; possible values are 'toradex-colibri', 'toradex-colibri320', 'phytec-pcm027' and 'phytec-pcm034']),
