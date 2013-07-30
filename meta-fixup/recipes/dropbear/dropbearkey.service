@@ -1,11 +1,11 @@
 [Unit]
 Description=SSH Key Generation
 ConditionFileNotEmpty=|!/etc/dropbear/dropbear_rsa_host_key
-After=etc-dropbear-dropbear-rsa_host_key.mount etc-dropbear.mount etc.mount
+After=etc-dropbear-dropbear-rsa_host_key.mount etc-dropbear.mount
+Wants=etc-dropbear.mount
 
 [Service]
 Type = oneshot
-ExecStartPre = /bin/sh -c 'test -w /etc/dropbear || /bin/mount --bind /var/run/dropbear /etc/dropbear'
 ExecStart = /usr/sbin/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
 RemainAfterExit=yes
 

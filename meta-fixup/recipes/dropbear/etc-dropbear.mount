@@ -1,0 +1,11 @@
+[Unit]
+Description=/etc/dropbear mountpoint for ro-/ setups
+ConditionPathIsReadWrite=|!/etc/dropbear
+ConditionPathExists=|/run/nfs-ro-boot
+Wants=run-dropbear.service
+After=run-dropbear.service
+
+[Mount]
+What=/run/dropbear
+Where=/etc/dropbear
+Options=bind
