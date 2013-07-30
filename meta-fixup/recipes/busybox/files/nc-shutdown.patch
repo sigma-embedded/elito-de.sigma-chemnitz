@@ -1,0 +1,12 @@
+Index: busybox-1.21.1/networking/nc_bloaty.c
+===================================================================
+--- busybox-1.21.1.orig/networking/nc_bloaty.c
++++ busybox-1.21.1/networking/nc_bloaty.c
+@@ -652,6 +652,7 @@ Debug("got %d from the net, errno %d", r
+ 			if (rr <= 0) {                        /* at end, or fukt, or ... */
+ 				FD_CLR(STDIN_FILENO, &ding1);                /* disable and close stdin */
+ 				close(STDIN_FILENO);
++				shutdown(netfd, SHUT_WR);
+ // Does it make sense to shutdown(net_fd, SHUT_WR)
+ // to let other side know that we won't write anything anymore?
+ // (and what about keeping compat if we do that?)
