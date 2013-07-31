@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 
 PACKAGE_ARCH    = "${MACHINE_ARCH}"
 FEED_PREFIX    ?= 'elito-'
-FEED_BASE_URI  ?= "http://${TFTP_SERVER}:8888/${PROJECT_NAME}/ipk"
+FEED_BASE_URI  ?= "http://${TFTP_SERVER}:8888/${PROJECT_NAME}/${DISTRO_RELEASE}/ipk"
 
 SRC_URI         = "\
 	file://RPM-GPG-KEY-elito-2008	\
