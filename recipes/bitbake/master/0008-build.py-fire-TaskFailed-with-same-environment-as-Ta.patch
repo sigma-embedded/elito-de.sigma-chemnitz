@@ -1,7 +1,7 @@
-From 722e5a2930732b23a934852187d9551e4297fd2d Mon Sep 17 00:00:00 2001
+From bb0ee53c88de6b8f177af49be4804b4e8ac68e75 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Fri, 2 Nov 2012 18:09:04 +0100
-Subject: [PATCH 08/10] build.py: fire TaskFailed with same environment as
+Subject: [PATCH 08/11] build.py: fire TaskFailed with same environment as
  TaskStarted
 
 The task-failed event handler can require task specific data or data
@@ -16,11 +16,11 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/lib/bb/build.py b/lib/bb/build.py
-index bfc176d..f716156 100644
+index e28655e..d975a8a 100644
 --- a/lib/bb/build.py
 +++ b/lib/bb/build.py
 @@ -293,20 +293,14 @@ def _task_data(fn, task, d):
-     data.expandKeys(localdata)
+     bb.data.expandKeys(localdata)
      return localdata
  
 -def _exec_task(fn, task, d, quieterr):
@@ -30,7 +30,7 @@ index bfc176d..f716156 100644
      Execution of a task involves a bit more setup than executing a function,
      running it with its own local metadata, and with some useful variables set.
      """
--    if not data.getVarFlag(task, 'task', d):
+-    if not d.getVarFlag(task, 'task'):
 -        event.fire(TaskInvalid(task, d), d)
 -        logger.error("No such task: %s" % task)
 -        return 1
@@ -45,7 +45,7 @@ index bfc176d..f716156 100644
      return 0
  
  def exec_task(fn, task, d, profile = False):
-+    if not data.getVarFlag(task, 'task', d):
++    if not d.getVarFlag(task, 'task'):
 +        event.fire(TaskInvalid(task, d), d)
 +        logger.error("No such task: %s" % task)
 +        return 1
@@ -83,5 +83,5 @@ index bfc176d..f716156 100644
  
  def stamp_internal(taskname, d, file_name):
 -- 
-1.8.1.4
+1.8.3.1
 
