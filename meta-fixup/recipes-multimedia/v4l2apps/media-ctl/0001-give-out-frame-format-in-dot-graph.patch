@@ -1,0 +1,116 @@
+From d1da20c7844ecdcffd9601d33418d66d541de963 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 30 Jul 2013 14:19:48 +0200
+Subject: [PATCH] give out frame format in dot graph
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ src/main.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+Index: git/src/main.c
+===================================================================
+--- git.orig/src/main.c
++++ git/src/main.c
+@@ -169,6 +169,22 @@ static const char *media_pad_type_to_str
+ 	return "Unknown";
+ }
+ 
++static void media_print_port_dot(struct media_entity *entity,
++				 unsigned int pad,
++				 enum v4l2_subdev_format_whence which)
++{
++	struct v4l2_mbus_framefmt format;
++	int ret;
++
++	ret = v4l2_subdev_get_format(entity, &format, pad, which);
++	if (ret != 0)
++		return;
++
++	printf("\\n%s\\n%ux%u",
++	       v4l2_subdev_pixelcode_to_string(format.code),
++	       format.width, format.height);
++}
++
+ static void media_print_topology_dot(struct media_device *media)
+ {
+ 	unsigned int i, j;
+@@ -179,39 +195,59 @@ static void media_print_topology_dot(str
+ 	for (i = 0; i < media->entities_count; ++i) {
+ 		struct media_entity *entity = &media->entities[i];
+ 		unsigned int npads;
++		bool have_sink = false;
++		bool have_source = false;
+ 
+ 		switch (media_entity_type(entity)) {
+ 		case MEDIA_ENT_T_DEVNODE:
+-			printf("\tn%08x [label=\"%s\\n%s\", shape=box, style=filled, "
+-			       "fillcolor=yellow]\n",
++			printf("\tn%08x [label=\"#%u\\n%s\\n%s\", shape=box, style=filled, "
++			       "fillcolor=yellow]\n", entity->info.id,
+ 			       entity->info.id, entity->info.name, entity->devname);
+ 			break;
+ 
+ 		case MEDIA_ENT_T_V4L2_SUBDEV:
+-			printf("\tn%08x [label=\"{{", entity->info.id);
+-
+-			for (j = 0, npads = 0; j < entity->info.pads; ++j) {
+-				if (!(entity->pads[j].flags & MEDIA_PAD_FL_SINK))
+-					continue;
+-
+-				printf("%s<port%u> %u", npads ? " | " : "", j, j);
+-				npads++;
++			for (j = 0; j < entity->info.pads && !have_sink; ++j)
++				if (entity->pads[j].flags & MEDIA_PAD_FL_SINK)
++					have_sink = true;
++
++			for (j = 0; j < entity->info.pads && !have_source; ++j)
++				if (entity->pads[j].flags & MEDIA_PAD_FL_SOURCE)
++					have_source = true;
++
++			printf("\tn%08x [label=\"{", entity->info.id);
++			if (have_sink) {
++				printf("{");
++
++				for (j = 0, npads = 0; j < entity->info.pads; ++j) {
++					if (!(entity->pads[j].flags & MEDIA_PAD_FL_SINK))
++						continue;
++
++					printf("%s<port%u> [%u]", npads ? " | " : "", j, j);
++					media_print_port_dot(entity, j, V4L2_SUBDEV_FORMAT_ACTIVE);
++					npads++;
++				}
++				printf("} | ");
+ 			}
+ 
+-			printf("} | %s", entity->info.name);
++			printf("#%u\\n%s", entity->info.id, entity->info.name);
+ 			if (entity->devname)
+ 				printf("\\n%s", entity->devname);
+-			printf(" | {");
+ 
+-			for (j = 0, npads = 0; j < entity->info.pads; ++j) {
+-				if (!(entity->pads[j].flags & MEDIA_PAD_FL_SOURCE))
+-					continue;
++			if (have_source) {
++				printf(" | {");
+ 
+-				printf("%s<port%u> %u", npads ? " | " : "", j, j);
+-				npads++;
++				for (j = 0, npads = 0; j < entity->info.pads; ++j) {
++					if (!(entity->pads[j].flags & MEDIA_PAD_FL_SOURCE))
++						continue;
++
++					printf("%s<port%u> [%u]", npads ? " | " : "", j, j);
++					media_print_port_dot(entity, j, V4L2_SUBDEV_FORMAT_ACTIVE);
++					npads++;
++				}
++				printf("}");
+ 			}
+-
+-			printf("}}\", shape=Mrecord, style=filled, fillcolor=green]\n");
++
++			printf("}\", shape=Mrecord, style=filled, fillcolor=green]\n");
+ 			break;
+ 
+ 		default:
