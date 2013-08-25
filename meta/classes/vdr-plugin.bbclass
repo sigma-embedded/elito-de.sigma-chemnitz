@@ -3,6 +3,7 @@ S = "${WORKDIR}/${PLUGINNAME}-${PV}"
 
 VDR_PLUGINDIR = "${libdir}/vdr"
 VDR_CONFIGDIR = "${localstatedir}/lib/vdr/etc"
+VDR_CONFIGDIR-t = "${localstatedir}/lib/vdr/etc-template"
 
 DEPENDS += "vdr"
 
@@ -56,10 +57,14 @@ do_compile() {
 
 do_install() {
     vdr_runmake install DESTDIR="${D}"
+
+    if test -d "${D}${VDR_CONFIGDIR}"; then
+        mv ${D}${VDR_CONFIGDIR} ${D}${VDR_CONFIGDIR-t}
+    fi
 }
 
 RPROVIDES_${PN}	       = "vdr-plugin-${PLUGINNAME}"
-FILES_${PN}            = "${VDR_PLUGINDIR}/libvdr-*.so.1.*"
+FILES_${PN}            = "${VDR_PLUGINDIR}/libvdr-*.so.[0-9].* ${VDR_CONFIGDIR-t}"
 FILES_${PN}-dbg       .= " ${VDR_PLUGINDIR}/.debug/*"
 
 inherit gettext elito-normalize-po
