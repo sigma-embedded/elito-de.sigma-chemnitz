@@ -137,6 +137,13 @@ ELITO_COMMON_KERNEL_MODULES-usbhost = "\
   kernel-module-usbmon \
 "
 
+ELITO_COMMON_KERNEL_MODULES-bluetooth = "\
+  kernel-module-rfcomm \
+  kernel-module-bnep \
+  kernel-module-hidp \
+  ${@base_contains('MACHINE_FEATURES','usbhost','kernel-module-btusb','', d)} \
+"
+
 ELITO_COMMON_KERNEL_MODULES-v4l = "\
 "
 
