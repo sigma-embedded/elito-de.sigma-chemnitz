@@ -113,7 +113,7 @@ RRECOMMENDS_${PN} += "util-linux-mount systemd-readahead"
 python() {
     r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""
     for x in ['util-linux-swaponoff', 'systemd-compat-units',
-              'e2fsprogs-e2fsck', 'util-linux-fsck']:
+              'e2fsprogs-e2fsck']:
         r = r.replace(x,'')
     r = ' '.join(r.split())
     bb.data.setVar('RRECOMMENDS_systemd', r, d)
