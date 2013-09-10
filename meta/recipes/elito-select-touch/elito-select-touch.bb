@@ -117,7 +117,7 @@ python elito_select_touch_populate_packages() {
         prio = localdata.getVar('DEVPRIO', True) or "50"
 
         postinst  = localdata.getVar('pkg_postinst', True) or '#!/bin/sh\n'
-        postinst += "${sbindir}/elito-select-touch %s %s\n" % (t, prio)
+        postinst += "$D${sbindir}/elito-select-touch %s %s\n" % (t, prio)
 
         d.setVar("pkg_postinst_" + pkg, postinst)
 }
