@@ -2,7 +2,7 @@
 
 type=$1
 prio=${2:-XX}
-#D=$OPKG_OFFLINE_ROOT
+D=$OPKG_OFFLINE_ROOT
 
 set -e
 
