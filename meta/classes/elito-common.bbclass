@@ -162,6 +162,7 @@ ELITO_COMMON_KERNEL_MODULES-wifi = "\
 "
 
 ELITO_COMMON_KERNEL_MODULES-screen = "\
+  kernel-module-platform-lcd \
   kernel-module-pwm-bl \
 "
 
