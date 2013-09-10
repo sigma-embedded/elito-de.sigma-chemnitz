@@ -46,6 +46,38 @@ _configdisable-opts = ' \
   PROVE_LOCKING LOCK_STAT USB_DEBUG \
 '
 
+__defconfig[vardeps] += "_defconfig"
+__defconfig = "${@get_name_defconfig(d.getVar('_defconfig',True))}"
+
+SRC_URI[vardeps] += "_defconfig"
+SRC_URI += "${@get_src_uri_defconfig(d.getVar('_defconfig',True))}"
+
+def _get_defconfig(cfg):
+    if not cfg.startswith('file://'):
+        cfg = None
+    else:
+        cfg = cfg[7:]
+        if cfg == '':
+            cfg = 'kernel_defconfig'
+
+    return cfg
+
+def get_name_defconfig(cfg):
+    tmp = _get_defconfig(cfg)
+    if tmp:
+        return "../../../../%s" % tmp
+    else:
+        return cfg
+
+def get_src_uri_defconfig(cfg):
+    cfg = _get_defconfig(cfg)
+    if cfg:
+        cfg = 'file://%s' % cfg
+    else:
+        cfg = ""
+
+    return cfg
+
 def kernel_early_options(d):
     import elito.kernel_feature
 
@@ -156,7 +188,7 @@ export do_configure_extra_local
 
 do_configure_prepend() {
 	if ! test -e .config; then
-		oe_runmake "${_defconfig}"
+		oe_runmake "${__defconfig}"
 	fi
 
 	cp -a .config .config-orig
