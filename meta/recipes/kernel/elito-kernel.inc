@@ -209,6 +209,8 @@ EOF
 
 	cmp .config .config-orig || oe_runmake oldconfig < /dev/null
 
+	oe_runmake savedefconfig
+
 	if ! diff -u .config-early .config; then
 		bbwarn "Default kernel configuration does not fulfill image/distro requirements; configuration was adjusted but should be rechecked"
 	fi
@@ -220,9 +222,11 @@ do_compile_prepare() {
 }
 
 do_compile_append() {
-	"${@base_contains('INHERIT', 'buildhistory', 'false', 'true', d)}" || \
-	"${@base_contains('BUILDHISTORY_FEATURES', 'image', 'false', 'true', d)}" || \
-		install -D -p -m 0644 .config ${BUILDHISTORY_DIR_IMAGE}/kernel-config
+	if "${@base_contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
+	   "${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}"; then
+		install -D -p -m 0644 .config   ${BUILDHISTORY_DIR_IMAGE}/kernel-config
+		install -D -p -m 0644 defconfig ${BUILDHISTORY_DIR_IMAGE}/kernel-defconfig
+	fi
 }
 
 do_install_prepend() {
