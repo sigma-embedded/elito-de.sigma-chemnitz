@@ -73,6 +73,7 @@ try_ln() {
     test -e "$2" || ln -s "$1" "$2"
 }
 
+do_configure[vardeps] += "MACHINE_FEATURES"
 do_configure() {
     sed 's!@sysconfdir@!${sysconfdir}!g' ${WORKDIR}/elito-select-touch \
     	> elito-select-touch
@@ -129,6 +130,7 @@ touch_install() {
     done
 }
 
+do_install[vardeps] += "MACHINE_FEATURES"
 do_install() {
     touch_install 99-touch   ${sysconfdir}/udev/rules-local/99-touch.rules
 
