@@ -1,33 +1,34 @@
-From b9ebda504ff6575486c65292d95c78199c5f34e0 Mon Sep 17 00:00:00 2001
+From 9dcf921f0108b4401bf9843801630dd56d3d0fca Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Thu, 8 Nov 2012 13:00:37 +0100
 Subject: [PATCH] added '--noipconfig' option
 
 ---
- include/inet.h |   1 +
+ include/inet.h |   2 +
  src/connman.h  |   3 +-
  src/device.c   |  24 +++++++++++-
  src/inet.c     | 114 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  src/main.c     |   5 ++-
- 5 files changed, 144 insertions(+), 3 deletions(-)
+ 5 files changed, 145 insertions(+), 3 deletions(-)
 
 diff --git a/include/inet.h b/include/inet.h
-index 10d9dae..3e0358f 100644
+index 37aed5f..536b6f0 100644
 --- a/include/inet.h
 +++ b/include/inet.h
-@@ -80,6 +80,7 @@ int connman_inet_ipv6_get_dest_addr(int index, char **dest);
- int connman_inet_check_ipaddress(const char *host);
- connman_bool_t connman_inet_check_hostname(const char *ptr, size_t len);
- connman_bool_t connman_inet_is_ipv6_supported();
-+void __connman_inet_disable_index(int index);
+@@ -81,6 +81,8 @@ int connman_inet_check_ipaddress(const char *host);
+ bool connman_inet_check_hostname(const char *ptr, size_t len);
+ bool connman_inet_is_ipv6_supported();
  
++void __connman_inet_disable_index(int index);
++
  #ifdef __cplusplus
  }
+ #endif
 diff --git a/src/connman.h b/src/connman.h
-index 6846b92..f34de1f 100644
+index a9dc127..b9ad885 100644
 --- a/src/connman.h
 +++ b/src/connman.h
-@@ -504,7 +504,8 @@ void __connman_technology_notify_regdom_by_device(struct connman_device *device,
+@@ -521,7 +521,8 @@ void __connman_technology_notify_regdom_by_device(struct connman_device *device,
  
  #include <connman/device.h>
  
@@ -38,7 +39,7 @@ index 6846b92..f34de1f 100644
  
  void __connman_device_list(DBusMessageIter *iter, void *user_data);
 diff --git a/src/device.c b/src/device.c
-index 5feeee1..1af5b65 100644
+index 761d9ec..3617f34 100644
 --- a/src/device.c
 +++ b/src/device.c
 @@ -37,6 +37,7 @@
@@ -53,7 +54,7 @@ index 5feeee1..1af5b65 100644
  	return device;
  }
  
-+static connman_bool_t __connman_device_noipconfig(const char *devname)
++static bool __connman_device_noipconfig(const char *devname)
 +{
 +	char **pattern;
 +
@@ -67,7 +68,7 @@ index 5feeee1..1af5b65 100644
 +	return FALSE;
 +}
 +
- connman_bool_t __connman_device_isfiltered(const char *devname)
+ bool __connman_device_isfiltered(const char *devname)
  {
  	char **pattern;
 @@ -1433,6 +1448,9 @@ static void cleanup_devices(void)
@@ -91,7 +92,7 @@ index 5feeee1..1af5b65 100644
  	DBG("");
  
 @@ -1456,6 +1475,9 @@ int __connman_device_init(const char *device, const char *nodevice)
- 	if (nodevice != NULL)
+ 	if (nodevice)
  		nodevice_filter = g_strsplit(nodevice, ",", -1);
  
 +	if (noipconfig != NULL)
@@ -101,7 +102,7 @@ index 5feeee1..1af5b65 100644
  
  	return 0;
 diff --git a/src/inet.c b/src/inet.c
-index d72d689..55c91d1 100644
+index 458d916..7d97289 100644
 --- a/src/inet.c
 +++ b/src/inet.c
 @@ -55,6 +55,45 @@
@@ -137,9 +138,9 @@ index d72d689..55c91d1 100644
 +	g_hash_table_add(g_disabled_indices, (void *)index);
 +}
 +
-+static connman_bool_t __connman_inet_is_disabled_index(int index)
++static bool __connman_inet_is_disabled_index(int index)
 +{
-+	connman_bool_t	rc;
++	bool	rc;
 +
 +	rc = (g_disabled_indices != NULL &&
 +	      g_hash_table_contains(g_disabled_indices, (void *)index));
@@ -159,7 +160,7 @@ index d72d689..55c91d1 100644
 +		return 0;
 +	}
 +
- 	if (address == NULL)
+ 	if (!address)
  		return -EINVAL;
  
 @@ -275,6 +319,11 @@ int connman_inet_ifup(int index)
@@ -219,7 +220,7 @@ index d72d689..55c91d1 100644
 +		return 0;
 +	}
 +
- 	if (host == NULL)
+ 	if (!host)
  		return -EINVAL;
  
 @@ -686,6 +755,11 @@ int connman_inet_add_ipv6_network_route(int index, const char *host,
@@ -231,7 +232,7 @@ index d72d689..55c91d1 100644
 +		return 0;
 +	}
 +
- 	if (host == NULL)
+ 	if (!host)
  		return -EINVAL;
  
 @@ -740,6 +814,11 @@ int connman_inet_clear_ipv6_gateway_address(int index, const char *gateway)
@@ -243,7 +244,7 @@ index d72d689..55c91d1 100644
 +		return 0;
 +	}
 +
- 	if (gateway == NULL)
+ 	if (!gateway)
  		return -EINVAL;
  
 @@ -783,6 +862,11 @@ int connman_inet_set_gateway_interface(int index)
@@ -306,7 +307,7 @@ index d72d689..55c91d1 100644
  	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -1058,6 +1162,11 @@ connman_bool_t connman_inet_compare_subnet(int index, const char *host)
+@@ -1058,6 +1162,11 @@ bool connman_inet_compare_subnet(int index, const char *host)
  		return -1;
  	host_addr = _host_addr.s_addr;
  
@@ -317,7 +318,7 @@ index d72d689..55c91d1 100644
 +
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0)
- 		return FALSE;
+ 		return false;
 @@ -1158,6 +1267,11 @@ int connman_inet_set_mtu(int index, int mtu)
  	struct ifreq ifr;
  	int sk, err;
@@ -331,18 +332,18 @@ index d72d689..55c91d1 100644
  	if (sk < 0)
  		return sk;
 diff --git a/src/main.c b/src/main.c
-index 4df62a0..b99b3a0 100644
+index 905f478..3faaa0b 100644
 --- a/src/main.c
 +++ b/src/main.c
-@@ -451,6 +451,7 @@ static gchar *option_debug = NULL;
+@@ -452,6 +452,7 @@ static gchar *option_debug = NULL;
  static gchar *option_device = NULL;
  static gchar *option_plugin = NULL;
  static gchar *option_nodevice = NULL;
 +static gchar *option_noipconfig = NULL;
  static gchar *option_noplugin = NULL;
  static gchar *option_wifi = NULL;
- static gboolean option_detach = TRUE;
-@@ -480,6 +481,8 @@ static GOptionEntry options[] = {
+ static bool option_detach = true;
+@@ -481,6 +482,8 @@ static GOptionEntry options[] = {
  			"Specify networking device or interface", "DEV" },
  	{ "nodevice", 'I', 0, G_OPTION_ARG_STRING, &option_nodevice,
  			"Specify networking interface to ignore", "DEV" },
@@ -351,7 +352,7 @@ index 4df62a0..b99b3a0 100644
  	{ "plugin", 'p', 0, G_OPTION_ARG_STRING, &option_plugin,
  				"Specify plugins to load", "NAME,..." },
  	{ "noplugin", 'P', 0, G_OPTION_ARG_STRING, &option_noplugin,
-@@ -648,7 +651,7 @@ int main(int argc, char *argv[])
+@@ -651,7 +654,7 @@ int main(int argc, char *argv[])
  	__connman_service_init();
  	__connman_provider_init();
  	__connman_network_init();
