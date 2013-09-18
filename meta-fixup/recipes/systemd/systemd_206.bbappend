@@ -78,15 +78,15 @@ python systemd_elito_populate_packages () {
     for (_p,i) in pkg_info.items():
         p = '%s-%s' % (pn, _p)
         files = map(lambda x:
-                        '${systemd_unitdir}/system/%s' % x, i)
+                    '${systemd_unitdir}/system/%s' % x, i)
         files += map(lambda x:
-                        '${systemd_unitdir}/system/%s.wants' % x, i)
+                     '${systemd_unitdir}/system/%s.wants' % x, i)
         files += map(lambda x:
-                         '${systemd_unitdir}/system/*/%s' % x, i)
+                     '${systemd_unitdir}/system/*/%s' % x, i)
         files += ['${sysconfdir}/systemd/%s.conf' % _p,
                   '${systemd_unitdir}/systemd-%s' % _p]
         files += map(lambda x:
-                         x, (xtra_paths.get(_p) or []))
+                     x, (xtra_paths.get(_p) or []))
 
         pkgs = pkgs + ' ' + p
 
