@@ -1,0 +1,31 @@
+From 9a0031ccbbc73cbdebfc9fc82877ce4d139d9222 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 29 Jul 2013 15:40:31 +0200
+Subject: [PATCH] opkg: do not invoke 'find' when existence of file can be
+ checked directly
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ opkg.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/opkg.py b/opkg.py
+index c839100..2c41e2c 100644
+--- a/opkg.py
++++ b/opkg.py
+@@ -348,8 +348,10 @@ class Package:
+ 
+         if not self.fn:
+             try:
+-                cmd = "find %s -name %s | head -n 1" % (directory, self.filename)
+-                rc = check_output(cmd, shell=True)
++                rc = os.path.join(directory, self.filename)
++                if not os.path.isfile(rc):
++                    cmd = "find %s -name %s | head -n 1" % (directory, self.filename)
++                    rc = check_output(cmd, shell=True)
+                 if rc != "":
+                     newfn = str(rc).split()[0]
+ #                    sys.stderr.write("Package '%s' with empty fn and filename is '%s' was found in '%s', updating fn\n" % (self.package, self.filename, newfn))
+-- 
+1.8.3.1
+
