@@ -1,6 +1,6 @@
 OPKG_MAKE_INDEX =	opkg-make-index
 FAKEROOT =		${ELITO_TOPDIR}/scripts/run-pseudo '${PROJECT_TOPDIR}'
-OPKG =			opkg-cl
+OPKG =			env PSEUDO_DISABLED=0 opkg-cl
 OPKG_ENV =		env D='$(DESTDIR)' LANG=C OPKG_OFFLINE_ROOT='$(DESTDIR)'
 OPKG_OPTS =		--force_postinstall
 
