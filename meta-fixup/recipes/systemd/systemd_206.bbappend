@@ -122,3 +122,8 @@ ALTERNATIVE_${PN} += "init.wrapped"
 ALTERNATIVE_LINK_NAME[init.wrapped] = "${base_sbindir}/init.wrapped"
 ALTERNATIVE_TARGET[init.wrapped]    = "${systemd_bindir}/systemd"
 ALTERNATIVE_PRIORITY[init.wrapped]  = "300"
+
+
+
+##### HACK; remove me after 2014-01-01
+SYSTEMD_SERVICE_${PN}-binfmt = ""
