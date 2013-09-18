@@ -99,9 +99,6 @@ python systemd_elito_populate_packages () {
 PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages "
 
 PACKAGES_DYNAMIC = "systemd-.*"
-RDEPENDS_systemd := "${@(bb.data.getVar('RDEPENDS_systemd', d, True) or '')\
-                       .replace('dbus-systemd', '')}"
-
 RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
 RRECOMMENDS_${PN} += "util-linux-mount systemd-readahead"
 
