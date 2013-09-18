@@ -50,20 +50,14 @@ do_install_append() {
 
 python systemd_elito_populate_packages () {
     pkg_info = {
-        'binfmt' : ['systemd-binfmt.service'],
         'remount-rootfs' : ['remount-rootfs.service'],
         'swap' : ['swap.target'],
         'tmpfs' : ['tmp.mount'],
-        'cryptsetup' : ['cryptsetup.target'],
         'logind' : ['systemd-logind.service',
                     'dbus-org.freedesktop.login1.service'],
-        'vconsole' : ['systemd-vconsole-setup.service'],
         'user-sessions' : ['systemd-user-sessions.service',
                            'systemd-ask-password-wall.path'],
-        'random-seed' : ['systemd-random-seed-load.service',
-                         'systemd-random-seed-save.service'],
-        'binfmt' : ['proc-sys-fs-binfmt_misc.mount',
-                    'proc-sys-fs-binfmt_misc.automount'],
+        'random-seed' : ['systemd-random-seed.service'],
         'graphical' : ['display-manager.service',
                        'graphical.target',
                        'runlevel5.target'],
@@ -72,12 +66,11 @@ python systemd_elito_populate_packages () {
                        'systemd-readahead-done.service',
                        'systemd-readahead-replay.service',
                        'systemd-readahead-collect.service'],
+        'bootchart' : [ ],
         }
 
     xtra_paths = {
-        'binfmt' : ['${systemd_bindir}/systemd-binfmt',
-                    '${libdir}/binfmt.d'],
-        'readahead' : ['${systemd_bindir}/systemd-readahead'],
+        'readahead' : [ '${systemd_bindir}/systemd-readahead' ],
     }
 
     pkgs = ''
@@ -90,6 +83,8 @@ python systemd_elito_populate_packages () {
                         '${systemd_unitdir}/system/%s.wants' % x, i)
         files += map(lambda x:
                          '${systemd_unitdir}/system/*/%s' % x, i)
+        files += ['${sysconfdir}/systemd/%s.conf' % _p,
+                  '${systemd_unitdir}/systemd-%s' % _p]
         files += map(lambda x:
                          x, (xtra_paths.get(_p) or []))
 
