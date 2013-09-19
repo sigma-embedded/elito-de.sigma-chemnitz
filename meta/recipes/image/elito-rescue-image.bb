@@ -37,8 +37,6 @@ inherit image elito-image
 PROVIDES += "virtual/rescue-image"
 DEPENDS += "sysvinit elito-image-stream-native"
 
-do_rootfs[nostamp] = ""
-
 rootfs_install_all_locales() {
     :
 }
