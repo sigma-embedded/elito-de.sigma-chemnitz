@@ -30,14 +30,18 @@ do_setup_makefile[sstate-name] = "kernel-makefile"
 do_setup_makefile[sstate-inputdirs] = "${WORKDIR}/kernel-makefile"
 do_setup_makefile[sstate-outputdirs] = "${TMPDIR}"
 
+addtask do_setup_makefile after do_configure
+do_populate_sysroot[depends] += "${PN}:do_setup_makefile"
+
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"
 do_patch[noexec] = "1"
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 do_install[noexec] = "1"
-
-addtask setup_makefile before do_populate_sysroot after do_configure
+do_package[noexec] = "1"
+do_packagedata[noexec] = "1"
+do_package_write_ipk[noexec] = "1"
 
 ###########
 
@@ -48,4 +52,5 @@ do_create_link() {
         ln -sf "${TMPDIR}/Makefile.kernel" "${KERNEL_MAKEFILE}"
 }
 
-addtask create_link before do_populate_sysroot do_build after do_setup_makefile
+addtask do_create_link after do_setup_makefile
+do_populate_sysroot[depends] += "${PN}:do_create_link"

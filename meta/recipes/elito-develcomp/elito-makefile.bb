@@ -1,24 +1,21 @@
-DESCRIPTION = "ELiTo makefile"
+1DESCRIPTION = "ELiTo makefile"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 PR = "r7"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+# from kernel.bbclass
+CROSS_COMPILE = "${TARGET_PREFIX}"
 
 DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
-KERNEL_LDSUFFIX = "\$(KERNEL_LDSUFFIX)"
 
-inherit kernel
+inherit kernel-arch
 
-_DEPENDS = "gcc-cross ccache-native"
+DEPENDS = "gcc-cross ccache-native"
 PACKAGES = ""
 INHIBIT_DEFAULT_DEPS = "1"
 PROVIDES = "elito-makefile-native"
-
-python __anonymous() {
-    d.setVar("DEPENDS", "${_DEPENDS}")
-}
 
 _export_vars = " \
 	+AR		\
@@ -108,20 +105,19 @@ _export_vars = " \
 "
 
 python __anonymous () {
-    vars = bb.data.getVar('_export_vars', d, 1).split()
+    vars = d.getVar('_export_vars', True).split()
     res  = map(lambda v:
-               (lambda k,v: '%s%s = %s' % (['','export '][k[0] == '+'],
+               (lambda k,v: '%s%s = ${%s}' % (['','export '][k[0] == '+'],
                                            [k, k[1:]][k[0] == '+'],
                                            v))
-               (v, bb.data.getVar(v.lstrip('+'), d, 1)),
-               filter(lambda k: bb.data.getVar(k.lstrip('+'), d, 0) != None,
+               (v, v.lstrip('+')),
+               filter(lambda k: d.getVar(k.lstrip('+'), False) != None,
                       vars))
 
-    bb.data.setVar('_export_vars_gen', '\n'.join(res), d)
+    d.setVar('_export_vars_gen', '\n'.join(res))
 }
 
 do_setup_makefile[dirs] = "${WORKDIR}/setup-makefile"
-do_setup_makefile[nostamp] = "1"
 do_setup_makefile() {
         set >&2
 
@@ -154,27 +150,18 @@ do_setup_makefile[sstate-name] = "setup-makefile"
 do_setup_makefile[sstate-inputdirs] = "${WORKDIR}/setup-makefile"
 do_setup_makefile[sstate-outputdirs] = "${TMPDIR}"
 
-do_sizecheck[deps] := ""
-do_compile_kernelmodules[deps] := ""
+addtask do_setup_makefile after do_configure
+do_populate_sysroot[depends] += "${PN}:do_setup_makefile"
 
-do_sizecheck[noexec] = "1"
-do_compile_kernelmodules[noexec] = "1"
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"
 do_patch[noexec] = "1"
+do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 do_install[noexec] = "1"
-do_compile_kernelmodules[noexec] = "1"
-do_savedefconfig[noexec] = "1"
-do_sizecheck[noexec] = "1"
-do_deploy[noexec] = "1"
-do_uboot_mkimage[noexec] = "1"
-do_configure[noexec] = "1"
 do_package[noexec] = "1"
 do_packagedata[noexec] = "1"
 do_package_write_ipk[noexec] = "1"
-
-addtask do_setup_makefile before do_populate_sysroot do_build after do_configure
 
 ###########
 
@@ -185,4 +172,5 @@ do_create_link() {
         ln -sf "${TMPDIR}/Makefile.develcomp" "${DEVELCOMP_MAKEFILE}"
 }
 
-addtask do_create_link before do_populate_sysroot after do_setup_makefile
+addtask do_create_link after do_setup_makefile
+do_populate_sysroot[depends] += "${PN}:do_create_link"
