@@ -567,13 +567,13 @@ gc:			FORCE
 			chmod a-w $@
 
 $(AUTOCONF_FILES): %:	config.status %.in
-			$(abspath $<)
+			+$(abspath $<)
 
 $(_stampdir)/.config.status.stamp: | $(_stampdir)
 			@touch $@
 
 config.status:		$(abs_top_srcdir)/configure | $(_stampdir)/.config.status.stamp
-			$(abspath $@) --recheck
+			+$(abspath $@) --recheck
 
 ############ autoconf stuff }}} #########
 
@@ -594,3 +594,4 @@ endif
 
 # do not export any variable set here by default
 unexport
+.NOTPARALLEL:
