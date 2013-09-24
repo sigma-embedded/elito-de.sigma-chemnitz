@@ -663,7 +663,11 @@ ELITO_CHECK_PROGRAM(-1, BZIP2,      bzip2)
 ELITO_CHECK_PROGRAM(-1, XZ,         xz)
 ELITO_CHECK_PROGRAM(-1, MAKE,       make)
 ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
-ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache)
+if test "$enable_ccache" = yes; then
+   ELITO_CHECK_PROGRAM(-1, CCACHE,     ccache)
+else
+   ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache)
+fi
 ELITO_CHECK_PROGRAM( 0, QEMU,       qemu)
 ELITO_CHECK_PROGRAM( 0, FAKEROOT,   fakeroot)
 ELITO_CHECK_PROGRAM(90, PKGCONFIG,  pkg-config,  pkgconfig)
