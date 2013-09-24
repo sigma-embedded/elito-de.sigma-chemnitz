@@ -158,11 +158,15 @@ endef
 config:			$(CFG_FILES)
 
 init:			bitbake-fetch | $W/cache/ccache
-image release-image:	FORCE bitbake-validate $(_wstampdir)/.prep.stamp inc-build-num
+image release-image sdk:\
+			FORCE bitbake-validate $(_wstampdir)/.prep.stamp inc-build-num
 
 $(TARGET_IMAGES):	$(_wstampdir)/.prep.stamp
 $(TARGET_IMAGES) _image image release-image:
 			@$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO),$(TARGETS))
+
+sdk:
+			@$(call _call_cmd,$(BITBAKE) $(TARGETS) $(BO) -c populate_sdk,$(TARGETS) [SDK])
 
 build release-build:	FORCE
 ifeq (${R},)
