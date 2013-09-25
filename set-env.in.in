@@ -21,7 +21,11 @@ ELITO_OOM_ADJUST='@ELITO_OOM_ADJUST@'
 
 @ENABLE_SSTATE_DIR_TRUE@SSTATE_DIR='@SSTATE_DIR@'
 
-@ENABLE_CCACHE_TRUE@@WHICH@ ccache >/dev/null 2>/dev/null && export CCACHE=${CCACHE:-ccache}
+# use fixed 'ccache' for now; this string is hardcoded at some places
+# and do not expect full qualified paths hence
+#@ENABLE_CCACHE_TRUE@export CCACHE='@CCACHE@'
+@ENABLE_CCACHE_TRUE@export CCACHE='ccache'
+@ENABLE_CCACHE_FALSE@unset CCACHE
 
 @ENABLE_CGROUPS_TRUE@ELITO_CGROUP_NAME="elito_@PROJECT_NAME@"
 @ENABLE_CGROUPS_FALSE@ELITO_CGROUP_NAME=
