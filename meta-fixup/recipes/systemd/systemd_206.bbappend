@@ -34,6 +34,7 @@ do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
     rmdir ${D}${localstatedir}/log/journal
+    rmdir ${D}${localstatedir}/log
 
     t=${@base_contains('DISTRO_FEATURES', 'x11', 'graphical', 'multi-user', d)}
     rm -f ${D}${systemd_unitdir}/system/default.target
