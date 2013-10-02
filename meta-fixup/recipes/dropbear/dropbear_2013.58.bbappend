@@ -16,3 +16,9 @@ do_install_append() {
 FILES_${PN} += "\
   ${systemd_unitdir}/system/etc-dropbear.mount \
   ${systemd_unitdir}/system/run-dropbear.service"
+
+# avoid conflicts in '-c populate_sdk':
+#  * check_conflicts_for: The following packages conflict with openssh:
+#  * check_conflicts_for:       dropbear *
+#  * opkg_install_cmd: Cannot install package openssh-dev.
+ALLOW_EMPTY_${PN}-dev = ""
