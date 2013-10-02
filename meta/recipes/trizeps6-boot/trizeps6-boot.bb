@@ -14,6 +14,8 @@ PROVIDES += "virtual/ce-preloader"
 SRC_URI   = "${ELITO_GIT_REPO}/pub/trizeps6-boot.git;protocol=git"
 S         = "${WORKDIR}/git"
 
+ALLOW_EMPTY_${PN}-dev = ""
+
 TRIZEPS6_RESCUE_DEVICE ?= "${TRIZEPS6_BOOTDEVICE}"
 
 inherit gitpkgv deploy
