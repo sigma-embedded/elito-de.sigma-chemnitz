@@ -345,6 +345,10 @@ ELITO_COMMON_PROGRAMS-x11 = "\
   mesa \
 "
 
+ELITO_COMMON_PROGRAMS-wayland = "\
+  weston \
+"
+
 ELITO_COMMON_PROGRAMS-core = "\
   tzdata \
   tzdata-europe \
