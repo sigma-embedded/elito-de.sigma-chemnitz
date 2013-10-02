@@ -261,7 +261,7 @@ do_uboot_mkimage() {
 		bbwarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
 	fi
 }
-addtask uboot_mkimage before do_install after do_compile
+addtask uboot_mkimage before do_install after do_compile_kernelmodules
 
 KERNEL_MODULES_NAME ?= "modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz"
 
