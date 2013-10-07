@@ -31,9 +31,11 @@ def prepare(d):
 
         def tar_opt(self, is_shell = False):
             res = [ '-C', self.topdir, '--mode', mode,
+                    '--no-recursion',
                     '--owner', 'root', '--group', 'root' ]
             res.extend(self.get_content(False))
             res.extend(self.get_lnks(False))
+            res.extend(self.get_dirs(False))
 
             if is_shell:
                 return ' '.join(map(lambda x: pipes.quote(x), res))
