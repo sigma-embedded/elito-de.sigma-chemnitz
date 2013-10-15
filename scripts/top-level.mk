@@ -338,7 +338,7 @@ ${DST} ${DST}/workspace:
 	cd ${DST} && $(GIT) submodule add -- '${_topdir}/$*' '$*'
 
 .clone_special-kernel: | ${DST}/workspace
-	$(GIT) clone --mirror ${_topdir}/workspace/kernel.git ${DST}/workspace/kernel.git
+	$(GIT) clone --mirror=fetch ${_topdir}/workspace/kernel.git ${DST}/workspace/kernel.git
 
 ${DST}/Makefile:${DST}/%:	%
 	install -p -m 0644 $< $@
