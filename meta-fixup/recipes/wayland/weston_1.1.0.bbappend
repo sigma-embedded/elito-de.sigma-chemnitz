@@ -8,3 +8,7 @@ EXTRA_PACKAGECONFIG ??= "\
 "
 
 PACKAGECONFIG_append = " ${EXTRA_PACKAGECONFIG}"
+
+
+# TODO: revalidate after 2014-01-01
+DEPENDS += "libdrm"
