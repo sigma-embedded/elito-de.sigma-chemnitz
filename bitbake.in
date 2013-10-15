@@ -5,4 +5,5 @@ _me=`basename "${BASH_SOURCE[0]}"`
 # refers this variable
 abs_top_builddir='@abs_top_builddir@'
 
+PATH="@BITBAKE_BINDIR@:$PATH"
 exec @abs_top_srcdir@/scripts/run-pseudo "${abs_top_builddir}" "@BITBAKE_BINDIR@/$_me" "$@"
