@@ -2,7 +2,7 @@ DESCRIPTION	= "Socket CAN test utility"
 LICENSE		= "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-_elito_skip := "${@elito_skip(d, 'can')}"
+_elito_skip := "${@elito_skip(d, 'can', None, 'PROJECT_FEATURES')}"
 
 SRCREV		= "fdc8cdf4b7447a32cd67b28612fedc0fc232b095"
 _pv		= "0.2"
