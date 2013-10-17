@@ -19,7 +19,7 @@ OPTS = \
 	RANLIB='$(RANLIB)' \
 	HOSTCC='$(BUILD_CC)' HOSTSTRIP='$(BUILD_STRIP)' \
 	$(if ${_kernel_tftp_image},CFG_BOOTFILE='$(notdir $(_kernel_tftp_image))') \
-	$(if ${_tftp_server},CFG_SERVERIP='${_tftp_server}') \
+	$(if ${TFTP_SERVER},CFG_SERVERIP='${TFTP_SERVER}') \
 	CFG_NFSROOT='"${_nfs_server}:${_nfs_root}"'
 
 unexport CPPFLAGS HOSTCPPFLAGS HOSTCFLAGS

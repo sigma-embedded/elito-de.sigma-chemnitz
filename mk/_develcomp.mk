@@ -10,7 +10,7 @@ SH		?= /bin/bash
 
 _secwrap         = ${SECWRAP_CMD}
 _nfs_root	?= $(DESTDIR)
-_nfs_server	?= $(_tftp_server)
+_nfs_server	?= $(TFTP_SERVER)
 
 PS1     = [\[\033[1;34m\]${PROJECT_NAME}\[\033[0;39m\]|\u@\h \W]\044$
 
