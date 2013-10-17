@@ -4,6 +4,12 @@ export ARCH = $(TARGET_ARCH)
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 export CROSS_COMPILE
 
+CFG_NFSOPTS = ,v3,tcp,nolock
+CFG_NFSROOT = ${_nfs_server}:${_nfs_root}
+
+export DEFAULT_NFSROOT = ${CFG_NFSROOT}${CFG_NFSOPTS}
+
+
 # there are various problems when using the gold linker; fallback to
 # .bfd for now
 KERNEL_LDSUFFIX = .bfd
@@ -13,7 +19,7 @@ TFTP_IMAGE ?= $(KERNEL_TFTP_IMAGE)
 _bad_env += CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE _secwrap
 
 _build_cmd = \
-            $(_start) \
+            $(_start) env UID=$$UID \
             $(MAKE) CC='$(KERNEL_CC)' LD='$(KERNEL_LD)' \
             $(if $(TFTP_IMAGE),FLASH_FILENAME='$(TFTP_IMAGE)') \
             $(if $(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=$(KERNEL_SIZE)') \
