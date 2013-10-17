@@ -34,6 +34,8 @@ BITBAKE :=		$(BITBAKE_ENV) $(abs_top_builddir)/bitbake
 
 ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
+BUILDHISTORY_DIR ?=	${ELITO_LOGDIR}/buildhistory
+
 
 SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
@@ -544,7 +546,12 @@ clean-sources:
 			rm -f ${ELITO_CACHE_DIR}/sources/*.lock
 			#find ${ELITO_CACHE_DIR}/sources -maxdepth 1 -type f -atime +28 -print0 | xargs -0 rm -vf
 
-mrproper:		clean clean-metrics
+gc-buildhistory:	FORCE
+ifneq ($(wildcard $(BUILDHISTORY_DIR)),)
+			-cd $(BUILDHISTORY_DIR) && $(GIT) gc
+endif
+
+mrproper:		clean clean-metrics gc-buildhistory
 			rm -rf $W $(_tmpdir)
 			rm -f conf/sanity_info
 
@@ -552,7 +559,7 @@ _sstate_cache_mgmt =	$(ELITO_ROOTDIR)/org.openembedded.core/scripts/sstate-cache
 _sstate_cache_mgmt_opts =	 --cache-dir='$(W)/sstate-cache' -y -L \
 			$(if $(V),--debug)
 
-gc:			FORCE
+gc:			gc-buildhistory FORCE
 			bash $(_sstate_cache_mgmt) $(_sstate_cache_mgmt_opts) --remove-duplicated || :
 			bash $(_sstate_cache_mgmt) $(_sstate_cache_mgmt_opts) --stamps-dir='$(W)/stamps' || :
 
