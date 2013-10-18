@@ -1,0 +1,6 @@
+[*****@*****-pc TRIZEPS6]$ sudo tmp/deploy/sdk/oecore-x86_64-armv5te-toolchain-oe-core.0.sh 
+Enter target directory for SDK (default: /usr/local/oecore-x86_64): 
+You are about to install the SDK to "/usr/local/oecore-x86_64". Proceed[Y/n]?Y
+Extracting SDK...done
+Setting it up...done
+SDK has been successfully set up and is ready to be used.

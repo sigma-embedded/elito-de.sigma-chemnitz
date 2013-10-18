@@ -1,0 +1,147 @@
+\chapter{SDK}
+\label{chap:sdk}
+
+These steps will guide you through the creation of the SDK. Its usage and its
+integration into Eclipse.
+
+\section{build}
+\label{sec:sdk_build}
+
+\begin{enumerate}
+\item Switch into your project directory
+  \begin{lstlisting}[language=bash]
+    cd $project
+  \end{lstlisting}%$
+\item Build the SDK
+  \begin{lstlisting}[language=bash]
+    make sdk
+  \end{lstlisting}
+\item The SDK-Installer is now generated (under: tmp/deploy/sdk/) and can be
+  copied (to other systems) and deployed. Just execute the oecore*.sh and follow
+  the instructions on the screen.
+
+  See \autoref{app:log:sdk-install} for a sample log.
+
+\end{enumerate}
+
+\section{usage}
+\label{sec:sdk_usage}
+To use the SDK. You only have to load the conf file, that the installer
+generated. It sets all the enviromental variables required.
+
+\begin{lstlisting}[language=bash]
+  source $sdkdir/environment-setup-*
+\end{lstlisting}
+
+\section{Testing with chroot + Qemu}
+\label{sec:sdk_chroot}
+
+To use chroot on the sdk. You need static linked qemu binarys.
+
+You could
+\begin{description}
+  \item[a)] build them yourself (with ./configure --static)
+\end{description}
+or
+\begin{description}
+  \item[b)] obtain the latest deb pkg for static linked qemu binarys and extract
+    them from there.
+\end{description}
+
+\begin{lstlisting}[language=bash]
+  cd /tmp
+  deb_mir=http://ftp.us.debian.org/debian/pool
+  wget ${deb_mir}/main/q/qemu/qemu-user-static_1.6.0+dfsg-2_amd64.deb
+  ar -x qemu-user-static_1.6.0+dfsg-2_amd64.deb
+  unxz data.tar.xz --stdout | tar x
+  ls usr/bin # static qemu binarys
+\end{lstlisting}
+
+Copy the qemu binarys into your sdk and then you should be able to use chroot.
+\begin{lstlisting}[language=bash]
+  cp qemu-arm-static $sdkdir/sysroot/*linux-gnueabi/usr/bin
+  chroot $sdkdir/sysroot/*linux-gnueabi /bin/sh
+\end{lstlisting}
+
+\section{Integrate into Eclipse}
+\label{sec:sdk_eclipse}
+
+To use the SDK in Eclipse you need to have Eclipse CDT (C/C++ Development Tools)
+installed and running. It is also assumed, the you have sucessfully set up the
+chroot enviroment (see \autoref{sec:sdk_chroot} for details).
+
+To configure Eclipse to use the sdk, follow these steps.
+
+\begin{enumerate}
+\item Open the properties for the project
+\item Select C/C++ Build > Settings (on the left side)
+\item Select in "Configuration" > "[ All Configurations ]"
+\item Set these configurations in the "Tool Setting" tab
+(for \$sdkdir use your real path)
+\begin{enumerate}
+  \item Cross Settings:
+\begin{lstlisting}[language=bash]
+Prefix: arm-linux-gnueabi-
+Path: $sdkdir
+\end{lstlisting}
+  \item Cross GCC Compiler
+\begin{lstlisting}[language=bash]
+Command: gcc
+\end{lstlisting}
+  \item Cross GCC Compiler > Miscellaneous (use full path)
+\begin{lstlisting}[language=bash]
+Other flags: -c --sysroot=$sdkdir/sysroot/*linux-gnueabi
+\end{lstlisting}
+  \item Cross GCC Linker
+\begin{lstlisting}[language=bash]
+Command: gcc
+\end{lstlisting}
+  \item Cross GCC Linker > Miscellaneous (again, use full path)
+\begin{lstlisting}[language=bash]
+Linker flags: --sysroot=$sdkdir/sysroots/*linux-gnueabi
+\end{lstlisting}
+\end{enumerate}
+If you are unsure, what to enter - Please take a look at the enviromental* file,
+provided by the sdk.
+\end{enumerate}
+
+Building your Application should now work, but running the App will fail.
+To test run your application you have to add a bash script to you project.
+This will the be run using the Run > External Tools menu.
+
+Here's an example of such an script. You have to adjust at least the first 3
+lines to use it in your project.
+
+\begin{lstlisting}[language=bash]
+export ARM_SDK_PATH=$sdkdir/sysroots/armv5te-linux-gnueabi
+export BUILD_BIN_FILES=Debug/HelloWorld
+export PGM=HelloWorld
+
+cp $BUILD_BIN_FILES $ARM_SDK_PATH/usr/bin
+cat >$ARM_SDK_PATH/doit <<EOF
+echo $1
+/usr/bin/$PGM
+read -rsp $'Press any key to continue...\n' -n1 key
+EOF
+xterm -e sudo chroot $ARM_SDK_PATH /bin/sh /doit.sh
+\begin{lstlisting}[language=bash]
+\end{lstlisting}
+
+Now make this script executable by opening the files properties.
+Click left on "Ressource" and tick right the permission for execute.
+
+Now tell eclipse, that this script is an external tool.
+
+\begin{enumerate}
+\item Open the "External Tools Configurations" (Run > External Tools > ...)
+\item Select "Program" on the left side and right-click on it and select "New"
+\item Set these configurations in the new created program
+\begin{lstlisting}[language=bash]
+Name: << Select a name for the external tool menu
+Location: << Browse Workspace > Select the shell script
+Working directory: << Browse Workspace > Select the workspace
+\end{lstlisting}
+\end{enumerate}
+
+If everything is correct you should now be able to run your programm by clicking
+in the "Run" menu an select your script from the "External Tools" menu.

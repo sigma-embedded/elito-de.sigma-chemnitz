@@ -20,13 +20,16 @@ elito-manual_SRCS = \
 	20-quickstart.tex		\
 	21-setup.tex			\
 	22-project-customization.tex	\
+	50-SDK.tex			\
 	A0-logs.tex			\
 	B0-bootloaders.tex		\
 	C0-dirtrees.tex			\
 	D0-references.tex		\
 	hyperref.cfg			\
 	elito-setup.txt			\
-	elito-make.txt
+	elito-make.txt			\
+	mx28-rescue.txt			\
+	sdk-install.txt
 
 SED_CMD = \
 	-e 's!@GITCNT@!$(CUR_GIT_CNT)!g' \
