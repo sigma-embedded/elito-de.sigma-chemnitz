@@ -7,17 +7,117 @@
 \subsection{dnsmasq}
 \label{sec:setup_services_dnsmasq}
 
-TBD
+\begin{enumerate}
+\item Install the dnsmasq package of your distribution.
+\item Edit the /etc/resolv.conf add, before all other namespace definition
+\begin{lstlisting}[language=sh]
+nameserver 127.0.0.1
+\end{lstlisting}
+\item Start the dnsmasq server
+  \begin{description}
+  \item[Red Hat/Fedora/CentOS:] \lstinline[language=sh]{/sbin/service dnsmasq start}
+  \item[Ubuntu/Debian:] \lstinline[language=sh]{/etc/init.d/dnsmasq start}
+  \end{description}
+\end{enumerate}
+
+You can check if you set it up correct, by issueing this command:
+
+\begin{lstlisting}[language=sh]
+dig sigma-chemnitz.de
+\end{lstlisting}
+
+
+If the output ends with something like this, everything went fine.
+\begin{lstlisting}[language=sh]
+;; Query time: 0 msec
+;; SERVER: 127.0.0.1#53(127.0.0.1)
+\end{lstlisting}
 
 \subsection{DHCP Server}
 \label{sec:setup_services_dhcp-server}
 
-TBD
+\begin{enumerate}
+\item Using the dnsmasq package (see \autoref{sec:setup_services_dnsmasq})
+\item Edit the /etc/dnsmasq.conf as needed
+Here a quick overview of the options with examples
+\begin{lstlisting}[language=sh]
+# needs to be set for the DHCP server to run
+# specifies the ip pool and lease time
+# (here: 192.168.0.100 - 192.168.0.254, lease: 12h)
+dhcp-range=192.168.0.100,192.168.0.254,12h
+
+# give a host a static ip
+# (here: Host with MAC 11:22:33:44:55:66 => 
+#   Name: fred, IP: 192.168.0.60, lease: infinite)
+dhcp-host=11:22:33:44:55:66,fred,192.168.0.60,infinite
+
+# set the default router, that should be used by the client (here: 1.2.3.4)
+dhcp-option=option:router,1.2.3.4
+
+# for more information look into the conf file (/etc/dnsmasq.conf)
+\end{lstlisting}
+\item Restart the dnsmasq server
+  \begin{description}
+  \item[Red Hat/Fedora/CentOS:] \lstinline[language=sh]{/sbin/service dnsmasq restart}
+  \item[Ubuntu/Debian:] \lstinline[language=sh]{/etc/init.d/dnsmasq restart}
+  \end{description}
+\end{enumerate}
 
 \subsection{TFTP Server}
 \label{sec:setup_services_tftp-server}
 
-TBD
+\begin{enumerate}
+\item Fedora (19)
+  \begin{enumerate}
+  \item Install the tftp packages of your distribution.
+    \begin{lstlisting}[language=sh]
+sudo yum install tftp tftp-server
+    \end{lstlisting}
+  \item Edit the tftp-server config file (/etc/xinet.d/tftp)
+    \begin{enumerate}
+      \item change the value of \lstinline[language=sh]{disabled} from yes to no
+      \item adjust the other options as needed
+    \end{enumerate}
+  \item Start the tftp-server
+    \begin{lstlisting}[language=sh]
+systemctl start xinetd.service
+systemctl enable xinetd.service
+    \end{lstlisting}
+  \end{enumerate}
+\item Ubuntu (12.04)
+  \begin{enumerate}
+  \item Install the atftp packages of your distribution.
+    \begin{lstlisting}[language=sh]
+sudo apt-get install atftpd atftp tftp
+    \end{lstlisting}
+  \item Edit the atftp-server config file (/etc/default/aftpd)
+    \begin{enumerate}
+      \item change the value of \lstinline[language=sh]{USE\_INETD} from true to false
+      \item adjust the other options as needed
+    \end{enumerate}
+  \item Start the atftp-server
+    \begin{lstlisting}[language=sh]
+sudo /etc/init.d/atftpd restart
+    \end{lstlisting}
+  \end{enumerate}
+\end{enumerate}
+
+If you want to create a new directory for tftpd don't forget to set the right permissions.
+\begin{lstlisting}[language=sh]
+sudo mkdir -p  \$ftpd\_dir
+sudo chmod -R 777 \$ftpd\_dir
+sudo chown -R nobody \$ftpd\_dir
+\end{lstlisting}
+
+You can test if your Setting are correkt bei putting a test file into your tftpd directory and getting it via tftp.
+\begin{lstlisting}[language=sh]
+cp \$testfile \$ftpd\_dir
+tftp $ip <<EOF
+get $testfile
+EOF
+# use your ip above - localhost will eventually not work
+# (depending on your setup)
+\end{lstlisting}
 
 \subsection{NFS Server}
 \label{sec:setup_services_nfs-server}
@@ -62,7 +162,7 @@ requires superuser permissions.
 
   \begin{description}
   \item[Red Hat/Fedora/CentOS:] \lstinline[language=sh]{/sbin/service nfs start}
-  \item[Ubuntu/Debian:] \lstinline[language=sh]{TBD}
+  \item[Ubuntu/Debian:] \lstinline[language=sh]{/etc/init.d/nfs-* start}
   \end{description}
 \item Add to \texttt{/etc/exports} an entry like
 \begin{verbatim}
