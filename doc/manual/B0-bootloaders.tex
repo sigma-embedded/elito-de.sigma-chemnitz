@@ -50,6 +50,46 @@ Four parts
   done as root to set correct file ownership.
 \end{description}
 
+\section{Keith\&Koep ``ce-boot + NFS'' (TrizepsVI)}
+
+This method request a working bootloader on the TrizepsVI. (see above)
+
+\begin{enumerate}
+\item Switch into your project directory
+\begin{lstlisting}[language=bash]
+cd $project
+\end{lstlisting}%$
+\item Compile it
+\begin{lstlisting}[language=bash]
+make all-images
+\end{lstlisting}
+\item Build a custom kernel and ensure this settings (in .config) (see \autoref{sec:project-customization_u-boot+kernel-modifications_clone+modify})
+\begin{lstlisting}[language=sh]
+#edit CONFIG_CMDLINE parameter nfsroot to match your ip
+CONFIG_CMDLINE="root=/dev/nfs ro rootfstype=nfs noinitrd \
+	console=ttySA0,38400 ip=:::::eth0: loglevel=9 user_debug=-1 \
+	nfsroot=1.2.3.4:/srv/nfsroot/trizeps6/dev,v3,tcp,nolock"
+CONFIG_NFS_FAKE_UID=y 
+#set uid number to match your uid
+CONFIG_NFS_FAKE_UID_NUMBER=1234
+\end{lstlisting}
+\item Build a kernel image
+\begin{lstlisting}[language=sh]
+make -f ../Makefile.kernel.trizeps6 -j 4
+make -f ../Makefile.kernel.trizeps6 tftp-m
+\end{lstlisting}
+\item Build the ce-boot tool (see \autoref{subsec:toradex_cetools})
+\item Establish a serial connection to the device (Speed: 38400)
+\item Hold down the ESC key while powering the device off and on, to enter the boot menu.
+\item enter this command \lstinline[language=sh]{eboot kitl=4 eth} for tftp boot
+\item search the output for the device name (looks something like this:TRIZEPS\_?????)
+\item start ce-bootme to deliver the bootimage (the device name needed)
+\begin{lstlisting}[language=bash]
+ce-bootme TRIZEPS_?????=arch/arm/boot/ceImage
+\end{lstlisting} 
+\item the device should now boot up
+\end{enumerate}
+
 \section{Keith\&Koep i-PAN4 + Trizeps MX28}
 
 \begin{enumerate}
@@ -116,6 +156,7 @@ Integration into the buildsystem is missing.  It assumes the Fedora
 implementation of the tftp client program.
 
 \subsection{Build CE tools}
+\label{subsec:toradex_cetools}
 
 \begin{enumerate}
 \item Clone the git repository and go into it
