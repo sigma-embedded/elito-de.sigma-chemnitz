@@ -1,0 +1,24 @@
+Index: connman-1.17/src/dhcp.c
+===================================================================
+--- connman-1.17.orig/src/dhcp.c
++++ connman-1.17/src/dhcp.c
+@@ -188,7 +188,8 @@ static int ipv4ll_start_client(struct co
+ 					dhcp->ipv4ll_debug_prefix);
+ 	}
+ 
+-	g_dhcp_client_set_id(ipv4ll_client);
++	if (!__connman_inet_is_disabled_index(index))
++		g_dhcp_client_set_id(ipv4ll_client);
+ 
+ 	hostname = connman_utsname_get_hostname();
+ 	if (hostname)
+@@ -529,7 +530,8 @@ static int dhcp_request(struct connman_d
+ 					dhcp->dhcp_debug_prefix);
+ 	}
+ 
+-	g_dhcp_client_set_id(dhcp_client);
++	if (!__connman_inet_is_disabled_index(index))
++		g_dhcp_client_set_id(dhcp_client);
+ 
+ 	hostname = connman_utsname_get_hostname();
+ 	if (hostname)
