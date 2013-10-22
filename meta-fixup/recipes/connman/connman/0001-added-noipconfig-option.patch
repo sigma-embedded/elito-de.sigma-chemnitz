@@ -11,24 +11,25 @@ Subject: [PATCH] added '--noipconfig' option
  src/main.c     |   5 ++-
  5 files changed, 145 insertions(+), 3 deletions(-)
 
-diff --git a/include/inet.h b/include/inet.h
-index 37aed5f..536b6f0 100644
---- a/include/inet.h
-+++ b/include/inet.h
-@@ -81,6 +81,8 @@ int connman_inet_check_ipaddress(const char *host);
+Index: connman-1.17/include/inet.h
+===================================================================
+--- connman-1.17.orig/include/inet.h
++++ connman-1.17/include/inet.h
+@@ -81,6 +81,9 @@ int connman_inet_check_ipaddress(const c
  bool connman_inet_check_hostname(const char *ptr, size_t len);
  bool connman_inet_is_ipv6_supported();
  
 +void __connman_inet_disable_index(int index);
++bool __connman_inet_is_disabled_index(int index);
 +
  #ifdef __cplusplus
  }
  #endif
-diff --git a/src/connman.h b/src/connman.h
-index a9dc127..b9ad885 100644
---- a/src/connman.h
-+++ b/src/connman.h
-@@ -521,7 +521,8 @@ void __connman_technology_notify_regdom_by_device(struct connman_device *device,
+Index: connman-1.17/src/connman.h
+===================================================================
+--- connman-1.17.orig/src/connman.h
++++ connman-1.17/src/connman.h
+@@ -521,7 +521,8 @@ void __connman_technology_notify_regdom_
  
  #include <connman/device.h>
  
@@ -38,10 +39,10 @@ index a9dc127..b9ad885 100644
  void __connman_device_cleanup(void);
  
  void __connman_device_list(DBusMessageIter *iter, void *user_data);
-diff --git a/src/device.c b/src/device.c
-index 761d9ec..3617f34 100644
---- a/src/device.c
-+++ b/src/device.c
+Index: connman-1.17/src/device.c
+===================================================================
+--- connman-1.17.orig/src/device.c
++++ connman-1.17/src/device.c
 @@ -37,6 +37,7 @@
  static GSList *device_list = NULL;
  static gchar **device_filter = NULL;
@@ -91,7 +92,7 @@ index 761d9ec..3617f34 100644
  {
  	DBG("");
  
-@@ -1456,6 +1475,9 @@ int __connman_device_init(const char *device, const char *nodevice)
+@@ -1456,6 +1475,9 @@ int __connman_device_init(const char *de
  	if (nodevice)
  		nodevice_filter = g_strsplit(nodevice, ",", -1);
  
@@ -101,10 +102,10 @@ index 761d9ec..3617f34 100644
  	cleanup_devices();
  
  	return 0;
-diff --git a/src/inet.c b/src/inet.c
-index 458d916..7d97289 100644
---- a/src/inet.c
-+++ b/src/inet.c
+Index: connman-1.17/src/inet.c
+===================================================================
+--- connman-1.17.orig/src/inet.c
++++ connman-1.17/src/inet.c
 @@ -55,6 +55,45 @@
  	((struct rtattr *) (((uint8_t*) (nmsg)) +	\
  	NLMSG_ALIGN((nmsg)->nlmsg_len)))
@@ -138,7 +139,7 @@ index 458d916..7d97289 100644
 +	g_hash_table_add(g_disabled_indices, (void *)index);
 +}
 +
-+static bool __connman_inet_is_disabled_index(int index)
++bool __connman_inet_is_disabled_index(int index)
 +{
 +	bool	rc;
 +
@@ -151,7 +152,7 @@ index 458d916..7d97289 100644
  int __connman_inet_rtnl_addattr_l(struct nlmsghdr *n, size_t max_length,
  				int type, const void *data, size_t data_length)
  {
-@@ -98,6 +137,11 @@ int __connman_inet_modify_address(int cmd, int flags,
+@@ -98,6 +137,11 @@ int __connman_inet_modify_address(int cm
  		"prefixlen %hhu broadcast %s", cmd, flags, index, family,
  		address, peer, prefixlen, broadcast);
  
@@ -187,7 +188,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0)
  		return -errno;
-@@ -518,6 +572,11 @@ int connman_inet_add_network_route(int index, const char *host,
+@@ -518,6 +572,11 @@ int connman_inet_add_network_route(int i
  	DBG("index %d host %s gateway %s netmask %s", index,
  		host, gateway, netmask);
  
@@ -199,7 +200,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -588,6 +647,11 @@ int connman_inet_del_network_route(int index, const char *host)
+@@ -588,6 +647,11 @@ int connman_inet_del_network_route(int i
  
  	DBG("index %d host %s", index, host);
  
@@ -211,7 +212,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -636,6 +700,11 @@ int connman_inet_del_ipv6_network_route(int index, const char *host,
+@@ -636,6 +700,11 @@ int connman_inet_del_ipv6_network_route(
  
  	DBG("index %d host %s", index, host);
  
@@ -223,7 +224,7 @@ index 458d916..7d97289 100644
  	if (!host)
  		return -EINVAL;
  
-@@ -686,6 +755,11 @@ int connman_inet_add_ipv6_network_route(int index, const char *host,
+@@ -686,6 +755,11 @@ int connman_inet_add_ipv6_network_route(
  
  	DBG("index %d host %s gateway %s", index, host, gateway);
  
@@ -235,7 +236,7 @@ index 458d916..7d97289 100644
  	if (!host)
  		return -EINVAL;
  
-@@ -740,6 +814,11 @@ int connman_inet_clear_ipv6_gateway_address(int index, const char *gateway)
+@@ -740,6 +814,11 @@ int connman_inet_clear_ipv6_gateway_addr
  
  	DBG("index %d gateway %s", index, gateway);
  
@@ -247,7 +248,7 @@ index 458d916..7d97289 100644
  	if (!gateway)
  		return -EINVAL;
  
-@@ -783,6 +862,11 @@ int connman_inet_set_gateway_interface(int index)
+@@ -783,6 +862,11 @@ int connman_inet_set_gateway_interface(i
  
  	DBG("index %d", index);
  
@@ -259,7 +260,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -836,6 +920,11 @@ int connman_inet_set_ipv6_gateway_interface(int index)
+@@ -836,6 +920,11 @@ int connman_inet_set_ipv6_gateway_interf
  
  	DBG("index %d", index);
  
@@ -271,7 +272,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -888,6 +977,11 @@ int connman_inet_clear_gateway_address(int index, const char *gateway)
+@@ -888,6 +977,11 @@ int connman_inet_clear_gateway_address(i
  
  	DBG("index %d gateway %s", index, gateway);
  
@@ -283,7 +284,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -945,6 +1039,11 @@ int connman_inet_clear_gateway_interface(int index)
+@@ -945,6 +1039,11 @@ int connman_inet_clear_gateway_interface
  
  	DBG("index %d", index);
  
@@ -295,7 +296,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -998,6 +1097,11 @@ int connman_inet_clear_ipv6_gateway_interface(int index)
+@@ -998,6 +1097,11 @@ int connman_inet_clear_ipv6_gateway_inte
  
  	DBG("index %d", index);
  
@@ -307,7 +308,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET6, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0) {
  		err = -errno;
-@@ -1058,6 +1162,11 @@ bool connman_inet_compare_subnet(int index, const char *host)
+@@ -1058,6 +1162,11 @@ bool connman_inet_compare_subnet(int ind
  		return -1;
  	host_addr = _host_addr.s_addr;
  
@@ -319,7 +320,7 @@ index 458d916..7d97289 100644
  	sk = socket(PF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0)
  		return false;
-@@ -1158,6 +1267,11 @@ int connman_inet_set_mtu(int index, int mtu)
+@@ -1158,6 +1267,11 @@ int connman_inet_set_mtu(int index, int
  	struct ifreq ifr;
  	int sk, err;
  
@@ -331,10 +332,10 @@ index 458d916..7d97289 100644
  	sk = socket(AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0)
  		return sk;
-diff --git a/src/main.c b/src/main.c
-index 905f478..3faaa0b 100644
---- a/src/main.c
-+++ b/src/main.c
+Index: connman-1.17/src/main.c
+===================================================================
+--- connman-1.17.orig/src/main.c
++++ connman-1.17/src/main.c
 @@ -452,6 +452,7 @@ static gchar *option_debug = NULL;
  static gchar *option_device = NULL;
  static gchar *option_plugin = NULL;
@@ -361,6 +362,3 @@ index 905f478..3faaa0b 100644
  
  	__connman_ippool_init();
  	__connman_iptables_init();
--- 
-1.8.3.1
-
