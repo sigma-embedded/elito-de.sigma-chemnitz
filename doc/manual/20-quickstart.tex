@@ -14,22 +14,23 @@ required for bootstrapping and download tasks:
 
 \begin{itemize}
 \item tar, gzip, grep, xz
-\item gcc, g++
+\item make, gcc, g++
 \item socat, wget, gawk, chrpath
 \item git, cvs, svn
-\item pkg-config, autoconf, automake, libtool
+\item pkg-config, autoconf, automake, libtool, ccache
 \item gnutls development files
 \item help2man, diffstat, texi2html, texinfo
 \item python-libxml2 bindings
 \item proxy tool for determining local proxy setup (recommended)
 \end{itemize}
 
-\subsection*{Ubuntu 10.04}
+\subsection*{Ubuntu 10.04 + 12.04.3 LTS}
 \begin{lstlisting}[language={}]
+sudo apt-get install aptitude
 sudo aptitude install \
    tar gzip sed xz-utils grep gawk chrpath \
-   gcc g++ pkg-config \
-   socat git-core cvs subversion autoconf libtool wget \
+   make gcc g++ pkg-config \
+   socat git-core cvs subversion autoconf libtool ccache wget \
    libgnutls-dev help2man diffstat texi2html texinfo \
    python-libxml2 libproxy-tools
 \end{lstlisting}
