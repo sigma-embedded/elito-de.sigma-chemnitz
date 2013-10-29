@@ -7,14 +7,12 @@ PACKAGE_ARCH	= "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 FILESDIR	= "${OECORE_TOPDIR}/meta/recipes-core/base-files/base-files"
+RDEPENDS_${PN} += "base-files"
 
 SRC_URI = "	\
 	file://fstab			\
 	file://hosts			\
-	file://nsswitch.conf		\
 	file://sysctl.conf		\
-	file://licenses			\
-	file://profile			\
         file://device-order.conf	\
 	file://qt.env			\
 "
@@ -33,9 +31,9 @@ do_install() {
 
 	set -x
 	cd ${WORKDIR}
-	mkdir -p ${D}${sysconfdir} ${D}${datadir}/doc/
+	mkdir -p ${D}${sysconfdir}
 
-	for i in hosts nsswitch.conf profile; do
+	for i in hosts; do
 		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
 
@@ -67,10 +65,6 @@ do_install() {
 		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
 		-e 's!@PTS_GID@!${PTS_GID}!g'		\
 		fstab > ${D}${sysconfdir}/fstab
-
-	cp -a licenses ${D}${datadir}/doc/
-
-	ln -s /proc/mounts ${D}${sysconfdir}/mtab
 }
 
 PACKAGES        = "${PN}"
@@ -79,4 +73,4 @@ CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hosts \
 	${sysconfdir}/nsswitch.conf \
 	${sysconfdir}/resolv.conf.static ${sysconfdir}/ntpd.conf.static"
 
-FILES_${PN}     = "${sysconfdir}/* ${datadir}/doc/licenses"
+FILES_${PN}     = "${sysconfdir}/*"
