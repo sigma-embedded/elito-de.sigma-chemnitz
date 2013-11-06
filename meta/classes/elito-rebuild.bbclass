@@ -1,5 +1,3 @@
-PR .= "+b${ELITO_BUILD_NUMBER}"
-
 python () {
     import bb.parse
     try:
