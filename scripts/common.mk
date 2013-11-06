@@ -36,6 +36,8 @@ ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
 BUILDHISTORY_DIR ?=	${ELITO_LOGDIR}/buildhistory
 
+PRSERV_DB =		${BUILDHISTORY_DIR}/prserv.sqlite3
+
 
 SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
@@ -159,7 +161,7 @@ endef
 
 config:			$(CFG_FILES)
 
-init:			bitbake-fetch | $W/cache/ccache
+init:			bitbake-fetch | $W/cache/ccache $W/cache/prserv.sqlite3
 image release-image sdk:\
 			FORCE bitbake-validate $(_wstampdir)/.prep.stamp inc-build-num
 
@@ -305,7 +307,7 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			${_bitbake_validate_bad}
 
 # directory creation
-$(_filesystem-dirs) $(_bitbake-dirs) $(ELITO_CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR):
+$(_filesystem-dirs) $(_bitbake-dirs) $(ELITO_CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR) ${BUILDHISTORY_DIR}:
 			mkdir -p $@
 
 $W/cache/ccache:
@@ -371,7 +373,7 @@ $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitb
 			done
 			@touch $@
 
-$(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
+$(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir) $W/cache/ccache $W/cache/prserv.sqlite3
 			@rm -f $@ $@.tmp
 			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
 			@mv $@.tmp $@
@@ -517,6 +519,24 @@ $(_tmpdir)/.versions.txt:	FORCE | $(_tmpdir)
 	$(MAKE) -s --no-print-directory -C .. repo-info > $@.tmp
 	@mv $@.tmp $@
 
+############ {{{ prserv rules ##########
+
+ifneq ($(wildcard ${PRSERV_DB}),)
+$W/cache/prserv.sqlite3:	${PRSERV_DB}
+			install -p -m 0644 $< $@
+else
+$W/cache/prserv.sqlite3:
+			:
+endif
+
+PRSERV_DB_GITIGNORE =	$(dir ${PRSERV_DB})/.gitignore
+
+backup-prserv:		FORCE | ${BUILDHISTORY_DIR}
+			-grep -q '/$(notdir ${PRSERV_DB})' '${PRSERV_DB_GITIGNORE}' || \
+			echo '/$(notdir ${PRSERV_DB})' > '${PRSERV_DB_GITIGNORE}'
+			-install -p -m 0644 ${W}/cache/prserv.sqlite3 ${PRSERV_DB}
+
+############ }}} prserv rules ##########
 
 ############ {{{ 'clean' rules ##########
 clean:
@@ -551,7 +571,7 @@ ifneq ($(wildcard $(BUILDHISTORY_DIR)),)
 			-cd $(BUILDHISTORY_DIR) && $(GIT) gc
 endif
 
-mrproper:		clean clean-metrics gc-buildhistory
+mrproper:		clean clean-metrics gc-buildhistory backup-prserv
 			rm -rf $W $(_tmpdir)
 			rm -f conf/sanity_info
 
