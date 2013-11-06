@@ -11,10 +11,10 @@ Subject: [PATCH] added '--noipconfig' option
  src/main.c     |   5 ++-
  5 files changed, 145 insertions(+), 3 deletions(-)
 
-Index: connman-1.17/include/inet.h
+Index: connman-1.19/include/inet.h
 ===================================================================
---- connman-1.17.orig/include/inet.h
-+++ connman-1.17/include/inet.h
+--- connman-1.19.orig/include/inet.h
++++ connman-1.19/include/inet.h
 @@ -81,6 +81,9 @@ int connman_inet_check_ipaddress(const c
  bool connman_inet_check_hostname(const char *ptr, size_t len);
  bool connman_inet_is_ipv6_supported();
@@ -25,11 +25,11 @@ Index: connman-1.17/include/inet.h
  #ifdef __cplusplus
  }
  #endif
-Index: connman-1.17/src/connman.h
+Index: connman-1.19/src/connman.h
 ===================================================================
---- connman-1.17.orig/src/connman.h
-+++ connman-1.17/src/connman.h
-@@ -521,7 +521,8 @@ void __connman_technology_notify_regdom_
+--- connman-1.19.orig/src/connman.h
++++ connman-1.19/src/connman.h
+@@ -524,7 +524,8 @@ void __connman_technology_notify_regdom_
  
  #include <connman/device.h>
  
@@ -39,10 +39,10 @@ Index: connman-1.17/src/connman.h
  void __connman_device_cleanup(void);
  
  void __connman_device_list(DBusMessageIter *iter, void *user_data);
-Index: connman-1.17/src/device.c
+Index: connman-1.19/src/device.c
 ===================================================================
---- connman-1.17.orig/src/device.c
-+++ connman-1.17/src/device.c
+--- connman-1.19.orig/src/device.c
++++ connman-1.19/src/device.c
 @@ -37,6 +37,7 @@
  static GSList *device_list = NULL;
  static gchar **device_filter = NULL;
@@ -51,7 +51,7 @@ Index: connman-1.17/src/device.c
  
  enum connman_pending_type {
  	PENDING_NONE	= 0,
-@@ -1345,6 +1346,20 @@ done:
+@@ -1327,6 +1328,20 @@ done:
  	return device;
  }
  
@@ -72,9 +72,9 @@ Index: connman-1.17/src/device.c
  bool __connman_device_isfiltered(const char *devname)
  {
  	char **pattern;
-@@ -1433,6 +1448,9 @@ static void cleanup_devices(void)
- 		if (index < 0)
- 			continue;
+@@ -1435,6 +1450,9 @@ static void cleanup_devices(void)
+ 			g_free(netmask);
+ 		}
  
 +		if (__connman_device_noipconfig(interfaces[i]))
 +			__connman_inet_disable_index(index);
@@ -82,7 +82,7 @@ Index: connman-1.17/src/device.c
  		DBG("cleaning up %s index %d", interfaces[i], index);
  
  		connman_inet_ifdown(index);
-@@ -1446,7 +1464,8 @@ static void cleanup_devices(void)
+@@ -1448,7 +1466,8 @@ static void cleanup_devices(void)
  	g_strfreev(interfaces);
  }
  
@@ -92,7 +92,7 @@ Index: connman-1.17/src/device.c
  {
  	DBG("");
  
-@@ -1456,6 +1475,9 @@ int __connman_device_init(const char *de
+@@ -1458,6 +1477,9 @@ int __connman_device_init(const char *de
  	if (nodevice)
  		nodevice_filter = g_strsplit(nodevice, ",", -1);
  
@@ -102,10 +102,10 @@ Index: connman-1.17/src/device.c
  	cleanup_devices();
  
  	return 0;
-Index: connman-1.17/src/inet.c
+Index: connman-1.19/src/inet.c
 ===================================================================
---- connman-1.17.orig/src/inet.c
-+++ connman-1.17/src/inet.c
+--- connman-1.19.orig/src/inet.c
++++ connman-1.19/src/inet.c
 @@ -55,6 +55,45 @@
  	((struct rtattr *) (((uint8_t*) (nmsg)) +	\
  	NLMSG_ALIGN((nmsg)->nlmsg_len)))
@@ -332,10 +332,10 @@ Index: connman-1.17/src/inet.c
  	sk = socket(AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
  	if (sk < 0)
  		return sk;
-Index: connman-1.17/src/main.c
+Index: connman-1.19/src/main.c
 ===================================================================
---- connman-1.17.orig/src/main.c
-+++ connman-1.17/src/main.c
+--- connman-1.19.orig/src/main.c
++++ connman-1.19/src/main.c
 @@ -452,6 +452,7 @@ static gchar *option_debug = NULL;
  static gchar *option_device = NULL;
  static gchar *option_plugin = NULL;
@@ -343,7 +343,7 @@ Index: connman-1.17/src/main.c
 +static gchar *option_noipconfig = NULL;
  static gchar *option_noplugin = NULL;
  static gchar *option_wifi = NULL;
- static bool option_detach = true;
+ static gboolean option_detach = TRUE;
 @@ -481,6 +482,8 @@ static GOptionEntry options[] = {
  			"Specify networking device or interface", "DEV" },
  	{ "nodevice", 'I', 0, G_OPTION_ARG_STRING, &option_nodevice,
@@ -353,10 +353,10 @@ Index: connman-1.17/src/main.c
  	{ "plugin", 'p', 0, G_OPTION_ARG_STRING, &option_plugin,
  				"Specify plugins to load", "NAME,..." },
  	{ "noplugin", 'P', 0, G_OPTION_ARG_STRING, &option_noplugin,
-@@ -651,7 +654,7 @@ int main(int argc, char *argv[])
- 	__connman_service_init();
+@@ -652,7 +655,7 @@ int main(int argc, char *argv[])
  	__connman_provider_init();
  	__connman_network_init();
+ 	__connman_config_init();
 -	__connman_device_init(option_device, option_nodevice);
 +	__connman_device_init(option_device, option_nodevice, option_noipconfig);
  
