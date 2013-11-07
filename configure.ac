@@ -170,8 +170,8 @@ AC_ARG_WITH(sstate-dir,
 	AS_HELP_STRING([--with-sstate-dir=<dir>],
 		       [sstate directory]),
 	[AS_IF([test "x$withval" = "xdefault"],
-               [with_sstate_dir='${ELITO_CACHE_DIR}/sstate/${DISTRO_RELEASE}'])],
-	[with_sstate_dir='${ELITO_CACHE_DIR}/sstate/${DISTRO_RELEASE}'])
+               [with_sstate_dir="\${ELITO_CACHE_DIR}/sstate/${DISTRO_RELEASE}"])],
+	[with_sstate_dir="\${ELITO_CACHE_DIR}/sstate/${DISTRO_RELEASE}"])
 
 with_sstate_dir=${with_sstate_dir%%/}
 
