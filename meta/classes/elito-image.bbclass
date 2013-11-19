@@ -53,6 +53,11 @@ elito_set_rootbash() {
 	fi
 }
 
+RM_WORK_EXCLUDE += "${PN}"
+do_rm_work() {
+    :
+}
+
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-history", \
 		                 "elito_add_devel_history ;", "", d)}"
 
