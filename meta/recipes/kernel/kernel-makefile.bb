@@ -5,12 +5,13 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 PR = "r1"
 
 INHIBIT_DEFAULT_DEPS = "1"
-DEPENDS = "elito-makefile"
 PROVIDES = "kernel-makefile-native"
 PACKAGES = ""
 PACKAGE_ARCH = "all"
 
 KERNEL_MAKEFILE ?= "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
+
+do_setup_makefile[depends] += "elito-makefile:do_setup_makefile"
 
 do_setup_makefile[dirs] = "${WORKDIR}/kernel-makefile"
 do_setup_makefile() {

@@ -26,7 +26,6 @@ MACHINE_HOSTNAME ?= "${MACHINE}"
 INITRAMFS_SOURCE = "devices.txt"
 
 DEPENDS += '\
-	kernel-makefile \
 	${KERNEL_DEPENDS} \
 	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native virtual/ce-preloader","",d)} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
@@ -185,6 +184,8 @@ do_configure_extra_local() {
 	:
 }
 export do_configure_extra_local
+
+do_configure[depends] += "kernel-makefile:do_setup_makefile"
 
 do_configure_prepend() {
 	if ! test -e .config; then
