@@ -152,7 +152,7 @@ private
 		if @drawvertical
 			{"t" => [90], "s" => [270, "bottom: 1px;"]}.each {|k, v|
 				s= ""; ["", "-ms-", "-webkit-"].each {|l| l+="transform";
-					s= "#{l}: rotate(#{v[0]}deg); #{l}-origin: #{@lineheight/2}px 50%; "
+					s += "#{l}: rotate(#{v[0]}deg); #{l}-origin: #{@lineheight/2}px 50%; "
 				}
 				p("div.metric span.#{k} {position: absolute; #{v[1]}#{s} }")
 			}
