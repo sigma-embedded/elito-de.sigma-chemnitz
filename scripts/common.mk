@@ -253,6 +253,30 @@ all-images:		image
 
 ###### }}} image-stream targets #######
 
+###### {{{ metrics targets #######
+METRICS_HTML =		${W}/metrics.html
+
+convert-metrics:	${METRICS_HTML}
+
+${METRICS_HTML}:	metrics
+			$(abs_top_srcdir)/scripts/convert-metrics $< $@
+			@echo "file://$(abspath $@)"
+
+clean-metrics:
+			rm -f metrics
+
+ifneq ($(wildcard metrics),)
+clean-metrics:		$(ELITO_LOGDIR)/metrics-$(NOW).gz
+endif
+
+$(ELITO_LOGDIR)/metrics-%.gz:		metrics | $(ELITO_LOGDIR)
+			rm -f $@.tmp
+			$(GZIP) -c $< > $@.tmp
+			mv $@.tmp $@
+
+mrproper:		clean-metrics
+###### }}} metrics targets #######
+
 
 ############ {{{ Bitbake and general setup section ##########
 
@@ -544,18 +568,6 @@ clean:
 			rm -f set-env.in conf/local.conf bitbake
 			rm -f config.log Packages.filelist bitbake.lock
 
-ifneq ($(wildcard metrics),)
-clean-metrics:		$(ELITO_LOGDIR)/metrics-$(NOW).gz
-endif
-
-$(ELITO_LOGDIR)/metrics-%.gz:		metrics | $(ELITO_LOGDIR)
-			rm -f $@.tmp
-			$(GZIP) -c $< > $@.tmp
-			mv $@.tmp $@
-
-clean-metrics:
-			rm -f metrics
-
 clean-sources:
 			rm -f ${ELITO_CACHE_DIR}/sources/*_svn.*
 			rm -f ${ELITO_CACHE_DIR}/sources/*_hg.*
@@ -571,7 +583,7 @@ ifneq ($(wildcard $(BUILDHISTORY_DIR)),)
 			-cd $(BUILDHISTORY_DIR) && $(GIT) gc
 endif
 
-mrproper:		clean clean-metrics gc-buildhistory backup-prserv
+mrproper:		clean gc-buildhistory backup-prserv
 			rm -rf $W $(_tmpdir)
 			rm -f conf/sanity_info
 
