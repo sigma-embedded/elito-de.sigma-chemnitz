@@ -59,7 +59,7 @@ shell:
 	@env PS1='$(PS1) ' $(_start) $(SH) -
 
 pshell:
-	@${ELITO_TOPDIR}/scripts/run-pseudo "${PROJECT_TOPDIR}" /usr/bin/env FAKEROOTENV='${FAKEROOTENV}' FAKEROOTDIRS='${FAKEROOTDIRS}' PS1='$(PS1) ' $(SH) -
+	@${ELITO_TOPDIR}/scripts/run-pseudo "${PROJECT_TOPDIR}" /usr/bin/env ${FAKEROOTENV} PS1='$(PS1) ' $(SH) -
 
 __force:
 .PHONY:	__force __call _all_ _redir_ exec shell pshell

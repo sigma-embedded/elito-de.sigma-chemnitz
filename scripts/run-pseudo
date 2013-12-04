@@ -13,7 +13,7 @@ unset _cmd
 BB_ENV_EXTRAWHITE='W CCACHE_DIR HOME GIT_SSL_CAINFO '\
 'ftp_proxy http_proxy https_proxy no_proxy '\
 'ELITO_CRT ELITO_KEY ELITO_PROG_SSL_CLIENT ELITO_USE_LIBPROXY ELITO_PROG_PROXY '\
-'PSEUDO_BUILD PSEUDO_DISABLED '\
+'PSEUDO PSEUDO_DISABLED PSEUDO_PASSWD PSEUDO_DEBUG PSEUDO_UNLOAD '\
 'ELITO_METRICS_ID BB_NUMBER_THREADS BB_NUMBER_PARSE_THREADS'\
 'BB_FETCH_PREMIRRORONLY BB_NO_NETWORK'
 
@@ -22,43 +22,20 @@ export BB_ENV_EXTRAWHITE PSEUDO_BUILD BBFETCH2
 
 . "$1/set-env"
 
-PSEUDO=
-export -n PSEUDO
+if test -n "$ELITO_PSEUDO_DIRECT"; then
+    PSEUDO=
+else
+    test -n "$ELITO_PSEUDO_OK" -o -e "$1/.tmp/pseudo.env" || {
+      echo "***** Could not find bitbake environment. Try"
+      echo "        make bitbake-clean && make init"
+      echo "***** again."
+      exit 1
+    } >&2
+    . "$1/.tmp/pseudo.env"
+fi
 
-case x$PSEUDO_BUILD in
-  (x0)
-	unset PSEUDO_BUILD
-	;;
-  (x1)
-	;;
-
-  (xauto)
-	(
-	  . "$1/.tmp/pseudo.env" && \
-	  test -x "$PSEUDO"
-	) 2>/dev/null && _have_pseudo=true || _have_pseudo=false
-
-	if $_have_pseudo; then
-	    PSEUDO_BUILD=2
-	    . "$1/.tmp/pseudo.env"
-	else
-	    PSEUDO_BUILD=1
-	fi
-
-	;;
-
-  (x|x*)
-	PSEUDO_BUILD=2
-	test -e "$1/.tmp/pseudo.env" || {
-	  echo "***** Could not find bitbake environment. Try"
-	  echo "        make bitbake-clean && make init"
-	  echo "***** again."
-	  exit 1
-	} >&2
-
-	. "$1/.tmp/pseudo.env"
-	;;
-esac
+unset ELITO_PSEUDO_OK
+unset ELITO_PSEUDO_DIRECT
 
 _prog=$2
 shift 2

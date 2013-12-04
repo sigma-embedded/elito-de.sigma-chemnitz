@@ -30,7 +30,7 @@ BITBAKE_ENV =		env $(addprefix -u ,\
 	MAKEFILES MAKEFLAGS MAKEOVERRIDES MFLAGS VPATH \
 	BO TARGETS)
 
-BITBAKE :=		$(BITBAKE_ENV) $(abs_top_builddir)/bitbake
+BITBAKE :=		$(BITBAKE_ENV) ELITO_PSEUDO_OK=1 $(abs_top_builddir)/bitbake
 
 ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
@@ -196,7 +196,7 @@ $(W)/Makefile.develcomp:
 			} >&2
 			@false
 
-_fetchenv = env PSEUDO_BUILD=auto $(if $ELITO_FETCH_THREADS,BB_NUMBER_THREADS=${ELITO_FETCH_THREADS})
+_fetchenv = env $(if $ELITO_FETCH_THREADS,BB_NUMBER_THREADS=${ELITO_FETCH_THREADS})
 
 fetch-all fetchall:	FORCE bitbake-validate init
                         ## call it twice; first step might fail when
@@ -338,7 +338,7 @@ $W/cache/ccache:
 			mkdir -p $@
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
-$(_wstampdir)/.prep.stamp:	| bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $(_wstampdir)/.pseudo.stamp $W/cache/ccache
+$(_wstampdir)/.prep.stamp:	| $(_wstampdir) bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $W/cache/ccache
 			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP) $(BO),prep)
 			@touch $@
 
@@ -399,7 +399,7 @@ $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitb
 
 $(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir) $W/cache/ccache $W/cache/prserv.sqlite3
 			@rm -f $@ $@.tmp
-			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
+			@$(call _call_cmd,$(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
 			@mv $@.tmp $@
 .SECONDARY:		$(_tmpdir)/bitbake.env
 
@@ -410,36 +410,6 @@ $(_tmpdir)/pseudo.env:	$(_tmpdir)/bitbake.env $(abs_top_srcdir)/scripts/generate
 .SECONDARY:		$(_tmpdir)/pseudo.env
 
 $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_tmpdir)/pseudo.env
-			@touch $@
-
-$(_wstampdir)/.pseudo.stamp:	| $(_wstampdir) $(_stampdir)/.bitbake.stamp $(_tmpdir)/pseudo.env $W $W/cache/ccache
-## HACK: allow soft transition from old installations;
-## remove me after 2014-01-01
-ifneq ($(wildcard $(_stampdir)/.pseudo.stamp),)
-			@echo "Old pseudo stamp found; assuming transition from old installation"
-			rm -f $(_stampdir)/.pseudo.stamp
-else
-			@rm -f $@.override
-			@test ! -d $W/stamps || { \
-				$(call _show_help,make-err-pseudo) >&2; \
-				echo; \
-				echo -n "Continue build [y|N]? "; \
-				read; \
-				case $$REPLY in \
-				([yYtT1]*) \
-					touch $@.override \
-					;; \
-				(*) \
-					exit 1 \
-					;; \
-				esac \
-			}
-
-			@$(call _call_cmd,env PSEUDO_BUILD=auto $(BITBAKE) pseudo-native -c populate_sysroot $(BO),populate_sysroot)
-			test -e $@.override || rm -rf $W/stamps
-			test -e $@.override || rm -f $W/cache/bb_*
-			rm -f $@.override
-endif
 			@touch $@
 
 ############ Bitbake and general setup section }}} ##########

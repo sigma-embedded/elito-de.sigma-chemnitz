@@ -9,7 +9,7 @@ _pkgs_dirs =		$(wildcard ${_pkgs})
 _pkgs_archs =		$(patsubst ${DEPLOY_DIR_IPK}/%/Packages,%,${_pkgs_dirs})
 _pkgs_stamp =		$(foreach a,${_pkgs_archs},${_tmpdir}/stamps/opkg-arch_$a.stamp)
 
-_fakeroot =		$(_start) $(OPKG_ENV) $(FAKEROOT)
+_fakeroot =		$(_start) $(OPKG_ENV) PSEUDO_PASSWD='$(DESTDIR)' $(FAKEROOT)
 _opkg_make_index =	$(_start) env LANG=C $(OPKG_MAKE_INDEX)
 _opkg_conf =		${DEPLOY_DIR_IPK}/opkg.conf
 

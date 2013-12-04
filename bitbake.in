@@ -5,5 +5,13 @@ _me=`basename "${BASH_SOURCE[0]}"`
 # refers this variable
 abs_top_builddir='@abs_top_builddir@'
 
+: ${ELITO_PSEUDO_DIRECT:=}
+
+case $_me in
+  bitbake) ELITO_PSEUDO_DIRECT=true;;
+esac
+
+export ELITO_PSEUDO_DIRECT
+
 PATH="@BITBAKE_BINDIR@:$PATH"
 exec @abs_top_srcdir@/scripts/run-pseudo "${abs_top_builddir}" "@BITBAKE_BINDIR@/$_me" "$@"
