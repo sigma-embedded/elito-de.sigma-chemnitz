@@ -66,12 +66,6 @@ TEMPLATE_FILES =	conf/project.conf	\
 			recipes/helloworld/helloworld.bb \
 			recipes/helloworld/files/helloworld.c
 
-PKGS_PREP =		opkg-utils-native	\
-			automake-native		\
-			pkgconfig-native	\
-			libtool-native		\
-			gettext-native
-
 _bad_update_file = ${ELITO_ROOTDIR}/.stamps/bad-update
 _error_msg =
 ifneq ($(wildcard $(_bad_update_file)),)
@@ -339,7 +333,6 @@ $W/cache/ccache:
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
 
 $(_wstampdir)/.prep.stamp:	| $(_wstampdir) bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $W/cache/ccache
-			@$(call _call_cmd,$(BITBAKE) $(PKGS_PREP) $(BO),prep)
 			@touch $@
 
 ifeq ($(ELITO_OFFLINE),)
