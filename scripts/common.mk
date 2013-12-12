@@ -295,7 +295,7 @@ bitbake-fetch:		$(_stampdir)/.bitbake.stamp
 bitbake-clean:		FORCE
 			rm -rf $(_tmpdir)/bitbake $(_bitbake_root)
 			rm -f $(_stampdir)/.bitbake.*
-			rm -f $(_bitbake-xtraprogs)
+			rm -f $(_bitbake-xtraprogs) bitbake
 ifeq ($(ELITO_OFFLINE),)
 			rm -f $(_bitbake-bundle)
 endif
@@ -507,8 +507,8 @@ $(_tmpdir)/.versions.txt:	FORCE | $(_tmpdir)
 
 ############ {{{ 'clean' rules ##########
 clean:
-			rm -f $(filter-out Makefile,${CFG_FILES} ${AUTOCONF_FILES})
-			rm -f set-env.in conf/local.conf bitbake
+			rm -f $(filter-out Makefile bitbake,${CFG_FILES} ${AUTOCONF_FILES})
+			rm -f set-env.in conf/local.conf
 			rm -f config.log Packages.filelist bitbake.lock
 
 clean-sources:
