@@ -5,7 +5,7 @@ EXTRA_PACKAGECONFIG ??= "\
 
 PACKAGECONFIG_append = " ${EXTRA_PACKAGECONFIG}"
 
-CPPFLAGS += "-I=${includedir}/libdrm"
 
-# TODO: revalidate after 2014-01-01
+# TODO: revalidate after 2014-01-01; last checked: 2013-12-01 (1.3.1)
+CPPFLAGS += "-I=${includedir}/libdrm"
 DEPENDS += "libdrm"
