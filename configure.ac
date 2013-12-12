@@ -671,6 +671,7 @@ else
    ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache)
 fi
 ELITO_CHECK_PROGRAM( 0, QEMU,       qemu)
+ELITO_CHECK_PROGRAM( 0, BASH,       bash)
 ELITO_CHECK_PROGRAM( 0, FAKEROOT,   fakeroot)
 ELITO_CHECK_PROGRAM(90, PKGCONFIG,  pkg-config,  pkgconfig)
 ELITO_CHECK_PROGRAM(95, PYTHON,     python)
