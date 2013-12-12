@@ -38,6 +38,7 @@ BUILDHISTORY_DIR ?=	${ELITO_LOGDIR}/buildhistory
 
 
 SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
+		-e 's!@'ELITO_BUILDBASE_DIR'@!$(BUILDBASE_DIR)!g' \
 		-e 's!@'ELITO_WORKSPACE_DIR'@!$(ELITO_WORKSPACE_DIR)!g' \
 		-e 's!@'ELITO_CACHE_DIR'@!$(ELITO_CACHE_DIR)!g'		\
 		-e 's!@'PYTHON'@!$(PYTHON)!g'			\
@@ -79,7 +80,7 @@ $(error aborting)
 endif
 
 ifeq ($(filter release-%,${MAKECMDGOALS}),)
-W ?=			tmp
+W ?=			${BUILDBASE_DIR}
 else
 W ?=			release-${_gitdate}
 export W
@@ -268,6 +269,43 @@ $(ELITO_LOGDIR)/metrics-%.gz:		metrics | $(ELITO_LOGDIR)
 
 mrproper:		clean-metrics
 ###### }}} metrics targets #######
+
+############ {{{ tmp and filesystem targets #######
+
+# <cache>/<uuid>/project -> <builddir>
+config:			| ${BUILDBASE_DIR}/project
+${BUILDBASE_DIR}/project: | ${BUILDBASE_DIR}
+			ln -s '${abs_top_builddir}' $@
+
+clean:			.clean-tmp
+.clean-tmp:		FORCE
+			-rm -f ${BUILDBASE_DIR}/project
+			-rmdir ${BUILDBASE_DIR}
+
+
+ifneq ($(abspath ${BUILDBASE_DIR}),$(abspath tmp))
+
+# <cache>/<uuid>,project -> <builddir>
+_project_lnk	=	${BUILDBASE_DIR},project
+config:			| ${_project_lnk}
+${_project_lnk}:
+			mkdir -p "${@D}"
+			ln -s '${abs_top_builddir}' $@
+
+# <builddir>/tmp -> <cache>/<uuid>
+config:			| tmp
+tmp:			| ${BUILDBASE_DIR}
+			ln -s ${BUILDBASE_DIR} tmp
+
+# clean
+
+clean:			.clean-project_lnk
+.clean-project_lnk:	FORCE
+			-rm -f tmp '${_project_lnk}'
+
+endif	# ${BUILDBASE_DIR} == tmp
+
+############ }}} tmp and filesystem targets #######
 
 
 ############ {{{ Bitbake and general setup section ##########

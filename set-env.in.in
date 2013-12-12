@@ -1,6 +1,6 @@
 #! /bin/bash
 
-W_=${W:-tmp}
+W_=${W:-@ELITO_BUILDBASE_DIR@}
 export -n W_
 case $W_ in
   /*)	;;

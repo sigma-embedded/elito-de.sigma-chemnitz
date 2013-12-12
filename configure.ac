@@ -231,6 +231,26 @@ AS_CASE([x$with_persistent_dir],
 	 AC_MSG_RESULT([$with_persistent_dir])])
 dnl }}} persistent-dir
 
+dnl {{{ buildbase-dir
+AC_MSG_CHECKING([for buildbase directory])
+AC_ARG_WITH(buildbase-dir,
+	AS_HELP_STRING([--with-buildbase-dir=<dir>],
+		       [buildbase directory]),
+	[AS_IF([test "x$withval" = "xdefault"],
+               [with_buildbase_dir="\${ELITO_CACHE_DIR}/bld/${PROJECT_UUID}"])],
+	[with_buildbase_dir="\${ELITO_CACHE_DIR}/bld/${PROJECT_UUID}"])
+
+with_buildbase_dir=${with_buildbase_dir%%/}
+
+AS_CASE([x$with_buildbase_dir],
+	[xno],[
+		ELITO_TRUE_FALSE([ENABLE_BUILDBASE_DIR], false)
+		AC_MSG_RESULT([<OE default>])],
+	[AC_SUBST([BUILDBASE_DIR],[$with_buildbase_dir])
+	 ELITO_TRUE_FALSE([ENABLE_BUILDBASE_DIR], true)
+	 AC_MSG_RESULT([$with_buildbase_dir])])
+dnl }}} buildbase-dir
+
 dnl {{{ ccache
 AC_MSG_CHECKING([whether to enable ccache])
 AC_ARG_ENABLE(ccache,
