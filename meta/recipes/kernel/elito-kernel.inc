@@ -87,14 +87,14 @@ def kernel_early_options(d):
     YES = elito.kernel_feature.YES
     OFF = elito.kernel_feature.OFF
 
-    is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
+    is_feature = lambda x: oe.utils.contains('DISTRO_FEATURES', x, True, False, d)
     have_initrd = (is_feature('initrd') or
                    ('cpio' in set(map(lambda x: x.split('.')[0],
                                       d.getVar('IMAGE_FSTYPES', True).split()))))
 
     o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
-            'CMDLINE', d.getVar('KERNEL_CMDLINE'), ],
+            'CMDLINE', "${KERNEL_CMDLINE}", ],
           [ True,
             [ 'CMDLINE_FROM_BOOTLOADER', [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'bootloader'] ],
             [ 'CMDLINE_EXTEND',          [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'extend'] ],
@@ -125,7 +125,7 @@ def kernel_early_options(d):
 kernel_options[vardeps] += "DISTRO_FEATURES IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
 def kernel_options(d):
     import elito.kernel_feature
-    is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
+    is_feature = lambda x: oe.utils.contains('DISTRO_FEATURES', x, True, False, d)
 
     o = [ [ True,
             [ 'IPV6',        is_feature('ipv6') ],
