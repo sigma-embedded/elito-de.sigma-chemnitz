@@ -3,6 +3,7 @@ abs_top_builddir :=	$(abspath @abs_top_builddir@)
 
 MACHINE =		@MACHINE@
 PROJECT_NAME =		@PROJECT_NAME@
+PROJECT_UUID =		@PROJECT_UUID@
 ELITO_OFFLINE :=	@ELITO_OFFLINE@
 ELITO_CACHE_DIR :=	$(abspath @_CACHE_DIR@)
 BITBAKE_BRANCH =	@BITBAKE_BRANCH@
