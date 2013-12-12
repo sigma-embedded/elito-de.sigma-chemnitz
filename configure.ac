@@ -104,11 +104,15 @@ AS_CASE([$withval],
 AC_SUBST([LOCAL_BITBAKE_CONF],[$_f])
 ELITO_TRUE_FALSE([HAVE_LOCAL_BITBAKE_CONF], [test -n "$_f"])
 
+
+AC_MSG_CHECKING([for project name])
 AC_ARG_WITH([project-name],
 	[AS_HELP_STRING([--with-project-name=<name>],
 		[project name (default: directory basename)])],
 	[PROJECT_NAME=$withval],[PROJECT_NAME=$(basename "`pwd`")])
 AC_SUBST(PROJECT_NAME)
+AC_MSG_RESULT([$PROJECT_NAME])
+
 
 AC_ARG_ENABLE(maintainer-mode,
 	AS_HELP_STRING([--enable-maintainer-mode],
