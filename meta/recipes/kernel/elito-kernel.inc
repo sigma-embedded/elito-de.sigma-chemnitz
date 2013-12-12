@@ -14,7 +14,7 @@ SRCREV   = "${MACHINE_KERNEL_REVISION}"
 KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
 _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 
-SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=refs/heads/${_branch}"
+SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
 S            = "${WORKDIR}/git"
 
 EXTRA_OEMAKE_prepend = "-f '${TMPDIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1"
