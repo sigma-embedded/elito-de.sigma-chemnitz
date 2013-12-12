@@ -390,7 +390,7 @@ $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitb
 			done
 			@touch $@
 
-$(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir)
+$(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir) $W/cache/ccache
 			@rm -f $@ $@.tmp
 			@$(call _call_cmd,$(BITBAKE) -e > $@.tmp || { rc=$$?; cat $@.tmp >&2; exit $$rc; })
 			@mv $@.tmp $@
