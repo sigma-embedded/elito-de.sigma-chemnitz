@@ -326,9 +326,11 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 $(_filesystem-dirs) $(_bitbake-dirs) $(ELITO_CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR):
 			mkdir -p $@
 
-$W/cache/ccache:
+$W/cache/ccache:	| $W
 			mkdir -p $@
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
+
+$W/recipes:		| $W
 
 $(_wstampdir)/.prep.stamp:	| $(_wstampdir) bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $W/cache/ccache
 			@touch $@
