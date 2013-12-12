@@ -184,6 +184,26 @@ AS_CASE([x$with_sstate_dir],
 	 AC_MSG_RESULT([$with_sstate_dir])])
 dnl }}} sstate-dir
 
+dnl {{{ persistent-dir
+AC_MSG_CHECKING([for persistent directory])
+AC_ARG_WITH(persistent-dir,
+	AS_HELP_STRING([--with-persistent-dir=<dir>],
+		       [persistent directory]),
+	[AS_IF([test "x$withval" = "xdefault"],
+               [with_persistent_dir="\${ELITO_CACHE_DIR}/persistent/${DISTRO_RELEASE}"])],
+	[with_persistent_dir="\${ELITO_CACHE_DIR}/persistent/${DISTRO_RELEASE}"])
+
+with_persistent_dir=${with_persistent_dir%%/}
+
+AS_CASE([x$with_persistent_dir],
+	[xno],[
+		ELITO_TRUE_FALSE([ENABLE_PERSISTENT_DIR], false)
+		AC_MSG_RESULT([<OE default>])],
+	[AC_SUBST([PERSISTENT_DIR],[$with_persistent_dir])
+	 ELITO_TRUE_FALSE([ENABLE_PERSISTENT_DIR], true)
+	 AC_MSG_RESULT([$with_persistent_dir])])
+dnl }}} persistent-dir
+
 dnl {{{ ccache
 AC_MSG_CHECKING([whether to enable ccache])
 AC_ARG_ENABLE(ccache,
