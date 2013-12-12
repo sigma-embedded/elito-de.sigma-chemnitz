@@ -256,7 +256,7 @@ AS_CASE([$enable_oom_adjust],
 dnl }}} --enable-oom-adjust
 
 
-_default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/toolchain-layer'
+_default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/toolchain-layer org.openembedded.meta/meta-networking'
 
 dnl {{{ --enable-systemd
 AC_MSG_CHECKING([whether to enable systemd])
