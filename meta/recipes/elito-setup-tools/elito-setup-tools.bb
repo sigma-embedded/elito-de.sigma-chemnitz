@@ -27,6 +27,7 @@ FILES_${PN}-extra = "\
   ${bindir}/* \
 "
 
+OVERRIDES[vardeps] += "IMAGE_INIT_MANAGER"
 OVERRIDES .= "${@base_conditional('IMAGE_INIT_MANAGER','systemd',':systemd','',d)}"
 OVERRIDES .= "${@base_contains('DISTRO_FEATURES','initrd',':dietlibc','',d)}"
 

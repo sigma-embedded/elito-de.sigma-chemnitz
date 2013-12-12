@@ -25,6 +25,7 @@ MACHINE_HOSTNAME ?= "${MACHINE}"
 
 INITRAMFS_SOURCE = "devices.txt"
 
+DEPENDS[vardeps] += "KERNEL_IMAGETYPE"
 DEPENDS += '\
 	${KERNEL_DEPENDS} \
 	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native virtual/ce-preloader","",d)} \
@@ -77,6 +78,9 @@ def get_src_uri_defconfig(cfg):
 
     return cfg
 
+kernel_early_options[vardeps] += "DISTRO_FEATURES KERNEL_CMDLINE \
+  KERNEL_CMDLINE_SOURCE  KERNEL_EARLY_OPTIONS_FUNCS \
+  _configdebug-opts _configdisable-opts"
 def kernel_early_options(d):
     import elito.kernel_feature
 
@@ -118,6 +122,7 @@ def kernel_early_options(d):
 
     return elito.kernel_feature.sed_cmd(o)
 
+kernel_options[vardeps] += "DISTRO_FEATURES IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
 def kernel_options(d):
     import elito.kernel_feature
     is_feature = lambda x: base_contains('DISTRO_FEATURES', x, True, False, d)
