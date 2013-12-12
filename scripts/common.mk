@@ -549,6 +549,7 @@ gc:			gc-buildhistory FORCE
 			$(SED) $(SED_EXPR) $< > $@.tmp
 			mv $@.tmp $@
 			chmod a-w $@
+.SECONDARY:		Makefile
 
 $(AUTOCONF_FILES): %:	config.status %.in
 			+$(abspath $<)
