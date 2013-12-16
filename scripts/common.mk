@@ -436,7 +436,7 @@ $(_tmpdir)/bitbake.env:	$(_stampdir)/.bitbake.install.stamp | $(_tmpdir) $W/cach
 
 $(_tmpdir)/pseudo.env:	$(_tmpdir)/bitbake.env $(abs_top_srcdir)/scripts/generate-pseudo-env
 			@rm -f $@ $@.tmp
-			@$(call _call_cmd,$(abs_top_srcdir)/scripts/generate-pseudo-env '$<' '${abs_top_builddir}' >$@.tmp)
+			@$(call _call_cmd,$(abs_top_srcdir)/scripts/generate-pseudo-env '$<' '${W}' >$@.tmp)
 			@mv $@.tmp $@
 .SECONDARY:		$(_tmpdir)/pseudo.env
 
