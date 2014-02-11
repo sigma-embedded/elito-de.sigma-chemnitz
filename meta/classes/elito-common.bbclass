@@ -336,6 +336,10 @@ ELITO_COMMON_PROGRAMS-wifi = "\
   wpa-supplicant \
 "
 
+ELITO_COMMON_PROGRAMS-sata = "\
+  hdparm \
+"
+
 ELITO_COMMON_PROGRAMS-x11 = "\
   xhost \
   xrandr \
