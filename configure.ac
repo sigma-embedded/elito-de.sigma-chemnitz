@@ -326,21 +326,6 @@ dnl }}} --enable-oom-adjust
 
 _default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/toolchain-layer org.openembedded.meta/meta-networking'
 
-dnl {{{ --enable-systemd
-AC_MSG_CHECKING([whether to enable systemd])
-AC_ARG_ENABLE(systemd,
-	AS_HELP_STRING([--disable-systemd],[disable systemd support]),
-	[],[enable_systemd=yes])
-
-AS_CASE([$enable_systemd],
-	[yes],[_default_layers="$_default_layers org.openembedded.meta/meta-systemd"],
-	[no],[],
-	[AC_MSG_ERROR([invalid value for --enable-systemd option])])
-
-AC_MSG_RESULT([$enable_systemd])
-dnl }}} --enable-systemd
-
-
 dnl {{{ --enable-layers
 AC_ARG_ENABLE(layers,
 	AS_HELP_STRING([--enable-layers=<dir>[,<dir>]*],
