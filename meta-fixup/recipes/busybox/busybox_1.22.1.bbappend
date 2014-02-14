@@ -15,7 +15,6 @@ BUSYBOX_FEATURES_UTIL_LINUX = "DMESG MORE KILL WALL MKSWAP BLOCKDEV PIVOT_ROOT M
 
 SRC_URI += " \
         file://cvt-color.patch \
-	file://nc-shutdown.patch \
 \
 	file://test-access.patch \
 "
