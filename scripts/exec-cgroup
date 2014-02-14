@@ -11,11 +11,29 @@ while read; do
     case $REPLY in
       (*:name=systemd:*)
       tmp=${REPLY##*:name=systemd:}
-      
-      ldir=$CGDIR/systemd/$tmp/$CNAME
-      mkdir -p $ldir || exit 1
+
+      case $tmp in
+	# RH19 style
+	*.session)
+	      ldir=$CGDIR/systemd/$tmp/$CNAME
+	      ;;
+
+	# RH20+ style
+	*/user.slice/user-$UID.slice/session-*.scope)
+	      ldir=$CGDIR/systemd/$tmp/../user@$UID.service/$CNAME
+	      ;;
+
+	*)
+	      echo "Unknown cgroup style '$tmp'" >&2
+	      ldir=
+	      ;;
+      esac
+
+      test -n "$ldir"  || exit 0
+      mkdir -p "$ldir" || exit 1
+
       for i; do
-	  echo $i > $ldir/tasks
+	  echo $i > "$ldir"/tasks
       done
       ;;
     esac
