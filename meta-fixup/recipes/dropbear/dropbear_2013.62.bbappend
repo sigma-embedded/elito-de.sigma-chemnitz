@@ -7,6 +7,7 @@ SRC_URI += "\
 "
 
 do_install_append() {
+    install -d -m 0755 ${D}${systemd_unitdir}/system
     install -p -m 0644 \
         ${WORKDIR}/etc-dropbear.mount \
         ${WORKDIR}/run-dropbear.service \
