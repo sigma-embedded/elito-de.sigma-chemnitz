@@ -84,6 +84,7 @@ rescue_cleanup_rootfs() {
 
     rm -rf lib/modules
     rm -rf var/lib/opkg
+    rm -rf usr/lib/opkg
     rm -f sbin/ldconfig
 
     cd -
