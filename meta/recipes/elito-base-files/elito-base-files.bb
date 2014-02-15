@@ -7,7 +7,6 @@ PACKAGE_ARCH	= "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 FILESDIR	= "${OECORE_TOPDIR}/meta/recipes-core/base-files/base-files"
-RDEPENDS_${PN} += "base-files"
 
 SRC_URI = "	\
 	file://fstab			\
@@ -68,7 +67,7 @@ do_install() {
 }
 
 PACKAGES        = "${PN}"
-RDEPENDS_${PN}  = "elito-filesystem"
+RDEPENDS_${PN}  = "elito-filesystem base-files"
 CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hosts \
 	${sysconfdir}/nsswitch.conf \
 	${sysconfdir}/resolv.conf.static ${sysconfdir}/ntpd.conf.static"
