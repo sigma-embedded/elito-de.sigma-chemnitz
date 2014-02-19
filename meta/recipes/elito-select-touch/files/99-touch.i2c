@@ -1,4 +1,4 @@
-SUBSYSTEM=="input", DEVPATH=="*/i2c-0/0-0038/input*/event*", \
+SUBSYSTEM=="input", DEVPATH=="*/i2c-?/?-0038/input*/event*", \
   SYMLINK+="input/event-touchscreen0", TAG+="systemd", \
   ENV{SYSTEMD_READY}="1", \
   ENV{SYSTEMD_ALIAS}="/dev/input/event-touchscreen0", \
