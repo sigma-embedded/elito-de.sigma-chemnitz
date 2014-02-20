@@ -1,6 +1,24 @@
 #! /bin/sh
 
 d=
+NUM=4
+
+idxfile=/run/elito-qt-demo-idx
+
+exec 99> $idxfile.lock
+flock -n -x 99 || exit 0
+
+cur=0
+! test -e $idxfile || read cur <$idxfile
+
+echo $cur
+
+case $1 in
+  next)	set -- $(( (cur + 1) % NUM ));;
+  prev) set -- $(( (cur + NUM - 1) % NUM ));;
+esac
+
+idx=$1
 
 case $1 in
      0|fsm) d=fsm-demo;;
@@ -19,4 +37,6 @@ for i in fsm-demo demo-pinchzoom demo-fingerpaint demo-qtdemoE; do
     systemctl stop "$i".service 2>/dev/null || :
 done
 
-test -z "$d" || systemctl start "$d".service
+test -z "$d" || systemctl --no-block start "$d".service
+
+echo "$idx" > $idxfile
