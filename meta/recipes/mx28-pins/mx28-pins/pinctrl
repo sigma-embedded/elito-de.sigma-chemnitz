@@ -113,14 +113,22 @@ function read_defs() {
 }
 
 function setup_pin() {
-    declare -r PIN=$1
+    local PIN=$1
     local MUX=$2
     local VOLT=$3
     local DRIVE=$4
     local PULL=$5
     local DTREE=$6
 
+    local do_emit_dtree=true
+    local do_emit_bootlet=true
+
     shift 6
+
+    case $PIN in
+      -*)	do_emit_bootlet=false; PIN=${PIN##-};;
+      \~*)	do_emit_dtree=false;   PIN=${PIN##\~};;
+    esac
 
     test -e r/$PIN:bank || {
       echo "No such pin '$PIN'" >&2
@@ -241,22 +249,24 @@ function setup_pin() {
     local drive="$[ ((drive_volt << 2) | drive_ma) << ((num % 8) * 4) ]"
     local dirval=
 
-    printf '0x%08x %s\n' "$afmask" "$PIN-$MUX"    >> s/MUXSEL${muxidx}
-    printf '0x%08x %s\n' "$drive"  "$PIN-$MUX ($DRIVE $VOLT)" >> s/DRIVE${driveidx}
-    printf '0x%08x %s\n' "$[ pullval << num]" "$PIN-$MUX ($PULL)" >> s/PULL${bank}
+    if $do_emit_bootlet; then
+	printf '0x%08x %s\n' "$afmask" "$PIN-$MUX"    >> s/MUXSEL${muxidx}
+	printf '0x%08x %s\n' "$drive"  "$PIN-$MUX ($DRIVE $VOLT)" >> s/DRIVE${driveidx}
+	printf '0x%08x %s\n' "$[ pullval << num]" "$PIN-$MUX ($PULL)" >> s/PULL${bank}
 
-    case $dir in
-      1)
-	    printf '0x%08x %s\n' "$[ dir << num]" "$PIN ($bank,$num)" >> s/DOE${bank}
-	    printf '0x%08x %s\n' "$[ lvl << num]" "$PIN ($bank,$num)" >> s/DOUT${bank}
-	    ;;
+	case $dir in
+	  1)
+		printf '0x%08x %s\n' "$[ dir << num]" "$PIN ($bank,$num)" >> s/DOE${bank}
+		printf '0x%08x %s\n' "$[ lvl << num]" "$PIN ($bank,$num)" >> s/DOUT${bank}
+		;;
 
-      0)
-	    printf '0x%08x %s\n' "$[ dir << num]" "$PIN ($bank,$num)" >> s/DOE${bank}
-	    ;;
-    esac
+	  0)
+		printf '0x%08x %s\n' "$[ dir << num]" "$PIN ($bank,$num)" >> s/DOE${bank}
+		;;
+	esac
+    fi
 
-    if test -n "$dtree"; then
+    if $do_emit_dtree && test -n "$dtree"; then
 	mkdir -p d/"$dtree"
 	touch d/"$dtree"/$pullval:pull
 	touch d/"$dtree"/$VOLT:volt
