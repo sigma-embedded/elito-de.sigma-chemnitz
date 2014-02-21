@@ -184,6 +184,7 @@ ELITO_COMMON_KERNEL_MODULES-core = "\
   kernel-module-ip-tables \
   kernel-module-loop \
   kernel-module-leds-gpio \
+  kernel-module-leds-pwm \
   kernel-module-ledtrig-gpio \
   kernel-module-ledtrig-heartbeat \
   kernel-module-ledtrig-timer \
