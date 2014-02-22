@@ -19,9 +19,13 @@ IPKGCONF_SDK = "${WORKDIR}/ipkg-conf/opkg-sdk.conf"
 
 do_setup_ipkg[dirs] = "${WORKDIR}/ipkg-conf"
 do_setup_ipkg[nostamp] = "1"
-do_setup_ipkg() {
-        rm -f "${IPKGCONF_TARGET}" "${IPKGCONF_SDK}"
-        package_generate_ipkg_conf
+python do_setup_ipkg() {
+    from oe.package_manager import OpkgPM
+
+    OpkgPM(d,
+           d.getVar('IMAGE_ROOTFS', True),
+           d.getVar("IPKGCONF_TARGET", True),
+           d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True))
 }
 
 SSTATETASKS += "do_setup_ipkg"
