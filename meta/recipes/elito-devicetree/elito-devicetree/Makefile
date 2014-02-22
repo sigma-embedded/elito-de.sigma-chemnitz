@@ -25,6 +25,7 @@ endef
 all:		$(MACHINE).dtb
 
 $o$(MACHINE)-preproc.dtb:	$(MACHINE).dts $(MACH_DTSI_$(SOC_FAMILY)) | $o
+	-rm -f $(addprefix $o/,$(notdir $(wildcard $^)))
 	$(CPP) $(AM_DTC_CPPFLAGS) $(DTC_CPPFLAGS) -o $@ $<
 	$(foreach f,$(abspath $(wildcard $^)),$(call _linkfile,$f,$o))
 
