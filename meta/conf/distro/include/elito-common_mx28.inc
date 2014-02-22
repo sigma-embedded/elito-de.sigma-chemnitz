@@ -9,6 +9,7 @@ ELITO_COMMON_KERNEL_MODULES-can += "\
 ELITO_COMMON_KERNEL_MODULES-usbhost += "\
   kernel-module-ehci-mxs \
   kernel-module-mxs-phy \
+  kernel-module-phy-mxs-usb \
 "
 
 ELITO_COMMON_KERNEL_MODULES-usbclient += "\
@@ -26,4 +27,8 @@ ELITO_COMMON_KERNEL_MODULES-restouch += "\
 
 ELITO_COMMON_KERNEL_MODULES-alsa += "\
   kernel-module-snd-soc-mxs \
+"
+
+ELITO_COMMON_KERNEL_MODULES-core += "\
+  kernel-module-stmp3xxx-rtc-wdt \
 "
