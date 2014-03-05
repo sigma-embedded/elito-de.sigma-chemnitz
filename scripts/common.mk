@@ -205,13 +205,6 @@ inc-build-num:		FORCE | $W
 			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
 			echo $$(( v + 1 )) > ${W}/build-num
 
-inc-pr:			FORCE | $W/recipes
-ifeq ($(R),)
-			@echo "*** Recipename R=<recipe> missing. ***" >&2
-			@exit 1
-endif
-			@echo "PRINC := \"\$${@int('\$${PRINC}') + 1}\"" >> '$W/recipes/$R.bbappend'
-
 taint:			FORCE | $W/recipes
 ifeq ($(R),)
 			@echo "*** Recipename R=<recipe> missing. ***" >&2

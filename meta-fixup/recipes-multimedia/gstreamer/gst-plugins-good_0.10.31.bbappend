@@ -1,5 +1,3 @@
-PRINC := "${@int('${PRINC}') + 6}"
-
 DEPENDS += "libv4l"
 EXTRA_AUTORECONF += '--exclude=autopoint'
 
