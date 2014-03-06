@@ -52,7 +52,7 @@ $(sort $(filter-out $(LOCALGOALS),${MAKECMDGOALS}) ${XTRA_GOALS}):	__force
 	+$(_build_cmd) $@
 
 printcmd:
-	@echo make -C "`pwd`" -f $(firstword $(MAKEFILE_LIST))
+	@echo make -C "`pwd`" -f $(firstword $(MAKEFILE_LIST)) $(if $(CFG),CFG='$(CFG)')
 
 _all_:
 	+$(_build_cmd)
