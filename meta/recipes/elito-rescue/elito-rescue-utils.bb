@@ -25,11 +25,12 @@ EXTRA_OEMAKE = " \
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
+do_unpackextra() {
     sed -i \
         -e 's!@PROJECT@!${PROJECT_NAME}!g' \
         ${S}/cgi/index.html
 }
+addtask unpackextra after do_unpack before do_configure
 
 RDEPENDS_${PN} += "elito-image-stream-decode virtual/rescue-conf"
 

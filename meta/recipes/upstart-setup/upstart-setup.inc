@@ -118,9 +118,10 @@ python populate_packages_prepend () {
                           rrecommends = i.rrecommends)
 }
 
-do_configure_prepend() {
+do_unpackextra() {
     sed -i -s 's!^include !#\0!g' {S}/Makefile
 }
+addtask unpackextra after do_unpack before do_configure
 
 do_compile() {
 }

@@ -14,7 +14,8 @@ PACKAGECONFIG ??= "\
 
 PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11"
 
-do_configure_prepend() {
+do_unpackextra() {
 	mkdir -p ${B}/_bin
 	ln -sf /bin/false ${B}/_bin/qmake-qt4
 }
+addtask unpackextra after do_unpack before do_configure

@@ -17,16 +17,15 @@ EXTRA_OECONF += "\
 
 systemd_bindir = "${systemd_unitdir}"
 
-do_configure_prepend() {
+do_unpackextra() {
     echo 'install-aliases-hook:	install-directories-hook' >> ${S}/Makefile.am
-}
 
-do_configure_append() {
     grep '#RuntimeWatchdogSec=0' ${S}/src/core/system.conf
     if test -n "${WATCHDOG_TIMEOUT}"; then
        echo 'RuntimeWatchdogSec=${WATCHDOG_TIMEOUT}' >> ${S}/src/core/system.conf
     fi
 }
+addtask unpackextra after do_unpack before do_configure
 
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service

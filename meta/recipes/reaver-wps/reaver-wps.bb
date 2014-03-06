@@ -13,8 +13,12 @@ DEPENDS = "libpcap"
 
 inherit autotools
 
-do_configure_prepend() {
+do_unpackextra() {
         sed -i -e '/^CONFDIR=/d' ${S}/configure.ac
+}
+addtask unpackextra after do_unpack before do_configure
+
+do_configure_prepend() {
         export CONFDIR='${sysconfdir}'
 }
 
