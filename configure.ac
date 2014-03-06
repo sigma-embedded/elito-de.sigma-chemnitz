@@ -31,7 +31,7 @@ elito_validate_path() {
     here=`${PWD_P}` || AC_MSG_ERROR([failed to determine current directory])
 
     for i; do
-	abs_i=`cd "$i" && ${PWD_P} 2>/dev/null` || continue
+	abs_i=`cd "$i" 2>/dev/null && ${PWD_P}` || continue
 	tmp=${abs_i##$here}
 	test x"$tmp" != x"$abs_i" || continue
 
