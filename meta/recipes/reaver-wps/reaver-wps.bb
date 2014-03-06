@@ -14,7 +14,7 @@ DEPENDS = "libpcap"
 inherit autotools
 
 do_configure_prepend() {
-        sed -i -e '/^CONFDIR=/d' configure.ac
+        sed -i -e '/^CONFDIR=/d' ${S}/configure.ac
         export CONFDIR='${sysconfdir}'
 }
 

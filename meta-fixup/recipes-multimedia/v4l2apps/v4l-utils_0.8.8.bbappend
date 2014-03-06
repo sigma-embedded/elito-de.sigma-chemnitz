@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/v4l-utils:"
 
-PATH =. "${S}/_bin:"
+PATH =. "${B}/_bin:"
 export PATH
 
 SRC_URI += "file://0001-configure-added-enable-x11.patch"
@@ -15,6 +15,6 @@ PACKAGECONFIG ??= "\
 PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11"
 
 do_configure_prepend() {
-	mkdir -p _bin
-	ln -sf /bin/false _bin/qmake-qt4
+	mkdir -p ${B}/_bin
+	ln -sf /bin/false ${B}/_bin/qmake-qt4
 }

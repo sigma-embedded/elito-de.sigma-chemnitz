@@ -28,7 +28,7 @@ S = "${WORKDIR}/git"
 do_configure_prepend() {
     sed -i \
         -e 's!@PROJECT@!${PROJECT_NAME}!g' \
-        cgi/index.html
+        ${S}/cgi/index.html
 }
 
 RDEPENDS_${PN} += "elito-image-stream-decode virtual/rescue-conf"

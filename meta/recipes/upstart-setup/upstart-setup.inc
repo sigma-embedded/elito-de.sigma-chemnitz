@@ -119,7 +119,7 @@ python populate_packages_prepend () {
 }
 
 do_configure_prepend() {
-    sed -i -s 's!^include !#\0!g' Makefile
+    sed -i -s 's!^include !#\0!g' {S}/Makefile
 }
 
 do_compile() {

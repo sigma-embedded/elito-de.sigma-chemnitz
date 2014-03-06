@@ -8,5 +8,5 @@ SRC_URI += "\
 "
 
 oe_runconf_prepend() {
-    sed -i -e "1a\\" -e 'GETTEXT_PACKAGE = @GETTEXT_PACKAGE@' po/Makefile.in.in
+    sed -i -e "1a\\" -e 'GETTEXT_PACKAGE = @GETTEXT_PACKAGE@' ${S}/po/Makefile.in.in
 }

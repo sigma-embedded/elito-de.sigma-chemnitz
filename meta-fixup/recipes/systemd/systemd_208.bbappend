@@ -18,13 +18,13 @@ EXTRA_OECONF += "\
 systemd_bindir = "${systemd_unitdir}"
 
 do_configure_prepend() {
-    echo 'install-aliases-hook:	install-directories-hook' >> Makefile.am
+    echo 'install-aliases-hook:	install-directories-hook' >> ${S}/Makefile.am
 }
 
 do_configure_append() {
-    grep '#RuntimeWatchdogSec=0' src/core/system.conf
+    grep '#RuntimeWatchdogSec=0' ${S}/src/core/system.conf
     if test -n "${WATCHDOG_TIMEOUT}"; then
-    	echo 'RuntimeWatchdogSec=${WATCHDOG_TIMEOUT}' >> src/core/system.conf
+       echo 'RuntimeWatchdogSec=${WATCHDOG_TIMEOUT}' >> ${S}/src/core/system.conf
     fi
 }
 
