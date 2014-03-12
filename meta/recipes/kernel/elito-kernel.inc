@@ -27,6 +27,7 @@ INITRAMFS_SOURCE = "devices.txt"
 
 DEPENDS[vardeps] += "KERNEL_IMAGETYPE"
 DEPENDS += '\
+	bc-native \
 	${KERNEL_DEPENDS} \
 	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native virtual/ce-preloader","",d)} \
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
