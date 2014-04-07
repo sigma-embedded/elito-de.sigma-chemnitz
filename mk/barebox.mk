@@ -1,7 +1,6 @@
 LOCALGOALS += barebox.sb tftp-sb tftp-bin tftp
 XTRA_GOALS += barebox
 
-override CFG := kernel
 override KERNEL_BOOT_VARIANT :=
 include ${ELITO_TOPDIR}/mk/kernel.mk
 
