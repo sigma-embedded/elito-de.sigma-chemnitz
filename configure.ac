@@ -698,15 +698,14 @@ AC_DEFUN([ELITO_CHECK_LN_R],[
 	if $LN -s -r "$tmp/test0" "$tmp/test1" 2>/dev/null; then
 	    : ${LN_R:=$LN -s -r}
 	    AC_MSG_RESULT([yes])
-        else
+	else
 	    : ${LN_R:=$LN -s}
 	    AC_MSG_RESULT([no])
-        fi
-        AC_SUBST([LN_R],[$LN_R])
+	fi
+	AC_SUBST([LN_R],[$LN_R])
 
 	test -d "$tmp" && rm -rf "$tmp"
-
-])	
+])
 
 AC_PATH_PROGS([AUTORECONF], autoreconf)
 
