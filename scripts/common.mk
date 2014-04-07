@@ -268,7 +268,7 @@ mrproper:		clean-metrics
 # <cache>/<uuid>/project -> <builddir>
 config:			| ${BUILDBASE_DIR}/project
 ${BUILDBASE_DIR}/project: | ${BUILDBASE_DIR}
-			ln -s '${abs_top_builddir}' $@
+			${LN_R} '${abs_top_builddir}' $@
 
 clean:			.clean-tmp
 .clean-tmp:		FORCE
@@ -283,12 +283,12 @@ _project_lnk	=	${BUILDBASE_DIR},project
 config:			| ${_project_lnk}
 ${_project_lnk}:
 			mkdir -p "${@D}"
-			ln -s '${abs_top_builddir}' $@
+			${LN_R} '${abs_top_builddir}' $@
 
 # <builddir>/tmp -> <cache>/<uuid>
 config:			| tmp
 tmp:			| ${BUILDBASE_DIR}
-			ln -s ${BUILDBASE_DIR} tmp
+			${LN_R} ${BUILDBASE_DIR} tmp
 
 # clean
 

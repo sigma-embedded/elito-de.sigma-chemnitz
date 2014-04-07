@@ -690,6 +690,24 @@ AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	fi
 ])
 
+AC_DEFUN([ELITO_CHECK_LN_R],[
+	AC_PATH_PROGS(LN, [ln])
+	AC_MSG_CHECKING([whether 'ln' supports the -r option])
+
+	AS_TMPDIR([ln_r_test])
+	if $LN -s -r "$tmp/test0" "$tmp/test1" 2>/dev/null; then
+	    : ${LN_R:=$LN -s -r}
+	    AC_MSG_RESULT([yes])
+        else
+	    : ${LN_R:=$LN -s}
+	    AC_MSG_RESULT([no])
+        fi
+        AC_SUBST([LN_R],[$LN_R])
+
+	test -d "$tmp" && rm -rf "$tmp"
+
+])	
+
 AC_PATH_PROGS([AUTORECONF], autoreconf)
 
 dnl AC_PATH_PROGS(BITBAKE, bitbake)
@@ -804,6 +822,8 @@ PKG_CHECK_MODULES(UUID,      [uuid >= 2.18], [
   ELITO_CHECK_PROGRAM( 0, UTIL_LINUX, mount, util-linux-ng)], [true])
 
 PKG_CHECK_MODULES(LIBUDEV,   [libudev], [ELITO_ASSUME(0, libudev, true)], [true])
+
+ELITO_CHECK_LN_R()
 
 AC_CONFIG_FILES([Makefile
 		set-env.in
