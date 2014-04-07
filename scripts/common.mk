@@ -556,7 +556,7 @@ clean-sources:
 
 gc-buildhistory:	FORCE
 ifneq ($(wildcard $(BUILDHISTORY_DIR)),)
-			-cd $(BUILDHISTORY_DIR) && $(GIT) gc
+			-cd $(BUILDHISTORY_DIR) && $(GIT) gc --aggressive
 endif
 
 mrproper:		clean gc-buildhistory
