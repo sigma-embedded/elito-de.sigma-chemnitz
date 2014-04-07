@@ -74,7 +74,7 @@ dietlibc_install_dev () {
     cd bin-${DIETLIBC_TARGET_ARCH}
     install -p -m 0644 \
         start.o libm.a libpthread.a librpc.a liblatin1.a libcompat.a libcrypt.a \
-        pstart.o libgmon.a \
+        pstart.o libgmon.a dyn_start.o dyn_stop.o \
         ${D}${pkgarchdir}/
 
     # extra step because 'dietlibc.a' must be renamed to 'libc.a'
