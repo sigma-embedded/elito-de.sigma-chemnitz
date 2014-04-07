@@ -18,6 +18,7 @@ WGET =			@WGET@
 TAR =			@TAR@
 PYTHON =		@PYTHON@
 GZIP =			@GZIP@
+LN_R =			@LN_R@
 
 SECWRAP_CMD =		@SECWRAP_CMD@
 TFTPBOOT_DIR =		@tftpbootdir@
