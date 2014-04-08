@@ -19,7 +19,7 @@ do_setup_makefile() {
         cat << EOF | sed -e 's![[:space:]]*$!!' > "Makefile.kernel"
 # --*- make -*--
 override CFG := kernel
-include ${TMPDIR}/Makefile.develcomp
+include ${ELITO_MAKEFILE_DIR}/Makefile.develcomp
 EOF
 
         # make it read-only
@@ -29,7 +29,7 @@ EOF
 SSTATETASKS += "do_setup_makefile"
 do_setup_makefile[sstate-name] = "kernel-makefile"
 do_setup_makefile[sstate-inputdirs] = "${WORKDIR}/kernel-makefile"
-do_setup_makefile[sstate-outputdirs] = "${TMPDIR}"
+do_setup_makefile[sstate-outputdirs] = "${ELITO_MAKEFILE_DIR}"
 
 addtask do_setup_makefile after do_configure
 do_populate_sysroot[depends] += "${PN}:do_setup_makefile"
@@ -51,7 +51,7 @@ do_create_link() {
         ${@base_conditional('DISTRO_TYPE','debug','','return 0', d)}
 
         rm -f "${KERNEL_MAKEFILE}"
-        ln -sf "${TMPDIR}/Makefile.kernel" "${KERNEL_MAKEFILE}"
+        ln -sf "${ELITO_MAKEFILE_DIR}/Makefile.kernel" "${KERNEL_MAKEFILE}"
 }
 
 addtask do_create_link after do_setup_makefile

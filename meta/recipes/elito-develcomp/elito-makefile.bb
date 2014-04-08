@@ -137,7 +137,7 @@ EOF
 
 	cat << "EOF" > "make"
 #! /bin/sh
-exec ${ELITO_TOPDIR}/scripts/make-redir '${TMPDIR}/Makefile.develcomp' "$@"
+exec ${ELITO_TOPDIR}/scripts/make-redir '${ELITO_MAKEFILE_DIR}/Makefile.develcomp' "$@"
 EOF
 
         # fix perms and make it read-only
@@ -148,7 +148,7 @@ EOF
 SSTATETASKS += "do_setup_makefile"
 do_setup_makefile[sstate-name] = "setup-makefile"
 do_setup_makefile[sstate-inputdirs] = "${WORKDIR}/setup-makefile"
-do_setup_makefile[sstate-outputdirs] = "${TMPDIR}"
+do_setup_makefile[sstate-outputdirs] = "${ELITO_MAKEFILE_DIR}"
 
 addtask do_setup_makefile after do_configure
 do_populate_sysroot[depends] += "${PN}:do_setup_makefile"
@@ -170,7 +170,7 @@ do_create_link() {
         ${@base_conditional('DISTRO_TYPE','debug','','return 0', d)}
 
         rm -f "${DEVELCOMP_MAKEFILE}"
-        ln -sf "${TMPDIR}/Makefile.develcomp" "${DEVELCOMP_MAKEFILE}"
+        ln -sf "${ELITO_MAKEFILE_DIR}/Makefile.develcomp" "${DEVELCOMP_MAKEFILE}"
 }
 
 addtask do_create_link after do_setup_makefile

@@ -13,7 +13,7 @@ MACH_DEPENDS = ""
 MACH_DEPENDS_mx6 = "libxslt-native"
 
 DEPENDS += "elito-develcomp lzop-native ${MACH_DEPENDS}"
-EXTRA_OEMAKE_prepend = "-f ${TMPDIR}/Makefile.develcomp CFG=barebox _secwrap= V=1 "
+EXTRA_OEMAKE_prepend = "-f ${ELITO_MAKEFILE_DIR}/Makefile.develcomp CFG=barebox _secwrap= V=1 "
 
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
 

@@ -12,7 +12,7 @@ _repo = "u-boot"
 
 include u-boot-common.inc
 
-_make = "${MAKE} -f '${TMPDIR}/Makefile.develcomp' \
+_make = "${MAKE} -f '${ELITO_MAKEFILE_DIR}/Makefile.develcomp' \
 	CFG=u-boot _secwrap= \
 	STRIP=: BUILD_STRIP=: \
 	CFG_NONDEVEL=1 \
