@@ -10,6 +10,7 @@ _DOMAIN =		$(shell hostname -d)
 
 VPATH ?=		$(abs_top_srcdir)
 NOW :=			$(shell date +%Y%m%dT%H%M%S)
+MDIR =			$(W)/sysroots/m
 
 CCACHE ?=		ccache
 ELITO_CCACHE_SIZE ?=	3G
@@ -177,10 +178,10 @@ endif
 			@$(call _call_cmd,$(BITBAKE) -b $(R) $(BO),>$(R)<)
 
 pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell pshell: \
-			$(W)/Makefile.develcomp FORCE
+			${MDIR}/Makefile.develcomp FORCE
 			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
 
-$(W)/Makefile.develcomp:
+${MDIR}/Makefile.develcomp:
 			@{ \
 			echo "***" ; \
 			echo "*** error: development Makefile not found; please" ; \
@@ -229,9 +230,9 @@ all-images:		TARGETS += ${TARGETS_rescue}
 
 image-stream:		${IMAGE_STREAM}
 
-${IMAGE_STREAM}:	${IMAGE_STREAM_deps} | $(W)/Makefile.develcomp
+${IMAGE_STREAM}:	${IMAGE_STREAM_deps} | ${MDIR}/Makefile.develcomp
 			@rm -f $@ $@.tmp
-			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true $(MAKE) -f $(W)/Makefile.develcomp CFG=image-stream IMAGEDIR="${IMAGEDIR}" ${IMAGE_STREAM_args} image-stream O=$@.tmp _secwrap=
+			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true $(MAKE) -f ${MDIR}/Makefile.develcomp CFG=image-stream IMAGEDIR="${IMAGEDIR}" ${IMAGE_STREAM_args} image-stream O=$@.tmp _secwrap=
 			@mv $@.tmp $@
 endif
 

@@ -1,2 +1,2 @@
 override CFG := kernel
-include ${_tmpdir}/Makefile.develcomp
+include ${_tmpdir}/sysroots/m/Makefile.develcomp
