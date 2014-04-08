@@ -50,8 +50,14 @@ do_create_link[vardeps] += "DISTRO_TYPE"
 do_create_link() {
         ${@base_conditional('DISTRO_TYPE','debug','','return 0', d)}
 
+        if ln -r -s x ${B}/ln-r-test 2>/dev/null; then
+                LN_R='ln -r -s'
+        else
+                LN_R='ln -s'
+        fi
+
         rm -f "${KERNEL_MAKEFILE}"
-        ln -sf "${ELITO_MAKEFILE_DIR}/Makefile.kernel" "${KERNEL_MAKEFILE}"
+        $LN_R "${ELITO_MAKEFILE_DIR}/Makefile.kernel" "${KERNEL_MAKEFILE}"
 }
 
 addtask do_create_link after do_setup_makefile
