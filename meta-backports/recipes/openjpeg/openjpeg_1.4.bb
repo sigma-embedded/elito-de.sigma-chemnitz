@@ -2,7 +2,6 @@ DESCRIPTION = "Open-source JPEG 2000 codec written in C language"
 HOMEPAGE = "http://www.openjpeg.org"
 SECTION = "libs"
 LICENSE = "BSD"
-PR = "r4"
 BBCLASSEXTEND = "native"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=37fa58b254f513a528201d5a8cfa9d35"
 
