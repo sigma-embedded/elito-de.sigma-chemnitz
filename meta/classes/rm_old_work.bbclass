@@ -31,4 +31,4 @@ do_rm_old_work() {
   done
 }
 
-addtask rm_old_work before do_configure do_compile do_package
+addtask rm_old_work before do_build
