@@ -10,7 +10,7 @@ do_rm_old_work() {
 	  test -e "$f" || continue
 	  b=${f##$d/}
 
-	  case "$f" in
+	  case $f in
 	    */.|*/..)
 		  ;;
 
@@ -19,7 +19,7 @@ do_rm_old_work() {
 
 	    */temp)
 		  bbnote "Packing old $f"
-		  ( cd $d && tar czf "$b".tar.gz --remove-files "$b" )
+		  ( cd "$d" && tar czf "$b".tar.gz --remove-files "$b" )
 		  ;;
 
 	    *)
