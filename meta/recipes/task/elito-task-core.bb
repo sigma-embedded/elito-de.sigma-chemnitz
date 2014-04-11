@@ -1,6 +1,5 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-PR           = "r14"
 LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
 
 do_distribute_sources() {
@@ -20,9 +19,6 @@ IMAGE_DEV_MANAGER ?= "udev"
 
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'udev', ':udev', '', d)}"
 OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '', d)}"
-
-EXTRA_DEV_RULES ?= ""
-EXTRA_DEV_RULES_append = " ${DEVFS_INIT_PROVIDER}"
 
 PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
@@ -47,7 +43,6 @@ RDEPENDS_${PN} += "\
     ${@base_contains('MACHINE_FEATURES', 'ubifs', 'mtd-utils', '', d)} \
     ${@base_contains('MACHINE_FEATURES', 'keyboard', 'keymaps', '', d)} \
     ${IMAGE_INITSCRIPTS}		\
-    ${EXTRA_DEV_RULES}			\
     ${IMAGE_INIT_MANAGER}		\
     ${PROJECT_EXTRA_RDEPENDS}		\
     ${_DEV_MANAGER_DEPS}		\
