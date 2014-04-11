@@ -5,7 +5,6 @@ LICENSE = "GPLv2"
 PROVIDES = "virtual/u-boot-mkimage"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4c6cde5df68eff615d36789dc18edd3b"
 
-PR = "${INCPR}.0"
 DEFAULT_PREFERENCE = "99"
 
 _repo = "u-boot"

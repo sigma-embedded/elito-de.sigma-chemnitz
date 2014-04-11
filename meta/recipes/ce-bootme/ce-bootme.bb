@@ -6,7 +6,6 @@ _elito_skip := "${@elito_skip(d, 'ce-bootme')}"
 
 SRCREV = "3b206ae5d527b93b8ef9775d35c9f71364f95a0d"
 _pv = "0.6"
-PR = "r0"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"

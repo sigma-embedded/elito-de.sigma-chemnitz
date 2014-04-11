@@ -1,6 +1,5 @@
 SRCREV = "${AUTOREV}"
 PV = "${MACHINE_KERNEL_VERSION}"
-PR = "r0"
 
 KERNEL_REPO  ?= "${ELITO_GIT_WS}/kernel.git"
 _branch       = "${MACHINE_KERNEL_VERSION}/kernel.org"

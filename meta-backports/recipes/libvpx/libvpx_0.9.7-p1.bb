@@ -1,7 +1,5 @@
 require libvpx.inc
 
-PR = "${INC_PR}.0"
-
 SRC_URI += "file://libvpx-configure-support-blank-prefix.patch"
 
 SRC_URI[md5sum] = "bd888cffde8d9c3061c7fd719b0cd4ce"

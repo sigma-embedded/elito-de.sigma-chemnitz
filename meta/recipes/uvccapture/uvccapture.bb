@@ -1,5 +1,4 @@
 PV = "0.5"
-PR = "r0"
 LICENSE = "GPLv2+"
 HOMEPAGE = "http://staticwave.ca/source/uvccapture/"
 DESCRIPTION = " \

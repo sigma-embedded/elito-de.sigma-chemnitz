@@ -3,7 +3,6 @@ AUTHOR = "Meni Berman <musepack@gmail.com>"
 HOMEPAGE = "http://www.musepack.net"
 SECTION = "libs"
 LICENSE = "BSD GPL"
-PR = "r0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=36bc72facf42fcf79421acf57a54f8c2"
 
 SRC_URI = "http://files.musepack.net/source/libmpcdec-${PV}.tar.bz2"

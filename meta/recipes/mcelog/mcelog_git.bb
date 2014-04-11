@@ -4,7 +4,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
 
 PV   = "1.0+git${SRCPV}"
 PKGV = "1.0+git${GITPKGV}"
-PR   = "r0"
 
 S    = "${WORKDIR}/git"
 

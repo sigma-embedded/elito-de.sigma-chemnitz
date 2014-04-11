@@ -1,7 +1,6 @@
 DESCRIPTION = "Keyed-Hashing for Message Authentication"
 SECTION = "libs"
 LICENSE = "Artistic|GPLv1+"
-PR = "r0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-2.0;md5=8bbc66f0ba93cec26ef526117e280266"
 
 RDEPENDS_${PN} += "libdigest-sha1-perl perl-module-extutils-makemaker perl-module-digest-md5"

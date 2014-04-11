@@ -1,7 +1,5 @@
 require libgsm.inc
 
-PR = "${INC_PR}.0"
-
 S = "${WORKDIR}/gsm-1.0-pl13/"
 
 SRC_URI[md5sum] = "c1ba392ce61dc4aff1c29ea4e92f6df4"

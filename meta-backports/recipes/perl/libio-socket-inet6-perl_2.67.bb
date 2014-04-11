@@ -2,7 +2,6 @@ DESCRIPTION = "IO::Socket::INET6 - Object interface for AF_INET|AF_INET6 domain 
 SECTION = "libs"
 LICENSE = "Artistic|GPLv1+"
 RDEPENDS_${PN} += "perl-module-test-more libsocket6-perl perl-module-io-socket"
-PR = "r0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-2.0;md5=8bbc66f0ba93cec26ef526117e280266"
 
 BBCLASSEXTEND = "native"

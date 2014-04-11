@@ -2,7 +2,6 @@ require libxine.inc
 
 
 PPDIR = "2.0"
-PR = "r0"
 PV = "1.1.90"
 
 SRCREV = "c91a144240d7"

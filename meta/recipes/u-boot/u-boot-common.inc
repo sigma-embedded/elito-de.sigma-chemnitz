@@ -1,6 +1,5 @@
 SECTION = "bootloader"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-INCPR = "r0"
 
 SRCREV = "${AUTOREV}"
 

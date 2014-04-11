@@ -10,8 +10,6 @@ LIC_FILES_CHKSUM = "\
   file://COPYING.LIB;md5=b29c0845cfd8eb68f25dd58c624c161f \
 "
 
-INC_PR = "r0"
-
 inherit autotools gettext binconfig pkgconfig
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/xine/xine-lib-${PV}.tar.bz2"

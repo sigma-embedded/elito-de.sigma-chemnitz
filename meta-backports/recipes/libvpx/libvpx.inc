@@ -2,8 +2,6 @@ DESCRIPTION = "vpx Multi-Format Codec SDK"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6e8dee932c26f2dab503abf70c96d8bb"
 
-INC_PR = "r0"
-
 SRC_URI = "http://webm.googlecode.com/files/libvpx-v${PV}.tar.bz2"
 S = "${WORKDIR}/libvpx-v${PV}"
 

@@ -4,7 +4,6 @@ LIC_FILES_CHKSUM   = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d2
 COMPATIBLE_MACHINE = "kk-trizeps6"
 
 _pv = "0.1.12"
-PR  = "r0"
 
 SRCREV    = "50bfdc5f41f88c421d6bfc488412b9f9d527444e"
 PV        = "${_pv}+gitr${SRCPV}"

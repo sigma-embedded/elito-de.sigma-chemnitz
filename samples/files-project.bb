@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 PV = "0.1"
-PR = "r0"
 
 FILES_${PN} = "/"
 ALLOW_EMPTY_${PN} = "1"

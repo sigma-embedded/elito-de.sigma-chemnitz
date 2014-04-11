@@ -8,9 +8,6 @@ LIC_FILES_CHKSUM = "\
 	file://COPYING.MIT;md5=8b345371b3536b4ce37ead1eafc88221 \
 	file://COPYING.MPL;md5=0117647fecb9a932c25a7bbfc0333c37"
 
-
-INC_PR = "r0"
-
 FILESEXTRAPATHS_prepend := "${THISDIR}/schroedinger:"
 
 SRC_URI = "http://www.diracvideo.org/download/schroedinger/${P}.tar.gz;name=schroedingertargz"

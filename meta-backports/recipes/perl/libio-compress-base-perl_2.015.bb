@@ -2,7 +2,6 @@ DESCRIPTION = "IO::Compress::Base - Base Class for IO::Compress modules"
 SECTION = "libs"
 LICENSE = "Artistic|GPLv1+"
 DEPENDS += "expat expat-native"
-PR = "r0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-2.0;md5=8bbc66f0ba93cec26ef526117e280266"
 
 SRC_URI = "http://www.cpan.org/modules/by-module/IO/IO-Compress-Base-${PV}.tar.gz"

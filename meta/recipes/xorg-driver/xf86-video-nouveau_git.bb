@@ -5,7 +5,6 @@ DEPENDS += "libdrm"
 SRCREV = "bc5dec2ca7ca7edc340a99bd73946e228117dfd8"
 PE = "1"
 _pv = "0.0"
-PR = "${INC_PR}.0"
 
 inherit gitpkgv
 
