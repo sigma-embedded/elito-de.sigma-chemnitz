@@ -1,14 +1,13 @@
 LICENSE = "GPL"
-PV = "0.99.6"
-PR = "r1"
+PV = "0.99.8"
 
 DEPENDS = "libxine aalib libxinerama libxtst libpng libxft libxv libx11 readline"
 
-SRC_URI = "http://prdownloads.sourceforge.net/xine/${PN}-${PV}.tar.bz2;name=tarball \
+SRC_URI = "${SOURCEFORGE_MIRROR}/xine/xine-ui/${PV}/${PN}-${PV}.tar.xz;name=tarball \
 	file://configure-hostinclude.patch"
 
-SRC_URI[tarball.md5sum] = "18057dafd2f8422d090a6bef6245652e"
-SRC_URI[tarball.sha256sum] = "6c7d30479504154dec102a1431a0632be4083c7ec7dfe6230720a2676aa87f3a"
+SRC_URI[tarball.md5sum] = "8dc079baeab56c99e33268a973bc288e"
+SRC_URI[tarball.sha256sum] = "1ac5a9fc8dbf81f12a8677108bf2b623e70d7adbb83b83912b9cdf00bc78b2a7"
 
 inherit autotools
 
