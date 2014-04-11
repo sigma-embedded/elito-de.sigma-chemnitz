@@ -1,7 +1,6 @@
 require schroedinger.inc
 
 SRC_URI += "file://stdint.patch"
-PR = "${INC_PR}.0"
 
 inherit autotools
 
@@ -10,5 +9,5 @@ FILES_gst-plugin-schroedinger = "${libdir}/gstreamer-0.10/*.so"
 FILES_gst-plugin-schroedinger-dbg = "${libdir}/gstreamer-0.10/.debug"
 FILES_gst-plugin-schroedinger-dev = "${libdir}/gstreamer-0.10/*.*a"
 
-SRC_URI[schroedingertargz.md5sum] = "9de088ccc314bb9e766cb3aa6510a0ef"
-SRC_URI[schroedingertargz.sha256sum] = "9a45c4f8d6197a641a9b06ab9b59ec02ad9986723fd855528a00ec3477a71964"
+SRC_URI[schroedingertargz.md5sum] = "da6af08e564ca1157348fb8d92efc891"
+SRC_URI[schroedingertargz.sha256sum] = "1e572a0735b92aca5746c4528f9bebd35aa0ccf8619b22fa2756137a8cc9f912"
