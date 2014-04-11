@@ -108,13 +108,35 @@ python __anonymous () {
     vars = d.getVar('_export_vars', True).split()
     res  = map(lambda v:
                (lambda k,v: '%s%s = ${%s}' % (['','export '][k[0] == '+'],
-                                           [k, k[1:]][k[0] == '+'],
-                                           v))
+                                           v, v))
                (v, v.lstrip('+')),
                filter(lambda k: d.getVar(k.lstrip('+'), False) != None,
                       vars))
 
     d.setVar('_export_vars_gen', '\n'.join(res))
+
+    sed = []
+    idx = 0
+    for (regex, groups) in [(r'STAGING_DIR_\(HOST\|NATIVE\|TARGET\)',
+                             ('STAGING_DIR_NATIVE', 'STAGING_DIR_TARGET', 
+                              'STAGING_DIR_HOST')),
+                            (r'STAGING_DIR', ('STAGING_DIR',)),
+                            (r'CROSS_COMPILE', ('CROSS_COMPILE',))]:
+	sed.append('\\!' + 
+                   (r'^\(export[[:space:]]\)\?[[:space:]]*%s[[:space:]]*=' % regex) +
+                   '!b _l%u' % idx)
+
+    	sed.extend(map(lambda g: 's!${%s}!$\\{%s}!g' % (g, g), groups))
+
+	sed.append(': _l%u' % idx)
+
+    	idx = idx+1
+
+    sed.append('s!${TMPDIR}!$\\{ELITO_BUILDSYS_TMPDIR}!g')
+
+    d.setVar('_sed_relocate',
+             ' '.join(map(lambda x: '-e %s' % 
+                          elito_quote(x).replace('$\\{', "$''{"), sed)))
 }
 
 do_setup_makefile[dirs] = "${WORKDIR}/setup-makefile"
@@ -122,7 +144,8 @@ do_setup_makefile() {
         set >&2
 
 	rm -f "Makefile.develcomp" "make"
-        cat << EOF | sed -e 's![[:space:]]*$!!' > "Makefile.develcomp"
+        cat << EOF | sed ${_sed_relocate} -e 's![[:space:]]*$!!' \
+> "Makefile.develcomp"
 ## --*- makefile -*--    ${PV}-${PR}
 ## This file was created by the 'elito-develcomp' recipe.  Any manual
 ## changes will get lost on next rebuild of this package.
@@ -131,6 +154,11 @@ ${_export_vars_gen}
 
 export _CCACHE	= ${CCACHE}
 _tmpdir		= ${TMPDIR}
+EOF
+
+cat << "EOF" >>"Makefile.develcomp"
+
+ELITO_BUILDSYS_TMPDIR	= ${TMPDIR}
 
 include ${ELITO_TOPDIR}/mk/_develcomp.mk
 EOF
