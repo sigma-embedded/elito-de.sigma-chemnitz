@@ -2,8 +2,6 @@ DESCRIPTION = "The diet libc is a libc that is optimized for small size. \
 It can be used to create small statically linked binaries"
 SECTION = "libs"
 LICENSE = "GPLv2"
-INC_PR = "r1"
-PR = "${INC_PR}.0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 
 EXTRA_OEMAKE = "\
