@@ -2,7 +2,6 @@ DESCRIPTION	= "This package provides the necessary \
 infrastructure for basic TCP/IP based networking."
 SECTION		= "base"
 LICENSE		= "GPLv2"
-PR		= "r3"
 PV		= "4.45"
 LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
 

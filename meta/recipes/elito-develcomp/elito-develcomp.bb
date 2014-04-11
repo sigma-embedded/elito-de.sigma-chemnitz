@@ -1,7 +1,6 @@
 DESCRIPTION = "Generates makefile in workspace directory"
 HOMEPAGE = "http://elito.sigma-chemnitz.de"
-PV = "0.4+${PROJECT_CONF_DATE}"
-PR = "r3"
+PV = "0.5+${PROJECT_CONF_DATE}"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 

@@ -1,7 +1,7 @@
 DESCRIPTION	= "Base file system structure."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r14"
+PV		= "1.1"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "all"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"

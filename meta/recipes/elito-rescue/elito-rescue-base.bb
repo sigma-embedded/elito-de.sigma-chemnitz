@@ -2,8 +2,7 @@ DESCRIPTION = "ELiTo base rescue utils"
 LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-PV = "0.1.1"
-PR = "r5"
+PV = "0.1.2"
 
 DISTRO_FEATURES += "sysvinit"
 DISTRO_FEATURES_INITMAN = "sysvinit"

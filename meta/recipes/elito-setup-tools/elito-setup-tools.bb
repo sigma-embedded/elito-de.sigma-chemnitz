@@ -4,8 +4,7 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-_pv = "0.11"
-PR = "r7"
+_pv = "0.11.1"
 SRCREV = "0d8f596dbcf63d37a4823a016189721fc7744c92"
 
 PV = "${_pv}+gitr${SRCPV}"

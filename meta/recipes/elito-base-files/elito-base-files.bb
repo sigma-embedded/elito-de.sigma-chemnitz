@@ -1,7 +1,7 @@
 DESCRIPTION	= "Miscellaneous files for the base system."
 SECTION		= "base"
 PRIORITY	= "required"
-PR		= "r22"
+PV		= "1.1"
 LICENSE		= "GPLv3"
 PACKAGE_ARCH	= "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
