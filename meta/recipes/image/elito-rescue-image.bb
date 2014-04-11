@@ -1,8 +1,7 @@
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-PV = "0.1.0"
-PR = "r1"
+PV = "0.1.1"
 
 OVERRIDES .= "${@base_contains('MACHINE_FEATURES', 'imx-bootlets', \
                                ':img-imx-bootlets','',d)}"
