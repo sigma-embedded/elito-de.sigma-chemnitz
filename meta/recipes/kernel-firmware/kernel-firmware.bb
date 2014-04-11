@@ -1,5 +1,4 @@
-_pv = "0.2"
-PR = "r11"
+_pv = "0.2.1"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
@@ -14,19 +13,19 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
   file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
   file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-  file://LICENCE.iwlwifi_firmware;md5=311cc823df5b1be4f00fbf0f17d96a6b \
+  file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
   file://LICENCE.mwl8335;md5=9a6271ee0e644404b2ff3c61fd070983 \
-  file://LICENCE.phanfw;md5=5b9c38c029d2825d2a3a32c4f482794b \
-  file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
+  file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
+  file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
   file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
   file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-  file://LICENCE.ti-connectivity;md5=c4073948801d7b82b41ddffd6c7288d0 \
+  file://LICENCE.ti-connectivity;md5=186e7a43cf6c274283ad81272ca218ea \
   file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
   file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
   file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
 "
 
-SRCREV          = "a2995d38c234e3d767df7223d84a0f33a1a24997"
+SRCREV          = "dec41bce44e0dff6a2c3358a958fadf22bf58858"
 
 SRC_URI = "\
 	git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git \
