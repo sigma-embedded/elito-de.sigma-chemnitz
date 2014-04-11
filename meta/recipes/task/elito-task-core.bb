@@ -24,11 +24,6 @@ OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '',
 EXTRA_DEV_RULES ?= ""
 EXTRA_DEV_RULES_append = " ${DEVFS_INIT_PROVIDER}"
 
-#
-# sysvinit, upstart
-#
-IMAGE_INIT_MANAGER ?= "upstart"
-
 PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
 

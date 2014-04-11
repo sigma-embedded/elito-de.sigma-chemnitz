@@ -43,38 +43,6 @@ def elito_join_locale(pkgs, langs):
 
     return ' '.join(res)
 
-def elito_upstart_job(d, pkg, job_files, rdepends = None, extra_files = [], \
-                      rrecommends = None, do_prepend = 1):
-    p = bb.data.expand(pkg, d)
-
-    if isinstance(job_files, basestring):
-        job_files = job_files.split()
-
-    if isinstance(extra_files, basestring):
-        extra_files = extra_files.split()
-
-    files = map(lambda x: '${sysconfdir}/init/%s' % x, job_files)
-    files.extend(extra_files)
-
-    bb.data.setVar("WEAK_RUNTIME_DEPENDENCIES_%s" % p, "True", d)
-    bb.data.setVar("FILES_%s" % p, ' '.join(files), d)
-
-    all_pkgs = bb.data.getVar("PACKAGES", d, 0)
-    if do_prepend:
-        all_pkgs = pkg + " " + all_pkgs
-    else:
-        all_pkgs = all_pkgs + " " + pkg
-
-    bb.data.setVar("PACKAGES",  all_pkgs, d)
-
-    if rdepends:
-        bb.data.setVar("RDEPENDS_%s" % p, rdepends, d)
-
-    if rrecommends:
-        bb.data.setVar("RRECOMMENDS_%s" % p, rrecommends, d)
-
-    return p
-
 def elito_quote(s):
     import pipes
     return pipes.quote(s)
