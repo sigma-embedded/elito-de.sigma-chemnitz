@@ -1,6 +1,5 @@
 HOMEPAGE = "http://docs.enlightenment.org/api/imlib2/html"
-PV = "1.4.4"
-PR = "r1"
+PV = "1.4.6"
 LICENSE = "GPL"
 LIC_FILES_CHKSUM = "\
   file://COPYING;md5=344895f253c32f38e182dcaf30fe8a35 \
@@ -10,8 +9,8 @@ LIC_FILES_CHKSUM = "\
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/enlightenment/imlib2-${PV}.tar.bz2"
 
-SRC_URI[md5sum] = "b6de51879502e857d5b1f7622267a030"
-SRC_URI[sha256sum] = "6441fb1e88a31533791c40ea4b3310b6d5d46233ca69d9f731a2846e4e423404"
+SRC_URI[md5sum] = "5c7104121ec6db652b37f74a6d7048e2"
+SRC_URI[sha256sum] = "af51be727d62cfcff7457c753f355e44848fb997f33a7e1d43775276a9073274"
 
 S = "${WORKDIR}/imlib2-${PV}"
 
