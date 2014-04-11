@@ -1,7 +1,6 @@
 DESCRIPTION = "Perl extensions for IPv6"
 SECTION = "libs"
 LICENSE = "unknown"
-PR = "r1"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-2.0;md5=8bbc66f0ba93cec26ef526117e280266"
 
 BBCLASSEXTEND = "native"
