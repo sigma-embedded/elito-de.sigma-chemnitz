@@ -21,8 +21,22 @@ FILES_${PN}-dbg += "${pkgarchdir}/.debug"
 
 INSANE_SKIP_${PN}-dev += "staticdev"
 
-export DIETLIBC_BUILD_ARCH="${@re.sub('i[0-9]86','i386','${BUILD_ARCH}')}"
-export DIETLIBC_TARGET_ARCH="${@re.sub('i[0-9]86','i386','${TARGET_ARCH}')}"
+def dietlibc_arch_translate(arch):
+    if arch == 'powerpc':
+        return 'ppc';
+    elif arch == 'powerpc64':
+        return 'ppc64'
+    else:
+        return re.sub('i[0-9]86', 'i386', arch)
+
+DIETLIBC_BUILD_ARCH[vardeps] += "dietlibc_arch_translate BUILD_ARCH"
+DIETLIBC_TARGET_ARCH[vardeps] += "dietlibc_arch_translate TARGET_ARCH"
+
+DIETLIBC_BUILD_ARCH="${@dietlibc_arch_translate(d.getVar('BUILD_ARCH', True))}"
+DIETLIBC_TARGET_ARCH="${@dietlibc_arch_translate(d.getVar('TARGET_ARCH', True))}"
+
+export DIETLIBC_BUILD_ARCH
+export DIETLIBC_TARGET_ARCH
 
 inherit qemu
 export QEMU = "${@qemu_target_binary(d)}"
