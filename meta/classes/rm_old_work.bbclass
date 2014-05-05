@@ -1,3 +1,5 @@
+do_rm_old_work[dirs] = "${BASE_WORKDIR}"
+do_rm_old_work[vardeps] = "PN PV PR"
 do_rm_old_work() {
   b=`dirname "${WORKDIR}"`
   pn='${PN}'
@@ -31,4 +33,4 @@ do_rm_old_work() {
   done
 }
 
-addtask rm_old_work before do_build
+addtask rm_old_work before ${BB_DEFAULT_TASK}
