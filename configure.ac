@@ -670,6 +670,15 @@ AC_DEFUN([_svn_check_version],[
 			     sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
 ])
 
+AC_DEFUN([_git_check_version],[
+	AC_MSG_CHECKING([for git version >= ELITO_VERSION_TO_STRING($2)])
+
+	ELITO_VERSION_CHECK([$2],3
+,
+			    [${$1} --version | \
+			     sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
+])
+
 AC_DEFUN([ELITO_CHECK_PROGRAM],[
 	AC_PATH_PROGS([$2], [$3])
 
@@ -748,7 +757,7 @@ ELITO_CHECK_PROGRAM(95, PYTHON,     python)
 ELITO_CHECK_PROGRAM( 0, ZIP,        zip)
 ELITO_CHECK_PROGRAM( 0, UNZIP,      unzip)
 ELITO_CHECK_PROGRAM(80, CURL,       curl)
-ELITO_CHECK_PROGRAM( 0, GIT,        git)
+ELITO_CHECK_PROGRAM( 0, GIT,        git, git, [_git_check_version], 0x010705)
 ELITO_CHECK_PROGRAM( 0, HG,         hg, mercurial)
 ELITO_CHECK_PROGRAM( 0, SUBVERSION, svn, subversion,[_svn_check_version], 0x010700)
 ELITO_CHECK_PROGRAM(50, PAX,        pax, pax-utils)
