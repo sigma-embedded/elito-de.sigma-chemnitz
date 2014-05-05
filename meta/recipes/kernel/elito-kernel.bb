@@ -16,8 +16,11 @@ OVERRIDE_KERNEL_CMDLINE	= "1"
 KERNEL_IMAGE_EXTRASIZE ?= "1024"
 KERNEL_IMAGE_MAXSIZE = "${@kernel_maxsize('KERNEL_SIZE',${KERNEL_IMAGE_EXTRASIZE}, d)}"
 
+KERNEL_SOC_FAMILY ?= "${@(d.getVar('SOC_FAMILY', True) or "").split(':')[0]}"
+
 inherit kernel
 include elito-kernel.inc
+include elito-kernel_soc-${KERNEL_SOC_FAMILY}.inc
 
 RDEPENDS_kernel-image += "elito-filesystem"
 RDEPENDS_kernel-dev += "elito-filesystem"
