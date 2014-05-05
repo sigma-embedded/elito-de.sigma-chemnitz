@@ -29,7 +29,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 #
 # like errors during rootfs creation.
 DEPENDS += "${ELITO_COMMON_DEPENDS}"
-DEPENDS += "gdb-cross"
+DEPENDS += "gdb-cross-${TARGET_ARCH}"
 
 RDEPENDS_${PN} = "\
 	files-@PROJECT_NAME@		\

@@ -12,7 +12,7 @@ DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
 
 inherit kernel-arch
 
-DEPENDS = "gcc-cross ccache-native"
+DEPENDS = "gcc-cross-${TARGET_ARCH} ccache-native"
 PACKAGES = ""
 INHIBIT_DEFAULT_DEPS = "1"
 PROVIDES = "elito-makefile-native"
