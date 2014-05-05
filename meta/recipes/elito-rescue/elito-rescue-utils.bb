@@ -12,7 +12,7 @@ SRC_URI = "${ELITO_GIT_REPO}/pub/elito-rescue-utils.git"
 PV   = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
-inherit gitpkgv autotools
+inherit gitpkgv autotools-brokensep
 
 wwwdir = "/srv/www"
 

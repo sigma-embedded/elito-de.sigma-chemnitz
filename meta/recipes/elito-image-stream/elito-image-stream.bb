@@ -10,7 +10,7 @@ SRC_URI = "${ELITO_GIT_REPO}/pub/elito-image-stream.git"
 PV   = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
-inherit gitpkgv autotools
+inherit gitpkgv autotools-brokensep
 
 PACKAGECONFIG ??= "digest-gnutls x509-gnutls compression-noop"
 PACKAGECONFIG_virtclass-native = "digest-gnutls x509-gnutls compression-noop"
