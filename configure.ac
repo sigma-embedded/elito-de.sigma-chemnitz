@@ -324,7 +324,7 @@ AS_CASE([$enable_oom_adjust],
 dnl }}} --enable-oom-adjust
 
 
-_default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/toolchain-layer org.openembedded.meta/meta-networking'
+_default_layers='org.openembedded.core/meta org.openembedded.meta/meta-oe org.openembedded.meta/meta-networking'
 
 dnl {{{ --enable-layers
 AC_ARG_ENABLE(layers,
