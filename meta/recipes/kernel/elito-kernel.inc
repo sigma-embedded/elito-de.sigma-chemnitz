@@ -88,7 +88,7 @@ def kernel_early_options(d):
     YES = elito.kernel_feature.YES
     OFF = elito.kernel_feature.OFF
 
-    is_feature = lambda x: oe.utils.contains('DISTRO_FEATURES', x, True, False, d)
+    is_feature = lambda x: bb.utils.contains('DISTRO_FEATURES', x, True, False, d)
     have_initrd = (is_feature('initrd') or
                    ('cpio' in set(map(lambda x: x.split('.')[0],
                                       d.getVar('IMAGE_FSTYPES', True).split()))))
@@ -126,7 +126,7 @@ def kernel_early_options(d):
 kernel_options[vardeps] += "DISTRO_FEATURES IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
 def kernel_options(d):
     import elito.kernel_feature
-    is_feature = lambda x: oe.utils.contains('DISTRO_FEATURES', x, True, False, d)
+    is_feature = lambda x: bb.utils.contains('DISTRO_FEATURES', x, True, False, d)
 
     o = [ [ True,
             [ 'IPV6',        is_feature('ipv6') ],
@@ -174,7 +174,7 @@ EOF
 addtask do_generate_initramfs_source after do_unpack
 
 python () {
-    if oe.utils.contains('DISTRO_FEATURES','initrd', True, False, d):
+    if bb.utils.contains('DISTRO_FEATURES','initrd', True, False, d):
         d.setVarFlag("do_compile", "depends",
                      d.expand('${PN}:do_generate_initramfs_source ') +
                      (d.getVarFlag("do_compile", "depends") or ""))
