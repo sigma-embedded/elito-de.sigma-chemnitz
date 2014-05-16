@@ -2,9 +2,9 @@ SUMMARY = "ELiTo image stream tools"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-_pv     = "0.2.1"
+_pv     = "0.2.3"
 
-SRCREV  = "f5255bc3f0ae634950e6d2d5b50677a176a26399"
+SRCREV  = "f1f8f79c63168b7f5ca3e62d1f1cdedd4b4985d0"
 SRC_URI = "${ELITO_GIT_REPO}/pub/elito-image-stream.git"
 
 PV   = "${_pv}+gitr${SRCPV}"
