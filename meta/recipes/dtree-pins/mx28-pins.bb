@@ -10,14 +10,18 @@ SRC_URI = "\
   file://${MACHINE}-pin.setup \
 "
 
+DEPENDS += "elito-kernel"
+
 INHIBIT_DEFAULT_DEPS = "1"
 EXTRA_OEMAKE = "\
   MACHINE=${MACHINE} \
   VPATH=${WORKDIR} prefix=${prefix} datadir=${datadir} \
+  bootletsdir=${MACHINCDIR} dtreedir=${MACHINCDIR} \
 "
 
 COMPATIBLE_MACHINE = "mx28"
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+inherit elito-machdata
 
 do_configure() {
     ln -sf ../Makefile .
@@ -27,4 +31,4 @@ do_install() {
     oe_runmake install DESTDIR=${D} 
 }
 
-FILES_${PN}-dev += "${datadir}/mach-${MACHINE}/*"
+FILES_${PN}-dev += "${MACHDATADIR}/*.dtb ${MACHINCDIR}/*.h"
