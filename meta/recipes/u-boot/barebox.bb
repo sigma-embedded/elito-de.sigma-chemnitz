@@ -8,19 +8,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=057bf9e50e1ca857d0eb97bfe4ba8e5d"
 
 DEFAULT_PREFERENCE = "99"
 
-MACH_DEPENDS = ""
-MACH_DEPENDS_mx6 = "libxslt-native"
-
-DEPENDS += "elito-develcomp lzop-native ${MACH_DEPENDS}"
+DEPENDS += "elito-develcomp lzop-native"
 EXTRA_OEMAKE_prepend = "-f ${ELITO_MAKEFILE_DIR}/Makefile.develcomp CFG=barebox _secwrap= V=1 "
 
-PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
+PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}-dev ${PN}"
 
 FILES_${PN}      = "/boot/u-boot"
 FILES_${PN}-dbg += "/boot/.debug"
 FILES_${PN}-bin  = "/boot/u-boot.bin"
 
 _repo = "barebox"
+
+BAREBOX_SOC_FAMILY ?= "${@(d.getVar('SOC_FAMILY', True) or "").split(':')[0]}"
 
 include u-boot-common.inc
 inherit deploy
@@ -29,23 +28,13 @@ do_configure() {
     oe_runmake "${UBOOT_MACHINE}"
 }
 
-bootletspath = "${STAGING_DIR_TARGET}${libdir}/imx-bootlets"
-
-ELFTOSB_FLAGS = "\
-  -z -f '${FREESCALE_SBARCH}' \
-  -p '${bootletspath}' \
-  -c '${bootletspath}/uboot_ivt.bd' \
-"
-
-ELFTOSB_EXTRA_SOURCES ?= ""
-
-do_builddeploy_img-imx-bootlets() {
-	freescale-elftosb ${ELFTOSB_FLAGS} -o barebox.sb barebox ${ELFTOSB_EXTRA_SOURCES}
+barebox_do_install() {
+	install -D -p -m 0644 barebox.bin ${D}/boot/u-boot.bin
+	install -D -p -m 0755 barebox     ${D}/boot/u-boot
 }
 
 do_install() {
-	install -D -p -m 0644 barebox.bin ${D}/boot/u-boot.bin
-	install -D -p -m 0755 barebox     ${D}/boot/u-boot
+	barebox_do_install
 }
 
 do_deploy () {
@@ -60,18 +49,8 @@ do_deploy () {
         cd -
 }
 
-do_deploy_append_img-imx-bootlets() {
-        sb_image=${uboot_image%%.bin}.sb
-        sb_symlink=${UBOOT_SYMLINK}
-        sb_symlink=${sb_symlink%%.bin}.sb
-
-	install -p -m 0644 ${S}/barebox.sb ${DEPLOYDIR}/$sb_image
-
-	cd ${DEPLOYDIR}
-	rm -f ${sb_symlink}
-	ln -sf ${sb_image} ${sb_symlink}
-        cd -
-}
-
 addtask deploy before do_build after do_compile
 addtask builddeploy after do_compile before do_deploy
+
+# keep this after do_XXX(); the soc rules can override previous tasks
+include barebox_soc-${BAREBOX_SOC_FAMILY}.inc
