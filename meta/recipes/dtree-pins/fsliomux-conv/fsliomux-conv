@@ -1,0 +1,69 @@
+#! /bin/bash
+
+: ${XSLTPROC:=xsltproc}
+: ${PKGLIBDIR=/usr/lib/fsliomux-conv}
+
+opt_format=c
+opt_mode=fn
+opt_disable=
+opt_only=
+opt_outfile=
+opt_map=
+
+t=`mktemp -t fsliomux.XXXXXX`
+trap "rm -f $t" EXIT
+
+function panic() {
+    printf "$@" >&2
+    exit 1
+}
+
+while getopts "F:m:O:D:o:M:" opt "$@"; do
+    case $opt in
+      F)	opt_format=$OPTARG;;
+      m)	opt_mode=$OPTARG;;
+      O)	opt_only=$OPTARG;;
+      D)	opt_disable=$OPTARG;;
+      M)	opt_map=$OPTARG;;
+      o)	opt_outfile=$OPTARG;;
+      --)	break;;
+      ?)	exit 1;;
+    esac
+done
+
+shift $[ $OPTIND - 1 ]
+
+xsl_file=
+case $opt_format in
+  [cC])			xsl_file=iomux2c.xsl;;
+  [dD][tT][rR][eE][eE])	xsl_file=iomux2dt.xsl;;
+  *)
+	panic "Bad format '$opt_format'; supported: 'c', 'dtree'"
+esac
+
+xsl_opts=( --stringparam mode "$opt_mode" -o "$t" 
+  --path "$PKGLIBDIR" )
+
+test -z "$opt_disable" || \
+    xsl_opts+=( --stringparam disable "$opt_disable" )
+
+test -z "$opt_only" || \
+    xsl_opts+=( --stringparam only "$opt_only" )
+
+$XSLTPROC "${xsl_opts[@]}" "$xsl_file" "$@" || \
+    panic "Failed to convert xml file"
+
+rm -f "$opt_outfile"
+set -C
+
+if test -n "$opt_outfile"; then
+    exec 90>$opt_outfile
+else
+    exec 90>&1
+fi
+
+if test -n "$opt_map"; then
+    bash "$PKGLIBDIR"/iomux-macrofy "$opt_map" < "$t"
+else
+    cat "$t"
+fi >&90
