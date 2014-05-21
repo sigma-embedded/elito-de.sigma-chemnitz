@@ -4,42 +4,39 @@ INSTALL_DATA = $(INSTALL) -p -m 0644
 
 abs_top_srcdir = $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
-datadir = $(prefix)/share
-dtreedir = $(datadir)/mach-$(MACHINE)
+VPATH = ${abs_top_srcdir}
 
-MACH_DTSI_mx28 = imx28.dtsi pins.dtsi skeleton.dtsi
-
-VPATH = ${abs_top_srcdir} $(MACHINE_INCDIR)
+AM_CPP_DEPGENFLAGS = \
+  -MD -MF ${@D}/.${@F}.d -MT '$@'
 
 AM_DTC_CPPFLAGS = \
+  $(AM_CPP_DEPGENFLAGS) \
   -nostdinc -x assembler-with-cpp \
-  -I '$(MACHINE_INCDIR)' -I .
+  -I='$(MACHINE_INCDIR)' -I . -undef
 
-o = out/
+DTC_FLAGS = -R 4
 
 define _linkfile
 ln -s '$1' '$2/'
 
 endef
 
-all:		$(MACHINE).dtb
+_dtbs = $(addsuffix .dtb,${VARIANTS})
 
-$o$(MACHINE)-preproc.dtb:	$(MACHINE).dts $(MACH_DTSI_$(SOC_FAMILY)) | $o
-	-rm -f $(addprefix $o/,$(notdir $(wildcard $^)))
+all:		${_dtbs}
+
+%.dtb:	%-preproc.dts
+	$(DTC) $(DTC_FLAGS) -I dts $(abspath $<) -o $(abspath $@) -O dtb
+
+%-preproc.dts:	%.dts
 	$(CPP) $(AM_DTC_CPPFLAGS) $(DTC_CPPFLAGS) -o $@ $<
-	$(foreach f,$(abspath $(wildcard $^)),$(call _linkfile,$f,$o))
+-include $(foreach v,$(VARIANT),.$v-preproc.dts.d)
 
-$(MACHINE).dtb:	$o$(MACHINE)-preproc.dtb
-	cd $o && $(DTC) -I dts $(abspath $<) -o $(abspath $@) -O dtb
+$(DESTDIR)$(pkgdatadir):
+	$(INSTALL) -d -m 0755 $@
 
-$(DESTDIR)$(dtreedir):
-	mkdir -p $@
-
-install:	$(MACHINE).dtb | $(DESTDIR)$(dtreedir)
-	$(INSTALL_DATA) $< $(DESTDIR)$(dtreedir)/
+install:	${_dtbs} | $(DESTDIR)$(pkgdatadir)
+	$(INSTALL_DATA) $< $(DESTDIR)$(pkgdatadir)/
 
 clean:
-	rm -f $(MACHINE).dtb
-
-$o:
-	mkdir -p $@
+	rm -f ${_dtbs}
