@@ -3,11 +3,14 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 WATCHDOG_TIMEOUT ?= "60"
 
+PACKAGECONFIG[oldkernel] = "--disable-networkd,,,"
+
 SRC_URI += "\
   file://embedded.patch \
   file://readahead.patch \
   file://read-only.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
+  ${@base_contains('PACKAGECONFIG', 'oldkernel', 'file://old-kernel.patch', '', d)} \
 "
 
 EXTRA_OECONF += "\
@@ -65,10 +68,16 @@ python systemd_elito_populate_packages () {
                        'systemd-readahead-replay.service',
                        'systemd-readahead-collect.service'],
         'bootchart' : [ ],
+        'networkd' : [ 'network.target',
+                       'network-pre.target',
+                       'network-online.target' ],
         }
 
     xtra_paths = {
         'readahead' : [ '${systemd_bindir}/systemd-readahead' ],
+        'networkd'  : [ '${sysconfdir}/systemd/network',
+                        '${baselibdir}/systemd/network',
+                        '${libdir}/systemd/network' ],
     }
 
     pkgs = ''
