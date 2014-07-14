@@ -57,6 +57,7 @@ $XSLTPROC "${xsl_opts[@]}" "$xsl_file" "$@" || \
 
 rm -f "$opt_outfile"
 set -C
+set -e
 
 if test -n "$opt_postproc"; then
     $opt_postproc "$t"
