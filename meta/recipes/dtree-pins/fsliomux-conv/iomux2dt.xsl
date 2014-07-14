@@ -113,7 +113,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </xsl:for-each>
     <xsl:text>
 /* }}} instance </xsl:text><xsl:value-of select="@InstanceAlias"/>
-    <xsl:text>*/
+    <xsl:text> */
 
 </xsl:text>
   </xsl:template>
