@@ -10,7 +10,8 @@ SRC_URI += "\
   file://readahead.patch \
   file://read-only.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
-  ${@base_contains('PACKAGECONFIG', 'oldkernel', 'file://old-kernel.patch', '', d)} \
+  file://networkd-split.patch \
+  file://no-needs-update-on-ro.patch \
 "
 
 EXTRA_OECONF += "\
@@ -70,14 +71,25 @@ python systemd_elito_populate_packages () {
         'bootchart' : [ ],
         'networkd' : [ 'network.target',
                        'network-pre.target',
-                       'network-online.target' ],
+                       'network-online.target',
+                       'systemd-networkd-wait-online.service',
+                       'systemd-networkd.service' ],
+        'resolved' : [ 'systemd-resolved.service' ],
+        'timesyncd' : [ 'systemd-timesyncd.service' ],
+        'ldconfig' : [ 'ldconfig.service' ],
+        'sysusers' : [ 'systemd-sysusers.service' ],
         }
 
     xtra_paths = {
         'readahead' : [ '${systemd_bindir}/systemd-readahead' ],
-        'networkd'  : [ '${sysconfdir}/systemd/network',
-                        '${baselibdir}/systemd/network',
-                        '${libdir}/systemd/network' ],
+        'networkd'  : [ '${systemd_bindir}/systemd-networkd-wait-online',
+                        '${systemd_bindir}/network',
+                        '${sysconfdir}/systemd/network',
+                        '${libdir}/systemd/network',
+                        '${libdir}/tmpfiles.d/systemd-networkd.conf' ],
+        'timesyncd' : [ '${libdir}/systemd/systemd-timesyncd' ],
+        'sysusers' :  [ '${libdir}/sysusers.d',
+                        '${base_bindir}/systemd-sysusers' ],
     }
 
     pkgs = ''
@@ -90,6 +102,10 @@ python systemd_elito_populate_packages () {
                      '${systemd_unitdir}/system/%s.wants' % x, i)
         files += map(lambda x:
                      '${systemd_unitdir}/system/*/%s' % x, i)
+        files += map(lambda x:
+                     '${sysconfdir}/systemd/system/%s.wants' % x, i)
+        files += map(lambda x:
+                     '${sysconfdir}/systemd/system/*/%s' % x, i)
         files += ['${sysconfdir}/systemd/%s.conf' % _p,
                   '${systemd_unitdir}/systemd-%s' % _p]
         files += map(lambda x:
@@ -108,6 +124,15 @@ PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages "
 PACKAGES_DYNAMIC = "systemd-.*"
 RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
 RRECOMMENDS_${PN} += "util-linux-mount systemd-readahead"
+
+USERADD_PACKAGES += "${PN}-networkd"
+USERADD_PARAM_${PN}-networkd += "--system systemd-network"
+
+USERADD_PACKAGES += "${PN}-timesyncd"
+USERADD_PARAM_${PN}-timesyncd += "--system systemd-timesync"
+
+USERADD_PACKAGES += "${PN}-resolved"
+USERADD_PARAM_${PN}-resolved += "--system systemd-resolve"
 
 python() {
     r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""

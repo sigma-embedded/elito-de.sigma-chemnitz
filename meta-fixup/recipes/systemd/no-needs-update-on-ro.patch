@@ -1,0 +1,14 @@
+Index: git/src/core/condition.c
+===================================================================
+--- git.orig/src/core/condition.c
++++ git/src/core/condition.c
+@@ -99,7 +99,8 @@ static bool condition_test_needs_update(
+         assert(c->type == CONDITION_NEEDS_UPDATE);
+ 
+         /* If the file system is read-only we shouldn't suggest an update */
+-        if (path_is_read_only_fs(c->parameter) > 0)
++        if (path_is_read_only_fs(c->parameter) > 0 ||
++            access(c->parameter, W_OK) < 0)
+                 return c->negate;
+ 
+         /* Any other failure means we should allow the condition to be true,
