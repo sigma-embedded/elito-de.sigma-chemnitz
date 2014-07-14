@@ -1,4 +1,4 @@
-EXTRA_AUTORECONF += '--exclude=autopoint'
+EXCLUDE_AUTOPOINT = "true"
 EXTRA_OECONF += "${docopts}"
 
 docopts = "--disable-docs"

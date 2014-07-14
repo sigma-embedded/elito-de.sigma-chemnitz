@@ -1,5 +1,5 @@
 DEPENDS += "libv4l"
-EXTRA_AUTORECONF += '--exclude=autopoint'
+EXCLUDE_AUTOPOINT = "true"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 SRC_URI += "\

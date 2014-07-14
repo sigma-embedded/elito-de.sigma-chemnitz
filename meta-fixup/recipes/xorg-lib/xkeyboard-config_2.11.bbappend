@@ -1,1 +1,1 @@
-EXTRA_AUTORECONF += '--exclude=autopoint'
+EXCLUDE_AUTOPOINT = "true"
