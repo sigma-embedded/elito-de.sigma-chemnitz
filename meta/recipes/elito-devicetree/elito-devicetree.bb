@@ -7,7 +7,7 @@ def get_dts_files(d):
                         oe.data.typed_value('MACHINE_VARIANTS', d)))
 
 _machine_dts_name[vardeps] += "MACHINE_VARIANTS"
-_machine_dts_name     = "{MACHINE}"
+_machine_dts_name     = "${MACHINE}"
 _machine_dts_name_mx6 = "${@get_dts_files(d)}"
 
 MACHINE_DTS_NAME ?= "${_machine_dts_name}"
