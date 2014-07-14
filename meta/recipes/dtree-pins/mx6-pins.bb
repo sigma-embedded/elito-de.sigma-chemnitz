@@ -10,7 +10,8 @@ def get_iomux_files(d):
 def get_pin_funcs(soc):
     return { 'mx6q'     : 'imx6q-pinfunc.h',
              'mx6dl'    : 'imx6dl-pinfunc.h',
-             'mx6s'     : 'imx6s-pinfunc.h' }[soc]
+             'mx6s'     : 'imx6dl-pinfunc.h',
+             'mx6sl'    : 'imx6sl-pinfunc.h' }[soc]
 
 def get_makecmd(d):
     variants = oe.data.typed_value('MACHINE_VARIANTS', d)
