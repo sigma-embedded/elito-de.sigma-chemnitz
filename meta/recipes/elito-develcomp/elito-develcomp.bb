@@ -8,7 +8,10 @@ PACKAGES = ""
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 PROVIDES = "elito-develcomp-native"
 
-DEPENDS = "elito-makefile"
+_machdeps = ""
+_machdeps_mx6 = "elito-devicetree-tools"
+
+DEPENDS = "elito-makefile ${_machdeps}"
 INHIBIT_DEFAULT_DEPS = "1"
 
 ###########
