@@ -1,7 +1,7 @@
-From bb0ee53c88de6b8f177af49be4804b4e8ac68e75 Mon Sep 17 00:00:00 2001
+From ef76e9453802b6611cd071d28a264db5099d55c7 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Fri, 2 Nov 2012 18:09:04 +0100
-Subject: [PATCH 08/11] build.py: fire TaskFailed with same environment as
+Subject: [PATCH 07/10] build.py: fire TaskFailed with same environment as
  TaskStarted
 
 The task-failed event handler can require task specific data or data
@@ -12,14 +12,14 @@ holds.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- lib/bb/build.py | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ lib/bb/build.py | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/lib/bb/build.py b/lib/bb/build.py
-index e28655e..d975a8a 100644
+index dcd42ef..0308868 100644
 --- a/lib/bb/build.py
 +++ b/lib/bb/build.py
-@@ -293,20 +293,14 @@ def _task_data(fn, task, d):
+@@ -336,20 +336,14 @@ def _task_data(fn, task, d):
      bb.data.expandKeys(localdata)
      return localdata
  
@@ -41,7 +41,7 @@ index e28655e..d975a8a 100644
      tempdir = localdata.getVar('T', True)
      if not tempdir:
          bb.fatal("T variable not set, unable to build")
-@@ -424,6 +418,13 @@ def _exec_task(fn, task, d, quieterr):
+@@ -477,6 +471,13 @@ def _exec_task(fn, task, d, quieterr):
      return 0
  
  def exec_task(fn, task, d, profile = False):
@@ -52,16 +52,15 @@ index e28655e..d975a8a 100644
 +
 +    localdata = _task_data(fn, task, d)
 +
-     try: 
+     try:
          quieterr = False
          if d.getVarFlag(task, "quieterrors") is not None:
-@@ -436,21 +437,22 @@ def exec_task(fn, task, d, profile = False):
+@@ -489,21 +490,21 @@ def exec_task(fn, task, d, profile = False):
              except:
                  import profile
              prof = profile.Profile()
 -            ret = profile.Profile.runcall(prof, _exec_task, fn, task, d, quieterr)
-+            ret = profile.Profile.runcall(prof, _exec_task, fn, task,
-+                                          localdata, quieterr)
++            ret = profile.Profile.runcall(prof, _exec_task, fn, task, localdata, quieterr)
              prof.dump_stats(profname)
              bb.utils.process_profilelog(profname)
  
@@ -81,7 +80,7 @@ index e28655e..d975a8a 100644
 +            event.fire(failedevent, localdata)
          return 1
  
- def stamp_internal(taskname, d, file_name):
+ def stamp_internal(taskname, d, file_name, baseonly=False):
 -- 
-1.8.3.1
+1.9.3
 
