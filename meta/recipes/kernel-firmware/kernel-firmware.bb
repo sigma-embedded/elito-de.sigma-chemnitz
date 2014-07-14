@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
   file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
   file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-  file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
+  file://LICENCE.iwlwifi_firmware;md5=5106226b2863d00d8ed553221ddf8cd2 \
   file://LICENCE.mwl8335;md5=9a6271ee0e644404b2ff3c61fd070983 \
   file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
   file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
@@ -25,8 +25,9 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
 "
 
-SRCREV          = "dec41bce44e0dff6a2c3358a958fadf22bf58858"
+SRCREV          = "a4f3bc03f1e7b1f25cc52328981c2a35871e55a1"
 
+HOMEPAGE = "https://git.kernel.org/cgit/linux/kernel/git/firmware/linux-firmware.git"
 SRC_URI = "\
 	git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git \
 	http://www.otit.fi/~crope/v4l-dvb/af9015/af9015_firmware_cutter/firmware_files/4.95.0/dvb-usb-af9015.fw;name=af9015 \
@@ -53,63 +54,76 @@ do_install() {
     cd ../git
 
     install -d -m 0755 ${D}/lib/firmware ${D}/lib/firmware/nouveau \
-        ${D}/lib/firmware/libertas ${D}/lib/firmware/rtlwifi
+        ${D}/lib/firmware/libertas ${D}/lib/firmware/rtlwifi ${D}/lib/firmware/mrvl \
+        ${D}/lib/firmware/rtl_nic
 
     install -p -m 0644 ath3k*.fw ${WORKDIR}/*.fw  ${D}/lib/firmware/
     install -p -m 0644 rt*.bin ${D}/lib/firmware/
     install -p -m 0644 libertas/*.bin ${D}/lib/firmware/libertas/
     install -p -m 0644 rtlwifi/*.bin ${D}/lib/firmware/rtlwifi/
+    install -p -m 0644 rtl_nic/*.fw ${D}/lib/firmware/rtl_nic/
+    install -p -m 0644 mrvl/*.bin ${D}/lib/firmware/mrvl/
     install -p -m 0644 ../nouveau/*.ctxprog ../nouveau/*.ctxvals ${D}/lib/firmware/nouveau/
 }
 
 _pkginfo = "{ \
-        'libertas-lbtf-sdio' : [ 'libertas/lbtf_sdio*' ], \
-        'libertas-cf8381'    : [ 'libertas/cf8381*' ], \
-        'libertas-cf8385'    : [ 'libertas/cf8385*' ], \
-        'libertas-gspi8682'  : [ 'libertas/gspi8682*' ], \
-        'libertas-gspi8686-v9' : [ 'libertas/gspi8686_v9*' ], \
-        'libertas-gspi8688'  : [ 'libertas/gspi8688*' ], \
-        'libertas-sd8385'    : [ 'libertas/sd8385*' ], \
-        'libertas-sd8682'    : [ 'libertas/sd8682*' ], \
-        'libertas-sd8686-v8' : [ 'libertas/sd8686_v8*' ], \
-        'libertas-sd8686-v9' : [ 'libertas/sd8686_v9*' ], \
-        'libertas-sd8688'    : [ 'libertas/sd8688*' ], \
-        'libertas-usb8388-olpc' : [ 'libertas/usb8388_olpc*' ], \
-        'libertas-usb8388-v5' : [ 'libertas/usb8388_v5*' ], \
-        'libertas-usb8388-v9' : [ 'libertas/usb8388_v9*' ], \
-        'libertas-usb8682'   : [ 'libertas/usb8682*' ], \
         'dvb-usb-af9015'     : [ 'dvb-usb-af9015.fw' ], \
         'dvb-usb-tt-s2400'   : [ 'dvb-usb-tt-s2400-01.fw' ], \
         'nouveau'            : [ 'nouveau/' ], \
-        'rt2561'             : [ 'rt2561.bin' ], \
-        'rt2561s'            : [ 'rt2561s.bin' ], \
-        'rt2661'             : [ 'rt2661.bin' ], \
-        'rt2860'             : [ 'rt2860.bin' ], \
-        'rt2870'             : [ 'rt2870.bin' ], \
-        'rt3070'             : [ 'rt3070.bin' ], \
-        'rt3071'             : [ 'rt3071.bin' ], \
-        'rt3090'             : [ 'rt3090.bin' ], \
-        'rt73'               : [ 'rt73.bin' ], \
-        'rtl8192cfw'         : [ 'rtlwifi/rtl8192cfw*' ], \
-        'rtl8192cufw'        : [ 'rtlwifi/rtl8192cufw*' ], \
-        'rtl8192defw'        : [ 'rtlwifi/rtl8192defw*' ], \
-        'rtl8192sefw'        : [ 'rtlwifi/rtl8192sefw*' ], \
         'rtl8712u'           : [ 'rtlwifi/rtl8712u*' ], \
-        'ath3k'              : [ 'ath3k-1.fw' ]}"
+        '_mrvl'		     : [ split_pkgs, 'mrvl-%s', 'mrvl', r'([a-z0-9]+)(_.*)?\.bin' ], \
+        '_libertasXXX'	     : [ split_pkgs, 'libertas-%s', 'libertas', r'(([-0-9a-z]|(_v[0-9]+)|(_sdio)|(_olpc))+)(_helper)?\..*' ], \
+        '_rtlXXXX'	     : [ split_pkgs, 'rtl%s', 'rtl_nic', r'rtl([0-9]+[a-z]?)-[0-9]+\.fw' ], \
+        '_rtXXXX'	     : [ split_pkgs, 'rt%s', '', r'rt([0-9]+[a-z]?)\.bin' ], \
+        '_rtlwifi'           : [ split_pkgs, '%s', 'rtlwifi', r'(rtl.*)fw.*\.bin' ], \
+        'ath3k'              : [ 'ath3k-1.fw' ] }"
 
 PACKAGES_DYNAMIC += 'firmware-.*'
 
+def split_pkgs(d, args):
+    import re, os
+
+    firmware_dir = '/lib/firmware/' + args[1]
+    dvar = d.getVar('PKGD', True)
+    pattern = re.compile(args[2])
+
+    res = {}
+
+    for f in os.listdir(dvar + firmware_dir):
+        m = pattern.match(f)
+
+        print f, m
+
+        if not m:
+            continue
+
+        pname = 'firmware-' + (args[0] % m.group(1).replace('_', '-'))
+        if pname not in res:
+            res[pname] = []
+
+        res[pname].append(os.path.join(firmware_dir, f))
+
+    if len(res) == 0:
+        raise Exception("No items found for %s" % (args,))
+
+    for (pkg,files) in res.items():
+        d.setVar('FILES_%s' % pkg, ' '.join(files))
+
+    return res.keys()
+
 python populate_packages_prepend() {
     v = eval(bb.data.getVar('_pkginfo', d, 1))
-    pkgs = ''
+    pkgs = []
     for (n,f) in v.items():
-        pname = 'firmware-%s' % n
-        pkgs += ' ' + pname
-        bb.data.setVar('FILES_' + pname, ' '.join(map(lambda x: '/lib/firmware/' + x, f)), d)
+        if n[0] != '_':
+            pname = 'firmware-' + n
+            pkgs.append(pname)
+            files = map(lambda x: '/lib/firmware/' + x, f)
+            bb.data.setVar('FILES_' + pname, ' '.join(files), d)
+        else:
+            pkgs.extend(f[0](d, f[1:]))
 
-        print pname, f, bb.data.getVar('FILES_' + pname, d, 1)
-
-    bb.data.setVar('PACKAGES', pkgs, d)
+    bb.data.setVar('PACKAGES', ' '.join(pkgs), d)
 }
 
 PV_pn_firmware-dvb-usb-af9015 = "4.95.0"
