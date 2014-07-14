@@ -42,3 +42,5 @@ install:	${_dtbs} | $(DESTDIR)$(pkgdatadir)
 
 clean:
 	rm -f ${_dtbs}
+
+.SECONDARY:	$(patsubst %.dtb,%-preproc.dts,${_dtbs})
