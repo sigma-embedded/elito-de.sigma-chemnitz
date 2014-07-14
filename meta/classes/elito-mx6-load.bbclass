@@ -24,7 +24,7 @@ def mx6_load_get_soctypes(d):
     socs = set()
     for v in variants:
         (board, soc, mem) = v.split(':')
-	socs.add(board)
+        socs.add(board)
     return ' '.join(socs)
 
 do_compile_mx6load() {
