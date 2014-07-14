@@ -38,7 +38,7 @@ $(DESTDIR)$(pkgdatadir):
 	$(INSTALL) -d -m 0755 $@
 
 install:	${_dtbs} | $(DESTDIR)$(pkgdatadir)
-	$(INSTALL_DATA) $< $(DESTDIR)$(pkgdatadir)/
+	$(INSTALL_DATA) $^ $(DESTDIR)$(pkgdatadir)/
 
 clean:
 	rm -f ${_dtbs}
