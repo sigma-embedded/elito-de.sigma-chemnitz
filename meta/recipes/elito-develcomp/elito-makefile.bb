@@ -154,6 +154,13 @@ ${_export_vars_gen}
 
 export _CCACHE	= ${CCACHE}
 _tmpdir		= ${TMPDIR}
+
+_FQDN =		\$(shell hostname -f 2>/dev/null)
+_DOMAIN =	\$(shell hostname -d 2>/dev/null)
+
+-include \$(PROJECT_TOPDIR)/Makefile.local
+-include \$(PROJECT_TOPDIR)/Makefile.local.\$(_DOMAIN)
+-include \$(PROJECT_TOPDIR)/Makefile.local.\$(_FQDN)
 EOF
 
 cat << "EOF" >>"Makefile.develcomp"
