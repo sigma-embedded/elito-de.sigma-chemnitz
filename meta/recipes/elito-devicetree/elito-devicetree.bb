@@ -44,10 +44,11 @@ inherit deploy elito-machdata
 
 do_install() {
     oe_runmake install DESTDIR=${D}
+    install -D -p -m 0644 ${WORKDIR}/Makefile ${D}${MACHDATADIR}/devicetree.mk
 }
 
 do_deploy() {
     install -D -p -m 0644 *.dtb ${DEPLOYDIR}/oftree
 }
 
-FILES_${PN}-dev += "${MACHDATADIR}/*.dtb"
+FILES_${PN}-dev += "${MACHDATADIR}/*.dtb  ${MACHDATADIR}/*.mk"
