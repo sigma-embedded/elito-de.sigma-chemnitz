@@ -1,4 +1,3 @@
 # --*- python -*--
-GCCVERSION			?= "4.8%"
 LINUXLIBCVERSION		=  "${MACHINE_KERNEL_VERSION}"
 UCLIBCVERSION			?= "git"
