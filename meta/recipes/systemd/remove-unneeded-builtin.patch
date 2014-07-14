@@ -1,8 +1,8 @@
-Index: systemd-206/Makefile.am
+Index: systemd-215/Makefile.am
 ===================================================================
---- systemd-206.orig/Makefile.am
-+++ systemd-206/Makefile.am
-@@ -2223,13 +2223,7 @@ libudev_core_la_SOURCES = \
+--- systemd-215.orig/Makefile.am
++++ systemd-215/Makefile.am
+@@ -2943,18 +2943,7 @@ libudev_core_la_SOURCES = \
  	src/udev/udev-rules.c \
  	src/udev/udev-ctrl.c \
  	src/udev/udev-builtin.c \
@@ -11,17 +11,22 @@ Index: systemd-206/Makefile.am
 -	src/udev/udev-builtin-input_id.c \
 -	src/udev/udev-builtin-keyboard.c \
 -	src/udev/udev-builtin-net_id.c \
+-	src/udev/udev-builtin-net_setup_link.c \
 -	src/udev/udev-builtin-path_id.c \
--	src/udev/udev-builtin-usb_id.c
+-	src/udev/udev-builtin-usb_id.c \
+-	src/udev/net/link-config.h \
+-	src/udev/net/link-config.c \
+-	src/udev/net/ethtool-util.h \
+-	src/udev/net/ethtool-util.c
 +	src/udev/udev-builtin-hwdb.c
  
  nodist_libudev_core_la_SOURCES = \
  	src/udev/keyboard-keys-from-name.h \
-Index: systemd-206/src/udev/udev-builtin.c
+Index: systemd-215/src/udev/udev-builtin.c
 ===================================================================
---- systemd-206.orig/src/udev/udev-builtin.c
-+++ systemd-206/src/udev/udev-builtin.c
-@@ -30,25 +30,7 @@
+--- systemd-215.orig/src/udev/udev-builtin.c
++++ systemd-215/src/udev/udev-builtin.c
+@@ -30,26 +30,7 @@
  static bool initialized;
  
  static const struct udev_builtin *builtins[] = {
@@ -39,6 +44,7 @@ Index: systemd-206/src/udev/udev-builtin.c
 -        [UDEV_BUILTIN_KMOD] = &udev_builtin_kmod,
 -#endif
 -        [UDEV_BUILTIN_NET_ID] = &udev_builtin_net_id,
+-        [UDEV_BUILTIN_NET_LINK] = &udev_builtin_net_setup_link,
 -        [UDEV_BUILTIN_PATH_ID] = &udev_builtin_path_id,
 -        [UDEV_BUILTIN_USB_ID] = &udev_builtin_usb_id,
 -#ifdef HAVE_ACL
@@ -47,10 +53,10 @@ Index: systemd-206/src/udev/udev-builtin.c
  };
  
  void udev_builtin_init(struct udev *udev)
-Index: systemd-206/src/udev/udevadm.c
+Index: systemd-215/src/udev/udevadm.c
 ===================================================================
---- systemd-206.orig/src/udev/udevadm.c
-+++ systemd-206/src/udev/udevadm.c
+--- systemd-215.orig/src/udev/udevadm.c
++++ systemd-215/src/udev/udevadm.c
 @@ -51,11 +51,6 @@ static const struct udevadm_cmd udevadm_
  };
  

@@ -1,0 +1,10 @@
+Index: systemd-215/Makefile.am
+===================================================================
+--- systemd-215.orig/Makefile.am
++++ systemd-215/Makefile.am
+@@ -5624,3 +5624,5 @@ print-%:
+ 
+ git-contrib:
+ 	@git shortlog -s `git describe --abbrev=0`.. | cut -c8- | awk '{ print $$0 "," }' | sort -u
++
++manual-source-build:	${nodist_libsystemd_shared_la_SOURCES}
