@@ -12,7 +12,7 @@ AM_CPP_DEPGENFLAGS = \
 AM_DTC_CPPFLAGS = \
   $(AM_CPP_DEPGENFLAGS) \
   -nostdinc -x assembler-with-cpp \
-  -I='$(MACHINE_INCDIR)' -I . -undef
+  -I . -I='$(MACHINE_INCDIR)' -undef
 
 DTC_FLAGS = -R 4
 
