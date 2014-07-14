@@ -120,6 +120,8 @@ def elito_rewrite_src_uri(fetch, d):
 do_compile[prefuncs] += "do_elito_set_home"
 do_install[prefuncs] += "do_elito_set_home"
 
+export ABRT_IGNORE_ALL="1"
+
 BB_HASHCONFIG_WHITELIST += "\
  ftp_proxy http_proxy https_proxy no_proxy DISPLAY ELITO_BUILD_NUMBER \
  KRB5CCNAME DESKTOP_STARTUP_ID GNOME_KEYRING_PID GPG_AGENT_INFO \
