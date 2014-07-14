@@ -11,11 +11,13 @@ all:	$(pkginclude_DATA)
 %-dcd.h:	%-iomux.xml
 	@rm -f $@ $@.tmp
 	${FSLIOMUX} -F c -m fn -O '${DCD_DEVICES} ${UART}' -o '$@.tmp' -- $(filter %.xml,$^)
+	@chmod a-w $@.tmp
 	@mv $@.tmp $@
 
 %-main.h:	%-iomux.xml
 	@rm -f $@ $@.tmp
 	${FSLIOMUX} -F c -m fn -D '${DCD_DEVICES} ${UART}' -o '$@.tmp' -- $(filter %.xml,$^)
+	@chmod a-w $@.tmp
 	@mv $@.tmp $@
 
 .SECONDEXPANSION:
@@ -23,6 +25,7 @@ all:	$(pkginclude_DATA)
 %-dts-pins.h:	%-iomux.xml %-postproc.sh $$(SOC_DTREE_PINS_%)
 	@rm -f $@ $@.tmp
 	${FSLIOMUX} -F dtree -m fn -D '${DCD_DEVICES}' -o '$@.tmp' -M '$(filter %.h,$^)' -P '$(abspath $(filter %-postproc.sh,$^))' -- '$(filter %.xml,$^)'
+	@chmod a-w $@.tmp
 	@mv $@.tmp $@
 
 %-postproc.sh:
