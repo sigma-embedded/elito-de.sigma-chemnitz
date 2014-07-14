@@ -47,6 +47,7 @@ INHIBIT_DEFAULT_DEPS = "1"
 
 EXTRA_OEMAKE[vardeps] += "MACHINE_VARIANTS SERIAL_CONSOLE"
 EXTRA_OEMAKE = "\
+  -f ${WORKDIR}/Makefile \
   MACHINE=${MACHINE} \
   VPATH=${WORKDIR}:${STAGING_MACHINCDIR} \
   prefix=${prefix} datadir=${datadir} \
@@ -59,13 +60,13 @@ COMPATIBLE_MACHINE = "mx6"
 
 inherit elito-machdata
 
-
-do_configure() {
-    ln -sf ../Makefile .
+do_compile() {
+    oe_runmake
 }
 
 do_install() {
     oe_runmake install DESTDIR=${D}
+    install -D -p -m 0644 ${WORKDIR}/Makefile ${D}${MACHDATADIR}/mx6-pins.mk
 }
 
-FILES_${PN}-dev += "${MACHINCDIR}/*"
+FILES_${PN}-dev += "${MACHINCDIR}/* ${MACHDATADIR}/*.mk"
