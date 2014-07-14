@@ -13,6 +13,8 @@ do_installdts() {
 
 do_install_append() {
     do_installdts
+    tar cf - -C include/ dt-bindings --mode go-w,a+rX,u+w | \
+	tar xf - -C ${D}${includedir}
 }
 
 python do_sysroot_installdts() {
@@ -23,8 +25,12 @@ python do_sysroot_installdts() {
 
 SYSROOT_PREPROCESS_FUNCS += "do_sysroot_installdts"
 
-PACKAGES =+ "${PN}-dtree"
+PACKAGES =+ "${PN}-dtree ${PN}-dtree-headers"
 FILES_${PN}-dtree = " \
   ${MACHINCDIR}/*.dtsi \
   ${MACHINCDIR}/*.h \
 "
+
+RRECOMMENDS_${PN}-dtree += "${PN}-dtree-headers"
+
+FILES_${PN}-dtree-headers = "${includedir}/dt-bindings"
