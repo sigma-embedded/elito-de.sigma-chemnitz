@@ -3,8 +3,8 @@ SECTION = "base"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-SRCREV = "8e0f75fa5344cbcfdc019ac3e8980fe692a6ffeb"
-_pv = "0.4.5"
+SRCREV = "d623ef3ba1b643e052e15a9bd52f751011cd7c9a"
+_pv = "0.4.7"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
