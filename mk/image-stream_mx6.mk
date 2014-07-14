@@ -20,9 +20,11 @@ IMAGE_STREAM_deps = \
 	${IMAGE_KERNEL} \
 	${IMAGE_ROOTIMG}
 
+BOOTSTREAM ?= $(call genopts,0x21100,BOOTSTREAM0) \
+
 ARGS = \
   $(call genopts,0x20000,PRESCRIPT,t) \
-  $(call genopts,0x21100,BOOTSTREAM0) \
+  $(BOOTSTREAM) \
   $(call genopts,0x21002,KERNEL) \
   $(call genopts,0x22000,ROOTIMG) \
   $(call genopts,0x23000,ANDROID_SYSTEM) \
