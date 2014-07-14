@@ -30,6 +30,8 @@ all:		${_dtbs}
 
 %-preproc.dts:	%.dts
 	$(CPP) $(AM_DTC_CPPFLAGS) $(DTC_CPPFLAGS) -o $@ $<
+	@chmod a-w '$@'
+
 -include $(foreach v,$(VARIANT),.$v-preproc.dts.d)
 
 $(DESTDIR)$(pkgdatadir):
