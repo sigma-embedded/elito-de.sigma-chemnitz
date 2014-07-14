@@ -9,6 +9,7 @@ opt_disable=
 opt_only=
 opt_outfile=
 opt_map=
+opt_postproc=
 
 t=`mktemp -t fsliomux.XXXXXX`
 trap "rm -f $t" EXIT
@@ -18,7 +19,7 @@ function panic() {
     exit 1
 }
 
-while getopts "F:m:O:D:o:M:" opt "$@"; do
+while getopts "F:m:O:D:o:M:P:" opt "$@"; do
     case $opt in
       F)	opt_format=$OPTARG;;
       m)	opt_mode=$OPTARG;;
@@ -26,6 +27,7 @@ while getopts "F:m:O:D:o:M:" opt "$@"; do
       D)	opt_disable=$OPTARG;;
       M)	opt_map=$OPTARG;;
       o)	opt_outfile=$OPTARG;;
+      P)	opt_postproc=$OPTARG;;
       --)	break;;
       ?)	exit 1;;
     esac
@@ -55,6 +57,10 @@ $XSLTPROC "${xsl_opts[@]}" "$xsl_file" "$@" || \
 
 rm -f "$opt_outfile"
 set -C
+
+if test -n "$opt_postproc"; then
+    $opt_postproc "$t"
+fi
 
 if test -n "$opt_outfile"; then
     exec 90>$opt_outfile
