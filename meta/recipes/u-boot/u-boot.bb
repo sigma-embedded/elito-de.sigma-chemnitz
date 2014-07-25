@@ -83,5 +83,7 @@ do_deploy () {
 	cd ${DEPLOYDIR}
 	rm -f ${UBOOT_SYMLINK}
 	ln -sf ${uboot_image} ${UBOOT_SYMLINK}
+
+	do_deploy_machine
 }
 addtask deploy before do_build after do_compile
