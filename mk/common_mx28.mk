@@ -14,6 +14,4 @@ BAREBOX_SB_EXTRA = ${STAGING_DIR_TARGET}/usr/share/mach-$(MACHINE)/$(MACHINE).dt
 
 ifeq ($(CFG),barebox)
 tftp:	tftp-sb
-else ifeq ($(CFG),kernel)
-tftp:	tftp-uboot
 endif
