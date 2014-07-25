@@ -50,6 +50,19 @@ do_install() {
 	install -D -p -m 0755 u-boot     ${D}/boot/u-boot
 }
 
+do_deploy_machine() {
+    :
+}
+
+## TODO: that's broken; there is no generic 'zynq-7000' override
+do_deploy_machine_zynq-7000() {
+	uboot_image="u-boot-${MACHINE}-${PV}-${PR}-${gitrev}.elf"
+
+	install -p -m 0644 ${S}/u-boot ${DEPLOYDIR}/${uboot_image}
+	ln -s ${uboot_image} ${DEPLOYDIR}/u-boot-${MACHINE}.elf
+}
+
+do_deploy[vardeps] += "do_deploy_machine"
 do_deploy () {
 	set -x
 	gitrev=`git ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
