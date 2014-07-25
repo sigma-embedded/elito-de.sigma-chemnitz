@@ -263,12 +263,21 @@ ELITO_COMMON_SERVERS-zeroconf = "\
 ELITO_COMMON_SERVERS-initsys-systemd = "\
 "
 
-ELITO_COMMON_SERVERS-core = "\
+ELITO_COMMON_SERVERS-networkd-connman = "\
   connman \
   connman-plugin-loopback \
   connman-plugin-ethernet \
   ${@base_contains('DISTRO_FEATURES','wifi','connman-plugin-wifi','', d)} \
   connman-tools \
+"
+
+ELITO_COMMON_SERVERS-networkd-systemd = "\
+  elito-systemd-conf-network \
+  systemd-networkd \
+  systemd-resolved \
+"
+
+ELITO_COMMON_SERVERS-core = "\
   dropbear \
   openssh-sftp-server \
 "
