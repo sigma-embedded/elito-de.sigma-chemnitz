@@ -106,6 +106,8 @@ trap "cleanup_failure" EXIT
 section_start "Core programs:"
 test_prog TAR tar
 test_prog GZIP gzip
+test_prog BZIP2 bzip2
+test_prog CPIO cpio
 test_prog SED sed
 test_prog GREP grep
 test_prog GCC gcc
@@ -115,8 +117,8 @@ test_prog LDCONFIG ldconfig
 test_prog PKG_CONFIG pkg-config
 test_prog SOCAT socat
 test_prog GIT git
-test_prog CVS cvs
 test_prog SVN svn
+test_prog CVS cvs
 test_prog AUTOCONF autoconf
 test_prog LIBTOOLIZE libtoolize
 test_prog AUTORECONF autoreconf
