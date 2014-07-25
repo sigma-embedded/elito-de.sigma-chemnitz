@@ -57,6 +57,7 @@ _export_vars = " \
 	KERNEL_SIZE	\
 	KERNEL_START_ADDRESS \
 	KERNEL_BOOT_VARIANT \
+	KERNEL_LOADADDR \
 	+LD		\
 	+LDFLAGS	\
 	+NM		\

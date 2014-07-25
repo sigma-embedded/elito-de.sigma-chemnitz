@@ -23,6 +23,7 @@ _build_cmd = \
             $(MAKE) CC='$(KERNEL_CC)' LD='$(KERNEL_LD)' \
             $(if $(TFTP_IMAGE),FLASH_FILENAME='$(TFTP_IMAGE)') \
             $(if $(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=$(KERNEL_SIZE)') \
+            $(if $(KERNEL_LOADADDR),LOADADDR='$(KERNEL_LOADADDR)') \
 
 LOCALGOALS += _all_ exec shell printcmd
 XTRA_GOALS += modules modules_install _all
