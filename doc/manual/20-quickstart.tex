@@ -13,7 +13,7 @@ Although OpenEmbedded is almost self-hosting, some software is
 required for bootstrapping and download tasks:
 
 \begin{itemize}
-\item tar, gzip, grep, xz
+\item tar, gzip, bzip2, cpio, grep, xz
 \item make, gcc, g++
 \item socat, wget, gawk, chrpath
 \item git, cvs, svn
@@ -28,7 +28,7 @@ required for bootstrapping and download tasks:
 \begin{lstlisting}[language={}]
 sudo apt-get install aptitude
 sudo aptitude install \
-   tar gzip sed xz-utils grep gawk chrpath \
+   tar gzip bzip2 cpio sed xz-utils grep gawk chrpath \
    make gcc g++ pkg-config \
    socat git-core cvs subversion autoconf libtool ccache wget \
    libgnutls-dev help2man diffstat texi2html texinfo \
