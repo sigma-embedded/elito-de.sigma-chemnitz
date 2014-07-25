@@ -10,7 +10,7 @@ STATIC_CONTENT = \
 	elito-proxy.tmpl
 
 DOWNLOAD = \
-	http://www.sigma-chemnitz.de/dl/elito/sources/sigma-ssl-0.6.11.tar.bz2
+	http://www.sigma-chemnitz.de/dl/elito/sources/sigma-ssl-0.6.12.tar.bz2
 
 GITREV = $(shell set -x; ${GIT} describe --long --abbrev=40 HEAD 2>/dev/null | tr / _)
 SED_CMD = \
