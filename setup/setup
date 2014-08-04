@@ -63,7 +63,7 @@ build_sigma_ssl_client() {
     export LANG=C
 
     cd ${srcdir}
-    ${TAR} xjf packages/sigma-ssl-*.tar.bz2
+    ${BUNZIP2} -d -c < packages/sigma-ssl-*.tar.bz2 | ${TAR} xf -
     add_cleanup_dirs sigma-ssl-*
     cd sigma-ssl-*
     ${MAKE} -e ssl-client CC=${GCC}
@@ -106,7 +106,7 @@ trap "cleanup_failure" EXIT
 section_start "Core programs:"
 test_prog TAR tar
 test_prog GZIP gzip
-test_prog BZIP2 bzip2
+test_prog BUNZIP2 bunzip2
 test_prog CPIO cpio
 test_prog SED sed
 test_prog GREP grep
