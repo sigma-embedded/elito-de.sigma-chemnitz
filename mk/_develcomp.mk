@@ -1,3 +1,5 @@
+SHELL = /bin/bash
+
 export DESTDIR  = ${IMAGE_ROOTFS}
 export _CROSS	= ${TARGET_PREFIX}
 export _ARCH	= ${TARGET_ARCH}
