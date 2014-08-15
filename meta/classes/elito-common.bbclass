@@ -294,6 +294,10 @@ ELITO_COMMON_PROGRAMS-ext2 = "\
   e2fsprogs-badblocks \
 "
 
+ELITO_COMMON_PROGRAMS-vfat = "\
+  dosfstools \
+"
+
 ELITO_COMMON_PROGRAMS-bluetooth = "\
   bluez4 \
 "
