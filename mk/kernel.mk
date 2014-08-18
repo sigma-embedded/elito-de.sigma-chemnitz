@@ -9,6 +9,7 @@ CFG_NFSROOT = ${_nfs_server}:${_nfs_root}
 
 export DEFAULT_NFSROOT = ${CFG_NFSROOT}${CFG_NFSOPTS}
 
+unexport
 
 # there are various problems when using the gold linker; fallback to
 # .bfd for now

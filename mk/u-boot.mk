@@ -23,3 +23,4 @@ OPTS = \
 	CFG_NFSROOT='"${_nfs_server}:${_nfs_root}"'
 
 unexport CPPFLAGS HOSTCPPFLAGS HOSTCFLAGS
+unexport
