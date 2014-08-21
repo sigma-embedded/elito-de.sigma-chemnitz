@@ -354,14 +354,21 @@ ELITO_COMMON_PROGRAMS-sata = "\
   hdparm \
 "
 
-ELITO_COMMON_PROGRAMS-x11 = "\
-  xhost \
+_PROGRAMS_x11_head = "\
   xrandr \
+  xhost \
+  xserver-common \
+  xserver-xorg \
+"
+
+ELITO_COMMON_PROGRAMS-x11 = "\
+  xauth \
+  xhost \
   xset \
   xorg-minimal-fonts \
-  xserver-xorg \
-  xserver-common \
-  mesa \
+  ${@bb.utils.contains('DISTRO_FEATURES', 'headless', \
+                       '', '${_PROGRAMS_x11_head}', d)} \
+  ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa', '', d)} \
 "
 
 ELITO_COMMON_PROGRAMS-wayland = "\
