@@ -21,6 +21,18 @@ EXTRA_OECONF += "\
 
 systemd_bindir = "${systemd_unitdir}"
 
+def systemd_default_target(d):
+    features=d.getVar('DISTRO_FEATURES', True).split()
+    if 'headless' in features:
+        return 'multi-user';
+    elif 'x11' in features:
+        return 'graphical'
+    else:
+        return 'multi-user';
+
+SYSTEMD_DEFAULT_TARGET[vardeps] += "DISTRO_FEATURES"
+SYSTEMD_DEFAULT_TARGET ?= "${@systemd_default_target(d)}"
+
 do_unpackextra() {
     echo 'install-aliases-hook:	install-directories-hook' >> ${S}/Makefile.am
 
@@ -37,7 +49,7 @@ do_install_append() {
     rmdir ${D}${localstatedir}/log/journal
     rmdir ${D}${localstatedir}/log
 
-    t=${@base_contains('DISTRO_FEATURES', 'x11', 'graphical', 'multi-user', d)}
+    t='${SYSTEMD_DEFAULT_TARGET}'
     rm -f ${D}${systemd_unitdir}/system/default.target
     ln -s $t.target ${D}${systemd_unitdir}/system/default.target
 
