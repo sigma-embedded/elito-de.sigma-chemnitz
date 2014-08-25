@@ -11,8 +11,10 @@ AM_CPP_DEPGENFLAGS = \
 
 AM_DTC_CPPFLAGS = \
   $(AM_CPP_DEPGENFLAGS) \
-  -nostdinc -x assembler-with-cpp \
-  -I . -I='$(MACHINE_INCDIR)' -undef
+  -nostdinc -undef -x assembler-with-cpp \
+  -I . -I='$(MACHINE_INCDIR)' \
+  -I=/usr/src/kernel/include \
+  -I=/usr/src/kernel/arch/arm/boot/dts \
 
 DTC_FLAGS = -R 4
 
