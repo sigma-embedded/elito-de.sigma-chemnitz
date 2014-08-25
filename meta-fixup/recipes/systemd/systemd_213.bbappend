@@ -3,6 +3,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 WATCHDOG_TIMEOUT ?= "60"
 
+DEPENDS += "elfutils"
+
 PACKAGECONFIG[oldkernel] = "--disable-networkd,,,"
 
 SRC_URI += "\
