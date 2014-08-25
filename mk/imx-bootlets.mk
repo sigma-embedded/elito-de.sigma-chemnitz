@@ -7,7 +7,9 @@ OPTS = \
 	BOARD=$(IMX_BOOTLET_BOARD) \
 	CROSS_COMPILE:='$(_CROSS)' \
 	AR:='$(AR)' AS:='$(AS)' CC:='$(CC)' CPP:='$(CPP)' \
-	LD:='$(LD)' NM:='$(NM)' STRIP:='$(STRIP)' \
+	LD:='$(CCLD)' NM:='$(NM)' STRIP:='$(STRIP)' \
 	CFLAGS:='${CFLAGS}' \
 	LDFLAGS:='${LDFLAGS}' \
 	MACHINE:='${MACHINE}' \
+
+unexport
