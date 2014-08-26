@@ -361,6 +361,7 @@ $(_filesystem-dirs) $(_bitbake-dirs) $(ELITO_CACHE_DIR) $W $W/recipes $(ELITO_LO
 $W/cache/ccache:	| $W
 			mkdir -p $@
 			-env CCACHE_DIR=$@ $(CCACHE) -M $(ELITO_CCACHE_SIZE)
+			-$(CHATTR) +A "$@"
 
 $W/recipes:		| $W
 
