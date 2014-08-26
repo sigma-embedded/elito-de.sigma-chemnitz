@@ -141,6 +141,14 @@ python systemd_elito_populate_packages () {
 }
 PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages "
 
+PACKAGES += "libgudev libnss-mymachine libnss-resolve"
+FILES_libgudev = "${libdir}/libgudev*.so.*"
+FILES_libnss-mymachine = "${libdir}/libnss_mymachines.so.*"
+FILES_libnss-resolve = "${libdir}/libnss_resolve.so.*"
+
+PACKAGES =+ "${PN}-bash-completion"
+FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
+
 PACKAGES_DYNAMIC = "systemd-.*"
 RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
 RRECOMMENDS_${PN} += "util-linux-mount systemd-readahead"
