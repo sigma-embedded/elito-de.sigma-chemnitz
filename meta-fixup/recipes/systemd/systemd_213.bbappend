@@ -3,7 +3,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 
 WATCHDOG_TIMEOUT ?= "60"
 
-DEPENDS += "elfutils"
+DEPENDS += "elfutils curl"
 
 PACKAGECONFIG[oldkernel] = "--disable-networkd,,,"
 
