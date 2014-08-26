@@ -717,6 +717,7 @@ AC_DEFUN([ELITO_CHECK_LN_R],[
 ])
 
 AC_PATH_PROGS([AUTORECONF], autoreconf)
+AC_PATH_PROGS([CHATTR], [chattr], [true])
 
 dnl AC_PATH_PROGS(BITBAKE, bitbake)
 BITBAKE_BINDIR=\${abs_top_builddir}/.tmp/staging/bin

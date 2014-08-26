@@ -19,6 +19,7 @@ TAR =			@TAR@
 PYTHON =		@PYTHON@
 GZIP =			@GZIP@
 LN_R =			@LN_R@
+CHATTR =		@CHATTR@
 
 SECWRAP_CMD =		@SECWRAP_CMD@
 TFTPBOOT_DIR =		@tftpbootdir@
