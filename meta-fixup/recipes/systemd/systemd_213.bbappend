@@ -48,6 +48,8 @@ addtask unpackextra after do_unpack before do_configure
 do_install_append() {
     rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
+    rm ${D}${libdir}/tmpfiles.d/var.conf
+    rm ${D}${libdir}/tmpfiles.d/etc.conf
     rmdir ${D}${localstatedir}/log/journal
     rmdir ${D}${localstatedir}/log
 
@@ -88,7 +90,8 @@ python systemd_elito_populate_packages () {
                        'network-online.target',
                        'systemd-networkd-wait-online.service',
                        'systemd-networkd.service' ],
-        'resolved' : [ 'systemd-resolved.service' ],
+        'resolved' : [ 'systemd-resolved.service',
+                       'dbus-org.freedesktop.resolve1.service' ],
         'timesyncd' : [ 'systemd-timesyncd.service' ],
         'ldconfig' : [ 'ldconfig.service' ],
         'sysusers' : [ 'systemd-sysusers.service' ],
@@ -100,10 +103,13 @@ python systemd_elito_populate_packages () {
                         '${systemd_bindir}/network',
                         '${sysconfdir}/systemd/network',
                         '${libdir}/systemd/network',
-                        '${libdir}/tmpfiles.d/systemd-networkd.conf' ],
+                        '${libdir}/tmpfiles.d/systemd-networkd.conf',
+                        '${base_bindir}/networkctl' ],
         'timesyncd' : [ '${libdir}/systemd/systemd-timesyncd' ],
         'sysusers' :  [ '${libdir}/sysusers.d',
                         '${base_bindir}/systemd-sysusers' ],
+        'resolved' : [ '${libdir}/systemd/systemd-resolve-host' ],
+        'logind' : [ '${base_bindir}/loginctl' ],
     }
 
     pkgs = ''
