@@ -72,7 +72,8 @@ python systemd_elito_populate_packages () {
         'swap' : ['swap.target'],
         'tmpfs' : ['tmp.mount'],
         'logind' : ['systemd-logind.service',
-                    'dbus-org.freedesktop.login1.service'],
+                    'dbus-org.freedesktop.login1.service',
+                    'org.freedesktop.login1.busname' ],
         'user-sessions' : ['systemd-user-sessions.service',
                            'systemd-ask-password-wall.path'],
         'random-seed' : ['systemd-random-seed.service'],
@@ -95,6 +96,7 @@ python systemd_elito_populate_packages () {
         'timesyncd' : [ 'systemd-timesyncd.service' ],
         'ldconfig' : [ 'ldconfig.service' ],
         'sysusers' : [ 'systemd-sysusers.service' ],
+        'journal-upload' : [ 'systemd-journal-upload.service' ],
         }
 
     xtra_paths = {
@@ -110,6 +112,7 @@ python systemd_elito_populate_packages () {
                         '${base_bindir}/systemd-sysusers' ],
         'resolved' : [ '${libdir}/systemd/systemd-resolve-host' ],
         'logind' : [ '${base_bindir}/loginctl' ],
+        'journal-upload' : [ '${libdir}/tmpfiles.d/systemd-remote.conf' ],
     }
 
     pkgs = ''
@@ -161,6 +164,9 @@ USERADD_PARAM_${PN}-timesyncd += "--system systemd-timesync"
 
 USERADD_PACKAGES += "${PN}-resolved"
 USERADD_PARAM_${PN}-resolved += "--system systemd-resolve"
+
+USERADD_PACKAGES += "${PN}-journal-upload"
+USERADD_PARAM_${PN}-journal-upload += "--system systemd-journal-remote"
 
 python() {
     r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""
