@@ -7,9 +7,9 @@ Index: git/Makefile.am
  	tmpfiles.d/systemd.conf \
  	tmpfiles.d/systemd-nologin.conf \
 +	tmpfiles.d/systemd-networkd.conf \
+	tmpfiles.d/systemd-remote.conf \
  	tmpfiles.d/tmp.conf \
  	tmpfiles.d/x11.conf \
- 	tmpfiles.d/var.conf \
 Index: git/tmpfiles.d/systemd-networkd.conf
 ===================================================================
 --- /dev/null
