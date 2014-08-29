@@ -34,10 +34,10 @@ Index: git/src/main.c
 +
  static void media_print_topology_dot(struct media_device *media)
  {
- 	unsigned int i, j;
-@@ -179,39 +195,59 @@ static void media_print_topology_dot(str
- 	for (i = 0; i < media->entities_count; ++i) {
- 		struct media_entity *entity = &media->entities[i];
+ 	unsigned int nents = media_get_entities_count(media);
+@@ -183,43 +199,64 @@ static void media_print_topology_dot(str
+ 		const char *devname = media_entity_get_devname(entity);
+ 		unsigned int num_links = media_entity_get_links_count(entity);
  		unsigned int npads;
 +		bool have_sink = false;
 +		bool have_source = false;
@@ -47,33 +47,37 @@ Index: git/src/main.c
 -			printf("\tn%08x [label=\"%s\\n%s\", shape=box, style=filled, "
 -			       "fillcolor=yellow]\n",
 +			printf("\tn%08x [label=\"#%u\\n%s\\n%s\", shape=box, style=filled, "
-+			       "fillcolor=yellow]\n", entity->info.id,
- 			       entity->info.id, entity->info.name, entity->devname);
++			       "fillcolor=yellow]\n", info->id,
+ 			       info->id, info->name, devname);
  			break;
  
  		case MEDIA_ENT_T_V4L2_SUBDEV:
--			printf("\tn%08x [label=\"{{", entity->info.id);
+-			printf("\tn%08x [label=\"{{", info->id);
 -
--			for (j = 0, npads = 0; j < entity->info.pads; ++j) {
--				if (!(entity->pads[j].flags & MEDIA_PAD_FL_SINK))
+-			for (j = 0, npads = 0; j < info->pads; ++j) {
+-				const struct media_pad *pad = media_entity_get_pad(entity, j);
+-
+-				if (!(pad->flags & MEDIA_PAD_FL_SINK))
 -					continue;
 -
 -				printf("%s<port%u> %u", npads ? " | " : "", j, j);
 -				npads++;
-+			for (j = 0; j < entity->info.pads && !have_sink; ++j)
-+				if (entity->pads[j].flags & MEDIA_PAD_FL_SINK)
++			for (j = 0; j < info->pads && !have_sink; ++j)
++				if (media_entity_get_pad(entity, j)->flags & MEDIA_PAD_FL_SINK)
 +					have_sink = true;
 +
-+			for (j = 0; j < entity->info.pads && !have_source; ++j)
-+				if (entity->pads[j].flags & MEDIA_PAD_FL_SOURCE)
++			for (j = 0; j < info->pads && !have_source; ++j)
++				if (media_entity_get_pad(entity, j)->flags & MEDIA_PAD_FL_SOURCE)
 +					have_source = true;
 +
-+			printf("\tn%08x [label=\"{", entity->info.id);
++			printf("\tn%08x [label=\"{", info->id);
 +			if (have_sink) {
 +				printf("{");
 +
-+				for (j = 0, npads = 0; j < entity->info.pads; ++j) {
-+					if (!(entity->pads[j].flags & MEDIA_PAD_FL_SINK))
++				for (j = 0, npads = 0; j < info->pads; ++j) {
++					const struct media_pad *pad = media_entity_get_pad(entity, j);
++
++					if (!(pad->flags & MEDIA_PAD_FL_SINK))
 +						continue;
 +
 +					printf("%s<port%u> [%u]", npads ? " | " : "", j, j);
@@ -83,33 +87,36 @@ Index: git/src/main.c
 +				printf("} | ");
  			}
  
--			printf("} | %s", entity->info.name);
-+			printf("#%u\\n%s", entity->info.id, entity->info.name);
- 			if (entity->devname)
- 				printf("\\n%s", entity->devname);
+-			printf("} | %s", info->name);
++			printf("#%u\\n%s", info->id, info->name);
++
+ 			if (devname)
+ 				printf("\\n%s", devname);
 -			printf(" | {");
  
--			for (j = 0, npads = 0; j < entity->info.pads; ++j) {
--				if (!(entity->pads[j].flags & MEDIA_PAD_FL_SOURCE))
--					continue;
+-			for (j = 0, npads = 0; j < info->pads; ++j) {
+-				const struct media_pad *pad = media_entity_get_pad(entity, j);
 +			if (have_source) {
 +				printf(" | {");
++
++				for (j = 0, npads = 0; j < info->pads; ++j) {
++					const struct media_pad *pad = media_entity_get_pad(entity, j);
+ 
+-				if (!(pad->flags & MEDIA_PAD_FL_SOURCE))
+-					continue;
++					if (!(pad->flags & MEDIA_PAD_FL_SOURCE))
++						continue;
  
 -				printf("%s<port%u> %u", npads ? " | " : "", j, j);
 -				npads++;
-+				for (j = 0, npads = 0; j < entity->info.pads; ++j) {
-+					if (!(entity->pads[j].flags & MEDIA_PAD_FL_SOURCE))
-+						continue;
-+
 +					printf("%s<port%u> [%u]", npads ? " | " : "", j, j);
 +					media_print_port_dot(entity, j, V4L2_SUBDEV_FORMAT_ACTIVE);
 +					npads++;
 +				}
 +				printf("}");
  			}
--
+ 
 -			printf("}}\", shape=Mrecord, style=filled, fillcolor=green]\n");
-+
 +			printf("}\", shape=Mrecord, style=filled, fillcolor=green]\n");
  			break;
  
