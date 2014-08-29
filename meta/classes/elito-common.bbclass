@@ -341,6 +341,7 @@ ELITO_COMMON_PROGRAMS-v4l = "\
   gst-plugins-bad-fbdevsink \
   gst-plugins-base-ffmpegcolorspace \
   gst-plugins-good-video4linux2 \
+  gst-plugins-good-tcp \
   gst-plugins-base-typefindfunctions \
   gst-plugins-base-apps \
 "
