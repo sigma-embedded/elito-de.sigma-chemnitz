@@ -31,6 +31,7 @@ all:		${_dtbs}
 	$(DTC) $(DTC_FLAGS) -I dts $(abspath $<) -o $(abspath $@) -O dtb
 
 %-preproc.dts:	%.dts
+	@-rm -f $@
 	$(CPP) $(AM_DTC_CPPFLAGS) $(DTC_CPPFLAGS) -o $@ $<
 	@chmod a-w '$@'
 
