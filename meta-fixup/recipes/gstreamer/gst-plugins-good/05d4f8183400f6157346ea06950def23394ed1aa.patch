@@ -1,0 +1,32 @@
+From 05d4f8183400f6157346ea06950def23394ed1aa Mon Sep 17 00:00:00 2001
+From: Huacai Chen <chenhc@lemote.com>
+Date: Tue, 21 Aug 2012 19:47:45 +0800
+Subject: v4l2: make gst_v4l2_fill_lists() adapt to kernel 3.3+
+
+When do v4l2_ioctl() with VIDIOC_ENUMINPUT fails on some devices,
+kernels before 3.3.0 return EINVAL, but newer kernels return ENOTTY.
+This patch make those devices work well on kernel 3.3+.
+
+Related kernel commit:
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux.git;a=commit;h=07d106d0a33d6063d2061305903deb02489eba20
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Signed-off-by: Rui Wang <wangr@lemote.com>
+Signed-off-by: Jie Chen <chenj@lemote.com>
+
+diff --git a/sys/v4l2/v4l2_calls.c b/sys/v4l2/v4l2_calls.c
+index ace78df..2f79627 100644
+--- a/sys/v4l2/v4l2_calls.c
++++ b/sys/v4l2/v4l2_calls.c
+@@ -129,7 +129,7 @@ gst_v4l2_fill_lists (GstV4l2Object * v4l2object)
+ 
+     input.index = n;
+     if (v4l2_ioctl (v4l2object->video_fd, VIDIOC_ENUMINPUT, &input) < 0) {
+-      if (errno == EINVAL)
++      if (errno == EINVAL || errno == ENOTTY)
+         break;                  /* end of enumeration */
+       else {
+         GST_ELEMENT_ERROR (e, RESOURCE, SETTINGS,
+-- 
+cgit v0.10.2
+

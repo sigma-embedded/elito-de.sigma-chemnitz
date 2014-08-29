@@ -5,6 +5,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 SRC_URI += "\
   file://v4l-raw.patch \
   file://other-bayer.patch \
+  file://05d4f8183400f6157346ea06950def23394ed1aa.patch \
 "
 
 oe_runconf_prepend() {
