@@ -3,16 +3,12 @@ LICENSE      = "GPLv3"
 PV	     = "1.1"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 do_distribute_sources() {
 }
 
 inherit packagegroup
-
-
-# !! DO NOT MOVE IT TO TOP !!
-# Else, the task class sets PACKAGE_ARCH to 'all' which will override
-# value here.
-PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 #
 # those ones can be set in machine config to supply packages needed to

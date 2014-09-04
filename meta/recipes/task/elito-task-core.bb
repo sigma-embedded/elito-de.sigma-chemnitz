@@ -2,17 +2,14 @@ DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 PV = "1.1"
 
 do_distribute_sources() {
 }
 
 inherit packagegroup
-
-# !! DO NOT MOVE IT TO TOP !!
-# Else, the task class sets PACKAGE_ARCH to all which will override
-# value here.
-PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 #
 # udev, devfsd, busybox-mdev or none
