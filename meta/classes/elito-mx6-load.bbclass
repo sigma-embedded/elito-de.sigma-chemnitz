@@ -1,5 +1,6 @@
 SRCREV_FORMAT = "default"
-SRC_URI += "${ELITO_GIT_REPO}/pub/elito-mx6-load.git;name=mx6-load;destsuffix=mx6-load/"
+MX6_LOAD_BRANCH ?= "master"
+SRC_URI += "${ELITO_GIT_REPO}/pub/elito-mx6-load.git;name=mx6-load;destsuffix=mx6-load/;branch=${MX6_LOAD_BRANCH}"
 
 DEPENDS += "barebox elito-devicetree"
 
