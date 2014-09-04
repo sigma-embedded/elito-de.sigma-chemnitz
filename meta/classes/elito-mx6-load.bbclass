@@ -2,7 +2,10 @@ SRCREV_FORMAT = "default"
 MX6_LOAD_BRANCH ?= "master"
 SRC_URI += "${ELITO_GIT_REPO}/pub/elito-mx6-load.git;name=mx6-load;destsuffix=mx6-load/;branch=${MX6_LOAD_BRANCH}"
 
-DEPENDS += "barebox elito-devicetree"
+DEPENDS += "\
+  ${@bb.utils.contains('MACHINES_FEATURES', 'barebox', 'barebox', '', d)} \
+  elito-devicetree \
+"
 
 MX6LOAD_VARIANTS ?= "${@mx6_load_get_variants(d)}"
 MX6LOAD_SOCTYPES ?= "${@mx6_load_get_soctypes(d)}"
