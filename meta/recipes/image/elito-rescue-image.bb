@@ -34,7 +34,7 @@ BAD_RECOMMENDATIONS += "busybox-syslog-systemd systemd"
 inherit image elito-image
 
 PROVIDES += "virtual/rescue-image"
-DEPENDS += "sysvinit elito-image-stream-native"
+DEPENDS += "sysvinit elito-base-files elito-image-stream-native"
 
 rootfs_install_all_locales() {
     :
@@ -44,8 +44,6 @@ rescue_fixup_rootfs() {
     cd ${IMAGE_ROOTFS}
 
     rm -rf dev
-
-    ! test -e lib/systemd
 
     for i in run-postinsts stop-bootlogd syslog busybox-udhcpc busybox-cron syslog.busybox; do
 	rm -f etc/init.d/$i etc/rc*.d/[SK][0-9][0-9]$i
@@ -67,11 +65,15 @@ l3:3:wait:/etc/init.d/rc 3
 S:2345:respawn:/sbin/getty ${SERIAL_CONSOLE}
 EOF
 
+    rm -f etc/mtab
     ln -s ../proc/mounts etc/mtab
-    rm -f tmp var/tmp
+    rm -f tmp var/tmp var/lock
 
-    install -d -m 0755 dev proc sys mnt media run tmp var/log var/lock root
+    install -d -m 0755 run run/lock
+    install -d -m 0755 dev proc sys mnt media run tmp var/log root
+
     ln -s ../tmp var/tmp
+    ln -s ../run/lock var/lock
 
     mknod -m 0600 dev/console c 5 1
 
@@ -85,6 +87,14 @@ rescue_cleanup_rootfs() {
     rm -rf var/lib/opkg
     rm -rf usr/lib/opkg
     rm -f sbin/ldconfig
+
+    rm -vf lib/systemd/system/*.service
+    rmdir lib/systemd/system || :
+    rmdir lib/systemd || :
+
+    ! test -e lib/systemd
+
+    rm -rf etc/systemd
 
     cd -
 }
