@@ -71,9 +71,9 @@ python systemd_elito_populate_packages () {
         'remount-rootfs' : ['remount-rootfs.service'],
         'swap' : ['swap.target'],
         'tmpfs' : ['tmp.mount'],
-        'logind' : ['systemd-logind.service',
-                    'dbus-org.freedesktop.login1.service',
-                    'org.freedesktop.login1.busname' ],
+        'logind' : [ 'systemd-logind.service',
+                     'dbus-org.freedesktop.login1.service',
+                     'org.freedesktop.login1.busname' ],
         'user-sessions' : ['systemd-user-sessions.service',
                            'systemd-ask-password-wall.path'],
         'random-seed' : ['systemd-random-seed.service'],
@@ -86,17 +86,37 @@ python systemd_elito_populate_packages () {
                        'systemd-readahead-replay.service',
                        'systemd-readahead-collect.service'],
         'bootchart' : [ ],
+        'localed' : [ 'systemd-localed.service',
+                      'org.freedesktop.locale1.busname',
+                      'dbus-org.freedesktop.locale1.service'],
         'networkd' : [ 'network.target',
                        'network-pre.target',
                        'network-online.target',
                        'systemd-networkd-wait-online.service',
                        'systemd-networkd.service' ],
+        'hostnamed' : [ 'systemd-hostnamed.service',
+                        'org.freedesktop.hostname1.busname',
+                        'dbus-org.freedesktop.hostname1.service' ],
+        'machined' : [ 'systemd-machined.service',
+                       'dbus-org.freedesktop.machine1.service',
+                       'org.freedesktop.machine1.busname',
+                       ],
+        'nspawn' : [ 'systemd-nspawn@.service' ],
         'resolved' : [ 'systemd-resolved.service',
+                       'org.freedesktop.resolve1.busname',
                        'dbus-org.freedesktop.resolve1.service' ],
         'timesyncd' : [ 'systemd-timesyncd.service' ],
         'ldconfig' : [ 'ldconfig.service' ],
         'sysusers' : [ 'systemd-sysusers.service' ],
         'journal-upload' : [ 'systemd-journal-upload.service' ],
+        'ask-password' : [ 'systemd-ask-password-console.path',
+                           'systemd-ask-password-console.service',
+                           'systemd-ask-password-wall.service',
+                       ],
+        'timedated' : [ 'dbus-org.freedesktop.timedate1.service',
+                        'systemd-timedated.service',
+                        'org.freedesktop.timedate1.busname',
+                        ]
         }
 
     xtra_paths = {
@@ -107,12 +127,34 @@ python systemd_elito_populate_packages () {
                         '${libdir}/systemd/network',
                         '${libdir}/tmpfiles.d/systemd-networkd.conf',
                         '${base_bindir}/networkctl' ],
+        'localed' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.locale1.conf',
+                      '${datadir}/polkit-1/actions/org.freedesktop.locale1.policy',
+                      '${bindir}/localectl' ],
+        'hostnamed' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.hostname1.conf',
+                        '${datadir}/polkit-1/actions/org.freedesktop.hostname1.policy',
+                        '${bindir}/hostnamectl' ],
+        'machined' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf' ],
+        'nspawn' : [ '${bindir}/systemd-nspawn' ],
         'timesyncd' : [ '${libdir}/systemd/systemd-timesyncd' ],
         'sysusers' :  [ '${libdir}/sysusers.d',
                         '${base_bindir}/systemd-sysusers' ],
-        'resolved' : [ '${libdir}/systemd/systemd-resolve-host' ],
-        'logind' : [ '${base_bindir}/loginctl' ],
+        'resolved' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.resolve1.conf',
+                       '${libdir}/systemd/systemd-resolve-host',
+                       '${sysconfdir}/dbus-1/system.d/org.freedesktop.login1.conf',
+                       '${systemd_bindir}/systemd-resolve-host',
+                   ],
+        'logind' : [ '${base_bindir}/loginctl',
+                     '${sysconfdir}/xdg/systemd/user',
+                     '${datadir}/polkit-1/actions/org.freedesktop.login1.policy',
+                 ],
         'journal-upload' : [ '${libdir}/tmpfiles.d/systemd-remote.conf' ],
+        'ask-password' : [ '${systemd_bindir}/systemd-reply-password',
+                           '${base_bindir}/systemd-ask-password',
+                           '${base_bindir}/systemd-tty-ask-password-agent' ],
+        'timedated' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.timedate1.conf',
+                        '${bindir}/timedatectl',
+                        '${datadir}/polkit-1/actions/org.freedesktop.timedate1.policy',
+],
     }
 
     pkgs = ''
@@ -129,6 +171,8 @@ python systemd_elito_populate_packages () {
                      '${sysconfdir}/systemd/system/%s.wants' % x, i)
         files += map(lambda x:
                      '${sysconfdir}/systemd/system/*/%s' % x, i)
+        files += map(lambda x:
+                     '${datadir}/dbus-1/system-services/%s' % x.strip('dbus-'), i)
         files += ['${sysconfdir}/systemd/%s.conf' % _p,
                   '${systemd_unitdir}/systemd-%s' % _p]
         files += map(lambda x:
@@ -144,10 +188,19 @@ python systemd_elito_populate_packages () {
 }
 PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages "
 
-PACKAGES += "libgudev libnss-mymachine libnss-resolve"
+PACKAGES =+ "libgudev libnss-mymachines libnss-resolve libnss-myhostname ${PN}-utils"
 FILES_libgudev = "${libdir}/libgudev*.so.*"
-FILES_libnss-mymachine = "${libdir}/libnss_mymachines.so.*"
+FILES_libnss-myhostname = "${libdir}/libnss_myhostname.so.*"
+FILES_libnss-mymachines = "${libdir}/libnss_mymachines.so.*"
 FILES_libnss-resolve = "${libdir}/libnss_resolve.so.*"
+
+FILES_${PN}-utils = "\
+  ${bindir}/busctl \
+  ${bindir}/systemd-cgls \
+  ${bindir}/systemd-cgtop \
+  ${bindir}/systemd-delta \
+  ${bindir}/systemd-detect-virt \
+"
 
 PACKAGES =+ "${PN}-bash-completion"
 FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
