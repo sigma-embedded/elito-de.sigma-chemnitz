@@ -42,6 +42,10 @@ DEPENDS += "elito-kernel dtc-native ${MACH_DEPENDS}"
 
 inherit deploy elito-machdata
 
+do_compile() {
+    oe_runmake
+}
+
 do_install() {
     oe_runmake install DESTDIR=${D}
     install -D -p -m 0644 ${WORKDIR}/Makefile ${D}${MACHDATADIR}/devicetree.mk
