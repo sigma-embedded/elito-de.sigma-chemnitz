@@ -32,7 +32,7 @@ all:		${_dtbs}
 
 %-preproc.dts:	%.dts
 	@-rm -f $@
-	$(CPP) $(AM_DTC_CPPFLAGS) $(DTC_CPPFLAGS) -o $@ $<
+	$(CPP) $(DTC_CPPFLAGS) $(AM_DTC_CPPFLAGS) -o $@ $<
 	@chmod a-w '$@'
 
 -include $(foreach v,$(VARIANT),.$v-preproc.dts.d)
