@@ -22,6 +22,10 @@ _start	= env $(addprefix -u ,$(_bad_env)) $(ENV) ELITO_NO_SECWRAP_CMD=1 $(_secwr
 ## export all variables by default
 export
 
+# 'make' builtin compile rules expect TARGET_ARCH to be a compile
+# flag; do not export this variable
+unexport TARGET_ARCH
+
 define __include_cfg
 -include $${PROJECT_TOPDIR}/mk/common.mk
 
