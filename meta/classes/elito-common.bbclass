@@ -171,6 +171,10 @@ ELITO_COMMON_KERNEL_MODULES-wm97xx += "\
   ${@base_contains('MACHINE_FEATURES', 'restouch', 'kernel-module-wm97xx-ts', '', d)} \
 "
 
+ELITO_COMMON_KERNEL_MODULES-sata += "\
+  kernel-module-scsi-mod \
+"
+
 ELITO_COMMON_KERNEL_MODULES-core = "\
   kernel-module-configfs \
   kernel-module-configs \
