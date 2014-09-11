@@ -19,3 +19,7 @@ ELITO_COMMON_KERNEL_MODULES-fb = "\
   kernel-module-ci_hdrc_imx \
   kernel-module-imx-ipuv3-crtc \
 "
+
+ELITO_COMMON_KERNEL_MODULES-sata = "\
+  kernel-module-ahci-imx \
+"
