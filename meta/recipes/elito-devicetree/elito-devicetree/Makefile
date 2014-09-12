@@ -35,7 +35,7 @@ all:		${_dtbs}
 	$(CPP) $(DTC_CPPFLAGS) $(AM_DTC_CPPFLAGS) -o $@ $<
 	@chmod a-w '$@'
 
--include $(foreach v,$(VARIANT),.$v-preproc.dts.d)
+-include $(foreach v,$(VARIANTS),.$v-preproc.dts.d)
 
 $(DESTDIR)$(pkgdatadir):
 	$(INSTALL) -d -m 0755 $@
