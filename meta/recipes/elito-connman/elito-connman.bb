@@ -12,6 +12,6 @@ inherit gitpkgv autotools
 DEPENDS = "dbus-glib"
 SRC_URI = "${ELITO_GIT_REPO}/pub/elito-connman.git;protocol=git"
 
-EXTRA_OEMAKE = "prefix=${prefix} bindir=${bindir}"
+EXTRA_OEMAKE = "-e prefix=${prefix} bindir=${bindir}"
 
 S = "${WORKDIR}/git"
