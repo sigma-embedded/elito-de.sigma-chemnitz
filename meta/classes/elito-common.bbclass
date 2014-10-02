@@ -20,6 +20,8 @@ def elito_common_expand(v,d):
 
     features = set(machine_features + distro_features)
     initsys  = 'initsys-%s' % (d.getVar('IMAGE_INIT_MANAGER', True) or "none")
+    networkd = 'networkd-%s' % (d.getVar("ELITO_NETWORKD", True) or "none")
+    features.add(networkd)
     features.add(initsys)
     features.add('core')
     cnt = len(features) + 1
@@ -30,9 +32,11 @@ def elito_common_expand(v,d):
             if base in features:
                 features.update(impl)
 
+
     res  = set()
     deps = set(["MACHINE_FEATURES", "DISTRO_FEATURES",
-                "ELITO_COMMON_BLACKLIST", "IMAGE_INIT_MANAGER"])
+                "ELITO_COMMON_BLACKLIST", "IMAGE_INIT_MANAGER",
+                "ELITO_NETWORKD"])
     deps.update((d.getVarFlag(v, 'vardeps', True) or "").split())
 
     for f in features:
@@ -41,11 +45,6 @@ def elito_common_expand(v,d):
             if xtra:
                 deps.add(var)
                 res = res.union(xtra.split())
-
-    networkd = d.getVar("ELITO_NETWORKD", True)
-    deps.add("ELITO_NETWORKD")
-    if networkd:
-        res.add("networkd-%s" % networkd)
 
     d.setVarFlag(v, 'vardeps', ' '.join(sorted(deps)))
 
