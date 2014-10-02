@@ -1,4 +1,4 @@
-SRCREV = "3b6f52f81498df67be2ba36898cea264187aa8db"
+SRCREV = "1f0e59fa5b5192eb468a6747b2615782f558567c"
 _pv = "0.33"
 
 inherit gitpkgv
