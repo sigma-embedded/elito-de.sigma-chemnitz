@@ -43,9 +43,9 @@ def elito_common_expand(v,d):
                 res = res.union(xtra.split())
 
     networkd = d.getVar("ELITO_NETWORKD", True)
+    deps.add("ELITO_NETWORKD")
     if networkd:
         res.add("networkd-%s" % networkd)
-        deps.add("ELITO_NETWORKD")
 
     d.setVarFlag(v, 'vardeps', ' '.join(sorted(deps)))
 
