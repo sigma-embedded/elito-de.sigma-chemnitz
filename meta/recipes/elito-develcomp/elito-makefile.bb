@@ -46,6 +46,7 @@ _export_vars = " \
 	+CXXFLAGS	\
 	ELITO_TOPDIR	\
 	ELITO_ROOTDIR	\
+	ELITO_PROJECT_UUID \
 	FAKEROOTDIRS	\
 	FAKEROOTENV	\
 	FAKEROOTNOENV	\
@@ -141,6 +142,7 @@ python __anonymous () {
                           elito_quote(x).replace('$\\{', "$''{"), sed)))
 }
 
+do_setup_makefile[vardeps] += "ELITO_PROJECT_UUID"
 do_setup_makefile[dirs] = "${WORKDIR}/setup-makefile"
 do_setup_makefile() {
         set >&2
