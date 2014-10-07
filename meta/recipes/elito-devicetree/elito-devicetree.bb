@@ -56,3 +56,4 @@ do_deploy() {
 }
 
 FILES_${PN}-dev += "${MACHDATADIR}/*.dtb  ${MACHDATADIR}/*.mk"
+RDEPENDS_${PN}-dev += "make"

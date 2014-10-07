@@ -33,3 +33,5 @@ do_configure() {
 do_install_pn-${PN}() {
     install -D -p -m 0755 build-dtree ${D}${bindir}/elito-build-dtree
 }
+
+RDEPENDS_${PN} += "bash"

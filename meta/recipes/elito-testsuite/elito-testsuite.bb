@@ -24,7 +24,7 @@ do_install() {
         mv ${D}${bindir}/runtests ${D}${bindir}/elito-runtests
 }
 
-RDEPENDS_${PN} += "make"
+RDEPENDS_${PN} += "make bash"
 FILES_${PN}-dbg += "${libexecdir}/*/.debug"
 
 python populate_packages_prepend () {
