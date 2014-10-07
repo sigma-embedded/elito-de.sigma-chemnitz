@@ -1,0 +1,69 @@
+#! /bin/bash
+
+emit_u8() {
+    local v=`printf '%x' "$1"`
+    printf "\\x$v"
+}
+
+emit_u16() {
+    emit_u8 $(( ($1 >>  0) & 0xff ))
+    emit_u8 $(( ($1 >>  8) & 0xff ))
+}
+
+emit_u32() {
+    emit_u16 $(( ($1 >>  0) & 0xffff ))
+    emit_u16 $(( ($1 >> 16) & 0xffff ))
+}
+
+write_mx28_bootimage() {
+    local part=$1
+    local dev=/dev/${UPDATE_DST}$1
+    local s0=$2
+    local s1=$3
+
+    local sz0
+    local sz1
+    local st0
+    local st1
+    local geo
+    local physdrv=`readlink -f /dev/${UPDATE_DST}`
+ 
+    physdrv=${physdrv##/dev/}
+    read geo < /sys/class/block/${physdrv}p${part}/start
+
+    sz0=`stat -c %s "$s0"`
+    sz1=`stat -c %s "$s1"`
+
+    sz0=$(( (sz0 + 511) / 512 ))
+    sz1=$(( (sz1 + 511) / 512 ))
+
+    st0=$(( geo + 1 ))
+    st1=$(( st0 + sz0 ))
+
+    {
+      emit_u32 0x00112233		# signature
+      emit_u32 0			# primary boot tag
+      emit_u32 1			# secondary boot tag
+      emit_u32 2			# num entries
+
+      # bootstream0
+      emit_u32 0			# chip select; unused
+      emit_u32 0			# drive type; unused
+      emit_u32 0			# drive tag
+      
+      emit_u32 $st0
+      emit_u32 $sz0
+
+      # bootstream1
+      emit_u32 0			# chip select; unused
+      emit_u32 0			# drive type; unused
+      emit_u32 1			# drive tag
+      
+      emit_u32 $st1
+      emit_u32 $sz1
+
+    } | dd of="$dev" bs=512
+
+    dd if="$s0" of="$dev" bs=512 seek=1
+    dd if="$s1" of="$dev" bs=512 seek=$(( sz0 + 1 ))
+}
