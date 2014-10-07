@@ -13,6 +13,7 @@ SRC_URI = "\
   file://dhcp-notify \
   file://dhcp-ntpd \
   file://set-time \
+  file://rc.d/sysinit \
   file://rc.d/scan-blockdev \
   file://rc.d/syslog \
   file://rc.d/network-dhcp \
@@ -22,7 +23,8 @@ SRC_URI = "\
 "
 
 python () {
-    rc_d = [ (20, "syslog", ""),
+    rc_d = [ (03, "sysinit", ""),
+             (20, "syslog", ""),
              (21, "scan-blockdev", ""),
              (25, "network-dhcp", ""),
              (80, "httpd", ""),
