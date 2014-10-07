@@ -79,6 +79,8 @@ do_install() {
 PACKAGES += "${PN}-dhcp-notify ${PN}-dhcp-ntpd"
 RPROVIDES_${PN} += "virtual/rescue-conf"
 
+RRECOMMENDS_${PN} += "${PN}-sysv-sysinit"
+
 CONFFILES_${PN} = "${sysconfdir}/elito-rescue.conf"
 FILES_${PN} = "/init ${sysconfdir}/elito-rescue.conf"
 FILES_${PN}-dhcp-notify = "${sysconfdir}/udhcpc.d/90notify"
