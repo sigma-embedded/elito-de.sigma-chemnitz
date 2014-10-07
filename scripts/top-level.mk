@@ -254,7 +254,7 @@ push:		.push-$1
 .push-$1:	$$(foreach r,$$(PUSH_REMOTES_$1) $$(PUSH_REMOTES_COMMON),\
 		   ..push+$$r+$1)
 ..push+%+$1:
-	cd $$(PUSH_DIR_$1) && $$(GIT) push $$* $${PUSH_BRANCHES_$1} $$(PO)
+	cd $$(PUSH_DIR_$1) && $$(GIT) push $$* $$(foreach b,$${PUSH_BRANCHES_$1},refs/$$b:refs/$$b) $$(PO)
 
 .generate-pack-$1:
 	@echo "Packaging repo $1"
