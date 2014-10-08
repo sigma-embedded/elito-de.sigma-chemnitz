@@ -92,10 +92,13 @@ def kernel_early_options(d):
     have_initrd = (is_feature('initrd') or
                    ('cpio' in set(map(lambda x: x.split('.')[0],
                                       d.getVar('IMAGE_FSTYPES', True).split()))))
+    have_earlyprintk = 'earlyprintk' in (d.getVar('KERNEL_CMDLINE', True) or '').split()
 
     o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
-            'CMDLINE', "${KERNEL_CMDLINE}", ],
+            ['CMDLINE', "${KERNEL_CMDLINE}" ], 
+            [ 'EARLY_PRINTK', [False, YES][have_earlyprintk] ],
+          ],
           [ True,
             [ 'CMDLINE_FROM_BOOTLOADER', [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'bootloader'] ],
             [ 'CMDLINE_EXTEND',          [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'extend'] ],
