@@ -1,4 +1,5 @@
-SRCREV_FORMAT = "default"
+_MX6_LOAD_SRCREV_FORMAT = "default_mx6-load"
+SRCREV_FORMAT ?= "${_MX6_LOAD_SRCREV_FORMAT}"
 MX6_LOAD_BRANCH ?= "master"
 SRC_URI += "${ELITO_GIT_REPO}/pub/elito-mx6-load.git;name=mx6-load;destsuffix=mx6-load/;branch=${MX6_LOAD_BRANCH}"
 
@@ -12,6 +13,8 @@ MX6LOAD_SOCTYPES ?= "${@mx6_load_get_soctypes(d)}"
 KERNEL_MACHTYPE ?= "0xffffffff"
 
 EXTRA_MX6LOAD_FLAGS ?= ""
+
+do_fetch[vardeps] += "SRCREV_mx6-load"
 
 mx6_load_get_variants[vardeps] += "MACHINE_VARIANTS"
 def mx6_load_get_variants(d):
