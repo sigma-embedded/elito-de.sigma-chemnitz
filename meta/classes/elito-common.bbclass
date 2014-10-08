@@ -223,6 +223,14 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-mtd = "\
   mtd-utils \
 "
 
+ELITO_COMMON_DIAGNOSIS_TOOLS-jffs2 = "\
+  ${@bb.utils.contains('MACHINE_FEATURES', 'mtd', 'mtd-utils-jffs2', '', d)} \
+"
+
+ELITO_COMMON_DIAGNOSIS_TOOLS-ubifs = "\
+  ${@bb.utils.contains('MACHINE_FEATURES', 'mtd', 'mtd-utils-ubifs', '', d)} \
+"
+
 ELITO_COMMON_DIAGNOSIS_TOOLS-screen = "\
   fbset \
 "

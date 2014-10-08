@@ -6,6 +6,8 @@ PV = "0.1.1"
 OVERRIDES .= "${@base_contains('MACHINE_FEATURES', 'imx-bootlets', \
                                ':img-imx-bootlets','',d)}"
 
+ORIG_IMAGE_FSTYPES := "${IMAGE_FSTYPES}"
+
 _default_image_rescue_rootfs := "${IMAGE_ROOTFS}-rescue"
 
 SUPPORTED_IMAGE_FEATURES = "debug-tweaks"
@@ -25,6 +27,9 @@ IMAGE_INSTALL = "\
   busybox \
   base-passwd \
   sysvinit \
+  ${@bb.utils.contains('ORIG_IMAGE_FSTYPES', 'jffs2', 'mtd-utils-jffs2', '', d)} \
+  ${@bb.utils.contains('ORIG_IMAGE_FSTYPES', 'ubifs', 'mtd-utils-ubifs', '', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES', 'mtd', 'mtd-utils', '', d)} \
 "
 
 ROOTFS_POSTINSTALL_COMMAND += "rescue_fixup_rootfs"
