@@ -15,6 +15,8 @@ SRC_URI = "\
   file://set-time \
   file://rc.d/sysinit \
   file://rc.d/scan-blockdev \
+  file://rc.d/scan-mtd \
+  file://rc.d/scan-ubi \
   file://rc.d/syslog \
   file://rc.d/network-dhcp \
   file://rc.d/httpd \
@@ -26,6 +28,8 @@ python () {
     rc_d = [ (03, "sysinit", ""),
              (20, "syslog", ""),
              (21, "scan-blockdev", ""),
+             (21, "scan-mtd", ""),
+             (21, "scan-ubi", ""),
              (25, "network-dhcp", ""),
              (80, "httpd", ""),
              (80, "tcpstream", ""),
