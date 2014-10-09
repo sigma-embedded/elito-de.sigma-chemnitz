@@ -28,8 +28,10 @@ IMAGE_INSTALL = "\
   base-passwd \
   sysvinit \
   ${@bb.utils.contains('ORIG_IMAGE_FSTYPES', 'jffs2', 'mtd-utils-jffs2', '', d)} \
-  ${@bb.utils.contains('ORIG_IMAGE_FSTYPES', 'ubifs', 'mtd-utils-ubifs', '', d)} \
-  ${@bb.utils.contains('MACHINE_FEATURES', 'mtd', 'mtd-utils', '', d)} \
+  ${@bb.utils.contains('ORIG_IMAGE_FSTYPES', 'ubifs', \
+                       'mtd-utils-ubifs elito-rescue-base-sysv-scan-ubi', '', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES', 'mtd', \
+                       'mtd-utils elito-rescue-base-sysv-scan-mtd', '', d)} \
 "
 
 ROOTFS_POSTINSTALL_COMMAND += "rescue_fixup_rootfs"
