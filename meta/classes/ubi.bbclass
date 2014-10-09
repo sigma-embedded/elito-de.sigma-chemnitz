@@ -43,6 +43,41 @@ def ubi_byte_to_leb(var_name, d):
     src = int(d.getVar(var_name, True), 0) * 1024
     return src/ubi_get_nand_leb_size(d)
 
+def ubi_add_ubifs(sizes, d):
+    types = []
+    sz = sizes.split()
+
+    d.delVar('NAND_BLOCKSIZE')
+    d.delVar('NAND_PAGESIZE')
+    d.delVar('FLASH_SIZE')
+
+    for t in d.getVar('IMAGE_FSTYPES', True).split():
+        if t != 'ubifs':
+            types.append(t)
+        else:
+            types.extend(map(lambda x: '%s-%s' % (t, x), sz))
+
+    d.setVar('IMAGE_FSTYPES', ' '.join(types))
+
+    overrides = d.getVar('OVERRIDES', True)
+    deps = []
+    for s in sz:
+        ld = d.createCopy()
+
+        ld.setVar('OVERRIDES', '%s:nand-%s' % (overrides, s))
+        ld.finalize(False)
+
+        cmd = ld.getVar('IMAGE_CMD_ubifs', True)
+        cmd = cmd.replace('rootfs.ubifs', 'rootfs.ubifs-%s' % s)
+
+        name = 'IMAGE_CMD_ubifs-%s' % s
+
+        d.setVar(name, cmd)
+        d.setVarFlag(name, 'vardepvalue', cmd)
+        deps.append(name)
+
+    d.appendVarFlag('do_rootfs', 'vardeps', ' ' + ' '.join(deps))
+
 ubi_gen_ini() {
 	cat << EOF > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubi.ini
 ${@ubi_gen_ini_data('UBI_VOLUMES', d)}
