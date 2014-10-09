@@ -40,7 +40,7 @@ def ubi_gen_ini_data(info_name,d):
 
 def ubi_byte_to_leb(var_name, d):
     import bb
-    src = int(d.getVar(var_name, True), 0)
+    src = int(d.getVar(var_name, True), 0) * 1024
     return src/ubi_get_nand_leb_size(d)
 
 ubi_gen_ini() {
