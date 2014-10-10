@@ -52,8 +52,13 @@ do_install() {
 }
 
 do_deploy() {
-    install -D -p -m 0644 *.dtb ${DEPLOYDIR}/oftree
+    for i in *.dtb; do
+	dname=${i%%.dtb}-"${EXTENDPKGV}".dtb
+    	install -D -p -m 0644 "$i" ${DEPLOYDIR}/"$dname"
+	ln -s "$dname" ${DEPLOYDIR}/"$i"
+    done
 }
+addtask deploy before do_package after do_compile
 
 FILES_${PN}-dev += "${MACHDATADIR}/*.dtb  ${MACHDATADIR}/*.mk"
 RDEPENDS_${PN}-dev += "make"
