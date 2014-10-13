@@ -66,6 +66,16 @@ do_install_append() {
     ${@base_contains("PROJECT_FEATURES", "select-touch", "rm -f ${D}${sysconfdir}/udev/rules.d/touchscreen.rules", ":", d)}
 }
 
+ELITO_SYSTEMD_PACKAGECONFIG_ALL = "resolved networkd"
+ELITO_SYSTEMD_PACKAGECONFIG = "\
+  ${@['', 'resolved networkd'][d.getVar('ELITO_NETWORKD', True) == 'systemd']} \
+"
+
+PACKAGECONFIG_append = " ${ELITO_SYSTEMD_PACKAGECONFIG}"
+PACKAGECONFIG_remove = " ${@' '.join(\
+  set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG_ALL').split()) - \
+  set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG')))}"
+
 python systemd_elito_populate_packages () {
     pkg_info = {
         'remount-rootfs' : ['remount-rootfs.service'],
