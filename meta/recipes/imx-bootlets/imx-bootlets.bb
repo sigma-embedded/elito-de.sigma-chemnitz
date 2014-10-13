@@ -20,8 +20,7 @@ S = "${WORKDIR}/git"
 
 CFLAGS += "-fno-builtin-putc -fno-builtin-printf"
 CFLAGS += "-mno-thumb-interwork -fomit-frame-pointer"
-CFLAGS += "-fuse-linker-plugin -flto"
-LDFLAGS += "-Wl,-gc-sections -fuse-linker-plugin -flto"
+LDFLAGS += "-fuse-ld=bfd"
 
 DEPENDS += "mx28-pins"
 
