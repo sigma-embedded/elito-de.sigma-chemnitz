@@ -3,8 +3,8 @@ SECTION = "base"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-SRCREV = "8dda3f5f2e59dc7990eb2f04abbb23893b976862"
-_pv = "0.4.8"
+SRCREV = "c6a989fdba92bb432401aca328fa6789b80f5709"
+_pv = "0.4.10"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -18,6 +18,8 @@ inherit gitpkgv
 SRC_URI		= " \
   ${ELITO_GIT_REPO}/pub/elito-systemd-conf.git \
   file://05-elito.conf \
+  file://05-elito-network.conf \
+  file://05-elito-network_systemd.conf \
   file://systemd.profile \
   file://device-touchscreen.target \
 "
@@ -60,6 +62,10 @@ do_configure() {
 
 do_install[dirs] = "${WORKDIR}"
 do_install() {
+    f='05-elito-network_${ELITO_NETWORKD}.conf'
+    test -e "$f" || f='05-elito-network.conf'
+    install -D -p -m 0644 "$f" ${D}${libdir}/tmpfiles.d/05-elito-network.conf
+
     install -D -p -m 0644 05-elito.conf ${D}${libdir}/tmpfiles.d/05-elito.conf
     install -D -p -m 0644 systemd.profile ${D}${sysconfdir}/profile.d/systemd.sh
 
