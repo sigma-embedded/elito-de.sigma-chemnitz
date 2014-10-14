@@ -14,6 +14,7 @@ SRC_URI += "\
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
   file://networkd-split.patch \
   file://no-needs-update-on-ro.patch \
+  file://0001-added-SendClientId-option-to-disable-sending-of-dhcp.patch \
 "
 
 EXTRA_OECONF += "\
