@@ -291,6 +291,7 @@ ELITO_COMMON_SERVERS-networkd-systemd = "\
   elito-systemd-conf-network \
   systemd-networkd \
   systemd-resolved \
+  systemd-timesyncd \
 "
 
 ELITO_COMMON_SERVERS-core = "\
