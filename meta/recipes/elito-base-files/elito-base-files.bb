@@ -20,6 +20,7 @@ RELEASE_FILES_PROVIDER ?= "elito-release"
 RRECOMMENDS_${PN} = "${RELEASE_FILES_PROVIDER}"
 
 TMPFS_SIZE       ?= "8m"
+TMP_SIZE	 ?= "${TMPFS_SIZE}"
 PTS_GID          ?= "5"
 
 do_install() {
@@ -62,6 +63,7 @@ do_install() {
 
 	sed $c0 $c1 $c2 $3 $4	\
 		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
+		-e 's!@TMP_SIZE@!${TMP_SIZE}!g'	\
 		-e 's!@PTS_GID@!${PTS_GID}!g'		\
 		fstab > ${D}${sysconfdir}/fstab
 }

@@ -74,12 +74,11 @@ EOF
 
     rm -f etc/mtab
     ln -s ../proc/mounts etc/mtab
-    rm -f tmp var/tmp var/lock
+    rm -f var/lock
 
     install -d -m 0755 run run/lock
     install -d -m 0755 dev proc sys mnt media run tmp var/log root
 
-    ln -s ../tmp var/tmp
     ln -s ../run/lock var/lock
 
     mknod -m 0600 dev/console c 5 1
