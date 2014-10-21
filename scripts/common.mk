@@ -17,7 +17,7 @@ ELITO_CCACHE_SIZE ?=	3G
 ELITO_LOGDIR ?=		.log
 
 TARGETS =		elito-image
-TARGETS_rescue ?=	elito-rescue-kernel elito-image-stream-native
+TARGETS_rescue ?=	elito-rescue-task
 
 IMAGEDIR =		$(abspath ${W}/deploy/images)
 TARGET_IMAGES =
