@@ -249,7 +249,7 @@ do_install_append() {
 	rm -f $kerneldir/scripts/kconfig/kxgettext.o
 }
 
-KERNEL_SKIP_TFTP_DEPLOY ?= "false"
+KERNEL_SKIP_TFTP_DEPLOY ?= "true"
 KERNEL_SKIP_TFTP_DEPLOY[type] = "boolean"
 
 do_uboot_mkimage[vardeps] += "KERNEL_SKIP_TFTP_DEPLOY"
