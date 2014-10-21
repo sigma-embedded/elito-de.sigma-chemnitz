@@ -249,8 +249,13 @@ do_install_append() {
 	rm -f $kerneldir/scripts/kconfig/kxgettext.o
 }
 
+KERNEL_SKIP_TFTP_DEPLOY ?= "false"
+KERNEL_SKIP_TFTP_DEPLOY[type] = "boolean"
+
+do_uboot_mkimage[vardeps] += "KERNEL_SKIP_TFTP_DEPLOY"
 do_uboot_mkimage() {
-	have_tftp_image=true
+	have_tftp_image=${@['false', 'true'][not oe.data.typed_value('KERNEL_SKIP_TFTP_DEPLOY', d)]}
+
 	tftp_image_name='arch/${ARCH}/boot/${KERNEL_IMAGETYPE}'
 
         if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
