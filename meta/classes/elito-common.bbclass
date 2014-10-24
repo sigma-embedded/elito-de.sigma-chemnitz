@@ -262,6 +262,11 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-core = "\
   devmem2 \
   catchsegv \
   trace-cmd \
+\
+  iperf \
+  iozone3 \
+  fio \
+  dbench \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS = "${@elito_common_expand('ELITO_COMMON_DIAGNOSIS_TOOLS',d)}"
