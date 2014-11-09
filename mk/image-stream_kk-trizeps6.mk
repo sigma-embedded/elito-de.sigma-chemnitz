@@ -1,7 +1,7 @@
-IMAGE_PRESCRIPT  ?= ${PROJECT_TOPDIR}/files/rescue-prescript
-IMAGE_POSTSCRIPT ?= ${PROJECT_TOPDIR}/files/rescue-postscript
-IMAGE_AUTOBOOT   ?= ${IMAGEDIR}/autoboot.bat
-IMAGE_BOOTBIN    ?= ${IMAGEDIR}/boot.bin
+IMAGE_STREAM_PRESCRIPT  ?= ${PROJECT_TOPDIR}/files/rescue-prescript
+IMAGE_STREAM_POSTSCRIPT ?= ${PROJECT_TOPDIR}/files/rescue-postscript
+IMAGE_STREAM_AUTOBOOT   ?= ${IMAGEDIR}/autoboot.bat
+IMAGE_STREAM_BOOTBIN    ?= ${IMAGEDIR}/boot.bin
 
 SKIP_PRESCRIPT =
 SKIP_POSTSCRIPT =
@@ -16,7 +16,7 @@ SKIP_ANDROID_SYSTEM = t
 SKIP_ANDROID_DATA = t
 SKIP_ANDROID_CACHE = t
 
-ARGS = \
+IMAGE_STREAM_ARGS = \
   $(call genopts,0x10000,PRESCRIPT) \
   $(call genopts,0x11000,AUTOBOOT) \
   $(call genopts,0x11001,BOOTBIN) \
