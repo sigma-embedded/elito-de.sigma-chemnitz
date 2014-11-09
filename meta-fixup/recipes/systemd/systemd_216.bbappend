@@ -206,8 +206,7 @@ python systemd_elito_populate_packages () {
 }
 PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages "
 
-PACKAGES =+ "libgudev libnss-mymachines libnss-resolve libnss-myhostname ${PN}-utils"
-FILES_libgudev = "${libdir}/libgudev*.so.*"
+PACKAGES =+ "libnss-mymachines libnss-resolve libnss-myhostname ${PN}-utils"
 FILES_libnss-myhostname = "${libdir}/libnss_myhostname.so.*"
 FILES_libnss-mymachines = "${libdir}/libnss_mymachines.so.*"
 FILES_libnss-resolve = "${libdir}/libnss_resolve.so.*"
