@@ -4,14 +4,39 @@ Date:   Tue May 22 17:34:24 2012 +0200
 
     added some pixelformats
 
-diff --git a/src/v4l2subdev.c b/src/v4l2subdev.c
-index a2ab0c4..07ce37c 100644
---- a/src/v4l2subdev.c
-+++ b/src/v4l2subdev.c
-@@ -554,6 +554,15 @@ static struct {
+Index: git/src/v4l2subdev.c
+===================================================================
+--- git.orig/src/v4l2subdev.c
++++ git/src/v4l2subdev.c
+@@ -627,6 +627,7 @@ static struct {
+	const char *name;
+	enum v4l2_mbus_pixelcode code;
+ } mbus_formats[] = {
++	{ "FIXED", V4L2_MBUS_FMT_FIXED},
+	{ "Y8", V4L2_MBUS_FMT_Y8_1X8},
+	{ "Y10", V4L2_MBUS_FMT_Y10_1X10 },
+	{ "Y12", V4L2_MBUS_FMT_Y12_1X12 },
+@@ -636,6 +637,12 @@ static struct {
+	{ "UYVY", V4L2_MBUS_FMT_UYVY8_1X16 },
+	{ "UYVY1_5X8", V4L2_MBUS_FMT_UYVY8_1_5X8 },
+	{ "UYVY2X8", V4L2_MBUS_FMT_UYVY8_2X8 },
++#if HAVE_DECL_V4L2_MBUS_FMT_UYVY10_1X20
++	{ "UYVY10_1X20", V4L2_MBUS_FMT_UYVY10_1X20 },
++	{ "VYUY10_1X20", V4L2_MBUS_FMT_VYUY10_1X20 },
++#endif
++	{ "YUYV10_1X20", V4L2_MBUS_FMT_YUYV10_1X20 },
++	{ "YVYU10_1X20", V4L2_MBUS_FMT_YVYU10_1X20 },
+	{ "SBGGR8", V4L2_MBUS_FMT_SBGGR8_1X8 },
+	{ "SGBRG8", V4L2_MBUS_FMT_SGBRG8_1X8 },
+	{ "SGRBG8", V4L2_MBUS_FMT_SGRBG8_1X8 },
+@@ -652,8 +659,19 @@ static struct {
+	{ "SGBRG12", V4L2_MBUS_FMT_SGBRG12_1X12 },
+	{ "SGRBG12", V4L2_MBUS_FMT_SGRBG12_1X12 },
  	{ "SRGGB12", V4L2_MBUS_FMT_SRGGB12_1X12 },
++#if HAVE_DECL_V4L2_MBUS_FMT_AYUV8_1X32
  	{ "AYUV32", V4L2_MBUS_FMT_AYUV8_1X32 },
  	{ "ARGB32", V4L2_MBUS_FMT_ARGB8888_1X32 },
++#endif
 +	{ "YVYU2X8", V4L2_MBUS_FMT_YVYU8_2X8 },
 +	{ "VYUY2X8", V4L2_MBUS_FMT_VYUY8_2X8 },
 +	{ "RGB555_2X8_PADHI_LE", V4L2_MBUS_FMT_RGB555_2X8_PADHI_LE },
@@ -24,3 +49,19 @@ index a2ab0c4..07ce37c 100644
  };
  
  const char *v4l2_subdev_pixelcode_to_string(enum v4l2_mbus_pixelcode code)
+Index: git/configure.ac
+===================================================================
+--- git.orig/configure.ac
++++ git/configure.ac
+@@ -82,6 +82,11 @@ AS_IF([test "x$cross_compiling" != "xyes
+     ])
+ AC_CHECK_FUNCS([memset strerror strrchr strtoul])
+
++AC_CHECK_DECLS([V4L2_MBUS_FMT_FIXED,
++                V4L2_MBUS_FMT_UYVY10_1X20,
++                V4L2_MBUS_FMT_AYUV8_1X32], [], [],
++	       [#include <linux/v4l2-mediabus.h>])
++
+ AC_CONFIG_FILES([
+  Makefile
+  src/Makefile
