@@ -4,6 +4,6 @@ none			/proc			proc		noauto
 none			/tmp			tmpfs		size=@TMP_SIZE@,mode=1777
 none			/var/volatile		tmpfs		size=@TMPFS_SIZE@,mode=0755
 none			/dev/pts		devpts		noauto,gid=@PTS_GID@,mode=0620
-none			/sys/kernel/debug	debugfs		defaults
+none			/sys/kernel/debug	debugfs		nofail
 none			/selinux		selinuxfs	defaults
 none			/boot			tmpfs		defaults,size=16M
