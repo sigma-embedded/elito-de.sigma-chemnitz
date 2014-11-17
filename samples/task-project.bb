@@ -2,6 +2,8 @@ DESCRIPTION  = "@PROJECT_NAME@ packagegroup"
 LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 PV = "0.3"
 
 inherit packagegroup
@@ -15,11 +17,6 @@ do_compile[noexec] = "1"
 do_install[noexec] = "1"
 do_distribute_sources[noexec] = "1"
 do_populate_sysroot[noexec] = "1"
-
-# !! DO NOT MOVE IT TO TOP !!
-# Else, the task class sets PACKAGE_ARCH to all which will override
-# value here.
-PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 # add recipes which are not catched by normal dep resolving and which
 # would result into
