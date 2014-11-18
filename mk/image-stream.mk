@@ -1,6 +1,6 @@
 ####
 
-_check_skip = $(SKIP_$1)$(if $2,$(if $(wildcard ${IMAGE_STREAM_$1}),,t,),)
+_check_skip = $(SKIP_STREAM_$1)$(if $2,$(if $(wildcard ${IMAGE_STREAM_$1}),,t,),)
 genopts = $(if $(call _check_skip,$2,$3),,-h $1${SIGNATURE_OPTS}!${IMAGE_STREAM_$2})
 
 -include ${ELITO_TOPDIR}/mk/image-stream_${SOC_FAMILY}.mk
