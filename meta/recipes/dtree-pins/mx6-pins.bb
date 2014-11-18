@@ -58,7 +58,7 @@ EXTRA_OEMAKE = "\
 
 COMPATIBLE_MACHINE = "mx6"
 
-inherit elito-machdata
+inherit elito-machdata elito-dtree-base
 
 do_compile() {
     oe_runmake

@@ -40,7 +40,7 @@ MACH_DEPENDS_mx6 = "mx6-pins"
 
 DEPENDS += "elito-kernel dtc-native ${MACH_DEPENDS}"
 
-inherit deploy elito-machdata
+inherit deploy elito-machdata elito-dtree-base
 
 do_compile() {
     oe_runmake
