@@ -23,3 +23,7 @@ ELITO_COMMON_KERNEL_MODULES-fb = "\
 ELITO_COMMON_KERNEL_MODULES-sata = "\
   kernel-module-ahci-imx \
 "
+
+ELITO_COMMON_DEPENDS-core += "\
+  elito-devicetree-tools-cross \
+"
