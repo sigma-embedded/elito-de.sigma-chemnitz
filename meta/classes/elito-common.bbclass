@@ -63,6 +63,7 @@ ELITO_COMMON_DEPENDS-alsa = "\
 ELITO_COMMON_DEPENDS-core = "\
   elito-develcomp \
   kernel-makefile \
+  gdb-cross-${TARGET_ARCH} \
 "
 
 ELITO_COMMON_DEPENDS = "${@elito_common_expand('ELITO_COMMON_DEPENDS',d)}"
