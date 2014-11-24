@@ -19,6 +19,7 @@ S            = "${WORKDIR}/git"
 
 EXTRA_OEMAKE_prepend = "-f '${ELITO_MAKEFILE_DIR}/Makefile.kernel' _secwrap= TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1"
 
+KERNEL_CMDLINE ??= "console=${KERNEL_CONSOLE} loglevel=4 earlyprintk"
 KERNEL_CMDLINE_SOURCE ?= "bootloader"
 KERNEL_DEPENDS ?= ""
 MACHINE_HOSTNAME ?= "${MACHINE}"
@@ -96,7 +97,7 @@ def kernel_early_options(d):
 
     o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
-            ['CMDLINE', "${KERNEL_CMDLINE}" ], 
+            ['CMDLINE', d.getVar('KERNEL_CMDLINE') ], 
             [ 'EARLY_PRINTK', [False, YES][have_earlyprintk] ],
           ],
           [ True,
