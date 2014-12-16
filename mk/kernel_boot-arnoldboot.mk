@@ -10,7 +10,7 @@ arnoldboot-flash:	ARNOLDBOOT_FLAGS=-d3
 
 arnoldboot-sdram arnoldboot-gdb arnoldboot-flash:	arnoldboot
 
-arnoldboot:	arch/arm/boot/zImage
+arnoldboot:	${KBUILD_BOOT_DIR}/zImage
 	$(ARNOLDBOOT) ${ARNOLDBOOT_FLAGS} ${KERNEL_START_ADDRESS} ${KERNEL_START_ADDRESS} @$< > ${TFTP_IMAGE}
 
 tftp:			arnoldboot

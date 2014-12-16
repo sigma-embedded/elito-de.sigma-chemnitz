@@ -16,24 +16,28 @@ unexport
 KERNEL_LDSUFFIX = .bfd
 
 TFTP_IMAGE ?= $(KERNEL_TFTP_IMAGE)
+KBUILD_OUTPUT ?= $(if ${ELITO_EXTKBUILD_DISABLED},,${ELITO_BUILDSYS_TMPDIR}/work/${KBUILD_OUTPUT_DIR}/)
+KBUILD_OUTPUT_DIR = kernel-$(firstword $(shell echo $(abspath .) | md5sum))
+KBUILD_BOOT_DIR = ${KBUILD_OUTPUT}arch/${ARCH}/boot
 
 _bad_env += CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE _secwrap
 
 _build_cmd = \
             $(_start) env UID=$$UID \
             $(MAKE) CC='$(KERNEL_CC)' LD='$(KERNEL_LD)' \
+            KBUILD_OUTPUT=${KBUILD_OUTPUT} \
             $(if $(TFTP_IMAGE),FLASH_FILENAME='$(TFTP_IMAGE)') \
             $(if $(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=$(KERNEL_SIZE)') \
             $(if $(KERNEL_LOADADDR),LOADADDR='$(KERNEL_LOADADDR)') \
 
-LOCALGOALS += _all_ exec shell printcmd
+LOCALGOALS += _all_ exec shell printcmd printvars
 XTRA_GOALS += modules modules_install _all
 
 ifdef KERNEL_BOOT_VARIANT
 LOCALGOALS += tftp tftp-m
 
 _kernel_image_types = bzImage zImage uImage
-_kernel_image_files = $(addprefix arch/$(ARCH)/boot/,$(_kernel_image_types))
+_kernel_image_files = $(addprefix ${KBUILD_BOOT_DIR}/,$(_kernel_image_types))
 LOCALGOALS += $(_kernel_image_files)
 
 override _k_all_target =
@@ -42,7 +46,7 @@ tftp-m:	_k_all_target=_all
 tftp-m:	tftp
 	+$(_build_cmd) modules_install
 
-$(_kernel_image_files):arch/$(ARCH)/boot/%:
+$(_kernel_image_files):${KBUILD_BOOT_DIR}/%:
 	+$(_build_cmd) ${_k_all_target} $*
 
 .PHONY:	$(_kernel_image_files)
@@ -55,6 +59,9 @@ $(sort $(filter-out $(LOCALGOALS),${MAKECMDGOALS}) ${XTRA_GOALS}):	__force
 
 printcmd:
 	@echo make -C "`pwd`" -f $(firstword $(MAKEFILE_LIST)) $(if $(CFG),CFG='$(CFG)')
+
+printvars:
+	@echo KBUILD_OUTPUT='${KBUILD_OUTPUT}'
 
 _all_:
 	+$(_build_cmd)
