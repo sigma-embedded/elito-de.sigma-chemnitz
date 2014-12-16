@@ -16,15 +16,12 @@ unexport
 KERNEL_LDSUFFIX = .bfd
 
 TFTP_IMAGE ?= $(KERNEL_TFTP_IMAGE)
-KBUILD_OUTPUT ?= ${ELITO_BUILDSYS_TMPDIR}/work/${KBUILD_OUTPUT_DIR}
-KBUILD_OUTPUT_DIR = kernel-$(firstword $(shell echo $(abspath .) | md5sum))
 
 _bad_env += CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE _secwrap
 
 _build_cmd = \
             $(_start) env UID=$$UID \
             $(MAKE) CC='$(KERNEL_CC)' LD='$(KERNEL_LD)' \
-            KBUILD_OUTPUT=${KBUILD_OUTPUT} \
             $(if $(TFTP_IMAGE),FLASH_FILENAME='$(TFTP_IMAGE)') \
             $(if $(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=$(KERNEL_SIZE)') \
             $(if $(KERNEL_LOADADDR),LOADADDR='$(KERNEL_LOADADDR)') \
