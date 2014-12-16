@@ -361,12 +361,17 @@ ELITO_COMMON_PROGRAMS-select-touch = " \
 "
 
 ELITO_COMMON_PROGRAMS-v4l = "\
-  gst-plugins-bad-fbdevsink \
-  gst-plugins-base-ffmpegcolorspace \
-  gst-plugins-good-video4linux2 \
-  gst-plugins-good-tcp \
-  gst-plugins-base-typefindfunctions \
-  gst-plugins-base-apps \
+  gstreamer1.0-plugins-bad-bayer \
+  gstreamer1.0-plugins-bad-debugutilsbad \
+  gstreamer1.0-plugins-bad-fbdevsink \
+  gstreamer1.0-plugins-bad-gdp \
+  gstreamer1.0-plugins-base-apps \
+  gstreamer1.0-plugins-base-tcp \
+  gstreamer1.0-plugins-base-typefindfunctions \
+  gstreamer1.0-plugins-base-videoconvert \
+  gstreamer1.0-plugins-base-videoconvert \
+  gstreamer1.0-plugins-base-videotestsrc \
+  gstreamer1.0-plugins-good-video4linux2 \
 "
 
 ELITO_COMMON_PROGRAMS-wifi = "\
