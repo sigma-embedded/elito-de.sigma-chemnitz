@@ -21,6 +21,8 @@ _repo = "barebox"
 
 BAREBOX_SOC_FAMILY ?= "${@(d.getVar('SOC_FAMILY', True) or "").split(':')[0]}"
 
+export ELITO_EXTKBUILD_DISABLED = "1"
+
 include u-boot-common.inc
 inherit deploy
 

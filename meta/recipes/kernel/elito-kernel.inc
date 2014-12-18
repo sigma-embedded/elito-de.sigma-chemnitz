@@ -3,6 +3,8 @@ _elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
 PKGV = "${MACHINE_KERNEL_VERSION}+gitr${GITPKGV}"
 
+export ELITO_EXTKBUILD_DISABLED = "1"
+
 inherit gitpkgv deploy
 BB_LOCALCOUNT_OVERRIDE = "1"
 
