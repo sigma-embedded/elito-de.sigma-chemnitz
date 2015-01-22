@@ -365,11 +365,13 @@ ELITO_COMMON_PROGRAMS-v4l = "\
   gstreamer1.0-plugins-bad-debugutilsbad \
   gstreamer1.0-plugins-bad-fbdevsink \
   gstreamer1.0-plugins-bad-gdp \
+  gstreamer1.0-plugins-bad-rawparse \
   gstreamer1.0-plugins-base-apps \
   gstreamer1.0-plugins-base-tcp \
   gstreamer1.0-plugins-base-typefindfunctions \
   gstreamer1.0-plugins-base-videoconvert \
   gstreamer1.0-plugins-base-videoconvert \
+  gstreamer1.0-plugins-base-videoscale \
   gstreamer1.0-plugins-base-videotestsrc \
   gstreamer1.0-plugins-good-video4linux2 \
 "
