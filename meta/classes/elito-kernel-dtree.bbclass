@@ -6,7 +6,7 @@ inherit elito-machdata
 do_installdts() {
     install -d -m 0755 ${D}${MACHINCDIR}/
 
-    cd "${ELITO_DTS_DIR}"
+    cd "${S}/${ELITO_DTS_DIR}"
     install -p -m 0644 ${ELITO_DTS_FILES} ${D}${MACHINCDIR}/
     cd -
 }
