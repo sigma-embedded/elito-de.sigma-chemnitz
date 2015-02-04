@@ -246,7 +246,6 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-usbhost = "\
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS-v4l = "\
-  media-ctl \
   v4l-utils \
 "
 
