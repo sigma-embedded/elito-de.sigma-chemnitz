@@ -2,9 +2,16 @@ ELITO_COMMON_KERNEL_MODULES-can += "\
   kernel-module-flexcan \
 "
 
+ELITO_COMMON_KERNEL_MODULES-sound += "\
+  kernel-module-snd-soc-fsl-ssi \
+  kernel-module-snd-soc-simple-card \
+  kernel-module-snd-soc-imx-audmux \
+"
+
 ELITO_COMMON_KERNEL_MODULES-usbhost += "\
   kernel-module-phy-mxs-usb \
   kernel-module-ci-hdrc-imx \
+  kernel-module-usbmisc-imx \
 "
 
 ELITO_COMMON_KERNEL_MODULES-core += "\
@@ -24,6 +31,10 @@ ELITO_COMMON_KERNEL_MODULES-fb = "\
 
 ELITO_COMMON_KERNEL_MODULES-sata = "\
   kernel-module-ahci-imx \
+"
+
+ELITO_COMMON_KERNEL_MODULES-v4l = "\
+  kernel-module-imx-ipuv3-csi \
 "
 
 ELITO_COMMON_DEPENDS-core += "\
