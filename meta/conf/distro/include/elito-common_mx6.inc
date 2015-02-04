@@ -4,10 +4,12 @@ ELITO_COMMON_KERNEL_MODULES-can += "\
 
 ELITO_COMMON_KERNEL_MODULES-usbhost += "\
   kernel-module-phy-mxs-usb \
+  kernel-module-ci-hdrc-imx \
 "
 
 ELITO_COMMON_KERNEL_MODULES-core += "\
   kernel-module-imx-thermal \
+  kernel-module-rtc-snvs \
 "
 
 ELITO_COMMON_KERNEL_MODULES-mmc = "\
@@ -16,7 +18,7 @@ ELITO_COMMON_KERNEL_MODULES-mmc = "\
 
 ELITO_COMMON_KERNEL_MODULES-fb = "\
   kernel-module-parallel-display \
-  kernel-module-ci_hdrc_imx \
+  kernel-module-ci-hdrc-imx \
   kernel-module-imx-ipuv3-crtc \
 "
 
