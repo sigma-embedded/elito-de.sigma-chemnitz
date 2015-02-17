@@ -2,12 +2,11 @@ Index: git/Makefile.am
 ===================================================================
 --- git.orig/Makefile.am
 +++ git/Makefile.am
-@@ -1802,6 +1802,7 @@ nodist_systemunit_DATA += \
+@@ -1802,5 +1802,6 @@ nodist_systemunit_DATA += \
  dist_tmpfiles_DATA = \
  	tmpfiles.d/systemd.conf \
  	tmpfiles.d/systemd-nologin.conf \
 +	tmpfiles.d/systemd-networkd.conf \
-	tmpfiles.d/systemd-remote.conf \
  	tmpfiles.d/tmp.conf \
  	tmpfiles.d/x11.conf \
 Index: git/tmpfiles.d/systemd-networkd.conf
@@ -20,15 +19,17 @@ Index: git/tmpfiles.d/systemd-networkd.conf
 +d /run/systemd/netif/leases 0755 systemd-network systemd-network -
 Index: git/tmpfiles.d/systemd.conf
 ===================================================================
---- git.orig/tmpfiles.d/systemd.conf
-+++ git/tmpfiles.d/systemd.conf
-@@ -16,9 +16,6 @@ d /run/systemd/sessions 0755 root root -
+--- git.orig/tmpfiles.d/systemd.conf.m4
++++ git/tmpfiles.d/systemd.conf.m4
+@@ -16,11 +16,6 @@ d /run/systemd/sessions 0755 root root -
  d /run/systemd/users 0755 root root -
  d /run/systemd/machines 0755 root root -
  d /run/systemd/shutdown 0755 root root -
+-m4_ifdef(`ENABLE_NETWORKD',
 -d /run/systemd/netif 0755 systemd-network systemd-network -
 -d /run/systemd/netif/links 0755 systemd-network systemd-network -
 -d /run/systemd/netif/leases 0755 systemd-network systemd-network -
+-)m4_dnl
  
  d /run/log 0755 root root -
  
