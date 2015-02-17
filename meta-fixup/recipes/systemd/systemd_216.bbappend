@@ -77,7 +77,7 @@ PACKAGECONFIG_remove = " ${@' '.join(\
   set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG_ALL').split()) - \
   set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG')))}"
 
-python systemd_elito_populate_packages () {
+def systemd_elito_populate_packages(d, only_names = False):
     pkg_info = {
         'remount-rootfs' : ['remount-rootfs.service'],
         'swap' : ['swap.target'],
@@ -166,14 +166,16 @@ python systemd_elito_populate_packages () {
                            '${base_bindir}/systemd-tty-ask-password-agent' ],
         'timedated' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.timedate1.conf',
                         '${bindir}/timedatectl',
-                        '${datadir}/polkit-1/actions/org.freedesktop.timedate1.policy',
-],
+                        '${datadir}/polkit-1/actions/org.freedesktop.timedate1.policy' ],
         'user-sessions' : [ '${sysconfdir}/xdg/systemd/user',
                             '${sysconfdir}/systemd/user',
                             '${sysconfdir}/systemd/user.conf',
                             '${libdir}/systemd/user-generators',
                             '${libdir}/systemd/user' ],
     }
+
+    if only_names:
+        return '^${PN}-(' + '|'.join(sorted(pkg_info.keys())) + ')'
 
     pkgs = ''
     pn = bb.data.getVar('PN', d, 1)
@@ -203,8 +205,12 @@ python systemd_elito_populate_packages () {
 
     bb.data.setVar('PACKAGES',
                    pkgs + ' ' + bb.data.getVar('PACKAGES', d, 0), d)
+
+python systemd_elito_populate_packages_split() {
+    return systemd_elito_populate_packages(d)
 }
-PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages "
+
+PACKAGESPLITFUNCS_prepend = "systemd_elito_populate_packages_split "
 
 PACKAGES =+ "libnss-mymachines libnss-resolve libnss-myhostname ${PN}-utils"
 FILES_libnss-myhostname = "${libdir}/libnss_myhostname.so.*"
@@ -222,7 +228,7 @@ FILES_${PN}-utils = "\
 PACKAGES =+ "${PN}-bash-completion"
 FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
 
-PACKAGES_DYNAMIC = "systemd-.*"
+PACKAGES_DYNAMIC += "${@systemd_elito_populate_packages(d, True)}"
 RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
 RRECOMMENDS_${PN} += "util-linux-mount systemd-readahead"
 
