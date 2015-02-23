@@ -42,7 +42,7 @@ LOCALGOALS += $(_kernel_image_files)
 
 override _k_all_target =
 
-tftp-m:	_k_all_target=_all
+tftp-m:	_k_all_target=all modules
 tftp-m:	tftp
 	+$(_build_cmd) modules_install
 
