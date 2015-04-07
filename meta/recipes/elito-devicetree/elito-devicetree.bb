@@ -26,6 +26,7 @@ EXTRA_OEMAKE = "\
   MACHINE=${MACHINE} \
   prefix=${prefix} datadir=${datadir} \
   pkgdatadir=${MACHDATADIR} \
+  KERNEL_DIR=${STAGING_KERNEL_DIR} \
   MACHINE_INCDIR=${MACHINCDIR} \
   VARIANTS='${MACHINE_DTS_NAME}' \
 "

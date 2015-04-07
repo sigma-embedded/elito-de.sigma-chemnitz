@@ -6,6 +6,8 @@ abs_top_srcdir = $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 VPATH = ${abs_top_srcdir}
 
+KERNEL_DIR ?= =/usr/src/kernel
+
 AM_CPP_DEPGENFLAGS = \
   -MD -MF ${@D}/.${@F}.d -MT '$@'
 
@@ -13,8 +15,8 @@ AM_DTC_CPPFLAGS = \
   $(AM_CPP_DEPGENFLAGS) \
   -nostdinc -undef -x assembler-with-cpp \
   -I . -I='$(MACHINE_INCDIR)' \
-  -I=/usr/src/kernel/include \
-  -I=/usr/src/kernel/arch/arm/boot/dts \
+  -I${KERNEL_DIR}/include \
+  -I${KERNEL_DIR}/arch/arm/boot/dts \
 
 DTC_FLAGS = -R 4
 
