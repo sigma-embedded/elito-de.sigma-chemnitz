@@ -162,13 +162,13 @@ do_generate_initramfs_source[depends] += "${ELITO_LINUXRC_TASK}:do_populate_sysr
 do_generate_initramfs_source() {
 	# copy our program into a temporary location and remove
 	# debugging symbols
-	install -D -p -m 0755 ${ELITO_LINUXRC_PROGRAM} ${S}/.initramfs/init
-	${STRIP} --remove-section=.comment --remove-section=.note --preserve-dates ${S}/.initramfs/init
+	install -D -p -m 0755 ${ELITO_LINUXRC_PROGRAM} ${B}/.initramfs/init
+	${STRIP} --remove-section=.comment --remove-section=.note --preserve-dates ${B}/.initramfs/init
 
 	# create devices.txt
-	rm -f ${S}/devices.txt
-	cat << EOF > ${S}/devices.txt
-file /init ${S}/.initramfs/init	0755 0 0
+	rm -f ${B}/devices.txt
+	cat << EOF > ${B}/devices.txt
+file /init ${B}/.initramfs/init	0755 0 0
 
 dir  /mnt  0755 0 0
 dir  /dev  0755 0 0
@@ -306,7 +306,7 @@ kernel_do_deploy() {
 do_deploy_append() {
         if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
-                        cd "${S}"
+                        cd "${B}"
                         install -m 0644 ${KERNEL_OUTPUT}-$i \
 				${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}-$i.bin
 
@@ -315,7 +315,7 @@ do_deploy_append() {
 			ln -sf ${KERNEL_IMAGE_BASE_NAME}-$i.bin ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 		done
         elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
-		cd "${S}"
+		cd "${B}"
 		install -p -m 0644 arch/${ARCH}/boot/ceImage \
 			${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.ce
 
@@ -336,5 +336,4 @@ def kernel_maxsize(mtdsize_var, xtra, d):
     else:
         return ""
 
-do_compile_prepare[dirs] = "${S}"
 addtask compile_prepare before do_compile after do_configure
