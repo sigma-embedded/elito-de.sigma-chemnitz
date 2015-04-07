@@ -20,8 +20,12 @@ SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
 S            = "${WORKDIR}/git"
 
 EXTRA_OEMAKE_prepend = "-f '${ELITO_MAKEFILE_DIR}/Makefile.kernel' \
+  -C '${S}' \
   _secwrap= TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1 \
+  KBUILD_OUTPUT=${B}/ \
 "
+
+B = "${WORKDIR}/build"
 
 KERNEL_CMDLINE ??= "console=${KERNEL_CONSOLE} loglevel=4 earlyprintk"
 KERNEL_CMDLINE_SOURCE ?= "bootloader"
