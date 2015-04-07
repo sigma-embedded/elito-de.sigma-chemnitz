@@ -49,7 +49,7 @@ EXTRA_OEMAKE[vardeps] += "MACHINE_VARIANTS SERIAL_CONSOLE"
 EXTRA_OEMAKE = "\
   -f ${WORKDIR}/Makefile \
   MACHINE=${MACHINE} \
-  VPATH=${WORKDIR}:${STAGING_MACHINCDIR} \
+  VPATH=${WORKDIR}:${STAGING_MACHINCDIR}:${STAGING_KERNEL_DIR}/arch/${TARGET_ARCH}/boot/dts \
   prefix=${prefix} datadir=${datadir} \
   pkgdatadir=${MACHDATADIR} \
   pkgincludedir=${MACHINCDIR} \
@@ -59,6 +59,8 @@ EXTRA_OEMAKE = "\
 COMPATIBLE_MACHINE = "mx6"
 
 inherit elito-machdata elito-dtree-base
+
+do_compile[depends] += "virtual/kernel:do_patch"
 
 do_compile() {
     oe_runmake
