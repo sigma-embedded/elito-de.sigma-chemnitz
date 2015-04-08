@@ -5,6 +5,7 @@
 : ${MACHDATADIR:="@MACHDATADIR@"}
 : ${TFTPBOOT_DIR:="@TFTPBOOT_DIR@"}
 : ${PROJECT_TOPDIR:="@PROJECT_TOPDIR@"}
+: ${KERNEL_DIR:="@KERNEL_DIR@"}
 : ${SOC:="@SOC@"}
 : ${MAKE:=make}
 
@@ -63,6 +64,7 @@ doit_mx6() {
     VARIANTS="${dts%%.dts}"
     MACHINE_INCDIR="${MACHINCDIR##$STAGINGDIR}"
     DTC_CPPFLAGS="-I `pwd`"
+    KERNEL_DIR="${KERNEL_DIR}"
   )
 
   local _make=( ${MAKE} "${arg_makeflags[@]}" -C "$arg_out" )
