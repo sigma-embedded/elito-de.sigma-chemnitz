@@ -25,7 +25,7 @@ while true; do
       -t|--tftp)	arg_tftp=$1; shift;;
       -o|--outdir)	arg_out=$1; shift;;
       -p|--pins)	arg_pins=$1; shift;;
-      -s|--silent)	arg_makeflags+=( -s );;	
+      -s|--silent)	arg_makeflags+=( -s );;
       --pinflags)	arg_pinflags=$1; shift;;
       --)		break;;
       *)		echo "internal error" >&2; exit 1;;
@@ -48,7 +48,7 @@ mx6_split_variants() {
 doit_mx6() {
   local dts=$1
   local variant_module variant_soc variant_memory
-  
+
   mx6_split_variants variant "$2"
 
   local pinflags=(
@@ -68,7 +68,7 @@ doit_mx6() {
   )
 
   local _make=( ${MAKE} "${arg_makeflags[@]}" -C "$arg_out" )
-  
+
   "${_make[@]}" -f "$MACHDATADIR/mx6-pins.mk"   "${pinflags[@]}"
   "${_make[@]}" -f "$MACHDATADIR/devicetree.mk" "${dtbflags[@]}"
 }
