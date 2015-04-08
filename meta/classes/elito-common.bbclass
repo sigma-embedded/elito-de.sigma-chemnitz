@@ -334,6 +334,7 @@ ELITO_COMMON_PROGRAMS-hdd = "\
 
 ELITO_COMMON_PROGRAMS-initrd_initsys-systemd = "\
   systemd-remount-rootfs \
+  systemd-analyze \
 "
 
 ELITO_COMMON_PROGRAMS-pam_initsys-systemd = "\
