@@ -213,6 +213,14 @@ FILES_${PN}-utils = "\
 PACKAGES =+ "${PN}-bash-completion"
 FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
 
+python() {
+    pn = d.getVar('PN', True)
+    var = 'USERADD_PARAM_' + pn
+    v  = d.getVar(var, True). split(';')
+    v.remove(' --system systemd-timesync')
+    d.setVar(var, ';'.join(v))
+}
+
 PACKAGES_DYNAMIC += "${@systemd_elito_populate_packages(d, True)}"
 RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
 RRECOMMENDS_${PN} += "util-linux-mount"
