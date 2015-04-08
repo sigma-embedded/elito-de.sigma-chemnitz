@@ -1,23 +1,9 @@
 _elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 
-PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
-PKGV = "${MACHINE_KERNEL_VERSION}+gitr${GITPKGV}"
-
 export ELITO_EXTKBUILD_DISABLED = "1"
 
-inherit gitpkgv deploy
+inherit deploy
 BB_LOCALCOUNT_OVERRIDE = "1"
-
-MACHINE_KERNEL_REVISION ?= "${AUTOREV}"
-
-GIT_REPO = "${KERNEL_REPO}"
-SRCREV   = "${MACHINE_KERNEL_REVISION}"
-
-KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
-_branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
-
-SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
-S            = "${WORKDIR}/git"
 
 EXTRA_OEMAKE_prepend = "-f '${ELITO_MAKEFILE_DIR}/Makefile.kernel' \
   -C '${S}' \

@@ -18,9 +18,19 @@ KERNEL_IMAGE_MAXSIZE = "${@kernel_maxsize('KERNEL_SIZE',${KERNEL_IMAGE_EXTRASIZE
 
 KERNEL_SOC_FAMILY ?= "${@(d.getVar('SOC_FAMILY', True) or "").split(':')[0]}"
 
-inherit kernel
+MACHINE_KERNEL_REVISION ?= "${AUTOREV}"
+
+SRCREV       = "${MACHINE_KERNEL_REVISION}"
+KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
+_branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
+SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
+
+inherit kernel gitpkgv
 include elito-kernel.inc
 include elito-kernel_soc-${KERNEL_SOC_FAMILY}.inc
+
+PV = "${MACHINE_KERNEL_VERSION}+gitr${SRCPV}"
+PKGV = "${MACHINE_KERNEL_VERSION}+gitr${GITPKGV}"
 
 RDEPENDS_kernel-image += "elito-filesystem"
 RDEPENDS_kernel-dev += "elito-filesystem"
