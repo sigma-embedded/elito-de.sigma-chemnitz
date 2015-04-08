@@ -55,12 +55,6 @@ do_install_append() {
     rm -f ${D}${systemd_unitdir}/system/default.target
     ln -s $t.target ${D}${systemd_unitdir}/system/default.target
 
-    mkdir -p ${D}${systemd_unitdir}/system/default.target.wants
-    ln -s \
-        ../systemd-readahead-replay.service \
-        ../systemd-readahead-collect.service \
-        ${D}${systemd_unitdir}/system/default.target.wants/
-
     ${@base_contains("PROJECT_FEATURES", "select-touch", "rm -f ${D}${sysconfdir}/udev/rules.d/touchscreen.rules", ":", d)}
 }
 
@@ -90,11 +84,6 @@ def systemd_elito_populate_packages(d, only_names = False):
         'graphical' : ['display-manager.service',
                        'graphical.target',
                        'runlevel5.target'],
-        'readahead' : ['systemd-readahead-done.timer',
-                       'systemd-readahead-drop.service',
-                       'systemd-readahead-done.service',
-                       'systemd-readahead-replay.service',
-                       'systemd-readahead-collect.service'],
         'bootchart' : [ ],
         'localed' : [ 'systemd-localed.service',
                       'org.freedesktop.locale1.busname',
@@ -130,7 +119,6 @@ def systemd_elito_populate_packages(d, only_names = False):
         }
 
     xtra_paths = {
-        'readahead' : [ '${systemd_bindir}/systemd-readahead' ],
         'networkd'  : [ '${systemd_bindir}/systemd-networkd-wait-online',
                         '${systemd_bindir}/network',
                         '${sysconfdir}/systemd/network',
@@ -227,7 +215,7 @@ FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
 
 PACKAGES_DYNAMIC += "${@systemd_elito_populate_packages(d, True)}"
 RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
-RRECOMMENDS_${PN} += "util-linux-mount systemd-readahead"
+RRECOMMENDS_${PN} += "util-linux-mount"
 
 USERADD_PACKAGES += "${PN}-networkd"
 USERADD_PARAM_${PN}-networkd += "--system systemd-network"
