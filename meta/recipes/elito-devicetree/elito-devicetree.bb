@@ -39,7 +39,7 @@ MACH_DEPENDS = ""
 MACH_DEPENDS_mx28 = "mx28-pins"
 MACH_DEPENDS_mx6 = "mx6-pins"
 
-DEPENDS += "elito-kernel dtc-native ${MACH_DEPENDS}"
+DEPENDS += "dtc-native ${MACH_DEPENDS}"
 
 inherit deploy elito-machdata elito-dtree-base
 
