@@ -1,31 +1,28 @@
-Index: base-passwd-3.5.26/group.master
+Index: base-passwd-3.5.29/group.master
 ===================================================================
---- base-passwd-3.5.26.orig/group.master
-+++ base-passwd-3.5.26/group.master
-@@ -34,8 +34,14 @@ utmp:*:43:
+--- base-passwd-3.5.29.orig/group.master
++++ base-passwd-3.5.29/group.master
+@@ -34,8 +34,12 @@ utmp:*:43:
  video:*:44:
  sasl:*:45:
  plugdev:*:46:
 +httpd:*:48:
  staff:*:50:
-+lock:*:54:
  games:*:60:
 +wheel:*:66:
 +x11:*:67:
  shutdown:*:70:
-+messagebus:x:81:
 +ntpd:x:82:
  users:*:100:
  nogroup:*:65534:
-Index: base-passwd-3.5.26/passwd.master
+Index: base-passwd-3.5.29/passwd.master
 ===================================================================
---- base-passwd-3.5.26.orig/passwd.master
-+++ base-passwd-3.5.26/passwd.master
-@@ -15,4 +15,7 @@ backup:*:34:34:backup:/var/backups:/bin/
+--- base-passwd-3.5.29.orig/passwd.master
++++ base-passwd-3.5.29/passwd.master
+@@ -15,4 +15,6 @@ backup:*:34:34:backup:/var/backups:/bin/
  list:*:38:38:Mailing List Manager:/var/list:/bin/sh
  irc:*:39:39:ircd:/var/run/ircd:/bin/sh
  gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
 +httpd:*:48:48:HTTP server:/var/lib/www:/bin/false
-+messagebus:x:81:81:System message bus:/var/run/dbus:/bin/false
 +ntpd:x:82:82::/var/lib/ntp:/bin/false
  nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
