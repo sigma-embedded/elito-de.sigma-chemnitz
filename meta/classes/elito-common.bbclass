@@ -320,7 +320,11 @@ ELITO_COMMON_PROGRAMS-vfat = "\
   dosfstools \
 "
 
-ELITO_COMMON_PROGRAMS-bluetooth = "\
+ELITO_COMMON_PROGRAMS-bluez5 = "\
+  bluez5 \
+"
+
+ELITO_COMMON_PROGRAMS-bluez4 = "\
   bluez4 \
 "
 
