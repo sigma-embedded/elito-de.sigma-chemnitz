@@ -59,6 +59,7 @@ def elito_kernel_rescue_early_options(d, o):
     return o
 
 inherit kernel
+inherit kernelsrc
 require elito-kernel.inc
 
 # do not move to top
@@ -82,6 +83,8 @@ python () {
 
 do_configure[depends]    += "virtual/rescue-image:do_rootfs"
 
+do_unpack[cleandirs]	    = ""
+do_unpack[noexec]	    = "1"
 do_install[noexec]	    = "1"
 do_populate_sysroot[noexec]  = "1"
 do_package_write_ipk[noexec] = "1"
