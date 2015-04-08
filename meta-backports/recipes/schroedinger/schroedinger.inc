@@ -1,5 +1,5 @@
 HOMEPAGE = "http://schrodinger.sourceforge.net/"
-LICENSE = "MPL GPL LGPL MIT"
+LICENSE = "MPL && GPL && LGPL && MIT"
 DEPENDS = "liboil orc-native orc"
 LIC_FILES_CHKSUM = "\
 	file://COPYING;md5=d91a46405fc074b88c963cc4f2a0aae9 \
