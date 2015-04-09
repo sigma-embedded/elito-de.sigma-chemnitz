@@ -35,3 +35,9 @@ PKGV = "${MACHINE_KERNEL_VERSION}+gitr${GITPKGV}"
 RDEPENDS_kernel-image += "elito-filesystem"
 RDEPENDS_kernel-dev += "elito-filesystem"
 RDEPENDS_kernel-vmlinux += "elito-filesystem"
+
+do_elito_kernel_checkout() {
+	rmdir "${S}"
+	mv ${WORKDIR}/git ${S}
+}
+do_unpack[postfuncs] += "do_elito_kernel_checkout"
