@@ -751,7 +751,6 @@ ELITO_CHECK_PROGRAM(-1, XZ,         xz)
 ELITO_CHECK_PROGRAM(-1, MAKE,       make)
 ELITO_CHECK_PROGRAM(-1, PATCH,      patch)
 ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
-ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version], 0x02051f)
 ELITO_CHECK_PROGRAM(90, GETTEXT,    gettext)
 ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
 ELITO_CHECK_PROGRAM( 0, FILE,       file,[],[_file_check_version], 0x00050d)
@@ -820,6 +819,11 @@ if $enable_pkg_rpm; then
 fi
 
 AC_CHECK_LIB(iberty, [cplus_demangle], [ELITO_ASSUME(0, binutils, true)])
+AC_CHECK_LIB(fl,     [yywrap])
+
+if test x"$ac_cv_lib_fl_yywrap" = x"yes"; then
+   ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version], 0x02051f)
+fi
 
 PKG_CHECK_MODULES(GLIB20,    [glib-2.0],    [ELITO_ASSUME(70, glib20,    true, glib-2.0-native)],  [true])
 PKG_CHECK_MODULES(DBUS,      [dbus-1],      [ELITO_ASSUME(70, dbus,      true)],      [true])
