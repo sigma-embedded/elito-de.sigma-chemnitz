@@ -13,6 +13,9 @@ BBCLASSEXTEND = "cross crosssdk"
 
 SRC_URI = "file://build-dtree"
 
+KERNEL_DTREE_DIR     = "${STAGING_KERNEL_DIR}"
+KERNEL_DTREE_DIR_arm = "${STAGING_KERNEL_DIR}/arch/arm/boot/dts"
+
 do_configure[vardeps] += "SOC_FAMILY"
 do_configure() {
     rm -f build-dtree
@@ -23,6 +26,7 @@ do_configure() {
 	-e 's!@TFTPBOOT_DIR@!${TFTPBOOT_DIR}!g' \
 	-e 's!@PROJECT_TOPDIR@!${PROJECT_TOPDIR}!g' \
 	-e 's!@KERNEL_DIR@!${STAGING_KERNEL_DIR}!g' \
+	-e 's!@KERNEL_DTREE_DIR@!${KERNEL_DTREE_DIR}!g' \
 	-e 's!@SOC@!${@(d.getVar("SOC_FAMILY") or "").split(":")[0]}!g' \
 	${WORKDIR}/build-dtree > build-dtree
 

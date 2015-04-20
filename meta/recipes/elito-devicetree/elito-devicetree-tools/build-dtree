@@ -6,6 +6,7 @@
 : ${TFTPBOOT_DIR:="@TFTPBOOT_DIR@"}
 : ${PROJECT_TOPDIR:="@PROJECT_TOPDIR@"}
 : ${KERNEL_DIR:="@KERNEL_DIR@"}
+: ${KERNEL_DTREE_DIR:="@KERNEL_DTREE_DIR@"}
 : ${SOC:="@SOC@"}
 : ${MAKE:=make}
 
@@ -52,7 +53,7 @@ doit_mx6() {
   mx6_split_variants variant "$2"
 
   local pinflags=(
-    VPATH="`pwd`:.:$MACHINCDIR"
+    VPATH="`pwd`:.:${KERNEL_DTREE_DIR}"
     VARIANTS="$variant_module"
     SOC_DTREE_PINS_"${variant_module}=i${variant_soc}-pinfunc.h"
   )
