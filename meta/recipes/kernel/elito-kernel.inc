@@ -45,9 +45,6 @@ _configdisable-opts = ' \
 __defconfig[vardeps] += "_defconfig"
 __defconfig = "${@get_name_defconfig(d.getVar('_defconfig',True))}"
 
-SRC_URI[vardeps] += "_defconfig"
-SRC_URI += "${@get_src_uri_defconfig(d.getVar('_defconfig',True))}"
-
 def _get_defconfig(cfg):
     if not cfg.startswith('file://'):
         cfg = None
@@ -58,21 +55,34 @@ def _get_defconfig(cfg):
 
     return cfg
 
+def _get_defconfig_filelist(d, cfg):
+    res = []
+    if cfg.startswith('file://'):
+        fetcher = bb.fetch2.Fetch((cfg,), d)
+        ud = fetcher.ud[cfg]
+        paths = ud.method.localpaths(ud, d)
+        res.extend(map(lambda f: "%s:%s" % (f, os.path.exists(f)), paths))
+    return ' '.join(res)
+
 def get_name_defconfig(cfg):
     tmp = _get_defconfig(cfg)
     if tmp:
-        return "../../../../%s" % tmp
+        return "${WORKDIR}/%s" % tmp
     else:
         return cfg
 
-def get_src_uri_defconfig(cfg):
-    cfg = _get_defconfig(cfg)
-    if cfg:
-        cfg = 'file://%s' % cfg
-    else:
-        cfg = ""
-
-    return cfg
+do_fetch_defconfig[file-checksums] += "${@_get_defconfig_filelist(d, d.getVar('_defconfig', True))}"
+do_fetch_defconfig[vardeps] += "_defconfig"
+python do_fetch_defconfig() {
+    cfg = d.getVar('_defconfig', True)
+    if cfg.startswith('file://'):
+        try:
+            fetcher = bb.fetch2.Fetch((cfg,), d)
+            fetcher.unpack(d.getVar('WORKDIR', True))
+        except bb.fetch2.BBFetchException as e:
+            raise bb.build.FuncFailed(e)
+}
+addtask fetch_defconfig before do_configure
 
 kernel_early_options[vardeps] += "DISTRO_FEATURES KERNEL_CMDLINE \
   KERNEL_CMDLINE_SOURCE  KERNEL_EARLY_OPTIONS_FUNCS \
@@ -193,7 +203,13 @@ do_configure[depends] += "kernel-makefile:do_setup_makefile"
 
 do_configure_prepend() {
 	if ! test -e .config; then
-		oe_runmake "${__defconfig}"
+		if "${@['false', 'true'][d.getVar('__defconfig', True).startswith('/')]}"; then
+			install -p -m 0644 "${__defconfig}" .config
+			oe_runmake oldnoconfig
+		else
+			oe_runmake "${__defconfig}"
+		fi
+
 	fi
 
 	cp -a .config .config-orig
