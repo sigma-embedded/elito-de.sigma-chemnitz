@@ -12,6 +12,7 @@ SRC_URI = "git://github.com/ensc/fsliomux-conv.git;protocol=https"
 
 inherit gitpkgv
 
+DEPENDS += "libxslt"
 RDEPENDS_${PN} += "libxslt bash"
 BBCLASSEXTEND = "native"
 
