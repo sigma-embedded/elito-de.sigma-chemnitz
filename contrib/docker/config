@@ -1,0 +1,9 @@
+## --*- conf -*--
+#
+## save this as '.config_<hostname>'
+
+NFSROOT=/srv/elito/sysroots
+CACHEROOT=/srv/cache
+CONFIGURE_OPTIONS += \
+  --with-buildroot-dir='/srv/bld' \
+  --with-persistent-dir='/srv/bld/persistent'
