@@ -117,8 +117,6 @@ test_prog LDCONFIG ldconfig
 test_prog PKG_CONFIG pkg-config
 test_prog SOCAT socat
 test_prog GIT git
-test_prog SVN svn
-test_prog CVS cvs
 test_prog AUTOCONF autoconf
 test_prog LIBTOOLIZE libtoolize
 test_prog AUTORECONF autoreconf
