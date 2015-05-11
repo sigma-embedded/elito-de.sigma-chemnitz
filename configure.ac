@@ -232,14 +232,23 @@ AS_CASE([x$with_persistent_dir],
 	 AC_MSG_RESULT([$with_persistent_dir])])
 dnl }}} persistent-dir
 
-dnl {{{ buildbase-dir
+dnl {{{ buildroot/base-dir
+AC_MSG_CHECKING([for buildroot directory])
+AC_ARG_WITH(buildroot-dir,
+	AS_HELP_STRING([--with-buildroot-dir=<dir>],
+		       [buildroot directory]),
+	[AS_IF([test "x$withval" = "xdefault"],
+               [with_buildroot_dir="\${ELITO_CACHE_DIR}/bld"])],
+	[with_buildroot_dir="\${ELITO_CACHE_DIR}/bld"])
+AC_MSG_RESULT([$with_buildroot_dir])
+
 AC_MSG_CHECKING([for buildbase directory])
 AC_ARG_WITH(buildbase-dir,
 	AS_HELP_STRING([--with-buildbase-dir=<dir>],
 		       [buildbase directory]),
 	[AS_IF([test "x$withval" = "xdefault"],
-               [with_buildbase_dir="\${ELITO_CACHE_DIR}/bld/${PROJECT_UUID}"])],
-	[with_buildbase_dir="\${ELITO_CACHE_DIR}/bld/${PROJECT_UUID}"])
+               [with_buildbase_dir="${with_buildroot_dir}/${PROJECT_UUID}"])],
+	[with_buildbase_dir="${with_buildroot_dir}/${PROJECT_UUID}"])
 
 with_buildbase_dir=${with_buildbase_dir%%/}
 
