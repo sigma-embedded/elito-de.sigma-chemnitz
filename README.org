@@ -1,0 +1,38 @@
+#+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \lstdefinelanguage{fundamental}{}
+
+* Build docker containers
+
+ - =./bin/build fedora 201500=
+ - =./bin/build ubuntu 201500=
+
+* Run docker containers
+
+ - =./bin/run fedora 201500 2203=
+ - =./bin/run ubuntu 201500 2204=
+
+* Enter docker containers
+
+ - =~/.ssh/config=
+   #+BEGIN_SRC fundamental
+Host	docker.*
+	Hostname		localhost
+	ControlMaster 		auto
+	ControlPath 		/run/user/505/ssh-%r@%h-docker:%p
+	IdentityFile            ~/.ssh/id_rsa-docker
+	ForwardX11 		yes
+	ForwardAgent 		no
+	GSSAPIAuthentication 	no
+	PasswordAuthentication 	no
+	IdentitiesOnly		yes
+
+Host	docker.1
+	Port			2203
+
+Host	docker.2
+	Port			2204
+
+#+END_SRC
+
+ - =ssh docker.1= (enters fedora host)
+ - =ssh docker.2= (enters ubuntu host)

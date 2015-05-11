@@ -1,0 +1,20 @@
+#! /bin/sh
+
+t=`mktemp -d -t docker.XXXXXX`
+trap "rm -rf $t" EXIT
+
+DISTRIBUTION=$1
+RELEASE=$2
+
+set -e
+
+docker build -t elito_base:${DISTRIBUTION} 00-base.${DISTRIBUTION}
+
+cp -a 01-ssh/. "$t"/ssh
+{
+  echo "FROM elito_base:${DISTRIBUTION}"
+  cat 01-ssh/Dockerfile
+} > "$t"/ssh/Dockerfile
+
+tar czf - -C "$t/ssh" . --owner root --group root --mode go-w,a+rX | \
+    docker build -t elito-${RELEASE}:${DISTRIBUTION} -

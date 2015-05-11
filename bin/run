@@ -1,0 +1,14 @@
+#! /bin/sh
+
+DISTRIBUTION=$1
+RELEASE=$2
+P=$3
+
+unset http_proxy
+exec setsid docker run \
+     -v /srv/.oe/docker/elito:/srv/cache \
+     -v /srv/.oe/docker/elito_${RELEASE}.${DISTRIBUTION}:/srv/bld \
+     -v /srv/projects/_elito-release/.tests/${RELEASE}/${DISTRIBUTION}:/srv/elito \
+     -p $P:22 \
+     -h ${DISTRIBUTION} \
+     elito-${RELEASE}:${DISTRIBUTION}
