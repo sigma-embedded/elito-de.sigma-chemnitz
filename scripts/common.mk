@@ -411,10 +411,10 @@ endif
 
 $(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitbake_setuptools)
 			rm -f ${_bitbake-xtraprogs}
-			cd $(_tmpdir)/bitbake && $(PYTHON) setup.py build
+			rm -f $(_bitbake_root)
+			ln -s bitbake $(_bitbake_root)
 			mkdir -p $(_bitbake_root)/lib
 			cd $(_tmpdir)/bitbake && \
-			env PYTHONPATH=./lib:$(_bitbake_root)/lib$(if ${PYTHONPATH},:,)${PYTHONPATH} $(PYTHON) setup.py install --prefix=$(_bitbake_root) --install-purelib=$(_bitbake_root)/lib -O2
 			$(SED) -i -e '/EASY-INSTALL-SCRIPT/aimport os, site; site.addsitedir("$(_bitbake_root)/lib")' $(_bitbake_root)/bin/bitbake
 			$(MAKE) bitbake
 			p='${_bitbake-xtraprogs}'; for i in $$p; do \
