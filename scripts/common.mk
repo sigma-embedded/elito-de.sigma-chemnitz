@@ -558,7 +558,7 @@ clean-sources:
 
 gc-buildhistory:	FORCE
 ifneq ($(wildcard $(BUILDHISTORY_DIR)),)
-			-cd $(BUILDHISTORY_DIR) && $(GIT) gc --aggressive
+			-cd $(BUILDHISTORY_DIR) && $(GIT) repack -a -d --depth=250 --window=250
 endif
 
 mrproper:		clean gc-buildhistory
