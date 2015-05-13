@@ -10,6 +10,14 @@ trap "rm -rf $d" EXIT
 
 test -r "$OLD_BUNDLE" || OLD_BUNDLE=
 
+opts=( -a -d )
+case $1 in
+  --aggressive|-a)
+	opts+=( -f -F )
+	shift
+	;;
+esac
+
 {
   cd $d
   git init --bare
@@ -25,8 +33,7 @@ test -r "$OLD_BUNDLE" || OLD_BUNDLE=
 
   test -z "$OLD_BUNDLE" || git remote rm old
 
-  git -c gc.aggressiveWindow=1000 gc --aggressive
-  git repack -a -d
+  git repack "${opts[@]}" --depth=5000 --window=5000
 
   git ls-remote .
 
