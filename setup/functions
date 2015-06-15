@@ -142,7 +142,7 @@ ask_user() {
 
     case x$ELITO_SETUP_BATCH in
       x|x0|x[nN]*)	read ;;
-      *)		REPLY= ;;
+      *)		echo; REPLY= ;;
     esac
 
     test -n "$REPLY" || REPLY=$3
