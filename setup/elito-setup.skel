@@ -23,7 +23,18 @@ EOF
     exit 0
 }
 
+show_version() {
+    cat <<EOF
+elito-setup @GITREV@
+
+built at @DATE@
+EOF
+
+    exit 0
+}
+
 test x"$1" != x--help || show_help
+test x"$1" != x--version || show_version
 
 test_prog mktemp
 test_prog gunzip

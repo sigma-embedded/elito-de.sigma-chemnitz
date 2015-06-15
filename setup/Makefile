@@ -13,8 +13,10 @@ DOWNLOAD = \
 	http://www.sigma-chemnitz.de/dl/elito/sources/sigma-ssl-0.6.23.tar.bz2
 
 GITREV = $(shell set -x; ${GIT} describe --long --abbrev=40 HEAD 2>/dev/null | tr / _)
+NOW := $(shell date -R)
 SED_CMD = \
-	-e 's!@'GITREV'@!$(GITREV)!g'
+	-e 's!@'GITREV'@!$(GITREV)!g' \
+	-e 's!@'DATE'@!$(NOW)!g'
 
 _downloads =	$(addprefix packages/,$(notdir $(DOWNLOAD)))
 
