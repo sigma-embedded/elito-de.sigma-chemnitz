@@ -1,10 +1,47 @@
 #! /bin/bash
 
 declare -r srcdir=$1
-declare -r instdir=$2
-declare -r module=${3:-demo}
-declare -r branch=${4:-master}
+shift
+
 . ${srcdir}functions
+
+eval set -- `getopt -l only-proxy::,refresh,batch '' "$@"` || exit $?
+
+do_refresh=false
+only_proxy=false
+proxy_dir=
+while true; do
+    case $1 in
+      --)
+	    shift
+	    break 2
+	    ;;
+
+      --batch)
+	    ELITO_SETUP_BATCH=y
+	    ;;
+
+      --refresh)
+	    do_refresh=true
+	    ;;
+
+      --only-proxy)
+	    only_proxy=true
+	    proxy_dir=$2
+	    shift
+	    ;;
+
+      *)
+	    panic "bad option '$1'"
+	    ;;
+    esac
+
+    shift
+done
+
+declare -r instdir=$1
+declare -r module=${2:-demo}
+declare -r branch=${3:-master}
 
 : ${ELITO_GITHOST:=git.sigma-chemnitz.de:443}
 
@@ -171,25 +208,31 @@ section_end
 section_start "General questions:"
 ask_user ELITO_TOPDIR "Where to install ELiTo" "$instdir"
 
-if ! mkdir -p "$ELITO_TOPDIR"; then
-    panic "could not create '$ELITO_TOPDIR'"
+if ! $only_proxy || test -n "$ELITO_TOPDIR"; then
+    if ! mkdir -p "$ELITO_TOPDIR"; then
+	panic "could not create '$ELITO_TOPDIR'"
+    fi
+
+    if ! is_dir_empty "$ELITO_TOPDIR"; then
+	msg_warning "directory '$ELITO_TOPDIR' not empty; it might to be removed when next steps fail"
+    fi
+
+    ELITO_TOPDIR=`cd "$ELITO_TOPDIR" && pwd -P`
 fi
 
-if ! is_dir_empty "$ELITO_TOPDIR"; then
-    msg_warning "directory '$ELITO_TOPDIR' not empty; it might to be removed when next steps fail"
-fi
-
-ELITO_TOPDIR=`cd "$ELITO_TOPDIR" && pwd -P`
-
-PATH=$PATH:$ELITO_TOPDIR/.bin
 section_end
+
+bindir=$proxy_dir
+: ${bindir:=${ELITO_TOPDIR}/.bin}
+
+PATH=$PATH:$bindir
 
 ####
 
 section_start "Proxy traversal/remote setup:"
 test_prog SIGMA_SSL_CLIENT sigma-ssl-client ''
-if test -z "$SIGMA_SSL_CLIENT"; then
-    SIGMA_SSL_CLIENT=${ELITO_TOPDIR}/.bin/sigma-ssl-client
+if test -z "$SIGMA_SSL_CLIENT" || $do_refresh; then
+    : ${SIGMA_SSL_CLIENT:=$bindir/sigma-ssl-client}
 
     subsection_start "Building sigma-ssl-client:"
     test_pkg GNUTLS gnutls
@@ -207,8 +250,9 @@ EOF
 fi
 
 test_prog ELITO_PROXY elito-proxy ''
-if test -z "$ELITO_PROXY"; then
-    ELITO_PROXY=$ELITO_TOPDIR/.bin/elito-proxy
+if test -z "$ELITO_PROXY" || $do_refresh; then
+    : ${ELITO_PROXY:=$bindir/elito-proxy}
+
     msg_action "+creating ${ELITO_PROXY}..."
     _d="`dirname ${ELITO_PROXY}`"
 
@@ -230,12 +274,15 @@ if test -z "$ELITO_PROXY"; then
 fi
 
 msg_action "registering elito-proxy in git... "
-if ${GIT} config --global --get-all core.gitProxy "for $ELITO_GITHOST" | \
+if ! ${GIT} config --global --get-all core.gitProxy "for $ELITO_GITHOST" | \
     ${GREP} -q 'for '; then
-    msg_success "skipping" " (already registered)"
-else
     ${GIT} config --global --add 'core.gitProxy' "$ELITO_PROXY for $ELITO_GITHOST"
     msg_success "done"
+elif $do_refresh; then
+    ${GIT} config --global --replace-all 'core.gitProxy' "$ELITO_PROXY for $ELITO_GITHOST" "for $ELITO_GITHOST"
+    msg_success "done (refreshed)"
+else
+    msg_success "skipping" " (already registered)"
 fi
 
 ask_user ELITO_PROJECT_ID "project repository" "$module"
@@ -244,8 +291,9 @@ section_end
 
 ######
 
-rm -f "${ELITO_TOPDIR}"/.config
-cat >"${ELITO_TOPDIR}"/.config <<EOF
+if ! $only_proxy || test -e "${ELITO_TOPDIR}"/.config; then
+    rm -f "${ELITO_TOPDIR}"/.config
+    cat >"${ELITO_TOPDIR}"/.config <<EOF
 ELITO_CRT=${ELITO_CRT}
 ELITO_PROG_SSL_CLIENT=${SIGMA_SSL_CLIENT}
 ELITO_GITHOST=${ELITO_GITHOST}
@@ -258,25 +306,17 @@ export ELITO_GITHOST
 
 AUTORECONF=${AUTORECONF}
 EOF
-add_cleanup_files "${ELITO_TOPDIR}"/.config
+    add_cleanup_files "${ELITO_TOPDIR}"/.config
+fi
 
-msg_action "checking out project repository... "
-do_it fetch_repository
+if ! $only_proxy; then
+    msg_action "checking out project repository... "
+    do_it fetch_repository
 
-msg_action "registering elito-proxy in local git repository... "
-(
-  # DOES NOT work as expected :( local configuration is overridden by
-  # global one which points to global proxy command
-  cd $ELITO_TOPDIR
-  ${GIT} config --unset 'core.gitProxy' " for $ELITO_GITHOST"
-  ${GIT} config --add 'core.gitProxy' "$ELITO_PROXY for $ELITO_GITHOST"
-)
-msg_success " done"
-
-msg_action "downloading project data (this will take some time)... "
-msg_success ""
-if ${MAKE} -s -e -C ${ELITO_TOPDIR} prepare; then
-    cat <<EOF
+    msg_action "downloading project data (this will take some time)... "
+    msg_success ""
+    if ${MAKE} -s -e -C ${ELITO_TOPDIR} prepare; then
+	cat <<EOF
 *******************************************
 Project has been downloaded; now go to ${ELITO_TOPDIR}, set parameters
 in .config-<domain> or .config-<hostname> and execute
@@ -287,9 +327,9 @@ in .config-<domain> or .config-<hostname> and execute
  there.
 *******************************************
 EOF
-else
-    tail -n10 .build.log >&2
-    cat <<EOF | ${SED} "s!^!${I}  **** !" >&2
+    else
+	tail -n10 .build.log >&2
+	cat <<EOF | ${SED} "s!^!${I}  **** !" >&2
 
 Automatic download failed; details can be found in .build.log.
 Please execute
@@ -298,6 +338,7 @@ Please execute
 
 after fixing the problems.
 EOF
+    fi
 fi
 
 trap EXIT
