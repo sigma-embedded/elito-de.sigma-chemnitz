@@ -1,7 +1,7 @@
-From fe7b6617af261e06a17ea4e2ed7a827c9df9321a Mon Sep 17 00:00:00 2001
+From 67e2c203d10aac374bff07957f6e1da71c075fb9 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Thu, 13 Dec 2012 18:11:33 +0100
-Subject: [PATCH 08/10] event: temporarily disable verbose logs
+Subject: [PATCH 6/8] event: temporarily disable verbose logs
 
 Because stderr of event handlers is directly printed to the console,
 this will pollute output when using e.g. 'buildhistory' which calls a
@@ -15,27 +15,27 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 3 insertions(+)
 
 diff --git a/lib/bb/event.py b/lib/bb/event.py
-index 8b47ae5..f327aae 100644
+index 61a7f4a..d463252 100644
 --- a/lib/bb/event.py
 +++ b/lib/bb/event.py
-@@ -70,7 +70,9 @@ _catchall_handlers = {}
- 
- def execute_handler(name, handler, event, d):
-     event.data = d
+@@ -76,7 +76,9 @@ def execute_handler(name, handler, event, d):
+     if 'd' not in __builtins__:
+         __builtins__['d'] = d
+         addedd = True
 +    old_verbose = bb.msg.loggerVerboseLogs
      try:
 +        bb.msg.loggerVerboseLogs = False
          ret = handler(event)
      except (bb.parse.SkipRecipe, bb.BBHandledException):
          raise
-@@ -84,6 +86,7 @@ def execute_handler(name, handler, event, d):
+@@ -90,6 +92,7 @@ def execute_handler(name, handler, event, d):
              logger.error("Execution of event handler '%s' failed" % name)
          raise
      finally:
 +        bb.msg.loggerVerboseLogs = old_verbose
          del event.data
- 
- def fire_class_handlers(event, d):
+         if addedd:
+             del __builtins__['d']
 -- 
-1.9.3
+2.1.0
 
