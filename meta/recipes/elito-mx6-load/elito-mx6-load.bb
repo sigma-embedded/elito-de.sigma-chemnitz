@@ -11,8 +11,10 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 COMPATIBLE_MACHINE = "mx6"
 
 MX6_LOAD_BRANCH ??= "master"
+MX6_LOAD_GIT_REPO ??= "${ELITO_GIT_REPO}/pub/elito-mx6-load.git;branch=${MX6_LOAD_BRANCH}"
+
 SRC_URI = "\
-  ${ELITO_GIT_REPO}/pub/elito-mx6-load.git;name=mx6-load;destsuffix=mx6-load/;branch=${MX6_LOAD_BRANCH} \
+  ${MX6_LOAD_GIT_REPO};name=mx6-load;destsuffix=mx6-load/ \
 "
 
 DEPENDS += "\
