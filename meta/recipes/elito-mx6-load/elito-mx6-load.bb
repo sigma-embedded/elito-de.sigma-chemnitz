@@ -17,6 +17,8 @@ SRC_URI = "\
   ${MX6_LOAD_GIT_REPO};name=mx6-load;destsuffix=mx6-load/ \
 "
 
+inherit gitpkgv
+
 DEPENDS += "\
   ${@bb.utils.contains('MACHINE_FEATURES', 'barebox', 'barebox', '', d)} \
   elito-devicetree \
