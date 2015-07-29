@@ -1,0 +1,26 @@
+From ec3d272662fed5b7a389dd28128bb77e3927b93f Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Wed, 29 Jul 2015 15:25:21 +0200
+Subject: [PATCH] fixed bug in evaluation of setup options
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ src/mtd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/mtd.c b/src/mtd.c
+index 1edc441..db26f9e 100644
+--- a/src/mtd.c
++++ b/src/mtd.c
+@@ -3082,7 +3082,7 @@ void mtd_parse_kobs(struct mtd_config *cfg, const char *name, int verbose)
+ 		}
+ 
+ 		if (j < ARRAY_SIZE(mtd_charp_args)) {
+-			if (mtd_int_args[j].ignore) {
++			if (mtd_charp_args[j].ignore) {
+ 				fprintf(stderr, "WARNING: Parameter '%s' is no longer used, ignoring\n",
+ 						mtd_int_args[j].name);
+ 				continue;
+-- 
+2.4.3
+

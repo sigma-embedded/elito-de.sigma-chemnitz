@@ -3,16 +3,21 @@ DESCRIPTION = "Dump control structures of the NAND"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 
-PV = "11.09.01"
+PV = "3.14.28"
+_pv = "${PV}-1.0.0"
+PE = "1"
+FSL_MIRROR ?= "http://www.freescale.com/lgfiles/NMG/MAD/YOCTO/"
 
-SRC_URI = " \
-	http://foss.doredevelopment.dk/mirrors/imx/kobs-ng-${PV}.tar.gz \
-	file://linux-3.2.patch \
+SRC_URI = "\
+  ${FSL_MIRROR}/imx-kobs-${_pv}.tar.gz \
+  file://0001-fixed-bug-in-evaluation-of-setup-options.patch \
 "
 
-SRC_URI[md5sum] = "4743aacfd86758d65055aabb03a7d980"
-SRC_URI[sha256sum] = "60b877ac02e5880b7f0370b9ea11c1c1db7fa7ca280f80b4ed1e8c5e212d17a5"
+SRC_URI[md5sum] = "0077ec992b281ebbce2928564a08b207"
+SRC_URI[sha256sum] = "cfac042f5c96731205c397a4a6b3ed966f804569ae4d0e2685d22fdf6bdc9eb7"
 
-inherit autotools
+inherit  autotools pkgconfig
+
+S = "${WORKDIR}/imx-kobs-${_pv}"
 
 BBCLASSEXTEND = "native"
