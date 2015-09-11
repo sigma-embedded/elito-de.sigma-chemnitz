@@ -13,13 +13,14 @@ Although OpenEmbedded is almost self-hosting, some software is
 required for bootstrapping and download tasks:
 
 \begin{itemize}
-\item tar, gzip, bzip2, cpio, grep, xz
+\item tar, gzip, bzip2, cpio, grep, xz, lzop
 \item make, gcc, g++
-\item socat, wget, gawk, chrpath
+\item socat, curl, wget, gawk, chrpath
 \item git, cvs, svn
 \item pkg-config, autoconf, automake, libtool, ccache
 \item gnutls development files
 \item help2man, diffstat, texi2html, texinfo
+\item python-beautifulsoup4, python-inotify
 \item python-libxml2 bindings
 \item proxy tool for determining local proxy setup (recommended)
 \end{itemize}
@@ -32,7 +33,8 @@ sudo aptitude install \
    make gcc g++ pkg-config \
    socat git-core cvs subversion autoconf libtool ccache wget \
    libgnutls-dev help2man diffstat texi2html texinfo \
-   python-libxml2 libproxy-tools bzip2 cpio
+   python-libxml2 libproxy-tools bzip2 cpio \
+   python-pyinotify python-bs4 lzop curl
 \end{lstlisting}
 
 
