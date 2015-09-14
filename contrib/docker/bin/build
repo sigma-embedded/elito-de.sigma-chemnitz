@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 t=`mktemp -d -t docker.XXXXXX`
 trap "rm -rf $t" EXIT
@@ -8,13 +8,22 @@ RELEASE=$2
 
 set -e
 
-docker build -t elito_base:${DISTRIBUTION} 00-base.${DISTRIBUTION}
+. ./setup
+
+docker build -t ${BASE_NAME}:${DISTRIBUTION} 00-base.${DISTRIBUTION}
 
 cp -a 01-ssh/. "$t"/ssh
+
 {
-  echo "FROM elito_base:${DISTRIBUTION}"
-  cat 01-ssh/Dockerfile
+  echo "FROM ${BASE_NAME}:${DISTRIBUTION}"
+
+  for v in "${VOLUMES[@]}"; do
+      eval set -- "$v"
+      echo "VOLUME $1"
+  done
+
+  cat 01-ssh/Dockerfile 
 } > "$t"/ssh/Dockerfile
 
 tar czf - -C "$t/ssh" . --owner root --group root --mode go-w,a+rX | \
-    docker build -t elito-${RELEASE}:${DISTRIBUTION} -
+    docker build -t ${FINAL_NAME}:${DISTRIBUTION} -
