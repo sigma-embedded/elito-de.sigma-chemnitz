@@ -36,7 +36,8 @@ RUN \
 	chown -R ensc:ensc /home/ensc && \
 	chmod 0644 /home/ensc/.ssh/authorized_keys && \
 	chmod 0644 /home/ensc/.elito.pem && \
-	chmod 0755 /home/ensc/bin/elito-setup
+	chmod 0755 /home/ensc/bin/elito-setup && \
+	:
 
 EXPOSE 22
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]

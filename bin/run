@@ -1,14 +1,23 @@
-#! /bin/sh
+#! /bin/bash
 
 DISTRIBUTION=$1
 RELEASE=$2
 P=$3
 
-exec setsid docker run \
-     -v /srv/.oe/docker/elito:/srv/cache \
-     -v /srv/.oe/docker/elito_${RELEASE}.${DISTRIBUTION}:/srv/bld \
-     -v /srv/projects/_elito-release/.tests/${RELEASE}/${DISTRIBUTION}:/srv/elito \
-     -p $P:22 \
-     --hostname=${DISTRIBUTION} \
-     --name=elito-${RELEASE}_${DISTRIBUTION} \
-     elito-${RELEASE}:${DISTRIBUTION}
+set -e
+
+. ./setup
+
+_opts=(
+  -p "$P":22
+  --hostname="${CONTAINER_HOSTNAME}"
+  --name="${FINAL_NAME}_${DISTRIBUTION}"
+)
+
+for v in "${VOLUMES[@]}"; do
+    eval set -- "$v"
+    _opts+=( -v "$1:$2" )
+done
+
+exec setsid docker run "${_opts[@]}" \
+     ${FINAL_NAME}:${DISTRIBUTION}

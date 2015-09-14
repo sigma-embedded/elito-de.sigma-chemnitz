@@ -5,10 +5,10 @@ FROM fedora:21
 ENV http_proxy http://www-cache:3128/
 ENV https_proxy http://www-cache:3128/
 ENV ftp_proxy http://www-cache:3128/
-ENV no_proxy .sigma-chemnitz.de,sigma-chemnitz.de,cvg.de,.cvg.de,andto.de,.andto.de,<local>
+ENV no_proxy .sigma-chemnitz.de,sigma-chemnitz.de,cvg.de,.cvg.de,andto.de,.andto.de,localhost,<local>
 
 RUN \
-    : 20150512 - invalidate cache && \
+    : 20150914 - invalidate cache && \
     yum upgrade --setopt="proxy=$http_proxy" -y && \
     yum clean all
 
@@ -61,10 +61,3 @@ RUN \
       echo 'ftp_proxy=$http_proxy' && \
       echo "no_proxy='$no_proxy'"; \
     } >> /etc/profile.d/proxy.sh
-
-# the workspace with valuable files; it can be on a slow disk
-VOLUME /srv/elito
-# the build directory; it should be on a fast disk and does not need backup
-VOLUME /srv/bld
-# a directory shared between multiple instances; does not need backup
-VOLUME /srv/cache

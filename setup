@@ -1,0 +1,11 @@
+#! /bin/bash
+
+BASE_NAME=elito_base
+FINAL_NAME=elito-${RELEASE}
+CONTAINER_HOSTNAME=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
+
+VOLUMES=(
+	"/srv/cache /srv/.oe/docker/elito"
+	"/srv/bld   /srv/.oe/docker/elito_${RELEASE}.${DISTRIBUTION}"
+	"/srv/elito /srv/projects/_elito-release/.tests/${RELEASE}/${DISTRIBUTION}"
+)
