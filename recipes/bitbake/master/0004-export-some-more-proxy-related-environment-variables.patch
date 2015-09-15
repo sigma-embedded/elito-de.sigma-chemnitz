@@ -1,26 +1,26 @@
-From 13ca1ae4a0381cbf1d6ca5acd6b0d98435ee44e9 Mon Sep 17 00:00:00 2001
+From 0ae033f735b3b6bb256382720f51a57e131cad73 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:42 +0200
-Subject: [PATCH 02/10] export some more proxy related environment variables
+Subject: [PATCH 2/8] export some more proxy related environment variables
 
 ---
  lib/bb/fetch2/__init__.py | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 1365335..64e00a3 100644
+index 3d53b63..5dc805e 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -674,6 +674,9 @@ def runfetchcmd(cmd, d, quiet = False, cleanup = []):
+@@ -803,6 +803,9 @@ def runfetchcmd(cmd, d, quiet=False, cleanup=None):
                    'SSH_AUTH_SOCK', 'SSH_AGENT_PID',
                    'SOCKS5_USER', 'SOCKS5_PASSWD']
  
 +    exportvars.extend(['ELITO_CRT', 'ELITO_KEY', 'ELITO_PROG_SSL_CLIENT',
 +                       'ELITO_PROG_PROXY', 'ELITO_USE_LIBPROXY'])
 +
-     for var in exportvars:
-         val = d.getVar(var, True)
-         if val:
+     if not cleanup:
+         cleanup = []
+ 
 -- 
-1.8.1.4
+2.4.3
 
