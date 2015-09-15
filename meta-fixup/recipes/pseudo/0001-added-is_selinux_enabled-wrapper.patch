@@ -1,4 +1,4 @@
-From 8adba7fe420bc64d5947b6878e2153bebc4495fb Mon Sep 17 00:00:00 2001
+From 7565efcb75f444d8487ddfb6040908f8efb4c2be Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Sat, 26 Jul 2014 17:51:28 +0200
 Subject: [PATCH] added is_selinux_enabled() wrapper
@@ -94,7 +94,7 @@ index 3b8955a..07e6482 100644
 +int is_selinux_enabled(void);
 +int is_selinux_mls_enabled(void);
 diff --git a/pseudo.1 b/pseudo.1
-index 6906345..ab27ac4 100644
+index 13f6bbe..0b461c2 100644
 --- a/pseudo.1
 +++ b/pseudo.1
 @@ -485,6 +485,13 @@ discarded silently, even when
@@ -112,7 +112,7 @@ index 6906345..ab27ac4 100644
  If this variable is set, the
  .I pseudo
 diff --git a/pseudo.h b/pseudo.h
-index 92020e4..5be867d 100644
+index 81db201..14a2f2b 100644
 --- a/pseudo.h
 +++ b/pseudo.h
 @@ -41,6 +41,7 @@ extern unsigned long pseudo_util_debug_flags;
@@ -124,18 +124,18 @@ index 92020e4..5be867d 100644
  #ifndef NDEBUG
  #define pseudo_debug(x, ...) do { \
 diff --git a/pseudo_client.c b/pseudo_client.c
-index 8deaa1b..0951bd2 100644
+index 4eb91df..6f78009 100644
 --- a/pseudo_client.c
 +++ b/pseudo_client.c
-@@ -69,6 +69,7 @@ char *pseudo_cwd_rel = NULL;
+@@ -73,6 +73,7 @@ char *pseudo_cwd_rel = NULL;
  /* used for PSEUDO_DISABLED */
  int pseudo_disabled = 0;
  int pseudo_allow_fsync = 0;
 +int pseudo_allow_selinux = 0;
  static int pseudo_local_only = 0;
+ static int pseudo_client_logging = 1;
  
- int pseudo_umask = 022;
-@@ -188,6 +189,22 @@ pseudo_init_client(void) {
+@@ -510,6 +511,22 @@ pseudo_init_client(void) {
  		pseudo_allow_fsync = 0;
  	}
  
@@ -159,17 +159,17 @@ index 8deaa1b..0951bd2 100644
  	 * some truthy value, in which case we're being asked to
  	 * remove pseudo from the LD_PRELOAD. We need to make sure
 diff --git a/pseudo_util.c b/pseudo_util.c
-index e4e1fc8..2a0258e 100644
+index c81df5a..de1663d 100644
 --- a/pseudo_util.c
 +++ b/pseudo_util.c
-@@ -66,6 +66,7 @@ static struct pseudo_variables pseudo_env[] = {
- 	{ "PSEUDO_DISABLED", 15, NULL },
- 	{ "PSEUDO_UNLOAD", 13, NULL },
- 	{ "PSEUDO_ALLOW_FSYNC", 18, NULL },
-+	{ "PSEUDO_ALLOW_SELINUX", 19, NULL },
+@@ -69,6 +69,7 @@ static struct pseudo_variables pseudo_env[] = {
+ #ifdef PSEUDO_PROFILING
+ 	{ "PSEUDO_PROFILE_PATH", 19, NULL },
+ #endif
++	{ "PSEUDO_ALLOW_SELINUX", 20, NULL },
  	{ NULL, 0, NULL } /* Magic terminator */
  };
  
 -- 
-1.9.3
+2.4.3
 
