@@ -76,7 +76,7 @@ ELITO_TRUE_FALSE([HAVE_GLOBAL_BITBAKE_CONF], [test -n "$_f"])
 
 AC_ARG_WITH([local-bitbake-conf],
 	[AS_HELP_STRING([--with-local-bitbake-conf=<file>],
-		[local bitbake configuration file (default: conf/local-<domain>.conf (when exists))])],
+		[local bitbake configuration file (default: conf/local_<domain>.conf (when exists))])],
 	[AS_CASE([$withval],
 		[yes|no], [],
 		[_f=$withval; withval=yes])],
@@ -90,8 +90,22 @@ AS_CASE([$withval],
 	[auto],	[_d=`hostname -f`
 		_f=
 		while test -n "$_d"; do
-		      _f=conf/local-"$_d".conf
-		      ! test -r "$_f" || break
+		      # TODO: remove local-* support after 2018-01-01
+		      _f0=conf/local_"$_d".conf
+		      _f1=conf/local-"$_d".conf
+		      if ! test -r "$_f0"; then
+		          _f=$_f1
+		      elif ! test -r "$_f1"; then
+		      	  _f=$_f0
+		      else	 
+		      	  AC_MSG_ERROR([both local_* and legacy local-* style configuration exists (suffix '$_d')])
+		      fi
+		      if test -r "$_f"; then
+			  if test x"$_f" = x"$_f1"; then
+		      	      AC_MSG_WARN([legacy local-* style configuration (suffix '$_d')!])
+		          fi
+		          break
+	              fi
 		      if test x"$_d" = x"${_d@%:@*.}"; then
 			 _d=
 			 _f=
