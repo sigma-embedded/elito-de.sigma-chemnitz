@@ -14,7 +14,7 @@ MX6_LOAD_BRANCH ??= "master"
 MX6_LOAD_GIT_REPO ??= "${ELITO_GIT_REPO}/pub/elito-mx6-load.git;branch=${MX6_LOAD_BRANCH}"
 
 SRC_URI = "\
-  ${MX6_LOAD_GIT_REPO};name=mx6-load;destsuffix=mx6-load/ \
+  ${MX6_LOAD_GIT_REPO};destsuffix=mx6-load/ \
 "
 
 inherit gitpkgv
