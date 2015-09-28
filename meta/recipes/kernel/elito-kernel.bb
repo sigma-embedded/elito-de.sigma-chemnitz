@@ -24,6 +24,7 @@ SRCREV       = "${MACHINE_KERNEL_REVISION}"
 KERNEL_REPO ?= "${ELITO_GIT_WS}/kernel.git"
 _branch      = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 SRC_URI      = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
+SRC_URI[vardepsexclude] += "KERNEL_REPO"
 
 inherit kernel gitpkgv
 include elito-kernel.inc
