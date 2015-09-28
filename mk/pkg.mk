@@ -1,6 +1,6 @@
 OPKG_MAKE_INDEX =	opkg-make-index
 FAKEROOT =		${ELITO_TOPDIR}/scripts/run-pseudo '${PROJECT_TOPDIR}'
-OPKG =			env PSEUDO_DISABLED=0 opkg-cl
+OPKG =			env PSEUDO_DISABLED=0 opkg
 OPKG_ENV =		env D='$(DESTDIR)' LANG=C OPKG_OFFLINE_ROOT='$(DESTDIR)' INTERCEPT_DIR=$(ELITO_ROOTDIR)/org.openembedded.core/scripts/postinst-intercepts
 OPKG_OPTS =		--force_postinstall
 
