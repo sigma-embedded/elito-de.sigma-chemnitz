@@ -7,8 +7,8 @@ _pv     = "0.1.0"
 PV   = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
-SRCREV = "449b58d49aabedbc5df0f5c087eed0e28f4f022e"
-SRC_URI = "git://github.com/ensc/fsliomux-conv.git;protocol=https"
+SRCREV = "fb57e8e51371ba35324b8eb2ff41e370f255685d"
+SRC_URI = "git://github.com/sigma-embedded/fsliomux-conv.git;protocol=https"
 
 inherit gitpkgv
 
