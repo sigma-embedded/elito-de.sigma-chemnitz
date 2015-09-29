@@ -23,6 +23,10 @@ while read; do
 	      ldir=$CGDIR/systemd/$tmp/../user@$UID.service/$CNAME
 	      ;;
 
+	/system.slice/docker-*)
+	      ldir=
+	      ;;
+
 	*)
 	      echo "Unknown cgroup style '$tmp'" >&2
 	      ldir=
