@@ -60,6 +60,12 @@ do_configure() {
         -i network/*.network
 }
 
+_TAR_OPTS = "--exclude=./.git --mode go-w,a+rX --owner root --group root"
+
+copy_by_tar() {
+    tar cf - -C $1 $2 ${_TAR_OPTS} | tar xf - -C ${D}$3
+}
+
 do_install[dirs] = "${WORKDIR}"
 do_install() {
     f='05-elito-network_${ELITO_NETWORKD}.conf'
@@ -77,7 +83,9 @@ do_install() {
 	${D}${_d} ${D}${systemd_unitdir}/network \
 	${D}/var/lib/firstboot
 
-    tar cf - -C git nfs --exclude=./.git --mode go-w,a+rX | tar xf - -C ${D}${_d}
-    tar cf - -C git/all . --exclude=./.git --mode go-w,a+rX | tar xf - -C ${D}${systemd_unitdir}/system
-    tar cf - -C git/network . --exclude=./.git --mode go-w,a+rX | tar xf - -C ${D}${systemd_unitdir}/network
+    opts=
+
+    copy_by_tar "git"         "nfs" "${_d}"
+    copy_by_tar "git/all"     "."   "${systemd_unitdir}/system"
+    copy_by_tar "git/network" "."   "${systemd_unitdir}/network"
 }
