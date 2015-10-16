@@ -47,9 +47,9 @@ def ubi_add_ubifs(sizes, d):
     types = []
     sz = sizes.split()
 
-    d.delVar('NAND_BLOCKSIZE')
-    d.delVar('NAND_PAGESIZE')
-    d.delVar('FLASH_SIZE')
+    d.setVar('NAND_BLOCKSIZE', None, parsing=True)
+    d.setVar('NAND_PAGESIZE', None, parsing=True)
+    d.setVar('FLASH_SIZE', None, parsing=True)
 
     for t in d.getVar('IMAGE_FSTYPES', True).split():
         if t != 'ubifs':
