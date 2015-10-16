@@ -1,4 +1,4 @@
-_pv = "0.2.1"
+_pv = "0.2.2"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
   file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
   file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-  file://LICENCE.iwlwifi_firmware;md5=5106226b2863d00d8ed553221ddf8cd2 \
+  file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
   file://LICENCE.mwl8335;md5=9a6271ee0e644404b2ff3c61fd070983 \
   file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
   file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
 "
 
-SRCREV          = "0e5f63771d0df6d7859f7c4100a74d737c62ac88"
+SRCREV          = "d82d3c1e5eddb811a38513a7e5b33202773f0fff"
 
 HOMEPAGE = "https://git.kernel.org/cgit/linux/kernel/git/firmware/linux-firmware.git"
 SRC_URI = "\
@@ -55,7 +55,7 @@ do_install() {
 
     install -d -m 0755 ${D}/lib/firmware ${D}/lib/firmware/nouveau \
         ${D}/lib/firmware/libertas ${D}/lib/firmware/rtlwifi ${D}/lib/firmware/mrvl \
-        ${D}/lib/firmware/rtl_nic
+        ${D}/lib/firmware/rtl_nic ${D}/lib/firmware/ti-connectivity
 
     install -p -m 0644 ath3k*.fw ${WORKDIR}/*.fw  ${D}/lib/firmware/
     install -p -m 0644 rt*.bin ${D}/lib/firmware/
@@ -63,6 +63,7 @@ do_install() {
     install -p -m 0644 rtlwifi/*.bin ${D}/lib/firmware/rtlwifi/
     install -p -m 0644 rtl_nic/*.fw ${D}/lib/firmware/rtl_nic/
     install -p -m 0644 mrvl/*.bin ${D}/lib/firmware/mrvl/
+    install -p -m 0644 ti-connectivity/*.bin ${D}/lib/firmware/ti-connectivity/
     install -p -m 0644 ../nouveau/*.ctxprog ../nouveau/*.ctxvals ${D}/lib/firmware/nouveau/
 }
 
