@@ -121,8 +121,7 @@ def split_pkgs(d, args):
     return res.keys()
 
 python populate_packages_prepend() {
-    v = eval(bb.data.getVar('_pkginfo', d, 1))
-    pkgs = []
+    v = eval(d.getVar('_pkginfo', True))
     pkgs = set()
     for (n,f) in v.items():
         if n[0] != '_':
@@ -133,7 +132,7 @@ python populate_packages_prepend() {
         else:
             pkgs.update(f[0](d, f[1:]))
 
-    bb.data.setVar('PACKAGES', ' '.join(pkgs), d)
+    d.setVar('PACKAGES', ' '.join(sorted(pkgs)))
 }
 
 PV_pn_firmware-dvb-usb-af9015 = "4.95.0"
