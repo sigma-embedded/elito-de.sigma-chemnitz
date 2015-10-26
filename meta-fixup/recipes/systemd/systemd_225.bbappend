@@ -123,7 +123,6 @@ def systemd_elito_populate_packages(d, only_names = False):
                         '${systemd_bindir}/network',
                         '${sysconfdir}/systemd/network',
                         '${libdir}/systemd/network',
-                        '${libdir}/tmpfiles.d/systemd-networkd.conf',
                         '${base_bindir}/networkctl' ],
         'localed' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.locale1.conf',
                       '${datadir}/polkit-1/actions/org.freedesktop.locale1.policy',
@@ -133,10 +132,7 @@ def systemd_elito_populate_packages(d, only_names = False):
                         '${bindir}/hostnamectl' ],
         'machined' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf',
                        '${base_bindir}/machinectl' ],
-        'nspawn' : [ '${bindir}/systemd-nspawn' ],
-        'timesyncd' : [ '${libdir}/systemd/systemd-timesyncd' ],
-        'sysusers' :  [ '${libdir}/sysusers.d',
-                        '${base_bindir}/systemd-sysusers' ],
+        'sysusers' :  [ '${libdir}/sysusers.d' ],
         'resolved' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.resolve1.conf',
                        '${libdir}/systemd/systemd-resolve-host',
                        '${systemd_bindir}/systemd-resolve-host',
@@ -147,7 +143,6 @@ def systemd_elito_populate_packages(d, only_names = False):
                  ],
         'journal-upload' : [ '${libdir}/tmpfiles.d/systemd-remote.conf' ],
         'ask-password' : [ '${systemd_bindir}/systemd-reply-password',
-                           '${base_bindir}/systemd-ask-password',
                            '${base_bindir}/systemd-tty-ask-password-agent' ],
         'timedated' : [ '${sysconfdir}/dbus-1/system.d/org.freedesktop.timedate1.conf',
                         '${bindir}/timedatectl',
@@ -179,7 +174,11 @@ def systemd_elito_populate_packages(d, only_names = False):
         files += map(lambda x:
                      '${datadir}/dbus-1/system-services/%s' % x.strip('dbus-'), i)
         files += ['${sysconfdir}/systemd/%s.conf' % _p,
-                  '${systemd_unitdir}/systemd-%s' % _p]
+                  '${systemd_unitdir}/systemd-%s' % _p,
+                  '${base_bindir}/systemd-%s' % _p,
+                  '${bindir}/systemd-%s' % _p,
+                  '${libdir}/systemd/systemd-%s' % _p,
+                  '${libdir}/tmpfiles.d/systemd-%s.conf' % _p]
         files += map(lambda x:
                      x, (xtra_paths.get(_p) or []))
 
