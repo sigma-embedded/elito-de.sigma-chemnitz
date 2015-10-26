@@ -50,6 +50,8 @@ SRC_URI[tts2400.sha256sum] = "6290cdcb76adff393e2ade506a611c1f95e4a5c619248d4647
 S = "${WORKDIR}/git"
 INHIBIT_DEFAULT_DEPS = "1"
 
+CLEANBROKEN = "1"
+
 do_install() {
     cd ../git
 
