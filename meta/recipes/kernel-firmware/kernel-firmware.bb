@@ -1,4 +1,4 @@
-_pv = "0.2.2"
+_pv = "0.2.3"
 
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
@@ -79,6 +79,8 @@ _pkginfo = "{ \
         '_rtlXXXX'	     : [ split_pkgs, 'rtl%s', 'rtl_nic', r'rtl([0-9]+[a-z]?)-[0-9]+\.fw' ], \
         '_rtXXXX'	     : [ split_pkgs, 'rt%s', '', r'rt([0-9]+[a-z]?)\.bin' ], \
         '_rtlwifi'           : [ split_pkgs, '%s', 'rtlwifi', r'(rtl.*)fw.*\.bin' ], \
+        '_ti0'               : [ split_pkgs, 'ti-%s', 'ti-connectivity', r'(wl.*)[-_]fw.*\.bin' ], \
+        '_ti1'               : [ split_pkgs, 'ti-%s', 'ti-connectivity', r'(wl.*)[-_]nvs\.bin' ], \
         'ath3k'              : [ 'ath3k-1.fw' ] }"
 
 PACKAGES_DYNAMIC += 'firmware-.*'
