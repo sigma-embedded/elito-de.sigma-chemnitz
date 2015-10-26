@@ -38,7 +38,8 @@ def repo(remote, local, d):
                    d.getVar("ELITO_WORKSPACE_DIR", True) or
                    "").split()
 
-    r = "${ELITO_GIT_REPO}/" + remote
+    repos = ( "${ELITO_GIT_REPO}/" + remote,
+              "${ELITO_PUBLIC_GIT_REPO}/" + remote )
     path = None
 
     for p in search_path:
@@ -56,7 +57,7 @@ def repo(remote, local, d):
         return ""
     else:
         l = "git://%s;protocol=file" % os.path.normpath(path)
-        return "%-40s\t%s\n" % (r,l)
+        return ''.join(map(lambda r: "%-40s\t%s\n" % (r,l), repos))
 
 def update_build_info(d, oe_info_fn):
     import bb.parse, time
