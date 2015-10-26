@@ -83,6 +83,12 @@ _pkginfo = "{ \
 
 PACKAGES_DYNAMIC += 'firmware-.*'
 
+def extend_var(d, var_name, val):
+    old = d.getVar(var_name, False)
+    if old is not None:
+        val = old + ' ' + val
+    d.setVar(var_name, val)
+
 def split_pkgs(d, args):
     import re, os
 
@@ -110,21 +116,22 @@ def split_pkgs(d, args):
         raise Exception("No items found for %s" % (args,))
 
     for (pkg,files) in res.items():
-        d.setVar('FILES_%s' % pkg, ' '.join(files))
+        extend_var(d, 'FILES_%s' % pkg, ' '.join(files))
 
     return res.keys()
 
 python populate_packages_prepend() {
     v = eval(bb.data.getVar('_pkginfo', d, 1))
     pkgs = []
+    pkgs = set()
     for (n,f) in v.items():
         if n[0] != '_':
             pname = 'firmware-' + n
-            pkgs.append(pname)
+            pkgs.add(pname)
             files = map(lambda x: '/lib/firmware/' + x, f)
-            bb.data.setVar('FILES_' + pname, ' '.join(files), d)
+            extend_var(d, 'FILES_' + pname, ' '.join(files))
         else:
-            pkgs.extend(f[0](d, f[1:]))
+            pkgs.update(f[0](d, f[1:]))
 
     bb.data.setVar('PACKAGES', ' '.join(pkgs), d)
 }
