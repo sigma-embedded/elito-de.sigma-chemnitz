@@ -136,7 +136,8 @@ BB_HASHBASE_WHITELIST += "ELITO_CRT ELITO_TOPDIR"
 ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
 ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
 
-SRC_URI[vardepsexclude] += "ELITO_GIT_REPO ELITO_WORKSPACE_DIR"
+SRC_URI[vardepsexclude] += "\
+  ELITO_GIT_REPO ELITO_PUBLIC_GIT_REPO ELITO_WORKSPACE_DIR"
 
 SRC_URI[_rewrite_fn] = "elito_rewrite_src_uri"
 

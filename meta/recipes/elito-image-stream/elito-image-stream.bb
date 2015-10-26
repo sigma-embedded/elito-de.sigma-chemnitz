@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 _pv     = "0.2.5"
 
 SRCREV  = "0c78f50683e4d4fcab647c3699f1db5feb818df8"
-SRC_URI = "${ELITO_GIT_REPO}/pub/elito-image-stream.git"
+SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/elito-image-stream.git"
 
 PV   = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"

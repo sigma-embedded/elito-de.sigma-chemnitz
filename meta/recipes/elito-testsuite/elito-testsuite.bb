@@ -11,7 +11,7 @@ PKGV = "${_pv}+gitr${GITPKGV}"
 
 inherit gitpkgv
 
-SRC_URI = "${ELITO_GIT_REPO}/pub/elito-testsuite.git;protocol=git"
+SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/elito-testsuite.git;protocol=git"
 S = "${WORKDIR}/git"
 
 do_compile() {

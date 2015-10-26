@@ -10,7 +10,7 @@ SRCREV = "5126cde5990e8b299abd6d8fffd4686f063fc1e7"
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
-SRC_URI = "${ELITO_GIT_REPO}/pub/elito-setup.git;protocol=git"
+SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/elito-setup.git;protocol=git"
 S = "${WORKDIR}/git"
 
 inherit gitpkgv update-alternatives

@@ -16,7 +16,7 @@ BOOTDEVICE = "eth0"
 inherit gitpkgv
 
 SRC_URI		= " \
-  ${ELITO_GIT_REPO}/pub/elito-systemd-conf.git \
+  ${ELITO_PUBLIC_GIT_REPO}/elito-systemd-conf.git \
   file://05-elito.conf \
   file://05-elito-network.conf \
   file://05-elito-network_systemd.conf \

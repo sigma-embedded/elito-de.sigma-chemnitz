@@ -10,7 +10,7 @@ PV = "${_pv}+gitr${SRCPV}"
 inherit gitpkgv autotools
 
 DEPENDS = "dbus-glib"
-SRC_URI = "${ELITO_GIT_REPO}/pub/elito-connman.git;protocol=git"
+SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/elito-connman.git;protocol=git"
 
 EXTRA_OEMAKE = "-e prefix=${prefix} bindir=${bindir}"
 

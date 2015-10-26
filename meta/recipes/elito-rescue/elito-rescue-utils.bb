@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 _pv     = "0.2.9"
 
 SRCREV  = "819f06168f4f6cecb46df556aac7aaf4b8ec84bf"
-SRC_URI = "${ELITO_GIT_REPO}/pub/elito-rescue-utils.git"
+SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/elito-rescue-utils.git"
 
 PV   = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"

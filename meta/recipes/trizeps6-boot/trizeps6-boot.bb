@@ -10,7 +10,7 @@ PV        = "${_pv}+gitr${SRCPV}"
 PKGV      = "${_pv}+gitr${GITPKGV}"
 PROVIDES += "virtual/ce-preloader"
 
-SRC_URI   = "${ELITO_GIT_REPO}/pub/trizeps6-boot.git;protocol=git"
+SRC_URI   = "${ELITO_PUBLIC_GIT_REPO}/trizeps6-boot.git;protocol=git"
 S         = "${WORKDIR}/git"
 
 ALLOW_EMPTY_${PN}-dev = ""

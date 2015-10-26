@@ -9,7 +9,7 @@ _pv = "0.0"
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
-SRC_URI = "${@elito_uri('${ELITO_GIT_REPO}/pub/arnoldboot.git', d)};protocol=git"
+SRC_URI = "${@elito_uri('${ELITO_PUBLIC_GIT_REPO}/arnoldboot.git', d)};protocol=git"
 S = "${WORKDIR}/git"
 
 inherit native gitpkgv autotools-brokensep

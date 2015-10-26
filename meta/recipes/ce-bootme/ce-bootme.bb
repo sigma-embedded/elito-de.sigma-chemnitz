@@ -10,7 +10,7 @@ _pv = "0.6"
 PV = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
-SRC_URI = "${ELITO_GIT_REPO}/pub/ce-bootme.git;protocol=git"
+SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/ce-bootme.git;protocol=git"
 S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native"

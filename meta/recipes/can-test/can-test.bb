@@ -9,7 +9,7 @@ _pv		= "0.2"
 PV              = "${_pv}+gitr${SRCPV}"
 PKGV            = "${_pv}+gitr${GITPKGV}"
 
-SRC_URI		= "${@elito_uri('${ELITO_GIT_REPO}/pub/can-test.git',d)}"
+SRC_URI		= "${@elito_uri('${ELITO_PUBLIC_GIT_REPO}/can-test.git',d)}"
 S		= "${WORKDIR}/git"
 RDEPENDS_${PN}	= "iproute2"
 
