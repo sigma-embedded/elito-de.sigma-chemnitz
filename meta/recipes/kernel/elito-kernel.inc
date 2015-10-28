@@ -138,7 +138,7 @@ def kernel_options(d):
 
     o = [ [ True,
             [ 'IPV6',        is_feature('ipv6') ],
-            [ 'MMC',         is_feature('mmc') ],
+            [ 'MMC',         is_feature('mmc') or is_feature('sdio') ],
             [ 'USB',         is_feature('usbhost') ],
             [ 'USB_GADGET',  is_feature('usbclient') ],
             ],
