@@ -84,7 +84,8 @@ python do_fetch_defconfig() {
 }
 addtask fetch_defconfig before do_configure
 
-kernel_early_options[vardeps] += "DISTRO_FEATURES KERNEL_CMDLINE \
+kernel_early_options[vardeps] += "\
+  DISTRO_FEATURES MACHINE_FEATURES KERNEL_CMDLINE \
   KERNEL_CMDLINE_SOURCE  KERNEL_EARLY_OPTIONS_FUNCS \
   _configdebug-opts _configdisable-opts"
 def kernel_early_options(d):
@@ -93,7 +94,8 @@ def kernel_early_options(d):
     YES = elito.kernel_feature.YES
     OFF = elito.kernel_feature.OFF
 
-    is_feature = lambda x: bb.utils.contains('DISTRO_FEATURES', x, True, False, d)
+    is_feature = lambda x: (bb.utils.contains('DISTRO_FEATURES', x, True, False, d) or
+                            bb.utils.contains('MACHINE_FEATURES', x, True, False, d))
     have_initrd = (is_feature('initrd') or
                    ('cpio' in set(map(lambda x: x.split('.')[0],
                                       d.getVar('IMAGE_FSTYPES', True).split()))))
@@ -131,10 +133,11 @@ def kernel_early_options(d):
 
     return elito.kernel_feature.sed_cmd(o)
 
-kernel_options[vardeps] += "DISTRO_FEATURES IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
+kernel_options[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
 def kernel_options(d):
     import elito.kernel_feature
-    is_feature = lambda x: bb.utils.contains('DISTRO_FEATURES', x, True, False, d)
+    is_feature = lambda x: (bb.utils.contains('DISTRO_FEATURES', x, True, False, d) or
+                            bb.utils.contains('MACHINE_FEATURES', x, True, False, d))
 
     o = [ [ True,
             [ 'IPV6',        is_feature('ipv6') ],
