@@ -65,8 +65,8 @@ ELITO_SYSTEMD_PACKAGECONFIG = "\
 
 PACKAGECONFIG_append = " ${ELITO_SYSTEMD_PACKAGECONFIG}"
 PACKAGECONFIG_remove = " ${@' '.join(\
-  set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG_ALL').split()) - \
-  set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG')))}"
+  set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG_ALL', True).split()) - \
+  set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG', True).split()))}"
 
 def systemd_elito_populate_packages(d, only_names = False):
     pkg_info = {
