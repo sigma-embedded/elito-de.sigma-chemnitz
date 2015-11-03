@@ -33,6 +33,7 @@ SRC_URI = "\
 	http://www.otit.fi/~crope/v4l-dvb/af9015/af9015_firmware_cutter/firmware_files/4.95.0/dvb-usb-af9015.fw;name=af9015 \
 	http://people.freedesktop.org/~pq/nouveau-drm/nouveau-firmware-20091212.tar.gz;name=nvfw \
 	http://ilpss8.dyndns.org/dvb-usb-tt-s2400-01.fw;name=tts2400 \
+	https://github.com/TI-ECS/bt-firmware/raw/master/am335x/TIInit_7.6.15.bts;name=tiinit \
 "
 
 inherit gitpkgv
@@ -46,6 +47,8 @@ SRC_URI[nvfw.sha256sum] = "4eaeb2044c1da95b50ea4f1facb0effc74d65d8b13dc10893c26e
 SRC_URI[tts2400.md5sum] = "6774e32bbf8b3d6f86e98e699cc56b97"
 SRC_URI[tts2400.sha256sum] = "6290cdcb76adff393e2ade506a611c1f95e4a5c619248d464792bda5a6796794"
 
+SRC_URI[tiinit.md5sum] = "a46c46104c7fab23bb9ebfae1633a3af"
+SRC_URI[tiinit.sha256sum] = "7d08041a88af9b425a0b15d10e2ad554fc7a3ea7a42a708aafd9642455874c97"
 
 S = "${WORKDIR}/git"
 INHIBIT_DEFAULT_DEPS = "1"
@@ -66,6 +69,7 @@ do_install() {
     install -p -m 0644 rtl_nic/*.fw ${D}/lib/firmware/rtl_nic/
     install -p -m 0644 mrvl/*.bin ${D}/lib/firmware/mrvl/
     install -p -m 0644 ti-connectivity/*.bin ${D}/lib/firmware/ti-connectivity/
+    install -p -m 0644 ${WORKDIR}/TIInit*.bts ${D}/lib/firmware/ti-connectivity/
     install -p -m 0644 ../nouveau/*.ctxprog ../nouveau/*.ctxvals ${D}/lib/firmware/nouveau/
 }
 
@@ -81,6 +85,7 @@ _pkginfo = "{ \
         '_rtlwifi'           : [ split_pkgs, '%s', 'rtlwifi', r'(rtl.*)fw.*\.bin' ], \
         '_ti0'               : [ split_pkgs, 'ti-%s', 'ti-connectivity', r'(wl.*)[-_]fw.*\.bin' ], \
         '_ti1'               : [ split_pkgs, 'ti-%s', 'ti-connectivity', r'(wl.*)[-_]nvs\.bin' ], \
+        'ti-bluetooth'       : [ 'ti-connectivity/TIInit_*.bts' ], \
         'ath3k'              : [ 'ath3k-1.fw' ] }"
 
 PACKAGES_DYNAMIC += 'firmware-.*'
