@@ -103,8 +103,6 @@ def split_pkgs(d, args):
     for f in os.listdir(dvar + firmware_dir):
         m = pattern.match(f)
 
-        print f, m
-
         if not m:
             continue
 
