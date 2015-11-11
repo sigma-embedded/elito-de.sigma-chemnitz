@@ -210,6 +210,7 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-alsa = "\
   alsa-utils-amixer \
   alsa-utils-aplay \
   alsa-utils-alsactl \
+  alsa-utils-speakertest \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS-can = "\
