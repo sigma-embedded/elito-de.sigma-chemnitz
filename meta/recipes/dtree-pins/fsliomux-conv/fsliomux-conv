@@ -44,7 +44,7 @@ case $opt_format in
 esac
 
 xsl_opts=( --stringparam mode "$opt_mode" -o "$t" 
-  --path "$PKGLIBDIR" )
+  --path "$PKGLIBDIR" --xinclude )
 
 test -z "$opt_disable" || \
     xsl_opts+=( --stringparam disable "$opt_disable" )
