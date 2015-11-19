@@ -34,7 +34,7 @@ LOCALGOALS += _all_ exec shell printcmd printvars
 XTRA_GOALS += modules modules_install _all
 
 ifdef KERNEL_BOOT_VARIANT
-LOCALGOALS += tftp tftp-m
+LOCALGOALS += tftp tftp-m check-syntax
 
 _kernel_image_types = bzImage zImage uImage
 _kernel_image_files = $(addprefix ${KBUILD_BOOT_DIR}/,$(_kernel_image_types))
@@ -45,6 +45,9 @@ override _k_all_target =
 tftp-m:	_k_all_target=all modules
 tftp-m:	tftp
 	+$(_build_cmd) modules_install
+
+check-syntax:
+	+$(_build_cmd) -f flymake.mk
 
 $(_kernel_image_files):${KBUILD_BOOT_DIR}/%:
 	+$(_build_cmd) ${_k_all_target} $*
