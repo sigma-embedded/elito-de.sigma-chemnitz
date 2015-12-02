@@ -414,6 +414,7 @@ ELITO_COMMON_PROGRAMS-wayland = "\
 ELITO_COMMON_PROGRAMS-core = "\
   tzdata \
   tzdata-europe \
+  ${@bb.utils.contains('BBFILE_COLLECTIONS','openembedded-layer', 'tmux', 'screem', d)} \
 "
 
 ELITO_COMMON_PROGRAMS = "${@elito_common_expand('ELITO_COMMON_PROGRAMS',d)}"
