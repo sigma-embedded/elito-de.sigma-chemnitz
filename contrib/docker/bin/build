@@ -6,23 +6,77 @@ trap "rm -rf $t" EXIT
 DISTRIBUTION=$1
 RELEASE=$2
 
+# Usage: set_dir <varname> <spec>
+function set_dir() {
+  eval $1=\$2
+}
+
+# Usage: create_file <filename> [<ref-file>]
+function create_file() {
+  local f="$t"/"$1"
+  local d=$(dirname "$f")
+
+  cat > "$f"
+
+  # avoid invalidating cache due to changed timestamps
+  test -z "$2" ||
+      touch -h -c -r "$2" "$f" "$d"
+}
+
+function emit_symlink() {
+  local src=$1
+  local dst=$2
+
+  echo "	mkdir -p '${dst%/*}' && ln -s '$src' '$dst' && \\"
+}
+
 set -e
 
 . ./setup
 
+set_dir CACHE_DIR ${VOLUMES[0]}
+set_dir BLD_DIR ${VOLUMES[1]}
+
+: ${NFSROOT=${CACHE_DIR}/nfs}
+
 docker build -t ${BASE_NAME}:${DISTRIBUTION} 00-base.${DISTRIBUTION}
 
 cp -a 01-ssh/. "$t"/ssh
+mkdir -p "$t"/ssh/profile.d
+
+create_file 'ssh/profile.d/ccache.sh' '01-ssh/Dockerfile' <<EOF
+CCACHE_DIR=$BLD_DIR/ccache/\$UID
+EOF
+
+create_file 'ssh/elito-config' '01-ssh/Dockerfile' <<EOF
+NFSROOT = ${NFSROOT}
+CACHEROOT = ${CACHE_DIR}
+CONFIGURE_OPTIONS += \\
+  --with-buildroot-dir='${BLD_DIR}' \\
+  --with-persistent-dir='${BLD_DIR}/persistent'
+
+UPSTREAM_ALTERNATES_kernel = ${CACHE_DIR}/mirror/kernel
+UPSTREAM_ALTERNATES_org.openembedded.core = ${CACHE_DIR}/mirror/org.openembedded.core
+UPSTREAM_ALTERNATES_org.openembedded.meta = ${CACHE_DIR}/mirror/org.openembedded.meta
+EOF
 
 {
   echo "FROM ${BASE_NAME}:${DISTRIBUTION}"
+
+  sed -e "s!@USER@!$USERNAME!g" \
+      -e "s!@UID@!$USERID!g" \
+      01-ssh/Dockerfile
+
+  echo "RUN \\"
+  for s in "${SYMLINKS[@]}"; do
+      emit_symlink $s
+  done
+  echo ":"
 
   for v in "${VOLUMES[@]}"; do
       eval set -- "$v"
       echo "VOLUME $1"
   done
-
-  cat 01-ssh/Dockerfile 
 } > "$t"/ssh/Dockerfile
 
 tar czf - -C "$t/ssh" . --owner root --group root --mode go-w,a+rX | \
