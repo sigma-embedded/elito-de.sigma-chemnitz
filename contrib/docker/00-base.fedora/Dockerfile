@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM fedora:21
+FROM fedora:23
 
 ENV http_proxy http://www-cache:3128/
 ENV https_proxy http://www-cache:3128/
@@ -19,8 +19,10 @@ RUN \
 	bzip2 \
 	ccache \
 	chrpath \
+	cpio \
 	curl \
 	diffstat \
+	file \
 	gawk \
 	gcc \
 	gcc-c++ \
@@ -29,11 +31,14 @@ RUN \
 	hostname \
 	libgcrypt-devel \
 	libtool \
+	lsof \
 	lzop \
 	make \
 	openssh-server \
 	patch \
+	'perl(bigint)' \
 	pkgconfig \
+	procps-ng \
 	python \
 	python-beautifulsoup4 \
 	python-inotify \
@@ -42,6 +47,7 @@ RUN \
 	sudo \
 	texinfo \
 	wget \
+	which \
 	xz \
 \
 	libproxy-bin \
