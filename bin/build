@@ -37,7 +37,8 @@ set -e
 set_dir CACHE_DIR ${VOLUMES[0]}
 set_dir BLD_DIR ${VOLUMES[1]}
 
-: ${NFSROOT=${CACHE_DIR}/nfs}
+: ${_NFSROOT:=${CACHE_DIR}/nfs/${FINAL_NAME}}
+: ${NFSROOT=$_NFSROOT}
 
 docker build -t ${BASE_NAME}:${DISTRIBUTION} 00-base.${DISTRIBUTION}
 
@@ -50,10 +51,12 @@ EOF
 
 create_file 'ssh/elito-config' '01-ssh/Dockerfile' <<EOF
 NFSROOT = ${NFSROOT}
+NFSROOT_SUFFIX = ${DISTRIBUTION}.${RELEASE}
 CACHEROOT = ${CACHE_DIR}
 CONFIGURE_OPTIONS += \\
   --with-buildroot-dir='${BLD_DIR}' \\
-  --with-persistent-dir='${BLD_DIR}/persistent'
+  --with-persistent-dir='${BLD_DIR}/persistent' \\
+  --enable-nfs-root=\${NFSROOT}/\${NFSROOT_SUFFIX}
 
 UPSTREAM_ALTERNATES_kernel = ${CACHE_DIR}/mirror/kernel
 UPSTREAM_ALTERNATES_org.openembedded.core = ${CACHE_DIR}/mirror/org.openembedded.core
