@@ -2,10 +2,17 @@
 
 BASE_NAME=elito_base
 FINAL_NAME=elito-${RELEASE}
-CONTAINER_HOSTNAME=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
+CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
 
-VOLUMES=(
-	"/srv/cache /srv/.oe/docker/elito"
-	"/srv/bld   /srv/.oe/docker/elito_${RELEASE}.${DISTRIBUTION}"
-	"/srv/elito /srv/projects/_elito-release/.tests/${RELEASE}/${DISTRIBUTION}"
+: ${MODE:=default}
+
+VOLUMES_default=(
+  "/srv/cache		$PWD/../docker/cache"
+  "/srv/bld		$PWD/../docker/bld_${RELEASE}.${DISTRIBUTION}"
+  "/srv/elito		$PWD/../docker/elito_${RELEASE}.${DISTRIBUTION}"
 )
+
+eval VOLUMES='( "${'VOLUMES_$MODE'[@]}" )'
+eval CONTAINER_HOSTNAME=\$CONTAINER_HOSTNAME_$MODE
+eval SYMLINKS='( "${'SYMLINKS_$MODE'[@]}" )'
+eval _NFSROOT='( "${'NFSROOT_$MODE'[@]}" )'
