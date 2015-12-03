@@ -20,7 +20,11 @@ RUN \
 
 USER 0:0
 
+COPY profile.d		  /etc/profile.d/
+COPY elito-config	  /home/@USER@/.elito-config
 COPY authorized_keys	  /home/@USER@/.ssh/authorized_keys
+COPY ssh_config		  /home/@USER@/.ssh/config
+COPY bin		  /usr/local/bin
 
 # start e.g. '/usr/sbin/thttpd -h localhost -p 9000 -D -d .' in the
 # directory with elito.pem
@@ -39,6 +43,8 @@ RUN \
 	chmod 0600 /home/@USER@/.ssh/config && \
 	chmod 0600 /home/@USER@/.elito.pem && \
 	chmod 0755 /home/@USER@/bin/* && \
+	chmod 0755 /usr/local/bin/* && \
+	git config --system --add core.gitProxy /usr/local/bin/git-tunnel && \
 	:
 
 EXPOSE 22
