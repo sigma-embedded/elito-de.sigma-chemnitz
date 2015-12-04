@@ -28,7 +28,7 @@ do_deploy () {
 
     cd images
     for i in barebox-*.img; do
-    	deploy_file "$i" "${gitrev}"
+	deploy_file "$i" "${gitrev}"
     done
     cd -
 }
