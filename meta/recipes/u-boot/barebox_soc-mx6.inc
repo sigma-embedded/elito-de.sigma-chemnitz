@@ -1,6 +1,12 @@
+inherit elito-dtree-base elito-machdata
+
 DEPENDS += "libxslt-native elito-devicetree"
 
 FILES_${PN}-dev += "${datadir}/mach-${MACHINE}/*.dcd"
+
+EXTRA_OEMAKE += "\
+  BAREBOX_DTB_EXTRA_PATH='${STAGING_MACHDATADIR}' \
+"
 
 do_install() {
     # some sanity checks to verify environment
