@@ -89,6 +89,8 @@ EOF
 
   sed -e "s!@USER@!$USERNAME!g" \
       -e "s!@UID@!$USERID!g" \
+      -e "s!@GID@!$GROUPID!g" \
+      -e "s!@EMAIL@!$EMAIL!g" \
       01-ssh/Dockerfile
 
   echo "RUN \\"
