@@ -44,7 +44,6 @@ RUN \
 	python-inotify \
 	socat \
 	strace \
-	sudo \
 	texinfo \
 	wget \
 	which \
