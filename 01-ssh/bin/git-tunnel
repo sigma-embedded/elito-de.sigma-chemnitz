@@ -1,0 +1,15 @@
+#! /bin/sh
+
+H=$1
+P=$2
+
+h=${https_proxy##http://}
+h=${h%%/}
+
+if type socat >/dev/null 2>/dev/null; then
+    IFS=:
+    set -- $h
+    exec socat - "PROXY:$1:$H:$P${2:+,proxyport=$2}"
+else
+    exec nc -x $h -Xconnect "$H" "$P"
+fi
