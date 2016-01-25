@@ -15,8 +15,8 @@ RUN \
 	HOME=~@USER@; export HOME && \
 	D=~@USER@/bin && \
 	mkdir -p "$D" && \
-	git config --global user.email "enrico.scholz@sigma-chemnitz.de" && \
-	git config --global user.name "Enrico Scholz"
+	git config --global user.email "@EMAIL@" && \
+	git config --global user.name "@USERNAME@"
 
 USER 0:0
 
