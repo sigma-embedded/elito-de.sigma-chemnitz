@@ -8,7 +8,7 @@ ENV ftp_proxy http://www-cache:3128/
 ENV no_proxy .sigma-chemnitz.de,sigma-chemnitz.de,cvg.de,.cvg.de,andto.de,.andto.de,localhost,<local>
 
 RUN \
-    : 20150511 - invalidate cache && \
+    : 20160125 - invalidate cache && \
     apt-get update && \
     apt-get upgrade -y -q --no-install-recommends \
         -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
