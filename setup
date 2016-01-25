@@ -5,6 +5,8 @@ FINAL_NAME=elito-${RELEASE}
 CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
 
 : ${MODE:=default}
+USERNAME=ensc
+EMAIL=enrico.scholz@sigma-chemnitz.de
 
 VOLUMES_default=(
   "/srv/cache		$PWD/../docker/cache"
