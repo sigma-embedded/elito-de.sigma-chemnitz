@@ -16,7 +16,12 @@ _opts=(
 
 for v in "${VOLUMES[@]}"; do
     eval set -- "$v"
-    _opts+=( -v "$1:$2" )
+    src=$1
+    dst=${2:-$src}
+    opt=${3:-}
+
+    test x"$dst" != x- || dst=$src
+    _opts+=( -v "$dst:$src$opt" )
 done
 
 exec setsid docker run "${_opts[@]}" \

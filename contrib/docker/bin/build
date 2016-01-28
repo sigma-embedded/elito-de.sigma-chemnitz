@@ -30,6 +30,18 @@ function emit_symlink() {
   echo "	mkdir -p '${dst%/*}' && ln -s '$src' '$dst' && \\"
 }
 
+function getpwent() {
+  local user=$1
+  local prefix=$2
+  local IFS=:
+  set -- `getent passwd "$user"`
+
+  eval ${prefix}USER=\$1
+  eval ${prefix}USERID=\$3
+  eval ${prefix}GROUPID=\$4
+  eval ${prefix}USERNAME=\$5
+}
+
 set -e
 
 . ./setup
@@ -39,6 +51,14 @@ set_dir BLD_DIR ${VOLUMES[1]}
 
 : ${_NFSROOT:=${CACHE_DIR}/nfs/${FINAL_NAME}}
 : ${NFSROOT=$_NFSROOT}
+
+getpwent "${USER:-nobody}" _dflt_
+
+: ${USER:=$_dflt_USER}
+: ${USERID:=$_dflt_USERID}
+: ${GROUPID:=$_dflt_GROUPID}
+: ${USERNAME:=$_dflt_USERNAME}
+: ${EMAIL:=$_dflt_EMAIL}
 
 docker build -t ${BASE_NAME}:${DISTRIBUTION} 00-base.${DISTRIBUTION}
 
@@ -69,6 +89,8 @@ EOF
 
   sed -e "s!@USER@!$USERNAME!g" \
       -e "s!@UID@!$USERID!g" \
+      -e "s!@GID@!$GROUPID!g" \
+      -e "s!@EMAIL@!$EMAIL!g" \
       01-ssh/Dockerfile
 
   echo "RUN \\"

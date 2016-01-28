@@ -6,6 +6,11 @@ CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
 
 : ${MODE:=default}
 
+USERNAME=ensc
+EMAIL=enrico.scholz@sigma-chemnitz.de
+
+# scripts assume that first location is the shared cache and the
+# second the local build directory
 VOLUMES_default=(
   "/srv/cache		$PWD/../docker/cache"
   "/srv/bld		$PWD/../docker/bld_${RELEASE}.${DISTRIBUTION}"

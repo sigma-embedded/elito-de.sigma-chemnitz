@@ -1,13 +1,12 @@
 ## --*- conf -*--
 
 RUN \
-	{ ! grep -q ^wheel: /etc/group || go='-G wheel'; } && \
 	/usr/sbin/groupadd -g @UID@ @USER@ && \
-	/usr/sbin/useradd -u @UID@ -g @USER@ $go -m -s /bin/bash @USER@ && \
+	/usr/sbin/useradd -u @UID@ -g @USER@ -m -s /bin/bash @USER@ && \
 	id @USER@ && \
 	mkdir -m 0711 /home/@USER@/.ssh && \
 	chown @USER@:@USER@ /home/@USER@/.ssh && \
-	echo '@USER@    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+	:
 
 USER @UID@:@UID@
 
@@ -15,8 +14,8 @@ RUN \
 	HOME=~@USER@; export HOME && \
 	D=~@USER@/bin && \
 	mkdir -p "$D" && \
-	git config --global user.email "enrico.scholz@sigma-chemnitz.de" && \
-	git config --global user.name "Enrico Scholz"
+	git config --global user.email "@EMAIL@" && \
+	git config --global user.name "@USERNAME@"
 
 USER 0:0
 
@@ -24,6 +23,7 @@ COPY profile.d		  /etc/profile.d/
 COPY elito-config	  /home/@USER@/.elito-config
 COPY authorized_keys	  /home/@USER@/.ssh/authorized_keys
 COPY ssh_config		  /home/@USER@/.ssh/config
+COPY authorized_keys	  /home/root/.ssh/authorized_keys
 COPY bin		  /usr/local/bin
 
 # start e.g. '/usr/sbin/thttpd -h localhost -p 9000 -D -d .' in the
