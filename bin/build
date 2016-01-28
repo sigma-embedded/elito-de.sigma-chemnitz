@@ -52,7 +52,7 @@ set_dir BLD_DIR ${VOLUMES[1]}
 : ${_NFSROOT:=${CACHE_DIR}/nfs/${FINAL_NAME}}
 : ${NFSROOT=$_NFSROOT}
 
-getpwent "${USERNAME:-nobody}" _dflt_
+getpwent "${USER:-nobody}" _dflt_
 
 : ${USER:=$_dflt_USER}
 : ${USERID:=$_dflt_USERID}
