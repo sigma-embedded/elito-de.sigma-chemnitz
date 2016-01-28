@@ -6,7 +6,7 @@ CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
 
 : ${MODE:=default}
 
-USERNAME=ensc
+USER=ensc
 EMAIL=enrico.scholz@sigma-chemnitz.de
 
 # scripts assume that first location is the shared cache and the
