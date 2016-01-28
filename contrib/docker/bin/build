@@ -87,7 +87,8 @@ EOF
 {
   echo "FROM ${BASE_NAME}:${DISTRIBUTION}"
 
-  sed -e "s!@USER@!$USERNAME!g" \
+  sed -e "s!@USER@!$USER!g" \
+      -e "s!@USERNAME@!$USERNAME!g" \
       -e "s!@UID@!$USERID!g" \
       -e "s!@GID@!$GROUPID!g" \
       -e "s!@EMAIL@!$EMAIL!g" \
