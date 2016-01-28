@@ -37,6 +37,7 @@ ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
      /home/@USER@/.bitbake.elito.conf
 
 RUN \
+	chmod 0644 /home/root/.ssh/authorized_keys && \
 	touch /home/@USER@/.elito.pem && \
 	chown -R @USER@:@USER@ /home/@USER@ && \
 	chmod 0644 /home/@USER@/.ssh/authorized_keys && \
