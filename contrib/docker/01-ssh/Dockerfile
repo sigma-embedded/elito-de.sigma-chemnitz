@@ -23,7 +23,7 @@ COPY profile.d		  /etc/profile.d/
 COPY elito-config	  /home/@USER@/.elito-config
 COPY authorized_keys	  /home/@USER@/.ssh/authorized_keys
 COPY ssh_config		  /home/@USER@/.ssh/config
-COPY authorized_keys	  /home/root/.ssh/authorized_keys
+COPY authorized_keys	  /root/.ssh/authorized_keys
 COPY bin		  /usr/local/bin
 
 # start e.g. '/usr/sbin/thttpd -h localhost -p 9000 -D -d .' in the
@@ -37,6 +37,7 @@ ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
      /home/@USER@/.bitbake.elito.conf
 
 RUN \
+	chmod 0644 /root/.ssh/authorized_keys && \
 	touch /home/@USER@/.elito.pem && \
 	chown -R @USER@:@USER@ /home/@USER@ && \
 	chmod 0644 /home/@USER@/.ssh/authorized_keys && \
