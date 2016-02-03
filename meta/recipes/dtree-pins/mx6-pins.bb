@@ -35,7 +35,7 @@ def get_makecmd(d):
 
     return ' '.join(vars) + ' VARIANTS="' + ' '.join(targets) + '"'
 
-DEPENDS += "fsliomux-conv-native elito-kernel"
+DEPENDS += "fsliomux-conv-native virtual/kernel"
 
 SRC_URI[vardeps] += "MACHINE_VARIANTS"
 SRC_URI = "\
