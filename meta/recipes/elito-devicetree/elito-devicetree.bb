@@ -56,6 +56,7 @@ do_deploy() {
     for i in *.dtb; do
 	dname=${i%%.dtb}-"${EXTENDPKGV}".dtb
 	install -D -p -m 0644 "$i" ${DEPLOYDIR}/"$dname"
+	rm -f ${DEPLOYDIR}/"$i"
 	ln -s "$dname" ${DEPLOYDIR}/"$i"
     done
 }
