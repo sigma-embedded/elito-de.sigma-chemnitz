@@ -7,6 +7,8 @@ DEPENDS += "elfutils curl"
 
 PACKAGECONFIG[oldkernel] = "--disable-networkd,,,"
 
+PATCHTOOL = "git"
+
 SRC_URI += "\
   file://embedded.patch \
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
