@@ -30,7 +30,7 @@ def elito_bitbake_generate_append(d):
     return '\\n'.join([''] +
                       map(lambda x: '# CONFIG_%s is not set' % x, f) +
                       map(lambda x: 'CONFIG_%s=y' % x, t))
-                      
+
 OE_DEL += "${@elito_bitbake_generate_del(d)}"
 OE_FEATURES += "${@elito_bitbake_generate_append(d)}"
 
