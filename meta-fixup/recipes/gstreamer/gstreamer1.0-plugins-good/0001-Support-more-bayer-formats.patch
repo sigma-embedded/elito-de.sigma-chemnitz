@@ -7,10 +7,10 @@ Subject: [PATCH 1/2] Support more bayer formats
  sys/v4l2/gstv4l2object.c | 187 ++++++++++++++++++++++++++++++++++++++++++++++-
  1 file changed, 185 insertions(+), 2 deletions(-)
 
-diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
-index 8433838..8aaea57 100644
---- a/sys/v4l2/gstv4l2object.c
-+++ b/sys/v4l2/gstv4l2object.c
+Index: gst-plugins-good-1.6.3/sys/v4l2/gstv4l2object.c
+===================================================================
+--- gst-plugins-good-1.6.3.orig/sys/v4l2/gstv4l2object.c
++++ gst-plugins-good-1.6.3/sys/v4l2/gstv4l2object.c
 @@ -57,6 +57,13 @@ GST_DEBUG_CATEGORY_EXTERN (v4l2_debug);
  
  #define ENCODED_BUFFER_SIZE             (1 * 1024 * 1024)
@@ -25,25 +25,24 @@ index 8433838..8aaea57 100644
  enum
  {
    PROP_0,
-@@ -117,6 +124,17 @@ static const GstV4L2FormatDesc gst_v4l2_formats[] = {
+@@ -121,6 +128,16 @@ static const GstV4L2FormatDesc gst_v4l2_
+   {V4L2_PIX_FMT_SGRBG8, TRUE, GST_V4L2_CODEC},
+   {V4L2_PIX_FMT_SRGGB8, TRUE, GST_V4L2_CODEC},
  
-   /* see http://www.siliconimaging.com/RGB%20Bayer.htm */
-   {V4L2_PIX_FMT_SBGGR8, TRUE, GST_V4L2_CODEC},
 +  {V4L2_PIX_FMT_SBGGR10, TRUE, GST_V4L2_CODEC},
-+  {V4L2_PIX_FMT_SBGGR12, TRUE, GST_V4L2_CODEC},
-+  {V4L2_PIX_FMT_SGBRG8, TRUE, GST_V4L2_CODEC},
 +  {V4L2_PIX_FMT_SGBRG10, TRUE, GST_V4L2_CODEC},
-+  {V4L2_PIX_FMT_SGBRG12, TRUE, GST_V4L2_CODEC},
-+  {V4L2_PIX_FMT_SGRBG8, TRUE, GST_V4L2_CODEC},
 +  {V4L2_PIX_FMT_SGRBG10, TRUE, GST_V4L2_CODEC},
-+  {V4L2_PIX_FMT_SGRBG12, TRUE, GST_V4L2_CODEC},
-+  {V4L2_PIX_FMT_SRGGB8, TRUE, GST_V4L2_CODEC},
 +  {V4L2_PIX_FMT_SRGGB10, TRUE, GST_V4L2_CODEC},
++
++  {V4L2_PIX_FMT_SBGGR12, TRUE, GST_V4L2_CODEC},
++  {V4L2_PIX_FMT_SGBRG12, TRUE, GST_V4L2_CODEC},
++  {V4L2_PIX_FMT_SGRBG12, TRUE, GST_V4L2_CODEC},
 +  {V4L2_PIX_FMT_SRGGB12, TRUE, GST_V4L2_CODEC},
- 
++  
    /* compressed formats */
    {V4L2_PIX_FMT_MJPEG, FALSE, GST_V4L2_CODEC},
-@@ -852,6 +870,8 @@ gst_v4l2_object_get_format_from_fourcc (GstV4l2Object * v4l2object,
+   {V4L2_PIX_FMT_JPEG, FALSE, GST_V4L2_CODEC},
+@@ -876,6 +893,8 @@ gst_v4l2_object_get_format_from_fourcc (
  #define RGB_BASE_RANK      100
  #define YUV_ODD_BASE_RANK   50
  #define RGB_ODD_BASE_RANK   25
@@ -52,13 +51,7 @@ index 8433838..8aaea57 100644
  #define BAYER_BASE_RANK     15
  #define S910_BASE_RANK      10
  #define GREY_BASE_RANK       5
-@@ -945,9 +965,26 @@ gst_v4l2_object_format_get_rank (const struct v4l2_fmtdesc *fmt)
-       break;
- 
-     case V4L2_PIX_FMT_SBGGR8:
-+    case V4L2_PIX_FMT_SGBRG8:
-+    case V4L2_PIX_FMT_SGRBG8:
-+    case V4L2_PIX_FMT_SRGGB8:
+@@ -975,6 +994,20 @@ gst_v4l2_object_format_get_rank (const s
        rank = BAYER_BASE_RANK;
        break;
  
@@ -79,8 +72,8 @@ index 8433838..8aaea57 100644
      case V4L2_PIX_FMT_SN9C10X:
        rank = S910_BASE_RANK;
        break;
-@@ -1175,6 +1212,65 @@ gst_v4l2_object_v4l2fourcc_to_video_format (guint32 fourcc)
-   return format;
+@@ -1237,6 +1270,65 @@ gst_v4l2_object_v4l2fourcc_is_yuv (guint
+   return ret;
  }
  
 +static char const *
@@ -145,30 +138,33 @@ index 8433838..8aaea57 100644
  static GstStructure *
  gst_v4l2_object_v4l2fourcc_to_bare_struct (guint32 fourcc)
  {
-@@ -1263,7 +1359,21 @@ gst_v4l2_object_v4l2fourcc_to_bare_struct (guint32 fourcc)
-     case V4L2_PIX_FMT_WNVA:    /* Winnov hw compres */
-       break;
-     case V4L2_PIX_FMT_SBGGR8:
--      structure = gst_structure_new_empty ("video/x-bayer");
+@@ -1328,12 +1420,19 @@ gst_v4l2_object_v4l2fourcc_to_bare_struc
+     case V4L2_PIX_FMT_SGBRG8:
+     case V4L2_PIX_FMT_SGRBG8:
+     case V4L2_PIX_FMT_SRGGB8:
+-      structure = gst_structure_new ("video/x-bayer", "format", G_TYPE_STRING,
+-          fourcc == V4L2_PIX_FMT_SBGGR8 ? "bggr" :
+-          fourcc == V4L2_PIX_FMT_SGBRG8 ? "gbrg" :
+-          fourcc == V4L2_PIX_FMT_SGRBG8 ? "grbg" :
+-          /* fourcc == V4L2_PIX_FMT_SRGGB8 ? */ "rggb", NULL);
+-      break;
 +    case V4L2_PIX_FMT_SBGGR10:
 +    case V4L2_PIX_FMT_SBGGR12:
-+    case V4L2_PIX_FMT_SGBRG8:
 +    case V4L2_PIX_FMT_SGBRG10:
 +    case V4L2_PIX_FMT_SGBRG12:
-+    case V4L2_PIX_FMT_SGRBG8:
 +    case V4L2_PIX_FMT_SGRBG10:
 +    case V4L2_PIX_FMT_SGRBG12:
-+    case V4L2_PIX_FMT_SRGGB8:
 +    case V4L2_PIX_FMT_SRGGB10:
 +    case V4L2_PIX_FMT_SRGGB12:
 +      structure = gst_structure_new ("video/x-bayer",
 +          "format", G_TYPE_STRING,
 +          gst_v4l2_get_bayer_format_name (fourcc),
 +          "depth", G_TYPE_INT, gst_v4l2_get_bayer_depth (fourcc), NULL);
-       break;
++       break;
      case V4L2_PIX_FMT_SN9C10X:
        structure = gst_structure_new_empty ("video/x-sonix");
-@@ -1511,7 +1621,80 @@ gst_v4l2_object_get_caps_info (GstV4l2Object * v4l2object, GstCaps * caps,
+       break;
+@@ -1580,7 +1679,80 @@ gst_v4l2_object_get_caps_info (GstV4l2Ob
      } else if (g_str_equal (mimetype, "video/x-vp8")) {
        fourcc = V4L2_PIX_FMT_VP8;
      } else if (g_str_equal (mimetype, "video/x-bayer")) {
@@ -250,6 +246,3 @@ index 8433838..8aaea57 100644
      } else if (g_str_equal (mimetype, "video/x-sonix")) {
        fourcc = V4L2_PIX_FMT_SN9C10X;
      } else if (g_str_equal (mimetype, "video/x-pwc1")) {
--- 
-1.9.3
-
