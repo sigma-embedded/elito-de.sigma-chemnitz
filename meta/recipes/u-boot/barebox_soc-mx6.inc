@@ -59,6 +59,11 @@ EXTRA_OEMAKE += "\
   ${BAREBOX_OEMAKE_OPTS} \
 "
 
+### Passing of 'pblx-y' and other variables with '-' or '.' to submakes
+### is broken with GNU make 4.0 and 4.1 else
+EXTRA_OEMAKE_remove = '-e'
+EXTRA_OEMAKE_remove = 'MAKEFLAGS='
+
 _BAREBOX_DCD_FILES[vardeps] += "MACHINE_VARIANTS"
 _BAREBOX_DCD_FILES = "${@get_dcd_names(d)}"
 
