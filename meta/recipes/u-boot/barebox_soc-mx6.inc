@@ -4,18 +4,60 @@ DEPENDS += "libxslt-native elito-devicetree"
 
 FILES_${PN}-dev += "${datadir}/mach-${MACHINE}/*.dcd"
 
-EXTRA_OEMAKE += "\
-  BAREBOX_DTB_EXTRA_PATH='${STAGING_MACHDATADIR}' \
-"
+def get_start_fn_name(variant):
+    tmp = map(lambda x: x.replace('-', '_'), variant.split(':'))
+    return tmp[0] + '_' + tmp[2]
+
+def get_flash_hdr_name(variant):
+    tmp = variant.split(':')
+    return tmp[0] + '-' + tmp[2]
 
 def get_dcd_names(d):
     variants = oe.data.typed_value('MACHINE_VARIANTS', d)
     res = []
     for v in variants:
-        (n,c,m) = v.split(':')
-        res.append('flash-header-%s-%s.dcd' % (n,m))
+        res.append('flash-header-%s.dcd' % get_flash_hdr_name(v))
 
     return ' '.join(res)
+
+_pblxopt[vardeps] += "MACHINE_VARIANTS get_start_fn_name"
+_pblxopt="${@' '.join(map(lambda x:\
+  'start_%s' % get_start_fn_name(x), \
+  oe.data.typed_value('MACHINE_VARIANTS', d)))}"
+
+_cfgopt[vardeps] += "MACHINE_VARIANTS get_start_fn_name get_flash_hdr_name"
+_cfgopt="${@' '.join(map(lambda x:\
+  elito_quote('CFG_start_%s.pblx.imximg=$(board)/${UBOOT_BOARD}/flash-header-%s.imxcfg') % \
+  (get_start_fn_name(x), get_flash_hdr_name(x)), \
+  oe.data.typed_value('MACHINE_VARIANTS', d)))}"
+
+_fileopt[vardeps] += "MACHINE_VARIANTS get_start_fn_name get_flash_hdr_name"
+_fileopt="${@' '.join(map(lambda x:\
+  'FILE_barebox-%s.img=start_%s.pblx.imximg' % \
+  (get_flash_hdr_name(x), get_start_fn_name(x)), \
+  oe.data.typed_value('MACHINE_VARIANTS', d)))}"
+
+_imageopt[vardeps] += "MACHINE_VARIANTS get_flash_hdr_name"
+_imageopt="${@' '.join(map(lambda x:\
+  'barebox-%s.img' % get_flash_hdr_name(x), \
+  oe.data.typed_value('MACHINE_VARIANTS', d)))}"
+
+_dtbopts[vardeps] += "MACHINE_VARIANTS"
+_dtbopts="${@' '.join(map(lambda x:\
+  '%s.dtb.o' % x.split(':')[0], \
+  oe.data.typed_value('MACHINE_VARIANTS', d)))}"
+
+BAREBOX_OEMAKE_OPTS="\
+  pblx-y='${_pblxopt}' \
+  cmdline_extra_images='${_imageopt}' \
+  cmdline_extra_pbl-dtb='${_dtbopts}' \
+  ${_cfgopt} ${_fileopt} \
+"
+
+EXTRA_OEMAKE += "\
+  BAREBOX_DTB_EXTRA_PATH='${STAGING_MACHDATADIR}' \
+  ${BAREBOX_OEMAKE_OPTS} \
+"
 
 _BAREBOX_DCD_FILES[vardeps] += "MACHINE_VARIANTS"
 _BAREBOX_DCD_FILES = "${@get_dcd_names(d)}"
