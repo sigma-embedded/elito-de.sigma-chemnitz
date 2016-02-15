@@ -75,3 +75,8 @@ ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-sshkey"
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "no-root-bash", \
 			         "", "elito_set_rootbash ;", d)}"
+
+ROOTFS_POSTPROCESS_COMMAND_remove = "\
+  ${@base_contains('IMAGE_FEATURES', 'devel-sshkey', \
+                   base_contains('IMAGE_FEATURES', 'allow-empty-password', \
+                                 '', 'ssh_allow_empty_password;', d), '', d)}"
