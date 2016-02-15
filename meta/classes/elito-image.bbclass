@@ -35,13 +35,22 @@ elito_add_devel_history() {
 }
 
 elito_add_devel_sshkey() {
-	d=`hostname -d 2>/dev/null` && d=-$d
-	h=`hostname -f 2>/dev/null || hostname` && h=-$h
+	u=`id -nu 2>/dev/null` || u=
+	d=`hostname -d 2>/dev/null` || d=
+	h=`hostname -f 2>/dev/null || hostname` || h=
 
-	for p in "$h" "$d" ""; do
+	set --
+
+	if test -n "$u"; then
+		set -- "$@" ${h:+"-$u@$h"} ${d:+"-$u@$d"} "-${u}@"
+	fi
+
+	set -- "$@" ${h:+"-$h"} ${d:+"-$d"} ""
+
+	for p in "$@"; do
 		f="${PROJECT_TOPDIR}"/files/authorized_keys$p
 		test -e "$f" || continue
-		install -D -p -m 0644 "$f" ${IMAGE_ROOTFS}/root/.ssh/authorized_keys
+		install -D -p -m 0644 "$f" ${IMAGE_ROOTFS}${ROOT_HOME}/.ssh/authorized_keys
 		break
 	done
 }
