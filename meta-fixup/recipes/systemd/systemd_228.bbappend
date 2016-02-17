@@ -212,9 +212,6 @@ FILES_${PN}-utils = "\
   ${bindir}/systemd-detect-virt \
 "
 
-PACKAGES =+ "${PN}-bash-completion"
-FILES_${PN}-bash-completion = "${datadir}/bash-completion/completions/*"
-
 python() {
     pn = d.getVar('PN', True)
     var = 'USERADD_PARAM_' + pn
