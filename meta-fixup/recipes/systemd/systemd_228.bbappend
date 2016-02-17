@@ -215,8 +215,8 @@ FILES_${PN}-utils = "\
 python() {
     pn = d.getVar('PN', True)
     var = 'USERADD_PARAM_' + pn
-    v  = d.getVar(var, True). split(';')
-    v.remove(' --system systemd-timesync')
+    v  = d.getVar(var, True).split(';')
+    v.remove('  --system -d / -M --shell /bin/nologin systemd-timesync')
     d.setVar(var, ';'.join(v))
 }
 
@@ -225,16 +225,16 @@ RRECOMMENDS_${PN}-swap += "util-linux-swaponoff"
 RRECOMMENDS_${PN} += "util-linux-mount"
 
 USERADD_PACKAGES += "${PN}-networkd"
-USERADD_PARAM_${PN}-networkd += "--system systemd-network"
+USERADD_PARAM_${PN}-networkd += "--system -d / -M --shell /bin/nologin systemd-network"
 
 USERADD_PACKAGES += "${PN}-timesyncd"
-USERADD_PARAM_${PN}-timesyncd += "--system systemd-timesync"
+USERADD_PARAM_${PN}-timesyncd += "--system -d / -M --shell /bin/nologin systemd-timesync"
 
 USERADD_PACKAGES += "${PN}-resolved"
-USERADD_PARAM_${PN}-resolved += "--system systemd-resolve"
+USERADD_PARAM_${PN}-resolved += "--system -d / -M --shell /bin/nologin systemd-resolve"
 
 USERADD_PACKAGES += "${PN}-journal-upload"
-USERADD_PARAM_${PN}-journal-upload += "--system systemd-journal-remote"
+USERADD_PARAM_${PN}-journal-upload += "--system -d / -M --shell /bin/nologin systemd-journal-remote"
 
 python() {
     r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""
