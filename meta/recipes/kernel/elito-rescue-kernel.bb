@@ -81,7 +81,7 @@ python () {
     check_defined('KERNEL_IMAGE_MAXSIZE', d)
 }
 
-do_configure[depends]    += "virtual/rescue-image:do_rootfs"
+do_configure[depends]    += "virtual/rescue-image:do_image_cpio"
 
 do_unpack[cleandirs]	    = ""
 do_unpack[noexec]	    = "1"
