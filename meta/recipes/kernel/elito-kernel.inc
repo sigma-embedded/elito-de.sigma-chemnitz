@@ -3,7 +3,6 @@ _elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 export ELITO_EXTKBUILD_DISABLED = "1"
 
 inherit deploy
-BB_LOCALCOUNT_OVERRIDE = "1"
 
 EXTRA_OEMAKE_prepend = "-f '${ELITO_MAKEFILE_DIR}/Makefile.kernel' \
   -C '${S}' \
