@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "\
   file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
 "
 
-SRCREV          = "d82d3c1e5eddb811a38513a7e5b33202773f0fff"
+SRCREV          = "b2deae592adde46eadfc8fe1f7841d0f13f16ee5"
 
 HOMEPAGE = "https://git.kernel.org/cgit/linux/kernel/git/firmware/linux-firmware.git"
 SRC_URI = "\
