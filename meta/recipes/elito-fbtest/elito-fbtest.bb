@@ -20,7 +20,6 @@ do_compile() {
 }
 
 do_install() {
-	set -x
 	install -d ${D}${bindir}
 	install -p -m 0755 fbtest ${D}${bindir}/elito-fbtest
 }
