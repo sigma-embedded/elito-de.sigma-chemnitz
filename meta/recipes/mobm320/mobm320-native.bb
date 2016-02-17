@@ -10,11 +10,11 @@ do_configure() {
 }
 
 do_compile() {
-	oe_runmake ${MOBM320_ARGS}
+	oe_runmake -e ${MOBM320_ARGS}
 }
 
 do_install() {
-	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
+	oe_runmake -e PREFIX=${prefix} DESTDIR=${D} install
 
 	cd ${D}${datadir}/elito-mobm320
 	for i in *.img; do

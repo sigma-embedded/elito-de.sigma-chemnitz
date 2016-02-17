@@ -44,7 +44,7 @@ do_configure() {
 }
 
 do_compile() {
-    oe_runmake power_prep boot_prep
+    oe_runmake -e power_prep boot_prep
 }
 
 do_install() {

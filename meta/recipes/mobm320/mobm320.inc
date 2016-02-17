@@ -21,12 +21,12 @@ do_configure() {
 }
 
 do_compile() {
-	oe_runmake ${MOBM320_ARGS} _host_all= bin_PROGRAMS=
+	oe_runmake -e ${MOBM320_ARGS} _host_all= bin_PROGRAMS=
 }
 
 do_install() {
 	set -x
-	oe_runmake  ${MOBM320_ARGS} \
+	oe_runmake -e  ${MOBM320_ARGS} \
             PREFIX=${prefix} DESTDIR=${D} install	\
             _host_all= _host_programs= bin_PROGRAMS=
 

@@ -28,7 +28,7 @@ do_configure() {
 }
 
 do_install() {
-    oe_runmake install DESTDIR=${D} 
+    oe_runmake -e install DESTDIR=${D}
 }
 
 FILES_${PN}-dev += "${MACHDATADIR}/*.dtb ${MACHINCDIR}/*.h"

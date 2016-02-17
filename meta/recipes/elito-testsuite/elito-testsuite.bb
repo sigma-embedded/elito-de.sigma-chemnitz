@@ -15,11 +15,11 @@ SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/elito-testsuite.git;protocol=git"
 S = "${WORKDIR}/git"
 
 do_compile() {
-	oe_runmake
+	oe_runmake -e
 }
 
 do_install() {
-	oe_runmake install DESTDIR='${D}'
+	oe_runmake -e install DESTDIR='${D}'
 
         mv ${D}${bindir}/runtests ${D}${bindir}/elito-runtests
 }

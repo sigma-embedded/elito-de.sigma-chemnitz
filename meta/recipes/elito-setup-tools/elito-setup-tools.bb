@@ -43,11 +43,11 @@ CPPFLAGS_append_systemd = '\
 '
 
 do_compile() {
-    oe_runmake
+    oe_runmake -e
 }
 
 do_install() {
-    oe_runmake DESTDIR=${D} install
+    oe_runmake -e DESTDIR=${D} install
 
     install -d -m 0755 ${D}${bindir}
     mv ${D}${base_bindir}/elito-mmc-boot ${D}${bindir}/

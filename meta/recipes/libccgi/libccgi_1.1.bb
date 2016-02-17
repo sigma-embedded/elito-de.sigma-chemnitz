@@ -24,7 +24,7 @@ EXTRA_OEMAKE = "\
 
 
 do_compile() {
-    oe_runmake libccgi.a
+    oe_runmake -e libccgi.a
 }
 
 do_install() {

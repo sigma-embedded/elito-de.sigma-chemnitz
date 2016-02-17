@@ -13,9 +13,9 @@ SRC_URI  = "git://git.kernel.org/pub/scm/utils/cpu/mce/mcelog.git;protocol=git"
 inherit gitpkgv
 
 do_compile() {
-    oe_runmake
+    oe_runmake -e
 }
 
 do_install() {
-    oe_runmake install prefix=${D}/usr etcprefix=${D}
+    oe_runmake -e install prefix=${D}/usr etcprefix=${D}
 }

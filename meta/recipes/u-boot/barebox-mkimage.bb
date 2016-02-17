@@ -13,7 +13,7 @@ _pv = "0.2011.10"
 include u-boot-common.inc
 
 do_compile() {
-	oe_runmake -C scripts mkimage
+	oe_runmake -e -C scripts mkimage
 }
 
 do_install () {

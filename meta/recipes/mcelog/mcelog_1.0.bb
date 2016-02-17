@@ -12,11 +12,11 @@ S    = "${WORKDIR}/${PN}-${PV}${PRE}"
 SRC_URI  = "http://www.kernel.org/pub/linux/utils/cpu/mce/mcelog-${PV}${PRE}.tar.bz2;name=tarball"
 
 do_compile() {
-    oe_runmake
+    oe_runmake -e
 }
 
 do_install() {
-    oe_runmake install prefix=${D}/usr etcprefix=${D}
+    oe_runmake -e install prefix=${D}/usr etcprefix=${D}
 }
 
 SRC_URI[tarball.md5sum] = "dbdf6507eb34ebc4ce7c583ef6c568c5"

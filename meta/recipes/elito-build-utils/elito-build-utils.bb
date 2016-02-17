@@ -10,7 +10,7 @@ SRC_URI = "\
 "
 
 do_compile() {
-    oe_runmake VPATH=${WORKDIR} \
+    oe_runmake -e VPATH=${WORKDIR} \
       argv0 passwd-hash LDLIBS='-Wl,-as-needed -lcrypt'
 }
 
