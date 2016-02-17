@@ -17,7 +17,7 @@ elito_cleanup_boot() {
 
 systemd_enable_sysrq_b() {
 	if grep -q "^kernel\.sysrq.*=.*16" "${IMAGE_ROOTFS}${libdir}/sysctl.d/50-default.conf" 2>/dev/null; then
-		echo 'kernel.sysrq = 1' > "${IMAGE_ROOTFS}${libdir}/sysctl.d/10-sysrq.conf"
+		echo 'kernel.sysrq = 1' > "${IMAGE_ROOTFS}${libdir}/sysctl.d/80-sysrq.conf"
         fi
 }
 
