@@ -27,6 +27,11 @@ DEPENDS += '\
 	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage","virtual/u-boot-mkimage-native","",d)}'
 
+KERNEL_CONFIG_ENABLE_OPTS[type] = "list"
+KERNEL_CONFIG_DISABLE_OPTS[type] = "list"
+KERNEL_EARLY_OPTIONS_FUNCS[type] = "list"
+KERNEL_OPTIONS_FUNCS[type] = "list"
+
 _configdebug-opts='\
   SHIRQ OBJECTS OBJECTS_FREE OBJECTS_WORK OBJECTS_RCU_HEAD \
   OBJECTS_PERCPU_COUNTER OBJECTS_ENABLE_DEFAULT KMEMLEAK \
@@ -83,11 +88,12 @@ python do_fetch_defconfig() {
 }
 addtask fetch_defconfig before do_configure
 
-kernel_early_options[vardeps] += "\
+kernel_options[vardeps] += "\
   DISTRO_FEATURES MACHINE_FEATURES KERNEL_CMDLINE \
-  KERNEL_CMDLINE_SOURCE  KERNEL_EARLY_OPTIONS_FUNCS \
-  _configdebug-opts _configdisable-opts"
-def kernel_early_options(d):
+  KERNEL_CMDLINE_SOURCE KERNEL_EARLY_OPTIONS_FUNCS \
+  _configdebug-opts _configdisable-opts \
+  IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
+def kernel_options(d):
     import elito.kernel_feature
 
     YES = elito.kernel_feature.YES
@@ -102,15 +108,15 @@ def kernel_early_options(d):
 
     o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
           [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
-            ['CMDLINE', d.getVar('KERNEL_CMDLINE') ], 
-            [ 'EARLY_PRINTK', [False, YES][have_earlyprintk] ],
+            ['CMDLINE', d.getVar('KERNEL_CMDLINE') ],
+            [ '+EARLY_PRINTK', have_earlyprintk ],
           ],
           [ True,
-            [ 'CMDLINE_FROM_BOOTLOADER', [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'bootloader'] ],
-            [ 'CMDLINE_EXTEND',          [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'extend'] ],
-            [ 'CMDLINE_FORCE',           [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'force'] ] ],
+            [ '+CMDLINE_FROM_BOOTLOADER', d.getVar('KERNEL_CMDLINE_SOURCE') == 'bootloader' ],
+            [ '+CMDLINE_EXTEND',          d.getVar('KERNEL_CMDLINE_SOURCE') == 'extend' ],
+            [ '+CMDLINE_FORCE',           d.getVar('KERNEL_CMDLINE_SOURCE') == 'force' ] ],
           [ True,
-            [ 'BLK_DEV_INITRD',      [False, YES][have_initrd] ],
+            [ '+BLK_DEV_INITRD',     have_initrd ],
             [ 'DEFAULT_HOSTNAME',    "${MACHINE_HOSTNAME}" ],
             [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
             [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
@@ -122,37 +128,34 @@ def kernel_early_options(d):
             [ 'KERNEL_GZIP', False ],
             [ 'RD_GZIP', False ],
             [ 'INITRAMFS_SOURCE', '${INITRAMFS_SOURCE}' ] ],
-          ]
-
-    o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
-    o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts').split()))
-
-    for f in (d.getVar('KERNEL_EARLY_OPTIONS_FUNCS', True) or '').split():
-        o = eval("%s(d, o)" % f)
-
-    return elito.kernel_feature.sed_cmd(o)
-
-kernel_options[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
-def kernel_options(d):
-    import elito.kernel_feature
-    is_feature = lambda x: (bb.utils.contains('DISTRO_FEATURES', x, True, False, d) or
-                            bb.utils.contains('MACHINE_FEATURES', x, True, False, d))
-
-    o = [ [ True,
-            [ 'IPV6',        is_feature('ipv6') ],
-            [ 'MMC',         is_feature('mmc') or is_feature('sdio') ],
-            [ 'USB',         is_feature('usbhost') ],
-            [ 'USB_GADGET',  is_feature('usbclient') ],
+          [ True,
+            [ '+IPV6',        is_feature('ipv6') ],
+            [ '+MMC',         is_feature('mmc') or is_feature('sdio') ],
+            [ '+USB',         is_feature('usbhost') ],
+            [ '+USB_GADGET',  is_feature('usbclient') ],
             ],
           [ is_feature('headless'),
             [ 'FB',         False ] ],
           [ d.getVar('IMAGE_INIT_MANAGER') == 'systemd',
             [ 'AUTOFS4_FS', True ],
-            [ 'CGROUPS',    True ] ],
+            [ '+CGROUPS',    True ] ],
           ]
 
-    for f in (d.getVar('KERNEL_OPTIONS_FUNCS', True) or '').split():
-        o = bb.build.exec_func(f, d, o)
+    o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
+    o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts').split()))
+
+    for f in oe.data.typed_value('KERNEL_EARLY_OPTIONS_FUNCS', d):
+        bb.warn("Executing legacy KERNEL_EARLY_OPTIONS_FUNCS '%s'" % f)
+        eval("%s(d, o)" % f)
+
+    o.extend(map(lambda x: [True, x, False],
+                 oe.data.typed_value('KERNEL_CONFIG_DISABLE_OPTS', d)))
+
+    o.extend(map(lambda x: [True, x, True],
+                 oe.data.typed_value('KERNEL_CONFIG_ENABLE_OPTS', d)))
+
+    for f in oe.data.typed_value('KERNEL_OPTIONS_FUNCS', d):
+        eval("%s(d, o)" % f)
 
     return elito.kernel_feature.sed_cmd(o)
 
@@ -202,41 +205,23 @@ do_configure_extra_local() {
 export do_configure_extra_local
 
 do_configure[depends] += "kernel-makefile:do_setup_makefile"
-
 do_configure_prepend() {
 	if ! test -e .config; then
 		if "${@['false', 'true'][d.getVar('__defconfig', True).startswith('/')]}"; then
 			install -p -m 0644 "${__defconfig}" .config
-			oe_runmake oldnoconfig
 		else
 			oe_runmake "${__defconfig}"
 		fi
-
 	fi
 
-	cp -a .config .config-orig
-
-sed -f - .config-orig > .config << "EOF"
-${@kernel_early_options(d)}
-EOF
-
-	cp -a .config .config-early_
-	oe_runmake oldconfig < /dev/null
-	cp -a .config .config-early
-
-sed -f - .config-early > .config << "EOF"
+	cat << "EOF" >> .config
 ${@kernel_options(d)}
 EOF
 
+	oe_runmake oldnoconfig
+
 	do_configure_extra_local
-
-	cmp .config .config-orig || oe_runmake oldconfig < /dev/null
-
 	oe_runmake savedefconfig
-
-	if ! diff -u .config-early .config; then
-		bbwarn "Default kernel configuration does not fulfill image/distro requirements; configuration was adjusted but should be rechecked"
-	fi
 }
 # }}} do_configure
 

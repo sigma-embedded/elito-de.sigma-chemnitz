@@ -38,17 +38,14 @@ KERNEL_CONFIG_DISABLE_OPTS ="\
   USB_GADGET USB_ACM USB_PRINTER USB_SDM USB_TMC USB_ETH USB_MON \
   CMDLINE_FROM_BOOTLOADER IP_PNP N_GSM"
 
-KERNEL_EARLY_OPTIONS_FUNCS += "elito_kernel_rescue_early_options"
+KERNEL_OPTIONS_FUNCS += "elito_kernel_rescue_options"
 
 RESCUE_IMAGE_NAME ?= "${DEPLOY_DIR_IMAGE}/elito-rescue-image-${MACHINE}.cpio.xz"
 
-def elito_kernel_rescue_early_options(d, o):
+def elito_kernel_rescue_options(d, o):
     import elito
 
     YES = elito.kernel_feature.YES
-
-    o.extend(map(lambda x: [True, x, False],
-                 d.getVar('KERNEL_CONFIG_DISABLE_OPTS').split()))
 
     o.append([True,
               [ 'UEVENT_HELPER_PATH', '/sbin/hotplug' ],
