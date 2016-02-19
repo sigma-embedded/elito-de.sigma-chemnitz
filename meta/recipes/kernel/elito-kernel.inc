@@ -159,6 +159,15 @@ def kernel_options(d):
 
     return elito.kernel_feature.sed_cmd(o)
 
+def find_cfgs(d):
+    sources=src_patches(d, True)
+    sources_list=[]
+    for s in sources:
+        if s.endswith('.cfg'):
+            sources_list.append(s)
+
+    return ' '.join(sources_list)
+
 # {{{ generate-initramfs
 ELITO_LINUXRC_PROGRAM ??= "${STAGING_BINDIR}/elito-mmc-boot"
 ELITO_LINUXRC_TASK ??= "elito-setup-tools"
@@ -217,6 +226,8 @@ do_configure_prepend() {
 	cat << "EOF" >> .config
 ${@kernel_options(d)}
 EOF
+
+        cat ${@find_cfgs(d)} < /dev/null >> .config
 
 	oe_runmake oldnoconfig
 
