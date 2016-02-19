@@ -35,7 +35,7 @@ elito_add_devel_history() {
 }
 
 elito_add_devel_sshkey() {
-	u=`id -nu 2>/dev/null` || u=
+	u='${USER}' || u=
 	d=`hostname -d 2>/dev/null` || d=
 	h=`hostname -f 2>/dev/null || hostname` || h=
 
