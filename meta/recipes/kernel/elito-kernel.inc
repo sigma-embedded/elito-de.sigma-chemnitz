@@ -101,6 +101,7 @@ def kernel_options(d):
 
     is_feature = lambda x: (bb.utils.contains('DISTRO_FEATURES', x, True, False, d) or
                             bb.utils.contains('MACHINE_FEATURES', x, True, False, d))
+
     have_initrd = (is_feature('initrd') or
                    ('cpio' in set(map(lambda x: x.split('.')[0],
                                       d.getVar('IMAGE_FSTYPES', True).split()))))
@@ -242,7 +243,7 @@ do_compile_prepare() {
 
 do_compile_append() {
 	if "${@base_contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
-	   "${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}"; then
+           "${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}"; then
 		install -D -p -m 0644 .config   ${BUILDHISTORY_DIR_IMAGE}/kernel-config
 		install -D -p -m 0644 defconfig ${BUILDHISTORY_DIR_IMAGE}/kernel-defconfig
 	fi

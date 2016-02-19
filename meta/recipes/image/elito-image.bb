@@ -12,7 +12,7 @@ IMAGE_PREPROCESS_COMMAND += "elito_cleanup_boot"
 PATH_append = ":/usr/local/sbin:/usr/sbin:/sbin"
 
 elito_cleanup_boot() {
-    	rm -f ${IMAGE_ROOTFS}/boot/*
+	rm -f ${IMAGE_ROOTFS}/boot/*
 }
 
 systemd_enable_sysrq_b() {
