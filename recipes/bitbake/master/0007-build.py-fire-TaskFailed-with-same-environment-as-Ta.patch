@@ -1,7 +1,7 @@
-From ef76e9453802b6611cd071d28a264db5099d55c7 Mon Sep 17 00:00:00 2001
+From a50e7232173f8c6ab179dde7dd7ded01f68d4fe1 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Fri, 2 Nov 2012 18:09:04 +0100
-Subject: [PATCH 07/10] build.py: fire TaskFailed with same environment as
+Subject: [PATCH 5/9] build.py: fire TaskFailed with same environment as
  TaskStarted
 
 The task-failed event handler can require task specific data or data
@@ -16,10 +16,10 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/lib/bb/build.py b/lib/bb/build.py
-index dcd42ef..0308868 100644
+index d20ee06..1449432 100644
 --- a/lib/bb/build.py
 +++ b/lib/bb/build.py
-@@ -336,20 +336,14 @@ def _task_data(fn, task, d):
+@@ -388,20 +388,14 @@ def _task_data(fn, task, d):
      bb.data.expandKeys(localdata)
      return localdata
  
@@ -30,7 +30,7 @@ index dcd42ef..0308868 100644
      Execution of a task involves a bit more setup than executing a function,
      running it with its own local metadata, and with some useful variables set.
      """
--    if not d.getVarFlag(task, 'task'):
+-    if not d.getVarFlag(task, 'task', False):
 -        event.fire(TaskInvalid(task, d), d)
 -        logger.error("No such task: %s" % task)
 -        return 1
@@ -41,11 +41,11 @@ index dcd42ef..0308868 100644
      tempdir = localdata.getVar('T', True)
      if not tempdir:
          bb.fatal("T variable not set, unable to build")
-@@ -477,6 +471,13 @@ def _exec_task(fn, task, d, quieterr):
+@@ -539,6 +533,13 @@ def _exec_task(fn, task, d, quieterr):
      return 0
  
  def exec_task(fn, task, d, profile = False):
-+    if not d.getVarFlag(task, 'task'):
++    if not d.getVarFlag(task, 'task', False):
 +        event.fire(TaskInvalid(task, d), d)
 +        logger.error("No such task: %s" % task)
 +        return 1
@@ -54,8 +54,8 @@ index dcd42ef..0308868 100644
 +
      try:
          quieterr = False
-         if d.getVarFlag(task, "quieterrors") is not None:
-@@ -489,21 +490,21 @@ def exec_task(fn, task, d, profile = False):
+         if d.getVarFlag(task, "quieterrors", False) is not None:
+@@ -551,21 +552,21 @@ def exec_task(fn, task, d, profile = False):
              except:
                  import profile
              prof = profile.Profile()
@@ -82,5 +82,5 @@ index dcd42ef..0308868 100644
  
  def stamp_internal(taskname, d, file_name, baseonly=False):
 -- 
-1.9.3
+2.5.0
 
