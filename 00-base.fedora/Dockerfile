@@ -20,6 +20,7 @@ RUN \
 	ccache \
 	chrpath \
 	cpio \
+	cscope \
 	curl \
 	diffstat \
 	file \
@@ -34,6 +35,7 @@ RUN \
 	lsof \
 	lzop \
 	make \
+	ncurses-devel \
 	openssh-server \
 	patch \
 	'perl(bigint)' \
