@@ -39,6 +39,15 @@ dietlibc_build_tests () {
     return $rc
 }
 
+dietlibc_do_run_tests () {
+    # Run the tests (when emulator is available)
+    if type -p "$QEMU" && test x"$QEMU" != x"false"; then
+       cd test
+       env EMULATOR="${QEMU} ${QEMU_OPTIONS}" bash ./runtests-X.sh
+       cd -
+    fi
+}
+
 dietlibc_do_full_test () {
     ## Check for references to __NR_ symbols which indicates missing
     ## syscall implementations
@@ -47,13 +56,6 @@ dietlibc_do_full_test () {
         exit 1
     fi
 
-
-    ## Build and run the testsuite (when emulator is available)
+    ## Build the testsuite
     dietlibc_build_tests
-
-    if type -p "$QEMU" && test x"$QEMU" != x"false"; then
-       cd test
-       env EMULATOR="${QEMU} ${QEMU_OPTIONS}" bash ./runtests-X.sh
-       cd -
-    fi
 }

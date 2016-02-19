@@ -5,4 +5,5 @@ inherit test
 
 do_test() {
     dietlibc_do_full_test
+    dietlibc_do_run_tests || :
 }
