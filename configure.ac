@@ -55,6 +55,7 @@ AC_MSG_RESULT([yes])
 
 _f=$HOME/.bitbake.elito.conf
 
+AC_MSG_CHECKING([for global bitbake.conf])
 AC_ARG_WITH([global-bitbake-conf],
 	[AS_HELP_STRING([--with-global-bitbake-conf=<file>],
 		[global bitbake configuration file (default: ~/.bitbake.elito.conf (when exists))])],
@@ -63,13 +64,23 @@ AC_ARG_WITH([global-bitbake-conf],
 		[_f=$withval; withval=yes])],
 	[ withval=auto ])
 
+_suffix=
 AS_CASE([$withval],
 	[yes],	[if ! test -r "$_f"; then
 			AC_MSG_ERROR([can not find global bitbake.conf file '$_f'])
 		fi],
 	[no],	[_f=],
-	[auto],	[test -r "$_f" || _f=],
+	[auto],	[
+	test -r "$_f" || _f=
+	_suffix=' (auto)'
+	],
 	[])
+
+if test -n "$_f"; then
+   AC_MSG_RESULT([$_f$_suffix])
+else
+   AC_MSG_RESULT([no])
+fi
 
 AC_SUBST([GLOBAL_BITBAKE_CONF],[$_f])
 ELITO_TRUE_FALSE([HAVE_GLOBAL_BITBAKE_CONF], [test -n "$_f"])
