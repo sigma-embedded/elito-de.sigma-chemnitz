@@ -27,10 +27,6 @@ FILES_${PN}-feeds     = "/etc/opkg/*.conf"
 python () {
     import bb.parse
     bb.parse.mark_dependency(d, d.expand("${TMPDIR}/build-info"))
-    try:
-        bb.parse.mark_dependency(d, d.expand("${TMPDIR}/build-num"))
-    except:
-        pass
 }
 
 do_compile() {

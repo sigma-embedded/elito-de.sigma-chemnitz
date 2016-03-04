@@ -55,13 +55,6 @@ def elito_uri(uri, d):
     import elito
     return elito.uri(uri, d)
 
-def elito_build_number(d):
-    try:
-        f = open(os.path.join(d.getVar("TMPDIR", True), "build-num"))
-        return int(f.readline().strip())
-    except:
-        return 0
-
 def elito_repo(local, remote, d):
     import elito
     return elito.repo(local, remote, d)
@@ -123,7 +116,7 @@ do_install[prefuncs] += "do_elito_set_home"
 export ABRT_IGNORE_ALL="1"
 
 BB_HASHCONFIG_WHITELIST += "\
- ftp_proxy http_proxy https_proxy no_proxy DISPLAY ELITO_BUILD_NUMBER \
+ ftp_proxy http_proxy https_proxy no_proxy DISPLAY \
  KRB5CCNAME DESKTOP_STARTUP_ID GNOME_KEYRING_PID GPG_AGENT_INFO \
  BITBAKE_UI BB_NUMBER_THREADS BB_NUMBER_PARSE_THREADS ELITO_METRICS_ID \
  HOSTNAME DOMAIN ELITO_CACHE_DIR ELITO_WORKSPACE_DIR \
@@ -132,9 +125,6 @@ BB_HASHCONFIG_WHITELIST += "\
 "
 
 BB_HASHBASE_WHITELIST += "ELITO_CRT ELITO_TOPDIR"
-
-ELITO_BUILD_NUMBER := "${@elito_build_number(d)}"
-ELITO_BUILD_NUMBER[vardepvalue] = "${ELITO_BUILD_NUMBER}"
 
 SRC_URI[vardepsexclude] += "\
   ELITO_GIT_REPO ELITO_PUBLIC_GIT_REPO ELITO_WORKSPACE_DIR"

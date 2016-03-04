@@ -157,7 +157,7 @@ config:			$(CFG_FILES)
 
 init:			bitbake-fetch | $W/cache/ccache
 image release-image sdk:\
-			FORCE bitbake-validate $(_wstampdir)/.prep.stamp inc-build-num
+			FORCE bitbake-validate $(_wstampdir)/.prep.stamp
 
 $(TARGET_IMAGES):	$(_wstampdir)/.prep.stamp
 $(TARGET_IMAGES) _image image release-image:
@@ -201,10 +201,6 @@ fetch-all fetchall:	FORCE bitbake-validate init
 help:			$(abs_top_srcdir)/scripts/make.help
 			@cat $<
 .PHONY:			help
-
-inc-build-num:		FORCE | $W
-			@v=`cat ${W}/build-num 2>/dev/null || echo 0` && \
-			echo $$(( v + 1 )) > ${W}/build-num
 
 taint:			FORCE | $W/recipes
 ifeq ($(R),)
