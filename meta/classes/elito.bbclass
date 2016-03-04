@@ -90,7 +90,7 @@ def elito_rewrite_src_uri(fetch, d):
         if r.strip() == '':
             continue
         (rem,loc) = r.split()
-        
+
         matched = True
 
         tmp = bb.fetch2.decodeurl(rem)
