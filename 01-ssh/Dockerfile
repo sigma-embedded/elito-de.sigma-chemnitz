@@ -1,5 +1,12 @@
 ## --*- conf -*--
 
+## TODO: move this into Ubuntu/Debian Dockerfiles; for now, keep it
+## here because only this file is mangled by the 'build' script
+RUN \
+	if test -x /usr/sbin/locale-gen; then \
+		/usr/sbin/locale-gen '@LANG@' '@LANG_PREFIX@'; \
+	fi
+
 RUN \
 	/usr/sbin/groupadd -g @UID@ @USER@ && \
 	/usr/sbin/useradd -u @UID@ -g @USER@ -m -s /bin/bash @USER@ && \
