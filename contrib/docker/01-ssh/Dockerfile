@@ -27,11 +27,11 @@ RUN \
 USER 0:0
 
 COPY profile.d		  /etc/profile.d/
-COPY authorized_keys	  /home/@USER@/.ssh/authorized_keys
 COPY ssh_config		  /home/@USER@/.ssh/config
-COPY authorized_keys	  /root/.ssh/authorized_keys
 COPY bin		  /usr/local/bin
 COPY elito-config	  	/home/@USER@/.config/elito/toplevel.mk
+COPY authorized_keys.docker	/home/@USER@/.ssh/authorized_keys
+COPY authorized_keys.docker	/root/.ssh/authorized_keys
 
 # start e.g. '/usr/sbin/thttpd -h localhost -p 9000 -D -d .' in the
 # directory with elito.pem
