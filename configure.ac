@@ -53,12 +53,20 @@ AC_MSG_CHECKING([whether \$PATH is clean])
 elito_validate_path
 AC_MSG_RESULT([yes])
 
-_f=$HOME/.bitbake.elito.conf
+# legacy configuration; remove after 2018-01-01
+_f_legacy=$HOME/.bitbake.elito.conf
+_f=$HOME/.config/elito/bitbake.conf
+
+if test -e "$_f_legacy" && ! test -e "$_f"; then
+   AC_MSG_WARN([
+**** Usage of $_f_legacy is deprecated and will be removed from future
+**** ELiTo releases; please use $_f])
+fi
 
 AC_MSG_CHECKING([for global bitbake.conf])
 AC_ARG_WITH([global-bitbake-conf],
 	[AS_HELP_STRING([--with-global-bitbake-conf=<file>],
-		[global bitbake configuration file (default: ~/.bitbake.elito.conf (when exists))])],
+		[global bitbake configuration file (default: ~/.config/elito/bitbake.conf (when exists))])],
 	[AS_CASE([$withval],
 		[yes|no], [],
 		[_f=$withval; withval=yes])],
@@ -71,6 +79,7 @@ AS_CASE([$withval],
 		fi],
 	[no],	[_f=],
 	[auto],	[
+	test -r "$_f" || _f=$_f_legacy
 	test -r "$_f" || _f=
 	_suffix=' (auto)'
 	],
