@@ -241,7 +241,14 @@ if test -z "$SIGMA_SSL_CLIENT" || $do_refresh; then
     subsection_end
 fi
 
-ask_user ELITO_CRT "location of ELiTo certificate" "\${HOME}/.elito.pem"
+## TODO: remove legacy support after 2018-01-01
+_f_legacy=.elito.pem
+_f=.config/elito/customer.pem
+if ! test -e "${HOME}/$_f" && test -e "${HOME}/$_f_legacy"; then
+    _f=${_f_legacy}
+fi
+
+ask_user ELITO_CRT "location of ELiTo certificate" "\${HOME}/$_f"
 if ! eval test -e "$ELITO_CRT"; then
     cat <<EOF | ${SED} "s!^!${I}  **** !" >&2
 Can not find ELiTo certificate '$ELITO_CRT'.
