@@ -60,18 +60,16 @@ do_install_append() {
     ${@base_contains("PROJECT_FEATURES", "select-touch", "rm -f ${D}${sysconfdir}/udev/rules.d/touchscreen.rules", ":", d)}
 }
 
+## HACK: 'resolved' requires libgcrypt headers
 ELITO_SYSTEMD_PACKAGECONFIG_ALL = "resolved networkd"
 ELITO_SYSTEMD_PACKAGECONFIG = "\
-  ${@['', 'resolved networkd'][d.getVar('ELITO_NETWORKD', True) == 'systemd']} \
+  ${@['', 'resolved networkd gcrypt'][d.getVar('ELITO_NETWORKD', True) == 'systemd']} \
 "
 
 PACKAGECONFIG_append = " ${ELITO_SYSTEMD_PACKAGECONFIG}"
 PACKAGECONFIG_remove = " ${@' '.join(\
   set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG_ALL', True).split()) - \
   set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG', True).split()))}"
-
-## HACK: 'resolved' requires libgcrypt headers
-PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved;libgcrypt"
 
 def systemd_elito_populate_packages(d, only_names = False):
     pkg_info = {
