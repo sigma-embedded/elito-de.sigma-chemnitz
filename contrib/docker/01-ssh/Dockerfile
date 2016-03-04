@@ -30,6 +30,7 @@ COPY profile.d		  /etc/profile.d/
 COPY ssh_config		  /home/@USER@/.ssh/config
 COPY bin		  /usr/local/bin
 COPY elito-config	  	/home/@USER@/.config/elito/toplevel.mk
+COPY authorized_keys.target	/home/@USER@/.config/elito/authorized_keys
 COPY authorized_keys.docker	/home/@USER@/.ssh/authorized_keys
 COPY authorized_keys.docker	/root/.ssh/authorized_keys
 
