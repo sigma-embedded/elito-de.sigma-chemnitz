@@ -1,0 +1,1 @@
+require fixup-pkgconfig.inc
