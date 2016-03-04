@@ -48,7 +48,8 @@ export BITBAKE_UI
 export ELITO_METRICS_ID
 export CCACHE_DIR BBPATH
 
-for f in '@abs_top_builddir@'/set-env.local $HOME/.elito-set-env; do
+# TODO: remove legacy ~/.elito-set-env after 2018-01-01
+for f in '@abs_top_builddir@'/set-env.local $HOME/.config/elito/set-env $HOME/.elito-set-env; do
     test -r "$f" || continue
     . "$f"
 done
