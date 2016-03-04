@@ -14,7 +14,6 @@ SRC_URI += "\
   file://0001-journalctl-allow-to-build-with-older-kernels.patch \
   file://networkd-split.patch \
   file://0001-added-SendClientId-option-to-disable-sending-of-dhcp.patch \
-  file://do-not-drop-critical.patch \
 "
 
 EXTRA_OECONF += "\
@@ -70,6 +69,9 @@ PACKAGECONFIG_append = " ${ELITO_SYSTEMD_PACKAGECONFIG}"
 PACKAGECONFIG_remove = " ${@' '.join(\
   set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG_ALL', True).split()) - \
   set(d.getVar('ELITO_SYSTEMD_PACKAGECONFIG', True).split()))}"
+
+## HACK: 'resolved' requires libgcrypt headers
+PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved;libgcrypt"
 
 def systemd_elito_populate_packages(d, only_names = False):
     pkg_info = {
