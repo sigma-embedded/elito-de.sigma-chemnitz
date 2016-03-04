@@ -12,7 +12,7 @@ zap_root_password_elito-setdistropasswd() {
        rm -f "$f"
        mv "$f".new "$f"
        h='x'
-    fi    
+    fi
 
     f=${IMAGE_ROOTFS}/etc/passwd
     if test -e "$f"; then
@@ -68,13 +68,13 @@ do_rm_work() {
 }
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-history", \
-		                 "elito_add_devel_history ;", "", d)}"
+				 "elito_add_devel_history ;", "", d)}"
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "devel-sshkey", \
-		                 "elito_add_devel_sshkey ;", "", d)}"
+				 "elito_add_devel_sshkey ;", "", d)}"
 
 ROOTFS_POSTPROCESS_COMMAND += "${@base_contains("IMAGE_FEATURES", "no-root-bash", \
-			         "", "elito_set_rootbash ;", d)}"
+				 "", "elito_set_rootbash ;", d)}"
 
 ROOTFS_POSTPROCESS_COMMAND_remove = "\
   ${@base_contains('IMAGE_FEATURES', 'devel-sshkey', \
