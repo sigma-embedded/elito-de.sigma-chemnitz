@@ -8,7 +8,7 @@ ENV ftp_proxy http://www-cache:3128/
 ENV no_proxy .sigma-chemnitz.de,sigma-chemnitz.de,cvg.de,.cvg.de,andto.de,.andto.de,localhost,<local>
 
 RUN \
-    : 20160125 - invalidate cache && \
+    : 20160304 - invalidate cache && \
     yum upgrade --setopt="proxy=$http_proxy" -y && \
     yum clean all
 
