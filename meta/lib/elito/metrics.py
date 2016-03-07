@@ -231,7 +231,7 @@ def __get_duse(e):
 def __record_resources(prop, e):
     import resource
 
-    ev_data = (e.data.getVarFlag('_event_info', 'resources') or {})
+    ev_data = (e.data.getVarFlag('_event_info', 'resources', False) or {})
     ev_data[prop] = { 'res_chld' : resource.getrusage(resource.RUSAGE_CHILDREN),
                       'res_self' : resource.getrusage(resource.RUSAGE_SELF),
                       'clock'    : time.clock(),
@@ -243,7 +243,7 @@ def __record_resources(prop, e):
 
 def __handle_complete(e, prefix, name, fn):
     __record_resources(prefix + '_end', e)
-    info = e.data.getVarFlags('_event_info')
+    info = e.data.getVarFlags('_event_info', False)
 
     res_start = info['resources'][prefix + '_start']
     res_end   = info['resources'][prefix + '_end']

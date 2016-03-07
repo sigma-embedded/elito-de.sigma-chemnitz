@@ -101,15 +101,15 @@ def kernel_early_options(d):
                                       d.getVar('IMAGE_FSTYPES', True).split()))))
     have_earlyprintk = 'earlyprintk' in (d.getVar('KERNEL_CMDLINE', True) or '').split()
 
-    o = [ [ d.getVar('DISTRO_TYPE') == 'release', 'DANGEROUS', False ],
-          [ d.getVar('OVERRIDE_KERNEL_CMDLINE') != '' and d.getVar('KERNEL_CMDLINE') != '',
-            ['CMDLINE', d.getVar('KERNEL_CMDLINE') ], 
+    o = [ [ d.getVar('DISTRO_TYPE', True) == 'release', 'DANGEROUS', False ],
+          [ d.getVar('OVERRIDE_KERNEL_CMDLINE', True) != '' and d.getVar('KERNEL_CMDLINE', True) != '',
+            ['CMDLINE', d.getVar('KERNEL_CMDLINE', True) ],
             [ 'EARLY_PRINTK', [False, YES][have_earlyprintk] ],
           ],
           [ True,
-            [ 'CMDLINE_FROM_BOOTLOADER', [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'bootloader'] ],
-            [ 'CMDLINE_EXTEND',          [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'extend'] ],
-            [ 'CMDLINE_FORCE',           [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE') == 'force'] ] ],
+            [ 'CMDLINE_FROM_BOOTLOADER', [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'bootloader'] ],
+            [ 'CMDLINE_EXTEND',          [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'extend'] ],
+            [ 'CMDLINE_FORCE',           [False, YES][d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'force'] ] ],
           [ True,
             [ 'BLK_DEV_INITRD',      [False, YES][have_initrd] ],
             [ 'DEFAULT_HOSTNAME',    "${MACHINE_HOSTNAME}" ],
@@ -125,8 +125,8 @@ def kernel_early_options(d):
             [ 'INITRAMFS_SOURCE', '${INITRAMFS_SOURCE}' ] ],
           ]
 
-    o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts').split()))
-    o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts').split()))
+    o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts', True).split()))
+    o.extend(map(lambda x: [True, x, False], d.getVar('_configdisable-opts', True).split()))
 
     for f in (d.getVar('KERNEL_EARLY_OPTIONS_FUNCS', True) or '').split():
         o = eval("%s(d, o)" % f)
@@ -188,11 +188,11 @@ python () {
     if bb.utils.contains('DISTRO_FEATURES','initrd', True, False, d):
         d.setVarFlag("do_compile", "depends",
                      d.expand('${PN}:do_generate_initramfs_source ') +
-                     (d.getVarFlag("do_compile", "depends") or ""))
+                     (d.getVarFlag("do_compile", "depends", False) or ""))
 
         d.setVarFlag("do_compile", "deps",
                      ["do_generate_initramfs_source"] +
-                     (d.getVarFlag("do_compile", "deps") or []))
+                     (d.getVarFlag("do_compile", "deps", False) or []))
 }
 # }}} generate-initramfs
 
@@ -340,7 +340,7 @@ do_deploy_append() {
 }
 
 def kernel_maxsize(mtdsize_var, xtra, d):
-    mtdsize = bb.data.getVar(mtdsize_var, d, True)
+    mtdsize = d.getVar(mtdsize_var, True)
     if mtdsize:
         return "%s" % (int(mtdsize) - xtra)
     else:

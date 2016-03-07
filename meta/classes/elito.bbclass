@@ -24,7 +24,7 @@ def elito_skip(d, feature_pos, feature_neg = None, var_name = "MACHINE_FEATURES"
 def elito_base_switch(d, var_name, *args):
     import bb
 
-    v = bb.data.getVar(var_name, d, 1)
+    v = d.getVar(var_name, True)
     if len(args) % 2 == 0:
         raise bb.parse.ParseError('elito_base_switch called with odd number of parms: %s' % (args,))
 

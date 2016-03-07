@@ -8,7 +8,7 @@ SRC_URI += "file://0001-configure-added-enable-x11.patch"
 # HACK: remove/revalidate me after 2014-01-01
 DEPENDS := "${@d.getVar('DEPENDS', False).replace('virtual/libx11','')}"
 
-_PACKAGECONFIG_DEFAULT := "${@d.getVarFlag('PACKAGECONFIG', '_defaultval')}"
+_PACKAGECONFIG_DEFAULT := "${@d.getVarFlag('PACKAGECONFIG', '_defaultval', False)}"
 _PACKAGECONFIG_DEFAULT += "\
    ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
 "

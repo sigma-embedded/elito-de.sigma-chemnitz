@@ -1,4 +1,4 @@
-PLUGINNAME = "${@bb.data.getVar('PN',d,1).replace('vdr-','',1)}"
+PLUGINNAME = "${@d.getVar('PN', True).replace('vdr-','',1)}"
 S = "${WORKDIR}/${PLUGINNAME}-${PV}"
 
 VDR_PLUGINDIR = "${libdir}/vdr"
