@@ -1,8 +1,8 @@
 python do_printdeps() {
-    bb.note("PROVIDES: %s -> %s" % (bb.data.getVar('PN', d, True),
-                                    " ".join((bb.data.getVar('PROVIDES', d, True) or "").split())))
-    bb.note("DEPENDS:  %s -> %s" % (bb.data.getVar('PN', d, True),
-                                    " ".join((bb.data.getVar('DEPENDS', d, True) or "").split())))
+    bb.note("PROVIDES: %s -> %s" % (d.getVar('PN', True),
+                                    " ".join((d.getVar('PROVIDES', True) or "").split())))
+    bb.note("DEPENDS:  %s -> %s" % (d.getVar('PN', True),
+                                    " ".join((d.getVar('DEPENDS', True) or "").split())))
 }
 
 do_printdeps[nostamp] = "1"

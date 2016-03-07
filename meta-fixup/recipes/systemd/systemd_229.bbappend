@@ -161,7 +161,7 @@ def systemd_elito_populate_packages(d, only_names = False):
         return '^${PN}-(' + '|'.join(sorted(pkg_info.keys())) + ')'
 
     pkgs = ''
-    pn = bb.data.getVar('PN', d, 1)
+    pn = d.getVar('PN', True)
     for (_p,i) in pkg_info.items():
         p = '%s-%s' % (pn, _p)
         files = map(lambda x:
@@ -191,7 +191,7 @@ def systemd_elito_populate_packages(d, only_names = False):
         bb.data.setVar('RDEPENDS_' + p, 'systemd (= ${EXTENDPKGV})', d)
 
     bb.data.setVar('PACKAGES',
-                   pkgs + ' ' + bb.data.getVar('PACKAGES', d, 0), d)
+                   pkgs + ' ' + d.getVar('PACKAGES', False), d)
 
 python systemd_elito_populate_packages_split() {
     return systemd_elito_populate_packages(d)
@@ -237,14 +237,14 @@ USERADD_PACKAGES += "${PN}-journal-upload"
 USERADD_PARAM_${PN}-journal-upload += "--system -d / -M --shell /bin/nologin systemd-journal-remote"
 
 python() {
-    r = bb.data.getVar('RRECOMMENDS_systemd', d, True) or ""
+    r = d.getVar('RRECOMMENDS_systemd', True) or ""
     for x in ['util-linux-swaponoff', 'systemd-compat-units',
               'e2fsprogs-e2fsck']:
         r = r.replace(x,'')
     r = ' '.join(r.split())
     bb.data.setVar('RRECOMMENDS_systemd', r, d)
 
-    r = bb.data.getVar('RRECOMMENDS_udev', d, True) or ""
+    r = d.getVar('RRECOMMENDS_udev', True) or ""
     for x in ['udev-hwdb', 'udev-extraconf']:
         r = r.replace(x,'')
     r = ' '.join(r.split())
