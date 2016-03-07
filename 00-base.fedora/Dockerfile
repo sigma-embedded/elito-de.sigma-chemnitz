@@ -9,11 +9,12 @@ ENV no_proxy .sigma-chemnitz.de,sigma-chemnitz.de,cvg.de,.cvg.de,andto.de,.andto
 
 RUN \
     : 20160304 - invalidate cache && \
-    yum upgrade --setopt="proxy=$http_proxy" -y && \
-    yum clean all
+    dnf upgrade --setopt="proxy=$http_proxy" -y && \
+    dnf clean all && \
+    dnf makecache --setopt="proxy=$http_proxy" -y
 
 RUN \
-    yum install --setopt="proxy=$http_proxy" -y \
+    dnf install --setopt="proxy=$http_proxy" -y \
 	autoconf \
 	automake \
 	bzip2 \
@@ -53,7 +54,8 @@ RUN \
 \
 	libproxy-bin \
 	libproxy-devel \
-    && yum clean all
+    && \
+    dnf clean all
 
 RUN /usr/sbin/sshd-keygen
 
