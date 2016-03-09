@@ -35,7 +35,7 @@ def get_makecmd(d):
 
     return ' '.join(vars) + ' VARIANTS="' + ' '.join(targets) + '"'
 
-DEPENDS += "fsliomux-conv-native virtual/kernel"
+DEPENDS += "fsliomux-conv-native"
 
 SRC_URI[vardeps] += "MACHINE_VARIANTS"
 SRC_URI = "\
@@ -60,6 +60,7 @@ COMPATIBLE_MACHINE = "mx6"
 
 inherit elito-machdata elito-dtree-base
 
+do_compile[depends] += "virtual/kernel:do_shared_workdir"
 do_compile() {
     oe_runmake -e
 }
