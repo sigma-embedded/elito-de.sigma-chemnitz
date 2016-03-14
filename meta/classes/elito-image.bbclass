@@ -34,7 +34,7 @@ elito_add_devel_history() {
 	done
 }
 
-elito_add_devel_sshkey() {
+_elito_search_devel_sshkey() {
 	u='${USER}' || u=
 	d=`hostname -d 2>/dev/null` || d=
 	h=`hostname -f 2>/dev/null || hostname` || h=
@@ -49,10 +49,18 @@ elito_add_devel_sshkey() {
 
 	for p in "$@"; do
 		f="${PROJECT_TOPDIR}"/files/authorized_keys$p
-		test -e "$f" || continue
-		install -D -p -m 0644 "$f" ${IMAGE_ROOTFS}${ROOT_HOME}/.ssh/authorized_keys
-		break
+		! test -e "$f" || break
 	done
+}
+
+elito_add_devel_sshkey() {
+	eval f='~${USER}/.config/elito/authorized_keys'
+	if ! test -e "$f"; then
+		_elito_search_devel_sshkey
+	fi
+
+	! test -e "$f" || \
+		install -D -p -m 0644 "$f" ${IMAGE_ROOTFS}${ROOT_HOME}/.ssh/authorized_keys
 }
 
 elito_set_rootbash() {
