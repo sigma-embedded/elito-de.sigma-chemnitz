@@ -1,9 +1,21 @@
-SRCREV = "${AUTOREV}"
-PV = "${MACHINE_KERNEL_VERSION}"
+OVERRIDES_append = ":kernel-${@d.getVar('MACHINE_KERNEL_VERSION', \
+                                        True).replace('.', '-')}"
 
-KERNEL_REPO  ?= "${ELITO_GIT_WS}/kernel.git"
+_srcrev = "${AUTOREV}"
+_srcrev_kernel-3-10 = "8bb495e3f02401ee6f76d1b1d77f3ac9f079e376"
+_srcrev_kernel-3-14 = "455c6fdbd219161bd09b1165f11699d6d73de11c"
+_srcrev_kernel-3-18 = "b2776bf7149bddd1f4161f14f79520f17fc1d71d"
+_srcrev_kernel-4-1  = "b953c0d234bc72e8489d3bf51a276c5c4ec85345"
+_srcrev_kernel-4-4  = "afd2ff9b7e1b367172f18ba7f693dfb62bdcb2dc"
+_srcrev_kernel-4-5  = "b562e44f507e863c6792946e4e1b1449fbbac85d"
+
+SRCREV = "${_srcrev}"
+PV     = "${MACHINE_KERNEL_VERSION}"
+
+KERNEL_REPO ??= "git://${ELITO_GIT_WS}/kernel.git;protocol=file"
 _branch       = "${MACHINE_KERNEL_VERSION}/kernel.org"
-SRC_URI_elito = "git://${KERNEL_REPO};protocol=file;branch=${_branch}"
+SRC_URI_elito = "${KERNEL_REPO};branch=${_branch}"
+SRC_URI[vardepsexclude] += "KERNEL_REPO"
 
 DEFAULT_PREFERENCE = "99"
 
