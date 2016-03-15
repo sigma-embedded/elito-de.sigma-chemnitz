@@ -673,46 +673,6 @@ AC_DEFUN([ELITO_VERSION_CHECK],[
 	fi
 ])
 
-AC_DEFUN([_flex_check_version],[
-	AC_MSG_CHECKING([for flex version >= ELITO_VERSION_TO_STRING($2)])
-
-	ELITO_VERSION_CHECK([$2],3,
-			    [${$1} --version | sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'])
-])
-
-AC_DEFUN([_m4_check_version],[
-	AC_MSG_CHECKING([for m4 version >= ELITO_VERSION_TO_STRING($2)])
-
-	ELITO_VERSION_CHECK([$2],3,
-			    [${$1} --version | sed '1s/.* \([[[0-9.]]]\+\).*/\1/p;d'])
-])
-
-AC_DEFUN([_cmake_check_version],[
-	AC_MSG_CHECKING([for cmake version >= ELITO_VERSION_TO_STRING($2)])
-
-	ELITO_VERSION_CHECK([$2],3,
-			    [${$1} --version |
-                             sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
-])
-
-AC_DEFUN([_file_check_version],[
-	AC_MSG_CHECKING([for file version >= ELITO_VERSION_TO_STRING($2)])
-
-	ELITO_VERSION_CHECK([$2],2,
-			    [${$1} --version 2>&1 | \
-			     sed '1s/.*[[[- ]]]\([[[0-9.]]]\+\).*/\1/p;d'],
-			    [-eq])
-])
-
-AC_DEFUN([_svn_check_version],[
-	AC_MSG_CHECKING([for svn version >= ELITO_VERSION_TO_STRING($2)])
-
-	ELITO_VERSION_CHECK([$2],3
-,
-			    [${$1} --version | \
-			     sed '1s/.* version \([[[0-9.]]]\+\).*/\1/p;d'])
-])
-
 AC_DEFUN([_git_check_version],[
 	AC_MSG_CHECKING([for git version >= ELITO_VERSION_TO_STRING($2)])
 
@@ -794,95 +754,8 @@ ELITO_CHECK_PROGRAM(-1, XZ,         xz)
 ELITO_CHECK_PROGRAM(-1, MAKE,       make)
 ELITO_CHECK_PROGRAM(-1, PATCH,      patch)
 ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
-ELITO_CHECK_PROGRAM(90, GETTEXT,    gettext)
-ELITO_CHECK_PROGRAM( 0, QUILT,      quilt)
-ELITO_CHECK_PROGRAM( 0, FILE,       file,[],[_file_check_version], 0x00050d)
-ELITO_CHECK_PROGRAM( 0, QEMU,       qemu)
 ELITO_CHECK_PROGRAM(-1, BASH,       bash)
-ELITO_CHECK_PROGRAM( 0, FAKEROOT,   fakeroot)
-ELITO_CHECK_PROGRAM(90, PKGCONFIG,  pkg-config,  pkgconfig)
-ELITO_CHECK_PROGRAM(95, PYTHON,     python)
-ELITO_CHECK_PROGRAM( 0, ZIP,        zip)
-ELITO_CHECK_PROGRAM( 0, UNZIP,      unzip)
-ELITO_CHECK_PROGRAM(80, CURL,       curl)
-ELITO_CHECK_PROGRAM( 0, GIT,        git, git, [_git_check_version], 0x010705)
-ELITO_CHECK_PROGRAM( 0, HG,         hg, mercurial)
-ELITO_CHECK_PROGRAM( 0, SUBVERSION, svn, subversion,[_svn_check_version], 0x010700)
-ELITO_CHECK_PROGRAM(50, PAX,        pax, pax-utils)
-ELITO_CHECK_PROGRAM( 0, INSTALL,    install)
-ELITO_CHECK_PROGRAM( 0, COREUTILS,  basename, coreutils)
-ELITO_CHECK_PROGRAM(60, PERL,       perl)
-ELITO_CHECK_PROGRAM(90, AUTOCONF,   autoconf)
-ELITO_CHECK_PROGRAM(90, AUTOMAKE,   automake)
-ELITO_CHECK_PROGRAM( 0, INTLTOOL,   intltool)
-ELITO_CHECK_PROGRAM(90, LIBTOOL,    libtoolize,  libtool)
-ELITO_CHECK_PROGRAM(60, UIC_QT4,    uic-qt4,     uicmoc4)
-ELITO_CHECK_PROGRAM(20, MTD_UTILS,  mkfs.ubifs,  mtd-utils)
-ELITO_CHECK_PROGRAM( 0, UNIFDEF,    unifdef)
-ELITO_CHECK_PROGRAM( 0, GPERF,      gperf)
-ELITO_CHECK_PROGRAM( 5, SHARED_MIME_INFO,   update-mime-database, shared-mime-info)
-ELITO_CHECK_PROGRAM( 0, DESKTOP_FILE_UTILS, desktop-file-install, desktop-file-utils)
-ELITO_CHECK_PROGRAM( 0, MKFONTSCALE, mkfontscale)
-ELITO_CHECK_PROGRAM( 0, DOCBOOK_UTILS, docbook2man, docbook-utils)
-ELITO_CHECK_PROGRAM( 0, CMAKE,      cmake, [], [_cmake_check_version], [0x020800])
-ELITO_CHECK_PROGRAM( 0, TCL,        tclsh, tcl)
-ELITO_CHECK_PROGRAM( 0, TK,         witch, tk)
-ELITO_CHECK_PROGRAM( 0, ANT,        ant, ant)
-ELITO_CHECK_PROGRAM( 0, JAVAC,      javac)
-ELITO_CHECK_PROGRAM( 0, HELP2MAN,   help2man)
-ELITO_CHECK_PROGRAM( 0, MAKEDEPEND, makedepend)
-ELITO_CHECK_PROGRAM( 0, IMAKE,      imake)
-ELITO_CHECK_PROGRAM(20, RPM,        rpm)
-ELITO_CHECK_PROGRAM( 0, FONTFORGE,  fontforge)
-ELITO_CHECK_PROGRAM( 0, DOXYGEN,    doxygen)
-ELITO_CHECK_PROGRAM( 0, MKISOFS,    mkisofs)
-ELITO_CHECK_PROGRAM(20, BISON,      bison)
-ELITO_CHECK_PROGRAM( 0, BC,         bc)
-
-if $enable_pkg_bison; then
-   # bison depends on m4 binary in sysroot
-   ELITO_CHECK_PROGRAM( 0, M4,      m4,[],[_m4_check_version], 0x010410)
-fi
-
-
-AC_CHECK_HEADER(gmp.h,       [ELITO_ASSUME(20, gmp,true)])
-AC_CHECK_HEADER(zlib.h,      [ELITO_ASSUME(20, zlib,true)])
-AC_CHECK_HEADER(mpfr.h,      [ELITO_ASSUME(20, mpfr,true)])
-AC_CHECK_HEADER(ncurses.h,   [ELITO_ASSUME(10, ncurses,true)])
-AC_CHECK_HEADER(expat.h,     [ELITO_ASSUME(10, expat,true)])
-AC_CHECK_HEADER(lzo/lzo2a.h, [ELITO_ASSUME(10, lzo2,true)])
-AC_CHECK_HEADER(lzo/lzo1.h,  [ELITO_ASSUME(10, lzo,true)])
-AC_CHECK_HEADER(bzlib.h,     [ELITO_ASSUME(0,  bzip2-full,true)])
-AC_CHECK_HEADER(readline/readline.h, [ELITO_ASSUME(10, readline,true)])
-AC_CHECK_HEADER(linux/version.h, [ELITO_ASSUME(0,  linux-libc-headers,true)])
-
-if $enable_pkg_rpm; then
-  AC_CHECK_HEADER(popt.h,    [ELITO_ASSUME(10, popt,true)])
-  AC_CHECK_HEADER(db.h,      [ELITO_ASSUME(10, db,true)])
-fi
-
-AC_CHECK_LIB(iberty, [cplus_demangle], [ELITO_ASSUME(0, binutils, true)])
-AC_CHECK_LIB(fl,     [yywrap])
-
-if test x"$ac_cv_lib_fl_yywrap" = x"yes"; then
-   ELITO_CHECK_PROGRAM( 5, FLEX,       flex,[],[_flex_check_version], 0x02051f)
-fi
-
-PKG_CHECK_MODULES(GLIB20,    [glib-2.0],    [ELITO_ASSUME(70, glib20,    true, glib-2.0-native)],  [true])
-PKG_CHECK_MODULES(DBUS,      [dbus-1],      [ELITO_ASSUME(70, dbus,      true)],      [true])
-PKG_CHECK_MODULES(DBUS_GLIB, [dbus-glib-1], [ELITO_ASSUME(70, dbus_glib, true, dbus-glib-native)], [true])
-PKG_CHECK_MODULES(ORBIT2,    [ORBit-2.0],   [ELITO_ASSUME(70, orbit2,    true)], [true])
-PKG_CHECK_MODULES(SQLITE3,   [sqlite3 > 3.6],    [ELITO_ASSUME(50, sqlite3,   true)], [true])
-PKG_CHECK_MODULES(LIBXSLT,   [libxslt > 1.1.20], [ELITO_ASSUME(10, libxslt,   true)], [true])
-PKG_CHECK_MODULES(LIBXML2,   [libxml-2.0 > 2.7], [ELITO_ASSUME(20, libxml2,   true)], [true])
-PKG_CHECK_MODULES(OPENSSL,   [openssl libssl libcrypto],
-		  [ELITO_ASSUME(0, openssl, true)], [true])
-
-PKG_CHECK_MODULES(UUID,      [uuid >= 2.18], [
-  ELITO_CHECK_PROGRAM( 0, UTIL_LINUX, mount, util-linux)
-  ELITO_CHECK_PROGRAM( 0, UTIL_LINUX, mount, util-linux-ng)], [true])
-
-PKG_CHECK_MODULES(LIBUDEV,   [libudev], [ELITO_ASSUME(0, libudev, true)], [true])
+ELITO_CHECK_PROGRAM(-1, GIT,        git, git, [_git_check_version], 0x010705)
 
 ELITO_CHECK_LN_R()
 
