@@ -54,4 +54,8 @@ while $ELITO_OOM_ADJUST; do
     break
 done 2>/dev/null
 
+## required e.g. in docker environments which set fd limit to 1Mi
+## which slows down bitbake significantly
+ulimit -n 2048 2>&1 || :
+
 exec_secure $PSEUDO "$_prog" "$@"
