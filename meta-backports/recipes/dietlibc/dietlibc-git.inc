@@ -9,5 +9,6 @@ PKGV = "${_pv}+gitr${GITPKGV}"
 SRC_URI = " \
         git://github.com/ensc/dietlibc.git;protocol=git \
         file://ccache.patch \
+        file://no-extern-def.patch \
 "
 S = "${WORKDIR}/git"
