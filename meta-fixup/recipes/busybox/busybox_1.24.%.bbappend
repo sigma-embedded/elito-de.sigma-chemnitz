@@ -22,11 +22,14 @@ SRC_URI += " \
                    'file://elito-rescue.cfg', '', d)} \
 "
 
+elito_bitbake_generate_del[vardeps] += "BUSYBOX_DISABLED_FEATURES"
 def elito_bitbake_generate_del(d):
     f = set(d.getVar("BUSYBOX_DISABLED_FEATURES", True).split())
     return ('\n' +
             r'/^[# ]*CONFIG_\(%s\)[ =]/d' % r'\|'.join(f))
 
+elito_bitbake_generate_append[vardeps] += "\
+    BUSYBOX_DISABLED_FEATURES BUSYBOX_EXTRA_FEATURES"
 def elito_bitbake_generate_append(d):
     f = set(d.getVar("BUSYBOX_DISABLED_FEATURES", True).split())
     t = set(d.getVar("BUSYBOX_EXTRA_FEATURES", True).split())
