@@ -1,0 +1,29 @@
+From d6b509030dfa12ee299f0de623fb78f2223e6579 Mon Sep 17 00:00:00 2001
+From: Matěj Cepl <mcepl@cepl.eu>
+Date: Mon, 1 Feb 2016 14:40:53 +0100
+Subject: [PATCH] Build without SSLv3 being compiled in.
+
+Fixes #99
+---
+ SWIG/_ssl.i | 2 ++
+ 1 file changed, 2 insertions(+), 0 deletions(-)
+
+Index: M2Crypto-0.21.1/SWIG/_ssl.i
+===================================================================
+--- M2Crypto-0.21.1.orig/SWIG/_ssl.i
++++ M2Crypto-0.21.1/SWIG/_ssl.i
+@@ -48,10 +48,14 @@ extern const char *SSL_alert_desc_string
+ %rename(ssl_get_alert_desc_v) SSL_alert_desc_string_long;
+ extern const char *SSL_alert_desc_string_long(int);
+ 
++#ifndef OPENSSL_NO_SSL2
+ %rename(sslv2_method) SSLv2_method;
+ extern SSL_METHOD *SSLv2_method(void);
++#endif
++#ifndef OPENSSL_NO_SSL3
+ %rename(sslv3_method) SSLv3_method;
+ extern SSL_METHOD *SSLv3_method(void);
++#endif
+ %rename(sslv23_method) SSLv23_method;
+ extern SSL_METHOD *SSLv23_method(void);
+ %rename(tlsv1_method) TLSv1_method;
