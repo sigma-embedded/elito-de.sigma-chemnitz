@@ -72,7 +72,7 @@ do_install() {
 
     cd ${WORKDIR}/rc.d
     for i in *; do
-    	install -p -D -m 0755 "$i" ${D}${INIT_D_DIR}/rescue-"$i"
+	install -p -D -m 0755 "$i" ${D}${INIT_D_DIR}/rescue-"$i"
     done
 
     install -p -D -m 0755 ${WORKDIR}/set-time    ${D}${bindir}/rescue-set-time
