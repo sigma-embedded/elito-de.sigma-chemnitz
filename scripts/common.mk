@@ -355,7 +355,7 @@ bitbake-validate:	FORCE | $(_stampdir)/.bitbake.fetch.stamp
 			${_bitbake_validate_bad}
 
 # directory creation
-$(_filesystem-dirs) $(_bitbake-dirs) $(ELITO_CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR):
+$(_filesystem-dirs) $(_bitbake-dirs) $(ELITO_CACHE_DIR) $W $W/recipes $(ELITO_LOGDIR) $(ELITO_WORKSPACE_DIR):
 			mkdir -p $@
 
 $W/cache/ccache:	| $W
@@ -365,7 +365,7 @@ $W/cache/ccache:	| $W
 
 $W/recipes:		| $W
 
-$(_wstampdir)/.prep.stamp:	| $(_wstampdir) bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $W/cache/ccache
+$(_wstampdir)/.prep.stamp:	| $(_wstampdir) bitbake-validate Makefile $(AUTOCONF_FILES) $(_stampdir)/.bitbake.stamp $W/cache/ccache $(ELITO_WORKSPACE_DIR)
 			@touch $@
 
 ifeq ($(ELITO_OFFLINE),)
