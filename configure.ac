@@ -114,18 +114,18 @@ AS_CASE([$withval],
 		      _f0=conf/local_"$_d".conf
 		      _f1=conf/local-"$_d".conf
 		      if ! test -r "$_f0"; then
-		          _f=$_f1
+			  _f=$_f1
 		      elif ! test -r "$_f1"; then
-		      	  _f=$_f0
-		      else	 
-		      	  AC_MSG_ERROR([both local_* and legacy local-* style configuration exists (suffix '$_d')])
+			  _f=$_f0
+		      else
+			  AC_MSG_ERROR([both local_* and legacy local-* style configuration exists (suffix '$_d')])
 		      fi
 		      if test -r "$_f"; then
 			  if test x"$_f" = x"$_f1"; then
-		      	      AC_MSG_WARN([legacy local-* style configuration (suffix '$_d')!])
-		          fi
-		          break
-	              fi
+			      AC_MSG_WARN([legacy local-* style configuration (suffix '$_d')!])
+			  fi
+			  break
+		      fi
 		      if test x"$_d" = x"${_d@%:@*.}"; then
 			 _d=
 			 _f=
