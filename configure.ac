@@ -721,6 +721,9 @@ AC_DEFUN([ELITO_CHECK_LN_R],[
 
 AC_PATH_PROGS([AUTORECONF], autoreconf)
 AC_PATH_PROGS([CHATTR], [chattr], [true])
+AC_PATH_PROGS([INSTALL], [install])
+test -x "$INSTALL" || AC_MSG_ERROR(['install' not found])
+AC_PATH_PROGS([QUILT], [quilt])
 
 dnl AC_PATH_PROGS(BITBAKE, bitbake)
 BITBAKE_BINDIR=\${abs_top_builddir}/.tmp/staging/bin
