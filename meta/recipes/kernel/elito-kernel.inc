@@ -125,8 +125,6 @@ def kernel_options(d):
           [ is_feature('initrd'),
             [ 'INITRAMFS_COMPRESSION_XZ', YES ],
             [ 'RD_XZ', YES ],
-            [ 'KERNEL_XZ', YES ],
-            [ 'KERNEL_GZIP', False ],
             [ 'RD_GZIP', False ],
             [ 'INITRAMFS_SOURCE', '${INITRAMFS_SOURCE}' ] ],
           [ True,
