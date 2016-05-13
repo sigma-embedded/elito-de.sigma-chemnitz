@@ -1,4 +1,4 @@
-SRCREV = "87a59f2e6dc11d9f5b82c9d6eff09aae2daa1bbb"
+SRCREV = "bcde60898ba95dd503048f57826dc1a1311ec72f"
 _pv = "0.33"
 
 inherit gitpkgv
@@ -9,6 +9,5 @@ PKGV = "${_pv}+gitr${GITPKGV}"
 SRC_URI = " \
         git://github.com/ensc/dietlibc.git;protocol=git \
         file://ccache.patch \
-        file://no-extern-def.patch \
 "
 S = "${WORKDIR}/git"
