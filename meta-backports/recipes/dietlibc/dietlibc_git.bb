@@ -8,7 +8,7 @@ RDEPENDS_${PN}-ptest += "bash make"
 
 do_compile_ptest() {
     dietlibc_do_full_test
-    dietlibc_do_run_tests || :
+    dietlibc_do_run_tests
 }
 
 do_install_ptest() {
