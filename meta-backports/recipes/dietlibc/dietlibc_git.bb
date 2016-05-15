@@ -6,9 +6,11 @@ inherit ptest
 PTEST_ENABLED_elito = "1"
 RDEPENDS_${PN}-ptest += "bash make"
 
+DIETLIBC_ALLOW_TESTS_FAIL ?= "true"
+
 do_compile_ptest() {
     dietlibc_do_full_test
-    dietlibc_do_run_tests || :
+    dietlibc_do_run_tests || ${DIETLIBC_ALLOW_TESTS_FAIL}
 }
 
 do_install_ptest() {
