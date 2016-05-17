@@ -93,8 +93,8 @@ clone:
 update:		prepare
 	@touch .stamps/bad-update
 	$(GIT) remote update
-	$(GIT) pull
-	$(GIT) submodule update $(GIT_SUBMODULE_STRATEGY)
+	$(GIT) pull --recurse-submodules=on-demand
+	$(GIT) submodule update --recursive $(GIT_SUBMODULE_STRATEGY)
 	$(if ${ELITO_REPOS},$(MAKE_ORIG) $(addprefix .stamps/elito_fetch-,${ELITO_REPOS}) _MODE=fetch)
 	@rm -f .stamps/bad-update
 	$(MAKE) .stamps/autoconf-update
@@ -344,7 +344,7 @@ ${DST}/Makefile:${DST}/%:	%
 	install -p -m 0644 $< $@
 
 clone:	$(addprefix .clone_add-,${SUBMODULES}) ${DST}/Makefile /clone_special-kernel
-	cd ${DST} && $(GIT) submodule update --init
+	cd ${DST} && $(GIT) submodule update --init --recursive
 	cd ${DST}/de.sigma-chemnitz && autoreconf -i -f
 
 endif
