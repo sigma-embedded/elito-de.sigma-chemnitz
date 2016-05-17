@@ -95,7 +95,7 @@ update:		prepare
 	$(GIT) remote update
 	$(GIT) pull
 	$(GIT) submodule update $(GIT_SUBMODULE_STRATEGY)
-	$(MAKE_ORIG) $(addprefix .stamps/elito_fetch-,${ELITO_REPOS}) _MODE=fetch
+	$(if ${ELITO_REPOS},$(MAKE_ORIG) $(addprefix .stamps/elito_fetch-,${ELITO_REPOS}) _MODE=fetch)
 	@rm -f .stamps/bad-update
 	$(MAKE) .stamps/autoconf-update
 
@@ -186,7 +186,7 @@ endif
 .stamps/autoconf-update:	$(ELITO_DIR)/configure.ac | .stamps
 	rm -f .stamps/autoconf
 	$(MAKE_ORIG) prepare
-	$(MAKE_ORIG) $(addprefix .reconfigure-,${PROJECTS})
+	$(if ${PROJECTS},$(MAKE_ORIG) $(addprefix .reconfigure-,${PROJECTS}))
 	@touch $@
 
 .stamps/autoconf: | .stamps
