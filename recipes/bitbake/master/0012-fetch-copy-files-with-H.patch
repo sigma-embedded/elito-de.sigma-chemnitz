@@ -26,12 +26,12 @@ diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
 index ad121a3..780d3e6 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -1448,7 +1448,7 @@ class FetchMethod(object):
-                     if urlpath.find("/") != -1:
-                         destdir = urlpath.rsplit("/", 1)[0] + '/'
-                         bb.utils.mkdirhier("%s/%s" % (unpackdir, destdir))
--                cmd = 'cp -fpPR %s %s' % (file, destdir)
-+                cmd = 'cp -fpPRH %s %s' % (file, destdir)
+@@ -1398,7 +1398,7 @@ class FetchMethod(object):
+                        else:
+                           destdir = "."
+                     bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))
+-                    cmd = 'cp -f %s %s/%s/' % (file, rootdir, destdir)
++                    cmd = 'cp -fH %s %s/%s/' % (file, rootdir, destdir)
  
          if not cmd:
              return
