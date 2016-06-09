@@ -1,6 +1,6 @@
 DESCRIPTION  = "Basic task to get a device booting with core functionality"
 LICENSE      = "GPLv3"
-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
