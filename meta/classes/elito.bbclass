@@ -28,7 +28,7 @@ def elito_base_switch(d, var_name, *args):
     if len(args) % 2 == 0:
         raise bb.parse.ParseError('elito_base_switch called with odd number of parms: %s' % (args,))
 
-    for i in xrange(0, len(args)-1, 2):
+    for i in range(0, len(args)-1, 2):
         if v == args[i]:
             return args[i+1]
 
@@ -87,7 +87,7 @@ def elito_rewrite_src_uri(fetch, d):
         matched = True
 
         tmp = bb.fetch2.decodeurl(rem)
-        for i in xrange(0, len(tmp) - 1):
+        for i in range(0, len(tmp) - 1):
             if tmp[i] != '' and tmp[i] != cur[i]:
                 matched = False
                 break
@@ -97,7 +97,7 @@ def elito_rewrite_src_uri(fetch, d):
             old = list(cur)
             old[5] = old[5].copy()
 
-            for i in xrange(0, len(tmp) - 1):
+            for i in range(0, len(tmp) - 1):
                 cur[i] = tmp[i]
 
             cur[5].update(tmp[5])

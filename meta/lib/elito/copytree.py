@@ -52,7 +52,7 @@ def prepare(d):
         info = arg[0]
         patterns = arg[1]
 
-        for i in xrange(len(fnames), 0, -1):
+        for i in range(len(fnames), 0, -1):
             if __filtered(fnames[i-1], patterns):
                 del fnames[i-1]
 
