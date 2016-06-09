@@ -31,7 +31,7 @@ BITBAKE_ENV =		env $(addprefix -u ,\
 	MAKEFILES MAKEFLAGS MAKEOVERRIDES MFLAGS VPATH \
 	BO TARGETS)
 
-BITBAKE :=		$(BITBAKE_ENV) LANG=${LANG} ELITO_PSEUDO_OK=1 $(abs_top_builddir)/bitbake
+BITBAKE :=		$(BITBAKE_ENV) ELITO_PSEUDO_OK=1 $(abs_top_builddir)/bitbake
 
 ELITO_STATVFS =		$(PYTHON) ${abs_top_srcdir}/scripts/statvfs
 
