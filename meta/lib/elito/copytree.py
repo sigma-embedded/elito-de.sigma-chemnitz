@@ -92,7 +92,7 @@ def prepare(d):
             raise OSError(errno.ENOENT,
                           'ELITO_COPY_TOPDIRS: no such directory %s' % c.topdir)
 
-        os.walk(c.topdir + os.path.sep, __fn, [c, patterns])
+        os.path.walk(c.topdir + os.path.sep, __fn, [c, patterns])
 
         c.dirs.sort()
         c.lnks.sort()
