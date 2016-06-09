@@ -216,7 +216,12 @@ python() {
     pn = d.getVar('PN', True)
     var = 'USERADD_PARAM_' + pn
     v  = d.getVar(var, True).split(';')
-    v.remove('  --system -d / -M --shell /bin/nologin systemd-timesync')
+    try:
+        v.remove('    --system -d / -M --shell /bin/nologin systemd-timesync')
+    except:
+        bb.error("unexpected USERADD_PARAM '%s'" % v)
+        raise
+
     d.setVar(var, ';'.join(v))
 }
 
