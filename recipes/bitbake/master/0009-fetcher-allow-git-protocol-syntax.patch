@@ -1,7 +1,7 @@
-From 54d043f80c7d61370b2f9ca33f51ff1410175eb3 Mon Sep 17 00:00:00 2001
+From 163865892e5a819699791442a50d3ac2cee00256 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Mon, 26 Oct 2015 19:33:15 +0100
-Subject: [PATCH] fetcher: allow git+<protocol>: syntax
+Subject: [PATCH 09/11] fetcher: allow git+<protocol>: syntax
 
 Specifying an alternative git respository with a different access
 protocol is very difficulty atm because the protocol is part of the
@@ -30,11 +30,11 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 16 insertions(+)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index 54222f4..2591016 100644
+index aa7b344..ebc398b 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -236,6 +236,11 @@ class URI(object):
-         urlp = urlparse.urlparse(uri)
+@@ -229,6 +229,11 @@ class URI(object):
+         urlp = urllib.parse.urlparse(uri)
          self.scheme = urlp.scheme
  
 +        protocol = None
@@ -45,7 +45,7 @@ index 54222f4..2591016 100644
          reparse = 0
  
          # Coerce urlparse to make URI scheme use netloc
-@@ -274,6 +279,9 @@ class URI(object):
+@@ -267,6 +272,9 @@ class URI(object):
          if urlp.query:
              self.query = self._param_str_split(urlp.query, "&")
  
@@ -55,7 +55,7 @@ index 54222f4..2591016 100644
      def __str__(self):
          userinfo = self.userinfo
          if userinfo:
-@@ -373,6 +381,11 @@ def decodeurl(url):
+@@ -366,6 +374,11 @@ def decodeurl(url):
      user = m.group('user')
      parm = m.group('parm')
  
@@ -67,16 +67,16 @@ index 54222f4..2591016 100644
      locidx = location.find('/')
      if locidx != -1 and type.lower() != 'file':
          host = location[:locidx]
-@@ -398,6 +411,9 @@ def decodeurl(url):
+@@ -394,6 +407,9 @@ def decodeurl(url):
                  s1, s2 = s.split('=')
                  p[s1] = s2
  
 +    if protocol:
 +        p['protocol'] = protocol
 +
-     return type, host, urllib.unquote(path), user, pswd, p
+     return type, host, urllib.parse.unquote(path), user, pswd, p
  
  def encodeurl(decoded):
 -- 
-2.4.3
+2.5.5
 
