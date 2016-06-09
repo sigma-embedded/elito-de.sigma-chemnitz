@@ -12,7 +12,7 @@ def sed_cmd(all_options):
         if not o[0]:
             continue
 
-        if isinstance(o[1], basestring):
+        if isinstance(o[1], str):
             if len(o) != 3:
                 raise Exception("bad number of kernel options: %s" % (o,))
             options.append([o[1], o[2]])
@@ -43,7 +43,7 @@ def sed_cmd(all_options):
             res.append("# CONFIG_%s is not set" % name)
         elif isinstance(newval, KConfigValue):
             res.append("CONFIG_%s=%s" % (name, newval.v))
-        elif isinstance(newval, basestring):
+        elif isinstance(newval, str):
             res.append("CONFIG_%s=\"%s\"" % (name, newval))
         elif isinstance(newval, int):
             res.append("CONFIG_%s=%u" % (name, newval))
