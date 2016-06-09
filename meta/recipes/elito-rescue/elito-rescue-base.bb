@@ -25,7 +25,7 @@ SRC_URI = "\
 "
 
 python () {
-    rc_d = [ (03, "sysinit", ""),
+    rc_d = [ ( 3, "sysinit", ""),
              (20, "syslog", ""),
              (21, "scan-blockdev", ""),
              (21, "scan-mtd", ""),
