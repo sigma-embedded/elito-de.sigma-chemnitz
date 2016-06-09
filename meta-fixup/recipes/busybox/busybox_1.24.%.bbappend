@@ -34,8 +34,8 @@ def elito_bitbake_generate_append(d):
     f = set(d.getVar("BUSYBOX_DISABLED_FEATURES", True).split())
     t = set(d.getVar("BUSYBOX_EXTRA_FEATURES", True).split())
     return '\\n'.join([''] +
-                      map(lambda x: '# CONFIG_%s is not set' % x, f) +
-                      map(lambda x: 'CONFIG_%s=y' % x, t))
+                      list(map(lambda x: '# CONFIG_%s is not set' % x, f)) +
+                      list(map(lambda x: 'CONFIG_%s=y' % x, t)))
 
 OE_DEL += "${@elito_bitbake_generate_del(d)}"
 OE_FEATURES += "${@elito_bitbake_generate_append(d)}"
