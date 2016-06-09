@@ -1,7 +1,8 @@
+LANG =			C.utf-8
 OPKG_MAKE_INDEX =	opkg-make-index
 FAKEROOT =		${ELITO_TOPDIR}/scripts/run-pseudo '${PROJECT_TOPDIR}'
 OPKG =			env PSEUDO_DISABLED=0 opkg
-OPKG_ENV =		env D='$(DESTDIR)' LANG=C OPKG_OFFLINE_ROOT='$(DESTDIR)' INTERCEPT_DIR=$(ELITO_ROOTDIR)/org.openembedded.core/scripts/postinst-intercepts
+OPKG_ENV =		env D='$(DESTDIR)' LANG=${LANG} OPKG_OFFLINE_ROOT='$(DESTDIR)' INTERCEPT_DIR=$(ELITO_ROOTDIR)/org.openembedded.core/scripts/postinst-intercepts
 OPKG_OPTS =		--force_postinstall
 
 _pkgs =			$(foreach a,${PACKAGE_ARCHS},${DEPLOY_DIR_IPK}/$a/Packages)
@@ -10,7 +11,7 @@ _pkgs_archs =		$(patsubst ${DEPLOY_DIR_IPK}/%/Packages,%,${_pkgs_dirs})
 _pkgs_stamp =		$(foreach a,${_pkgs_archs},${_tmpdir}/stamps/opkg-arch_$a.stamp)
 
 _fakeroot =		$(_start) $(OPKG_ENV) PSEUDO_PASSWD='$(DESTDIR)' $(FAKEROOT)
-_opkg_make_index =	$(_start) env LANG=C $(OPKG_MAKE_INDEX)
+_opkg_make_index =	$(_start) env LANG=${LANG} $(OPKG_MAKE_INDEX)
 _opkg_conf =		${DEPLOY_DIR_IPK}/opkg.conf
 
 
