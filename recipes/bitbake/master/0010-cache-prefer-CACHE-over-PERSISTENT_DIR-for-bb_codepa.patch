@@ -1,7 +1,7 @@
-From e6e094975f636e4846847d8fa3f92cdb8b63cfe2 Mon Sep 17 00:00:00 2001
+From 1f5b3eb3a9f292ff3c36c2add2b8dc4abe9b649e Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Tue, 11 Feb 2014 11:47:48 +0100
-Subject: [PATCH 08/11] cache: prefer CACHE over PERSISTENT_DIR for
+Subject: [PATCH 8/9] cache: prefer CACHE over PERSISTENT_DIR for
  bb_codeparser.dat
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
@@ -10,10 +10,10 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/lib/bb/cache.py b/lib/bb/cache.py
-index 96abd71..589e1c6 100644
+index 063ab15..dcb6353 100644
 --- a/lib/bb/cache.py
 +++ b/lib/bb/cache.py
-@@ -750,8 +750,8 @@ class MultiProcessCache(object):
+@@ -756,8 +756,8 @@ class MultiProcessCache(object):
          self.cachedata_extras = self.create_cachedata()
  
      def init_cache(self, d, cache_file_name=None):
@@ -25,5 +25,5 @@ index 96abd71..589e1c6 100644
              return
          bb.utils.mkdirhier(cachedir)
 -- 
-2.5.5
+2.5.0
 

@@ -1,7 +1,7 @@
-From 12c557a0125b64b9d54d49c2cd7c53921a61fb19 Mon Sep 17 00:00:00 2001
+From dc7f0fea317989fc217a320369f8f5460d1808d5 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Tue, 21 May 2013 19:17:21 +0200
-Subject: [PATCH 07/11] fetcher: provide a way to rewrite the SRC_URI very
+Subject: [PATCH 10/10] fetcher: provide a way to rewrite the SRC_URI very
  early
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
@@ -10,10 +10,10 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 7 insertions(+)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index fd0738f..aa7b344 100644
+index 64e00a3..3383ca9 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -1155,6 +1155,7 @@ class FetchData(object):
+@@ -977,6 +977,7 @@ class FetchData(object):
          self.basename = None
          self.basepath = None
          (self.type, self.host, self.path, self.user, self.pswd, self.parm) = decodeurl(data.expand(url, d))
@@ -21,7 +21,7 @@ index fd0738f..aa7b344 100644
          self.date = self.getSRCDate(d)
          self.url = url
          if not self.user and "user" in self.parm:
-@@ -1229,6 +1230,12 @@ class FetchData(object):
+@@ -1043,6 +1044,12 @@ class FetchData(object):
          self.donestamp = basepath + '.done'
          self.lockfile = basepath + '.lock'
  
@@ -35,5 +35,5 @@ index fd0738f..aa7b344 100644
          self.revisions = {}
          for name in self.names:
 -- 
-2.5.5
+1.8.1.4
 
