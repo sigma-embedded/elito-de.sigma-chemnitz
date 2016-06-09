@@ -27,7 +27,8 @@ SRC_URI		= " \
 S = "${WORKDIR}/git"
 
 RRECOMMENDS_${PN} += "${PN}-firstboot"
-RRECOMMENDS_${PN} += "${@base_contains('DISTRO_FEATURES','nfsroot','${PN}-nfs','', d)}"
+RRECOMMENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','nfsroot',\
+                                           '${PN}-nfs','', d)}"
 
 FILES_${PN} = "\
   ${systemd_unitdir}/system/device-touchscreen.target \

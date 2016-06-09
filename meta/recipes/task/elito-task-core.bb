@@ -16,8 +16,8 @@ inherit packagegroup
 #
 IMAGE_DEV_MANAGER ?= "udev"
 
-OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'udev', ':udev', '', d)}"
-OVERRIDES .= "${@base_contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '', d)}"
+OVERRIDES .= "${@bb.utils.contains('IMAGE_DEV_MANAGER', 'udev', ':udev', '', d)}"
+OVERRIDES .= "${@bb.utils.contains('IMAGE_DEV_MANAGER', 'busybox-mdev', ':mdev', '', d)}"
 
 PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
@@ -39,8 +39,8 @@ RDEPENDS_${PN} =+ " \
 #
 RDEPENDS_${PN} += "\
     elito-task-boot			\
-    ${@base_contains('MACHINE_FEATURES', 'ubifs', 'mtd-utils', '', d)} \
-    ${@base_contains('MACHINE_FEATURES', 'keyboard', 'keymaps', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'ubifs', 'mtd-utils', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'keyboard', 'keymaps', '', d)} \
     ${IMAGE_INITSCRIPTS}		\
     ${IMAGE_INIT_MANAGER}		\
     ${PROJECT_EXTRA_RDEPENDS}		\
@@ -49,7 +49,7 @@ RDEPENDS_${PN} += "\
 
 RRECOMMENDS_${PN}[vardeps] += "DISTRO_TYPE"
 RRECOMMENDS_${PN} += "\
-    ${@base_contains('DISTRO_FEATURES','ipv6','kernel-module-ipv6','', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES','ipv6','kernel-module-ipv6','', d)} \
     ${@elito_base_switch(d, 'DISTRO_TYPE','debug','elito-testsuite','')} \
     ${PROJECT_EXTRA_RRECOMMENDS}	\
     "

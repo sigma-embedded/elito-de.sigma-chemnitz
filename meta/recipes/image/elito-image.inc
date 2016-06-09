@@ -1,12 +1,12 @@
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','mobm320',':fs-mobm320','',d)}"
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','u-boot',':fs-u-boot','',d)}"
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','barebox',':fs-barebox','',d)}"
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','ubifs',':fs-ubifs','',d)}"
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','jffs2',':fs-jffs2','',d)}"
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','arnoldboot',':fs-arnoldboot','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','mobm320',':fs-mobm320','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','u-boot',':fs-u-boot','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','barebox',':fs-barebox','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','ubifs',':fs-ubifs','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','jffs2',':fs-jffs2','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','arnoldboot',':fs-arnoldboot','',d)}"
 
 IMAGE_FSTYPES_append_fs-mobm320	   = " bootenv"
 
@@ -20,8 +20,8 @@ BAD_RECOMMENDATIONS += "\
   udev-hwdb \
   systemd-compat-units \
   util-linux-swaponoff util-linux-cfdisk util-linux-readprofile \
-  ${@base_contains('MACHINE_FEATURES','pci','','pciutils-ids', d)} \
-  ${@base_contains('DISTRO_FEATURES','usb','','usbutils-ids', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES','pci','','pciutils-ids', d)} \
+  ${@bb.utils.contains('DISTRO_FEATURES','usb','','usbutils-ids', d)} \
 "
 
 inherit core-image

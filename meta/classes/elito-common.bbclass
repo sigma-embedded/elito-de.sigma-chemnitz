@@ -112,7 +112,7 @@ ELITO_COMMON_KERNEL_MODULES-ucb1400 += "\
   kernel-module-ucb1400-core \
   kernel-module-ucb1400-gpio \
   kernel-module-snd-soc-ucb1400 \
-  ${@base_contains('MACHINE_FEATURES', 'restouch', 'kernel-module-ucb1400-ts', '', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES', 'restouch', 'kernel-module-ucb1400-ts', '', d)} \
 "
 
 ELITO_COMMON_KERNEL_MODULES-wm9712 += "\
@@ -147,7 +147,7 @@ ELITO_COMMON_KERNEL_MODULES-bluetooth = "\
   kernel-module-rfcomm \
   kernel-module-bnep \
   kernel-module-hidp \
-  ${@base_contains('MACHINE_FEATURES','usbhost','kernel-module-btusb','', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES','usbhost','kernel-module-btusb','', d)} \
 "
 
 ELITO_COMMON_KERNEL_MODULES-v4l = "\
@@ -173,7 +173,7 @@ ELITO_COMMON_KERNEL_MODULES-screen = "\
 "
 
 ELITO_COMMON_KERNEL_MODULES-wm97xx += "\
-  ${@base_contains('MACHINE_FEATURES', 'restouch', 'kernel-module-wm97xx-ts', '', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES', 'restouch', 'kernel-module-wm97xx-ts', '', d)} \
 "
 
 ELITO_COMMON_KERNEL_MODULES-sata += "\
@@ -289,7 +289,7 @@ ELITO_COMMON_SERVERS-networkd-connman = "\
   connman \
   connman-plugin-loopback \
   connman-plugin-ethernet \
-  ${@base_contains('DISTRO_FEATURES','wifi','connman-plugin-wifi','', d)} \
+  ${@bb.utils.contains('DISTRO_FEATURES','wifi','connman-plugin-wifi','', d)} \
   connman-tools \
 "
 
@@ -360,9 +360,9 @@ ELITO_COMMON_PROGRAMS-touchscreen = "\
 "
 
 ELITO_COMMON_PROGRAMS-select-touch = " \
-  ${@base_contains('MACHINE_FEATURES','ucb1400', 'elito-select-touch-ucb1400','', d)} \
-  ${@base_contains('MACHINE_FEATURES','wm9715',  'elito-select-touch-wm9715', '', d)} \
-  ${@base_contains('MACHINE_FEATURES','captouch','elito-select-touch-edt',    '', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES','ucb1400', 'elito-select-touch-ucb1400','', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES','wm9715',  'elito-select-touch-wm9715', '', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES','captouch','elito-select-touch-edt',    '', d)} \
 "
 
 ELITO_COMMON_PROGRAMS-v4l = "\

@@ -16,7 +16,8 @@ PKGV = "${UBOOT_VERSION}+gitr${GITPKGV}"
 
 SRC_URI = "${ELITO_GIT_REPO}/${_repo}.git;protocol=git;${UBOOT_REV}"
 
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES', 'imx-bootlets',':img-imx-bootlets','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES', 'imx-bootlets',\
+                                   ':img-imx-bootlets','',d)}"
 
 DEPLOYDEPENDS = ""
 DEPLOYDEPENDS_img-imx-bootlets = "\

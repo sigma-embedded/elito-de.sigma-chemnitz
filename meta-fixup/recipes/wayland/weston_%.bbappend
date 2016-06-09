@@ -1,6 +1,6 @@
 EXTRA_PACKAGECONFIG ??= "\
-  ${@base_contains('DISTRO_FEATURES', 'screen', '', 'headless', d)} \
-  ${@base_contains('DISTRO_FEATURES', 'fb',     'fbdev', '', d)} \
+  ${@bb.utils.contains('DISTRO_FEATURES', 'screen', '', 'headless', d)} \
+  ${@bb.utils.contains('DISTRO_FEATURES', 'fb',     'fbdev', '', d)} \
 "
 
 PACKAGECONFIG_append = " ${EXTRA_PACKAGECONFIG}"

@@ -37,7 +37,7 @@ do_install() {
 		install -D -p -m 0644 $i ${D}${sysconfdir}/$i
 	done
 
-	if ${@base_contains("PROJECT_FEATURES", "select-touch", "false", "test -s qt.env", d)}; then
+	if ${@bb.utils.contains("PROJECT_FEATURES", "select-touch", "false", "test -s qt.env", d)}; then
 		install -D -m 0644 qt.env ${D}${sysconfdir}/default/qt.env
 	fi
 
@@ -56,10 +56,10 @@ do_install() {
 	c3='-e /[[:space:]]unionfs[[:space:]]/d'
 	c4='-e /[[:space:]]/boot[[:space:]]\+tmpfs[[:space:]]/d'
 
-	${@base_contains("PROJECT_FEATURES","no-kdebug",":","c1=",d)}
-	${@base_contains("PROJECT_FEATURES","selinux","c2=",':',d)}
-	${@base_contains("PROJECT_FEATURES","unionfs","c3=",':',d)}
-	${@base_contains("PROJECT_FEATURES","hasboot",":","c4=",d)}
+	${@bb.utils.contains("PROJECT_FEATURES","no-kdebug",":","c1=",d)}
+	${@bb.utils.contains("PROJECT_FEATURES","selinux","c2=",':',d)}
+	${@bb.utils.contains("PROJECT_FEATURES","unionfs","c3=",':',d)}
+	${@bb.utils.contains("PROJECT_FEATURES","hasboot",":","c4=",d)}
 
 	sed $c0 $c1 $c2 $3 $4	\
 		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\

@@ -26,5 +26,6 @@ inherit ubi arnoldboot elito-final
 inherit elito-image
 
 # enable sysrq-b with systemd
-ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", \
-                                 "systemd_enable_sysrq_b; ", "", d)}'
+ROOTFS_POSTPROCESS_COMMAND += "${@\
+  bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks', \
+                    'systemd_enable_sysrq_b; ', '', d)}"

@@ -57,7 +57,7 @@ do_install_append() {
     rm -f ${D}${systemd_unitdir}/system/default.target
     ln -s $t.target ${D}${systemd_unitdir}/system/default.target
 
-    ${@base_contains("PROJECT_FEATURES", "select-touch", "rm -f ${D}${sysconfdir}/udev/rules.d/touchscreen.rules", ":", d)}
+    ${@bb.utils.contains("PROJECT_FEATURES", "select-touch", "rm -f ${D}${sysconfdir}/udev/rules.d/touchscreen.rules", ":", d)}
 }
 
 ## HACK: 'resolved' requires libgcrypt headers

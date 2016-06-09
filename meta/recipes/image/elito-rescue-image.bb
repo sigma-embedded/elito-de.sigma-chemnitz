@@ -3,8 +3,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293
 
 PV = "0.1.1"
 
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES', 'imx-bootlets', \
-                               ':img-imx-bootlets','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES', 'imx-bootlets', \
+                                   ':img-imx-bootlets','',d)}"
 
 ORIG_IMAGE_FSTYPES := "${IMAGE_FSTYPES}"
 
@@ -112,8 +112,12 @@ rescue_cleanup_rootfs() {
 ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
 
 # Zap the root password if debug-tweaks feature is not enabled
-ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
+ROOTFS_POSTPROCESS_COMMAND += "${@\
+  bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks', \
+                    '', 'zap_root_password ; ',d)}"
 
 # Allow openssh accept empty password login if both debug-tweaks and
 # ssh-server-openssh are enabled
-ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
+ROOTFS_POSTPROCESS_COMMAND += "${@\
+  bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks ssh-server-openssh', \
+                    'openssh_allow_empty_password; ', '',d)}"

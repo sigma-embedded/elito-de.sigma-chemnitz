@@ -11,7 +11,7 @@ SRC_URI		= " \
 	file://mdev.conf \
 "
 
-OVERRIDES .= "${@base_contains('MACHINE_FEATURES','ubifs',':ubifs','',d)}"
+OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','ubifs',':ubifs','',d)}"
 
 do_install() {
     install -d ${D}${sysconfdir}/mdev

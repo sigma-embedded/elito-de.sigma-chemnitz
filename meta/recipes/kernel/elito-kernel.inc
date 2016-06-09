@@ -23,9 +23,12 @@ DEPENDS[vardeps] += "KERNEL_IMAGETYPE"
 DEPENDS += '\
 	bc-native \
 	${KERNEL_DEPENDS} \
-	${@base_contains("MACHINE_FEATURES","ce-bootme","ce-bootme-native virtual/ce-preloader","",d)} \
-	${@base_contains("MACHINE_FEATURES","arnoldboot","arnoldboot-native","",d)} \
-	${@base_conditional("KERNEL_IMAGETYPE","uImage","virtual/u-boot-mkimage-native","",d)}'
+	${@bb.utils.contains("MACHINE_FEATURES","ce-bootme",\
+                             "ce-bootme-native virtual/ce-preloader","",d)} \
+	${@bb.utils.contains("MACHINE_FEATURES","arnoldboot",\
+                             "arnoldboot-native","",d)} \
+	${@base_conditional("KERNEL_IMAGETYPE","uImage",\
+                            "virtual/u-boot-mkimage-native","",d)}'
 
 KERNEL_CONFIG_ENABLE_OPTS[type] = "list"
 KERNEL_CONFIG_DISABLE_OPTS[type] = "list"
@@ -240,8 +243,8 @@ do_compile_prepare() {
 }
 
 do_compile_append() {
-	if "${@base_contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
-           "${@base_contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}"; then
+	if "${@bb.utils.contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
+           "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}"; then
 		install -D -p -m 0644 .config   ${BUILDHISTORY_DIR_IMAGE}/kernel-config
 		install -D -p -m 0644 defconfig ${BUILDHISTORY_DIR_IMAGE}/kernel-defconfig
 	fi
@@ -267,12 +270,12 @@ do_uboot_mkimage() {
 
 	tftp_image_name='arch/${ARCH}/boot/${KERNEL_IMAGETYPE}'
 
-        if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
+        if ${@bb.utils.contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
                         oe_runmake arnoldboot-$i TFTP_IMAGE=${KERNEL_OUTPUT}-$i
                 done
 		have_tftp_image=false
-        elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
+        elif ${@bb.utils.contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
 		oe_runmake ceImage
 		have_tftp_image=false
 	fi
@@ -308,7 +311,7 @@ kernel_do_deploy() {
 }
 
 do_deploy_append() {
-        if ${@base_contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
+        if ${@bb.utils.contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
                         cd "${B}"
                         install -m 0644 ${KERNEL_OUTPUT}-$i \
@@ -318,7 +321,7 @@ do_deploy_append() {
 			rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 			ln -sf ${KERNEL_IMAGE_BASE_NAME}-$i.bin ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
 		done
-        elif ${@base_contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
+        elif ${@bb.utils.contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
 		cd "${B}"
 		install -p -m 0644 arch/${ARCH}/boot/ceImage \
 			${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.ce

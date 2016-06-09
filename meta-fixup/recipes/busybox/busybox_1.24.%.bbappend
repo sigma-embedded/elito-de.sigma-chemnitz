@@ -1,7 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 BUSYBOX_DISABLED_FEATURES ?= "\
-  ${@base_contains('DISTRO_FEATURES', 'systemd', 'MDEV', '', d)} \
+  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'MDEV', '', d)} \
   RDATE SWAPONOFF IFUPDOWN KLOGD \
 "
 
@@ -16,10 +16,10 @@ SRC_URI += " \
 \
   file://test-access.patch \
   file://elito.cfg \
-  ${@base_contains('MACHINE_FEATURES', 'fb', \
-                   'file://elito-fb.cfg', '', d)} \
-  ${@base_contains('PROJECT_FEATURES', 'rescuekernel', \
-                   'file://elito-rescue.cfg', '', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES', 'fb', \
+                       'file://elito-fb.cfg', '', d)} \
+  ${@bb.utils.contains('PROJECT_FEATURES', 'rescuekernel', \
+                       'file://elito-rescue.cfg', '', d)} \
 "
 
 elito_bitbake_generate_del[vardeps] += "BUSYBOX_DISABLED_FEATURES"

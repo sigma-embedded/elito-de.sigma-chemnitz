@@ -10,7 +10,7 @@ DEPENDS := "${@d.getVar('DEPENDS', False).replace('virtual/libx11','')}"
 
 _PACKAGECONFIG_DEFAULT := "${@d.getVarFlag('PACKAGECONFIG', '_defaultval', False)}"
 _PACKAGECONFIG_DEFAULT += "\
-   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
 "
 
 PACKAGECONFIG ??= "${_PACKAGECONFIG_DEFAULT}"
