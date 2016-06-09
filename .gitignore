@@ -6,3 +6,4 @@ autoscan.log
 configure
 /.git-info.mk
 /.git-info.sh
+__pycache__
