@@ -55,7 +55,7 @@ python () {
         d.setVar("INITSCRIPT_NAME_" + pkg, fname)
         d.setVar("INITSCRIPT_PARAMS_" + pkg, "defaults %u %u" % (prio, 99-prio))
         d.setVar("FILES_" + pkg, "${INIT_D_DIR}/" + fname)
-	d.setVar("RDEPENDS_" + pkg, "update-rc.d " + deps)
+        d.setVar("RDEPENDS_" + pkg, "update-rc.d " + deps)
         d.setVar("RPROVIDES_" + pkg, "virtual/rescue-init-%s" % name)
 
     extend_var("INITSCRIPT_PACKAGES", " ".join(pkgs))

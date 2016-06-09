@@ -70,7 +70,7 @@ def update_build_info(d, oe_info_fn):
         except IOError:
             old_info = ""
 
-	new_info = "\n".join(oe_info_fn(d)) + "\n"
+        new_info = "\n".join(oe_info_fn(d)) + "\n"
         if new_info != old_info:
             open(f, "w").write(new_info)
             bb.parse.update_mtime(f)

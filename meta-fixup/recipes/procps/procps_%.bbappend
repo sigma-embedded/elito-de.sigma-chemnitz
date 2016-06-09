@@ -8,7 +8,7 @@ python() {
 
     try:
         cf.remove("${sysconfdir}/sysctl.conf")
-    	d.setVar("CONFFILES_" + pn, ' '.join(cf))
+        d.setVar("CONFFILES_" + pn, ' '.join(cf))
     except:
         pass
 }

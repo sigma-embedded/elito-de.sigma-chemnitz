@@ -125,15 +125,15 @@ python __anonymous () {
                               'STAGING_DIR_HOST')),
                             (r'STAGING_DIR', ('STAGING_DIR',)),
                             (r'CROSS_COMPILE', ('CROSS_COMPILE',))]:
-	sed.append('\\!' + 
+        sed.append('\\!' +
                    (r'^\(export[[:space:]]\)\?[[:space:]]*%s[[:space:]]*=' % regex) +
                    '!b _l%u' % idx)
 
-    	sed.extend(map(lambda g: 's!${%s}!$\\{%s}!g' % (g, g), groups))
+        sed.extend(map(lambda g: 's!${%s}!$\\{%s}!g' % (g, g), groups))
 
-	sed.append(': _l%u' % idx)
+        sed.append(': _l%u' % idx)
 
-    	idx = idx+1
+        idx = idx+1
 
     sed.append('s!${TMPDIR}!$\\{ELITO_BUILDSYS_TMPDIR}!g')
 
