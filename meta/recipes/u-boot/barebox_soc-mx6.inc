@@ -5,7 +5,7 @@ DEPENDS += "libxslt-native elito-devicetree"
 FILES_${PN}-dev += "${datadir}/mach-${MACHINE}/*.dcd"
 
 def get_start_fn_name(variant):
-    tmp = list(map(lambda x: x.replace('-', '_'), variant.split(':')))
+    tmp = map(lambda x: x.replace('-', '_'), variant.split(':'))
     return tmp[0] + '_' + tmp[2]
 
 def get_flash_hdr_name(variant):
