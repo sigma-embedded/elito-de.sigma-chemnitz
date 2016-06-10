@@ -164,18 +164,19 @@ def systemd_elito_populate_packages(d, only_names = False):
     pn = d.getVar('PN', True)
     for (_p,i) in pkg_info.items():
         p = '%s-%s' % (pn, _p)
-        files = map(lambda x:
-                    '${systemd_unitdir}/system/%s' % x, i)
-        files += map(lambda x:
-                     '${systemd_unitdir}/system/%s.wants' % x, i)
-        files += map(lambda x:
-                     '${systemd_unitdir}/system/*/%s' % x, i)
-        files += map(lambda x:
-                     '${sysconfdir}/systemd/system/%s.wants' % x, i)
-        files += map(lambda x:
-                     '${sysconfdir}/systemd/system/*/%s' % x, i)
-        files += map(lambda x:
-                     '${datadir}/dbus-1/system-services/%s' % x.strip('dbus-'), i)
+        files  = list(map(lambda x:
+                          '${systemd_unitdir}/system/%s' % x, i))
+        files += list(map(lambda x:
+                          '${systemd_unitdir}/system/%s.wants' % x, i))
+        files += list(map(lambda x:
+                          '${systemd_unitdir}/system/*/%s' % x, i))
+        files += list(map(lambda x:
+                          '${sysconfdir}/systemd/system/%s.wants' % x, i))
+        files += list(map(lambda x:
+                          '${sysconfdir}/systemd/system/*/%s' % x, i))
+        files += list(map(lambda x:
+                          '${datadir}/dbus-1/system-services/%s' %
+                          x.strip('dbus-'), i))
         files += ['${sysconfdir}/systemd/%s.conf' % _p,
                   '${systemd_unitdir}/systemd-%s' % _p,
                   '${base_bindir}/systemd-%s' % _p,
