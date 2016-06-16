@@ -46,7 +46,8 @@ def prepare(d):
         for p in patterns:
             if fnmatch.fnmatch(fname, p):
                 return True
-                return False
+
+        return False
 
     def __fn(arg, dirname, fnames):
         info = arg[0]
