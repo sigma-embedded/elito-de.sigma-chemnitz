@@ -1,4 +1,4 @@
-From 8653d8366a4d69bbc1f0f839e9ea5c57fc1ddb0c Mon Sep 17 00:00:00 2001
+From 24a998e1c75f35a4187174cc7b26930f99eaa8c3 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 Date: Sat, 16 Jul 2011 13:41:42 +0200
 Subject: [PATCH 02/11] export some more proxy related environment variables
@@ -8,12 +8,12 @@ Subject: [PATCH 02/11] export some more proxy related environment variables
  1 file changed, 3 insertions(+)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index f612318..fd0738f 100644
+index b6fcaaa..49f5967 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
-@@ -805,6 +805,9 @@ def runfetchcmd(cmd, d, quiet=False, cleanup=None):
-                   'SOCKS5_USER', 'SOCKS5_PASSWD',
-                   'DBUS_SESSION_BUS_ADDRESS']
+@@ -806,6 +806,9 @@ def runfetchcmd(cmd, d, quiet=False, cleanup=None):
+                   'DBUS_SESSION_BUS_ADDRESS',
+                   'P4CONFIG']
  
 +    exportvars.extend(['ELITO_CRT', 'ELITO_KEY', 'ELITO_PROG_SSL_CLIENT',
 +                       'ELITO_PROG_PROXY', 'ELITO_USE_LIBPROXY'])
