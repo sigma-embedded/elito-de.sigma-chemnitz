@@ -59,7 +59,7 @@ do_compile() {
     # are not suitable for non-kernel builds
 
     make -f ${WORKDIR}/mx6-load/Makefile \
-	KERNEL_IMAGE=${DEPLOY_DIR_IMAGE}/rescue-zImage-${MACHINE}.bin \
+	KERNEL_IMAGE=${DEPLOY_DIR_IMAGE}/zImage-rescue-${MACHINE}.bin \
 	DCDPATH='${STAGING_DIR_TARGET}${datadir}/mach-${MACHINE}' \
 	MACHINE='${MACHINE}' MACHTYPE='${KERNEL_MACHTYPE}' \
         VARIANTS='${MX6LOAD_VARIANTS}' \
