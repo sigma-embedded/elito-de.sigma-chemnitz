@@ -292,25 +292,8 @@ addtask uboot_mkimage before do_install after do_compile_kernelmodules
 
 KERNEL_MODULES_NAME ?= "modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz"
 
-kernel_do_deploy() {
-	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-		tar -cvzf ${DEPLOYDIR}/${KERNEL_MODULES_NAME} -C ${D} lib
-	fi
-
-        for data in \
-		'arch/${ARCH}/boot/${KERNEL_IMAGETYPE} bin' \
-		'.config config' \
-		'vmlinux vmlinux'; do
-		set -- $data
-
-		install -m 0644 "$1" ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.$2
-
-		rm -f ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.$2
-		ln -s ${KERNEL_IMAGE_BASE_NAME}.$2 ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.$2
-	done
-}
-
 do_deploy_append() {
+	# TODO: this is broken...
         if ${@bb.utils.contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
                 for i in sdram gdb flash; do
                         cd "${B}"
