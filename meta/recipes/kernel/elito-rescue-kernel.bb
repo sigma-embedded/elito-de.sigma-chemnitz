@@ -89,7 +89,9 @@ do_package_write_ipk[noexec] = "1"
 do_package_write_deb[noexec] = "1"
 do_package_write_rpm[noexec] = "1"
 
-PACKAGES = ""
+python __anonymous () {
+    d.setVar('PACKAGES', '')
+}
 
 do_generate_initramfs_source() {
     :
