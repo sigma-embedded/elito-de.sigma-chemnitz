@@ -89,6 +89,8 @@ do_package_write_ipk[noexec] = "1"
 do_package_write_deb[noexec] = "1"
 do_package_write_rpm[noexec] = "1"
 
+PACKAGEFUNCS_remove = "emit_depmod_pkgdata"
+
 python __anonymous () {
     d.setVar('PACKAGES', '')
 }
