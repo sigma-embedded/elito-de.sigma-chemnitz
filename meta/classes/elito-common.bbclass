@@ -264,7 +264,7 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-core = "\
   catchsegv \
   trace-cmd \
 \
-  iperf \
+  iperf3 \
   iozone3 \
   fio \
   dbench \
