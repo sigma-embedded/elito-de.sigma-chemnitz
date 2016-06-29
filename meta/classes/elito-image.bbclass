@@ -54,7 +54,7 @@ _elito_search_devel_sshkey() {
 }
 
 elito_add_devel_sshkey() {
-	eval f='~${USER}/.config/elito/authorized_keys'
+	f=`env PSEUDO_UNLOAD=1 bash -c 'echo ~${USER}/.config/elito/authorized_keys'`
 	if ! test -e "$f"; then
 		_elito_search_devel_sshkey
 	fi
