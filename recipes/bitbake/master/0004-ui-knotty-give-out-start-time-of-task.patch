@@ -1,4 +1,4 @@
-From 0933925c0d0f2b94f6219c1dd9b94413283d0a64 Mon Sep 17 00:00:00 2001
+From 77e7ce78e75772ed1a4931e47486b6d96b9aa02b Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Wed, 22 Aug 2012 18:30:01 +0200
 Subject: [PATCH 04/11] ui/knotty: give out start time of task
@@ -9,43 +9,52 @@ the %X modifier (locale dependent presentation of time without date).
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- lib/bb/ui/knotty.py   | 3 ++-
- lib/bb/ui/uihelper.py | 4 +++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ lib/bb/ui/knotty.py   | 9 ++++++---
+ lib/bb/ui/uihelper.py | 2 +-
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/lib/bb/ui/knotty.py b/lib/bb/ui/knotty.py
-index 9605c8e..a3e2d89 100644
+index e8e169f..2f78198 100644
 --- a/lib/bb/ui/knotty.py
 +++ b/lib/bb/ui/knotty.py
-@@ -203,7 +203,8 @@ class TerminalFilter(object):
-             return
+@@ -235,21 +235,24 @@ class TerminalFilter(object):
          tasks = []
          for t in runningpids:
--            tasks.append("%s (pid %s)" % (activetasks[t]["title"], t))
-+            tasks.append("%s - %s (pid %s)" %
-+                         (activetasks[t]["started_str"], activetasks[t]["title"], t))
+             progress = activetasks[t].get("progress", None)
++            title = "%s - %s (pid %s)" % (activetasks[t]["started_str"],
++                                          activetasks[t]["title"], t)
+             if progress is not None:
+                 pbar = activetasks[t].get("progressbar", None)
+                 rate = activetasks[t].get("rate", None)
+                 start_time = activetasks[t].get("starttime", None)
+                 if not pbar or pbar.bouncing != (progress < 0):
+                     if progress < 0:
+-                        pbar = BBProgress("0: %s (pid %s) " % (activetasks[t]["title"], t), 100, widgets=[progressbar.BouncingSlider()])
++                        pbar = BBProgress("0: %s" % title,
++                                          100, widgets=[progressbar.BouncingSlider()])
+                         pbar.bouncing = True
+                     else:
+-                        pbar = BBProgress("0: %s (pid %s) " % (activetasks[t]["title"], t), 100)
++                        pbar = BBProgress("0: %s" % title, 100)
+                         pbar.bouncing = False
+                     activetasks[t]["progressbar"] = pbar
+                 tasks.append((pbar, progress, rate, start_time))
+             else:
+-                tasks.append("%s (pid %s)" % (activetasks[t]["title"], t))
++                tasks.append(title)
  
          if self.main.shutdown:
              content = "Waiting for %s running tasks to finish:" % len(activetasks)
 diff --git a/lib/bb/ui/uihelper.py b/lib/bb/ui/uihelper.py
-index db70b76..7f44fa0 100644
+index 1915e47..e4efd2c 100644
 --- a/lib/bb/ui/uihelper.py
 +++ b/lib/bb/ui/uihelper.py
-@@ -18,6 +18,7 @@
- # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- 
- import bb.build
-+import time
- 
- class BBUIHelper:
-     def __init__(self):
-@@ -31,7 +32,8 @@ class BBUIHelper:
+@@ -32,7 +32,7 @@ class BBUIHelper:
  
      def eventHandler(self, event):
          if isinstance(event, bb.build.TaskStarted):
--            self.running_tasks[event.pid] = { 'title' : "%s %s" % (event._package, event._task) }
-+            self.running_tasks[event.pid] = { 'title' : "%s %s" % (event._package, event._task),
-+                                              'started_str' : time.strftime("%X") }
+-            self.running_tasks[event.pid] = { 'title' : "%s %s" % (event._package, event._task), 'starttime' : time.time() }
++            self.running_tasks[event.pid] = { 'title' : "%s %s" % (event._package, event._task), 'starttime' : time.time(), 'started_str' : time.strftime("%X") }
              self.running_pids.append(event.pid)
              self.needUpdate = True
          if isinstance(event, bb.build.TaskSucceeded):
