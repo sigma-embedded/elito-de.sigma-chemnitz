@@ -102,11 +102,6 @@ EOF
       emit_symlink $s
   done
   echo ":"
-
-  for v in "${VOLUMES[@]}"; do
-      eval set -- "$v"
-      echo "VOLUME $1"
-  done
 } > "$t"/ssh/Dockerfile
 
 tar czf - -C "$t/ssh" . --owner root --group root --mode go-w,a+rX | \
