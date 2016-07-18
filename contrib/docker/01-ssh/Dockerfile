@@ -36,7 +36,7 @@ COPY bin			/usr/local/bin
 
 # start e.g. '/usr/sbin/thttpd -h localhost -p 9000 -D -d .' in the
 # directory with elito.pem
-#ADD  http://localhost:9000/elito.pem /home/@USER@/.elito.pem
+#ADD  http://localhost:9000/elito.pem /home/@USER@/.config/elito/customer.pem
 
 ADD  http://www.sigma-chemnitz.de/dl/elito/sources/elito-setup \
      /home/@USER@/bin/elito-setup
