@@ -59,6 +59,8 @@ USER @UID@:@UID@
 
 RUN \
 	cd /home/@USER@ && \
+	{ ! test -f .config/elito/customer.pem || \
+	  /home/@USER@/bin/elito-setup --only-proxy=/home/@USER@/bin --batch; } && \
 	git config --global --add core.gitProxy /usr/local/bin/git-tunnel && \
 	:
 
