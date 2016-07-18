@@ -53,8 +53,16 @@ RUN \
 	chmod 0600 /home/@USER@/.elito.pem && \
 	chmod 0755 /home/@USER@/bin/* && \
 	chmod 0755 /usr/local/bin/* && \
-	git config --system --add core.gitProxy /usr/local/bin/git-tunnel && \
 	:
+
+USER @UID@:@UID@
+
+RUN \
+	cd /home/@USER@ && \
+	git config --global --add core.gitProxy /usr/local/bin/git-tunnel && \
+	:
+
+USER 0:0
 
 EXPOSE 22
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
