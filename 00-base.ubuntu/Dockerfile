@@ -29,6 +29,8 @@ RUN \
 	git \
 	g++ \
 	libgnutls-dev \
+	libncurses5-dev \
+	libncursesw5-dev \
 	libtool \
 	lzop \
 	make \
