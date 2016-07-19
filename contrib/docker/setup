@@ -12,6 +12,8 @@ EMAIL=enrico.scholz@sigma-chemnitz.de
 
 NFSROOT_devel=/srv/sysroots/my-project/${FINAL_NAME}
 
+# scripts assume that first location is the shared cache and the
+# second the local build directory
 VOLUMES_devel=(
   # a directory shared between multiple instances; does not need backup
   "/srv/cache                /srv/.oe/docker/elito"
