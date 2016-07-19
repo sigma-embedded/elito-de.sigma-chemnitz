@@ -70,3 +70,15 @@ RUN \
       echo 'ftp_proxy=$http_proxy' && \
       echo "no_proxy='$no_proxy'"; \
     } >> /etc/profile.d/proxy.sh
+
+# CA setup
+
+ADD https://www.sigma-chemnitz.de/ca/crt/SIGMA-CA-top.crt \
+    /etc/pki/ca-trust/source/anchors/SIGMA-CA-top.crt
+
+ADD https://www.sigma-chemnitz.de/ca/crt/SIGMA-CA-server.crt \
+    /etc/pki/ca-trust/source/anchors/SIGMA-CA-server.crt
+
+RUN \
+    /bin/chmod a+r /etc/pki/ca-trust/source/anchors/SIGMA-CA-*.crt && \
+    /usr/bin/update-ca-trust
