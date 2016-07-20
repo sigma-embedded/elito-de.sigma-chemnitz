@@ -59,7 +59,7 @@ USER @UID@:@UID@
 
 RUN \
 	cd /home/@USER@ && \
-	{ ! test -f .config/elito/customer.pem || \
+	{ ! test -s .config/elito/customer.pem || \
 	  /home/@USER@/bin/elito-setup --only-proxy=/home/@USER@/bin --batch; } && \
 	git config --global --add core.gitProxy 'none for sigma-chemnitz.de' && \
 	git config --global --add core.gitProxy 'none for git.andto.de' && \
