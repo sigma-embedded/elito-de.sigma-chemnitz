@@ -46,11 +46,11 @@ ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
 
 RUN \
 	chmod 0644 /root/.ssh/authorized_keys && \
-	touch /home/@USER@/.elito.pem && \
+	touch /home/@USER@/.config/elito/customer.pem && \
 	chown -R @USER@:@USER@ /home/@USER@ && \
 	chmod 0644 /home/@USER@/.ssh/authorized_keys && \
 	chmod 0600 /home/@USER@/.ssh/config && \
-	chmod 0600 /home/@USER@/.elito.pem && \
+	chmod 0600 /home/@USER@/.config/elito/customer.pem && \
 	chmod 0755 /home/@USER@/bin/* && \
 	chmod 0755 /usr/local/bin/* && \
 	:
