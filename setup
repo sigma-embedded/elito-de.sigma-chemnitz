@@ -25,7 +25,7 @@ VOLUMES_devel=(
   "/srv/projects/my-project"
 
   # read-only mirror
-  "/srv/mirror			/srv/.oe/docker/mirror :ro"
+  "/srv/mirror			/srv/.oe/docker/mirror	:ro"
 
   # the NFS exported sysroot
   "${NFSROOT_devel}"
