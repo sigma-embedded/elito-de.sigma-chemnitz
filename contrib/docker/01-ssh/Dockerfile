@@ -36,7 +36,7 @@ COPY bin			/usr/local/bin
 
 # start e.g. '/usr/sbin/thttpd -h localhost -p 9000 -D -d .' in the
 # directory with elito.pem
-#ADD  http://localhost:9000/elito.pem /home/@USER@/.elito.pem
+#ADD  http://localhost:9000/elito.pem /home/@USER@/.config/elito/customer.pem
 
 ADD  http://www.sigma-chemnitz.de/dl/elito/sources/elito-setup \
      /home/@USER@/bin/elito-setup
@@ -46,15 +46,27 @@ ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
 
 RUN \
 	chmod 0644 /root/.ssh/authorized_keys && \
-	touch /home/@USER@/.elito.pem && \
+	touch /home/@USER@/.config/elito/customer.pem && \
 	chown -R @USER@:@USER@ /home/@USER@ && \
 	chmod 0644 /home/@USER@/.ssh/authorized_keys && \
 	chmod 0600 /home/@USER@/.ssh/config && \
-	chmod 0600 /home/@USER@/.elito.pem && \
+	chmod 0600 /home/@USER@/.config/elito/customer.pem && \
 	chmod 0755 /home/@USER@/bin/* && \
 	chmod 0755 /usr/local/bin/* && \
-	git config --system --add core.gitProxy /usr/local/bin/git-tunnel && \
 	:
+
+USER @UID@:@UID@
+
+RUN \
+	cd /home/@USER@ && \
+	{ ! test -s .config/elito/customer.pem || \
+	  /home/@USER@/bin/elito-setup --only-proxy=/home/@USER@/bin --batch; } && \
+	git config --global --add core.gitProxy 'none for sigma-chemnitz.de' && \
+	git config --global --add core.gitProxy 'none for git.andto.de' && \
+	git config --global --add core.gitProxy /usr/local/bin/git-tunnel && \
+	:
+
+USER 0:0
 
 EXPOSE 22
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]

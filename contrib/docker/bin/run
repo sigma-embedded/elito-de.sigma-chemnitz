@@ -14,6 +14,11 @@ _opts=(
   --name="${FINAL_NAME}_${DISTRIBUTION}"
 )
 
+# there is no sense in using seccomp for SELinux enabled hosts and it
+# breaks too much things (strace, ...)
+! sestatus >/dev/null 2>/dev/null || \
+    _opts+=( --security-opt seccomp:unconfined )
+
 for v in "${VOLUMES[@]}"; do
     eval set -- "$v"
     src=$1

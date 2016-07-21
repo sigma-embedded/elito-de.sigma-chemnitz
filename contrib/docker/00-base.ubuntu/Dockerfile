@@ -29,6 +29,8 @@ RUN \
 	git \
 	g++ \
 	libgnutls-dev \
+	libncurses5-dev \
+	libncursesw5-dev \
 	libtool \
 	lzop \
 	make \
@@ -58,3 +60,15 @@ RUN \
       echo 'ftp_proxy=$http_proxy' && \
       echo "no_proxy='$no_proxy'"; \
     } >> /etc/profile.d/proxy.sh
+
+# CA setup
+
+ADD https://www.sigma-chemnitz.de/ca/crt/SIGMA-CA-top.crt \
+    /usr/local/share/ca-certificates/SIGMA-CA-top.crt
+
+ADD https://www.sigma-chemnitz.de/ca/crt/SIGMA-CA-server.crt \
+    /usr/local/share/ca-certificates/SIGMA-CA-server.crt
+
+RUN \
+    /bin/chmod a+r /usr/local/share/ca-certificates/SIGMA-CA-*.crt && \
+    /usr/sbin/update-ca-certificates
