@@ -1,0 +1,8 @@
+# --*- conf -*--
+
+Host *
+	VerifyHostKeyDNS 	ask
+	PasswordAuthentication 	no
+	GSSAPIAuthentication 	no
+	ForwardAgent 		no
+	ForwardX11 		no

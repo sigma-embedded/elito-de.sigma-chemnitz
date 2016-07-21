@@ -2,12 +2,38 @@
 
 BASE_NAME=elito_base
 FINAL_NAME=elito-${RELEASE}
+CONTAINER_HOSTNAME_devel=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
 CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
 
 : ${MODE:=default}
 
 USER=ensc
 EMAIL=enrico.scholz@sigma-chemnitz.de
+
+NFSROOT_devel=/srv/sysroots/my-project/${FINAL_NAME}
+
+# scripts assume that first location is the shared cache and the
+# second the local build directory
+VOLUMES_devel=(
+  # a directory shared between multiple instances; does not need backup
+  "/srv/cache			/srv/.oe/docker/elito"
+
+  # the build directory; it should be on a fast disk and does not need backup
+  "/srv/.oe/docker/my-project"
+
+  # the workspace with valuable files; it can be on a slow disk
+  "/srv/projects/my-project"
+
+  # read-only mirror
+  "/srv/mirror			/srv/.oe/docker/mirror	:ro"
+
+  # the NFS exported sysroot
+  "${NFSROOT_devel}"
+)
+
+SYMLINKS_devel=(
+  "/srv/mirror			/srv/.oe/docker/mirror"
+)
 
 # scripts assume that first location is the shared cache and the
 # second the local build directory
