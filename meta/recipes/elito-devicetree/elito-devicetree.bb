@@ -2,6 +2,8 @@ DESCRIPTION  = "${MACHINE} device tree"
 LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 def get_dts_files(d):
     return ' '.join(map(lambda x: '%s' % x.split(':')[0],
                         oe.data.typed_value('MACHINE_VARIANTS', d)))
@@ -33,7 +35,7 @@ EXTRA_OEMAKE = "\
 
 EXTRA_OEMAKE_append_mx28 = " SOC_FAMILY=mx28"
 
-COMPATIBLE_MACHINE = "(mx28|mx6)"
+COMPATIBLE_MACHINE = "(mx28|mx6|ti33x)"
 
 MACH_DEPENDS = ""
 MACH_DEPENDS_mx28 = "mx28-pins"
