@@ -22,6 +22,7 @@ RUN \
 	ca-certificates \
 	ccache \
 	chrpath \
+	cscope \
 	curl \
 	diffstat \
 	gawk \
