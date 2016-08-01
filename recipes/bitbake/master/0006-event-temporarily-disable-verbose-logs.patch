@@ -1,7 +1,7 @@
-From 3ef1e45afbbf5081bd12bcb8c5a3d651c55bafff Mon Sep 17 00:00:00 2001
+From 5c04acaff4b7434d53911edbf00085cc55410eac Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Thu, 13 Dec 2012 18:11:33 +0100
-Subject: [PATCH 06/11] event: temporarily disable verbose logs
+Subject: [PATCH 06/10] event: temporarily disable verbose logs
 
 Because stderr of event handlers is directly printed to the console,
 this will pollute output when using e.g. 'buildhistory' which calls a
@@ -15,7 +15,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 3 insertions(+)
 
 diff --git a/lib/bb/event.py b/lib/bb/event.py
-index 6fb3712..c7bce48 100644
+index a5f026e..a4afc39 100644
 --- a/lib/bb/event.py
 +++ b/lib/bb/event.py
 @@ -80,7 +80,9 @@ def execute_handler(name, handler, event, d):

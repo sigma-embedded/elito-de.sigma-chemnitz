@@ -1,7 +1,7 @@
-From 163865892e5a819699791442a50d3ac2cee00256 Mon Sep 17 00:00:00 2001
+From 17e4ceec6d99fc6cccaf08ef4efd813721661ce9 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Mon, 26 Oct 2015 19:33:15 +0100
-Subject: [PATCH 09/11] fetcher: allow git+<protocol>: syntax
+Subject: [PATCH 09/10] fetcher: allow git+<protocol>: syntax
 
 Specifying an alternative git respository with a different access
 protocol is very difficulty atm because the protocol is part of the
@@ -30,7 +30,7 @@ Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
  1 file changed, 16 insertions(+)
 
 diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-index aa7b344..ebc398b 100644
+index 9cf54ce..3252173 100644
 --- a/lib/bb/fetch2/__init__.py
 +++ b/lib/bb/fetch2/__init__.py
 @@ -229,6 +229,11 @@ class URI(object):

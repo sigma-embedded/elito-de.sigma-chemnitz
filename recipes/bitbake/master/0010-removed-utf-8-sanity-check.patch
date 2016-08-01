@@ -1,7 +1,7 @@
-From f30b78e9003eda60079bdeb6e9c9ddb8ab2ad3f0 Mon Sep 17 00:00:00 2001
+From 36d092670755cde5d797f034794bfd1e60c260f0 Mon Sep 17 00:00:00 2001
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 Date: Thu, 9 Jun 2016 16:06:33 +0200
-Subject: [PATCH 11/11] removed utf-8 sanity check
+Subject: [PATCH 10/10] removed utf-8 sanity check
 
 utf-8 locales might not be available in minimal environments (e.g. docker
 instances).
@@ -27,7 +27,7 @@ index 9813a08..0506fb4 100755
  
  if __name__ == "__main__":
 diff --git a/bin/bitbake-worker b/bin/bitbake-worker
-index 5d062a2..afb11c9 100755
+index 963b4cd..347e9ba 100755
 --- a/bin/bitbake-worker
 +++ b/bin/bitbake-worker
 @@ -13,9 +13,6 @@ import signal
