@@ -7,7 +7,7 @@ DEPENDS += "elfutils curl"
 
 PACKAGECONFIG[oldkernel] = "--disable-networkd,,,"
 
-PATCHTOOL = "git"
+#PATCHTOOL = "git"
 
 SRC_URI += "\
   file://embedded.patch \
