@@ -1,3 +1,5 @@
+skip swap target
+
 Index: git/units/sysinit.target
 ===================================================================
 --- git.orig/units/sysinit.target
