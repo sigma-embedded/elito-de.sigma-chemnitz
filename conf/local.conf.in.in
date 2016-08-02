@@ -48,4 +48,5 @@ CONF_VERSION = "1"
 
 @HAVE_GLOBAL_BITBAKE_CONF_TRUE@require @GLOBAL_BITBAKE_CONF@
 @HAVE_LOCAL_BITBAKE_CONF_TRUE@require @LOCAL_BITBAKE_CONF@
+include conf/local-local.conf
 require conf/project.conf
