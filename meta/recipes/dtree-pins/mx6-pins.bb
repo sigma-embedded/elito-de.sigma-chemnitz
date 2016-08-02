@@ -3,7 +3,8 @@ DESCRIPTION  = "${MACHINE} pin setup"
 LICENSE      = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-S = "${WORKDIR}"
+B := "${S}"
+S  = "${WORKDIR}"
 
 def get_iomux_files(d):
     return ' '.join(map(lambda x: 'file://%s-iomux.xml' % x.split(':')[0],
