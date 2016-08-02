@@ -23,6 +23,9 @@ TMPFS_SIZE       ?= "8m"
 TMP_SIZE	 ?= "${TMPFS_SIZE}"
 PTS_GID          ?= "5"
 
+B := "${S}"
+S  = "${WORKDIR}"
+
 do_install() {
 	i() {
             test -s "$1" || return 0
@@ -30,7 +33,7 @@ do_install() {
 	}
 
 	set -x
-	cd ${WORKDIR}
+	cd ${S}
 	mkdir -p ${D}${sysconfdir}
 
 	for i in hosts; do
