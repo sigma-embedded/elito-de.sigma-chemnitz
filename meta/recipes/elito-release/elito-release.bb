@@ -16,6 +16,9 @@ SRC_URI         = "\
 
 PACKAGES        = "${PN} ${PN}-feeds"
 
+B := "${S}"
+S  = "${WORKDIR}"
+
 OPKG_FEEDS_PROVIDER  ?= "${PN}-feeds"
 
 FILES_${PN}           = "/etc/pki/elito/* /etc/issues"
@@ -49,7 +52,7 @@ do_install() {
 		install -p -m 0644 "$f"  ${D}/etc/opkg/
         done
 
-	cd ${WORKDIR}
+	cd ${S}
 	install -p -m 0444 RPM-GPG-KEY* ${D}/etc/pki/elito/
 
 	sed	\
