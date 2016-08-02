@@ -24,6 +24,9 @@ SRC_URI = "\
   file://rc.d/blockdev \
 "
 
+B := "${S}"
+S  = "${WORKDIR}"
+
 python () {
     rc_d = [ ( 3, "sysinit", ""),
              (20, "syslog", ""),
@@ -67,17 +70,17 @@ UPDATERCPN = "dummy"
 inherit update-rc.d
 
 do_install() {
-    install -p -D -m 0755 ${WORKDIR}/init ${D}/init
-    install -p -D -m 0644 ${WORKDIR}/elito-rescue.conf ${D}${sysconfdir}/elito-rescue.conf
+    install -p -D -m 0755 ${S}/init ${D}/init
+    install -p -D -m 0644 ${S}/elito-rescue.conf ${D}${sysconfdir}/elito-rescue.conf
 
-    cd ${WORKDIR}/rc.d
+    cd ${S}/rc.d
     for i in *; do
 	install -p -D -m 0755 "$i" ${D}${INIT_D_DIR}/rescue-"$i"
     done
 
-    install -p -D -m 0755 ${WORKDIR}/set-time    ${D}${bindir}/rescue-set-time
-    install -p -D -m 0755 ${WORKDIR}/dhcp-ntpd   ${D}${sysconfdir}/udhcpc.d/80ntpd
-    install -p -D -m 0755 ${WORKDIR}/dhcp-notify ${D}${sysconfdir}/udhcpc.d/90notify
+    install -p -D -m 0755 ${S}/set-time    ${D}${bindir}/rescue-set-time
+    install -p -D -m 0755 ${S}/dhcp-ntpd   ${D}${sysconfdir}/udhcpc.d/80ntpd
+    install -p -D -m 0755 ${S}/dhcp-notify ${D}${sysconfdir}/udhcpc.d/90notify
 }
 
 PACKAGES += "${PN}-dhcp-notify ${PN}-dhcp-ntpd"
