@@ -17,6 +17,9 @@ _postproc_deps = \
 
 all:	$(pkginclude_DATA)
 
+clean:
+	rm -f $(pkginclude_DATA) .*.deps
+
 %-dcd.h:	%-iomux.xml
 	@rm -f $@ $@.tmp
 	@$(call _preproc_deps)
