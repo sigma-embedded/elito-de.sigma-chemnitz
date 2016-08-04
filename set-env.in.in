@@ -22,6 +22,11 @@ ABRT_IGNORE_ALL=1
 
 export ABRT_IGNORE_ALL
 
+LC_CTYPE="en_US.utf-8"
+
+unset LC_ALL
+export LC_CTYPE
+
 @ENABLE_SSTATE_DIR_TRUE@SSTATE_DIR='@SSTATE_DIR@'
 
 # use fixed 'ccache' for now; this string is hardcoded at some places
