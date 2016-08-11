@@ -47,9 +47,7 @@ RDEPENDS_${PN} += "\
     ${_DEV_MANAGER_DEPS}		\
     "
 
-RRECOMMENDS_${PN}[vardeps] += "DISTRO_TYPE"
 RRECOMMENDS_${PN} += "\
     ${@bb.utils.contains('DISTRO_FEATURES','ipv6','kernel-module-ipv6','', d)} \
-    ${@elito_base_switch(d, 'DISTRO_TYPE','debug','elito-testsuite','')} \
     ${PROJECT_EXTRA_RRECOMMENDS}	\
     "

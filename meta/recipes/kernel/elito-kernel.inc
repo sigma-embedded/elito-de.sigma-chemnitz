@@ -110,12 +110,12 @@ def kernel_options(d):
                                       d.getVar('IMAGE_FSTYPES', True).split()))))
     have_earlyprintk = 'earlyprintk' in (d.getVar('KERNEL_CMDLINE', True) or '').split()
 
-    o = [ [ d.getVar('DISTRO_TYPE', True) == 'release', 'DANGEROUS', False ],
-          [ d.getVar('OVERRIDE_KERNEL_CMDLINE', True) != '' and d.getVar('KERNEL_CMDLINE', True) != '',
+    o = [ [ d.getVar('OVERRIDE_KERNEL_CMDLINE', True) != '' and d.getVar('KERNEL_CMDLINE', True) != '',
             ['CMDLINE', d.getVar('KERNEL_CMDLINE', True) ],
             [ '+EARLY_PRINTK', have_earlyprintk ],
           ],
           [ True,
+            [ 'DANGEROUS', False ],
             [ '+CMDLINE_FROM_BOOTLOADER', d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'bootloader' ],
             [ '+CMDLINE_EXTEND',          d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'extend' ],
             [ '+CMDLINE_FORCE',           d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'force' ] ],

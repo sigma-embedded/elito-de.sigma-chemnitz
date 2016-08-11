@@ -179,12 +179,6 @@ AC_ARG_ENABLE(maintainer-mode,
 
 ELITO_TRUE_FALSE(ENABLE_MAINTAINER_MODE, test x"${enable_maintainer_mode}" != xno)
 
-AC_ARG_ENABLE(distro,
-	AS_HELP_STRING([--enable-distro=<type>],
-		       [Distribution type; valid values are 'debug' and 'release' (default: 'debug')]),
-	[DISTRO_TYPE=$enableval], [DISTRO_TYPE=debug])
-AC_SUBST(DISTRO_TYPE)
-
 AC_ARG_WITH([release],
         AS_HELP_STRING([--with-release=<release>],
                        [Release number of distribution or project]),

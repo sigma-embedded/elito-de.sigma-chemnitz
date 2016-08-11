@@ -204,10 +204,7 @@ do_package_write_ipk[noexec] = "1"
 
 ###########
 
-do_create_link[vardeps] += "DISTRO_TYPE"
 do_create_link() {
-        ${@base_conditional('DISTRO_TYPE','debug','','return 0', d)}
-
         if ln -r -s x ${B}/ln-r-test 2>/dev/null; then
                 LN_R='ln -r -s'
         else
