@@ -217,12 +217,11 @@ export do_configure_extra_local
 
 do_configure[depends] += "kernel-makefile:do_setup_makefile"
 do_configure_prepend() {
-	if ! test -e .config; then
-		if "${@['false', 'true'][d.getVar('__defconfig', True).startswith('/')]}"; then
-			install -p -m 0644 "${__defconfig}" .config
-		else
-			oe_runmake "${__defconfig}"
-		fi
+	rm -f .config
+	if "${@['false', 'true'][d.getVar('__defconfig', True).startswith('/')]}"; then
+		install -p -m 0644 "${__defconfig}" .config
+	else
+		oe_runmake "${__defconfig}"
 	fi
 
 	cat << "EOF" >> .config
