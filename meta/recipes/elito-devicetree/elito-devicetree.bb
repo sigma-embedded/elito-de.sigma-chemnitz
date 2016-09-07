@@ -16,6 +16,8 @@ MACHINE_DTS_NAME ?= "${_machine_dts_name}"
 MACHINE_DTS_NAME[type] = "list"
 
 _dtb_prefix = ""
+_dtb_prefix_rpi = "${KERNEL_IMAGETYPE}-"
+
 DTB_PREFIX ?= "${_dtb_prefix}"
 
 SRC_URI[vardeps] += "MACHINE_DTS_NAME"
@@ -38,7 +40,7 @@ EXTRA_OEMAKE = "\
 
 EXTRA_OEMAKE_append_mx28 = " SOC_FAMILY=mx28"
 
-COMPATIBLE_MACHINE = "(mx28|mx6|ti33x)"
+COMPATIBLE_MACHINE = "(mx28|mx6|ti33x|raspberrypi2)"
 
 MACH_DEPENDS = ""
 MACH_DEPENDS_mx28 = "mx28-pins"
