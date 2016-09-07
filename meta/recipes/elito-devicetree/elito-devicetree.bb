@@ -15,6 +15,9 @@ _machine_dts_name_mx6 = "${@get_dts_files(d)}"
 MACHINE_DTS_NAME ?= "${_machine_dts_name}"
 MACHINE_DTS_NAME[type] = "list"
 
+_dtb_prefix = ""
+DTB_PREFIX ?= "${_dtb_prefix}"
+
 SRC_URI[vardeps] += "MACHINE_DTS_NAME"
 SRC_URI = "\
   file://Makefile \
@@ -61,8 +64,8 @@ do_deploy() {
     for i in *.dtb; do
 	dname=${i%%.dtb}-"${EXTENDPKGV}".dtb
 	install -D -p -m 0644 "$i" ${DEPLOYDIR}/"$dname"
-	rm -f ${DEPLOYDIR}/"$i"
-	ln -s "$dname" ${DEPLOYDIR}/"$i"
+	rm -f ${DEPLOYDIR}/"${DTB_PREFIX}$i"
+	ln -s "$dname" ${DEPLOYDIR}/"${DTB_PREFIX}$i"
     done
 }
 addtask deploy before do_package after do_compile
