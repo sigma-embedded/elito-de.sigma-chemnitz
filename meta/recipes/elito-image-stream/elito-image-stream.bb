@@ -7,6 +7,9 @@ _pv     = "0.2.8"
 SRCREV  = "07298b6c4f68662de1801d2102853ed0b34c3c86"
 SRC_URI = "${ELITO_PUBLIC_GIT_REPO}/elito-image-stream.git"
 
+# for legacy branches only!
+SRC_URI += "file://default-revision.patch"
+
 PV   = "${_pv}+gitr${SRCPV}"
 PKGV = "${_pv}+gitr${GITPKGV}"
 
