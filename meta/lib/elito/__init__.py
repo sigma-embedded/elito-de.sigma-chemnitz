@@ -76,6 +76,7 @@ def update_build_info(d, oe_info_fn):
             bb.parse.update_mtime(f)
 
     ftime = time.localtime(bb.parse.cached_mtime(f))
+    bb.parse.mark_dependency(d, f)
 
     d.setVar("ELITO_BUILDINFO", new_info)
     return "${DISTRO_VERSION_MAJOR}." + time.strftime("%Y%m%dT%H%M%S", ftime)
