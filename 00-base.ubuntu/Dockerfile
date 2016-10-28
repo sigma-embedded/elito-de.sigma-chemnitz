@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 ENV http_proxy http://www-cache:3128/
 ENV https_proxy http://www-cache:3128/
