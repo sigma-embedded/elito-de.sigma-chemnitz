@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 ENV http_proxy http://www-cache:3128/
 ENV https_proxy http://www-cache:3128/
@@ -22,12 +22,15 @@ RUN \
 	ca-certificates \
 	ccache \
 	chrpath \
+	cpio \
 	cscope \
 	curl \
 	diffstat \
+	exuberant-ctags \
 	gawk \
 	gcc \
 	git \
+	global \
 	g++ \
 	libgnutls-dev \
 	libncurses5-dev \
@@ -48,7 +51,8 @@ RUN \
 	xz-utils \
 \
 	libproxy-dev \
-	libproxy-tools
+	libproxy-tools \
+    && :
 
 COPY profile.d /etc/profile.d/
 
