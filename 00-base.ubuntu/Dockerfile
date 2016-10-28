@@ -22,6 +22,7 @@ RUN \
 	ca-certificates \
 	ccache \
 	chrpath \
+	cpio \
 	cscope \
 	curl \
 	diffstat \
