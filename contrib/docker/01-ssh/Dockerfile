@@ -44,6 +44,9 @@ ADD  http://www.sigma-chemnitz.de/dl/elito/sources/elito-setup \
 ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
      /home/@USER@/.config/elito/bitbake.conf
 
+ADD  http://www.sigma-chemnitz.de/dl/elito/sources/flymake-kernel.mk \
+     /home/@USER@/lib/make/flymake-kernel.mk
+
 RUN \
 	chmod 0644 /root/.ssh/authorized_keys && \
 	touch /home/@USER@/.config/elito/customer.pem && \

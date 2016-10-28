@@ -22,6 +22,7 @@ RUN \
 	chrpath \
 	cpio \
 	cscope \
+	ctags \
 	curl \
 	diffstat \
 	file \
@@ -29,6 +30,7 @@ RUN \
 	gcc \
 	gcc-c++ \
 	git \
+	global \
 	gnutls-devel \
 	hostname \
 	libgcrypt-devel \
