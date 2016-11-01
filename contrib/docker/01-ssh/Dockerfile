@@ -4,6 +4,7 @@
 ## here because only this file is mangled by the 'build' script
 RUN \
 	if test -x /usr/sbin/locale-gen; then \
+		/usr/sbin/locale-gen en_US.UTF-8 && \
 		/usr/sbin/locale-gen '@LANG@' '@LANG_PREFIX@'; \
 	fi
 
