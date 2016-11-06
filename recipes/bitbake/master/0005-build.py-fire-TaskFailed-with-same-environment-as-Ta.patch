@@ -55,7 +55,7 @@ index c632a27..db4d369 100644
      try:
          quieterr = False
          if d.getVarFlag(task, "quieterrors", False) is not None:
-@@ -616,21 +617,21 @@ def exec_task(fn, task, d, profile = False):
+@@ -616,20 +617,20 @@ def exec_task(fn, task, d, profile = False):
              except:
                  import profile
              prof = profile.Profile()
@@ -80,7 +80,6 @@ index c632a27..db4d369 100644
 +            event.fire(failedevent, localdata)
          return 1
  
- def stamp_internal(taskname, d, file_name, baseonly=False):
 -- 
 2.5.5
 
