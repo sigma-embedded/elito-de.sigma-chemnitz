@@ -15,6 +15,11 @@ _machine_dts_name_mx6 = "${@get_dts_files(d)}"
 MACHINE_DTS_NAME ?= "${_machine_dts_name}"
 MACHINE_DTS_NAME[type] = "list"
 
+_dtb_prefix = ""
+_dtb_prefix_rpi = "${KERNEL_IMAGETYPE}-"
+
+DTB_PREFIX ?= "${_dtb_prefix}"
+
 SRC_URI[vardeps] += "MACHINE_DTS_NAME"
 SRC_URI = "\
   file://Makefile \
@@ -35,7 +40,7 @@ EXTRA_OEMAKE = "\
 
 EXTRA_OEMAKE_append_mx28 = " SOC_FAMILY=mx28"
 
-COMPATIBLE_MACHINE = "(mx28|mx6|ti33x)"
+COMPATIBLE_MACHINE = "(mx28|mx6|ti33x|raspberrypi2)"
 
 MACH_DEPENDS = ""
 MACH_DEPENDS_mx28 = "mx28-pins"
@@ -61,8 +66,8 @@ do_deploy() {
     for i in *.dtb; do
 	dname=${i%%.dtb}-"${EXTENDPKGV}".dtb
 	install -D -p -m 0644 "$i" ${DEPLOYDIR}/"$dname"
-	rm -f ${DEPLOYDIR}/"$i"
-	ln -s "$dname" ${DEPLOYDIR}/"$i"
+	rm -f ${DEPLOYDIR}/"${DTB_PREFIX}$i"
+	ln -s "$dname" ${DEPLOYDIR}/"${DTB_PREFIX}$i"
     done
 }
 addtask deploy before do_package after do_compile
