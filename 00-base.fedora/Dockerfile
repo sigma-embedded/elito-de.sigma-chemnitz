@@ -75,12 +75,18 @@ RUN \
 
 # CA setup
 
-ADD https://www.sigma-chemnitz.de/ca/crt/SIGMA-CA-top.crt \
-    /etc/pki/ca-trust/source/anchors/SIGMA-CA-top.crt
+ADD https://www.sigma-chemnitz.de/ca/crt/2007-SIGMA-CA-top.crt \
+    /usr/local/share/ca-certificates/2007-SIGMA-CA-top.crt
 
-ADD https://www.sigma-chemnitz.de/ca/crt/SIGMA-CA-server.crt \
-    /etc/pki/ca-trust/source/anchors/SIGMA-CA-server.crt
+ADD https://www.sigma-chemnitz.de/ca/crt/2014-SIGMA-CA-server.crt \
+    /usr/local/share/ca-certificates/2014-SIGMA-CA-server.crt
+
+ADD https://www.sigma-chemnitz.de/ca/crt/2016-SIGMA-CA-root.crt \
+    /usr/local/share/ca-certificates/2016-SIGMA-CA-root.crt
+
+ADD https://www.sigma-chemnitz.de/ca/crt/2016-SIGMA-CA-server.crt \
+    /usr/local/share/ca-certificates/2016-SIGMA-CA-server.crt
 
 RUN \
-    /bin/chmod a+r /etc/pki/ca-trust/source/anchors/SIGMA-CA-*.crt && \
+    /bin/chmod a+r /usr/local/share/ca-certificates/*-SIGMA-CA-*.crt && \
     /usr/bin/update-ca-trust
