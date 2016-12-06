@@ -60,7 +60,7 @@ RUN \
     && \
     dnf clean all
 
-RUN /usr/sbin/sshd-keygen
+RUN /usr/libexec/openssh/sshd-keygen
 
 COPY profile.d /etc/profile.d/
 
