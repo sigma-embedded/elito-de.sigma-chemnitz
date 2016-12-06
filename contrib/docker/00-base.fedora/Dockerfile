@@ -9,6 +9,7 @@ ENV no_proxy .sigma-chemnitz.de,sigma-chemnitz.de,cvg.de,.cvg.de,andto.de,.andto
 
 RUN \
     : 20160304 - invalidate cache && \
+    rpm --import /etc/pki/rpm-gpg/* && \
     dnf upgrade --setopt="proxy=$http_proxy" -y && \
     dnf clean all && \
     dnf makecache --setopt="proxy=$http_proxy" -y
