@@ -44,6 +44,7 @@ RUN \
 	python \
 	python-bs4 \
 	python-pyinotify \
+	python3 \
 	socat \
 	strace \
 	texinfo \
