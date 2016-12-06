@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM fedora:23
+FROM fedora:25
 
 ENV http_proxy http://www-cache:3128/
 ENV https_proxy http://www-cache:3128/
