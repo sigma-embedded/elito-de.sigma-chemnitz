@@ -17,6 +17,7 @@ SRC_URI += " \
         file://cvt-color.patch \
 \
 	file://test-access.patch \
+        file://0001-tcpudp-do-not-keep-connection-open.patch \
 "
 
 elito_bitbake_generate_del[vardeps] += "BUSYBOX_DISABLED_FEATURES"
