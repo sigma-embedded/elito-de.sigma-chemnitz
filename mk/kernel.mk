@@ -4,7 +4,9 @@ export ARCH = $(TARGET_ARCH)
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 export CROSS_COMPILE
 
-CFG_NFSOPTS = ,v3,tcp,nolock
+include ${ELITO_TOPDIR}/mk/nfs-opt.mk
+
+CFG_NFSOPTS = ,v3,tcp,nolock${CFG_NFSOPTS_EXTRA}
 CFG_NFSROOT = ${_nfs_server}:${_nfs_root}
 
 export DEFAULT_NFSROOT = ${CFG_NFSROOT}${CFG_NFSOPTS}
@@ -26,6 +28,7 @@ _build_cmd = \
             $(_start) env UID=$$UID \
             $(MAKE) CC='$(KERNEL_CC)' LD='$(KERNEL_LD)' \
             KBUILD_OUTPUT=${KBUILD_OUTPUT} \
+            DEPMOD='${STAGING_DIR_NATIVE}/usr/bin/depmod' \
             $(if $(TFTP_IMAGE),FLASH_FILENAME='$(TFTP_IMAGE)') \
             $(if $(KERNEL_SIZE),KCPPFLAGS+='-DKERNEL_MTD_SIZE=$(KERNEL_SIZE)') \
             $(if $(KERNEL_LOADADDR),LOADADDR='$(KERNEL_LOADADDR)') \
