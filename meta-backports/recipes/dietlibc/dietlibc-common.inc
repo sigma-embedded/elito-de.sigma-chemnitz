@@ -58,8 +58,11 @@ dietlibc_fix_features () {
     arch=$1
     dst=$2
 
-    # LARGEFILE_BACKCOMPAT is some linux 2.2 thing
-    set -- -e '/#define \(WANT_LARGEFILE_BACKCOMPAT\|WANT_VALGRIND_SUPPORT\)/d'
+    # LARGEFILE_BACKCOMPAT is some linux 2.2 thing, and malloc(0) ==
+    # NULL is nasty and uncommon
+    set -- \
+	-e '/#define \(WANT_LARGEFILE_BACKCOMPAT\|WANT_VALGRIND_SUPPORT\)/d' \
+	-e 's!^\(/\*\)\?[[:space:]]*\(#define[[:space:]]\+WANT_MALLOC_ZERO\)\([[:space:]]*\*/\)!\2!g'
 
     case $arch in
     (x86_64|ppc|ppc64)
