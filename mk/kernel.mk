@@ -4,7 +4,9 @@ export ARCH = $(TARGET_ARCH)
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 export CROSS_COMPILE
 
-CFG_NFSOPTS = ,v3,tcp,nolock
+include ${ELITO_TOPDIR}/mk/nfs-opt.mk
+
+CFG_NFSOPTS = ,v3,tcp,nolock${CFG_NFSOPTS_EXTRA}
 CFG_NFSROOT = ${_nfs_server}:${_nfs_root}
 
 export DEFAULT_NFSROOT = ${CFG_NFSROOT}${CFG_NFSOPTS}
