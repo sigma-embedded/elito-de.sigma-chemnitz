@@ -35,6 +35,8 @@ else
     . "$1/.tmp/pseudo.env"
 fi
 
+test x"$ELITO_PSEUDO_ENABLE" != x1 || unset PSEUDO_DISABLED
+
 unset ELITO_PSEUDO_OK
 unset ELITO_PSEUDO_DIRECT
 
