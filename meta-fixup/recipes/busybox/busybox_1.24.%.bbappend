@@ -24,15 +24,15 @@ SRC_URI += " \
 
 elito_bitbake_generate_del[vardeps] += "BUSYBOX_DISABLED_FEATURES"
 def elito_bitbake_generate_del(d):
-    f = set(d.getVar("BUSYBOX_DISABLED_FEATURES", True).split())
+    f = sorted(set(d.getVar("BUSYBOX_DISABLED_FEATURES", True).split()))
     return ('\n' +
             r'/^[# ]*CONFIG_\(%s\)[ =]/d' % r'\|'.join(f))
 
 elito_bitbake_generate_append[vardeps] += "\
     BUSYBOX_DISABLED_FEATURES BUSYBOX_EXTRA_FEATURES"
 def elito_bitbake_generate_append(d):
-    f = set(d.getVar("BUSYBOX_DISABLED_FEATURES", True).split())
-    t = set(d.getVar("BUSYBOX_EXTRA_FEATURES", True).split())
+    f = sorted(set(d.getVar("BUSYBOX_DISABLED_FEATURES", True).split()))
+    t = sorted(set(d.getVar("BUSYBOX_EXTRA_FEATURES", True).split()))
     return '\\n'.join([''] +
                       list(map(lambda x: '# CONFIG_%s is not set' % x, f)) +
                       list(map(lambda x: 'CONFIG_%s=y' % x, t)))
