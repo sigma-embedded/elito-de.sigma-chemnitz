@@ -1,1 +1,0 @@
-export http_proxy https_proxy ftp_proxy no_proxy
