@@ -5,6 +5,8 @@ trap "rm -rf $t" EXIT
 
 DISTRIBUTION=$1
 RELEASE=$2
+SSH_PORT=$3
+BASE_PORT=$4
 
 # Usage: set_dir <varname> <spec>
 function set_dir() {
@@ -28,6 +30,34 @@ function emit_symlink() {
   local dst=$2
 
   echo "	mkdir -p '${dst%/*}' && ln -s '$src' '$dst' && \\"
+}
+
+_next_port=
+_port_idx=0
+function emit_ports() {
+    src=$1
+    dst=$2
+    cnt=${3:-1}
+
+    case $dst in
+      next)
+            dst=$_next_port;;
+      base)
+            dst=$BASE_PORT;;
+    esac
+
+    while test $cnt -gt 0; do
+        echo "	echo 'DOCKER_PORT_EXPOSED_${_port_idx} = $dst' >> /etc/docker-setup.mk && \\"
+        echo "	echo 'DOCKER_PORT_INTERNAL_${_port_idx} = $src' >> /etc/docker-setup.mk && \\"
+
+        let ++dst
+        let ++src
+        let --cnt || :
+        let ++_port_idx
+    done
+
+    let ++dst
+    _next_port=$dst
 }
 
 function getpwent() {
@@ -102,6 +132,11 @@ EOF
   for s in "${SYMLINKS[@]}"; do
       emit_symlink $s
   done
+
+  for p in "${PORTS[@]}"; do
+      emit_ports $p
+  done
+
   echo ":"
 } > "$t"/ssh/Dockerfile
 
