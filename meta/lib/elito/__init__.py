@@ -66,13 +66,15 @@ def update_build_info(d, oe_info_fn):
 
     with bb.utils.fileslocked([f + ".lock"]):
         try:
-            old_info = open(f).read()
+            with open(f) as fd:
+                old_info = fd.read()
         except IOError:
             old_info = ""
 
         new_info = "\n".join(oe_info_fn(d)) + "\n"
         if new_info != old_info:
-            open(f, "w").write(new_info)
+            with open(f, "w") as fd:
+                fd.write(new_info)
             bb.parse.update_mtime(f)
 
     ftime = time.localtime(bb.parse.cached_mtime(f))
