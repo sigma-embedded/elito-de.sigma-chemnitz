@@ -61,18 +61,32 @@ def repo(remote, local, d):
 
 def update_build_info(d, oe_info_fn):
     import bb.parse, time
+    import os
 
     f = d.expand("${TMPDIR}/build-info")
 
     with bb.utils.fileslocked([f + ".lock"]):
         try:
-            old_info = open(f).read()
+            with open(f) as fd:
+                old_info = fd.read()
         except IOError:
             old_info = ""
 
+        home_set = False
+        if 'HOME' not in os.environ:
+            os.environ.putenv('HOME', '/')
+            home_set = True
+
+        # 'git' (which might be called by this function) might need
+        # $HOME
         new_info = "\n".join(oe_info_fn(d)) + "\n"
+
+        if home_set:
+            os.environ.unsetenv('HOME')
+
         if new_info != old_info:
-            open(f, "w").write(new_info)
+            with open(f, "w") as fd:
+                fd.write(new_info)
             bb.parse.update_mtime(f)
 
     ftime = time.localtime(bb.parse.cached_mtime(f))
