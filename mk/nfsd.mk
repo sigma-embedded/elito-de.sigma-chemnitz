@@ -5,9 +5,10 @@ LOCALGOALS =	start-daemon start-debug stop-daemon
 UNFSD_IMAGE ?=		elito-image
 UNFSD_PSEUDODIR ?=	${STAGING_DIR}/images.pseudo/${UNFSD_IMAGE}
 UNFSD_DIR =	${ELITO_BUILDSYS_TMPDIR}/unfsd
+UNFSD_PIDFILE =		${UNFSD_DIR}/unfsd.pid
 UNFSD_OPTS = \
 	-t \
-	-i ${UNFSD_DIR}/unfsd.pid \
+	-i ${UNFSD_PIDFILE} \
 	-p \
 	-e ${UNFSD_DIR}/exports \
 	-n "${UNFSD_NFS_PORT}" \
@@ -24,6 +25,9 @@ _pseudo = env \
 
 start-daemon:	${UNFSD_DIR}/exports
 	${_pseudo} ${UNFSD} ${UNFSD_OPTS}
+
+stop-daemon:
+	test ! -e "${UNFSD_PIDFILE}" || kill "`cat ${UNFSD_PIDFILE}`"
 
 start-debug:	${UNFSD_DIR}/exports
 	${_pseudo} ${UNFSD} ${UNFSD_OPTS} -d
