@@ -91,3 +91,13 @@ ROOTFS_POSTPROCESS_COMMAND_remove = "${@\
   bb.utils.contains('IMAGE_FEATURES', 'devel-sshkey', \
   bb.utils.contains('IMAGE_FEATURES', 'allow-empty-password', \
                     '', 'ssh_allow_empty_password;', d), '', d)}"
+
+SSTATETASKS += "do_deploy_pseudo"
+do_deploy_pseudo[sstate-name] = "${PN}"
+do_deploy_pseudo[sstate-inputdirs] = "${WORKDIR}/pseudo"
+do_deploy_pseudo[sstate-outputdirs] = "${STAGING_DIR}/images.pseudo/${PN}"
+
+do_deploy_pseudo() {
+	:
+}
+addtask do_deploy_pseudo after do_rootfs before do_build
