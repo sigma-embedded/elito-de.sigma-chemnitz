@@ -17,13 +17,13 @@
    #+BEGIN_SRC fundamental
 Host	docker.*
 	Hostname		localhost
-	ControlMaster 		auto
-	ControlPath 		/run/user/505/ssh-%r@%h-docker:%p
+	ControlMaster		auto
+	ControlPath		/run/user/505/ssh-%r@%h-docker:%p
 	IdentityFile            ~/.ssh/id_rsa-docker
-	ForwardX11 		yes
-	ForwardAgent 		no
-	GSSAPIAuthentication 	no
-	PasswordAuthentication 	no
+	ForwardX11		yes
+	ForwardAgent		no
+	GSSAPIAuthentication	no
+	PasswordAuthentication	no
 	IdentitiesOnly		yes
 
 Host	docker.1
