@@ -79,7 +79,7 @@ def update_build_info(d, oe_info_fn):
 
         # 'git' (which might be called by this function) might need
         # $HOME
-	new_info = "\n".join(oe_info_fn(d)) + "\n"
+        new_info = "\n".join(oe_info_fn(d)) + "\n"
 
         if home_set:
             os.environ.unsetenv('HOME')
