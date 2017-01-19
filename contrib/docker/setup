@@ -43,6 +43,10 @@ VOLUMES_default=(
   "/srv/elito		$PWD/../docker/elito_${RELEASE}.${DISTRIBUTION}"
 )
 
+PORTS=(
+    "2049	base	2"
+)
+
 eval VOLUMES='( "${'VOLUMES_$MODE'[@]}" )'
 eval CONTAINER_HOSTNAME=\$CONTAINER_HOSTNAME_$MODE
 eval SYMLINKS='( "${'SYMLINKS_$MODE'[@]}" )'
