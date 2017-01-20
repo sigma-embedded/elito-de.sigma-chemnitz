@@ -1,20 +1,12 @@
 ## --*- conf -*--
 
-FROM ubuntu:xenial
-
-ENV http_proxy http://www-cache:3128/
-ENV https_proxy http://www-cache:3128/
-ENV ftp_proxy http://www-cache:3128/
-ENV no_proxy .sigma-chemnitz.de,sigma-chemnitz.de,cvg.de,.cvg.de,andto.de,.andto.de,localhost,<local>
-
-RUN \
-    : 20160304 - invalidate cache && \
-    apt-get update && \
-    apt-get upgrade -y -q --no-install-recommends \
-        -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+FROM docker/sigma-ubuntu:xenial
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get upgrade -y -q --no-install-recommends \
+        -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
     apt-get install -y -q --no-install-recommends \
         -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  \
 	autoconf \
@@ -58,29 +50,5 @@ RUN \
 COPY profile.d /etc/profile.d/
 
 RUN \
-    cat /usr/share/zoneinfo/Europe/Berlin > /etc/localtime && \
     mkdir -p /var/run/sshd && \
-    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
-    { echo "http_proxy='$http_proxy'" && \
-      echo 'https_proxy=$http_proxy' && \
-      echo 'ftp_proxy=$http_proxy' && \
-      echo "no_proxy='$no_proxy'"; \
-    } >> /etc/profile.d/proxy.sh
-
-# CA setup
-
-ADD https://www.sigma-chemnitz.de/ca/crt/2007-SIGMA-CA-top.crt \
-    /usr/local/share/ca-certificates/2007-SIGMA-CA-top.crt
-
-ADD https://www.sigma-chemnitz.de/ca/crt/2014-SIGMA-CA-server.crt \
-    /usr/local/share/ca-certificates/2014-SIGMA-CA-server.crt
-
-ADD https://www.sigma-chemnitz.de/ca/crt/2016-SIGMA-CA-root.crt \
-    /usr/local/share/ca-certificates/2016-SIGMA-CA-root.crt
-
-ADD https://www.sigma-chemnitz.de/ca/crt/2016-SIGMA-CA-server.crt \
-    /usr/local/share/ca-certificates/2016-SIGMA-CA-server.crt
-
-RUN \
-    /bin/chmod a+r /usr/local/share/ca-certificates/*-SIGMA-CA-*.crt && \
-    /usr/sbin/update-ca-certificates
+    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
