@@ -4,9 +4,6 @@ FROM docker/sigma-fedora:25
 
 RUN \
     dnf upgrade -y && \
-    dnf clean all
-
-RUN \
     dnf install -y \
 	autoconf \
 	automake \
