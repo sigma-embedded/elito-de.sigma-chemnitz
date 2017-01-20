@@ -67,6 +67,10 @@ RUN \
 	git config --global --add core.gitProxy 'none for sigma-chemnitz.de' && \
 	git config --global --add core.gitProxy 'none for git.andto.de' && \
 	git config --global --add core.gitProxy /usr/local/bin/git-tunnel && \
+	git config --global --add 'include.path' '~/.gitconfig.mirrors' && \
+	git config --global --add 'include.path' '~/.gitconfig.mirrors-ssh' && \
+	git config --global --add 'include.path' '/etc/gitconfig.mirrors' && \
+	git config --global --add 'include.path' '/etc/gitconfig.mirrors-ssh' && \
 	:
 
 USER 0:0
