@@ -4,7 +4,6 @@
 ## here because only this file is mangled by the 'build' script
 RUN \
 	if test -x /usr/sbin/locale-gen; then \
-		/usr/sbin/locale-gen en_US.UTF-8 && \
 		/usr/sbin/locale-gen '@LANG@' '@LANG_PREFIX@'; \
 	fi
 
@@ -68,6 +67,10 @@ RUN \
 	git config --global --add core.gitProxy 'none for sigma-chemnitz.de' && \
 	git config --global --add core.gitProxy 'none for git.andto.de' && \
 	git config --global --add core.gitProxy /usr/local/bin/git-tunnel && \
+	git config --global --add 'include.path' '~/.gitconfig.mirrors' && \
+	git config --global --add 'include.path' '~/.gitconfig.mirrors-ssh' && \
+	git config --global --add 'include.path' '/etc/gitconfig.mirrors' && \
+	git config --global --add 'include.path' '/etc/gitconfig.mirrors-ssh' && \
 	:
 
 USER 0:0
