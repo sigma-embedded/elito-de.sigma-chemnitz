@@ -8,8 +8,8 @@
 
 * Run docker containers
 
- - =./bin/run fedora 201500 2203=
- - =./bin/run ubuntu 201500 2204=
+ - =./bin/run fedora 201500 22030=
+ - =./bin/run ubuntu 201500 22040=
 
 * Enter docker containers
 
