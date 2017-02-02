@@ -35,7 +35,6 @@ def prepare(d):
                     '--owner', 'root', '--group', 'root' ]
             res.extend(self.get_content(False))
             res.extend(self.get_lnks(False))
-            res.extend(self.get_dirs(False))
 
             if is_shell:
                 return ' '.join(map(lambda x: pipes.quote(x), res))
