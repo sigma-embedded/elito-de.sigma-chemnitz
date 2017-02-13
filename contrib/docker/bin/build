@@ -5,8 +5,7 @@ trap "rm -rf $t" EXIT
 
 DISTRIBUTION=$1
 RELEASE=$2
-SSH_PORT=$3
-BASE_PORT=$4
+BASE_PORT=$3
 
 # Usage: set_dir <varname> <spec>
 function set_dir() {

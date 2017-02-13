@@ -35,7 +35,6 @@ def prepare(d):
                     '--owner', 'root', '--group', 'root' ]
             res.extend(self.get_content(False))
             res.extend(self.get_lnks(False))
-            res.extend(self.get_dirs(False))
 
             if is_shell:
                 return ' '.join(map(lambda x: pipes.quote(x), res))
@@ -68,17 +67,17 @@ def prepare(d):
         tmp = tmp - dirs
 
         d = dirname[len(info.topdir)+1:]
-        
+
         info.content.extend(map(lambda x: os.path.join(d, x), tmp))
         info.dirs.extend(map(lambda x: os.path.join(d, x), dirs))
         info.lnks.extend(map(lambda x: os.path.join(d, x), lnks))
 
     ############
-    
+
     here = d.getVar('THISDIR', True)
     mode = d.getVar('ELITO_COPY_MODE', True)
-    content = map(lambda x: copy_info(os.path.join(here, x), mode),
-                  oe.data.typed_value('ELITO_COPY_TOPDIRS', d))
+    content = list(map(lambda x: copy_info(os.path.join(here, x), mode),
+                       oe.data.typed_value('ELITO_COPY_TOPDIRS', d)))
     patterns = set(oe.data.typed_value('ELITO_COPY_IGNORE_PATTERN', d))
 
     try:
@@ -93,7 +92,9 @@ def prepare(d):
             raise OSError(errno.ENOENT,
                           'ELITO_COPY_TOPDIRS: no such directory %s' % c.topdir)
 
-        os.walk(c.topdir + os.path.sep, __fn, [c, patterns])
+        for dirpath, dirnames, filenames in os.walk(c.topdir + os.path.sep):
+            __fn([c, patterns], dirpath, dirnames)
+            __fn([c, patterns], dirpath, filenames)
 
         c.dirs.sort()
         c.lnks.sort()
@@ -102,21 +103,21 @@ def prepare(d):
         bb.parse.mark_dependency(d, c.topdir)
 
         for (rel,f) in c.get_dirs(True):
-            #print "DIR: %s" % f
+            #bb.note("DIR: %s" % f)
             bb.parse.mark_dependency(d, f)
 
         for (rel,f) in c.get_lnks(True):
-            #print "LNK: %s" % f
-            m.update(rel)
+            #bb.note("LNK: %s" % f)
+            m.update(bytes(rel, 'ascii', 'ignore'))
             m.update(os.readlink(f))
 
         for (rel,f) in c.get_content(True):
-            #print "REG: %s" % f
+            #bb.note("REG: %s" % f)
             bb.parse.mark_dependency(d, f)
-            m.update(rel)
-            m.update("%u" % bb.parse.cached_mtime(f))
+            m.update(bytes(rel, 'ascii', 'ignore'))
+            m.update(b"%u" % bb.parse.cached_mtime(f))
 
     res = [m.hexdigest(), content]
-    #print "==> %s" % (res,)
+    #bb.note("==> %s" % (res,))
 
     return res
