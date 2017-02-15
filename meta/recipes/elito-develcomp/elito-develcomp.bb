@@ -19,6 +19,9 @@ INHIBIT_DEFAULT_DEPS = "1"
 IPKGCONF_TARGET = "${WORKDIR}/ipkg-conf/opkg.conf"
 IPKGCONF_SDK = "${WORKDIR}/ipkg-conf/opkg-sdk.conf"
 
+do_build[depends] += "elito-makefile:do_setup_makefile"
+do_build[depends] += "kernel-makefile:do_setup_makefile"
+
 do_setup_ipkg[dirs] = "${WORKDIR}/ipkg-conf"
 do_setup_ipkg[nostamp] = "1"
 python do_setup_ipkg() {
