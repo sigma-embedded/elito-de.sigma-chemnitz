@@ -38,13 +38,19 @@ ifeq (${_MODE},ci)
 .ci-top-prepare:
 	${MAKE} prepare GIT=:
 
-%/conf/local-local.conf:	%/conf/tmpl.conf
+%/conf/local-local.conf:	%/conf/.tmpl.conf
 	@rm -f $@
 	${CI_DIR}/oe-conf "-" "${@D}/.." "$(abspath $<)" "$@" 0
 
-%/conf/tmpl.conf:
+_CI_TMPL_CNF = $(addsuffix /conf/.tmpl.conf,${PROJECTS})
+
+${_CI_TMPL_CNF}:%/conf/.tmpl.conf:	%/conf/.tmpl-50_top.conf
 	@rm -f $@
-	@echo 'DL_DIR = "${CI_SOURCEDIR}"'  > $@
+	cat $(sort $^) > $@
+
+%/conf/.tmpl-50_top.conf:
+	@rm -f $@
+	echo 'DL_DIR = "${CI_SOURCEDIR}"'  > $@
 
 endif
 ######### }}} _MODE == ci ########
