@@ -109,7 +109,7 @@ def prepare(d):
         for (rel,f) in c.get_lnks(True):
             #bb.note("LNK: %s" % f)
             m.update(bytes(rel, 'ascii', 'ignore'))
-            m.update(os.readlink(f))
+            m.update(bytes(os.readlink(f), 'ascii', 'ignore'))
 
         for (rel,f) in c.get_content(True):
             #bb.note("REG: %s" % f)
