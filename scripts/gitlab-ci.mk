@@ -40,7 +40,7 @@ ifeq (${_MODE},ci)
 
 %/conf/local-local.conf:	%/conf/.tmpl.conf
 	@rm -f $@
-	${CI_DIR}/oe-conf "-" "${@D}/.." "$(abspath $<)" "$@" 0
+	${CI_DIR}/oe-conf "-" "$(dir ${@D})" "$(abspath $<)" "${@F}" 0
 
 _CI_TMPL_CNF = $(addsuffix /conf/.tmpl.conf,${PROJECTS})
 
