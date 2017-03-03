@@ -443,6 +443,7 @@ $(_stampdir)/.bitbake.stamp:	$(_stampdir)/.bitbake.install.stamp $(_tmpdir)/pseu
 
 ############ {{{ Sample file generation ###########
 
+ifndef NO_SAMPLE_FILES
 _template_files =	$(addprefix $(abs_top_builddir)/,$(TEMPLATE_FILES))
 _project_task_dir =	$(abs_top_builddir)/recipes/$(PROJECT_NAME)
 _project_task_file =	$(_project_task_dir)/task-$(PROJECT_NAME).bb
@@ -473,6 +474,7 @@ $(_project_files_file) $(_project_task_file):	$(_project_task_dir)/.stamp
 # not be good to do 'touch $@' here because this file is going to be
 # edited by the user
 			-@test "$<" -ot "$@" || touch --reference "$@" "$<"
+endif
 
 ############ Sample file generation }}} ###########
 
