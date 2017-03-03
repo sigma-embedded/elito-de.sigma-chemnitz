@@ -17,6 +17,7 @@ STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-rescue-artifa
 RESCUE_KERNEL_TFTP_IMAGE ?= ""
 RESCUE_KERNEL_DEFCONFIG ?= "${KERNEL_DEFCONFIG}"
 IMAGE_RESCUE_ROOTFS ?= "${IMAGE_ROOTFS}-rescue"
+PROVIDES = "virtual/elito-rescue-kernel"
 
 _tftp_image = "${RESCUE_KERNEL_TFTP_IMAGE}"
 _defconfig = "${RESCUE_KERNEL_DEFCONFIG}"
