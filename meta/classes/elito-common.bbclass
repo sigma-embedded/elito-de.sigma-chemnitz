@@ -390,11 +390,14 @@ ELITO_COMMON_PROGRAMS-sata = "\
   hdparm \
 "
 
+XSERVER_DRIVER ??= ""
 _PROGRAMS_x11_head = "\
   xrandr \
   xhost \
   xserver-common \
   xserver-xorg \
+  xf86-input-evdev \
+  ${XSERVER_DRIVER} \
 "
 
 ELITO_COMMON_PROGRAMS-x11 = "\
