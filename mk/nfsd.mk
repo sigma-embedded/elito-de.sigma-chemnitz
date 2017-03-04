@@ -16,6 +16,13 @@ UNFSD_OPTS = \
 
 UNFSD =		unfsd
 
+UNFSD_EXPORTS ?=	${IMAGE_ROOTFS}
+
+define unfsd_add_export
+echo "$1 (ro,no_root_squash,no_all_squash,insecure)" >> $2
+
+endef
+
 _pseudo = env \
 	ELITO_PSEUDO_ENABLE=1 \
 	PSEUDO_LOCALSTATEDIR='${UNFSD_PSEUDODIR}' \
@@ -34,7 +41,7 @@ start-debug:	${UNFSD_DIR}/exports
 
 ${UNFSD_DIR}/exports:	| ${UNFSD_DIR}/.dirstamp
 	@rm -f $@
-	echo '${IMAGE_ROOTFS}	(ro,no_root_squash,no_all_squash,insecure)' > $@
+	$(foreach e,${UNFSD_EXPORTS},$(call unfsd_add_export,$e,$@))
 
 %/.dirstamp:
 	mkdir -p ${@D}
