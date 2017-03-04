@@ -412,6 +412,7 @@ ELITO_COMMON_PROGRAMS-x11 = "\
 
 ELITO_COMMON_PROGRAMS-wayland = "\
   weston \
+  weston-init \
 "
 
 ELITO_COMMON_PROGRAMS-core = "\
