@@ -13,6 +13,7 @@ BUSYBOX_FEATURES_UTIL_LINUX = "DMESG MORE KILL WALL MKSWAP BLOCKDEV PIVOT_ROOT M
 
 SRC_URI += " \
   file://cvt-color.patch \
+  file://0001-tcpudp-do-not-keep-connection-open.patch \
 \
   file://test-access.patch \
   file://elito.cfg \
