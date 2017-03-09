@@ -4,7 +4,7 @@ DEPENDS_elito-setdistropasswd += "elito-build-utils-native"
 
 export DISTRO_ROOTPASSWD
 
-zap_root_password_elito-setdistropasswd() {
+zap_empty_root_password_elito-setdistropasswd() {
     h=`elito-passwd-hash "$DISTRO_ROOTPASSWD"`
     f=${IMAGE_ROOTFS}/etc/shadow
     if test -e "$f"; then
