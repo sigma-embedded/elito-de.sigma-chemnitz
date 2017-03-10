@@ -1,8 +1,13 @@
 export CC = $(KERNEL_CC)
 export LD = $(KERNEL_LD)
-export ARCH = $(TARGET_ARCH)
 export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 export CROSS_COMPILE
+
+ifneq ($(filter ${TARGET_ARCH},i386 i486 i586 i686),)
+  export ARCH = x86
+else
+  export ARCH = $(TARGET_ARCH)
+endif
 
 include ${ELITO_TOPDIR}/mk/nfs-opt.mk
 
