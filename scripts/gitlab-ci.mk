@@ -14,25 +14,28 @@ ci-build ci-clean:
 ######### {{{ _MODE == ci ########
 ifeq (${_MODE},ci)
 
-.ci-build:	$(foreach p,${PROJECTS},.ci-build-$p)
+_ci_target = $(foreach p,${PROJECTS},.ci-$1-$p)
+_ci_rule   = $(call _ci_target,$1):.ci-$1-%
+
+.ci-build:	$(call _ci_target,build)
 	-${CI_DIR}/source-distribute ${CI_SOURCEDIR}
 	-${CI_DIR}/sstate-distribute ${CI_CACHEROOT}/sstate
 
-.ci-clean:	$(foreach p,${PROJECTS},.ci-clean-$p)
+.ci-clean:	$(call _ci_target,clean)
 
-.ci-image-%:	.ci-prepare-%
+$(call _ci_rule,image):	.ci-prepare-%
 	${MAKE} -C '$*' all-images
 
-.ci-deploy-%:	.ci-prepare-% .ci-image-%
+$(call _ci_rule,deploy):	.ci-prepare-% .ci-image-%
 	${MAKE} -C '$*' ci-deploy CI_DEPLOYDIR="$(abspath .)/_deploy${CI_FLAVOR}"
 
-.ci-build-%:	.ci-image-% .ci-deploy-%
+$(call _ci_rule,build):		.ci-image-% .ci-deploy-%
 	:
 
-.ci-clean-%:
+$(call _ci_rule,clean):
 	${MAKE} -C '$*' mrproper
 
-.ci-prepare-%:	.ci-top-prepare %/conf/local-local.conf
+$(call _ci_rule,prepare):	.ci-top-prepare %/conf/local-local.conf
 	${MAKE} configure M=$* CACHEROOT='${CI_CACHEROOT}' NFSROOT='${CI_NFSROOT}'
 
 .ci-top-prepare:
