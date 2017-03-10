@@ -8,6 +8,8 @@ PACKAGES = ""
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 PROVIDES = "elito-develcomp-native"
 
+inherit elito-nfsroot
+
 _machdeps = ""
 _machdeps_mx6 = "elito-devicetree-tools"
 

@@ -23,6 +23,7 @@ systemd_enable_sysrq_b() {
 
 require elito-image.inc
 inherit ubi arnoldboot elito-final
+inherit elito-nfsroot
 inherit elito-image
 
 # enable sysrq-b with systemd
