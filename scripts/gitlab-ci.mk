@@ -26,6 +26,9 @@ _ci_rule   = $(call _ci_target,$1):.ci-$1-%
 $(call _ci_rule,image):	.ci-prepare-%
 	${MAKE} -C '$*' all-images
 
+$(call _ci_rule,image-stream):	.ci-image-%
+	${MAKE} -C '$*' image-stream
+
 $(call _ci_rule,deploy):	.ci-prepare-% .ci-image-%
 	${MAKE} -C '$*' ci-deploy CI_DEPLOYDIR="$(abspath .)/_deploy${CI_FLAVOR}"
 
