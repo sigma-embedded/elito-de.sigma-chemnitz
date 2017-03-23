@@ -115,7 +115,7 @@ def prepare(d):
             #bb.note("REG: %s" % f)
             bb.parse.mark_dependency(d, f)
             m.update(bytes(rel, 'ascii', 'ignore'))
-            m.update(b"%u" % bb.parse.cached_mtime(f))
+            m.update(bytes("%u" % bb.parse.cached_mtime(f), "ascii"))
 
     res = [m.hexdigest(), content]
     #bb.note("==> %s" % (res,))
