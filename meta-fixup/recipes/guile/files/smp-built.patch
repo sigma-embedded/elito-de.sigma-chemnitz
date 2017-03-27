@@ -1,0 +1,13 @@
+Index: guile-2.0.12/libguile/Makefile.am
+===================================================================
+--- guile-2.0.12.orig/libguile/Makefile.am
++++ guile-2.0.12/libguile/Makefile.am
+@@ -434,6 +434,8 @@ BUILT_SOURCES = cpp-E.c cpp-SIG.c libpat
+     scmconfig.h \
+     $(DOT_I_FILES) $(DOT_X_FILES) $(EXTRA_DOT_X_FILES)
+
++$(DOT_X_FILES):	$(DOT_I_FILES)
++
+ # Force the generation of `guile-procedures.texi' because the top-level
+ # Makefile expects it to be built.
+ all-local: guile-procedures.texi
