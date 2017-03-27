@@ -15,17 +15,7 @@ elito_cleanup_boot() {
 	rm -f ${IMAGE_ROOTFS}/boot/*
 }
 
-systemd_enable_sysrq_b() {
-	if grep -q "^kernel\.sysrq.*=.*16" "${IMAGE_ROOTFS}${libdir}/sysctl.d/50-default.conf" 2>/dev/null; then
-		echo 'kernel.sysrq = 1' > "${IMAGE_ROOTFS}${libdir}/sysctl.d/80-sysrq.conf"
-        fi
-}
-
 require elito-image.inc
 inherit ubi arnoldboot elito-final
+inherit elito-nfsroot
 inherit elito-image
-
-# enable sysrq-b with systemd
-ROOTFS_POSTPROCESS_COMMAND += "${@\
-  bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks', \
-                    'systemd_enable_sysrq_b; ', '', d)}"

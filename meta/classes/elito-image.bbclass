@@ -70,6 +70,12 @@ elito_set_rootbash() {
 	fi
 }
 
+elito_systemd_enable_sysrq_b() {
+	if grep -q "^kernel\.sysrq.*=.*16" "${IMAGE_ROOTFS}${libdir}/sysctl.d/50-default.conf" 2>/dev/null; then
+		echo 'kernel.sysrq = 1' > "${IMAGE_ROOTFS}${libdir}/sysctl.d/80-sysrq.conf"
+        fi
+}
+
 RM_WORK_EXCLUDE += "${PN}"
 do_rm_work() {
     :
@@ -91,6 +97,11 @@ ROOTFS_POSTPROCESS_COMMAND_remove = "${@\
   bb.utils.contains('IMAGE_FEATURES', 'devel-sshkey', \
   bb.utils.contains('IMAGE_FEATURES', 'allow-empty-password', \
                     '', 'ssh_allow_empty_password;', d), '', d)}"
+
+# enable sysrq-b with systemd
+ROOTFS_POSTPROCESS_COMMAND += "${@\
+  bb.utils.contains('IMAGE_FEATURES', 'debug-tweaks', \
+                    'elito_systemd_enable_sysrq_b; ', '', d)}"
 
 SSTATETASKS += "do_deploy_pseudo"
 do_deploy_pseudo[sstate-name] = "${PN}"

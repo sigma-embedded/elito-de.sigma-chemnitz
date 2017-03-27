@@ -46,7 +46,10 @@ do_unpackextra() {
 addtask unpackextra after do_unpack before do_configure
 
 do_install_append() {
-    rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
+    if ${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', 'false', 'true', d)}; then
+        rm -f ${D}${sysconfdir}/systemd/system/getty*/*tty1.service
+    fi
+
     rm ${D}${libdir}/tmpfiles.d/tmp.conf
     rm ${D}${libdir}/tmpfiles.d/var.conf
     rm ${D}${libdir}/tmpfiles.d/etc.conf

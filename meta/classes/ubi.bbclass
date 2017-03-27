@@ -63,20 +63,43 @@ def ubi_add_ubifs(sizes, d):
     deps = []
     for s in sz:
         ld = d.createCopy()
-
         ld.setVar('OVERRIDES', '%s:nand-%s' % (overrides, s))
-        ld.finalize(False)
+        bb.data.update_data(ld)
 
-        cmd = ld.getVar('IMAGE_CMD_ubifs', True)
-        cmd = cmd.replace('rootfs.ubifs', 'rootfs.ubifs-%s' % s)
+        # Delete DATETIME so we don't expand any references to it now
+        # This means the task's hash can be stable rather than having hardcoded
+        # date/time values. It will get expanded at execution time.
+        # Similarly TMPDIR since otherwise we see QA stamp comparision problems
+        #
+        # NOTE: this works because variables will stay as ${DATETIME} in the
+        #       expanded cmd
+        ld.delVar('DATETIME')
+        ld.delVar('TMPDIR')
 
-        name = 'IMAGE_CMD_ubifs-%s' % s
+        #ld.finalize(False)
 
-        d.setVar(name, cmd)
-        d.setVarFlag(name, 'vardepvalue', cmd)
-        deps.append(name)
+        cmds = []
+        t    = 'ubifs-%s' % s
+        task = 'do_image_%s' % t.replace('-', '_')
+        img_cmd = ld.getVar('IMAGE_CMD_ubifs', True)
 
-    d.appendVarFlag('do_rootfs', 'vardeps', ' ' + ' '.join(deps))
+        if img_cmd:
+            img_cmd = img_cmd.replace('rootfs.ubifs', 'rootfs.%s' % t)
+            cmds.append('\t' + img_cmd)
+
+        cmds.append("\tcd ${IMGDEPLOYDIR}")
+
+        d.setVar(task, '\n'.join(cmds))
+        d.setVarFlag(task, 'func', '1')
+        d.setVarFlag(task, 'fakeroot', '1')
+        d.setVarFlag(task, 'prefuncs', 'set_image_size')
+        d.setVarFlag(task, 'postfuncs', 'create_symlinks')
+        d.setVarFlag(task, 'subimages', t)
+        d.appendVarFlag(task, 'vardeps',
+                        ld.getVarFlag('IMAGE_CMD_ubifs', 'vardeps', True) or "")
+        d.appendVarFlag(task, 'vardepsexclude', 'DATETIME')
+
+        bb.build.addtask(task, 'do_image_complete', 'do_image', d)
 
 ubi_gen_ini() {
 	cat << EOF > ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubi.ini

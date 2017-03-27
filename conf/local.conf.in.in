@@ -31,7 +31,7 @@ PACKAGE_CLASSES = ""
 @TAR_TRUE@PACKAGE_CLASSES += "package_tar"
 @FETCHCMD_OPT_GIT_MIRROR_FALSE@FETCHCMD_OPT_GIT_MIRROR = "--mirror"
 
-@NFSROOT_TRUE@IMAGE_ROOTFS = "@nfs_rootdir@"
+@NFSROOT_TRUE@IMAGE_ROOTFS_elito-nfsroot = "@nfs_rootdir@"
 TFTPBOOT_DIR = "@tftpbootdir@"
 TFTP_SERVER = "@TFTP_SERVER@"
 
