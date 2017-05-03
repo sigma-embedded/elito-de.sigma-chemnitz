@@ -24,7 +24,7 @@ PROJECT_EXTRA_RDEPENDS ?= ""
 PROJECT_EXTRA_RRECOMMENDS ?= ""
 
 BASE_FILES_PROVIDER ?= "elito-base-files"
-NETBASE_PROVIDER    ?= "elito-netbase"
+NETBASE_PROVIDER    ?= "netbase"
 
 # Make sure we build the kernel
 DEPENDS = "virtual/kernel"

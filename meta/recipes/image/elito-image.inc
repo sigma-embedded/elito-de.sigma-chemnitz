@@ -24,4 +24,6 @@ BAD_RECOMMENDATIONS += "\
   ${@bb.utils.contains('DISTRO_FEATURES','usb','','usbutils-ids', d)} \
 "
 
+do_image_wic[dirs] ?= "${WORKDIR}"
+
 inherit core-image
