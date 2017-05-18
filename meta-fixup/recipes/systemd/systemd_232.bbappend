@@ -191,11 +191,10 @@ def systemd_elito_populate_packages(d, only_names = False):
 
         pkgs = pkgs + ' ' + p
 
-        bb.data.setVar('FILES_' + p, ' '.join(files), d)
-        bb.data.setVar('RDEPENDS_' + p, 'systemd (= ${EXTENDPKGV})', d)
+        d.setVar('FILES_' + p, ' '.join(files))
+        d.setVar('RDEPENDS_' + p, 'systemd (= ${EXTENDPKGV})')
 
-    bb.data.setVar('PACKAGES',
-                   pkgs + ' ' + d.getVar('PACKAGES', False), d)
+    d.setVar('PACKAGES', pkgs + ' ' + d.getVar('PACKAGES', False))
 
 python systemd_elito_populate_packages_split() {
     return systemd_elito_populate_packages(d)
@@ -251,13 +250,13 @@ python() {
               'e2fsprogs-e2fsck']:
         r = r.replace(x,'')
     r = ' '.join(r.split())
-    bb.data.setVar('RRECOMMENDS_systemd', r, d)
+    d.setVar('RRECOMMENDS_systemd', r)
 
     r = d.getVar('RRECOMMENDS_udev', True) or ""
     for x in ['udev-hwdb', 'udev-extraconf']:
         r = r.replace(x,'')
     r = ' '.join(r.split())
-    bb.data.setVar('RRECOMMENDS_udev', r, d)
+    d.setVar('RRECOMMENDS_udev', r)
 }
 
 ALTERNATIVE_${PN} += "init.wrapped"
