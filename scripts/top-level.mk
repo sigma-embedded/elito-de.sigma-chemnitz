@@ -20,8 +20,8 @@ help:
 Usage:  make <op> [M=<module>]\n\
 \n\
 <op> can be:\n\
-    prepare      ...  download submodules and initialize global buildsystem\n\
-    update       ...  like 'prepare' but updates existing installation\n\
+    prepare      ...  initialize global buildsystem\n\
+    update       ...  updates existing installation\n\
 \n\
     configure M=<module>\n\
     configure-all    ...  calls ./configure for module M or all registered\n\
@@ -91,12 +91,9 @@ create-changelog:	$(addprefix .create-changelog-,$(PUSH_REPOS))
 clone:
 	$(MAKE_ORIG) clone SUBMODULES='${_submodules}' _topdir='$(abspath .)' _MODE=clone
 update:		prepare
-	@touch .stamps/bad-update
 	$(GIT) remote update
 	$(GIT) pull --recurse-submodules=on-demand
 	$(GIT) submodule update --recursive $(GIT_SUBMODULE_STRATEGY)
-	$(if ${ELITO_REPOS},$(MAKE_ORIG) $(addprefix .stamps/elito_fetch-,${ELITO_REPOS}) _MODE=fetch)
-	@rm -f .stamps/bad-update
 	$(MAKE) .stamps/autoconf-update
 
 update-offline:

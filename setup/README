@@ -1,4 +1,0 @@
-Ubuntu:
-	- gnutls-dev
-	- libproxy-tools
-	- socat
