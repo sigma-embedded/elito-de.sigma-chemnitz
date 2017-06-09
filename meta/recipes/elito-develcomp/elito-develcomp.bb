@@ -11,7 +11,7 @@ PROVIDES = "elito-develcomp-native"
 inherit elito-nfsroot
 
 _machdeps = ""
-_machdeps_mx6 = "elito-devicetree-tools"
+_machdeps_mx6 = "elito-devicetree-tools-cross-${TARGET_ARCH}"
 
 DEPENDS = "elito-makefile ${_machdeps}"
 INHIBIT_DEFAULT_DEPS = "1"
