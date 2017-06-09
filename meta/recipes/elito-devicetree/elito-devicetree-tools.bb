@@ -8,14 +8,17 @@ MACHDEPS_mx6 = "\
                        'fsliomux-conv mx6-pins', '', d)} \
 "
 
-DEPENDS += "dtc-native elito-devicetree ${MACHDEPS}"
+DEPENDS += "dtc-native ${MACHDEPS}"
 
 inherit elito-machdata
 inherit elito-makefile-component
 
 BBCLASSEXTEND = "cross crosssdk"
 
-SRC_URI = "file://build-dtree"
+SRC_URI = "\
+  file://devicetree.mk \
+  file://build-dtree \
+"
 
 KERNEL_DTREE_DIR     = "${STAGING_KERNEL_DIR}"
 KERNEL_DTREE_DIR_arm = "${STAGING_KERNEL_DIR}/arch/arm/boot/dts"
@@ -54,6 +57,7 @@ do_configure() {
 # to win else
 do_install_forcevariable() {
     install -D -p -m 0755 build-dtree ${D}${bindir}/elito-build-dtree
+    install -D -p -m 0644 ${WORKDIR}/devicetree.mk ${D}${pkgdatadir}/devicetree.mk
 }
 addtask do_install before do_populate_sysroot after do_configure
 
