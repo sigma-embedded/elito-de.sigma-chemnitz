@@ -22,6 +22,8 @@ INITRAMFS_SOURCE = "devices.txt"
 DEPENDS[vardeps] += "KERNEL_IMAGETYPE"
 DEPENDS += '\
 	bc-native \
+	dtc-native \
+	coreutils-native \
 	${KERNEL_DEPENDS} \
 	${@bb.utils.contains("MACHINE_FEATURES","ce-bootme",\
                              "ce-bootme-native virtual/ce-preloader","",d)} \
