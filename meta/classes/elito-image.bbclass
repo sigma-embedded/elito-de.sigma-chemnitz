@@ -65,7 +65,10 @@ elito_add_devel_sshkey() {
 
 elito_set_rootbash() {
 	f=${IMAGE_ROOTFS}/etc/passwd
-	if test -x "${IMAGE_ROOTFS}/bin/bash" -a -w "$f"; then
+	b=${IMAGE_ROOTFS}/bin/bash
+	test -w "$f" || return 0
+
+	if test -x "$b" || test -L "$b"; then
 		sed -i -e 's!^\(root:.*:\)/bin/sh$!\1/bin/bash!' "$f"
 	fi
 }
