@@ -11,6 +11,7 @@ MACHDEPS_mx6 = "\
 DEPENDS += "dtc-native elito-devicetree ${MACHDEPS}"
 
 inherit elito-machdata
+inherit elito-makefile-component
 
 BBCLASSEXTEND = "cross crosssdk"
 
@@ -29,6 +30,8 @@ python () {
 B := "${S}"
 S  = "${WORKDIR}"
 
+pkgdatadir = "${datadir}/${BPN}"
+
 do_configure[vardeps] += "SOC_FAMILY"
 do_configure() {
     rm -f build-dtree
@@ -40,6 +43,7 @@ do_configure() {
 	-e 's!@PROJECT_TOPDIR@!${PROJECT_TOPDIR}!g' \
 	-e 's!@KERNEL_DIR@!${STAGING_KERNEL_DIR}!g' \
 	-e 's!@KERNEL_DTREE_DIR@!${KERNEL_DTREE_DIR}!g' \
+	-e 's!@PKGDATA_DIR@!${pkgdatadir}!g' \
 	-e 's!@SOC@!${@(d.getVar("SOC_FAMILY", True) or "").split(":")[0]}!g' \
 	${S}/build-dtree > build-dtree
 
@@ -51,6 +55,7 @@ do_configure() {
 do_install_forcevariable() {
     install -D -p -m 0755 build-dtree ${D}${bindir}/elito-build-dtree
 }
+addtask do_install before do_populate_sysroot after do_configure
 
 do_build[depends] += "virtual/kernel:do_patch"
 
