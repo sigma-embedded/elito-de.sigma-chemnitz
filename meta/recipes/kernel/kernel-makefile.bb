@@ -11,7 +11,10 @@ PACKAGE_ARCH = "all"
 
 KERNEL_MAKEFILE ?= "${ELITO_GIT_WS}/Makefile.kernel.${PROJECT_NAME}"
 
-do_setup_makefile[depends] += "elito-makefile:do_setup_makefile"
+do_setup_makefile[depends] += "\
+    elito-makefile:do_setup_makefile \
+    elito-makefile:do_prepare_recipe_sysroot_kernel \
+"
 
 do_setup_makefile[dirs] = "${WORKDIR}/kernel-makefile"
 do_setup_makefile() {
