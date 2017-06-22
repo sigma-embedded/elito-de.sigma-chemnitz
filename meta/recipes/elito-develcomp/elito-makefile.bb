@@ -23,7 +23,7 @@ OPTIONAL_DEPENDENCIES = "kernel late nfsd pkgmgmt"
 OPTIONAL_DEPENDENCIES[type] = "list"
 
 OPTIONAL_DEPENDS_kernel += "bc-native dtc-native coreutils-native"
-OPTIONAL_DEPENDS_late   += "elito-devicetree-tools-cross-${TARGET_ARCH}"
+OPTIONAL_DEPENDS_late   += "elito-devicetree-tools-cross-${TARGET_ARCH} less"
 OPTIONAL_DEPENDS_nfsd   += "unfs3-native pseudo-native"
 
 OPTIONAL_DEPENDS_pkgmgmt = ""
