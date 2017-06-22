@@ -134,7 +134,7 @@ python __anonymous () {
     sed = []
     idx = 0
     for (regex, groups) in [(r'STAGING_DIR_\(HOST\|NATIVE\|TARGET\)',
-                             ('STAGING_DIR_NATIVE', 'STAGING_DIR_TARGET', 
+                             ('STAGING_DIR_NATIVE', 'STAGING_DIR_TARGET',
                               'STAGING_DIR_HOST')),
                             (r'STAGING_DIR', ('STAGING_DIR',)),
                             (r'CROSS_COMPILE', ('CROSS_COMPILE',))]:
@@ -151,7 +151,7 @@ python __anonymous () {
     sed.append('s!${TMPDIR}!$\\{ELITO_BUILDSYS_TMPDIR}!g')
 
     d.setVar('_sed_relocate',
-             ' '.join(map(lambda x: '-e %s' % 
+             ' '.join(map(lambda x: '-e %s' %
                           elito_quote(x).replace('$\\{', "$''{"), sed)))
 }
 
@@ -233,7 +233,6 @@ do_create_link() {
         rm -f "${DEVELCOMP_MAKEFILE}"
         $LN_R "${ELITO_MAKEFILE_DIR}/Makefile.develcomp" "${DEVELCOMP_MAKEFILE}"
 }
-
 addtask do_create_link after do_setup_makefile
 
 do_prepare_all_sysroots[nostamp] = "1"
