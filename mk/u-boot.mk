@@ -19,7 +19,8 @@ OPTS = \
 	LD='$(KERNEL_LD)' NM='$(NM)' STRIP='$(STRIP)' \
 	OBJCOPY='$(OBJCOPY)' OBJDUMP='$(OBJDUMP)' \
 	RANLIB='$(RANLIB)' \
-	HOSTCC='$(BUILD_CC)' HOSTSTRIP='$(BUILD_STRIP)' \
+	HOSTCC='$(BUILD_CC) ${BUILD_CFLAGS} ${BUILD_LDFLAGS}' \
+	HOSTSTRIP='$(BUILD_STRIP)' \
 	$(if ${_kernel_tftp_image},CFG_BOOTFILE='$(notdir $(_kernel_tftp_image))') \
 	$(if ${TFTP_SERVER},CFG_SERVERIP='${TFTP_SERVER}') \
 	CFG_NFSROOT='"${_nfs_server}:${_nfs_root}"'
