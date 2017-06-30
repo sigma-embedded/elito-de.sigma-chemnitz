@@ -1,0 +1,28 @@
+From b28125419fd68e27852f41fb302befafc784e260 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 11 Feb 2014 11:47:48 +0100
+Subject: [PATCH 7/8] cache: prefer CACHE over PERSISTENT_DIR for
+ bb_codeparser.dat
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ lib/bb/cache.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/bb/cache.py b/lib/bb/cache.py
+index e7eeb4f..a4b1870 100644
+--- a/lib/bb/cache.py
++++ b/lib/bb/cache.py
+@@ -796,8 +796,8 @@ class MultiProcessCache(object):
+         self.cachedata_extras = self.create_cachedata()
+
+     def init_cache(self, d, cache_file_name=None):
+-        cachedir = (d.getVar("PERSISTENT_DIR") or
+-                    d.getVar("CACHE"))
++        cachedir = (d.getVar("CACHE") or
++                    d.getVar("PERSISTENT_DIR"))
+         if cachedir in [None, '']:
+             return
+         bb.utils.mkdirhier(cachedir)
+--
+2.9.4

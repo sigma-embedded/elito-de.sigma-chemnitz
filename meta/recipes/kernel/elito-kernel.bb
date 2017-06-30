@@ -21,7 +21,7 @@ KERNEL_SOC_FAMILY ?= "${@(d.getVar('SOC_FAMILY', True) or "").split(':')[0]}"
 MACHINE_KERNEL_REVISION ?= "${AUTOREV}"
 
 SRCREV        = "${MACHINE_KERNEL_REVISION}"
-KERNEL_REPO ??= "git://${ELITO_GIT_WS}/kernel.git;protocol=file"
+KERNEL_REPO ??= "git+file://${ELITO_GIT_WS}/kernel.git"
 _branch       = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 SRC_URI       = "${KERNEL_REPO};branch=${_branch}"
 SRC_URI[vardepsexclude] += "KERNEL_REPO"

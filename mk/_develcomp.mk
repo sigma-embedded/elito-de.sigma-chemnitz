@@ -9,6 +9,7 @@ export LESSHISTFILE	= ${_tmpdir}/.bash_history
 export GDBHISTFILE	= ${_tmpdir}/.gdb_history
 
 SH		?= /bin/bash
+MAKE_E		 = ${MAKE} -e
 
 _secwrap         = ${SECWRAP_CMD}
 _nfs_root	?= $(DESTDIR)
@@ -50,16 +51,16 @@ ifeq ($(_SKIP_DEVELCOMP_RULES),)
 LOCALGOALS += __call _all_ _redir_ exec shell pshell
 
 $(filter-out $(LOCALGOALS),${MAKECMDGOALS}):	__force
-	+$(_start) $(MAKE) -e MAKELEVEL:=0 MAKEFILES:= $(OPTS) $@
+	+$(_start) $(MAKE_E) MAKELEVEL:=0 MAKEFILES:= $(OPTS) $@
 
 __call:
-	+$(_start) env -u T $(MAKE) -e MAKELEVEL:=0 MAKEFILES:= $(OPTS) $T
+	+$(_start) env -u T $(MAKE_E) MAKELEVEL:=0 MAKEFILES:= $(OPTS) $T
 
 _all_:
-	+$(_start) $(MAKE) -e MAKELEVEL:=0 MAKEFILES:= $(OPTS)
+	+$(_start) $(MAKE_E) MAKELEVEL:=0 MAKEFILES:= $(OPTS)
 
 _redir_:
-	+$(_start) $(MAKE) -e MAKELEVEL:=0 MAKEFILES:= -f '$(_REDIR_MAKEFILE_)' $(_REDIR_OPTS_)
+	+$(_start) $(MAKE_E) MAKELEVEL:=0 MAKEFILES:= -f '$(_REDIR_MAKEFILE_)' $(_REDIR_OPTS_)
 
 exec:
 	$(_start) $(P)

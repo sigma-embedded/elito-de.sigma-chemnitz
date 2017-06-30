@@ -41,14 +41,11 @@ do_install() {
 
 do_deploy () {
 	gitrev=`git ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
-	uboot_image="u-boot-${MACHINE}-${PV}-${PR}-${gitrev}.bin"
+	uboot_image="u-boot-${MACHINE}-${PV}-${PR}-${gitrev}"
 
-	install -D -p -m 0644 ${S}/barebox.bin ${DEPLOYDIR}/${uboot_image}
+	install -D -p -m 0644 ${S}/barebox.bin ${DEPLOYDIR}/${uboot_image}.bin
 
-	cd ${DEPLOYDIR}
-	rm -f ${UBOOT_SYMLINK}
-	ln -sf ${uboot_image} ${UBOOT_SYMLINK}
-        cd -
+	ln -s ${uboot_image} ${DEPLOYDIR}/${UBOOT_SYMLINK}
 }
 
 addtask deploy before do_build after do_compile

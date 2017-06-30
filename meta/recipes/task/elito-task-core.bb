@@ -51,3 +51,7 @@ RRECOMMENDS_${PN} += "\
     ${@bb.utils.contains('DISTRO_FEATURES','ipv6','kernel-module-ipv6','', d)} \
     ${PROJECT_EXTRA_RRECOMMENDS}	\
     "
+
+do_populate_sysroot() {
+}
+addtask do_populate_sysroot

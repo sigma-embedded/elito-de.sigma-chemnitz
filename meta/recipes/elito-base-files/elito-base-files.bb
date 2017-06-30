@@ -14,6 +14,7 @@ SRC_URI = "	\
 	file://sysctl.conf		\
         file://device-order.conf	\
 	file://qt.env			\
+	file://var-cache.automount	\
 "
 
 RELEASE_FILES_PROVIDER ?= "elito-release"
@@ -48,6 +49,10 @@ do_install() {
 		touch ${D}${sysconfdir}/$i
 	done
 
+	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
+		install -D -p -m 0644 var-cache.automount ${D}${systemd_system_unitdir}/var-cache.automount
+	fi
+
 	ln -s ../run/resolv.conf ${D}/etc/resolv.conf
 	ln -s ../run/ntpd.conf ${D}/etc/ntpd.conf
 
@@ -58,13 +63,15 @@ do_install() {
 	c2='-e /[[:space:]]selinuxfs[[:space:]]/d'
 	c3='-e /[[:space:]]unionfs[[:space:]]/d'
 	c4='-e /[[:space:]]/boot[[:space:]]\+tmpfs[[:space:]]/d'
+	c5='-e /x-systemd\./d'
 
 	${@bb.utils.contains("PROJECT_FEATURES","no-kdebug",":","c1=",d)}
 	${@bb.utils.contains("PROJECT_FEATURES","selinux","c2=",':',d)}
 	${@bb.utils.contains("PROJECT_FEATURES","unionfs","c3=",':',d)}
 	${@bb.utils.contains("PROJECT_FEATURES","hasboot",":","c4=",d)}
+	${@bb.utils.contains("DISTRO_FEATURES","systemd","c5=",":",d)}
 
-	sed $c0 $c1 $c2 $3 $4	\
+	sed $c0 $c1 $c2 $c3 $c4 $c5	\
 		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
 		-e 's!@TMP_SIZE@!${TMP_SIZE}!g'	\
 		-e 's!@PTS_GID@!${PTS_GID}!g'		\
@@ -77,4 +84,7 @@ CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hosts \
 	${sysconfdir}/nsswitch.conf \
 	${sysconfdir}/resolv.conf.static ${sysconfdir}/ntpd.conf.static"
 
-FILES_${PN}     = "${sysconfdir}/*"
+FILES_${PN}     = "\
+  ${sysconfdir}/* \
+  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${systemd_system_unitdir}/*', '', d)} \
+"

@@ -23,12 +23,14 @@ _repo = "u-boot"
 
 include u-boot-common.inc
 
-_make = "${MAKE} -f '${ELITO_MAKEFILE_DIR}/Makefile.develcomp' \
-	CFG=u-boot _secwrap= \
-	STRIP=: BUILD_STRIP=: \
-	CFG_NONDEVEL=1 \
-	CFG_KERNEL_UART=${UBOOT_CONSOLE} \
-	CFG_KERNEL_BAUD=${UBOOT_BAUD}"
+_make() {
+	${MAKE} -f '${ELITO_MAKEFILE_DIR}/Makefile.develcomp' \
+		CFG=u-boot _secwrap= \
+		CFG_NONDEVEL=1 \
+		CFG_KERNEL_UART=${UBOOT_CONSOLE} \
+		CFG_KERNEL_BAUD=${UBOOT_BAUD} \
+		"$@"
+}
 
 do_configure[depends] += "elito-makefile:do_setup_makefile"
 do_configure() {
@@ -41,9 +43,13 @@ unexport HOSTCFLAGS HOSTCPPFLAGS
 EOF
 }
 
+do_configure() {
+	_make mrproper
+	_make ${UBOOT_MACHINE}
+}
 
 do_compile() {
-        ${_make} __call T=tools BIN_FILES-y='mkimage$(SFX)' \
+        _make __call T=tools BIN_FILES-y='mkimage$(SFX)'
 }
 
 do_install () {

@@ -38,5 +38,5 @@ ELITO_COMMON_KERNEL_MODULES-v4l = "\
 "
 
 ELITO_COMMON_DEPENDS-core += "\
-  elito-devicetree-tools-cross \
+  elito-devicetree-tools-cross-${TARGET_ARCH} \
 "

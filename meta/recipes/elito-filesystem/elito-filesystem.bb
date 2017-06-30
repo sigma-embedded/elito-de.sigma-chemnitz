@@ -34,7 +34,7 @@ do_install() {
         done
 
         for i in cache; do
-		ln -s volatile/$i ${D}/var/$i
+		install -d -m 0755 ${D}/var/$i
         done
 }
 

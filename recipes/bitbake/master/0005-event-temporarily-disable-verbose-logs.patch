@@ -1,0 +1,40 @@
+From 70be1fc1d6498e48715d9ebef346e836ca5d84e2 Mon Sep 17 00:00:00 2001
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 13 Dec 2012 18:11:33 +0100
+Subject: [PATCH 5/8] event: temporarily disable verbose logs
+
+Because stderr of event handlers is directly printed to the console,
+this will pollute output when using e.g. 'buildhistory' which calls a
+shell function.
+
+Patch disables 'set -x' temporarily while executing the event handler.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ lib/bb/event.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/lib/bb/event.py b/lib/bb/event.py
+index 6d8493b..864cc1f 100644
+--- a/lib/bb/event.py
++++ b/lib/bb/event.py
+@@ -102,7 +102,9 @@ def execute_handler(name, handler, event, d):
+     if 'd' not in builtins:
+         builtins['d'] = d
+         addedd = True
++    old_verbose = bb.msg.loggerVerboseLogs
+     try:
++        bb.msg.loggerVerboseLogs = False
+         ret = handler(event)
+     except (bb.parse.SkipRecipe, bb.BBHandledException):
+         raise
+@@ -116,6 +118,7 @@ def execute_handler(name, handler, event, d):
+             logger.error("Execution of event handler '%s' failed" % name)
+         raise
+     finally:
++        bb.msg.loggerVerboseLogs = old_verbose
+         del event.data
+         if addedd:
+             del builtins['d']
+--
+2.9.4
