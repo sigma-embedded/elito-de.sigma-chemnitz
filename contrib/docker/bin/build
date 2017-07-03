@@ -46,8 +46,10 @@ function emit_ports() {
     esac
 
     while test $cnt -gt 0; do
-        echo "	echo 'DOCKER_PORT_EXPOSED_${_port_idx} = $dst' >> /etc/docker-setup.mk && \\"
-        echo "	echo 'DOCKER_PORT_INTERNAL_${_port_idx} = $src' >> /etc/docker-setup.mk && \\"
+        echo "	echo 'DOCKER_PORT_EXPOSED_${_port_idx} = $dst' >> /etc/docker-setup.mk && \\"   >&10
+        echo "	echo 'DOCKER_PORT_INTERNAL_${_port_idx} = $src' >> /etc/docker-setup.mk && \\"  >&10
+
+        echo -n " $src" >&11
 
         let ++dst
         let ++src
@@ -114,6 +116,10 @@ UPSTREAM_ALTERNATES_org.openembedded.core = ${CACHE_DIR}/mirror/org.openembedded
 UPSTREAM_ALTERNATES_org.openembedded.meta = ${CACHE_DIR}/mirror/org.openembedded.meta
 EOF
 
+for p in "${PORTS[@]}"; do
+    emit_ports $p
+done 10>"$t"/ports.cmd 11>"$t"/ports.expose
+
 {
   echo "FROM ${BASE_NAME}:${DISTRIBUTION}"
 
@@ -127,15 +133,18 @@ EOF
       -e "s!@LANG_SUFFIX@!${LANG#*.}!g" \
       01-ssh/Dockerfile
 
+  if test -s "$t"/ports.expose; then
+    echo -n "EXPOSE"
+    cat "$t"/ports.expose
+    echo ""
+  fi
+
   echo "RUN \\"
   for s in "${SYMLINKS[@]}"; do
       emit_symlink $s
   done
 
-  for p in "${PORTS[@]}"; do
-      emit_ports $p
-  done
-
+  cat "$t"/ports.cmd
   echo ":"
 } > "$t"/ssh/Dockerfile
 
