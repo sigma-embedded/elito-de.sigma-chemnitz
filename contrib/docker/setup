@@ -46,6 +46,7 @@ VOLUMES_default=(
 PORTS=(
     "22		base"
     "2049	next	2"
+    "1234	next"
 )
 
 eval VOLUMES='( "${'VOLUMES_$MODE'[@]}" )'
