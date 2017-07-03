@@ -75,6 +75,4 @@ RUN \
 
 USER 0:0
 
-EXPOSE 22
-EXPOSE 2049 2050
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
