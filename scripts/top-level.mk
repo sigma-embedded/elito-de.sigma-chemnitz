@@ -204,11 +204,6 @@ ifeq (${_MODE},configure)
 # special handling of configure: targets which require project dependent
 # NFSROOT + CACHEROOT variables
 
-
-ifeq ($(NFSROOT),)
-$(error "NFSROOT not set")
-endif
-
 ifeq ($(CACHEROOT),)
 $(error "CACHEROOT not set")
 endif
