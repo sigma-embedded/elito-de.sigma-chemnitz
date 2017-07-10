@@ -8,7 +8,7 @@ _CI_TOPFLAGS = \
 	CI_CACHEROOT='${CI_CACHEROOT}' \
 	CI_SOURCEDIR='${CI_SOURCEDIR}' \
 
-ci-build ci-clean:
+ci-prepare ci-init ci-build ci-clean:
 	${MAKE_ORIG} ${_CI_TOPFLAGS} '.$@'
 
 ######### {{{ _MODE == ci ########
@@ -22,6 +22,11 @@ _ci_rule   = $(call _ci_target,$1):.ci-$1-%
 	-${CI_DIR}/sstate-distribute ${CI_CACHEROOT}/sstate
 
 .ci-clean:	$(call _ci_target,clean)
+.ci-prepare:	$(call _ci_target,prepare)
+.ci-init:	$(call _ci_target,init)
+
+$(call _ci_rule,init):	.ci-prepare-%
+	${MAKE} -C '$*' init
 
 $(call _ci_rule,image):	.ci-prepare-%
 	${MAKE} -C '$*' all-images
