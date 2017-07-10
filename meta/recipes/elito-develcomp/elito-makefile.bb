@@ -29,6 +29,8 @@ OPTIONAL_DEPENDS_nfsd   += "unfs3-native pseudo-native"
 OPTIONAL_DEPENDS_pkgmgmt = ""
 OPTIONAL_DEPENDS_pkgmgmt_pkgtype-ipk = "opkg-utils-native opkg-native"
 
+IMAGE_ROOTFS = ""
+
 _export_vars = " \
 	+AR		\
 	ARCH		\
