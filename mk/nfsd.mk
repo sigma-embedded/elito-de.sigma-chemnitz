@@ -1,3 +1,7 @@
+ifeq (${IMAGE_ROOTFS},)
+$(error "nfsd can not be used with --disable-nfsd")
+endif
+
 include ${ELITO_TOPDIR}/mk/nfs-opt.mk
 
 LOCALGOALS =	start-daemon start-debug stop-daemon
