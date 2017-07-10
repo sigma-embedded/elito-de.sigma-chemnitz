@@ -517,7 +517,7 @@ AC_ARG_ENABLE(nfs-root,
 		[install built packages into <dir> which becomes suitable for exporting it as an NFS root filesystem]),
 	[nfs_rootdir=$enableval
 	AC_MSG_RESULT([yes (${nfs_rootdir})])],
-	[nfs_rootdir=,
+	[nfs_rootdir=
 	AC_MSG_RESULT([no])])
 AC_SUBST(nfs_rootdir)
 ELITO_TRUE_FALSE(NFSROOT, test x"${nfs_rootdir}" != x)
