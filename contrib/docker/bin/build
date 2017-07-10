@@ -108,7 +108,7 @@ CACHEROOT = ${CACHE_DIR}
 CONFIGURE_OPTIONS += \\
   --with-buildroot-dir='${BLD_DIR}' \\
   --with-persistent-dir='${BLD_DIR}/persistent' \\
-  --enable-nfs-root=\${NFSROOT}/\${NFSROOT_SUFFIX} \\
+  \$(if \${NFSROOT},--enable-nfs-root=\${NFSROOT}/\${NFSROOT_SUFFIX}) \\
   --with-tftp-server=`hostname -i`
 
 UPSTREAM_ALTERNATES_kernel = ${CACHE_DIR}/mirror/kernel
