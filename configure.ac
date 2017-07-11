@@ -733,6 +733,8 @@ if test -z "$AS"; then
   AC_MSG_ERROR([The `as' program is required for bootstrapping])
 fi
 
+ELITO_INIT_VARS
+
 if test "$enable_ccache" = yes; then
    ELITO_CHECK_PROGRAM(-1, CCACHE,     ccache)
 else
