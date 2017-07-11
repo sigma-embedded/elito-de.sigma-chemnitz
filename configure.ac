@@ -293,9 +293,9 @@ dnl {{{ ccache
 AC_MSG_CHECKING([whether to enable ccache])
 AC_ARG_ENABLE(ccache,
 	AS_HELP_STRING([--enable-ccache],
-		       [Enable ccache support (default:yes)]),
+		       [Enable ccache support (default:auto)]),
 	[],
-	[enable_ccache=yes])
+	[AS_IF([type ccache >/dev/null 2>/dev/null],[enable_ccache=yes],[enable_ccache=no])])
 AC_MSG_RESULT([$enable_ccache])
 
 AS_CASE([$enable_ccache],
