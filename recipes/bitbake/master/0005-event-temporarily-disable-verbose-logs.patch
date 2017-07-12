@@ -7,6 +7,11 @@ Because stderr of event handlers is directly printed to the console,
 this will pollute output when using e.g. 'buildhistory' which calls a
 shell function.
 
+This can be reproduced/demonstrated e.g. by setting
+
+  BB_VERBOSE_LOGS = "1"
+  INHERIT += "buildhistory"
+
 Patch disables 'set -x' temporarily while executing the event handler.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
