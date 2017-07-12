@@ -81,7 +81,8 @@ doit_mx6() {
 
   $opt_nopins || \
     "${_make[@]}" -f "$MACHDATADIR/mx6-pins.mk"   "${pinflags[@]}"
-    "${_make[@]}" -f "${PKGDATA_DIR}/devicetree.mk" "${dtbflags[@]}"
+
+  "${_make[@]}" -f "${PKGDATA_DIR}/devicetree.mk" "${dtbflags[@]}"
 }
 
 set -e
