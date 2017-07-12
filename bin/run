@@ -9,6 +9,7 @@ set -e
 . ./setup
 
 _opts=(
+  --restart=always
   --hostname="${CONTAINER_HOSTNAME}"
   --name="${FINAL_NAME}_${DISTRIBUTION}"
 )
