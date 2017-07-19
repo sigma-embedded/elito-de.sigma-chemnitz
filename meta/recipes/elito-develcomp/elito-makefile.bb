@@ -207,7 +207,7 @@ do_setup_makefile[sstate-name] = "setup-makefile"
 do_setup_makefile[sstate-inputdirs] = "${WORKDIR}/setup-makefile"
 do_setup_makefile[sstate-outputdirs] = "${ELITO_MAKEFILE_DIR}"
 
-addtask do_setup_makefile after do_configure
+addtask do_setup_makefile after do_configure before do_build
 do_populate_sysroot[depends] += "${PN}:do_setup_makefile"
 
 do_fetch[noexec] = "1"
