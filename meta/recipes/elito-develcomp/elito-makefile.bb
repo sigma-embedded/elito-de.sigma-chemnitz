@@ -10,7 +10,7 @@ CROSS_COMPILE = "${TARGET_PREFIX}"
 
 DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
 
-inherit kernel-arch elito-nfsroot
+inherit kernel-arch elito-nfsroot gcc-binutils
 
 DEPENDS = "gcc-cross-${TARGET_ARCH} libgcc ccache-native"
 PACKAGES = ""
