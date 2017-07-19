@@ -21,7 +21,7 @@ INHIBIT_DEFAULT_DEPS = "1"
 IPKGCONF_TARGET = "${WORKDIR}/ipkg-conf/opkg.conf"
 IPKGCONF_SDK = "${WORKDIR}/ipkg-conf/opkg-sdk.conf"
 
-do_build[depends] += "elito-makefile:do_setup_makefile"
+do_build[depends] += "elito-makefile:do_prepare_all_sysroots"
 do_build[depends] += "kernel-makefile:do_setup_makefile"
 
 do_setup_ipkg[dirs] = "${WORKDIR}/ipkg-conf"
