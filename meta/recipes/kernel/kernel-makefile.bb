@@ -1,3 +1,5 @@
+_elito_skip := "${@elito_skip(d, None, 'nokernel')}"
+
 DESCRIPTION = "ELiTo Linux kernel makefile"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"

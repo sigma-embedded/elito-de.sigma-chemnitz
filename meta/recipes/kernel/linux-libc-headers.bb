@@ -1,5 +1,7 @@
-OVERRIDES_append = ":kernel-${@d.getVar('MACHINE_KERNEL_VERSION', \
-                                        True).replace('.', '-')}"
+_elito_skip := "${@elito_skip(d, None, 'nokernel')}"
+
+OVERRIDES_append = ":kernel-${@(d.getVar('MACHINE_KERNEL_VERSION', \
+                                         True) or "").replace('.', '-')}"
 
 _srcrev = "${AUTOREV}"
 _srcrev_kernel-3-10 = "8bb495e3f02401ee6f76d1b1d77f3ac9f079e376"

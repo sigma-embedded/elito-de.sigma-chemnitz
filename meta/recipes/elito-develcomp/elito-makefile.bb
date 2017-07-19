@@ -19,7 +19,11 @@ PROVIDES = "elito-makefile-native"
 
 OVERRIDES_append = ":pkgtype-${IMAGE_PKGTYPE}"
 
-OPTIONAL_DEPENDENCIES = "kernel late nfsd pkgmgmt"
+OPTIONAL_DEPENDENCIES = "\
+  ${@bb.utils.contains('MACHINE_FEATURES', 'nokernel', '', 'kernel dtree nfsd', d)} \
+  ${@bb.utils.contains('MACHINE_FEATURES', 'nommu', '', 'pkgmgmt', d)} \
+  late \
+"
 OPTIONAL_DEPENDENCIES[type] = "list"
 
 OPTIONAL_DEPENDS_kernel += "bc-native dtc-native coreutils-native"
@@ -30,6 +34,7 @@ OPTIONAL_DEPENDS_pkgmgmt = ""
 OPTIONAL_DEPENDS_pkgmgmt_pkgtype-ipk = "opkg-utils-native opkg-native"
 
 IMAGE_ROOTFS = ""
+KERNEL_IMAGETYPE ??= ""
 
 _export_vars = " \
 	+AR		\
