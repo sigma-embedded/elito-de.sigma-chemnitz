@@ -163,8 +163,7 @@ do_setup_makefile() {
         set >&2
 
 	rm -f "Makefile.develcomp" "make"
-        cat << EOF | sed ${_sed_relocate} -e 's![[:space:]]*$!!' \
-> "Makefile.develcomp"
+        sed ${_sed_relocate} -e 's![[:space:]]*$!!' << EOF > "Makefile.develcomp"
 ## --*- makefile -*--    ${PV}-${PR}
 ## This file was created by the 'elito-develcomp' recipe.  Any manual
 ## changes will get lost on next rebuild of this package.
