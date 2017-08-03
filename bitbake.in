@@ -8,7 +8,7 @@ abs_top_builddir='@abs_top_builddir@'
 : ${ELITO_PSEUDO_DIRECT:=}
 
 case $_me in
-  bitbake) ELITO_PSEUDO_DIRECT=true;;
+  bitbake*) ELITO_PSEUDO_DIRECT=true;;
 esac
 
 export ELITO_PSEUDO_DIRECT
