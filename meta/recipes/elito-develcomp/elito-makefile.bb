@@ -274,3 +274,5 @@ python () {
         bb.build.addtask(tsk, "do_prepare_all_sysroots",
                          "do_prepare_recipe_sysroot", d)
 }
+
+RM_WORK_EXCLUDE = "${PN}"
