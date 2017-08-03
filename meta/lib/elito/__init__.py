@@ -21,6 +21,9 @@ def uri(uri, d):
 
     return uri
 
+def skip(d, reason):
+    raise bb.parse.SkipPackage(reason)
+
 def test_skip(d, feature_pos, feature_neg = None, var_name = "MACHINE_FEATURES"):
     import bb
 
