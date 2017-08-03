@@ -741,20 +741,29 @@ else
    ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache, _ccache)
 fi
 
-ELITO_CHECK_PROGRAM(-1, GZIP,       gzip)
-ELITO_CHECK_PROGRAM(-1, SED,        sed)
-ELITO_CHECK_PROGRAM(-1, WGET,       wget)
-ELITO_CHECK_PROGRAM(-1, TAR,        tar)
 ELITO_CHECK_PROGRAM(-1, BZIP2,      bzip2)
 ELITO_CHECK_PROGRAM(-1, CHRPATH,    chrpath)
-ELITO_CHECK_PROGRAM(-1, GREP,       grep)
-ELITO_CHECK_PROGRAM(-1, DIFFSTAT,   diffstat)
-ELITO_CHECK_PROGRAM(-1, XZ,         xz, _xzbin)
-ELITO_CHECK_PROGRAM(-1, MAKE,       make)
-ELITO_CHECK_PROGRAM(-1, PATCH,      patch)
-ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
-ELITO_CHECK_PROGRAM(-1, BASH,       bash)
+ELITO_CHECK_PROGRAM(-1, FILE,       file)
+ELITO_CHECK_PROGRAM(-1, FIND,       find, findutils)
 ELITO_CHECK_PROGRAM(-1, GIT,        git, git, [_git_check_version], 0x010705)
+ELITO_CHECK_PROGRAM(-1, GREP,       grep)
+
+ELITO_CHECK_PROGRAM(-1, DIFFSTAT,   diffstat)
+ELITO_CHECK_PROGRAM(-1, PATCH,      patch)
+
+ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
+ELITO_CHECK_PROGRAM(-1, PERL,       perl, _perl)
+
+ELITO_CHECK_PROGRAM(-1, TAR,        tar)
+ELITO_CHECK_PROGRAM(-1, MAKEINFO,   makeinfo, texinfo)
+ELITO_CHECK_PROGRAM(-1, BASH,       bash)
+ELITO_CHECK_PROGRAM(-1, SED,        sed)
+ELITO_CHECK_PROGRAM(-1, WGET,       wget)
+
+ELITO_CHECK_PROGRAM(-1, MAKE,       make)
+
+ELITO_CHECK_PROGRAM(-1, GZIP,       gzip, _gzip)
+ELITO_CHECK_PROGRAM(-1, XZ,         xz, _xzbin)
 
 ELITO_CHECK_LN_R()
 
