@@ -736,9 +736,9 @@ fi
 ELITO_INIT_VARS
 
 if test "$enable_ccache" = yes; then
-   ELITO_CHECK_PROGRAM(-1, CCACHE,     ccache)
+   ELITO_CHECK_PROGRAM(-1, CCACHE,     ccache, _ccache)
 else
-   ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache)
+   ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache, _ccache)
 fi
 
 ELITO_CHECK_PROGRAM(-1, GZIP,       gzip)
