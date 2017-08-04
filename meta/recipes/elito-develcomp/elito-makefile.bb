@@ -8,7 +8,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 # from kernel.bbclass
 CROSS_COMPILE = "${TARGET_PREFIX}"
 
-DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/Makefile.${PROJECT_NAME}"
+DEVELCOMP_MAKEFILE  ?= "${ELITO_GIT_WS}/${@makefile_name(d)}"
 
 inherit kernel-arch elito-nfsroot gcc-binutils
 
@@ -249,6 +249,13 @@ do_prepare_all_sysroots() {
 addtask do_prepare_all_sysroots before do_build
 
 do_populate_sysroot[depends] += "${PN}:do_create_link"
+
+def makefile_name(d):
+    mc = d.getVar('BB_CURRENT_MC', False)
+    if mc == 'default':
+        return 'Makefile.${PROJECT_NAME}'
+    else:
+        return 'Makefile_%s.${PROJECT_NAME}' % mc
 
 def generate_deps(d, var):
     return ' '.join(map(lambda x: '%s:do_populate_sysroot' % x, \
