@@ -91,7 +91,7 @@ getpwent "${USER:-nobody}" _dflt_
 : ${USERNAME:=$_dflt_USERNAME}
 : ${EMAIL:=$_dflt_EMAIL}
 
-docker build -t ${BASE_NAME}:${DISTRIBUTION} 00-base.${DISTRIBUTION}
+docker build --pull -t ${BASE_NAME}:${DISTRIBUTION} 00-base.${DISTRIBUTION}
 
 cp -a 01-ssh/. "$t"/ssh
 mkdir -p "$t"/ssh/profile.d
