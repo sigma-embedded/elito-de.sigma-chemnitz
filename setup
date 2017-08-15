@@ -16,7 +16,7 @@ NFSROOT_devel=/srv/sysroots/my-project/${FINAL_NAME}
 # second the local build directory
 VOLUMES_devel=(
   # a directory shared between multiple instances; does not need backup
-  "/srv/cache			/srv/.oe/docker/elito"
+  "/srv/.oe/docker/elito"
 
   # the build directory; it should be on a fast disk and does not need backup
   "/srv/.oe/docker/my-project"
@@ -25,14 +25,15 @@ VOLUMES_devel=(
   "/srv/projects/my-project"
 
   # read-only mirror
-  "/srv/mirror			/srv/.oe/docker/mirror	:ro"
+  "/srv/.oe/docker/mirror	''	:ro"
 
   # the NFS exported sysroot
   "${NFSROOT_devel}"
 )
 
 SYMLINKS_devel=(
-  "/srv/mirror			/srv/.oe/docker/mirror"
+  "/srv/.oe/docker/mirror	/srv/mirror"
+  "/srv/.oe/docker/elito	/srv/cache"
 )
 
 # scripts assume that first location is the shared cache and the
