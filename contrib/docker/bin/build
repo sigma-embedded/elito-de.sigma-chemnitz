@@ -91,6 +91,11 @@ getpwent "${USER:-nobody}" _dflt_
 : ${USERNAME:=$_dflt_USERNAME}
 : ${EMAIL:=$_dflt_EMAIL}
 
+if ! test -d "$BLD_DIR" && test x"$USER" != x"nobody"; then
+  install -d -o "$USER" -g "$USER" -m 0755 "$BLD_DIR"
+  setfacl -b "$BLD_DIR"
+fi
+
 docker build --pull -t ${BASE_NAME}:${DISTRIBUTION} 00-base.${DISTRIBUTION}
 
 cp -a 01-ssh/. "$t"/ssh
