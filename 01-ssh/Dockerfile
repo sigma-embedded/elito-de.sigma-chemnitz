@@ -38,9 +38,6 @@ COPY bin			/usr/local/bin
 # directory with elito.pem
 #ADD  http://localhost:9000/elito.pem /home/@USER@/.config/elito/customer.pem
 
-ADD  http://www.sigma-chemnitz.de/dl/elito/sources/elito-setup \
-     /home/@USER@/bin/elito-setup
-
 ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
      /home/@USER@/.config/elito/bitbake.conf
 
