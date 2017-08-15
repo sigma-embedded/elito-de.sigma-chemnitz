@@ -47,4 +47,4 @@ shift 2
 ## which slows down bitbake significantly
 ulimit -n 2048 2>&1 || :
 
-exec_secure $PSEUDO "$_prog" "$@"
+exec $PSEUDO "$_prog" "$@"
