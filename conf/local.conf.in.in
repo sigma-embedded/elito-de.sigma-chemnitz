@@ -35,14 +35,10 @@ TFTP_SERVER = "@TFTP_SERVER@"
 
 CONF_VERSION = "1"
 
-@ENABLE_CCACHE_TRUE@CCACHE_DISABLE[unexport] = "1"
 # use fixed 'ccache' for now; this string is hardcoded at some places
 # and do not expect full qualified paths hence
 #@ENABLE_CCACHE_TRUE@CCACHE = "@CCACHE@ "
 @ENABLE_CCACHE_TRUE@INHERIT += "ccache"
-
-@ENABLE_CCACHE_FALSE@CCACHE[unexport] = "1"
-@ENABLE_CCACHE_FALSE@CCACHE_DISABLE = "1"
 
 @HAVE_GLOBAL_BITBAKE_CONF_TRUE@require @GLOBAL_BITBAKE_CONF@
 @HAVE_LOCAL_BITBAKE_CONF_TRUE@require @LOCAL_BITBAKE_CONF@
