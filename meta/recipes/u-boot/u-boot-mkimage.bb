@@ -25,7 +25,7 @@ include u-boot-common.inc
 
 _make() {
 	${MAKE} -f '${ELITO_MAKEFILE_DIR}/Makefile.develcomp' \
-		CFG=u-boot _secwrap= \
+		CFG=u-boot \
 		CFG_NONDEVEL=1 \
 		CFG_KERNEL_UART=${UBOOT_CONSOLE} \
 		CFG_KERNEL_BAUD=${UBOOT_BAUD} \

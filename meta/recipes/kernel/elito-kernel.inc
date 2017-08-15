@@ -6,7 +6,7 @@ inherit deploy
 
 EXTRA_OEMAKE_prepend = "-f '${ELITO_MAKEFILE_DIR}/Makefile.kernel' \
   -C '${S}' \
-  _secwrap= TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1 \
+  TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1 \
   KBUILD_OUTPUT=${B}/ \
 "
 

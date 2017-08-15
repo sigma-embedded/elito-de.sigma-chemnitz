@@ -310,23 +310,6 @@ AC_ARG_WITH(kernel-reference-repo,
 	[kernel_ref_repo=$withval], [kernel_ref_repo=/usr/share/elito/kernel])
 AC_SUBST([kernel_ref_repo])
 
-AC_ARG_WITH(secwrap,
-	AS_HELP_STRING([--with-secwrap=<dir>],
-		       [Wrapper command around 'bitbake' which changes e.g. user or SELinux context. Default: none]),
-	[SECWRAP_CMD=$withval], [SECWRAP_CMD=])
-AC_SUBST(SECWRAP_CMD, [$SECWRAP_CMD])
-
-AC_MSG_CHECKING([whether security wrapper works])
-if test -n "$SECWRAP_CMD" && ! eval $SECWRAP_CMD true </dev/null >/dev/null; then
-   AC_MSG_RESULT([no])
-   AC_MSG_ERROR([
-************************************************************************
-Security wrapper '$SECWRAP_CMD' seems to be non functional.
-************************************************************************])
-else
-  AC_MSG_RESULT([yes])
-fi
-
 AC_MSG_CHECKING([whether to enable cgroups])
 AC_ARG_ENABLE([cgroups],
 	AS_HELP_STRING([--enable-cgroups],

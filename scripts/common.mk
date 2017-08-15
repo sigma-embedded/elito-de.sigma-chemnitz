@@ -44,8 +44,7 @@ SED_EXPR =	-e 's!@'ELITO_ROOTDIR'@!$(ELITO_ROOTDIR)!g'	\
 		-e 's!@'ELITO_CACHE_DIR'@!$(ELITO_CACHE_DIR)!g'		\
 		-e 's!@'PYTHON'@!$(PYTHON)!g'			\
 		-e 's!@'PROJECT_NAME'@!$(PROJECT_NAME)!g'	\
-		-e 's!@'TOP_BUILD_DIR'@!$(abs_top_builddir)!g'	\
-		-e 's!@'SECWRAP_CMD'@!$(SECWRAP_CMD)!g'
+		-e 's!@'TOP_BUILD_DIR'@!$(abs_top_builddir)!g'
 
 AUTOCONF_FILES =	Makefile		\
 			set-env.in		\
@@ -169,11 +168,11 @@ endif
 
 pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell pshell: \
 			${MDIR}/Makefile.develcomp FORCE
-			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@ _secwrap=
+			env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@
 
 start-nfsd stop-nfsd:%-nfsd: \
 			${MDIR}/Makefile.develcomp FORCE
-			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true $(MAKE) -s -f '$<' CFG=nfsd $*-daemon
+			env $(MAKE) -s -f '$<' CFG=nfsd $*-daemon
 
 ${MDIR}/Makefile.develcomp:
 			@{ \
@@ -222,7 +221,7 @@ image-stream:		${IMAGE_STREAM}
 
 ${IMAGE_STREAM}:	${IMAGE_STREAM_deps} | ${MDIR}/Makefile.develcomp
 			@rm -f $@ $@.tmp
-			$(SECWRAP_CMD) env ELITO_NO_SECWRAP_CMD=true $(MAKE) -f ${MDIR}/Makefile.develcomp CFG=image-stream IMAGEDIR="${IMAGEDIR}" ${IMAGE_STREAM_args} image-stream O=$@.tmp _secwrap=
+			env $(MAKE) -f ${MDIR}/Makefile.develcomp CFG=image-stream IMAGEDIR="${IMAGEDIR}" ${IMAGE_STREAM_args} image-stream O=$@.tmp
 			@mv $@.tmp $@
 endif
 

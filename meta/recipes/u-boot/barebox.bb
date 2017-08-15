@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=057bf9e50e1ca857d0eb97bfe4ba8e5d"
 DEFAULT_PREFERENCE = "99"
 
 DEPENDS += "elito-develcomp lzop-native"
-EXTRA_OEMAKE_prepend = "-f ${ELITO_MAKEFILE_DIR}/Makefile.develcomp CFG=barebox _secwrap= V=1 "
+EXTRA_OEMAKE_prepend = "-f ${ELITO_MAKEFILE_DIR}/Makefile.develcomp CFG=barebox V=1 "
 
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}-dev ${PN}"
 

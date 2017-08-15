@@ -96,7 +96,6 @@ _export_vars = " \
 	QPEDIR		\
 	+QTDIR		\
 	+RANLIB		\
-	SECWRAP_CMD	\
 	SDK_CFLAGS	\
 	SDK_CPPFLAGS	\
 	SDK_CXXFLAGS	\

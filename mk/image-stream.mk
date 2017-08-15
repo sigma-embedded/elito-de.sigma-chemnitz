@@ -13,4 +13,4 @@ LOCALGOALS =	image-stream
 IMAGE_STREAM_ARGS ?= ${ARGS}
 
 image-stream:
-	$(_secwrap) elito-stream-encode ${IMAGE_STREAM_ARGS} > $(O)
+	elito-stream-encode ${IMAGE_STREAM_ARGS} > $(O)

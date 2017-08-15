@@ -27,7 +27,7 @@ KBUILD_OUTPUT ?= $(if ${ELITO_EXTKBUILD_DISABLED},,${ELITO_BUILDSYS_TMPDIR}/work
 KBUILD_OUTPUT_DIR = kernel-$(firstword $(shell echo $(abspath .) | md5sum))
 KBUILD_BOOT_DIR = ${KBUILD_OUTPUT}arch/${ARCH}/boot
 
-_bad_env += CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE _secwrap
+_bad_env += CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 
 _build_cmd = \
             $(_start) env UID=$$UID \
@@ -78,7 +78,7 @@ _all_:
 	+$(_build_cmd)
 
 exec:
-	$(_secwrap) $(P)
+	$(P)
 
 shell:
 	@env PS1='$(PS1) ' $(_start) $(SH) -
