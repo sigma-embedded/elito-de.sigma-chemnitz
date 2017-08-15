@@ -11,8 +11,6 @@
 /config.status
 /set-env
 /set-env.in
-/metrics
-/metrics-*.gz
 /package-depends.dot
 /pn-depends.dot
 /task-depends.dot

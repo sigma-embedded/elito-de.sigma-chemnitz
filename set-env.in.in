@@ -14,7 +14,6 @@ PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:$_s/usr/bin
 CCACHE_DIR=$W_/cache/ccache
 INSTALL='@INSTALL@'
 BBPATH='@abs_top_builddir@'
-ELITO_METRICS_ID=$$
 ELITO_PROJECT_NAME='@PROJECT_NAME@'
 ELITO_SCRIPTS_DIR='@abs_top_srcdir@/scripts'
 ABRT_IGNORE_ALL=1
@@ -46,7 +45,6 @@ for i in "${!_@}" \
 done
 
 export BITBAKE_UI
-export ELITO_METRICS_ID
 export CCACHE_DIR BBPATH
 
 # TODO: remove legacy ~/.elito-set-env after 2018-01-01

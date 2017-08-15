@@ -229,30 +229,6 @@ all-images:		image
 
 ###### }}} image-stream targets #######
 
-###### {{{ metrics targets #######
-METRICS_HTML =		${W}/metrics.html
-
-convert-metrics:	${METRICS_HTML}
-
-${METRICS_HTML}:	metrics
-			$(abs_top_srcdir)/scripts/convert-metrics $< $@
-			@echo "file://$(abspath $@)"
-
-clean-metrics:
-			rm -f metrics
-
-ifneq ($(wildcard metrics),)
-clean-metrics:		$(ELITO_LOGDIR)/metrics-$(NOW).gz
-endif
-
-$(ELITO_LOGDIR)/metrics-%.gz:		metrics | $(ELITO_LOGDIR)
-			rm -f $@.tmp
-			$(GZIP) -c $< > $@.tmp
-			mv $@.tmp $@
-
-mrproper:		clean-metrics
-###### }}} metrics targets #######
-
 ############ {{{ tmp and filesystem targets #######
 
 # <cache>/<uuid>/project -> <builddir>
