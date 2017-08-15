@@ -310,25 +310,6 @@ AC_ARG_WITH(kernel-reference-repo,
 	[kernel_ref_repo=$withval], [kernel_ref_repo=/usr/share/elito/kernel])
 AC_SUBST([kernel_ref_repo])
 
-AC_MSG_CHECKING([whether to enable cgroups])
-AC_ARG_ENABLE([cgroups],
-	AS_HELP_STRING([--enable-cgroups],
-		       [If enabled, place build process into own (systemd) cgroup. Default: auto]),
-        [],[enable_cgroups=auto])
-
-AS_CASE([$enable_cgroups],
-     [yes|no], [AC_MSG_RESULT([$enable_cgroups])],
-     [auto], [
-	if test -d /sys/fs/cgroup/systemd; then
-	   enable_cgroups=yes
-        else
-	   enable_cgroups=no
-	fi
-	AC_MSG_RESULT([$enable_cgroups (auto)])
-     ],
-     [AC_MSG_ERROR([unsupported value '$enable_cgroups' for --enable-cgroups])])
-ELITO_TRUE_FALSE([ENABLE_CGROUPS],[test x"$enable_cgroups" = xyes])
-
 dnl {{{ --enable-oom-adjust
 AC_MSG_CHECKING([whether to lower oom adjust])
 AC_ARG_ENABLE([oom-adjust],

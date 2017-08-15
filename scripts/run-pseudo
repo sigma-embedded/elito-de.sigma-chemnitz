@@ -43,8 +43,6 @@ unset ELITO_PSEUDO_DIRECT
 _prog=$2
 shift 2
 
-test -z "$ELITO_CGROUP_NAME" || "$ELITO_SCRIPTS_DIR"/exec-cgroup "$ELITO_CGROUP_NAME" $$
-
 oom_adj=/proc/self/oom_score_adj
 test -e $oom_adj || oom_adj=/proc/self/oom_adj
 
