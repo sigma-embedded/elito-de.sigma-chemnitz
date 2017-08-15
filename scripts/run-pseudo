@@ -43,17 +43,6 @@ unset ELITO_PSEUDO_DIRECT
 _prog=$2
 shift 2
 
-oom_adj=/proc/self/oom_score_adj
-test -e $oom_adj || oom_adj=/proc/self/oom_adj
-
-while $ELITO_OOM_ADJUST; do
-    read oom < $oom_adj || break
-    let ++oom
-    echo $oom > $oom_adj || break
-
-    break
-done 2>/dev/null
-
 ## required e.g. in docker environments which set fd limit to 1Mi
 ## which slows down bitbake significantly
 ulimit -n 2048 2>&1 || :
