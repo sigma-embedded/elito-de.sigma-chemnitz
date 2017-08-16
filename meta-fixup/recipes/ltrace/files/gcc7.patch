@@ -1,0 +1,33 @@
+Index: git/sysdeps/linux-gnu/arm/trace.c
+===================================================================
+--- git.orig/sysdeps/linux-gnu/arm/trace.c
++++ git/sysdeps/linux-gnu/arm/trace.c
+@@ -155,7 +155,7 @@ arm_get_next_pcs(struct process *proc,
+	const unsigned cond = BITS(this_instr, 28, 31);
+	const unsigned opcode = BITS(this_instr, 24, 27);
+
+-	if (cond == COND_NV)
++	if (cond == COND_NV) {
+		switch (opcode) {
+			arch_addr_t addr;
+		case 0xa:
+@@ -168,9 +168,9 @@ arm_get_next_pcs(struct process *proc,
+			next_pcs[nr++] = MAKE_THUMB_ADDR(addr);
+			break;
+		}
+-	else
++	} else {
++		uint32_t operand1, operand2, result = 0;
+		switch (opcode) {
+-			uint32_t operand1, operand2, result = 0;
+		case 0x0:
+		case 0x1:			/* data processing */
+		case 0x2:
+@@ -371,6 +371,7 @@ arm_get_next_pcs(struct process *proc,
+		case 0xf:		/* SWI */
+			break;
+		}
++	}
+
+	/* Otherwise take the next instruction.  */
+	if (cond != COND_ALWAYS || nr == 0)
