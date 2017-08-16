@@ -55,7 +55,8 @@ do_install() {
 }
 
 do_deploy () {
-	gitrev=`git ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
+	set -e
+	gitrev=`git -C '${S}' ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
 	uboot_image="u-boot-${MACHINE}-${PV}-${PR}-${gitrev}"
 
 	install -D -p -m 0644 ${S}/barebox.bin ${DEPLOYDIR}/${uboot_image}.bin

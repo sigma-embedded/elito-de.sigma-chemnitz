@@ -100,7 +100,7 @@ deploy_file() {
 }
 
 do_deploy () {
-    gitrev=`git ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
+    gitrev=`git -C '${S}' ls-remote . HEAD | sed '1s/^\(........\).*/\1/p;d'`
 
     deploy_file barebox "${gitrev}"
 
