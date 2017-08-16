@@ -164,7 +164,7 @@ ifeq (${R},)
 			} >&2
 			@false
 endif
-			@$(call _call_cmd,$(BITBAKE) -b $(R) $(BO),>$(R)<)
+			@$(call _call_cmd,$(BITBAKE) $(R) $(BO),>$(R)<)
 
 pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell pshell: \
 			${MDIR}/Makefile.develcomp FORCE
