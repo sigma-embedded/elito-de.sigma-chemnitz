@@ -22,6 +22,8 @@ EXTRA_OEMAKE_prepend = "\
 unset CFLAGS
 unset LDFLAGS
 
+KBUILD_DEFCONFIG = "${UBOOT_MACHINE}"
+
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}-dev ${PN}"
 
 FILES_${PN}      = "/boot/u-boot"
@@ -37,10 +39,10 @@ export ELITO_EXTKBUILD_DISABLED = "1"
 B = "${WORKDIR}/build"
 
 require u-boot-common.inc
-inherit kernel-arch deploy cml1
+inherit kernel-arch deploy cml1 elito-kconfig
 
 do_configure() {
-    oe_runmake "${UBOOT_MACHINE}"
+	:
 }
 
 barebox_do_install() {
