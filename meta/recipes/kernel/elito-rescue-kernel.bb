@@ -6,7 +6,7 @@ LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
 IMAGE_INIT_MANAGER = "busybox"
-DISTRO_FEATURES = "ipv4 mmc headless leds initrd nonfs"
+DISTRO_FEATURES = "ipv4 mmc headless leds nonfs"
 MACHINE_FEATURES_BACKFILL = ""
 MACHINE_FEATURES := "${@elito_intersect('MACHINE_FEATURES', 'SUPPORTED_MACHINE_FEATURES', d)}"
 KERNEL_IMAGETYPE = "zImage"
@@ -57,9 +57,6 @@ inherit kernel
 inherit kernelsrc
 require elito-kernel.inc
 
-# do not move to top
-INITRAMFS_SOURCE = "${RESCUE_IMAGE_NAME}"
-
 # remove 'virtual/kernel' from provides
 python () {
     p = (d.getVar("PROVIDES", False) or '').split()
@@ -90,8 +87,4 @@ PACKAGEFUNCS_remove = "emit_depmod_pkgdata"
 
 python __anonymous () {
     d.setVar('PACKAGES', '')
-}
-
-do_generate_initramfs_source() {
-    :
 }

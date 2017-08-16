@@ -17,8 +17,6 @@ KERNEL_CMDLINE_SOURCE ?= "bootloader"
 KERNEL_DEPENDS ?= ""
 MACHINE_HOSTNAME ?= "${MACHINE}"
 
-INITRAMFS_SOURCE = "devices.txt"
-
 DEPENDS[vardeps] += "KERNEL_IMAGETYPE"
 DEPENDS += '\
 	bc-native \
@@ -103,9 +101,6 @@ def kernel_options(d):
     is_feature = lambda x: (bb.utils.contains('DISTRO_FEATURES', x, True, False, d) or
                             bb.utils.contains('MACHINE_FEATURES', x, True, False, d))
 
-    have_initrd = (is_feature('initrd') or
-                   ('cpio' in set(map(lambda x: x.split('.')[0],
-                                      d.getVar('IMAGE_FSTYPES', True).split()))))
     have_earlyprintk = 'earlyprintk' in (d.getVar('KERNEL_CMDLINE', True) or '').split()
 
     o = [ [ d.getVar('OVERRIDE_KERNEL_CMDLINE', True) != '' and d.getVar('KERNEL_CMDLINE', True) != '',
@@ -118,16 +113,8 @@ def kernel_options(d):
             [ '+CMDLINE_EXTEND',          d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'extend' ],
             [ '+CMDLINE_FORCE',           d.getVar('KERNEL_CMDLINE_SOURCE', True) == 'force' ] ],
           [ True,
-            [ '+BLK_DEV_INITRD',     have_initrd ],
             [ 'DEFAULT_HOSTNAME',    "${MACHINE_HOSTNAME}" ],
-            [ 'NFS_FAKE_UID_NUMBER', os.getuid() ],
-            [ 'INITRAMFS_ROOT_UID',  os.getuid() ],
-            [ 'INITRAMFS_ROOT_GID',  os.getgid() ] ],
-          [ is_feature('initrd'),
-            [ 'INITRAMFS_COMPRESSION_XZ', YES ],
-            [ 'RD_XZ', YES ],
-            [ 'RD_GZIP', False ],
-            [ 'INITRAMFS_SOURCE', '${INITRAMFS_SOURCE}' ] ],
+            [ 'NFS_FAKE_UID_NUMBER', os.getuid() ] ],
           [ True,
             [ '+IPV6',        is_feature('ipv6') ],
             [ '+MMC',         is_feature('mmc') or is_feature('sdio') ],
@@ -167,45 +154,6 @@ def find_cfgs(d):
             sources_list.append(s)
 
     return ' '.join(sources_list)
-
-# {{{ generate-initramfs
-ELITO_LINUXRC_PROGRAM ??= "${STAGING_BINDIR}/elito-mmc-boot"
-ELITO_LINUXRC_TASK ??= "elito-setup-tools"
-
-do_generate_initramfs_source[depends] += "${ELITO_LINUXRC_TASK}:do_populate_sysroot"
-do_generate_initramfs_source() {
-	# copy our program into a temporary location and remove
-	# debugging symbols
-	install -D -p -m 0755 ${ELITO_LINUXRC_PROGRAM} ${B}/.initramfs/init
-	${STRIP} --remove-section=.comment --remove-section=.note --preserve-dates ${B}/.initramfs/init
-
-	# create devices.txt
-	rm -f ${B}/devices.txt
-	cat << EOF > ${B}/devices.txt
-file /init ${B}/.initramfs/init	0755 0 0
-
-dir  /mnt  0755 0 0
-dir  /dev  0755 0 0
-dir  /sys  0755 0 0
-dir  /run  0755 0 0
-dir  /proc 0755 0 0
-
-nod  /dev/console 0644 0 0 c 5 1
-EOF
-}
-addtask do_generate_initramfs_source after do_unpack
-
-python () {
-    if bb.utils.contains('DISTRO_FEATURES','initrd', True, False, d):
-        d.setVarFlag("do_compile", "depends",
-                     d.expand('${PN}:do_generate_initramfs_source ') +
-                     (d.getVarFlag("do_compile", "depends", False) or ""))
-
-        d.setVarFlag("do_compile", "deps",
-                     ["do_generate_initramfs_source"] +
-                     (d.getVarFlag("do_compile", "deps", False) or []))
-}
-# }}} generate-initramfs
 
 # {{{ do_configure
 do_configure_extra_local() {
