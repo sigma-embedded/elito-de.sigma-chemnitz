@@ -21,6 +21,10 @@ DEPENDS[vardeps] += "KERNEL_IMAGETYPE"
 DEPENDS += '\
 	bc-native \
 	dtc-native \
+	lzop-native \
+	lz4-native \
+	xz-native \
+	gzip-native \
 	coreutils-native \
 	${KERNEL_DEPENDS} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage",\
