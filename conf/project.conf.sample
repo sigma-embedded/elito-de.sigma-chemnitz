@@ -6,7 +6,6 @@ BBMASK			 = "${BBMASK_DISTRO}"
 #MACHINE_KERNEL_VERSION	 = "3.1"
 #KERNEL_BRANCH		 = "vendor/project"
 #KERNEL_DEFCONFIG	 = "project_defconfig"
-#KERNEL_TFTP_IMAGE	 = "${TFTPBOOT_DIR}/${PROJECT_NAME}-kernel.img"
 
 #PROJECT_FEATURES	 = "mmc fb usbhost touchscreen"
 

@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 PACKAGE_ARCH	=  "${MACHINE_ARCH}"
 
-KERNEL_BOOTSTRAP_TFTP_IMAGE ?= ""
 KERNEL_BOOTSTRAP_DEFCONFIG ?= "${@'${KERNEL_DEFCONFIG}'.replace('_defconfig','_bootstrap_defconfig')}"
 
 SRC_URI_append = " \
@@ -16,7 +15,6 @@ SRC_URI_append = " \
 	file://scan-dev \
 "
 
-_tftp_image      = "${KERNEL_BOOTSTRAP_TFTP_IMAGE}"
 _defconfig       = "${KERNEL_BOOTSTRAP_DEFCONFIG}"
 _kernel_output   = "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
 

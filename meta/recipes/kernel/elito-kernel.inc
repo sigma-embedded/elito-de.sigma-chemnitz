@@ -6,7 +6,7 @@ inherit deploy
 
 EXTRA_OEMAKE_prepend = "-f '${ELITO_MAKEFILE_DIR}/Makefile.kernel' \
   -C '${S}' \
-  TFTP_IMAGE='${_tftp_image}' KALLSYMS_EXTRA_PASS=1 \
+  KALLSYMS_EXTRA_PASS=1 \
   KBUILD_OUTPUT=${B}/ \
 "
 
@@ -257,25 +257,6 @@ do_install_append() {
 	rmdir ${D}/lib || :
 	rm -f $kerneldir/scripts/kconfig/kxgettext.o
 }
-
-KERNEL_SKIP_TFTP_DEPLOY ?= "true"
-KERNEL_SKIP_TFTP_DEPLOY[type] = "boolean"
-
-do_uboot_mkimage[vardeps] += "KERNEL_SKIP_TFTP_DEPLOY"
-do_uboot_mkimage() {
-	have_tftp_image=${@['false', 'true'][not oe.data.typed_value('KERNEL_SKIP_TFTP_DEPLOY', d)]}
-
-	tftp_image_name='arch/${ARCH}/boot/${KERNEL_IMAGETYPE}'
-
-	if ! $have_tftp_image; then
-		:			# noop
-        elif test -w "${_tftp_image}"; then
-                cat "$tftp_image_name" > "${_tftp_image}"
-        else
-		bbwarn "File '${_tftp_image}' not writable; skipping staging of kernel into TFTP root"
-	fi
-}
-addtask uboot_mkimage before do_install after do_compile_kernelmodules
 
 KERNEL_MODULES_NAME ?= "modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz"
 
