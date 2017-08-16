@@ -25,10 +25,6 @@ DEPENDS += '\
 	dtc-native \
 	coreutils-native \
 	${KERNEL_DEPENDS} \
-	${@bb.utils.contains("MACHINE_FEATURES","ce-bootme",\
-                             "ce-bootme-native virtual/ce-preloader","",d)} \
-	${@bb.utils.contains("MACHINE_FEATURES","arnoldboot",\
-                             "arnoldboot-native","",d)} \
 	${@base_conditional("KERNEL_IMAGETYPE","uImage",\
                             "virtual/u-boot-mkimage-native","",d)}'
 
@@ -271,16 +267,6 @@ do_uboot_mkimage() {
 
 	tftp_image_name='arch/${ARCH}/boot/${KERNEL_IMAGETYPE}'
 
-        if ${@bb.utils.contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
-                for i in sdram gdb flash; do
-                        oe_runmake arnoldboot-$i TFTP_IMAGE=${KERNEL_OUTPUT}-$i
-                done
-		have_tftp_image=false
-        elif ${@bb.utils.contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
-		oe_runmake ceImage
-		have_tftp_image=false
-	fi
-
 	if ! $have_tftp_image; then
 		:			# noop
         elif test -w "${_tftp_image}"; then
@@ -292,33 +278,6 @@ do_uboot_mkimage() {
 addtask uboot_mkimage before do_install after do_compile_kernelmodules
 
 KERNEL_MODULES_NAME ?= "modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz"
-
-do_deploy_append() {
-	# TODO: this is broken...
-        if ${@bb.utils.contains('MACHINE_FEATURES','arnoldboot','true','false',d)}; then
-                for i in sdram gdb flash; do
-                        cd "${B}"
-                        install -m 0644 ${KERNEL_OUTPUT}-$i \
-				${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}-$i.bin
-
-			cd "${DEPLOYDIR}"
-			rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
-			ln -sf ${KERNEL_IMAGE_BASE_NAME}-$i.bin ${KERNEL_IMAGE_SYMLINK_NAME}-$i.bin
-		done
-        elif ${@bb.utils.contains('MACHINE_FEATURES','ce-bootme','true','false',d)}; then
-		cd "${B}"
-		install -p -m 0644 arch/${ARCH}/boot/ceImage \
-			${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.ce
-
-		cd "${DEPLOYDIR}"
-		rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.ce
-		ln -sf ${KERNEL_IMAGE_BASE_NAME}.ce ${KERNEL_IMAGE_SYMLINK_NAME}.ce
-
-		# REMOVE ME after 2013-07-01
-		# remove old stylish named file
-		rm -f ${KERNEL_IMAGE_SYMLINK_NAME}-ce.bin
-	fi
-}
 
 def kernel_maxsize(mtdsize_var, xtra, d):
     mtdsize = d.getVar(mtdsize_var, True)

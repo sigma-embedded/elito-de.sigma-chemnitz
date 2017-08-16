@@ -5,8 +5,6 @@ SECTION = "kernel"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-SUPPORTED_MACHINE_FEATURES = "ce-bootme"
-
 IMAGE_INIT_MANAGER = "busybox"
 DISTRO_FEATURES = "ipv4 mmc headless leds initrd nonfs"
 MACHINE_FEATURES_BACKFILL = ""

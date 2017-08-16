@@ -6,13 +6,11 @@ OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','u-boot',':fs-u-boot','',d
 OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','barebox',':fs-barebox','',d)}"
 OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','ubifs',':fs-ubifs','',d)}"
 OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','jffs2',':fs-jffs2','',d)}"
-OVERRIDES .= "${@bb.utils.contains('MACHINE_FEATURES','arnoldboot',':fs-arnoldboot','',d)}"
 
 IMAGE_FSTYPES_append_fs-mobm320	   = " bootenv"
 
 EXTRA_IMAGEDEPENDS_append_fs-u-boot     = " u-boot"
 EXTRA_IMAGEDEPENDS_append_fs-barebox    = " barebox"
-EXTRA_IMAGEDEPENDS_append_fs-arnoldboot = " arnoldboot-native"
 EXTRA_IMAGEDEPENDS_append_fs-mobm320    = " mobm320 mobm320-native"
 
 BAD_RECOMMENDATIONS += "\

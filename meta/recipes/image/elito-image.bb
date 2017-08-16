@@ -16,6 +16,6 @@ elito_cleanup_boot() {
 }
 
 require elito-image.inc
-inherit ubi arnoldboot elito-final
+inherit ubi elito-final
 inherit elito-nfsroot
 inherit elito-image

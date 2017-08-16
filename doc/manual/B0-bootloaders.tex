@@ -1,31 +1,5 @@
 \chapter{Bootloaders}
 
-\section{Keith\&Koep ``arnoldboot'' (TrizepsIV)}
-
-Three kernel image types:
-
-\begin{description}
-\item[\texttt{*-sdram.bin}]
-\item[\texttt{*-flash.bin}]
-\item[\texttt{*-gdb.bin}]
-\end{description}
-
-\begin{verbatim}
-fuseburn 9
-fuselist
-\end{verbatim}
-
-
-
-\begin{verbatim}
-setbaud com1 115200
-
-boot mmc kernel.img
-boot mmc rootfs.img
-
-tftp
-\end{verbatim}
-
 \section{Keith\&Koep ``e-boot'' (TrizepsVI)}
 
 Four parts
@@ -49,46 +23,6 @@ Four parts
   extracted into an ext4 partition of the sd-card. Extraction must be
   done as root to set correct file ownership.
 \end{description}
-
-\section{Keith\&Koep ``ce-boot + NFS'' (TrizepsVI)}
-
-This method request a working bootloader on the TrizepsVI. (see above)
-
-\begin{enumerate}
-\item Switch into your project directory
-\begin{lstlisting}[language=bash]
-cd $project
-\end{lstlisting}%$
-\item Compile it
-\begin{lstlisting}[language=bash]
-make all-images
-\end{lstlisting}
-\item Build a custom kernel and ensure this settings (in .config) (see \autoref{sec:project-customization_u-boot+kernel-modifications_clone+modify})
-\begin{lstlisting}[language=sh]
-#edit CONFIG_CMDLINE parameter nfsroot to match your ip
-CONFIG_CMDLINE="root=/dev/nfs ro rootfstype=nfs noinitrd \
-	console=ttySA0,38400 ip=:::::eth0: loglevel=9 user_debug=-1 \
-	nfsroot=1.2.3.4:/srv/nfsroot/trizeps6/dev,v3,tcp,nolock"
-CONFIG_NFS_FAKE_UID=y 
-#set uid number to match your uid
-CONFIG_NFS_FAKE_UID_NUMBER=1234
-\end{lstlisting}
-\item Build a kernel image
-\begin{lstlisting}[language=sh]
-make -f ../Makefile.kernel.trizeps6 -j 4
-make -f ../Makefile.kernel.trizeps6 tftp-m
-\end{lstlisting}
-\item Build the ce-boot tool (see \autoref{subsec:toradex_cetools})
-\item Establish a serial connection to the device (Speed: 38400)
-\item Hold down the ESC key while powering the device off and on, to enter the boot menu.
-\item enter this command \lstinline[language=sh]{eboot kitl=4 eth} for tftp boot
-\item search the output for the device name (looks something like this:TRIZEPS\_?????)
-\item start ce-bootme to deliver the bootimage (the device name needed)
-\begin{lstlisting}[language=bash]
-ce-bootme TRIZEPS_?????=arch/arm/boot/ceImage
-\end{lstlisting} 
-\item the device should now boot up
-\end{enumerate}
 
 \section{Keith\&Koep i-PAN4 + Trizeps MX28}
 
@@ -146,111 +80,6 @@ ce-bootme TRIZEPS_?????=arch/arm/boot/ceImage
   \ref{app:log:mx28_rescue_system} for sample logs.
 \item Reset the device
 \end{enumerate}
-
-
-\section{Toradex Bootloader (Colibri270)}
-
-\paragraph{NOTE:} Content of this section is preliminary and consists
-of extracts from e-mail communication about creation of U-Boot images.
-Integration into the buildsystem is missing.  It assumes the Fedora
-implementation of the tftp client program.
-
-\subsection{Build CE tools}
-\label{subsec:toradex_cetools}
-
-\begin{enumerate}
-\item Clone the git repository and go into it
-\begin{lstlisting}[language=sh]
-$ git clone git://git.sigma-chemnitz.de:443/pub/ce-bootme
-$ cd ce-bootme
-\end{lstlisting}
-\item Build and install it manually
-\begin{lstlisting}[language=sh]
-$ make && make install
-\end{lstlisting}%$
-or create an rpm package
-\begin{lstlisting}[language=sh]
-$ make dist
-$ rpmbuild -tb ce-bootme.tar.xz
-\end{lstlisting}
-\end{enumerate}
-
-The RPM package adds a ``ce-'' prefix to the installed programs which
-is used in the examples below. ``ce-bootme'' needs to listen on the
-privileged 980/udp port so that it must be started by the ``root''
-user or installed with suid permissions (which is done by the RPM
-package).
-
-\subsection{Creating .nb images}
-
-\paragraph{NOTE:} This section describes generation of U-Boot images
-which are to be loaded at address 0.
-
-\begin{enumerate}
-\item create the .nb image from the u-boot.bin image
-\begin{lstlisting}[language=sh]
-$ ce-data2bin u-boot.bin 0 > u-boot.nb
-\end{lstlisting}%$
-\end{enumerate}
-
-
-\subsection{Using .nb images}
-
-\begin{enumerate}
-\item install the tftp-client package
-\item execute it
-\begin{lstlisting}[language=sh]
-$ ce-bootme u-boot-SAx.nb COLIBRI\*
-\end{lstlisting}%$
-
-\item connect to the ffuart interface of the colibri module with 9600 baud
-
-\item turn off the colibri module
-
-\item press SPACE
-
-\item turn on the colibri module; you will see
-
-\begin{verbatim}
-Toradex Bootloader 3.6 for Colibri Built Jun 24 2010
-
-Press [SPACE] to enter Bootloader Menu
-
-
-
-BootLoader Configuration:
-
-C) Clear Flash Registry
-X) Enter CommandPrompt Mode
-D) Download image to RAM now
-F) Download image to FLASH now
-L) Launch existing flash resident image now
-\end{verbatim}
-
-\item press F
-
-\item ce-bootme from step 3 will output something like
-\begin{verbatim}
-ID: COLIBRI0
-mode set to octet
-Connected to 192.168.2.126 (192.168.2.126), port 980
-putting u-boot-SA0.nb to 192.168.2.126:boot.bin [octet]
-Sent 145955 bytes in 6.1 seconds [190260 bit/s]
-\end{verbatim}
-
-     and the eboot bootloader
-
-\begin{verbatim}
--EbootSendBootmeAndWaitForTftp
-FLASH download [ 0x00000000 ==> 0x00023A37 ]
-
-INFO: FlashErase: 0x00000000 to 0x0002FFFF.  Please wait: 100%
-INFO: FlashWrite: 0x00000000 to 0x00023A37.  Please wait: 100%
-Flash image. Resetting device...
-\end{verbatim}
-
-\end{enumerate}
-
 
 %%% Local Variables:
 %%% mode: latex
