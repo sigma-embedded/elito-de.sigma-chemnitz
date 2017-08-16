@@ -21,9 +21,10 @@ KERNEL_SOC_FAMILY ?= "${@(d.getVar('SOC_FAMILY', True) or "").split(':')[0]}"
 MACHINE_KERNEL_REVISION ?= "${AUTOREV}"
 
 SRCREV        = "${MACHINE_KERNEL_REVISION}"
-KERNEL_REPO ??= "git+file://${ELITO_GIT_WS}/kernel.git"
 _branch       = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
-SRC_URI       = "${KERNEL_REPO};branch=${_branch}"
+KERNEL_REPO ??= "git+file://${ELITO_GIT_WS}/kernel.git"
+KERNEL_REV  ??= "branch=${_branch}"
+SRC_URI       = "${KERNEL_REPO};${KERNEL_REV}"
 SRC_URI[vardepsexclude] += "KERNEL_REPO"
 
 inherit kernel gitpkgv
