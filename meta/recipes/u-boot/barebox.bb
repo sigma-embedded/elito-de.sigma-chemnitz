@@ -37,7 +37,7 @@ export ELITO_EXTKBUILD_DISABLED = "1"
 B = "${WORKDIR}/build"
 
 require u-boot-common.inc
-inherit kernel-arch deploy
+inherit kernel-arch deploy cml1
 
 do_configure() {
     oe_runmake "${UBOOT_MACHINE}"
