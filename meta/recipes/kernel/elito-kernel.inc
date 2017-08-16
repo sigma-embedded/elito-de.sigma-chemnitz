@@ -2,7 +2,7 @@ _elito_skip := "${@elito_skip(d, None, 'nokernel')}"
 
 export ELITO_EXTKBUILD_DISABLED = "1"
 
-inherit deploy
+inherit deploy elito-kconfig
 
 EXTRA_OEMAKE_prepend = " \
   -C '${S}' \
@@ -11,6 +11,8 @@ EXTRA_OEMAKE_prepend = " \
 "
 
 B = "${WORKDIR}/build"
+
+KBUILD_DEFCONFIG = "${_defconfig}"
 
 KERNEL_CMDLINE ??= "console=${KERNEL_CONSOLE} loglevel=4 earlyprintk"
 KERNEL_CMDLINE_SOURCE ?= "bootloader"
@@ -48,48 +50,6 @@ _configdisable-opts = ' \
   LOCKDEP PROVE_RCU SLUB_DEBUG_ON SCHED_DEBUG SLUB_STATS \
   PROVE_LOCKING LOCK_STAT USB_DEBUG \
 '
-
-__defconfig[vardeps] += "_defconfig"
-__defconfig = "${@get_name_defconfig(d.getVar('_defconfig',True))}"
-
-def _get_defconfig(cfg):
-    if not cfg.startswith('file://'):
-        cfg = None
-    else:
-        cfg = cfg[7:]
-        if cfg == '':
-            cfg = 'kernel_defconfig'
-
-    return cfg
-
-def _get_defconfig_filelist(d, cfg):
-    res = []
-    if cfg.startswith('file://'):
-        fetcher = bb.fetch2.Fetch((cfg,), d)
-        ud = fetcher.ud[cfg]
-        paths = ud.method.localpaths(ud, d)
-        res.extend(map(lambda f: "%s:%s" % (f, os.path.exists(f)), paths))
-    return ' '.join(res)
-
-def get_name_defconfig(cfg):
-    tmp = _get_defconfig(cfg)
-    if tmp:
-        return "${WORKDIR}/%s" % tmp
-    else:
-        return cfg
-
-do_fetch_defconfig[file-checksums] += "${@_get_defconfig_filelist(d, d.getVar('_defconfig', True))}"
-do_fetch_defconfig[vardeps] += "_defconfig"
-python do_fetch_defconfig() {
-    cfg = d.getVar('_defconfig', True)
-    if cfg.startswith('file://'):
-        try:
-            fetcher = bb.fetch2.Fetch((cfg,), d)
-            fetcher.unpack(d.getVar('WORKDIR', True))
-        except bb.fetch2.BBFetchException as e:
-            raise bb.build.FuncFailed(e)
-}
-addtask fetch_defconfig before do_configure
 
 kernel_options[vardeps] += "\
   DISTRO_FEATURES MACHINE_FEATURES KERNEL_CMDLINE \
@@ -150,37 +110,21 @@ def kernel_options(d):
 
     return elito.kernel_feature.sed_cmd(o)
 
-def find_cfgs(d):
-    sources=src_patches(d, True)
-    sources_list=[]
-    for s in sources:
-        if s.endswith('.cfg'):
-            sources_list.append(s)
-
-    return ' '.join(sources_list)
-
 # {{{ do_configure
 do_configure_extra_local() {
 	:
 }
 export do_configure_extra_local
 
-do_configure_prepend() {
-	rm -f .config
-	if "${@['false', 'true'][d.getVar('__defconfig', True).startswith('/')]}"; then
-		install -p -m 0644 "${__defconfig}" .config
-	else
-		oe_runmake "${__defconfig}"
-	fi
+KCONFIG_FRAGMENTS += "${B}/local-fragments.cfg"
 
-	cat << "EOF" >> .config
+do_prepare_config_prepend() {
+	cat << "EOF" >> ${B}/local-fragments.cfg
 ${@kernel_options(d)}
 EOF
+}
 
-        cat ${@find_cfgs(d)} < /dev/null >> .config
-
-	oe_runmake oldnoconfig
-
+do_configure_prepend() {
 	do_configure_extra_local
 	oe_runmake savedefconfig
 }

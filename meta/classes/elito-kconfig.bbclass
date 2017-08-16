@@ -1,0 +1,45 @@
+DEPENDS += "kern-tools-native"
+
+ARCH_DEFCONFIG ?= '${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}'
+
+python() {
+    defconfig = d.getVar('KBUILD_DEFCONFIG', True)
+    if defconfig.startswith('file://'):
+        d.appendVar('SRC_URI', ' ' + defconfig)
+}
+
+def get_defconfig_path(d, cfg):
+    if cfg.startswith('file://'):
+        fetcher = bb.fetch2.Fetch((cfg,), d)
+        ud = fetcher.ud[cfg]
+        return '${WORKDIR}/' + ud.basepath
+    else:
+        return '${ARCH_DEFCONFIG}'
+
+def find_cfgs(d):
+    sources=src_patches(d, True)
+    sources_list=[]
+    for s in sources:
+        if s.endswith('.cfg'):
+            sources_list.append(s)
+
+    return ' '.join(sources_list)
+
+FETCHED_DEFCONFIG = "${@get_defconfig_path(d, d.getVar('KBUILD_DEFCONFIG', True))}"
+KCONFIG_FRAGMENTS = "${@find_cfgs(d)}"
+
+run_merge_config() {
+    env CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" ARCH='${ARCH}' \
+        merge_config.sh -O '${B}' "$@"
+}
+
+do_prepare_config[depends] = "kern-tools-native:do_populate_sysroot"
+do_prepare_config[dirs] += "${S} ${B}"
+do_prepare_config() {
+    cd '${S}'
+    rm -f ${B}/.config
+    #run_merge_config -n '${FETCHED_DEFCONFIG}'
+    #run_merge_config -n '${B}/.config' ${KCONFIG_FRAGMENTS}
+    run_merge_config -n '${FETCHED_DEFCONFIG}' ${KCONFIG_FRAGMENTS}
+}
+addtask do_prepare_config before do_configure after do_patch
