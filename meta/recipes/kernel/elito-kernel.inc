@@ -4,7 +4,7 @@ export ELITO_EXTKBUILD_DISABLED = "1"
 
 inherit deploy
 
-EXTRA_OEMAKE_prepend = "-f '${ELITO_MAKEFILE_DIR}/Makefile.kernel' \
+EXTRA_OEMAKE_prepend = " \
   -C '${S}' \
   KALLSYMS_EXTRA_PASS=1 \
   KBUILD_OUTPUT=${B}/ \
@@ -165,7 +165,6 @@ do_configure_extra_local() {
 }
 export do_configure_extra_local
 
-do_configure[depends] += "kernel-makefile:do_setup_makefile"
 do_configure_prepend() {
 	rm -f .config
 	if "${@['false', 'true'][d.getVar('__defconfig', True).startswith('/')]}"; then
