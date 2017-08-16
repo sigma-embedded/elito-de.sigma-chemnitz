@@ -8,8 +8,19 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=057bf9e50e1ca857d0eb97bfe4ba8e5d"
 
 DEFAULT_PREFERENCE = "99"
 
-DEPENDS += "elito-develcomp lzop-native"
-EXTRA_OEMAKE_prepend = "-f ${ELITO_MAKEFILE_DIR}/Makefile.develcomp CFG=barebox V=1 "
+DEPENDS += "lzop-native coreutils-native"
+EXTRA_OEMAKE_prepend = "\
+  -C ${S} \
+  KBUILD_OUTPUT=${B} V=1 \
+  CROSS_COMPILE="${TARGET_PREFIX}" \
+  CC="${KERNEL_CC}" \
+  LD="${KERNEL_LD}" \
+  HOSTCC="${BUILD_CC}" \
+  HOSTCPP="${BUILD_CPP}" \
+"
+
+unset CFLAGS
+unset LDFLAGS
 
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}-dev ${PN}"
 
@@ -23,8 +34,10 @@ BAREBOX_SOC_FAMILY ?= "${@(d.getVar('SOC_FAMILY', True) or "").split(':')[0]}"
 
 export ELITO_EXTKBUILD_DISABLED = "1"
 
-include u-boot-common.inc
-inherit deploy
+B = "${WORKDIR}/build"
+
+require u-boot-common.inc
+inherit kernel-arch deploy
 
 do_configure() {
     oe_runmake "${UBOOT_MACHINE}"
