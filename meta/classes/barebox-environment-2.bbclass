@@ -6,6 +6,18 @@
 # Set to '1' if you want to see a dump of the environment in the build process.
 ENV_VERBOSE ??= "0"
 
+def do_env_add_files(d, files, do_expand = False):
+    workdir = d.getVar("WORKDIR", True)
+
+    for (dst, src) in files.items():
+        with open("%s/%s" % (workdir, src)) as f:
+            data = f.read()
+
+        if do_expand:
+            data = d.expand(data)
+
+        env_add(d, dst, data)
+
 python do_env() {
     pass
     # Here add your env_add() and env_rm() calls via do_env_append or
