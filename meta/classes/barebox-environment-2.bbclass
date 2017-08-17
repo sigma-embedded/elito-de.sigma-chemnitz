@@ -7,6 +7,7 @@
 ENV_VERBOSE ??= "0"
 
 python do_env() {
+    pass
     # Here add your env_add() and env_rm() calls via do_env_append or
     # do_env_prepend. Examples:
     #    env_add(d, "nv/linux.bootargs.rootfs", "rootwait ro fsck.repair=yes\n")
