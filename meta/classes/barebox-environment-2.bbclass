@@ -17,9 +17,8 @@ addtask env after do_patch before do_env_write
 
 # BBClass internal function code:
 
-do_configure_append() {
-    # Add environment directory
-    kconfig_set DEFAULT_ENVIRONMENT_PATH "\".env-extra\""
+do_prepare_local_fragment_append() {
+    echo 'CONFIG_DEFAULT_ENVIRONMENT_PATH=".env-extra"' >> "${LOCAL_FRAGMENT}"
 }
 
 # The data file for environment is placed into the folder _ENV_DIR, so bitbake
