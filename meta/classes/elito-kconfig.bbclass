@@ -52,3 +52,7 @@ do_prepare_config() {
     run_merge_config -n '${FETCHED_DEFCONFIG}' ${KCONFIG_FRAGMENTS}
 }
 addtask do_prepare_config before do_configure after do_patch
+
+do_configure_append() {
+    oe_runmake savedefconfig
+}

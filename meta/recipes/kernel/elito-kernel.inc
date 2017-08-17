@@ -126,7 +126,6 @@ EOF
 
 do_configure_prepend() {
 	do_configure_extra_local
-	oe_runmake savedefconfig
 }
 # }}} do_configure
 
