@@ -118,8 +118,8 @@ export do_configure_extra_local
 
 KCONFIG_FRAGMENTS += "${B}/local-fragments.cfg"
 
-do_prepare_config_prepend() {
-	cat << "EOF" >> ${B}/local-fragments.cfg
+do_prepare_local_fragment_append() {
+	cat << "EOF" >> "${LOCAL_FRAGMENT}"
 ${@kernel_options(d)}
 EOF
 }

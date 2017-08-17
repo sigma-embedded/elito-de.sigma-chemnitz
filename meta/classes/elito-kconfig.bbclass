@@ -26,12 +26,21 @@ def find_cfgs(d):
     return ' '.join(sources_list)
 
 FETCHED_DEFCONFIG = "${@get_defconfig_path(d, d.getVar('KBUILD_DEFCONFIG', True))}"
-KCONFIG_FRAGMENTS = "${@find_cfgs(d)}"
+KCONFIG_FRAGMENTS = "${@find_cfgs(d)} ${LOCAL_FRAGMENT}"
+LOCAL_FRAGMENT    = "${B}/local-fragments.cfg"
 
 run_merge_config() {
     env CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" ARCH='${ARCH}' \
         merge_config.sh -O '${B}' "$@"
 }
+
+do_prepare_local_fragment[dirs] = "${B}"
+do_prepare_local_fragment() {
+        cd '${B}'
+        rm -f ${LOCAL_FRAGMENT}
+        touch ${LOCAL_FRAGMENT}
+}
+addtask do_prepare_local_fragment before do_prepare_config
 
 do_prepare_config[depends] = "kern-tools-native:do_populate_sysroot"
 do_prepare_config[dirs] += "${S} ${B}"
