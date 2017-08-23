@@ -66,7 +66,8 @@ def update_build_info(d, oe_info_fn):
     import bb.parse, time
     import os
 
-    f = d.expand("${TMPDIR}/build-info")
+    fname = "${TMPDIR}/build-info"
+    f     = d.expand(fname)
 
     with bb.utils.fileslocked([f + ".lock"]):
         try:
@@ -91,9 +92,17 @@ def update_build_info(d, oe_info_fn):
             with open(f, "w") as fd:
                 fd.write(new_info)
             bb.parse.update_mtime(f)
+            bb.debug(1, "=========================\n"
+                     "build-info changed: old='%s', new='%s'\n"
+                     "=========================\n" % (old_info, new_info))
 
     ftime = time.localtime(bb.parse.cached_mtime(f))
     bb.parse.mark_dependency(d, f)
 
     d.setVar("ELITO_BUILDINFO", new_info)
+
+    old_flags = (d.getVarFlag("ELITO_BUILDINFO", "file-checksums", False) or "").split()
+    if fname not in old_flags:
+        d.appendVarFlag("ELITO_BUILDINFO", "file-checksums", " %s" % fname)
+
     return "${DISTRO_VERSION_MAJOR}." + time.strftime("%Y%m%dT%H%M%S", ftime)
