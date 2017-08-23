@@ -32,6 +32,8 @@ python () {
     bb.parse.mark_dependency(d, d.expand("${TMPDIR}/build-info"))
 }
 
+do_fetch[file-checksums] += "${TMPDIR}/build-info:True"
+
 do_compile() {
 	set -x
 	rm -rf feeds
