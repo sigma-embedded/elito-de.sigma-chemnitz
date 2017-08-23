@@ -81,3 +81,5 @@ __force:
 .PHONY:	exec _all_ __force
 
 _SKIP_DEVELCOMP_RULES := 1
+
+.NOTPARALLEL:
