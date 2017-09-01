@@ -4,12 +4,12 @@ ARCH_DEFCONFIG ?= '${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}'
 
 python() {
     defconfig = d.getVar('KBUILD_DEFCONFIG', True)
-    if defconfig.startswith('file://'):
+    if defconfig != None and defconfig.startswith('file://'):
         d.appendVar('SRC_URI', ' ' + defconfig)
 }
 
 def get_defconfig_path(d, cfg):
-    if cfg.startswith('file://'):
+    if cfg != None and cfg.startswith('file://'):
         fetcher = bb.fetch2.Fetch((cfg,), d)
         ud = fetcher.ud[cfg]
         return '${WORKDIR}/' + ud.basepath
