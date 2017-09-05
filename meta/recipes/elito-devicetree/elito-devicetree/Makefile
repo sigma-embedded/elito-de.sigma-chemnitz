@@ -18,7 +18,7 @@ AM_DTC_CPPFLAGS = \
   -I${KERNEL_DIR}/include \
   -I${KERNEL_DIR}/arch/arm/boot/dts \
 
-DTC_FLAGS = -R 4
+DTC_FLAGS = -R 4 --include '${KERNEL_DIR}/arch/arm/boot/dts'
 
 define _linkfile
 ln -s '$1' '$2/'
