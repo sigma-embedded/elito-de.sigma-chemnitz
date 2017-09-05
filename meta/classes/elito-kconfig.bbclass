@@ -47,8 +47,6 @@ do_prepare_config[dirs] += "${S} ${B}"
 do_prepare_config() {
     cd '${S}'
     rm -f ${B}/.config
-    #run_merge_config -n '${FETCHED_DEFCONFIG}'
-    #run_merge_config -n '${B}/.config' ${KCONFIG_FRAGMENTS}
     run_merge_config -n '${FETCHED_DEFCONFIG}' ${KCONFIG_FRAGMENTS}
 }
 addtask do_prepare_config before do_configure after do_patch
