@@ -51,7 +51,3 @@ do_prepare_config() {
     cp ${B}/.config ${B}/.config.merged
 }
 addtask do_prepare_config before do_configure after do_patch
-
-do_configure_append() {
-    oe_runmake savedefconfig
-}
