@@ -22,8 +22,13 @@ SRCREV        = "${MACHINE_KERNEL_REVISION}"
 _branch       = "${MACHINE_KERNEL_VERSION}/${KERNEL_BRANCH}"
 KERNEL_REPO ??= "git+file://${ELITO_GIT_WS}/kernel.git"
 KERNEL_REV  ??= "branch=${_branch}"
-SRC_URI       = "${KERNEL_REPO};${KERNEL_REV}"
 SRC_URI[vardepsexclude] += "KERNEL_REPO"
+SRC_URI       = "\
+  ${KERNEL_REPO};${KERNEL_REV} \
+  ${@['','${KERNEL_SYSTEMD_CFG}'][d.getVar('VIRTUAL-RUNTIME_init_manager', True) == 'systemd']} \
+"
+
+KERNEL_SYSTEMD_CFG = "file://kernel-systemd.cfg"
 
 inherit kernel gitpkgv
 include elito-kernel.inc
