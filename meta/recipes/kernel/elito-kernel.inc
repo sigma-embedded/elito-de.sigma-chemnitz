@@ -130,17 +130,20 @@ do_configure_prepend() {
 }
 # }}} do_configure
 
+addtask do_savedefconfig before do_emit_buildhistory
+
 do_compile_prepare() {
 	oe_runmake prepare
 }
 
-do_compile_append() {
+do_emit_buildhistory() {
 	if "${@bb.utils.contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
            "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}"; then
-		install -D -p -m 0644 .config   ${BUILDHISTORY_DIR_IMAGE}/kernel-config
-		install -D -p -m 0644 defconfig ${BUILDHISTORY_DIR_IMAGE}/kernel-defconfig
+		install -D -p -m 0644 ${B}/.config   ${BUILDHISTORY_DIR_IMAGE}/kernel-config
+		install -D -p -m 0644 ${B}/defconfig ${BUILDHISTORY_DIR_IMAGE}/kernel-defconfig
 	fi
 }
+addtask do_emit_buildhistory after do_configure do_savedefconfig before do_build
 
 do_install_prepend() {
 	mkdir -p ${D}/lib/firmware
