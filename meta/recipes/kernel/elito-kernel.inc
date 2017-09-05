@@ -117,6 +117,7 @@ do_configure_extra_local() {
 export do_configure_extra_local
 
 KCONFIG_FRAGMENTS += "${B}/local-fragments.cfg"
+KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} O=${B} olddefconfig"
 
 do_prepare_local_fragment_append() {
 	cat << "EOF" >> "${LOCAL_FRAGMENT}"
