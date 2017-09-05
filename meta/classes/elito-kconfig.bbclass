@@ -48,6 +48,7 @@ do_prepare_config() {
     cd '${S}'
     rm -f ${B}/.config
     run_merge_config -m '${FETCHED_DEFCONFIG}' ${KCONFIG_FRAGMENTS}
+    cp ${B}/.config ${B}/.config.merged
 }
 addtask do_prepare_config before do_configure after do_patch
 
