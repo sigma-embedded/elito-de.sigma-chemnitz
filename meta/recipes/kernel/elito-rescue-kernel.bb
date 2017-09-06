@@ -5,7 +5,7 @@ SECTION = "kernel"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
 
-IMAGE_INIT_MANAGER = "busybox"
+VIRTUAL-RUNTIME_init_manager = "busybox"
 DISTRO_FEATURES = "ipv4 mmc headless leds nonfs"
 MACHINE_FEATURES_BACKFILL = ""
 MACHINE_FEATURES := "${@elito_intersect('MACHINE_FEATURES', 'SUPPORTED_MACHINE_FEATURES', d)}"

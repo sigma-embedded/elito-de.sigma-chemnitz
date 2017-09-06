@@ -26,8 +26,8 @@ FILES_${PN}-extra = "\
   ${bindir}/* \
 "
 
-OVERRIDES[vardeps] += "IMAGE_INIT_MANAGER"
-OVERRIDES .= "${@base_conditional('IMAGE_INIT_MANAGER','systemd',':systemd','',d)}"
+OVERRIDES[vardeps] += "VIRTUAL-RUNTIME_init_manager"
+OVERRIDES .= "${@base_conditional('VIRTUAL-RUNTIME_init_manager','systemd',':systemd','',d)}"
 OVERRIDES .= "${@bb.utils.contains('DISTRO_FEATURES','initrd',':dietlibc','',d)}"
 
 DEPENDS_append_dietlibc += "dietlibc-cross"

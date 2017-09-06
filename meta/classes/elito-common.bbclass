@@ -19,7 +19,7 @@ def elito_common_expand(v,d):
     blacklist = set((d.getVar('ELITO_COMMON_BLACKLIST', True) or "").split())
 
     features = set(machine_features + distro_features)
-    initsys  = 'initsys-%s' % (d.getVar('IMAGE_INIT_MANAGER', True) or "none")
+    initsys  = 'initsys-%s' % (d.getVar('VIRTUAL-RUNTIME_init_manager', True) or "none")
     networkd = 'networkd-%s' % (d.getVar("ELITO_NETWORKD", True) or "none")
     features.add(networkd)
     features.add(initsys)
@@ -35,7 +35,7 @@ def elito_common_expand(v,d):
 
     res  = set()
     deps = set(["MACHINE_FEATURES", "DISTRO_FEATURES",
-                "ELITO_COMMON_BLACKLIST", "IMAGE_INIT_MANAGER",
+                "ELITO_COMMON_BLACKLIST", "VIRTUAL-RUNTIME_init_manager",
                 "ELITO_NETWORKD"])
     deps.update((d.getVarFlag(v, 'vardeps', True) or "").split())
 

@@ -42,7 +42,7 @@ RDEPENDS_${PN} += "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'ubifs', 'mtd-utils', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'keyboard', 'keymaps', '', d)} \
     ${IMAGE_INITSCRIPTS}		\
-    ${IMAGE_INIT_MANAGER}		\
+    ${VIRTUAL-RUNTIME_init_manager}	\
     ${PROJECT_EXTRA_RDEPENDS}		\
     ${_DEV_MANAGER_DEPS}		\
     "
