@@ -55,7 +55,7 @@ kernel_options[vardeps] += "\
   DISTRO_FEATURES MACHINE_FEATURES KERNEL_CMDLINE \
   KERNEL_CMDLINE_SOURCE KERNEL_EARLY_OPTIONS_FUNCS \
   _configdebug-opts _configdisable-opts \
-  IMAGE_INIT_MANAGER KERNEL_OPTIONS_FUNCS"
+  KERNEL_OPTIONS_FUNCS"
 def kernel_options(d):
     import elito.kernel_feature
 
