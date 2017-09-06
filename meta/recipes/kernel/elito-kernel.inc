@@ -87,9 +87,6 @@ def kernel_options(d):
             ],
           [ is_feature('headless'),
             [ 'FB',         False ] ],
-          [ d.getVar('IMAGE_INIT_MANAGER', True) == 'systemd',
-            [ 'AUTOFS4_FS', True ],
-            [ '+CGROUPS',    True ] ],
           ]
 
     o.extend(map(lambda x: [True, 'DEBUG_' + x, False], d.getVar('_configdebug-opts', True).split()))
