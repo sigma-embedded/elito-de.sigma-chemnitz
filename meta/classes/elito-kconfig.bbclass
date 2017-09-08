@@ -51,3 +51,17 @@ do_prepare_config() {
     cp ${B}/.config ${B}/.config.merged
 }
 addtask do_prepare_config before do_configure after do_patch
+
+do_kconfig_savedefconfig() {
+    oe_runmake -C ${B} savedefconfig
+}
+addtask do_kconfig_savedefconfig after do_configure
+
+do_kconfig_emit_buildhistory() {
+	if "${@bb.utils.contains('INHERIT', 'buildhistory', 'true', 'false', d)}" && \
+           "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'image', 'true', 'false', d)}"; then
+		install -D -p -m 0644 ${B}/.config   ${BUILDHISTORY_DIR_IMAGE}/${PN}-config
+		install -D -p -m 0644 ${B}/defconfig ${BUILDHISTORY_DIR_IMAGE}/${PN}-defconfig
+	fi
+}
+addtask do_kconfig_emit_buildhistory after do_kconfig_savedefconfig before do_build
