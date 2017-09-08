@@ -74,12 +74,12 @@ do_deploy_machine() {
 
 ## TODO: that's broken; there is no generic 'zynq-7000' override
 do_deploy_machine_zynq-7000() {
-	install -p -m 0644 ${S}/u-boot.elf ${DEPLOYDIR}/${uboot_image}.elf
+	install -p -m 0644 ${B}/u-boot.elf ${DEPLOYDIR}/${uboot_image}.elf
 	ln -s ${uboot_image}.elf ${DEPLOYDIR}/${UBOOT_SYMLINK}.elf
 }
 
 do_deploy_machine_mx6() {
-	install -D -p -m 0644 ${S}/u-boot.ivt ${DEPLOYDIR}/${uboot_image}.imx
+	install -D -p -m 0644 ${B}/u-boot.ivt ${DEPLOYDIR}/${uboot_image}.imx
 	ln -s ${uboot_image}.imx ${DEPLOYDIR}/${UBOOT_SYMLINK}.imx
 }
 
@@ -89,10 +89,12 @@ do_deploy () {
 	uboot_image="u-boot-${MACHINE}-${PV}-${PR}"
 
 	install -d ${DEPLOYDIR}
-	install -D -p -m 0644 ${S}/u-boot.bin ${DEPLOYDIR}/${uboot_image}.bin
-	install -D -p -m 0644 ${S}/u-boot     ${DEPLOYDIR}/${uboot_image}
+	install -D -p -m 0644 ${B}/u-boot.bin ${DEPLOYDIR}/${uboot_image}.bin
+	install -D -p -m 0644 ${B}/u-boot.img ${DEPLOYDIR}/${uboot_image}.img
+	install -D -p -m 0644 ${B}/u-boot     ${DEPLOYDIR}/${uboot_image}
 
 	ln -s ${uboot_image}.bin ${DEPLOYDIR}/${UBOOT_SYMLINK}.bin
+	ln -s ${uboot_image}.img ${DEPLOYDIR}/${UBOOT_SYMLINK}.img
 	ln -s ${uboot_image}     ${DEPLOYDIR}/${UBOOT_SYMLINK}
 
 	do_deploy_machine
