@@ -20,6 +20,7 @@ SRC_URI = "	\
 RELEASE_FILES_PROVIDER ?= "elito-release"
 RRECOMMENDS_${PN} = "${RELEASE_FILES_PROVIDER}"
 
+FSTAB_ROOTFS_OPT ?= "defaults"
 TMPFS_SIZE       ?= "8m"
 TMP_SIZE	 ?= "${TMPFS_SIZE}"
 PTS_GID          ?= "5"
@@ -75,6 +76,7 @@ do_install() {
 		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
 		-e 's!@TMP_SIZE@!${TMP_SIZE}!g'	\
 		-e 's!@PTS_GID@!${PTS_GID}!g'		\
+		-e 's!@ROOTFSOPT@!${FSTAB_ROOTFS_OPT}!g' \
 		fstab > ${D}${sysconfdir}/fstab
 }
 
