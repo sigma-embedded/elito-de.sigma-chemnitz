@@ -1,4 +1,4 @@
-rootfs			/			rootfs		defaults	1 1
+rootfs			/			rootfs		@ROOTFSOPT@	1 1
 none			/sys			sysfs		noauto
 none			/proc			proc		noauto
 none			/tmp			tmpfs		size=@TMP_SIZE@,mode=1777
