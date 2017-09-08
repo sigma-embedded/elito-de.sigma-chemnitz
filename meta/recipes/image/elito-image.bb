@@ -7,7 +7,7 @@ EXTRA_IMAGEDEPENDS = "	\
 IMAGE_INSTALL = "${MACHINE_TASK_PROVIDER}"
 IMAGE_BOOT    = ""
 
-IMAGE_PREPROCESS_COMMAND += "elito_cleanup_boot"
+IMAGE_PREPROCESS_COMMAND += "elito_cleanup_boot;"
 
 PATH_append = ":/usr/local/sbin:/usr/sbin:/sbin"
 
