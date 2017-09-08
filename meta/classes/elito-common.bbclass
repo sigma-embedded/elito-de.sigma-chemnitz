@@ -48,7 +48,7 @@ def elito_common_expand(v,d):
 
     d.setVarFlag(v, 'vardeps', ' '.join(sorted(deps)))
 
-    return ' '.join(res - blacklist)
+    return ' '.join(sorted(res - blacklist))
 
 ######
 
