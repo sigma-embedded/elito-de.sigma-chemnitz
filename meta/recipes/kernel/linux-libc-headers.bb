@@ -12,6 +12,7 @@ _srcrev_kernel-4-4  = "afd2ff9b7e1b367172f18ba7f693dfb62bdcb2dc"
 _srcrev_kernel-4-5  = "b562e44f507e863c6792946e4e1b1449fbbac85d"
 _srcrev_kernel-4-9  = "69973b830859bc6529a7a0468ba0d80ee5117826"
 _srcrev_kernel-4-10 = "c470abd4fde40ea6a0846a2beab642a578c0b8cd"
+_srcrev_kernel-4-13 = "569dbb88e80deb68974ef6fdd6a13edb9d686261"
 
 SRCREV = "${_srcrev}"
 PV     = "${MACHINE_KERNEL_VERSION}"
