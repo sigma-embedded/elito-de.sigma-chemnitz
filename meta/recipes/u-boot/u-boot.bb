@@ -9,13 +9,17 @@ LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
 
 DEFAULT_PREFERENCE = "99"
+UBOOT_DEFCONFIG ??= "${UBOOT_MACHINE}"
+KBUILD_DEFCONFIG_pn-${BPN} ?= "${UBOOT_DEFCONFIG}"
+
+ARCH_DEFCONFIG ?= '${S}/configs/${KBUILD_DEFCONFIG}'
 
 _repo = "u-boot"
 
 include u-boot-common.inc
-inherit deploy
+inherit deploy cml1 elito-kconfig
 
-B = "${S}"
+B = "${WORKDIR}/build"
 
 PACKAGES         = "${PN}-dbg ${PN}-bin ${PN}"
 
@@ -25,23 +29,29 @@ FILES_${PN}-bin  = "/boot/u-boot.bin"
 
 INSANE_SKIP_${PN} = "textrel ldflags"
 
-_make() {
-	${MAKE} -f '${ELITO_MAKEFILE_DIR}/Makefile.develcomp' \
-		CFG=u-boot \
-		CFG_NONDEVEL=1 \
-		CFG_KERNEL_UART=${UBOOT_CONSOLE} \
-		CFG_KERNEL_BAUD=${UBOOT_BAUD} \
-		"$@"
+EXTRA_OEMAKE = "\
+  -C ${S} O=${B} V=1 \
+  CROSS_COMPILE='${TARGET_PREFIX}' \
+  CC='${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}' \
+  HOSTCC='${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}' \
+"
+
+do_prepare_config_prepend() {
+	touch ${LOCAL_FRAGMENT}
 }
 
-do_configure[depends] += "elito-makefile:do_setup_makefile"
 do_configure() {
-	_make mrproper
-	_make ${UBOOT_MACHINE}
+	! test -e ${B}/.config || oe_runmake olddefconfig
 }
 
 do_compile() {
-	_make
+	unset LDFLAGS CFLAGS CPPFLAGS LD
+
+	if ! test -e .config; then
+		oe_runmake ${UBOOT_MACHINE}
+	fi
+
+	oe_runmake ${UBOOT_MAKE_TARGET}
 }
 
 do_compile_append_mx6() {
