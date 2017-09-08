@@ -83,6 +83,19 @@ do_deploy_machine_mx6() {
 	ln -s ${uboot_image}.imx ${DEPLOYDIR}/${UBOOT_SYMLINK}.imx
 }
 
+UBOOT_MLO_SYMLINK ??= "MLO-${MACHINE}"
+
+do_deploy_machine_ti33xx() {
+	mlo_image="MLO-${MACHINE}-${PV}-${PR}"
+
+	install -D -p -m 0644 ${B}/MLO ${DEPLOYDIR}/${mlo_image}.img
+	ln -s ${mlo_image}.img ${DEPLOYDIR}/${UBOOT_MLO_SYMLINK}.img
+	ln -s ${mlo_image}.img ${DEPLOYDIR}/MLO
+
+	install -D -p -m 0644 ${B}/spl/u-boot-spl ${DEPLOYDIR}/${mlo_image}.elf
+	ln -s ${mlo_image}.elf ${DEPLOYDIR}/${UBOOT_MLO_SYMLINK}.elf
+}
+
 do_deploy[cleandirs] = "${DEPLOYDIR}"
 do_deploy[vardeps] += "do_deploy_machine"
 do_deploy () {
