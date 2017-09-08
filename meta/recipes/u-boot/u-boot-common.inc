@@ -11,6 +11,8 @@ UBOOT_CONSOLE	??= "${@'${SERIAL_CONSOLE}'.split()[1]}"
 UBOOT_BAUD	??= "${@'${SERIAL_CONSOLE}'.split()[0]}"
 UBOOT_REPO	??= "git+file://${ELITO_GIT_WS}/${_repo}"
 
+UBOOT_MAKE_TARGET ?= "all"
+
 PV   = "${UBOOT_VERSION}+gitr${SRCPV}"
 PKGV = "${UBOOT_VERSION}+gitr${GITPKGV}"
 
