@@ -221,6 +221,10 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-fb = "\
   elito-fbtest \
 "
 
+ELITO_COMMON_DIAGNOSIS_TOOLS-mmc = "\
+  hdparm \
+"
+
 ELITO_COMMON_DIAGNOSIS_TOOLS-mtd = "\
   mtd-utils \
 "
@@ -237,12 +241,17 @@ ELITO_COMMON_DIAGNOSIS_TOOLS-screen = "\
   fbset \
 "
 
+ELITO_COMMON_DIAGNOSIS_TOOLS-sata = "\
+  hdparm \
+"
+
 ELITO_COMMON_DIAGNOSIS_TOOLS-touchscreen = "\
   tslib-calibrate \
   tslib-tests \
 "
 
 ELITO_COMMON_DIAGNOSIS_TOOLS-usbhost = "\
+  hdparm \
   usbutils \
 "
 
