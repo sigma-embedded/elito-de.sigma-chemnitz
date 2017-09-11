@@ -42,7 +42,7 @@ require u-boot-common.inc
 inherit kernel-arch deploy cml1 elito-kconfig
 
 do_configure() {
-	:
+	oe_runmake olddefconfig
 }
 
 barebox_do_install() {
