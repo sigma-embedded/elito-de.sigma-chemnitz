@@ -1,6 +1,5 @@
 export CC = $(KERNEL_CC)
 export LD = $(KERNEL_LD)
-export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
 export CROSS_COMPILE
 
 ifneq ($(filter ${TARGET_ARCH},i386 i486 i586 i686),)
@@ -50,9 +49,22 @@ LOCALGOALS += $(_kernel_image_files)
 
 override _k_all_target =
 
+# forbid tftp-m without permanent rootfs
+ifneq (${IMAGE_ROOTFS},)
+export INSTALL_MOD_PATH = ${IMAGE_ROOTFS}
+
 tftp-m:	_k_all_target=all modules
 tftp-m:	tftp
 	+$(_build_cmd) modules_install
+else
+tftp-m:
+	@echo >&2
+	@echo '****' >&2
+	@echo "**** ROOTFS not configured; modules_install not available!" >&2
+	@echo '****' >&2
+	@echo >&2
+	@false
+endif
 
 gtags cscope tags TAGS:
 	+env PATH=$$PATH:/usr/bin:/bin $(_build_cmd) $@
