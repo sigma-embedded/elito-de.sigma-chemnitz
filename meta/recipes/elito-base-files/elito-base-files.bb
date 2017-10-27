@@ -28,6 +28,29 @@ PTS_GID          ?= "5"
 B := "${S}"
 S  = "${WORKDIR}"
 
+do_compile() {
+	c1='-e /[[:space:]]debugfs[[:space:]]/d'
+	c2='-e /[[:space:]]selinuxfs[[:space:]]/d'
+	c3='-e /[[:space:]]unionfs[[:space:]]/d'
+	c4='-e /[[:space:]]/boot[[:space:]]\+tmpfs[[:space:]]/d'
+	c5='-e /x-systemd\./d'
+	c6='-e \![[:space:]]/\(\(sys\)\|\(proc\)\|\(dev/pts\)\|\(run\)\)[[:space:]]!d'
+
+	${@bb.utils.contains("PROJECT_FEATURES","no-kdebug",":","c1=",d)}
+	${@bb.utils.contains("PROJECT_FEATURES","selinux","c2=",':',d)}
+	${@bb.utils.contains("PROJECT_FEATURES","unionfs","c3=",':',d)}
+	${@bb.utils.contains("PROJECT_FEATURES","hasboot",":","c4=",d)}
+	${@bb.utils.contains("DISTRO_FEATURES","systemd","c5=",":",d)}
+	${@bb.utils.contains("DISTRO_FEATURES","systemd","","c6=",d)}
+
+	sed $c0 $c1 $c2 $c3 $c4 $c5 $c6	\
+		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
+		-e 's!@TMP_SIZE@!${TMP_SIZE}!g'	\
+		-e 's!@PTS_GID@!${PTS_GID}!g'		\
+		-e 's!@ROOTFSOPT@!${FSTAB_ROOTFS_OPT}!g' \
+		${S}/fstab > fstab.fixed
+}
+
 do_install() {
 	i() {
             test -s "$1" || return 0
@@ -60,26 +83,7 @@ do_install() {
         i device-order.conf ${sysconfdir}/modprobe.d/10-device-order.conf
         i sysctl.conf       ${sysconfdir}/sysctl.d/10-elito.conf
 
-	c1='-e /[[:space:]]debugfs[[:space:]]/d'
-	c2='-e /[[:space:]]selinuxfs[[:space:]]/d'
-	c3='-e /[[:space:]]unionfs[[:space:]]/d'
-	c4='-e /[[:space:]]/boot[[:space:]]\+tmpfs[[:space:]]/d'
-	c5='-e /x-systemd\./d'
-	c6='-e \![[:space:]]/\(\(sys\)\|\(proc\)\|\(dev/pts\)\|\(run\)\)[[:space:]]!d'
-
-	${@bb.utils.contains("PROJECT_FEATURES","no-kdebug",":","c1=",d)}
-	${@bb.utils.contains("PROJECT_FEATURES","selinux","c2=",':',d)}
-	${@bb.utils.contains("PROJECT_FEATURES","unionfs","c3=",':',d)}
-	${@bb.utils.contains("PROJECT_FEATURES","hasboot",":","c4=",d)}
-	${@bb.utils.contains("DISTRO_FEATURES","systemd","c5=",":",d)}
-	${@bb.utils.contains("DISTRO_FEATURES","systemd","","c6=",d)}
-
-	sed $c0 $c1 $c2 $c3 $c4 $c5 $c6	\
-		-e 's!@TMPFS_SIZE@!${TMPFS_SIZE}!g'	\
-		-e 's!@TMP_SIZE@!${TMP_SIZE}!g'	\
-		-e 's!@PTS_GID@!${PTS_GID}!g'		\
-		-e 's!@ROOTFSOPT@!${FSTAB_ROOTFS_OPT}!g' \
-		fstab > ${D}${sysconfdir}/fstab
+	install -D -p -m 0644 ${B}/fstab.fixed ${D}${sysconfdir}/fstab
 }
 
 PACKAGES        = "${PN}"
