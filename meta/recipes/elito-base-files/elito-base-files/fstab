@@ -1,11 +1,12 @@
 rootfs			/			rootfs		@ROOTFSOPT@	1 1
-none			/sys			sysfs		noauto
-none			/proc			proc		noauto
+none			/sys			sysfs		defaults
+none			/proc			proc		defaults
 none			/tmp			tmpfs		size=@TMP_SIZE@,mode=1777
 none			/var/volatile		tmpfs		size=@TMPFS_SIZE@,mode=0755
 none			/dev/pts		devpts		noauto,gid=@PTS_GID@,mode=0620
 none			/sys/kernel/debug	debugfs		nofail
 none			/selinux		selinuxfs	defaults
 none			/boot			tmpfs		defaults,size=16M
+none			/run			tmpfs		size=32M
 
 /var/volatile/cache	/var/cache		none		bind,x-systemd.requires=systemd-tmpfiles-setup.service,x-systemd.requires=var-cache.automount,noauto
