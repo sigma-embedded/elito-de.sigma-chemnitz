@@ -1,10 +1,12 @@
-require dietlibc-common.inc
-
 INHIBIT_DEFAULT_DEPS = "1"
 DEPENDS += "dietlibc"
 RDEPENDS_${PN} += "dietlibc-dev dietlibc-headers"
 
+PN := "dietlibc-cross-${TARGET_ARCH}"
+PROVIDES := "dietlibc-cross"
+
 inherit cross
+require dietlibc-common.inc
 
 libdir := "${STAGING_DIR_TARGET}${target_libdir}"
 
