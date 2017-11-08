@@ -25,7 +25,6 @@ TARGET_IMAGES =
 BITBAKE_REPO =		git://git.openembedded.org/bitbake.git
 
 BITBAKE_SNAPSHOT =	http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-git.bundle
-BITBAKE_SETUPTOOLS =	http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c9-py2.6.egg
 
 BITBAKE_ENV =		env $(addprefix -u ,\
 	MAKEFILES MAKEFLAGS MAKEOVERRIDES MFLAGS VPATH \
@@ -280,10 +279,8 @@ _bitbake-dirs =			$(_tmpdir)/bitbake
 _bitbake-xtraprogs =		bitbake-layers bitbake-diffsigs bitbake-prserv
 
 _bitbake-bundle =		$(ELITO_CACHE_DIR)/bitbake-${_bitbake_rev_s}.bundle
-_bitbake_setuptools_cached =	$(ELITO_CACHE_DIR)/$(notdir ${BITBAKE_SETUPTOOLS})
-_bitbake_setuptools =		$(_tmpdir)/$(notdir ${BITBAKE_SETUPTOOLS})
 
-.SECONDARY:		$(_bitbake-bundle) $(_bitbake_setuptools_cached)
+.SECONDARY:		$(_bitbake-bundle)
 
 config:			bitbake-validate
 mrproper:		bitbake-clean
@@ -336,14 +333,7 @@ $(_wstampdir)/.prep.stamp:	| $(_wstampdir) bitbake-validate Makefile $(AUTOCONF_
 ifeq ($(ELITO_OFFLINE),)
 $(_bitbake-bundle):	|  $(ELITO_CACHE_DIR)
 			$(call _download,$(BITBAKE_SNAPSHOT))
-
-$(_bitbake_setuptools_cached):	|  $(ELITO_CACHE_DIR)
-			$(call _download,$(BITBAKE_SETUPTOOLS))
 endif
-
-$(_bitbake_setuptools):	$(_bitbake_setuptools_cached) | $(_tmpdir)
-			$(INSTALL_DATA) $< $@
-
 
 $(_stampdir)/.bitbake.fetch.stamp: | $(_tmpdir)/bitbake $(_stampdir) $(_bitbake-bundle)
 			cd $(_tmpdir)/bitbake && $(GIT) init
@@ -374,7 +364,7 @@ else
 endif
 			@touch $@
 
-$(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp | $(_bitbake_setuptools)
+$(_stampdir)/.bitbake.install.stamp:	$(_stampdir)/.bitbake.patch.stamp
 			rm -f ${_bitbake-xtraprogs}
 			rm -f $(_bitbake_root)
 			ln -s bitbake $(_bitbake_root)
@@ -518,7 +508,6 @@ clean-sources:
 			rm -f ${ELITO_CACHE_DIR}/sources/*_hg.*
 			rm -f ${ELITO_CACHE_DIR}/sources/git_*
 			rm -f ${ELITO_CACHE_DIR}/bitbake-*
-			rm -f ${ELITO_CACHE_DIR}/setuptools-*
 			rm -f ${ELITO_CACHE_DIR}/sources/*.md5
 			rm -f ${ELITO_CACHE_DIR}/sources/*.lock
 			#find ${ELITO_CACHE_DIR}/sources -maxdepth 1 -type f -atime +28 -print0 | xargs -0 rm -vf
