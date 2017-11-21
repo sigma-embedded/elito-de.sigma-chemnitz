@@ -739,6 +739,7 @@ else
    ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache)
 fi
 
+## keep in sync with SANITY_REQUIRED_UTILITIES
 ELITO_CHECK_PROGRAM(-1, GZIP,       gzip)
 ELITO_CHECK_PROGRAM(-1, SED,        sed)
 ELITO_CHECK_PROGRAM(-1, WGET,       wget)
@@ -753,6 +754,11 @@ ELITO_CHECK_PROGRAM(-1, PATCH,      patch)
 ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
 ELITO_CHECK_PROGRAM(-1, BASH,       bash)
 ELITO_CHECK_PROGRAM(-1, GIT,        git, git, [_git_check_version], 0x010705)
+ELITO_CHECK_PROGRAM(-1, MAKEINFO,   makeinfo, _makeinfo)
+ELITO_CHECK_PROGRAM(-1, GAWK,       gawk, _gawk)
+ELITO_CHECK_PROGRAM(-1, CPIO,       cpio, _cpio)
+ELITO_CHECK_PROGRAM(-1, PERL,       perl, _perl)
+ELITO_CHECK_PROGRAM(-1, FILE,       file, _file)
 
 ELITO_CHECK_LN_R()
 
