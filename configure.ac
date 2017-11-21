@@ -686,7 +686,7 @@ fi
 ELITO_INIT_VARS
 
 if test "$enable_ccache" = yes; then
-   ELITO_CHECK_PROGRAM(-1, CCACHE,     ccache, _ccache)
+   ELITO_CHECK_PROGRAM(-2, CCACHE,     ccache)
 else
    ELITO_CHECK_PROGRAM( 0, CCACHE,     ccache, _ccache)
 fi
@@ -702,7 +702,7 @@ ELITO_CHECK_PROGRAM(-1, DIFFSTAT,   diffstat)
 ELITO_CHECK_PROGRAM(-1, PATCH,      patch)
 
 ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
-ELITO_CHECK_PROGRAM(-1, PERL,       perl, _perl)
+ELITO_CHECK_PROGRAM(-2, PERL,       perl)
 
 ELITO_CHECK_PROGRAM(-1, TAR,        tar)
 ELITO_CHECK_PROGRAM(-1, MAKEINFO,   makeinfo, texinfo)
@@ -712,8 +712,8 @@ ELITO_CHECK_PROGRAM(-1, WGET,       wget)
 
 ELITO_CHECK_PROGRAM(-1, MAKE,       make)
 
-ELITO_CHECK_PROGRAM(-1, GZIP,       gzip, _gzip)
-ELITO_CHECK_PROGRAM(-1, XZ,         xz, _xzbin)
+ELITO_CHECK_PROGRAM(-2, GZIP,       gzip)
+ELITO_CHECK_PROGRAM(-2, XZ,         xz)
 
 ELITO_CHECK_LN_R()
 
