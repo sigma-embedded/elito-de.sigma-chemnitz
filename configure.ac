@@ -689,11 +689,12 @@ AC_DEFUN([ELITO_CHECK_PROGRAM],[
 		ifelse([$5],,:,$5([$2],$6))
 	fi
 
+	m4_if($1,-2,[],[
 	if ! $_elito_bad_ver && test -x "${$2}"; then
 		ELITO_ASSUME([$1],ifelse([$4],,$3,$4),true)
 	else
 		ELITO_ASSUME([$1],ifelse([$4],,$3,$4),false)
-	fi
+	fi])
 ])
 
 AC_DEFUN([ELITO_CHECK_LN_R],[
