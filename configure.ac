@@ -710,7 +710,7 @@ ELITO_CHECK_PROGRAM(-1, BASH,       bash)
 ELITO_CHECK_PROGRAM(-1, SED,        sed)
 ELITO_CHECK_PROGRAM(-1, WGET,       wget)
 
-ELITO_CHECK_PROGRAM(-1, MAKE,       make)
+ELITO_CHECK_PROGRAM(-2, MAKE,       make)
 
 ELITO_CHECK_PROGRAM(-2, GZIP,       gzip)
 ELITO_CHECK_PROGRAM(-2, XZ,         xz)
