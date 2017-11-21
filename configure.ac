@@ -756,6 +756,9 @@ ELITO_CHECK_PROGRAM(-1, PATCH,      patch)
 ELITO_CHECK_PROGRAM(-1, GCC,        gcc)
 ELITO_CHECK_PROGRAM(-1, BASH,       bash)
 ELITO_CHECK_PROGRAM(-1, GIT,        git, git, [_git_check_version], 0x010705)
+ELITO_CHECK_PROGRAM(-2, GAWK,       gawk)
+ELITO_CHECK_PROGRAM(-2, CPIO,       cpio)
+ELITO_CHECK_PROGRAM(-2, WHICH,      which)
 
 ELITO_CHECK_LN_R()
 
