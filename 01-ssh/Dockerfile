@@ -51,7 +51,6 @@ RUN \
 	chmod 0644 /home/@USER@/.ssh/authorized_keys && \
 	chmod 0600 /home/@USER@/.ssh/config && \
 	chmod 0600 /home/@USER@/.config/elito/customer.pem && \
-	chmod 0755 /home/@USER@/bin/* && \
 	chmod 0755 /usr/local/bin/* && \
 	:
 
