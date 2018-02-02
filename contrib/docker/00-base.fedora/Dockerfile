@@ -21,9 +21,7 @@ RUN \
 	gcc-c++ \
 	git \
 	global \
-	gnutls-devel \
 	hostname \
-	libgcrypt-devel \
 	libtool \
 	lsof \
 	lzop \
@@ -43,9 +41,6 @@ RUN \
 	wget \
 	which \
 	xz \
-\
-	libproxy-bin \
-	libproxy-devel \
     && \
     dnf clean all
 
