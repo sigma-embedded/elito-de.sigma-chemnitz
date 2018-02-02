@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM docker/sigma-fedora:27
+FROM docker/sigma/fedora:27
 
 RUN \
     dnf upgrade -y && \
