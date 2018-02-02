@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM docker/sigma-fedora:25
+FROM docker/sigma-fedora:27
 
 RUN \
     dnf upgrade -y && \
@@ -16,6 +16,8 @@ RUN \
 	curl \
 	diffstat \
 	file \
+	iproute \
+	iputils \
 	gawk \
 	gcc \
 	gcc-c++ \
@@ -32,9 +34,10 @@ RUN \
 	'perl(bigint)' \
 	pkgconfig \
 	procps-ng \
-	python \
-	python-beautifulsoup4 \
-	python-inotify \
+	python2 \
+	python3 \
+	python3-beautifulsoup4 \
+	python3-inotify \
 	socat \
 	strace \
 	texinfo \
