@@ -13,6 +13,8 @@ _opts=(
   --hostname="${CONTAINER_HOSTNAME}"
   --name="${FINAL_NAME}_${DISTRIBUTION}"
   --tmpfs /tmp:rw,size=512M,mode=01777,nosuid,nodev
+  --label elito
+  --label distribution="$DISTRIBUTION"
 )
 
 # there is no sense in using seccomp for SELinux enabled hosts and it
