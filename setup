@@ -22,7 +22,7 @@ VOLUMES_devel=(
   "/srv/.oe/docker/my-project"
 
   # the workspace with valuable files; it can be on a slow disk
-  "/srv/projects/my-project"
+  "/srv/projects/my-project	''	:rslave"
 
   # read-only mirror
   "/srv/.oe/docker/mirror	''	:ro"
