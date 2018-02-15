@@ -71,4 +71,7 @@ RUN \
 
 USER 0:0
 
+VOLUME	/var/tmp
+VOLUME	/var/cache
+
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
