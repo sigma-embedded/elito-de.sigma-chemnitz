@@ -17,6 +17,13 @@ _opts=(
   --label distribution="$DISTRIBUTION"
 )
 
+if gitrev=$(git rev-parse HEAD 2>/dev/null); then
+  _opts+=( --label "gitrev=$gitrev" )
+
+  test -z "$(git status --porcelain | sed '1p;d')" ||
+    _opts+=( --label gitdirty=true )
+fi
+
 # there is no sense in using seccomp for SELinux enabled hosts and it
 # breaks too much things (strace, ...)
 ! sestatus >/dev/null 2>/dev/null || \
