@@ -7,6 +7,11 @@ DISTRIBUTION=$1
 RELEASE=$2
 BASE_PORT=$3
 
+_opts=(
+  --label elito
+  --label distribution="$DISTRIBUTION"
+)
+
 # Usage: set_dir <varname> <spec>
 function set_dir() {
   eval $1=\$2
@@ -76,6 +81,13 @@ function getpwent() {
 set -e
 
 . ./setup
+
+if gitrev=$(git rev-parse HEAD 2>/dev/null); then
+  _opts+=( --label "gitrev=$gitrev" )
+
+  test -z "$(git status --porcelain | sed '1p;d')" ||
+    _opts+=( --label gitdirty=true )
+fi
 
 set_dir CACHE_DIR ${VOLUMES[0]}
 set_dir BLD_DIR ${VOLUMES[1]}
@@ -154,4 +166,4 @@ done 10>"$t"/ports.cmd 11>"$t"/ports.expose
 } > "$t"/ssh/Dockerfile
 
 tar czf - -C "$t/ssh" . --owner root --group root --mode go-w,a+rX | \
-    docker build -t ${FINAL_NAME}:${DISTRIBUTION} -
+    docker build -t ${FINAL_NAME}:${DISTRIBUTION} "${_opts[@]}" -
