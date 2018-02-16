@@ -12,7 +12,7 @@ _opts=(
   --restart=always
   --hostname="${CONTAINER_HOSTNAME}"
   --name="${FINAL_NAME}_${DISTRIBUTION}"
-  --tmpfs /tmp:rw,size=512M,mode=01777,nosuid,nodev
+  --tmpfs /tmp:rw,size=512M,mode=01777,nosuid,nodev,exec
   --label elito
   --label distribution="$DISTRIBUTION"
 )
