@@ -14,14 +14,14 @@ _opts=(
   --name="${FINAL_NAME}_${DISTRIBUTION}"
   --tmpfs /tmp:rw,size=512M,mode=01777,nosuid,nodev,exec
   --label elito
-  --label distribution="$DISTRIBUTION"
+  --label bsp.distribution="$DISTRIBUTION"
 )
 
 if gitrev=$(git rev-parse HEAD 2>/dev/null); then
-  _opts+=( --label "gitrev=$gitrev" )
+  _opts+=( --label "bsp.gitrev=$gitrev" )
 
   test -z "$(git status --porcelain | sed '1p;d')" ||
-    _opts+=( --label gitdirty=true )
+    _opts+=( --label bsp.gitdirty=true )
 fi
 
 # there is no sense in using seccomp for SELinux enabled hosts and it

@@ -9,7 +9,7 @@ BASE_PORT=$3
 
 _opts=(
   --label elito
-  --label distribution="$DISTRIBUTION"
+  --label bsp.distribution="$DISTRIBUTION"
 )
 
 # Usage: set_dir <varname> <spec>
@@ -83,10 +83,10 @@ set -e
 . ./setup
 
 if gitrev=$(git rev-parse HEAD 2>/dev/null); then
-  _opts+=( --label "gitrev=$gitrev" )
+  _opts+=( --label "bsp.gitrev=$gitrev" )
 
   test -z "$(git status --porcelain | sed '1p;d')" ||
-    _opts+=( --label gitdirty=true )
+    _opts+=( --label bsp.gitdirty=true )
 fi
 
 set_dir CACHE_DIR ${VOLUMES[0]}
