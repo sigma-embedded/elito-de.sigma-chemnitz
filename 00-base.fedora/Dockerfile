@@ -24,6 +24,7 @@ RUN \
 	git \
 	global \
 	hostname \
+	libproxy-bin \
 	libtool \
 	lsof \
 	lzop \

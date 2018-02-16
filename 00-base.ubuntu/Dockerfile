@@ -26,6 +26,7 @@ RUN \
 	g++ \
 	libncurses5-dev \
 	libncursesw5-dev \
+	libproxy-tools \
 	libtool \
 	lzop \
 	make \
