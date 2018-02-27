@@ -127,10 +127,6 @@ CONFIGURE_OPTIONS += \\
   --with-persistent-dir='${BLD_DIR}/persistent' \\
   \$(if \${NFSROOT},--enable-nfs-root=\${NFSROOT}/\${NFSROOT_SUFFIX}) \\
   --with-tftp-server=`hostname -i`
-
-UPSTREAM_ALTERNATES_kernel = ${CACHE_DIR}/mirror/kernel
-UPSTREAM_ALTERNATES_org.openembedded.core = ${CACHE_DIR}/mirror/org.openembedded.core
-UPSTREAM_ALTERNATES_org.openembedded.meta = ${CACHE_DIR}/mirror/org.openembedded.meta
 EOF
 
 for p in "${PORTS[@]}"; do
