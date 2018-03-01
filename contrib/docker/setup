@@ -1,14 +1,14 @@
 #! /bin/bash
 
-BASE_NAME=elito_base
-FINAL_NAME=elito-${RELEASE}
-CONTAINER_HOSTNAME_devel=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
-CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
-
-: ${MODE:=default}
-
 USER=ensc
 EMAIL=enrico.scholz@sigma-chemnitz.de
+
+BASE_NAME=elito_base
+FINAL_NAME=elito-${RELEASE}
+CONTAINER_HOSTNAME_devel=${FINAL_NAME}-${DISTRIBUTION}.${USER}.`hostname -d`
+CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.${USER}.`hostname -d`
+
+: ${MODE:=default}
 
 NFSROOT_devel=/srv/sysroots/my-project/${FINAL_NAME}
 
