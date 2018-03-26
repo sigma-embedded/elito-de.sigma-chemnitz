@@ -72,7 +72,13 @@ RUN \
 
 USER 0:0
 
+COPY src/no-renameat2.c /tmp
+RUN \
+	gcc -O3 /tmp/no-renameat2.c -o /tmp/no-renameat2 && \
+	install -D -p -m 0755 /tmp/no-renameat2 /usr/bin/no-renameat2 && \
+	rm -f /tmp/no-renameat2*
+
 VOLUME	/var/tmp
 VOLUME	/var/cache
 
-ENTRYPOINT ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT ["/usr/bin/no-renameat2", "/usr/sbin/sshd", "-D"]
