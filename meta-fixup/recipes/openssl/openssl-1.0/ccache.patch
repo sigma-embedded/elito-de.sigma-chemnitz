@@ -1,0 +1,65 @@
+Index: openssl-1.0.2o/crypto/Makefile
+===================================================================
+--- openssl-1.0.2o.orig/crypto/Makefile
++++ openssl-1.0.2o/crypto/Makefile
+@@ -10,7 +10,7 @@ INCLUDE=	-I. -I$(TOP) -I../include $(ZLI
+ INCLUDES=	-I.. -I../.. -I../modes -I../asn1 -I../evp -I../../include $(ZLIB_INCLUDE)
+ CFLAG=		-g
+ MAKEDEPPROG=	makedepend
+-MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD $(MAKEDEPPROG)
++MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD '$(MAKEDEPPROG)'
+ MAKEFILE=       Makefile
+ RM=             rm -f
+ AR=		ar r
+Index: openssl-1.0.2o/crypto/srp/Makefile
+===================================================================
+--- openssl-1.0.2o.orig/crypto/srp/Makefile
++++ openssl-1.0.2o/crypto/srp/Makefile
+@@ -8,7 +8,7 @@ OPENSSLDIR=     /usr/local/ssl
+ INSTALLTOP=/usr/local/ssl
+ MAKE=		make -f Makefile.ssl
+ MAKEDEPPROG=	makedepend
+-MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD $(MAKEDEPPROG)
++MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD '$(MAKEDEPPROG)'
+ MAKEFILE=	Makefile.ssl
+ AR=		ar r
+ 
+Index: openssl-1.0.2o/crypto/ts/Makefile
+===================================================================
+--- openssl-1.0.2o.orig/crypto/ts/Makefile
++++ openssl-1.0.2o/crypto/ts/Makefile
+@@ -11,7 +11,7 @@ INSTALL_PREFIX=
+ OPENSSLDIR=     /usr/local/ssl
+ INSTALLTOP=/usr/local/ssl
+ MAKEDEPPROG=	makedepend
+-MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD $(MAKEDEPPROG)
++MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD '$(MAKEDEPPROG)'
+ MAKEFILE=	Makefile
+ AR=		ar r
+ 
+Index: openssl-1.0.2o/test/Makefile
+===================================================================
+--- openssl-1.0.2o.orig/test/Makefile
++++ openssl-1.0.2o/test/Makefile
+@@ -7,7 +7,7 @@ TOP=		..
+ CC=		cc
+ INCLUDES=	-I$(TOP) -I../include $(KRB5_INCLUDES)
+ CFLAG=		-g
+-MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD $(MAKEDEPPROG)
++MAKEDEPEND=	$(TOP)/util/domd $(TOP) -MD '$(MAKEDEPPROG)'
+ PERL=		perl
+ # KRB5 stuff
+ KRB5_INCLUDES=
+Index: openssl-1.0.2o/Makefile.org
+===================================================================
+--- openssl-1.0.2o.orig/Makefile.org
++++ openssl-1.0.2o/Makefile.org
+@@ -218,7 +218,7 @@ BUILDENV=	LC_ALL=C PLATFORM='$(PLATFORM)
+ 		INSTALL_PREFIX='$(INSTALL_PREFIX)'		\
+ 		INSTALLTOP='$(INSTALLTOP)' OPENSSLDIR='$(OPENSSLDIR)'	\
+ 		LIBDIR='$(LIBDIR)'				\
+-		MAKEDEPEND='$$$${TOP}/util/domd $$$${TOP} -MD $(MAKEDEPPROG)' \
++		MAKEDEPEND='$$$${TOP}/util/domd $$$${TOP} -MD '"'$(MAKEDEPPROG)'" \
+ 		DEPFLAG='-DOPENSSL_NO_DEPRECATED $(DEPFLAG)'	\
+ 		MAKEDEPPROG='$(MAKEDEPPROG)'			\
+ 		SHARED_LDFLAGS='$(SHARED_LDFLAGS)'		\
