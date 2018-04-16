@@ -29,8 +29,8 @@ DEPENDS += '\
 	gzip-native \
 	coreutils-native \
 	${KERNEL_DEPENDS} \
-	${@base_conditional("KERNEL_IMAGETYPE","uImage",\
-                            "virtual/u-boot-mkimage-native","",d)}'
+	${@oe.utils.conditional("KERNEL_IMAGETYPE","uImage",\
+                                "virtual/u-boot-mkimage-native","",d)}'
 
 KERNEL_CONFIG_ENABLE_OPTS[type] = "list"
 KERNEL_CONFIG_DISABLE_OPTS[type] = "list"

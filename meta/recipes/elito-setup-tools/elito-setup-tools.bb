@@ -27,7 +27,7 @@ FILES_${PN}-extra = "\
 "
 
 OVERRIDES[vardeps] += "VIRTUAL-RUNTIME_init_manager"
-OVERRIDES .= "${@base_conditional('VIRTUAL-RUNTIME_init_manager','systemd',':systemd','',d)}"
+OVERRIDES .= "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager','systemd',':systemd','',d)}"
 OVERRIDES .= "${@bb.utils.contains('DISTRO_FEATURES','initrd',':dietlibc','',d)}"
 
 DEPENDS_append_dietlibc += "dietlibc-cross"
