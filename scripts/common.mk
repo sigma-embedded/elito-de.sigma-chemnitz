@@ -165,23 +165,6 @@ ifeq (${R},)
 endif
 			@$(call _call_cmd,$(BITBAKE) $(R) $(BO),>$(R)<)
 
-pkg-regen pkg-update pkg-upgrade pkg-install pkg-reinstall pkg-remove shell pshell: \
-			${MDIR}/Makefile.develcomp FORCE
-			env HISTFILE='${abs_top_builddir}/.bash_history' $(MAKE) -f $< CFG=pkg $@
-
-start-nfsd stop-nfsd:%-nfsd: \
-			${MDIR}/Makefile.develcomp FORCE
-			env $(MAKE) -s -f '$<' CFG=nfsd $*-daemon
-
-${MDIR}/Makefile.develcomp:
-			@{ \
-			echo "***" ; \
-			echo "*** error: development Makefile not found; please" ; \
-			echo "***        build the 'elito-develcomp' package" ; \
-			echo "***" ; \
-			} >&2
-			@false
-
 _fetchenv = env $(if $ELITO_FETCH_THREADS,BB_NUMBER_THREADS=${ELITO_FETCH_THREADS})
 
 fetch-all fetchall:	FORCE bitbake-validate init
@@ -217,11 +200,6 @@ IMAGE_STREAM_deps ?=	FORCE
 all-images:		TARGETS += ${TARGETS_rescue}
 
 image-stream:		${IMAGE_STREAM}
-
-${IMAGE_STREAM}:	${IMAGE_STREAM_deps} | ${MDIR}/Makefile.develcomp
-			@rm -f $@ $@.tmp
-			env $(MAKE) -f ${MDIR}/Makefile.develcomp CFG=image-stream IMAGEDIR="${IMAGEDIR}" ${IMAGE_STREAM_args} image-stream O=$@.tmp
-			@mv $@.tmp $@
 endif
 
 all-images:		image

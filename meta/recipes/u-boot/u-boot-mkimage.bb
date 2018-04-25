@@ -23,16 +23,6 @@ _repo = "u-boot"
 
 include u-boot-common.inc
 
-_make() {
-	${MAKE} -f '${ELITO_MAKEFILE_DIR}/Makefile.develcomp' \
-		CFG=u-boot \
-		CFG_NONDEVEL=1 \
-		CFG_KERNEL_UART=${UBOOT_CONSOLE} \
-		CFG_KERNEL_BAUD=${UBOOT_BAUD} \
-		"$@"
-}
-
-do_configure[depends] += "elito-makefile:do_setup_makefile"
 do_configure() {
 	cat << EOF >>config.mk
 HOSTCFLAGS += \$(BUILD_CFLAGS)
@@ -44,12 +34,12 @@ EOF
 }
 
 do_configure() {
-	_make mrproper
-	_make ${UBOOT_MACHINE}
+	oe_runmake mrproper
+	oe_runmake ${UBOOT_MACHINE}
 }
 
 do_compile() {
-        _make __call T=tools BIN_FILES-y='mkimage$(SFX)'
+        oe_runmake __call T=tools BIN_FILES-y='mkimage$(SFX)'
 }
 
 do_install () {

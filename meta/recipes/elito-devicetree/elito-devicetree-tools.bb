@@ -13,7 +13,6 @@ MACHDEPS_mx6 = "\
 DEPENDS += "dtc-native ${MACHDEPS}"
 
 inherit elito-machdata
-inherit elito-makefile-component
 
 BBCLASSEXTEND = "cross crosssdk"
 

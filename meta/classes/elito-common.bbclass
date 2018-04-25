@@ -2,8 +2,6 @@
 
 OVERRIDES .= ":"
 
-DEPENDS += "elito-develcomp"
-
 def elito_common_expand(v,d):
     implied_features = {
         'ucb1400' : ( 'ac97', ),
@@ -61,8 +59,6 @@ ELITO_COMMON_DEPENDS-alsa = "\
 "
 
 ELITO_COMMON_DEPENDS-core = "\
-  elito-develcomp \
-  kernel-makefile \
   gdb-cross-${TARGET_ARCH} \
 "
 
