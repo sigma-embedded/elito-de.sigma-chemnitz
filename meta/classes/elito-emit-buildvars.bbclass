@@ -120,7 +120,7 @@ BUILDVARS_OMIT_FOOTER[type] = "boolean"
 BUILDVARS_OMIT_FOOTER[doc] = "When set, omit the 'ifdef' block at the\
 end of the file which includes common rules."
 
-BUILDVARS_SCRIPT_DIR ?= "${COREBASE}/scripts/buildvars"
+BUILDVARS_SCRIPT_DIR ?= "${ELITO_TOPDIR}/scripts/buildvars"
 BUILDVARS_SCRIPT_DIR[type] = "path"
 BUILDVARS_SCRIPT_DIR[doc] = "Directory with common make rules."
 
