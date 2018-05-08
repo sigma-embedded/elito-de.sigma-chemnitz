@@ -70,7 +70,10 @@ function getpwent() {
   local user=$1
   local prefix=$2
   local IFS=:
+
+  set -f
   set -- `getent passwd "$user"`
+  set +f
 
   eval ${prefix}USER=\$1
   eval ${prefix}USERID=\$3
