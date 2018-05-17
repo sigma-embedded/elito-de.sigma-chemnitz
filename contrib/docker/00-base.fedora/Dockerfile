@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM docker/sigma/fedora:27
+FROM docker/sigma/fedora:28
 
 RUN \
     dnf upgrade -y && \
@@ -40,6 +40,7 @@ RUN \
 	python3 \
 	python3-beautifulsoup4 \
 	python3-inotify \
+	rpcgen \
 	socat \
 	strace \
 	texinfo \
