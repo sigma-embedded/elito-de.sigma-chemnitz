@@ -129,7 +129,7 @@ CONFIGURE_OPTIONS += \\
   --with-buildroot-dir='${BLD_DIR}' \\
   --with-persistent-dir='${BLD_DIR}/persistent' \\
   \$(if \${NFSROOT},--enable-nfs-root=\${NFSROOT}/\${NFSROOT_SUFFIX}) \\
-  --with-tftp-server=`hostname -i`
+  --with-tftp-server="`hostname -f`"
 EOF
 
 create_file 'ssh/local.conf' '01-ssh/Dockerfile' <<EOF
