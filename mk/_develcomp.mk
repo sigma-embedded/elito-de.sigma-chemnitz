@@ -11,8 +11,9 @@ export GDBHISTFILE	= ${_tmpdir}/.gdb_history
 SH		?= /bin/bash
 MAKE_E		 = ${MAKE} -e
 
-_nfs_root	?= $(DESTDIR)
-_nfs_server	?= $(TFTP_SERVER)
+_tftp_server_ip  = $(shell getent ahostsv4 '${TFTP_SERVER}' | sed '1s/[[:space:]].*//p;d')
+_nfs_root	 = $(DESTDIR)
+_nfs_server	 = $(_tftp_server_ip)
 
 PS1     = [\[\033[1;34m\]${PROJECT_NAME}\[\033[0;39m\]|\u@\h \W]\044$
 

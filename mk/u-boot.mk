@@ -22,7 +22,7 @@ OPTS = \
 	HOSTCC='$(BUILD_CC) ${BUILD_CFLAGS} ${BUILD_LDFLAGS}' \
 	HOSTSTRIP='$(BUILD_STRIP)' \
 	$(if ${_kernel_tftp_image},CFG_BOOTFILE='$(notdir $(_kernel_tftp_image))') \
-	$(if ${TFTP_SERVER},CFG_SERVERIP='${TFTP_SERVER}') \
+	$(if ${TFTP_SERVER},CFG_SERVERIP='${_tftp_server_ip}') \
 	CFG_NFSROOT='"${_nfs_server}:${_nfs_root}"'
 
 unexport CPPFLAGS HOSTCPPFLAGS HOSTCFLAGS
