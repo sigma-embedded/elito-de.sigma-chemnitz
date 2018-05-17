@@ -1,7 +1,7 @@
 #! /bin/bash
 
 U=git://git.openembedded.org/bitbake
-B='master 1.8 1.10 1.12 1.18 1.20 1.22 1.24 1.26 1.28 1.30 1.32 1.34 1.36'
+B='master 1.8 1.10 1.12 1.18 1.20 1.22 1.24 1.26 1.28 1.30 1.32 1.34 1.36 1.38'
 
 d=`mktemp -t -d bitbake.XXXXXX` || exit 1
 trap "rm -rf $d" EXIT
