@@ -25,6 +25,7 @@ RUN \
 	global \
 	hostname \
 	libproxy-bin \
+	libtirpc \
 	libtool \
 	lsof \
 	lzop \
