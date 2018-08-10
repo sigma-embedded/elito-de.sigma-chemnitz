@@ -10,6 +10,7 @@ RUN \
 	bzip2 \
 	ccache \
 	chrpath \
+	coreutils-common \
 	cpio \
 	cscope \
 	ctags \
