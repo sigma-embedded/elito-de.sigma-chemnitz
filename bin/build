@@ -95,9 +95,6 @@ fi
 set_dir CACHE_DIR ${VOLUMES[0]}
 set_dir BLD_DIR ${VOLUMES[1]}
 
-: ${_NFSROOT:=${CACHE_DIR}/nfs/${FINAL_NAME}}
-: ${NFSROOT=$_NFSROOT}
-
 getpwent "${USER:-nobody}" _dflt_
 
 : ${USER:=$_dflt_USER}
@@ -119,17 +116,6 @@ mkdir -p "$t"/ssh/profile.d
 create_file 'ssh/profile.d/ccache.sh' '01-ssh/Dockerfile' <<EOF
 CCACHE_DIR=$BLD_DIR/ccache/\$UID
 export CCACHE_DIR
-EOF
-
-create_file 'ssh/elito-config' '01-ssh/Dockerfile' <<EOF
-NFSROOT = ${NFSROOT}
-NFSROOT_SUFFIX = ${DISTRIBUTION}.${RELEASE}
-CACHEROOT = ${CACHE_DIR}
-CONFIGURE_OPTIONS += \\
-  --with-buildroot-dir='${BLD_DIR}' \\
-  --with-persistent-dir='${BLD_DIR}/persistent' \\
-  \$(if \${NFSROOT},--enable-nfs-root=\${NFSROOT}/\${NFSROOT_SUFFIX}) \\
-  --with-tftp-server="`hostname -f`"
 EOF
 
 create_file 'ssh/local.conf' '01-ssh/Dockerfile' <<EOF

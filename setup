@@ -10,8 +10,6 @@ CONTAINER_HOSTNAME_default=${FINAL_NAME}-${DISTRIBUTION}.`hostname -d`
 USER=ensc
 EMAIL=enrico.scholz@sigma-chemnitz.de
 
-NFSROOT_devel=/srv/sysroots/my-project/${FINAL_NAME}
-
 # scripts assume that first location is the shared cache and the
 # second the local build directory
 VOLUMES_devel=(
@@ -26,9 +24,6 @@ VOLUMES_devel=(
 
   # read-only mirror
   "/srv/.oe/docker/mirror	''	:ro"
-
-  # the NFS exported sysroot
-  "${NFSROOT_devel}"
 )
 
 SYMLINKS_devel=(
@@ -53,4 +48,3 @@ PORTS=(
 eval VOLUMES='( "${'VOLUMES_$MODE'[@]}" )'
 eval CONTAINER_HOSTNAME=\$CONTAINER_HOSTNAME_$MODE
 eval SYMLINKS='( "${'SYMLINKS_$MODE'[@]}" )'
-eval _NFSROOT='( "${'NFSROOT_$MODE'[@]}" )'
