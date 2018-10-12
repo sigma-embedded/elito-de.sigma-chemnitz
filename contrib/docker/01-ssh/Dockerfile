@@ -27,31 +27,22 @@ RUN \
 USER 0:0
 
 COPY profile.d			/etc/profile.d/
-COPY authorized_keys.target	/home/@USER@/.config/elito/authorized_keys
-COPY local.mk			/home/@USER@/.config/elito/local.mk
-COPY local.conf			/home/@USER@/.config/elito/local.conf
+COPY authorized_keys.target	/home/@USER@/.config/oe/authorized_keys
+COPY local.mk			/home/@USER@/.config/oe/local.mk
+COPY local.conf			/home/@USER@/.config/oe/local.conf
 COPY ssh_config			/home/@USER@/.ssh/config
 COPY authorized_keys.docker	/home/@USER@/.ssh/authorized_keys
 COPY authorized_keys.docker	/root/.ssh/authorized_keys
 COPY bin			/usr/local/bin
-
-# start e.g. '/usr/sbin/thttpd -h localhost -p 9000 -D -d .' in the
-# directory with elito.pem
-#ADD  http://localhost:9000/elito.pem /home/@USER@/.config/elito/customer.pem
-
-ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
-     /home/@USER@/.config/elito/bitbake.conf
 
 ADD  http://www.sigma-chemnitz.de/dl/elito/sources/flymake-kernel.mk \
      /home/@USER@/lib/make/flymake-kernel.mk
 
 RUN \
 	chmod 0644 /root/.ssh/authorized_keys && \
-	touch /home/@USER@/.config/elito/customer.pem && \
 	chown -R @USER@:@USER@ /home/@USER@ && \
 	chmod 0644 /home/@USER@/.ssh/authorized_keys && \
 	chmod 0600 /home/@USER@/.ssh/config && \
-	chmod 0600 /home/@USER@/.config/elito/customer.pem && \
 	chmod 0755 /usr/local/bin/* && \
 	:
 
@@ -59,8 +50,6 @@ USER @UID@:@UID@
 
 RUN \
 	cd /home/@USER@ && \
-	{ ! test -s .config/elito/customer.pem || \
-	  /home/@USER@/bin/elito-setup --only-proxy=/home/@USER@/bin --batch; } && \
 	git config --global --add core.gitProxy 'none for sigma-chemnitz.de' && \
 	git config --global --add core.gitProxy 'none for git.andto.de' && \
 	git config --global --add core.gitProxy /usr/local/bin/git-tunnel && \
