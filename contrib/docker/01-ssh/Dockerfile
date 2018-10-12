@@ -27,8 +27,8 @@ RUN \
 USER 0:0
 
 COPY profile.d			/etc/profile.d/
-COPY elito-config		/home/@USER@/.config/elito/toplevel.mk
 COPY authorized_keys.target	/home/@USER@/.config/elito/authorized_keys
+COPY local.mk			/home/@USER@/.config/elito/local.mk
 COPY local.conf			/home/@USER@/.config/elito/local.conf
 COPY ssh_config			/home/@USER@/.ssh/config
 COPY authorized_keys.docker	/home/@USER@/.ssh/authorized_keys
