@@ -118,6 +118,12 @@ CCACHE_DIR=$BLD_DIR/ccache/\$UID
 export CCACHE_DIR
 EOF
 
+create_file 'ssh/local.mk' '01-ssh/Dockerfile' <<EOF
+CACHEROOT = ${CACHE_DIR}
+BLD_DIR = ${BLD_DIR}
+HOST_HOSTNAME = `hostname -f`
+EOF
+
 create_file 'ssh/local.conf' '01-ssh/Dockerfile' <<EOF
 DL_DIR = "${CACHE_DIR}/sources"
 SSTATE_DIR = "${CACHE_DIR}/sstate"
