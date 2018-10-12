@@ -138,12 +138,6 @@ SSTATE_DIR = "${CACHE_DIR}/sstate"
 TMPDIR_ROOT = "${BLD_DIR}"
 EOF
 
-create_file 'ssh/local.conf' '01-ssh/Dockerfile' <<EOF
-DL_DIR = "${CACHE_DIR}/sources"
-SSTATE_DIR = "${CACHE_DIR}/sstate"
-TMPDIR_ROOT = "${BLD_DIR}"
-EOF
-
 for p in "${PORTS[@]}"; do
     emit_ports $p
 done 10>"$t"/ports.cmd 11>"$t"/ports.expose
