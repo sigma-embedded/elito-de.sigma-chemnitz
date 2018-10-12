@@ -130,6 +130,10 @@ SSTATE_DIR = "${CACHE_DIR}/sstate"
 TMPDIR_ROOT = "${BLD_DIR}"
 EOF
 
+if test -e bin/build.local; then
+    source ./bin/build.local
+fi
+
 for p in "${PORTS[@]}"; do
     emit_ports $p
 done 10>"$t"/ports.cmd 11>"$t"/ports.expose
