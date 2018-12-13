@@ -37,6 +37,7 @@ RUN \
 	'perl(bigint)' \
 	pkgconfig \
 	procps-ng \
+	python-unversioned-command \
 	python2 \
 	python3 \
 	python3-beautifulsoup4 \
