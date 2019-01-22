@@ -38,6 +38,9 @@ COPY bin			/usr/local/bin
 ADD  http://www.sigma-chemnitz.de/dl/elito/sources/flymake-kernel.mk \
      /home/@USER@/lib/make/flymake-kernel.mk
 
+ADD  http://www.sigma-chemnitz.de/dl/elito/sources/bitbake-conf.sample \
+     /home/@USER@/.config/oe/bitbake.conf
+
 RUN \
 	chmod 0644 /root/.ssh/authorized_keys && \
 	chown -R @USER@:@USER@ /home/@USER@ && \
