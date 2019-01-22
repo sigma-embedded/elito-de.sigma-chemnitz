@@ -24,6 +24,7 @@ RUN \
 	git \
 	global \
 	g++ \
+	less \
 	libncurses5-dev \
 	libncursesw5-dev \
 	libproxy-tools \
