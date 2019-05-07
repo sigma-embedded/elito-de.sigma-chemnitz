@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM docker/sigma/ubuntu:xenial
+FROM gitlab.intern.sigma-chemnitz.de:5000/docker/sigma/ubuntu:xenial
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \

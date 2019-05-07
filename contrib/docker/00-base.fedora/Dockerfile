@@ -1,6 +1,6 @@
 ## --*- conf -*--
 
-FROM docker/sigma/fedora:29
+FROM gitlab.intern.sigma-chemnitz.de:5000/docker/sigma/fedora:29
 
 RUN \
     dnf upgrade -y && \
